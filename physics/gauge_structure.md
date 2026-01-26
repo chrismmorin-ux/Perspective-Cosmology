@@ -1,8 +1,23 @@
 # Gauge Structure from B
 
-REQUIRES: core/06_basis_geometry
-PHYSICAL CLAIM: Aut(B) → Standard Model gauge group
-STATUS: SPECULATION
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [SPECULATION]
+**Last Verified**: N/A (qualitative claims)
+**Verified**: N/A
+
+**REQUIRES**: core/06_basis_geometry
+**PHYSICAL CLAIM**: Aut(B) → Standard Model gauge group
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| SM gauge group | U(1) × SU(2) × SU(3) | Standard Model | [A-IMPORT] |
+| n_color = 3 | Color SU(3) | SM QCD | [A-IMPORT] |
+| n_weak = 2 | Weak SU(2) | SM Electroweak | [A-IMPORT] |
+| n_EM = 1 | U(1) hypercharge | SM Electroweak | [A-IMPORT] |
 
 ---
 

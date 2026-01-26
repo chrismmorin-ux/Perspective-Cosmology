@@ -1,8 +1,30 @@
 # Heat Death as Crystalline Terminus
 
-REQUIRES: core/10_entropy, core/13_crystallinity, core/08_time
-PHYSICAL CLAIM: Heat death = Var → 0 (crystalline limit)
-STATUS: CONJECTURE
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
+**Last Verified**: N/A (qualitative)
+**Verified**: N/A
+
+**REQUIRES**: core/10_entropy, core/13_crystallinity, core/08_time
+**PHYSICAL CLAIM**: Heat death = Var → 0 (crystalline limit)
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| Heat death timescale | ~10¹⁰⁰ years | Standard cosmology | [A-IMPORT] |
+| Entropy increase | dS/dt > 0 | 2nd law | [A-IMPORT] |
+
+---
+
+## Numerology Risk: LOW
+
+This is a qualitative reinterpretation, not a numerical prediction.
+- Identifies heat death with Var → 0 (crystalline limit)
+- No specific numbers claimed or derived
+- Risk is conceptual overreach, not numerical coincidence
 
 ---
 

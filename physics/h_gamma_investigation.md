@@ -1,10 +1,32 @@
 # Investigation: Deriving h(γ) from Axioms
 
-**Date**: 2026-01-26
+**Status**: ACTIVE-DEVELOPMENT (RESOLVED)
+**Confidence**: [DERIVATION]
+**Created**: 2026-01-26
+**Last Verified**: 2026-01-26
+**Verified**: N/A (algebraic derivation, not numerical)
+
 **Issue**: I-005 - h(γ) Function Not Derived
 **Goal**: Either derive h(γ) = 2γ(1-γ) from axioms, or mark as assumption
+**Resolution**: DERIVED via interaction capacity / ordered pair counting
 
-**UPDATE 2026-01-26**: Derivation found via interaction capacity argument.
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| Penrose-Diosi form | Γ = Gm²/(ℏΔx) | Literature | [A-IMPORT] |
+| G (Newton's constant) | 6.67×10⁻¹¹ | Observation | [A-IMPORT] |
+
+---
+
+## Numerology Risk: LOW
+
+The derivation produces a FORM (2γ(1-γ)), not a specific number.
+- The factor of 2 emerges from bidirectionality (ordered pairs)
+- The product γ(1-γ) emerges from two-channel interaction
+- No fitting or tuning involved
 
 ---
 

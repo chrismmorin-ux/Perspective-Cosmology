@@ -1,8 +1,31 @@
 # Investigation: Constructing g_μν from Γ
 
-**Date**: 2026-01-26
+**Status**: ACTIVE-DEVELOPMENT (INVESTIGATING → RESOLVED)
+**Confidence**: [SPECULATION] (demoted)
+**Created**: 2026-01-26
+**Last Verified**: N/A (no formula exists)
+**Verified**: N/A
+
 **Issue**: I-007 - GR Limit Has No Derivation
 **Goal**: Either construct g_μν explicitly or demote claim to SPECULATION
+**Resolution**: Demoted to SPECULATION - no construction found
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| g_μν definition | Metric tensor | GR | [A-IMPORT] |
+| Einstein equations | G_μν = 8πG T_μν | GR | [A-IMPORT] |
+| Lorentzian signature | (-,+,+,+) | GR | [A-IMPORT] |
+
+---
+
+## Numerology Risk: N/A
+
+This investigation explores whether a construction EXISTS, not whether a number matches.
+The conclusion is: no construction was found.
 
 ---
 

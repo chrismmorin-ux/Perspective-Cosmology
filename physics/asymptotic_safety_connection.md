@@ -1,8 +1,35 @@
 # Asymptotic Safety and the Crystal-Defect Interface
 
-**Status**: INVESTIGATION (exploring potential connection)
+**Status**: ACTIVE-DEVELOPMENT (INVESTIGATING)
+**Confidence**: [SPECULATION]
 **Created**: 2026-01-26
-**Session**: 2026-01-26-19
+**Last Verified**: 2026-01-26
+**Verified**: YES → verification/sympy/alpha_running_test.py
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| Spectral dimension (IR) | 4 | QFT/GR | [A-IMPORT] |
+| Spectral dimension (UV) | 2 | AS/CDT | [A-IMPORT] |
+| α(M_Z) | 1/127.9 | LEP | [A-IMPORT] |
+| α(GUT) | ~1/42 | SM extrapolation | [A-IMPORT] |
+
+---
+
+## Numerology Risk: MEDIUM
+
+**Why this might be coincidence rather than derivation:**
+1. Dimensional reduction is mainstream physics - we're borrowing it, not deriving it
+2. The specific values (4→2, 11→6) are chosen to match measurements
+3. No rigorous RG derivation connects interface picture to β-function
+4. Structural parallels don't constitute proof
+
+**What would strengthen it:**
+- Derive β-function from interface geometry
+- Show n_crystal reduction has independent physics basis
 
 ---
 
@@ -397,5 +424,22 @@ This could mean: at high energies, only ~6 of the 11 dimensions are "visible" at
 
 ---
 
+---
+
+## Falsification Criteria
+
+This investigation would be **falsified** if:
+1. Asymptotic safety is disproven (no UV fixed point exists)
+2. Spectral dimension reduction is wrong (stays 4D at all scales)
+3. The interface picture cannot reproduce the QED β-function
+4. Running of α at intermediate scales (e.g., 1 TeV) differs significantly from prediction
+
+This investigation would be **supported** if:
+1. Independent derivation of n_crystal reduction from M-theory
+2. β-function derived from interface geometry
+3. Prediction of α at new energy scale confirmed
+
+---
+
 *This document explores the connection between asymptotic safety and our crystal-defect model.*
-*Status: INVESTIGATION - promising parallels, no derivation yet.*
+*Status: [SPECULATION] - promising parallels, no derivation yet.*

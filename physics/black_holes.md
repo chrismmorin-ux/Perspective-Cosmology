@@ -1,8 +1,33 @@
 # Black Holes: Recrystallization
 
-REQUIRES: core/05_overlap, core/10_entropy, core/12_topology, core/13_crystallinity
-PHYSICAL CLAIM: Black holes are regions where γ → 0 and Var → 0 (recrystallization)
-STATUS: CONJECTURE
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
+**Last Verified**: N/A (qualitative claims)
+**Verified**: N/A
+
+**REQUIRES**: core/05_overlap, core/10_entropy, core/12_topology, core/13_crystallinity
+**PHYSICAL CLAIM**: Black holes are regions where γ → 0 and Var → 0 (recrystallization)
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| S = A/(4l_P²) | Bekenstein-Hawking | GR/QFT | [A-IMPORT] |
+| T_H ∝ 1/M | Hawking radiation | QFT in curved spacetime | [A-IMPORT] |
+| Event horizon definition | r = 2GM/c² | GR | [A-IMPORT] |
+
+---
+
+## Numerology Risk: LOW
+
+This is primarily a **reinterpretation**, not a numerical prediction.
+- No new numbers derived
+- Factor of 4 in S = A/4 NOT derived (acknowledged gap)
+- Hawking temperature coefficient NOT derived
+
+**What this module contributes**: Conceptual mapping, not calculation.
 
 ---
 

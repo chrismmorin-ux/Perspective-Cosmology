@@ -1,8 +1,38 @@
 # Intermediate-γ Regime: Quantum Gravity
 
-REQUIRES: core/05_overlap, core/03_propagation
-PHYSICAL CLAIM: γ ≈ 0.5 gives quantum gravity, interpolating QM and GR
-STATUS: CONJECTURE (with CRITICAL ISSUES - see intermediate_gamma_analysis.md)
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
+**Last Verified**: 2026-01-26
+**Verified**: Partial (forms derived, scale empirical)
+
+**REQUIRES**: core/05_overlap, core/03_propagation
+**PHYSICAL CLAIM**: γ ≈ 0.5 gives quantum gravity, interpolating QM and GR
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| t_P (Planck time) | 5.4×10⁻⁴⁴ s | Dimensional analysis | [A-IMPORT] |
+| l_P (Planck length) | 1.6×10⁻³⁵ m | Dimensional analysis | [A-IMPORT] |
+| m_P (Planck mass) | 2.2×10⁻⁸ kg | Dimensional analysis | [A-IMPORT] |
+| λ_C (Compton) | ℏ/(mc) | QM | [A-IMPORT] |
+| Penrose-Diosi Γ | Gm²/(ℏΔx) | Literature | [A-IMPORT] |
+
+---
+
+## Numerology Risk: MEDIUM
+
+**Why MEDIUM (not HIGH):**
+- The form (1-2γ) is derived from content asymmetry, not fitted
+- The critical point γ = 0.5 emerges from the math, not chosen
+- h(γ) = 2γ(1-γ) is derived from interaction capacity
+
+**Remaining concerns:**
+- τ₀ = t_P is dimensional analysis, not derived
+- Predictions are scaling arguments, not precise values
+- Environmental contributions dominate in practice
 
 > **STATUS (2026-01-26)**: All identified issues resolved:
 > - R calculation corrected: R ≈ 10⁷ (I-002 RESOLVED)

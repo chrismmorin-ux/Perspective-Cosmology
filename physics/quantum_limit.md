@@ -1,8 +1,23 @@
 # High-γ Limit: Quantum Mechanics
 
-REQUIRES: core/03_propagation, core/05_overlap, core/06_basis_geometry
-PHYSICAL CLAIM: High-γ regime → quantum mechanical behavior
-STATUS: CONJECTURE (gaps documented 2026-01-25)
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
+**Last Verified**: 2026-01-25
+**Verified**: N/A (sketch-level derivation)
+
+**REQUIRES**: core/03_propagation, core/05_overlap, core/06_basis_geometry
+**PHYSICAL CLAIM**: High-γ regime → quantum mechanical behavior
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| Schrödinger equation | iℏ∂ψ/∂t = Hψ | QM | [A-IMPORT] |
+| ℏ | 1.055×10⁻³⁴ J·s | QM | [A-IMPORT] |
+| Born rule | P = |ψ|² | QM | [A-IMPORT] |
+| Complex Hilbert space | ℂⁿ | QM | [A-IMPORT] |
 
 > **Note**: This derivation has identified gaps but a reasonable structure.
 > - Complex V is assumed (see A14 in assumptions_registry.md)

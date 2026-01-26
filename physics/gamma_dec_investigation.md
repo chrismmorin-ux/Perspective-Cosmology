@@ -1,8 +1,34 @@
 # Investigation: Deriving Γ_dec from Axioms
 
-**Date**: 2026-01-26
+**Status**: ACTIVE-DEVELOPMENT (INVESTIGATING → RESOLVED)
+**Confidence**: [DERIVATION] (form derived, scale empirical)
+**Created**: 2026-01-26
+**Last Verified**: 2026-01-26
+**Verified**: N/A (qualitative analysis)
+
 **Issue**: I-004 - Γ_dec Formula Not Derived
 **Goal**: Either derive Γ_dec = (1-2γ)/t_P + Γ_env from axioms, or mark as assumption
+**Resolution**: Form (1-2γ) DERIVED from content asymmetry; scale τ₀ = t_P EMPIRICAL
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| t_P (Planck time) | 5.4×10⁻⁴⁴ s | Dimensional analysis | [A-IMPORT] |
+| ℏ, G, c | Fundamental constants | SM/GR | [A-IMPORT] |
+
+---
+
+## Numerology Risk: LOW
+
+This investigation found that:
+- The FORM (1-2γ) is derived from content asymmetry A(γ) = 2γ - 1
+- The TIME SCALE τ₀ = t_P is empirical (dimensional analysis)
+- No specific numerical value is claimed - just functional form
+
+**Not numerology because**: We derive the functional form, not a magic number.
 
 ---
 

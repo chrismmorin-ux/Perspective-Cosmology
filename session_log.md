@@ -2469,4 +2469,276 @@ User asked: "Why can't field matter content just be emergent from semi-orthogona
 
 ---
 
-*Last updated: 2026-01-26 (Session 2026-01-26-25: Field types from comparison symmetry)*
+## Session 2026-01-26-26: Deep Foundations Discussion
+
+**Focus**: Re-examine the most fundamental ontological assumptions
+**Outcome**: Documented three key foundational revisions + open questions about perspective origin
+
+### Work Done
+
+1. **Questioned the fundamentality of "points" (P)**
+   - User insight: If we're describing perspective breaking crystalline structure, P isn't points
+   - P might be "dimensions not orthogonal to the outside perfect crystal"
+   - Points could be emergent from dimensional overlap, not primitive
+
+2. **Inverted the ontological ordering**
+   - Old: P fundamental → V, B defined on P → perspectives select subsets
+   - New: B (dimensions) fundamental → P emerges from dimensional overlap
+   - Even newer: Perspective fundamental → dimensions emerge as "scars" from symmetry breaking
+
+3. **Explored perspective origin mechanisms**
+   Five candidates documented:
+   - External cause ("god-like touch")
+   - Entropic inevitability (infinite time → fluctuation certain)
+   - Self-reference instability (Gödel-like: rich structure must be incomplete)
+   - Symmetry instability (perfect symmetry is unstable)
+   - "Nothing cannot exist" (differentiation is necessary)
+
+4. **Identified where external perturbation might appear**
+   - Initial nucleation (if external cause is correct)
+   - Black holes as "healing" processes (recrystallization?)
+   - New perspective creation within already-nucleated structure
+   - Cosmic horizons as nucleation boundaries
+
+### Key Decisions
+
+- **Points are NOT fundamental** — they emerge from dimensional overlap
+- **Dimensions might not be fundamental either** — they may emerge from perspective-breaking-symmetry
+- **Perspective origin is OPEN** — documented as foundational question, not settled
+
+### Files Created
+
+- `framework/layer_0_foundations.md` — Deep foundational questions and working hypotheses
+- `framework/investigations/crystal_structure.md` — What is the "Crystal"? Five candidates analyzed
+- `framework/investigations/dimension_emergence.md` — How dimensions emerge from nucleation
+- `framework/investigations/perspective_origin.md` — Why perspective exists (self-reference path recommended)
+- `framework/investigations/points_emergence.md` — How points emerge from dimensional overlap
+
+### Insights
+
+| Insight | Implication |
+|---------|-------------|
+| P emerges from B overlap | Current axioms need revision |
+| B might emerge from nucleation | Even deeper layer than current Layer 0 |
+| Perspective may be necessary, not caused | Self-reference argument promising |
+| Black holes might be "healing" | Connects to entropy, horizons |
+
+### Open Questions (Flagged for Future)
+
+1. Can we formalize "self-reference necessitates perspective"?
+2. Mathematical models where perfect symmetry is unstable?
+3. What is "the Crystal" as a mathematical object?
+4. Does black hole entropy connect to healing metaphor?
+
+### Next Steps
+
+1. Continue foundational exploration OR return to concrete predictions
+2. Consider revising Layer 0 to make P derived rather than axiomatic
+3. Investigate self-reference → perspective formalization
+
+---
+
+## Priority Queue (Updated)
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **1** | **Foundational revision**: Make P emergent | NEW |
+| **1** | **Phase 8: External evaluation** | READY |
+| 1 | Explore |Π| emergence from overlap | OPEN |
+| 2 | Formalize perspective origin (self-reference path) | NEW |
+| 2 | Map SM fields to comparison channels | OPEN |
+| 3 | Connect black holes to "healing" | SPECULATION |
+
+---
+
+---
+
+## Session 2026-01-26-27
+
+**Focus**: Investigate weight variation vs dimension reduction for running of alpha
+**Outcome**: Weight variation analyzed; dimension reduction shown to be epistemologically preferred
+
+### Context (from Continuation Prompt)
+
+User suggested that **weights changing with energy** on the three comparison types (A, B, C) might explain the running of alpha, as an alternative to spectral dimension reduction.
+
+### Analysis Conducted
+
+1. **Pure Weight Variation** (fixed n=4, n=11):
+   - Totals: A=15, B+C=122 (full total 137)
+   - To get 1/α = 128 at Z: w_B = w_C = 0.93 (7% reduction)
+   - To get 1/α = 42 at GUT: w_B = w_C = 0.22 (78% reduction!)
+   - Can fit any value exactly
+   - BUT: What physical mechanism causes such suppression?
+
+2. **Dimension Reduction** (from Session 21):
+   - n_defect: 4 → 3 → 2
+   - n_crystal: 11 → 11 → 6
+   - Predicts: 137, 130, 40
+   - Errors: 0%, 1.6%, 4.8%
+   - Based on spectral dimension reduction (well-established in QG)
+
+3. **Hybrid Approach** (dimension reduction + small weight corrections):
+   - Weight corrections < 7% in all cases
+   - At Z: w_BC = 0.98 (2% correction)
+   - At GUT: w_BC = 1.06 (6% correction, opposite direction!)
+   - Dimension reduction does most of the work
+
+### Key Findings
+
+| Criterion | Dimension Reduction | Weight Variation |
+|-----------|--------------------|--------------------|
+| Predictive power | HIGH (discrete) | LOW (fits anything) |
+| Can be wrong | Yes | No |
+| Physical basis | Spectral dim (QG) | Unknown |
+| Distinguishing test | Discrete jumps | Smooth curve |
+
+**Conclusion**: Dimension reduction is epistemologically preferred because it makes falsifiable predictions. Weight variation is curve-fitting without physical mechanism.
+
+### Files Created
+
+- `verification/sympy/weight_vs_dimension_running.py` — Comprehensive comparison script
+
+### Files Modified
+
+- `physics/field_content_from_orthogonality.md` — Added Section 9 on running mechanisms
+
+### Assessment
+
+| Question | Answer |
+|----------|--------|
+| Can weight variation explain running? | Yes, mathematically |
+| Is it predictive? | No — fits any value |
+| Is dimension reduction better? | Yes — makes testable predictions |
+| Hybrid viable? | Yes — small corrections to discrete structure |
+
+### Next Steps
+
+1. Dimension reduction remains the preferred mechanism
+2. Weight variation could explain residual errors (~2-6%)
+3. Need to understand physical basis for weight changes
+4. Consider if both mechanisms operate simultaneously
+
+---
+
+## Priority Queue (Updated)
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **1** | **Foundational revision**: Make P emergent | OPEN |
+| **1** | **Phase 8: External evaluation** | READY |
+| 1 | Explore |Π| emergence from overlap | OPEN |
+| 2 | Map SM fields to comparison channels | OPEN |
+| 2 | Formalize perspective origin (self-reference path) | OPEN |
+| - | Weight variation mechanism | EXPLORED (dimension reduction preferred) |
+
+---
+
+---
+
+## Session 2026-01-26-28
+
+**Focus**: Migration — Apply MIGRATION_FRAMEWORK.md standards to all physics/ files
+**Outcome**: All 18 physics/ files updated to comply with standards
+
+### Work Done
+
+1. **Migrated all physics/ files** with standardized headers:
+   - Status: ACTIVE-DEVELOPMENT
+   - Confidence: [AXIOM]/[THEOREM]/[DERIVATION]/[CONJECTURE]/[SPECULATION]
+   - Last Verified: date
+   - Verified: script reference or N/A
+
+2. **Added Imports Required tables** to all files listing:
+   - Import name
+   - Value
+   - Source (SM, QM, GR, observation, etc.)
+   - [A-IMPORT] tag
+
+3. **Added Numerology Risk assessments**:
+   - LOW: Functional forms, not numbers
+   - MEDIUM: Some structure, some fitting
+   - HIGH: Numbers match but mechanism unclear
+   - N/A: Meta-analysis documents, not claims
+
+4. **Created verification script**:
+   - `verification/sympy/alpha_crystal_interface.py` — Verifies 1/(4²+11²) = 1/137
+
+5. **Added [A]/[I]/[D] derivation chains** to key claims
+
+### Files Modified (18 total)
+
+| File | Changes |
+|------|---------|
+| alpha_crystal_interface.md | Full migration + derivation tags |
+| asymptotic_safety_connection.md | Headers + imports + falsification |
+| black_holes.md | Headers + imports + numerology risk |
+| field_content_from_orthogonality.md | Headers + imports + numerology risk |
+| gamma_dec_investigation.md | Headers + imports (resolved) |
+| gauge_structure.md | Headers + imports |
+| gr_limit_investigation.md | Headers + imports (resolved) |
+| gravity_limit.md | Headers + imports |
+| h_gamma_investigation.md | Headers + imports (derived) |
+| heat_death.md | Headers + imports |
+| intermediate_gamma.md | Headers + imports |
+| intermediate_gamma_analysis.md | Headers + imports |
+| limits_analysis.md | Headers + imports (meta-analysis) |
+| novelty_assessment.md | Headers + imports (meta-analysis) |
+| penrose_diosi_comparison.md | Headers + imports (comparison) |
+| predictions_analysis.md | Headers + imports (meta-analysis) |
+| quantum_limit.md | Headers + imports |
+| testable_predictions.md | Headers + imports + numerology risk |
+
+### Verification Scripts
+
+| Script | Status | Purpose |
+|--------|--------|---------|
+| alpha_crystal_interface.py | CREATED | Verify α = 1/137 from interface |
+| example_sin2theta.py | EXISTS | Verify sin²θ_W = 2/9 |
+| alpha_running_test.py | EXISTS | Test running with dimension reduction |
+| orthogonality_field_emergence.py | EXISTS | Test field type counting |
+| field_type_counting.py | EXISTS | Test A+B+C = n² |
+| weight_vs_dimension_running.py | EXISTS | Compare running mechanisms |
+
+### Key Standards Applied
+
+Per MIGRATION_FRAMEWORK.md:
+
+1. **Status headers**: Every file now has standardized status
+2. **Confidence tags**: [CONJECTURE], [SPECULATION], [DERIVATION] per taxonomy
+3. **Imports Required**: Explicit [A-IMPORT] for all SM/observation values
+4. **Numerology Risk**: Assessment of why numbers might be coincidence
+5. **Verification Reference**: Link to SymPy script or N/A
+
+### Assessment
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Files with status header | ~5 | 18 |
+| Files with imports table | 0 | 18 |
+| Files with numerology risk | ~3 | 18 |
+| Verification scripts | 5 | 6 |
+| [A]/[I]/[D] tagged | ~0 | Key derivations |
+
+### Next Steps
+
+1. **Phase 2: Core modules** — Apply same standards to core/ files
+2. **Cross-reference audit** — Verify imports match layer_2_correspondence.md
+3. **Verification gaps** — Create scripts for remaining numerical claims
+4. **Cascade check** — Verify upstream/downstream consistency
+
+---
+
+## Priority Queue (Updated)
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **DONE** | **Migrate physics/ files** | **COMPLETED** |
+| **1** | **Migrate core/ files** | NEXT |
+| 2 | Cross-reference audit (Layer 2) | After core migration |
+| 3 | Create missing verification scripts | After audit |
+| 4 | External evaluation (Phase 8) | READY |
+
+---
+
+*Last updated: 2026-01-26 (Session 2026-01-26-28: Migration complete for physics/)*

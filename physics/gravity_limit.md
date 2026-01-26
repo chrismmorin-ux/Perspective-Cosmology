@@ -1,8 +1,29 @@
 # Low-γ Limit: General Relativity
 
-REQUIRES: core/05_overlap, core/01_universe
-PHYSICAL CLAIM: Low-γ regime → general relativistic behavior
-STATUS: **SPECULATION** (demoted from CONJECTURE 2026-01-26)
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [SPECULATION] (demoted from CONJECTURE 2026-01-26)
+**Last Verified**: N/A (no formula exists to verify)
+**Verified**: N/A
+
+**REQUIRES**: core/05_overlap, core/01_universe
+**PHYSICAL CLAIM**: Low-γ regime → general relativistic behavior
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| g_μν | Spacetime metric | GR | [A-IMPORT] |
+| G_μν = 8πG T_μν | Einstein field equations | GR | [A-IMPORT] |
+| Lorentzian signature | (-,+,+,+) | GR | [A-IMPORT] |
+
+---
+
+## Numerology Risk: N/A (no numbers claimed)
+
+This module claims a conceptual mapping, not a numerical prediction.
+The critical problem is that NO FORMULA EXISTS, not that a formula might be numerology.
 
 > ⚠️ **CRITICAL WARNING**: This is NOT a derivation—it's a hope.
 >

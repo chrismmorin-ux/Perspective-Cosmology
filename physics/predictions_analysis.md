@@ -1,7 +1,29 @@
 # Critical Analysis: Are There Genuine Predictions?
 
-STATUS: ANALYSIS (2026-01-25)
-PURPOSE: Address objection O7 from peer_review_prep.md
+**Status**: ACTIVE-DEVELOPMENT (meta-analysis)
+**Confidence**: [DERIVATION] (analysis, not claim)
+**Created**: 2026-01-25
+**Last Verified**: 2026-01-25
+**Verified**: N/A
+
+**PURPOSE**: Address objection O7 from peer_review_prep.md
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| Penrose-Diosi Γ | Gm²/(ℏr) | Literature | [A-IMPORT] |
+| n_gen = 3 | Generation count | LEP (1990s) | [A-IMPORT] |
+| Modified dispersion | Generic QG | Multiple QG approaches | [A-IMPORT] |
+
+---
+
+## Numerology Risk: ASSESSMENT DOCUMENT
+
+This document evaluates which predictions are genuine vs. retrofitted.
+Conclusion: Most "predictions" are post-hoc explanations. Best hope: intermediate-γ.
 
 ---
 

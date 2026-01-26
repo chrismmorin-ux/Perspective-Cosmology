@@ -1,7 +1,30 @@
 # Quantitative Comparison: Perspective Framework vs Diósi-Penrose
 
-STATUS: ANALYSIS (2026-01-26)
-PURPOSE: Determine if perspective framework makes distinct, testable predictions
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [DERIVATION] (analysis of comparison)
+**Created**: 2026-01-26
+**Last Verified**: 2026-01-26
+**Verified**: N/A (qualitative comparison)
+
+**PURPOSE**: Determine if perspective framework makes distinct, testable predictions
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| DP formula | τ = ℏ/E_Δ | Penrose-Diosi | [A-IMPORT] |
+| R₀ bounds | 4 Å - 10⁶ Å | Gran Sasso + classicality | [A-IMPORT] |
+| λ_C (electron) | 2.4 pm | QM | [A-IMPORT] |
+| G | 6.67×10⁻¹¹ m³/kg·s² | GR | [A-IMPORT] |
+
+---
+
+## Numerology Risk: N/A
+
+This is a comparative analysis, not a numerical claim.
+Conclusion: Both models predict negligible gravitational decoherence in accessible regimes.
 
 ---
 

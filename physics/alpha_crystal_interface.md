@@ -1,8 +1,35 @@
 # Alpha from Crystal-Defect Interface Geometry
 
-**Status**: CONJECTURE (promising pattern, requires derivation)
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
 **Created**: 2026-01-26
-**Confidence**: MEDIUM - striking numerical match, needs physical justification
+**Last Verified**: 2026-01-26
+**Verified**: YES → verification/sympy/alpha_crystal_interface.py
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| n_perceived | 4 | Observation (spacetime dimensions) | [A-IMPORT] |
+| n_total | 11 | M-theory | [A-IMPORT] |
+| α_measured | 1/137.035999 | QED measurements | [A-IMPORT] |
+| α(M_Z) | 1/127.9 | LEP measurements | [A-IMPORT] |
+| α(GUT) | ~1/42 | SM extrapolation | [A-IMPORT] |
+
+---
+
+## Numerology Risk: HIGH
+
+**Why this might be coincidence rather than derivation:**
+1. 137 = 4² + 11² is ONE of many ways to factor 137 (also 2⁷ + 3² = 137)
+2. We chose 4 and 11 because they match known physics, not derived them
+3. Countless formulas give ~1/137 (see CRITICAL WARNING below)
+4. Running of α requires ad-hoc extension (dimension reduction)
+5. The n² structure is motivated AFTER seeing 4² + 11² = 137
+
+**Red flag**: Formula works only for α, not obviously for other couplings.
 
 ---
 
@@ -284,6 +311,18 @@ This is the **most accurate** formula with clear physical interpretation!
 
 **HYPOTHESIS**: The interface measure is the sum of unitary group generators.
 
+**Derivation chain with tags**:
+
+```
+α = 1/137 [D]
+  ← 1/α = n_perceived² + n_total² [D: interface measure]
+      ← n² = dim(U(n)) [A-STRUCTURAL: generator counting]
+      ← Sum not product [A-STRUCTURAL: orthogonality of structures]
+      ← n_perceived = 4 [I: observed spacetime dimensions]
+      ← n_total = 11 [I: M-theory total dimensions]
+```
+
+**U(n) generator counting** [A-STRUCTURAL]:
 ```
 dim(U(n)) = n²  (generators of unitary group on n-dimensional Hilbert space)
 
@@ -293,33 +332,34 @@ Interface: must mediate BOTH structures
 Total interface DoF: 121 + 16 = 137
 ```
 
-**Why SUM (not product)?**
+**Why SUM (not product)?** [A-STRUCTURAL: orthogonality assumption]
 - Crystal U(11) and defect U(4) are ORTHOGONAL structures
 - The 7 hidden dimensions are orthogonal to perceived 4D
 - For orthogonal structures, contributions ADD (like Pythagorean theorem)
 - Variance addition: Var(X+Y) = Var(X) + Var(Y) for independent X, Y
 
-**Why U(n) not SU(n)?**
+**Why U(n) not SU(n)?** [D: phase counting]
 - dim(SU(n)) = n² - 1
 - SU(11) + SU(4) = 120 + 15 = 135 (1.5% error)
 - U(n) includes overall phase; both phases contribute at interface
 - U(n) gives exact 137
 
-**Physical interpretation**:
+**Physical interpretation** [SPECULATION]:
 - EM field lives on the interface
 - Must couple to ALL accessible degrees of freedom
 - Coupling diluted by total interface modes: α = 1/137
 
 ### Status of Derivation
 
-| Aspect | Status |
-|--------|--------|
-| Why n² | DERIVED (U(n) generators) |
-| Why sum | DERIVED (orthogonal structures) |
-| Why U(n) not SU(n) | DERIVED (phase counting) |
-| Why 4 and 11 | IMPORTED (observation + M-theory) |
+| Aspect | Status | Tag |
+|--------|--------|-----|
+| Why n² | DERIVED (U(n) generators) | [A-STRUCTURAL] |
+| Why sum | DERIVED (orthogonal structures) | [A-STRUCTURAL] |
+| Why U(n) not SU(n) | DERIVED (phase counting) | [D] |
+| Why 4 | IMPORTED | [I: observation] |
+| Why 11 | IMPORTED | [I: M-theory] |
 
-**Confidence**: MEDIUM — argument is coherent but not proven from axioms
+**Confidence**: [CONJECTURE] — argument is coherent but 4 and 11 are imports, not derived from axioms
 
 ---
 

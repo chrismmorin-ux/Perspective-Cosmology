@@ -1,8 +1,39 @@
 # Testable Predictions from Coupling Pattern
 
-**Date**: 2026-01-26
-**Status**: Analysis of predictions from the |Pi| coupling pattern
+**Status**: ACTIVE-DEVELOPMENT
+**Confidence**: [CONJECTURE]
+**Created**: 2026-01-26
+**Last Verified**: 2026-01-26
+**Verified**: YES → verification/sympy/example_sin2theta.py
+
 **Purpose**: Identify what the framework predicts that differs from (or matches) observation
+
+---
+
+## Imports Required
+
+| Import | Value | Source | Tag |
+|--------|-------|--------|-----|
+| sin²θ_W (on-shell) | 0.22290(30) | W/Z mass ratio | [A-IMPORT] |
+| sin²θ_W (MS-bar) | 0.23122(4) | PDG | [A-IMPORT] |
+| α | 1/137.036 | QED | [A-IMPORT] |
+| α_W | 1/29.5 | SM at M_Z | [A-IMPORT] |
+| n_gen = 3 | Generation count | LEP | [A-IMPORT] |
+| α variation | <10⁻⁵ over 10 Gyr | Quasar spectra | [A-IMPORT] |
+
+---
+
+## Numerology Risk: HIGH
+
+**Why HIGH:**
+- sin²θ_W = 2/9 is 0.3% match, but n_weak=2, n_color=3 are imported, not derived
+- No mechanism explains why sin²θ_W = n_weak/n_color²
+- Matching on-shell vs MS-bar could be coincidental scheme choice
+
+**What would reduce risk:**
+- Derive n_weak, n_color from framework axioms
+- Find physical mechanism for the formula
+- Predict a new measurable quantity
 
 ---
 
