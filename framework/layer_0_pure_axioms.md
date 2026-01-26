@@ -1,500 +1,532 @@
 # Layer 0: Pure Axioms
 
 **Status**: AXIOM (no physics, no interpretation)
-**Purpose**: Define the mathematical structure from which all else derives
+**Version**: 2.1 (Two-primitive foundation, with known gaps documented)
+**Purpose**: Define the minimal mathematical structure from which all else derives
 **Audience**: Mathematician (no physics knowledge required)
+**Gaps**: See Section 22 for honest accounting of incomplete emergence
 
 ---
 
-## 1. The Universe Structure
+## Overview
 
-### 1.1 Definition
+This document contains the **complete axiomatic foundation** of the framework.
 
-**U** is a 6-tuple:
+**There are exactly TWO primitives:**
+1. **V_Crystal** — A perfect inner product space
+2. **Perspective** — A partial access operation
 
-```
-U = (P, Σ, Γ, C, V, B)
-```
-
-### 1.2 Components
-
-| Symbol | Name | Type | Description |
-|--------|------|------|-------------|
-| P | Points | Finite set | Base set of the structure |
-| Σ | Simplicial Complex | Collection of subsets | Connectivity structure on P |
-| Γ | Weights | Function Σ → [0,1] | Connection strength |
-| V | Value Space | Inner product space | Where content lives |
-| C | Content Map | Function P → V | What exists at each point |
-| B | Basis | Orthonormal subset of V | Reference frame for V |
-
-### 1.3 Formal Definitions
-
-**P (Points)**
-- Finite, non-empty set
-- |P| < ∞, |P| ≥ 1
-
-**Σ (Simplicial Complex)**
-- Σ_0 = P (0-simplices are points)
-- Σ_k = {σ ⊂ P : |σ| = k+1, all faces in Σ} (k-simplices for k ≥ 1)
-- Σ = ∪_{k≥0} Σ_k
-
-**Γ (Connectivity Weights)**
-- Γ: Σ → [0,1]
-- Γ(σ) = 0 means σ is not effectively present
-- Γ(σ) = 1 means maximal connection
-
-**V (Value Space)**
-- Finite-dimensional inner product space over 𝔽 (where 𝔽 = ℝ or ℂ)
-- dim(V) = n < ∞
-- Inner product: ⟨·,·⟩: V × V → 𝔽
-
-**C (Content Map)**
-- C: P → V
-- C(p) represents "what exists at point p"
-
-**B (Orthonormal Basis)**
-- B = {b_1, ..., b_n} ⊂ V
-- ⟨b_i, b_j⟩ = δ_ij (Kronecker delta)
-- span(B) = V
+Everything else — points, connectivity, weights, content, observable dimensions — **emerges** from these two.
 
 ---
 
-## 2. Universe Axioms
+## Part I: The Crystal
 
-**Axiom U1 (Finiteness)**
-```
-|P| < ∞  and  dim(V) < ∞
-```
+### 1. The Crystal Space
 
-**Axiom U2 (Connectivity)**
-```
-The graph (P, Σ_1) is connected.
-```
-(Every point can be reached from every other point via 1-simplices)
+**Definition (V_Crystal)**
 
-**Axiom U3 (Non-Triviality)**
-```
-∃ p, q ∈ P : C(p) ≠ C(q)
-```
-(Not all points have identical content)
-
-**Axiom U4 (Closure)**
-```
-∀ σ ∈ Σ, ∀ τ ⊂ σ : τ ∈ Σ
-```
-(Σ is closed under taking faces)
-
----
-
-## 3. Perspectives
-
-### 3.1 Definition
-
-A **perspective** is a triple:
+V_Crystal is an inner product space over field F (where F = R or C) satisfying:
 
 ```
-π = (p, D, A)
+(C1) V_Crystal is a vector space over F
+(C2) There exists an inner product ⟨·,·⟩: V_Crystal × V_Crystal → F
+(C3) There exists an orthonormal basis B_Crystal = {b_i : i ∈ I}
+     where ⟨b_i, b_j⟩ = δ_ij (Kronecker delta)
 ```
 
-| Symbol | Name | Type | Description |
-|--------|------|------|-------------|
-| p | Anchor | Element of P | Location of the perspective |
-| D | Directions | Subset of edges from p | Which connections are followed |
-| A | Access Map | Function U → U_π | What content is accessible |
+### 2. Crystal Axioms
 
-### 3.2 Derived Quantities
-
-**Accessible Content**
+**Axiom C1 (Existence)**
 ```
-U_π = im(A)
+V_Crystal exists.
 ```
 
-**Hidden Content**
+**Axiom C2 (Perfect Orthogonality)**
 ```
-H_π = U \ U_π
-```
-
-### 3.3 Perspective Axioms
-
-**Axiom A1 (Partiality)**
-```
-U_π ⊊ U
-```
-Every perspective has hidden content.
-
-**Axiom A2 (Locality)**
-```
-A(x) depends only on relation of x to p via Γ-weighted paths in D.
+All basis vectors are perfectly orthogonal:
+∀ i ≠ j : ⟨b_i, b_j⟩ = 0
 ```
 
-**Axiom A3 (Non-Invertibility)**
+**Axiom C3 (Completeness)**
 ```
-A is not injective: ∃ x ≠ y with A(x) = A(y)
-```
-
-### 3.4 The Space of Perspectives
-
-**Π (Perspective Space)**
-```
-Π = { π = (p, D, A) : p ∈ P, D valid direction set, A consistent with axioms }
+B_Crystal spans V_Crystal:
+span(B_Crystal) = V_Crystal
 ```
 
-|Π| is finite (by U1).
+**Axiom C4 (Symmetry)**
+```
+No basis vector is distinguished:
+∀ i, j ∈ I, ∃ automorphism T : V_Crystal → V_Crystal
+such that T(b_i) = b_j
+```
+
+### 3. Crystal Properties (Derived)
+
+**Theorem C.1 (No Structure)**
+```
+V_Crystal has no non-trivial substructure.
+Proof: By C4, any two vectors are equivalent under automorphism.
+       No subset is privileged. ∎
+```
+
+**Theorem C.2 (No Preferred Direction)**
+```
+V_Crystal has no preferred direction.
+Proof: Direct consequence of C4. ∎
+```
+
+**Remark**: The Crystal is "perfect" precisely because it has no structure. Perfect orthogonality means complete independence of all dimensions. There is nothing to distinguish, nothing to measure, nothing to observe.
+
+### 4. Index Set Constraint
+
+**Axiom C5 (Cardinality)**
+```
+|I| may be finite or countably infinite.
+If finite: |I| = n for some n ∈ N
+```
+
+This is the only free parameter in the Crystal: how many dimensions it has.
 
 ---
 
-## 4. Propagation
+## Part II: Perspective
 
-### 4.1 D-Compatible Edges
+### 5. Perspective Definition
 
-Given direction set D at point x:
-```
-E_D(x) = { y ∈ P : {x,y} ∈ Σ_1 and direction(x→y) ∈ D }
-```
+**Definition (Perspective)**
 
-### 4.2 Propagation Operator
-
-**P_D: V^P → V^P**
-```
-(P_D · f)(x) = Σ_{y ∈ E_D(x)} Γ({x,y}) · f(y)
-```
-
-Propagates content from D-compatible neighbors, weighted by Γ.
-
-### 4.3 Receptive Subspace
-
-At each point p:
-
-**V_p ⊆ V**
-- Which dimensions p can distinguish
-- dim(V_p) ≤ dim(V)
-
-**Π_p: V → V_p**
-- Orthogonal projection onto V_p
-
-### 4.4 Access Map Construction
+A perspective π is a map from V_Crystal to a subspace, satisfying partiality:
 
 ```
-A_π = Π_p ∘ eval_p ∘ lim_{n→∞} (P_D)^n
+π: V_Crystal → V_π
+where V_π ⊊ V_Crystal (strict subset)
 ```
 
-Where:
-1. (P_D)^n propagates through D-compatible paths n times
-2. eval_p extracts value at point p
-3. Π_p projects onto receptive dimensions
+### 6. Perspective Axioms
 
-**Convergence condition**: If max_σ Γ(σ) < 1, the limit converges.
+**Axiom P1 (Partiality)**
+```
+Every perspective accesses strictly less than the whole:
+im(π) ⊊ V_Crystal
+```
+No perspective sees everything.
+
+**Axiom P2 (Non-Triviality)**
+```
+Every perspective accesses something:
+im(π) ≠ {0}
+```
+No perspective sees nothing.
+
+**Axiom P3 (Finite Access)**
+```
+The accessible subspace has finite dimension:
+dim(V_π) < ∞
+```
+Even if V_Crystal is infinite-dimensional, each perspective accesses finitely many dimensions.
+
+### 7. The Fundamental Theorem
+
+**Theorem P.1 (Perspective Breaks Symmetry)**
+```
+If π is a perspective, then V_Crystal decomposes as:
+V_Crystal = V_π ⊕ V_π^⊥
+
+where V_π = im(π) is the accessible subspace
+and V_π^⊥ is the hidden subspace.
+
+This decomposition BREAKS the symmetry of Axiom C4.
+```
+
+**Proof**:
+- By P1, V_π ⊊ V_Crystal
+- V_π is a proper subspace
+- Take orthogonal complement: V_π^⊥ = {v : ⟨v, w⟩ = 0 ∀w ∈ V_π}
+- By completeness: V_Crystal = V_π ⊕ V_π^⊥
+- Now V_π is distinguished from V_π^⊥, breaking C4. ∎
+
+**Corollary**: Perspective is the ONLY source of structure. Without perspective, V_Crystal has no distinguishable features.
 
 ---
 
-## 5. Adjacency
+## Part III: Emergence
 
-### 5.1 Adjacency Relation
+### 8. Tilted Dimensions (B̃)
 
-Two perspectives π₁, π₂ are **adjacent** if:
+When perspective π accesses a finite-dimensional subspace of V_Crystal, it selects a subset of the Crystal's dimensions. But the perspective's "view" may not align perfectly with the Crystal's basis.
+
+**Definition (Tilt)**
+
+Given perspective π with accessible subspace V_π = span({b̃_1, ..., b̃_n}), the **tilt matrix** is:
+
 ```
-π₁ ~ π₂  ⟺  U_{π₁} ∩ U_{π₂} ≠ ∅
-```
-
-### 5.2 Information Change
-
-For transition π₁ → π₂:
-
-**Information Loss**
-```
-ΔI(π₁ → π₂) = dim(U_{π₁}) - dim(U_{π₁} ∩ U_{π₂})
+ε_ij = ⟨b̃_i, b̃_j⟩ - δ_ij
 ```
 
-**Information Gain**
+where {b̃_i} is the basis the perspective "sees."
+
+**Interpretation**:
+- ε_ij = 0 for all i,j: perspective sees perfect orthogonality (Crystal-aligned)
+- ε_ij ≠ 0 for some i≠j: perspective sees tilted dimensions
+
+**Axiom P4 (Tilt Possibility)**
 ```
-ΔI'(π₁ → π₂) = dim(U_{π₂}) - dim(U_{π₁} ∩ U_{π₂})
+Perspectives may introduce non-zero tilt:
+∃ π ∈ Π, ∃ i ≠ j : ε_ij ≠ 0
 ```
 
-### 5.3 Adjacency Axiom
+At least some perspectives see tilted dimensions. (Whether "most" do requires a measure on Π, which is not defined here.)
 
-**Axiom Adj.1 (Non-Negative Loss)**
+### 9. Observable Space (V_Observable)
+
+**Definition**
 ```
-Valid adjacency π₁ ~ π₂ requires ΔI(π₁ → π₂) ≥ 0
+V_Observable = V_π = span(B̃)
+
+where B̃ = {b̃_1, ..., b̃_n} is the tilted basis accessible to perspective π
 ```
 
-This defines a direction on adjacency.
+**Theorem V.1 (Observable is Subspace)**
+```
+V_Observable ⊊ V_Crystal
+dim(V_Observable) = n < dim(V_Crystal) or n < ∞ if Crystal infinite
+```
+
+### 10. Points (P)
+
+**STATUS: EMERGENCE INCOMPLETE** — See Known Gaps (Section 22)
+
+Points are intended to emerge from dimensional structure, but the precise mechanism requires additional development.
+
+**Working Definition (Point)**
+```
+A point p is characterized by a subset S_p ⊆ B̃ of "active" dimensions.
+The set of points P indexes distinct dimensional configurations.
+```
+
+**Constraint (Finiteness)**
+```
+|P| ≤ 2^n where n = |B̃|
+```
+The number of distinct configurations is bounded by the power set of dimensions.
+
+**Gap**: How continuous vector spaces yield discrete point-like structures is an open question. See Section 22.
+
+### 11. Connectivity (Σ)
+
+**Definition (Adjacency)**
+```
+Two points p, q are connected if they share a dimension:
+p ~ q ⟺ S_p ∩ S_q ≠ ∅
+```
+
+**Definition (Simplicial Complex)**
+```
+Σ_0 = P
+Σ_1 = {{p,q} : p ~ q}
+Σ_k = {σ ⊆ P : |σ| = k+1, all pairs in σ are connected}
+Σ = ∪_k Σ_k
+```
+
+**Theorem Σ.1 (Emergence)**
+```
+Σ is determined entirely by the dimension-sharing structure.
+No additional axiom needed.
+```
+
+### 12. Weights (Γ)
+
+**Definition (Connection Weight)**
+```
+Γ(p, q) = |S_p ∩ S_q| / |S_p ∪ S_q|
+```
+
+This is the Jaccard index of dimensional overlap.
+
+**Theorem Γ.1 (Properties)**
+```
+(a) Γ(p,q) ∈ [0,1]
+(b) Γ(p,q) = 0 ⟺ S_p ∩ S_q = ∅ ⟺ p ≁ q
+(c) Γ(p,q) = 1 ⟺ S_p = S_q
+(d) Γ(p,q) = Γ(q,p)
+```
+
+**Theorem Γ.2 (Unification)**
+```
+The overlap parameter γ between perspectives has the same form as Γ:
+γ(π_1, π_2) = dim(V_{π_1} ∩ V_{π_2}) / dim(V_{π_1} + V_{π_2})
+```
+
+where V₁ + V₂ = span(V₁ ∪ V₂) is the sum of subspaces.
+
+Weights (between points) and overlap (between perspectives) are the same concept at different levels — both are Jaccard-like indices of shared vs total structure.
+
+### 13. Content (C)
+
+**STATUS: REQUIRES CLARIFICATION** — See Known Gaps (Section 22)
+
+**Global Tilt** (defined in Section 8):
+```
+ε_ij = ⟨b̃_i, b̃_j⟩ - δ_ij    (single value per dimension pair)
+```
+
+**Local Content** (if tilt varies by location):
+```
+C(p) = {ε_ij(p) : i,j ∈ S_p}   (tilt as function of point)
+```
+
+**Gap**: The relationship between global tilt (perspective's basis relative to Crystal) and local tilt (variation across points) needs development. See Section 22.
+
+**Conjecture C.1 (Matter = Geometry)**
+```
+Content is entirely determined by tilt structure.
+There is no separate "stuff" — only deviation from perfect orthogonality.
+```
+
+**Interpretation**: The distinction between "empty space" and "matter" would be the distinction between ε_ij ≈ 0 and ε_ij significantly non-zero. This requires the local tilt picture to be developed.
 
 ---
 
-## 6. Overlap Parameter
+## Part IV: The Perspective Space
 
-### 6.1 Definition
+### 14. Multiple Perspectives
 
-For adjacent perspectives π₁ ~ π₂:
-
-**γ (Overlap Parameter)**
+**Definition (Perspective Space)**
 ```
-γ(π₁, π₂) = |U_{π₁} ∩ U_{π₂}| / |U_{π₁} ∪ U_{π₂}|
+Π = {π : π satisfies P1, P2, P3}
 ```
 
-This is the Jaccard index of accessible content.
-
-**Range**: γ ∈ [0, 1]
-- γ = 0: disjoint access (no overlap)
-- γ = 1: identical access
-
-### 6.2 Overlap Regimes
-
-| Regime | Condition | Meaning |
-|--------|-----------|---------|
-| High-γ | γ → 1 | Perspectives nearly coincide |
-| Low-γ | γ → 0 | Perspectives barely overlap |
-| Intermediate | 0 < γ < 1 | Partial overlap |
-
-### 6.3 Global Overlap
-
-**γ_global**: Average over all adjacent perspective pairs
+**Axiom Π1 (Multiple Perspectives)**
 ```
-γ_global = (1/|adjacent pairs|) Σ_{π₁~π₂} γ(π₁, π₂)
+|Π| > 1
+```
+More than one perspective exists.
+
+**Axiom Π2 (Perspective Overlap)**
+```
+∃ π_1, π_2 ∈ Π : V_{π_1} ∩ V_{π_2} ≠ {0}
+```
+Some perspectives share accessible content.
+
+### 15. Adjacency of Perspectives
+
+**Definition**
+```
+π_1 ~ π_2 ⟺ V_{π_1} ∩ V_{π_2} ≠ {0}
 ```
 
----
-
-## 7. Basis Geometry
-
-### 7.1 Automorphisms
-
-**Aut(B)**: Transformations preserving B-structure
+**Theorem Π.1 (Perspective Graph)**
 ```
-Aut(B) = { T ∈ GL(V) : T(B) = B as a set }
+(Π, ~) forms a graph.
 ```
 
-For orthonormal B: Aut(B) ⊆ O(n).
+### 16. Information Structure
 
-### 7.2 Subspace Decomposition
-
-B may decompose into disjoint subsets:
+**Definition (Perspective Information)**
 ```
-B = B_1 ⊔ B_2 ⊔ ... ⊔ B_k  (disjoint union)
-V = V_1 ⊕ V_2 ⊕ ... ⊕ V_k  (orthogonal sum)
-where V_i = span(B_i)
+I_π = dim(V_π)
 ```
+Information content = number of accessible dimensions.
 
-### 7.3 Projection Operators
-
-For each subspace V_i:
+**Definition (Hidden Information)**
 ```
-Π_i: V → V_i
-Π_i(v) = Σ_{b ∈ B_i} ⟨v, b⟩ b
+H_π = dim(V_Crystal) - dim(V_π)
 ```
-
-**Properties:**
-- Π_i² = Π_i (idempotent)
-- Π_i† = Π_i (self-adjoint)
-- Σ_i Π_i = I (complete)
-- Π_i Π_j = 0 for i ≠ j (orthogonal)
-
----
-
-## 8. Information Structure
-
-### 8.1 Information Content
-
-**I_π (Information in perspective π)**
-```
-I_π = log₂|U_π|
-```
-
-**S_π (Hidden content entropy)**
-```
-S_π = log₂|H_π| = log₂|U \ U_π|
-```
-
-### 8.2 Total Information
-
-```
-I_total = log₂|U|
-```
-
-Constant for the structure.
-
-### 8.3 Mutual Information
-
-For perspectives π₁, π₂:
-```
-I(π₁ : π₂) = I_{π₁} + I_{π₂} - I_{π₁ ∪ π₂}
-```
-
----
-
-## 9. Theorems (from axioms only)
-
-These follow directly from the axioms above.
-
-### From Universe Axioms
-
-**Theorem U.1**: |P| ≥ 2
-```
-Proof: U3 requires distinct p, q ∈ P with C(p) ≠ C(q). ∎
-```
-
-**Theorem U.2**: Σ_1 ≠ ∅
-```
-Proof: U2 requires connected graph on |P| ≥ 2. ∎
-```
-
-**Theorem U.3**: Any C(p) decomposes uniquely in B
-```
-C(p) = Σᵢ cᵢ(p) bᵢ  where cᵢ(p) = ⟨C(p), bᵢ⟩. ∎
-```
-
-### From Perspective Axioms
-
-**Theorem P.1 (Non-Invertibility)**
-```
-A_π is not invertible.
-Proof:
-- Π_p loses dimensions if V_p ⊊ V
-- (P_D)^n ignores paths not in D
-- Multiple C, C' can yield A_π(C) = A_π(C'). ∎
-```
-
-**Theorem P.2 (Attenuation)**
-```
-If max_σ Γ(σ) = γ_max < 1, then ||(P_D)^n|| ≤ γ_max^n → 0.
-```
-Distant content attenuates exponentially.
-
-### From Adjacency Axioms
-
-**Theorem Adj.1 (Irreversibility)**
-```
-If ΔI(π₁ → π₂) > 0, then no inverse transition exists.
-Proof: Inverse would require ΔI(π₂ → π₁) < 0, violating Adj.1. ∎
-```
-
-**Theorem Adj.2 (Adjacency Graph)**
-```
-(Π, ~) forms a directed graph.
-Direction: π₁ → π₂ if transition is valid (non-negative loss).
-```
-
-### From Overlap Definition
-
-**Theorem Ov.1 (Symmetry)**
-```
-γ(π₁, π₂) = γ(π₂, π₁)
-```
-
-**Theorem Ov.2 (Bounds)**
-```
-0 ≤ γ ≤ 1
-```
-
-**Theorem Ov.3 (Transitivity Bound)**
-```
-If π₁ ~ π₂ and π₂ ~ π₃, then:
-γ(π₁, π₃) ≥ γ(π₁, π₂) + γ(π₂, π₃) - 1
-```
-
-### From Information Definition
+Or H_π = ∞ if V_Crystal is infinite-dimensional.
 
 **Theorem I.1 (Conservation)**
 ```
-I_π + S_π = I_total
-```
-
-**Theorem I.2 (Second Law)**
-```
-Valid transitions satisfy ΔI ≥ 0.
-Equivalently: hidden content entropy S increases or stays constant.
-```
-
-### From Basis Geometry
-
-**Theorem B.1 (Aut Decomposition)**
-```
-Aut(B) = Aut(B_1) × Aut(B_2) × ... × Aut(B_k)
-when B_i are invariant under Aut(B).
-```
-
-**Theorem B.2 (Trace)**
-```
-Tr(Π_i) = dim(V_i) = |B_i|
+I_π + H_π = dim(V_Crystal) = constant
 ```
 
 ---
 
-## 10. What the Axioms Do NOT Constrain
+## Part V: Time
 
-**CRITICAL**: The following are FREE PARAMETERS, not determined by axioms.
+### 17. Time Emergence
 
-### 10.1 Cardinalities
+**CRITICAL CONSTRAINT**: Time does not exist in or for V_Crystal.
 
-| Parameter | Constraint | What's Free |
-|-----------|------------|-------------|
-| \|P\| | Finite, ≥ 2 | No upper bound |
-| \|Π\| | Finite | No specific value |
-| dim(V) = n | Finite, ≥ 1 | No specific value |
+**Axiom T1 (Crystal is Timeless)**
+```
+V_Crystal has no temporal structure.
+There is no "before" or "after" within the Crystal.
+```
 
-### 10.2 Structural Choices
+**Definition (Perspective-Time)**
+```
+Time exists only as sequences of perspectives:
+t ↔ (π_1, π_2, π_3, ...)
+where each π_i ~ π_{i+1}
+```
 
-| Choice | What Axioms Allow | What's Free |
-|--------|-------------------|-------------|
-| Field 𝔽 | ℝ or ℂ | Not determined |
-| Subspace decomposition of B | Any valid partition | Not determined |
-| Number of subspaces k | Any 1 ≤ k ≤ n | Not determined |
-| Dimensions of subspaces n_i | Any with Σn_i = n | Not determined |
+**Theorem T.1 (No External Time)**
+```
+All dynamical concepts (evolution, change, causation)
+are defined WITHIN perspective-sequences, not externally.
+```
 
-### 10.3 Functions and Distributions
-
-| Function | What Axioms Allow | What's Free |
-|----------|-------------------|-------------|
-| Γ values | Any in [0,1] | Specific distribution |
-| γ values | Any in [0,1] | Specific distribution |
-| C(p) values | Any in V | Specific content |
-
-### 10.4 Specific Numerical Questions
-
-The axioms do NOT determine:
-
-1. **Is there a "natural" dimension for V?**
-   - Axioms allow any finite dimension
-   - Nothing forces dim(V) = 10 or any other value
-
-2. **Is there a "natural" size for |Π|?**
-   - Axioms allow any finite count
-   - Nothing forces |Π| ≈ 10^118 or any other value
-
-3. **Is there a preferred γ-function?**
-   - Axioms define γ as Jaccard index
-   - Functions like 2γ-1 or 2γ(1-γ) are choices, not derivations
-
-4. **Does B have forced substructure?**
-   - Axioms allow arbitrary decomposition
-   - "Electroweak" vs "color" splits are choices, not derivations
+**Corollary**: Asking "when did perspective nucleate?" is malformed. There was no time before perspective. "Nucleation" is logical/structural, not temporal.
 
 ---
 
-## 11. Summary
+## Part VI: Summary
 
-### What This Document Contains
+### 18. Complete Axiom List
 
-- A finite structure U = (P, Σ, Γ, C, V, B)
-- Perspectives as partial access maps π = (p, D, A)
-- An overlap parameter γ between perspectives
-- Information-theoretic quantities I, S
-- A collection of theorems following from the axioms
+**Crystal Axioms (5)**
+| ID | Name | Statement |
+|----|------|-----------|
+| C1 | Existence | V_Crystal exists |
+| C2 | Perfect Orthogonality | ⟨b_i, b_j⟩ = δ_ij |
+| C3 | Completeness | span(B_Crystal) = V_Crystal |
+| C4 | Symmetry | All basis vectors equivalent under automorphism |
+| C5 | Cardinality | \|I\| finite or countably infinite |
 
-### What This Document Does NOT Contain
+**Perspective Axioms (6)**
+| ID | Name | Statement |
+|----|------|-----------|
+| P1 | Partiality | im(π) ⊊ V_Crystal |
+| P2 | Non-Triviality | im(π) ≠ {0} |
+| P3 | Finite Access | dim(V_π) < ∞ |
+| P4 | Tilt Possibility | Some π has ε_ij ≠ 0 |
+| Π1 | Multiple Perspectives | \|Π\| > 1 |
+| Π2 | Perspective Overlap | Some perspectives share content |
 
-- Any reference to spacetime, particles, or forces
-- Any physical constants (ℏ, c, G, α)
-- Any comparison to quantum mechanics or general relativity
-- Any claims about what dim(V), |Π|, or γ "should be"
+**Time Axiom (1)**
+| ID | Name | Statement |
+|----|------|-----------|
+| T1 | Crystal Timeless | No temporal structure in V_Crystal |
 
-### Open Mathematical Questions
+**Total: 12 axioms**
 
-1. Given the axioms, what structures MUST exist?
-2. What additional axioms would constrain dim(V)?
-3. What additional axioms would constrain |Π|?
-4. Are there natural functions of γ privileged by the structure?
-5. Does the adjacency graph (Π, ~) have forced properties?
+### 19. Emergence Summary
+
+| Concept | Status | Emerges From | Complete? |
+|---------|--------|--------------|-----------|
+| V_Crystal | **PRIMITIVE** | — | ✓ |
+| Perspective | **PRIMITIVE** | — | ✓ |
+| B̃ (tilted basis) | Derived | P4 (perspective tilts Crystal dimensions) | ✓ |
+| V_Observable | Derived | V_π = span(B̃) | ✓ |
+| P (points) | Derived | Dimension intersection structure | **GAP** |
+| Σ (connectivity) | Derived | Dimension sharing (given P) | ✓ |
+| Γ (weights) | Derived | Jaccard index of sharing | ✓ |
+| C (content) | Derived | Local tilt configuration ε_ij | **GAP** |
+| Time | Derived | Perspective sequences | **GAP** |
+
+See Section 22 for details on gaps.
+
+### 20. What the Axioms Do NOT Determine
+
+| Parameter | Status | Notes |
+|-----------|--------|-------|
+| dim(V_Crystal) | FREE | Could be any n ∈ N or ∞ |
+| \|Π\| | FREE | Number of perspectives |
+| Specific ε_ij values | FREE | Tilt magnitudes |
+| n = dim(V_Observable) | FREE | How many dimensions accessible |
+
+### 21. What the Axioms DO Determine
+
+| Property | Determined By |
+|----------|---------------|
+| Structure requires perspective | C4 + P1 |
+| Perspectives have finite access | P3 |
+| Tilt is generic | P4 |
+| Points, Σ, Γ are emergent | Definitions from dimensions |
+| Content = tilt | Definition |
+| Time is perspective-relative | T1 |
+
+---
+
+## 22. Known Gaps
+
+This section documents where the emergence story is incomplete. These are **research questions**, not failures — the framework is honest about what remains to be derived.
+
+### Gap 1: Point Emergence from Continuous Space
+
+**Problem**: V_π is a vector space (continuous). How do discrete point-like structures emerge?
+
+**Current state**: Points are defined as "dimensional configurations" S_p ⊆ B̃, but the mechanism by which continuous geometry yields discrete locations is not specified.
+
+**Possible approaches**:
+1. Points as maximal filters on a lattice of subspaces
+2. Points as equivalence classes under some relation
+3. Discreteness from tilt quantization (if tilts are constrained)
+4. Points as emergent from perspective overlap structure
+
+**Connection**: This relates to open issue I-010 (information formulas assume discrete sets).
+
+### Gap 2: Global vs Local Tilt
+
+**Problem**: Section 8 defines tilt globally (ε_ij is a single value for the perspective). Section 13 needs local tilt (ε_ij(p) varies by location) to define content.
+
+**Current state**: Both are mentioned but their relationship is not derived.
+
+**Possible approaches**:
+1. Local tilt emerges from multiple overlapping perspectives
+2. Global tilt is an average; local tilt is the full structure
+3. Points ARE the places where tilt varies; homogeneous tilt = no points
+
+### Gap 3: Time Direction (Arrow of Time)
+
+**Problem**: Time is defined as perspective sequences (π₁, π₂, π₃, ...), but what determines the ordering? Why isn't the reverse sequence equally valid?
+
+**Current state**: Axiom T1 says the Crystal is timeless, but doesn't explain why perspective-sequences have a preferred direction.
+
+**Possible approaches**:
+1. Information loss defines direction (entropy increase)
+2. Tilt healing defines direction (toward Crystal = forward)
+3. Direction is conventional (no fundamental arrow)
+4. Causation from adjacency constraints (Adj.1 from old formulation)
+
+### Gap 4: Why Does Perspective Exist?
+
+**Problem**: We axiomatize that perspective exists (P1-P4) but don't explain why.
+
+**Current state**: The investigation file `perspective_origin.md` suggests self-reference (Cantor/Gödel/Lawvere), but this isn't formalized in Layer 0.
+
+**Status**: This may be the deepest question. It might not have an answer within the framework (perspective might be truly primitive).
+
+### Gap 5: Measure on Perspective Space
+
+**Problem**: Claims like "most perspectives introduce tilt" require a measure on Π, which is not defined.
+
+**Current state**: P4 was weakened to "some perspectives may introduce tilt" to avoid this issue.
+
+**Possible approaches**:
+1. Define natural measure from Crystal structure
+2. Leave as empirical (our universe has tilted perspectives)
+3. Derive from maximum entropy principle
+
+---
+
+## Appendix: Comparison with Previous Formulation
+
+### Old Formulation (v1.0)
+
+Primitives: U = (P, Σ, Γ, C, V, B) — six fundamental elements
+
+### New Formulation (v2.0)
+
+Primitives: V_Crystal, Perspective — two fundamental elements
+
+| Old Element | New Status |
+|-------------|------------|
+| P | DERIVED from dimension intersections |
+| Σ | DERIVED from dimension sharing |
+| Γ | DERIVED = Jaccard index = γ |
+| C | DERIVED = local tilt ε_ij |
+| V | SPLIT: V_Crystal (primitive), V_Observable (derived) |
+| B | DERIVED: B̃ = tilted dimensions |
+
+### Advantages of New Formulation
+
+1. **Fewer primitives**: 2 instead of 6
+2. **Unified**: Γ and γ are now the same thing
+3. **Matter = geometry**: Content is not separate from structure
+4. **Time clarified**: Explicitly perspective-relative
+5. **More constrained**: Emergence is forced, not assumed
 
 ---
 
@@ -504,6 +536,7 @@ The axioms do NOT determine:
 
 ---
 
-**Document version**: 1.0
-**Created**: 2026-01-26
-**Based on**: core/01_universe.md through core/07_information.md
+**Document version**: 2.1
+**Created**: 2026-01-26 (rewritten from v1.0)
+**Revised**: 2026-01-26 (added Known Gaps section, fixed notation errors)
+**Based on**: Foundational investigation (Session 2026-01-26-31)

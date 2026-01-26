@@ -115,3 +115,22 @@ This would explain:
 ## Status
 
 These are unverified speculations for future exploration. Do not treat as established.
+
+---
+
+## Update (2026-01-26): Formal Connection Analysis Complete
+
+See `perspective_connection.md` for formal analysis of these questions.
+
+**Key findings:**
+- Questions 1-4 explored — structural correspondence verified
+- Question 5 remains open — no physical realization identified
+- Speculative hypothesis (eigenvalues of perspective) remains [SPECULATION]
+- New verification scripts in `verification/sympy/`:
+  - `squarefree_point_correspondence.py` — ALL TESTS PASSED
+  - `perspective_prime_emergence.py` — investigation of derivation limits
+  - `half_dimension_investigation.py` — spectral dimension analysis
+
+**Verdict**: STRONG ANALOGY with PARTIAL DERIVATION
+- Structural correspondence is exact
+- But multiplicative structure must be IMPORTED, not derived

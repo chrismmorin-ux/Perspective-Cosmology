@@ -4,7 +4,32 @@
       "WebSearch",
       "Bash(git add:*)",
       "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd physics derivations to perspective cosmology framework\n\nDerive four priority physics connections at sketch level:\n- §12.1.1: Schrödinger equation from high-γ limit \\(QM regime\\)\n- §12.2.1: Einstein equations from low-γ limit \\(GR regime\\)\n- §12.3.9.1: Bekenstein-Hawking entropy S = A/4 from hidden dimensions\n- §16.3.1: Minimal orthogonal basis B for Standard Model \\(~7-10 dims\\)\n\nUpdate outstanding_questions.md:\n- Mark Q10 \\(QM\\) and Q11 \\(GR\\) as addressed \\(R11, R12\\)\n- Add R13 for S = A/4 derivation\n- Add Q21-Q35: new questions raised by derivations\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(where:*)",
+      "Bash(dir:*)",
+      "Bash(ls -la \"C:\\\\Users\\\\chris\\\\OneDrive\\\\Desktop\\\\Perspective Universe\\\\physics\\\\constants\"\" 2>/dev/null; echo \"---\"; ls -la \"C:UserschrisOneDriveDesktopPerspective Universearchivedeprecated\"\")",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:arxiv.org)",
+      "Bash(python:*)",
+      "WebFetch(domain:www.frontiersin.org)",
+      "WebFetch(domain:scoap3-prod-backend.s3.cern.ch)",
+      "WebFetch(domain:www.scholarpedia.org)",
+      "WebFetch(domain:www.researchgate.net)",
+      "WebFetch(domain:www.semanticscholar.org)",
+      "WebFetch(domain:link.springer.com)",
+      "WebFetch(domain:www.mdpi.com)",
+      "WebFetch(domain:ar5iv.labs.arxiv.org)",
+      "WebFetch(domain:johnhw.github.io)",
+      "WebFetch(domain:keplerlounge.com)",
+      "WebFetch(domain:www.johndcook.com)",
+      "Bash(git remote add:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:pdg.lbl.gov)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:www.andrew.cmu.edu)",
+      "WebFetch(domain:leanprover-community.github.io)",
+      "Bash(git push:*)"
     ]
   }
 }

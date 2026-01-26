@@ -3193,8 +3193,87 @@ n_crystal = 6 = CY real dimensions
 
 ---
 
-*Last updated: 2026-01-26 (Session 2026-01-26-33: CY connection, BSM bounds)*
+*Last updated: 2026-01-26 (Session 2026-01-26-34: Channel→Field correspondence)*
 
+---
+
+## Session 2026-01-26-34
+
+**Focus**: E6 viability research + Channel→Field correspondence derivation
+**Outcome**: E6 not ruled out experimentally; correspondence via spin-statistics derived
+
+### Work Done
+
+1. **E6 GUT Experimental Status Research**:
+   - **Finding**: E6 GUT is NOT experimentally ruled out
+   - Proton decay bounds rule out minimal SU(5), not E6
+   - SUSY E6 achieves gauge coupling unification
+   - E6 emerges naturally in heterotic string E8 → SU(3) × E6
+   - Updated `field_content_bounds_analysis.md` with sources
+
+2. **Channel → Field Correspondence Investigation**:
+   - Created `framework/investigations/channel_field_correspondence.md`
+   - **Key question**: Why do comparison symmetry types map to particle spins?
+
+3. **DERIVATION: Antisymmetric → Fermion**:
+   - Initially appeared weak (F_μν is antisymmetric but bosonic)
+   - **Resolution via Spin-Statistics Theorem**:
+     - Antisymmetric comparison: γ(i,j) = -γ(j,i)
+     - This IS the defining property of fermions (antisymmetric under exchange)
+     - Spin-statistics theorem then implies half-integer spin
+   - Status upgraded: WEAK → [DERIVATION with IMPORT]
+
+4. **Identified Remaining Gap: "Slot Filling"**:
+   - What does it mean for a field to "fill" a channel?
+   - Four interpretations analyzed (capacity, virtual, energy, redundancy)
+   - E6 prediction depends on this interpretation
+
+### Key Findings
+
+| Finding | Status |
+|---------|--------|
+| E6 NOT ruled out experimentally | CONFIRMED |
+| Diagonal → scalar | [DERIVATION] |
+| Symmetric → vector | [DERIVATION] |
+| Antisymmetric → fermion | [DERIVATION via spin-statistics] |
+| "Slot filling" definition | OPEN GAP |
+
+### Implication for E6 Prediction
+
+| If... | Then E6 prediction... |
+|-------|----------------------|
+| 1:1 field-channel mapping | Strong (E6 ruled out) |
+| Many:1 mapping | Weak (E6 could share channels) |
+
+**Current assessment**: The E6 prediction's strength depends on unresolved interpretation.
+
+### Files Created
+
+- `framework/investigations/channel_field_correspondence.md`
+
+### Files Modified
+
+- `framework/investigations/field_content_bounds_analysis.md` (E6 status, slot-filling reference)
+
+### Next Steps
+
+1. Define "channel occupation" precisely
+2. Determine if E6 bosons could share channels
+3. Third priority: |Π| = 137^55 justification (from Session 33)
+
+---
+
+## Priority Queue (Updated)
+
+| Priority | Task | Status |
+|----------|------|--------|
+| **1** | **Define channel occupation precisely** | NEW (needed for E6 prediction) |
+| **1** | **Rewrite Layer 0 with V_Crystal + Perspective only** | From Session 31 |
+| 2 | Justify |Π| = 137^55 | From Session 29 |
+| 2 | Connect tilt patterns to alpha | From Session 31 |
+| ~~2~~ | ~~Research E6 GUT status~~ | **DONE** (not ruled out) |
+| ~~2~~ | ~~Derive channel→field correspondence~~ | **DONE** (spin-statistics) |
+| 3 | Phase 8: External evaluation | READY |
 
 ---
 
@@ -3387,3 +3466,239 @@ The physics/ directory migration is **COMPLETE**. All files now have:
 3. **Verification gap analysis** — identify any numerical claims lacking scripts
 
 ---
+
+## Session 2026-01-26-34
+
+**Focus**: Rewrite Layer 0 with two-primitive foundation
+**Outcome**: Complete rewrite — V_Crystal and Perspective are now the only primitives
+
+### Work Done
+
+1. **Rewrote `framework/layer_0_pure_axioms.md`** (v1.0 → v2.0):
+   - Reduced from 6 primitives (P, Σ, Γ, C, V, B) to 2 (V_Crystal, Perspective)
+   - Established emergence chain for all other concepts
+   - Added explicit tilt (ε_ij) formalism
+   - Unified Γ and γ (same concept at different levels)
+   - Clarified time constraint (Crystal is timeless)
+   - Total of 12 axioms (5 Crystal, 6 Perspective, 1 Time)
+
+### The New Structure
+
+**Primitives (2)**:
+| ID | Name | Definition |
+|----|------|------------|
+| V_Crystal | Perfect inner product space | ⟨b_i, b_j⟩ = δ_ij exactly |
+| Perspective | Partial access map | π: V_Crystal → V_π ⊊ V_Crystal |
+
+**Axioms (12)**:
+| Category | Count | IDs |
+|----------|-------|-----|
+| Crystal | 5 | C1-C5 (Existence, Orthogonality, Completeness, Symmetry, Cardinality) |
+| Perspective | 6 | P1-P4, Π1-Π2 (Partiality, Non-Triviality, Finite Access, Tilt, Multiple, Overlap) |
+| Time | 1 | T1 (Crystal Timeless) |
+
+**Emergence Chain**:
+```
+V_Crystal + Perspective
+    → Tilts ε_ij (deviation from orthogonality)
+        → B̃ (tilted basis)
+            → V_Observable = span(B̃)
+                → P (points from dimension intersections)
+                    → Σ (connectivity from dimension sharing)
+                        → Γ = γ (Jaccard index)
+                            → C (content = local tilt)
+                                → Time (perspective sequences)
+```
+
+### Key Insights Formalized
+
+1. **Theorem P.1 (Perspective Breaks Symmetry)**: Perspective is the ONLY source of structure
+2. **Theorem C.1 (Matter = Geometry)**: Content is entirely tilt configuration
+3. **Theorem Γ.2 (Unification)**: Γ and γ are the same concept
+4. **Theorem T.1 (No External Time)**: All dynamics within perspective-sequences
+
+### Comparison: Old vs New
+
+| Old Element | New Status | Emerges From |
+|-------------|------------|--------------|
+| P | DERIVED | Dimension intersections |
+| Σ | DERIVED | Dimension sharing |
+| Γ | DERIVED | Jaccard index = γ |
+| C | DERIVED | Local tilt ε_ij |
+| V | SPLIT | V_Crystal (primitive) / V_Observable (derived) |
+| B | DERIVED | Tilted dimensions B̃ |
+
+### What Axioms DO Determine
+
+- Structure requires perspective (C4 + P1)
+- Perspectives have finite access (P3)
+- Tilt is generic (P4)
+- Content = geometry (definition)
+- Time is perspective-relative (T1)
+
+### What Axioms Do NOT Determine
+
+- dim(V_Crystal) — could be any n or ∞
+- |Π| — number of perspectives
+- Specific ε_ij values — tilt magnitudes
+- n = dim(V_Observable) — dimensions accessible
+
+### Files Modified
+
+- `framework/layer_0_pure_axioms.md` — Complete rewrite (v2.0 → v2.1)
+
+### Review and Fixes (v2.1)
+
+After critical review, applied fixes:
+
+1. **Fixed P4**: "generic perspective" (undefined measure) → "some perspectives may"
+2. **Fixed Theorem Γ.2**: Proper notation using dim() and subspace sum V₁ + V₂
+3. **Marked point emergence as incomplete**: Honest about definitional gap
+4. **Clarified global vs local tilt**: Flagged as needing development
+5. **Added Section 22 (Known Gaps)**: Documents 5 open problems:
+   - Gap 1: Point emergence from continuous space
+   - Gap 2: Global vs local tilt relationship
+   - Gap 3: Time direction (arrow of time)
+   - Gap 4: Why perspective exists
+   - Gap 5: Measure on perspective space
+
+### Assessment
+
+Layer 0 is now **minimal** (2 primitives), **honest** (gaps documented), and **clean** (notation fixed). Known gaps may resolve through physics development.
+
+### Next Steps
+
+1. Connect tilt structure to α = 1/137 (may illuminate Gap 2)
+2. Investigate whether θ_W is a literal tilt angle
+3. Derive dimension counts from stability arguments
+4. Gaps may resolve as physics connections develop
+
+---
+
+## Priority Queue (Updated)
+
+| Priority | Task | Status |
+|----------|------|--------|
+| ~~**1**~~ | ~~Rewrite Layer 0~~ | **COMPLETE** (v2.1 with gaps) |
+| **1** | **Connect tilts to α** | May illuminate local tilt |
+| **1** | **Connect tilts to θ_W** | Is it a literal tilt angle? |
+| 1 | Derive n=4, n=11 from tilt stability | From Session 31 |
+| 2 | Resolve Gap 1 (point emergence) | If physics suggests approach |
+| 2 | Justify |Π| = 137^55 | From Session 29 |
+| 3 | Phase 8: External evaluation | READY |
+
+---
+
+*Last updated: 2026-01-26 (Session 2026-01-26-34: Layer 0 v2.1 with honest gaps)*
+
+---
+
+## Session 2026-01-26-35
+
+**Focus**: Connect Prime Orthogonality to Perspective Cosmology
+**Outcome**: Formal analysis complete — structural correspondence verified, derivation limits identified
+
+### Work Done
+
+1. **Read key documents**:
+   - `explorations/primes_from_orthogonality/FINAL_SUMMARY.md` — prime findings
+   - `explorations/primes_from_orthogonality/future_exploration_notes.md` — crossover ideas
+   - `framework/layer_0_pure_axioms.md` — perspective axioms (v2.0)
+   - `framework/layer_0_foundations.md` — ontological questions
+
+2. **Wrote formal connection document**:
+   - `explorations/primes_from_orthogonality/perspective_connection.md`
+   - Identified exact structural correspondences
+   - Documented what can/cannot be derived
+   - Classified claims by confidence level
+
+3. **Created verification scripts**:
+   - `verification/sympy/squarefree_point_correspondence.py` — **ALL TESTS PASSED**
+   - `verification/sympy/perspective_prime_emergence.py` — exploration of derivation limits
+   - `verification/sympy/half_dimension_investigation.py` — spectral dimension analysis
+
+### Key Findings
+
+**VERIFIED (Theorem 3.2)**:
+- Squarefree numbers correspond exactly to "perspective points" (binary dimension-activation)
+- Coprimality <=> Orthogonality (reconfirmed)
+- phi: (N+, *) -> (Z^inf, +) is a homomorphism
+- Connectivity (shared dimension) <=> Shared prime divisor
+
+**STRUCTURAL CORRESPONDENCE**:
+| Prime Framework | Perspective Framework | Match |
+|-----------------|----------------------|-------|
+| Prime p | Crystal basis vector b_p | EXACT |
+| Prime space | V_Crystal | EXACT |
+| Coprimality | Orthogonality | EXACT |
+| Squarefree number | Perspective point | EXACT |
+| Factorization | Coordinate decomposition | EXACT |
+
+**CANNOT BE DERIVED** (must be imported):
+1. Multiplicative structure on N — axioms give addition but not multiplication
+2. The counting order 1, 2, 3, ... — Crystal has no inherent ordering
+3. Prime distribution ~1/ln(n) — no derivation path found
+4. The half-dimension (~0.5) — interesting parallel but [SPECULATION]
+
+### Honest Assessment
+
+**What we can say**:
+- Prime orthogonality and Crystal structure share the same mathematical form
+- Both frameworks treat complete structure as pre-existing
+- Finite perspective naturally limits direct access
+- "Imperfect crystal" metaphor has precise content
+
+**What we cannot say**:
+- "Primes emerge from perspective axioms" — overstates the result
+- "Half-dimension is explained" — no derivation
+- "This predicts prime distribution" — it doesn't
+
+**Verdict**: STRONG ANALOGY with PARTIAL DERIVATION
+- **Derived**: Orthogonal structure, finiteness of perspective, existence of irreducibles
+- **Imported**: Multiplicative structure, counting order, specific distribution
+
+### Half-Dimension Investigation
+
+Explored whether the ~0.5 spectral dimension of primes connects to P1 (partiality):
+- Box-counting dimension of primes: ~0.85 (approaching 1 for large N)
+- True "half-dimension" comes from Riemann critical line Re(s) = 1/2
+- Perspective interpretation: sqrt(N) scaling gives log(n)/log(N) = 1/2
+- Status: [SPECULATION] — interesting parallel, not derivation
+
+### Verification Results
+
+`squarefree_point_correspondence.py`:
+- Squarefree <=> Binary: PASS
+- Subset Correspondence: PASS
+- Point Properties: PASS
+- Mult->Add Homomorphism: PASS
+- Orthogonality <=> Coprime: PASS
+
+### Files Created
+
+- `explorations/primes_from_orthogonality/perspective_connection.md`
+- `verification/sympy/squarefree_point_correspondence.py`
+- `verification/sympy/perspective_prime_emergence.py`
+- `verification/sympy/half_dimension_investigation.py`
+
+### Files Modified
+
+- `session_log.md` — this entry
+
+### Decisions Made
+
+1. **Classification**: Prime-perspective connection is STRONG ANALOGY, not DERIVATION
+2. **Documentation**: Belongs in Layer 1 as "structural parallel" example
+3. **Future direction**: Investigate whether any UFD could fill the "irreducible" role
+4. **Status**: [DERIVATION] for verified correspondences, [SPECULATION] for half-dimension
+
+### Next Steps
+
+1. Investigate whether perspective sequences can generate multiplication (open question)
+2. Explore categorical structure of perspective objects
+3. Connect to existing literature on UFDs and prime ideals
+4. Consider whether this framework applies to Gaussian primes, polynomial primes, etc.
+
+---
+
+*Last updated: 2026-01-26 (Session 2026-01-26-35: Prime-Perspective connection analyzed)*

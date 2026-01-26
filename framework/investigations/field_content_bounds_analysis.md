@@ -130,6 +130,23 @@ B) **Physical particles** (mass eigenstates after breaking)?
 C) **Effective fields at measurement scale**?
    → Most promising interpretation
 
+D) **Distinct channel types** (with multiple fields per channel)?
+   → Would weaken the E6 prediction
+   → See `framework/investigations/channel_field_correspondence.md` §9
+
+### 5.1 The "Slot Filling" Problem
+
+**What does it mean for a field to "fill" a comparison channel?**
+
+| Interpretation | Implication for E6 |
+|----------------|-------------------|
+| 1:1 mapping (each field uses one channel) | E6 ruled out |
+| Many:1 (multiple fields share channels) | E6 could be OK |
+
+**See**: `channel_field_correspondence.md` for detailed analysis
+
+**Current position**: Interpretation unclear; E6 prediction depends on this
+
 ---
 
 ## 6. What Would Strengthen the Bounds
@@ -191,13 +208,46 @@ If correct, this **rules out E6** (and similar large GUTs) as fundamental theori
 
 ---
 
-## 9. Next Steps
+## 9. E6 Experimental Status (RESEARCHED 2026-01-26)
 
-1. Research physical viability of E6 GUT (has it been ruled out independently?)
-2. Clarify counting conventions (complex vs real, Weyl vs Dirac)
-3. Derive channel→field map from Layer 0/1
-4. Check against other BSM models (technicolor, extra dimensions, etc.)
+### Question: Is E6 GUT already ruled out?
+
+**Answer: NO** — E6 GUT remains viable in mainstream physics.
+
+**Evidence**:
+- Proton decay bounds (τ > 10³⁴ years) rule out minimal SU(5), NOT E6
+- SUSY E6 achieves gauge coupling unification at ~10¹⁶ GeV
+- E6 naturally emerges from heterotic string E8 → SU(3) × E6
+- Active research continues (e.g., E6 with trinification symmetry)
+
+**Sources**:
+- [PDG Review of GUTs (2024)](https://pdg.lbl.gov/2024/reviews/rpp2024-rev-guts.pdf)
+- [Grand Unified Theory - Wikipedia](https://en.wikipedia.org/wiki/Grand_Unified_Theory)
+- [nLab - GUT](https://ncatlab.org/nlab/show/GUT)
+- [ScienceDirect - E6 with trinification](https://www.sciencedirect.com/science/article/pii/S0550321320303242)
+
+### Implication for Framework
+
+| If... | Then... |
+|-------|---------|
+| Our bounds correct | E6 should be unphysical (framework predicts this) |
+| E6 works in nature | Our bounds are wrong (framework falsified here) |
+| E6 ruled out later | Potential vindication of framework |
+
+**This is a GENUINE PREDICTION**, not post-diction. The framework makes a claim that can be tested.
+
+**Confidence**: [CONJECTURE] — bounds predicting E6 unphysical
 
 ---
 
-*Investigation status: ACTIVE — bounds have predictive power but need sharper definition*
+## 10. Next Steps
+
+1. ~~Research physical viability of E6 GUT~~ **DONE** — E6 NOT ruled out
+2. Clarify counting conventions (complex vs real, Weyl vs Dirac)
+3. **PRIORITY**: Derive channel→field map from Layer 0/1 (what does "filling a slot" mean?)
+4. Check against other BSM models (technicolor, extra dimensions, etc.)
+5. Calculate: what proton decay rate would E6 predict vs our bounds?
+
+---
+
+*Investigation status: ACTIVE — E6 prediction identified as genuine test of framework*

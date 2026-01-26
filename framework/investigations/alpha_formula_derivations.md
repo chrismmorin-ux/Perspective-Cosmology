@@ -147,14 +147,19 @@ Why n_defect = 4 and n_crystal = 11?
 3. Critical dimension for gauge theory renormalizability
 4. SU(2) = unit quaternions
 
-**Status**: SUGGESTIVE CONNECTION, not yet rigorous derivation
+**Status**: PARTIALLY DERIVED (see associativity_derivation.md)
 
-**Open questions**:
-- Why is crystal = R + C + O specifically?
-- How do perspectives relate to associativity?
-- Can we derive 4 from Layer 0 stability arguments?
+**Progress made**:
+- Time = perspective sequences (from T1) -> requires path independence
+- Path independence IS associativity
+- Associativity + division algebra -> max dim 4 (Hurwitz)
 
-**Verification**: `verification/sympy/dimension_constraints.py`, `verification/sympy/division_algebra_connection.py`
+**Remaining gap**:
+- Why must transitions form a DIVISION ALGEBRA specifically?
+- Suggestive: Gamma weights involve division, transitions invertible
+- Not proven: Why exactly a normed division algebra?
+
+**Verification**: `verification/sympy/dimension_constraints.py`, `verification/sympy/division_algebra_connection.py`, `verification/sympy/associativity_requirement.py`
 
 ---
 
@@ -193,12 +198,13 @@ Why n_defect = 4 and n_crystal = 11?
 | Equal weighting | ASSUMED | DERIVED | Killing form |
 | n^2 structure | ASSUMED | DERIVED | F = C |
 | Independent addition | ASSUMED | DERIVED | Separate structures |
-| n1 = 4 | IMPORT | SUGGESTIVE | Division algebras |
-| n2 = 11 | IMPORT | SUGGESTIVE | Division algebras |
+| n1 = 4 | IMPORT | PARTIALLY DERIVED | Associativity requirement |
+| n2 = 11 | IMPORT | PARTIALLY DERIVED | 15 - 4 = 11 |
 | Interface = 1/alpha | CONJECTURE | CONJECTURE | No derivation |
 
-**Key achievement**: The formula structure is now DERIVED, not just guessed.
-**Remaining gap**: The specific dimensions (4, 11) are still imports.
+**Key achievement**: The formula structure is now DERIVED.
+**Progress on dimensions**: n=4 follows from associativity IF transitions form division algebra.
+**Remaining gap**: Why exactly a division algebra?
 
 ---
 
@@ -208,15 +214,15 @@ Why n_defect = 4 and n_crystal = 11?
 2. `verification/sympy/independent_sectors_derivation.py` - No cross terms
 3. `verification/sympy/dimension_constraints.py` - Why 4 and 11
 4. `verification/sympy/division_algebra_connection.py` - Hurwitz theorem connection
+5. `verification/sympy/associativity_requirement.py` - Time -> path independence -> associativity
 
 ---
 
 ## 8. Next Steps
 
-1. **Derive n=4 from stability**: Can perspectives only exist stably in 4D?
-2. **Derive n=11 from maximality**: Is there a Layer 0 argument for maximum dimensions?
-3. **Explain interface = coupling**: Why does generator count determine alpha?
-4. **Test division algebra hypothesis**: Does associativity requirement follow from axioms?
+1. **Close the division algebra gap**: Why must transitions form a division algebra?
+2. **Explain interface = coupling**: Why does generator count determine alpha?
+3. **Alternative approaches**: Spinor structure, Clifford algebras, information theory
 
 ---
 

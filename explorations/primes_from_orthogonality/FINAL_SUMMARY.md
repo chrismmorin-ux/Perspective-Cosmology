@@ -159,9 +159,26 @@ Whether this perspective leads to deeper mathematical results remains to be seen
 
 ## For Future Work
 
-1. **Formalize the perspective-orthogonality connection** in the main framework
-2. **Explore whether the half-dimension has physical meaning**
+1. ✓ **Formalize the perspective-orthogonality connection** — COMPLETED (see `perspective_connection.md`)
+2. ✓ **Explore whether the half-dimension has physical meaning** — INVESTIGATED (see `half_dimension_investigation.py`)
 3. **Investigate cascade structure at very large primes**
 4. **Connect to quantum eigenvalue statistics more deeply**
 
 The door is open; we've mapped the territory.
+
+---
+
+## Update (2026-01-26): Perspective Connection Formalized
+
+See `perspective_connection.md` for the formal analysis.
+
+**Summary of findings:**
+- Structural correspondence between primes and Crystal basis is **exact**
+- Squarefree numbers correspond to perspective "points" — **VERIFIED**
+- BUT: Multiplicative structure cannot be derived from perspective axioms — **IMPORTED**
+- The connection is **STRONG ANALOGY with PARTIAL DERIVATION**, not pure derivation
+
+**Verification scripts in `verification/sympy/`:**
+- `squarefree_point_correspondence.py` — ALL TESTS PASSED
+- `perspective_prime_emergence.py` — derivation limits explored
+- `half_dimension_investigation.py` — spectral dimension analysis
