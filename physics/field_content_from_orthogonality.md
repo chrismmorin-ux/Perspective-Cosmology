@@ -389,7 +389,25 @@ See: `verification/sympy/weight_vs_dimension_running.py`
 
 ---
 
-## 10. Summary
+## 10. Falsification Criteria
+
+This conjecture would be WRONG if:
+
+1. **SM field spectrum incompatible with three-type decomposition**
+   - If scalars/fermions/vectors don't map naturally to diagonal/antisymmetric/symmetric
+
+2. **Equal weighting fails for other observables**
+   - If applying equal weighting to other quantities gives wrong answers
+
+3. **n² structure doesn't hold for larger gauge groups**
+   - If GUT-scale physics shows different counting rules
+
+4. **Mechanism found that contradicts geometric picture**
+   - If SM mechanism for sin²θ_W discovered that's unrelated to dimensions
+
+---
+
+## 11. Summary
 
 **The user's insight**: Field content might not be fundamental but emergent from orthogonality structure.
 

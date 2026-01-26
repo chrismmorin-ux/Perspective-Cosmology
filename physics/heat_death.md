@@ -130,6 +130,24 @@ Heat death: global γ → 0, global Var → 0
 
 ---
 
+## Falsification Criteria
+
+This interpretation would be WRONG if:
+
+1. **Heat death doesn't involve loss of distinction**
+   - If thermal equilibrium preserves perspectival variety
+
+2. **Var → 0 gives different physics than heat death**
+   - If crystalline limit has properties incompatible with maximum entropy
+
+3. **Black hole analogy fails**
+   - If local γ → 0 (black holes) behaves qualitatively differently from global γ → 0
+
+4. **Cyclic cosmology is correct**
+   - If the universe undergoes bounce/reset rather than termination
+
+---
+
 ## Status: CONJECTURE
 
 Reinterpretation of standard heat death as:

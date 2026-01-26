@@ -1,0 +1,203 @@
+# Investigation: Field Content Bounds vs BSM Models
+
+**Status**: ACTIVE
+**Created**: 2026-01-26
+**Session**: 2026-01-26-31
+**Verified**: YES → verification/sympy/bsm_field_bounds_test.py
+
+---
+
+## 1. The Bounds
+
+From comparison channel counting (Session 25, 30):
+
+| Type | Description | Count | Origin |
+|------|-------------|-------|--------|
+| A | Diagonal (scalar-like) | 15 = 4 + 11 | n_d + n_c |
+| B | Symmetric (vector-like) | 61 = 6 + 55 | C(n_d,2) + C(n_c,2) |
+| C | Antisymmetric (fermion-like) | 61 = 6 + 55 | C(n_d,2) + C(n_c,2) |
+| **Total** | | **137** | = 1/α |
+
+---
+
+## 2. Model Comparison Results
+
+| Model | Scalars | Vectors | Fermions | Status |
+|-------|---------|---------|----------|--------|
+| Standard Model | 1 | 12 | 45 | OK |
+| **MSSM** | **49** | 12 | 61 | **SCALAR VIOLATION** |
+| SO(10) GUT | 10 | 45 | 48 | OK |
+| **E6 GUT** | **27** | **78** | **81** | **ALL VIOLATED** |
+| Left-Right Symmetric | 10 | 15 | 48 | OK |
+
+---
+
+## 3. Analysis of Violations
+
+### 3.1 MSSM Scalar Count (49 > 15)
+
+**Why 49?**
+- Squarks: 36 (6 flavors × 3 colors × 2 chiralities)
+- Sleptons: 9 (3 types × 3 generations)
+- Higgs: 4 (2 doublets)
+- Total: 49 complex scalar fields
+
+**Resolution**: Energy scale matters!
+
+At **low energy** (where α = 1/137 is measured):
+- SUSY broken: sparticles have mass ~TeV or higher
+- Only 5 physical Higgs (h, H, A, H+, H-)
+- Squarks/sleptons are "virtual" at α-measurement scale
+
+**Interpretation**: The bounds apply to **accessible** fields at each energy scale.
+
+```
+At E ~ 0 (α = 1/137):
+  MSSM effective content: 5 scalars, 12 vectors, 45 fermions
+  → ALL within bounds!
+
+At E ~ TeV (if SUSY discovered):
+  MSSM content increases
+  But at this energy, n_d and n_c also change
+  → Bounds scale accordingly
+```
+
+### 3.2 E6 GUT Violations (all three)
+
+**E6 at GUT scale:**
+- 78 vectors > 61 bound
+- 81 fermions > 61 bound
+- 27 scalars > 15 bound
+
+**Resolution**: At GUT scale, n_crystal = 6 (not 11)!
+
+With n_d = 2, n_c = 6:
+```
+Type A (scalars): 2 + 6 = 8
+Type B (vectors): C(2,2) + C(6,2) = 1 + 15 = 16
+Type C (fermions): 1 + 15 = 16
+Total: 40 = 1/α(GUT)
+```
+
+**New GUT-scale bounds:**
+- Max scalars: 8
+- Max vectors: 16
+- Max fermions: 16
+
+**E6 at GUT still violates!** (78 > 16, 81 > 16, 27 > 8)
+
+---
+
+## 4. Implications
+
+### 4.1 Scenario A: Bounds Rule Out E6
+
+If our bounds are correct:
+- E6 GUT is **physically impossible**
+- Universe cannot support more than 16 gauge bosons at GUT scale
+- This would be a **strong prediction**
+
+### 4.2 Scenario B: Bounds Apply Differently
+
+Maybe "comparison channels" ≠ "particle count":
+- Channels = maximum possible distinctions
+- Particles can share channels
+- Multiple particles could occupy same "slot"
+
+### 4.3 Scenario C: Our Counting is Wrong
+
+Perhaps we're counting wrong:
+- Complex vs real scalars
+- Weyl vs Dirac fermions
+- Counting multiplet components vs representations
+
+### 4.4 Scenario D: Framework is Wrong
+
+The simplest interpretation: our bounds don't apply to nature.
+
+---
+
+## 5. Critical Question
+
+**Do the bounds apply to:**
+
+A) **Fundamental fields** (gauge eigenstates before symmetry breaking)?
+   → MSSM violates, E6 violates
+
+B) **Physical particles** (mass eigenstates after breaking)?
+   → MSSM at low E is OK, E6 at GUT still violates
+
+C) **Effective fields at measurement scale**?
+   → Most promising interpretation
+
+---
+
+## 6. What Would Strengthen the Bounds
+
+### Must Do
+
+1. **Define precisely** what "field content" means for comparison channels
+2. **Derive** the channel→field correspondence from axioms
+3. **Check** whether massless particles should count differently
+
+### Predictions
+
+If interpretation C is correct:
+- **No model** at low energy can have >15 massless scalars
+- **No model** at low energy can have >61 massless gauge bosons
+- **No model** at low energy can have >61 massless fermions
+
+**SM status**: 1 + 12 + 45 = 58 < 137 ✓
+
+### What Would Falsify
+
+- Discovery of SUSY at low energy with many light scalars
+- Discovery of new gauge bosons exceeding limit
+- Discovery of many new light fermions
+
+---
+
+## 7. Connection to Running
+
+The bounds SCALE with dimensional reduction:
+
+| Scale | n_d | n_c | Max S | Max V | Max F | Total |
+|-------|-----|-----|-------|-------|-------|-------|
+| IR | 4 | 11 | 15 | 61 | 61 | 137 |
+| GUT | 2 | 6 | 8 | 16 | 16 | 40 |
+| Planck | 2 | 2 | 4 | 2 | 2 | 8 |
+
+**Key insight**: Higher energy = tighter bounds!
+
+This is **opposite** to usual intuition (more energy = more accessible particles).
+
+**Physical interpretation**: At high energy, fewer comparison modes exist, so fewer distinct field types can be supported.
+
+---
+
+## 8. Assessment
+
+| Aspect | Status |
+|--------|--------|
+| SM within bounds | ✓ VERIFIED |
+| MSSM at low E | ✓ OK (5 physical scalars) |
+| MSSM at SUSY scale | ? Depends on interpretation |
+| E6 GUT | ✗ VIOLATED at any scale |
+| SO(10) GUT | ✓ OK |
+
+**Confidence**: [CONJECTURE]
+
+If correct, this **rules out E6** (and similar large GUTs) as fundamental theories.
+
+---
+
+## 9. Next Steps
+
+1. Research physical viability of E6 GUT (has it been ruled out independently?)
+2. Clarify counting conventions (complex vs real, Weyl vs Dirac)
+3. Derive channel→field map from Layer 0/1
+4. Check against other BSM models (technicolor, extra dimensions, etc.)
+
+---
+
+*Investigation status: ACTIVE — bounds have predictive power but need sharper definition*
