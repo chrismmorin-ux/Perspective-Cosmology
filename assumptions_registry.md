@@ -1,0 +1,422 @@
+# Assumptions Registry
+
+A complete list of every assumption in the Perspective Cosmology framework.
+
+**Purpose**: Force honesty about what we're assuming vs. deriving.
+
+---
+
+## Classification
+
+| Type | Meaning |
+|------|---------|
+| **FOUNDATIONAL** | Core axiom of the framework |
+| **STRUCTURAL** | Mathematical structure choice |
+| **PHYSICAL** | Connection to physical reality |
+| **LIMITING** | Behavior in special cases |
+| **TECHNICAL** | Convenience for calculation |
+
+---
+
+## Foundational Assumptions
+
+### A1: Static Universe
+**Statement**: U exists as a complete, static object. There is no global time evolution.
+
+**Type**: FOUNDATIONAL
+
+**Justification**: Philosophical argument + analogy to block universe
+
+**Alternatives**:
+- Standard physics (universe evolves in time)
+- Multiverse (many U's)
+- Process philosophy (becoming is fundamental)
+
+**Falsifiable?**: Difficult - this is more interpretive than empirical
+
+**Status**: AXIOM
+
+---
+
+### A2: Finite Completeness
+**Statement**: U is finite but complete. It contains all that exists.
+
+**Type**: FOUNDATIONAL
+
+**Justification**: Avoids infinities; required for counting arguments
+
+**Alternatives**:
+- Infinite universe (standard cosmology)
+- Open/incomplete universe
+- Mathematical Platonism (infinite abstract structure)
+
+**Falsifiable?**: Partially - some finiteness claims are testable
+
+**Status**: AXIOM
+
+---
+
+### A3: Perspective as Primitive
+**Statement**: Perspective (constrained access) is the fundamental entity, not particles, fields, or spacetime.
+
+**Type**: FOUNDATIONAL
+
+**Justification**: Philosophical argument about self-inaccessibility
+
+**Alternatives**:
+- Materialism (matter is primitive)
+- Spacetime fundamentalism (geometry is primitive)
+- Information fundamentalism (bits are primitive)
+
+**Falsifiable?**: No - this is a choice of primitive, not empirical claim
+
+**Status**: AXIOM
+
+---
+
+## Structural Assumptions
+
+### A4: Weighted Simplicial Complex
+**Statement**: U has the structure (P, Σ, Γ, C, V, B) - points, simplices, weights, content, value space, basis.
+
+**Type**: STRUCTURAL
+
+**Justification**: Minimal structure supporting the required operations
+
+**Alternatives**:
+- Manifold structure
+- Causal set structure
+- Category-theoretic structure
+- Graph structure
+
+**Falsifiable?**: No - structure choice is convenience, not prediction
+
+**Status**: AXIOM (for now)
+
+**Note**: This is the MOST SUSPICIOUS assumption. Why this structure?
+
+---
+
+### A5: Orthonormal Basis B
+**Statement**: V has a finite orthonormal basis B representing "true dimensions"
+
+**Type**: STRUCTURAL
+
+**Justification**: Needed for dimensional counting arguments
+
+**Alternatives**:
+- Infinite-dimensional V
+- Non-orthogonal basis
+- No preferred basis
+
+**Falsifiable?**: Maybe - implies finite degrees of freedom
+
+**Status**: AXIOM
+
+**Note**: The fine structure constant derivation depends critically on dim(B) choices.
+
+---
+
+### A6: Adjacency from Information Loss
+**Statement**: Valid adjacency requires non-negative information loss. This defines time's direction.
+
+**Type**: STRUCTURAL
+
+**Justification**: Connects to thermodynamics; avoids time loops
+
+**Alternatives**:
+- Time loops allowed
+- Information-neutral adjacency
+- Bidirectional time
+
+**Falsifiable?**: Partially - relates to second law of thermodynamics
+
+**Status**: DERIVATION from A2 + A3 (weak)
+
+---
+
+## Physical Assumptions
+
+### A7: High-γ = Quantum Mechanics
+**Statement**: In the limit γ → 1 (high perspective overlap), dynamics reduce to quantum mechanics.
+
+**Type**: PHYSICAL / LIMITING
+
+**Justification**: Heuristic arguments about overlap and superposition
+
+**Alternatives**:
+- QM is fundamental, not emergent
+- Different QM from different limit
+- QM is approximation, not exact limit
+
+**Falsifiable?**: Partially - predicts deviations from QM in intermediate regime
+
+**Status**: CONJECTURE (not rigorously derived)
+
+---
+
+### A8: Low-γ = General Relativity
+**Statement**: In the limit γ → 0 (low perspective overlap), dynamics reduce to general relativity.
+
+**Type**: PHYSICAL / LIMITING
+
+**Justification**: Heuristic arguments about geometry from connectivity
+
+**Alternatives**:
+- GR is fundamental, not emergent
+- Different limit gives GR
+- GR is approximation
+
+**Falsifiable?**: Partially - predicts deviations from GR at Planck scale
+
+**Status**: CONJECTURE (not rigorously derived)
+
+---
+
+### A9: B-Geometry Determines Constants
+**Statement**: Physical constants (α, G, etc.) are determined by the structure of B.
+
+**Type**: PHYSICAL
+
+**Justification**: The "derivations" in §16
+
+**Alternatives**:
+- Constants are fundamental/random
+- Constants from anthropic selection
+- Constants from dynamics, not kinematics
+
+**Falsifiable?**: Yes - if B-structure doesn't yield correct constants, framework fails
+
+**Status**: CONJECTURE (the derivations have gaps)
+
+**WARNING**: This is where numerology risk is highest.
+
+---
+
+### A10: Electroweak Dimension Count [DEPRECATED]
+
+> **DEPRECATED**: 2026-01-26 along with α derivation
+> **Archived to**: archive/deprecated/alpha_derivation.md
+
+**Statement**: n_EW = 5 (electroweak dimensions in B)
+
+**Type**: **FITTING** (hidden free parameter) → **DEPRECATED**
+
+**Why Deprecated**:
+1. **Eddington pattern**: Follows exact structure of failed 1930s derivation
+2. **Mathematical impossibility**: Gell-Mann–Nishijima makes 5-count impossible (dim ≤ 4)
+3. **Internal contradiction**: gauge_structure.md says n_EW = 3, not 5
+4. **Standard physics**: All methods give n = 4
+
+**Lesson Learned**: This assumption existed solely to make the α formula work. When the assumption was analyzed rigorously, it turned out to be mathematically impossible. The α derivation was deprecated rather than defended.
+
+---
+
+### A11: sin²θ_W from GUT Running
+**Statement**: sin²θ_W = 3/8 at GUT scale, runs to ~0.23 at low energy
+
+**Type**: PHYSICAL
+
+**Justification**: Standard GUT prediction (SU(5), SO(10))
+
+**Alternatives**:
+- θ_W fundamental, not running
+- Different GUT group
+- No unification
+
+**Falsifiable?**: Tested by precision electroweak measurements
+
+**Status**: ESTABLISHED (this is mainstream physics, not our framework)
+
+**Note**: This is borrowed from standard physics. It's honest, but means α derivation depends on GUT assumptions.
+
+---
+
+## Technical Assumptions
+
+### A12: Counting Measure on Π
+**Statement**: All perspectives are weighted equally: ν(S) = |S|
+
+**Type**: TECHNICAL
+
+**Justification**: Simplicity; no reason to prefer some perspectives
+
+**Alternatives**:
+- Physics-weighted measure
+- Entropy-weighted measure
+- Complexity-weighted measure
+
+**Falsifiable?**: Affects predictions - different measure gives different physics
+
+**Status**: CONVENIENCE (should be derived eventually)
+
+---
+
+### A13: δπ_min = l_horizon/√|Π|
+**Statement**: Perspective grain equals cosmic scale divided by sqrt of perspective count
+
+**Type**: TECHNICAL
+
+**Justification**: Information-theoretic argument
+
+**Alternatives**:
+- Different scaling with |Π|
+- Multiple perspective grains
+- No minimum perspective
+
+**Falsifiable?**: Relates to Planck scale - in principle testable
+
+**Status**: CONJECTURE
+
+**Note**: This is load-bearing for G derivation.
+
+---
+
+### A15: Decoherence Rate Formula (UPDATED 2026-01-26)
+
+**Statement**: Γ_dec = (1-2γ)/τ₀ + Γ_env
+
+**Type**: **PARTIALLY DERIVED** (form derived, scale empirical)
+
+**Current status** (as of Session 2026-01-26-9):
+- Form (1-2γ): DERIVED from content asymmetry measure A(γ) = 2γ-1
+- Time scale τ₀: EMPIRICAL (identified with t_P)
+- Coefficient 1: ASSUMED (simplest choice)
+
+**Derivation of form** (see core/18_dynamics.md):
+```
+Asymmetry A(γ) = (shared content) - (different content) = 2γ - 1
+Rate ∝ -(asymmetry) = (1 - 2γ)
+```
+
+**Remaining problems**:
+1. **τ₀ = t_P not derived** (suggestive relationship τ₀ ~ t_H/√|Π| is factor ~20 off)
+2. **Coefficient 1 arbitrary** (why not 2 or π?)
+3. **γ > 0.5 undefined** (formula gives negative rate)
+
+**Alternatives for form**:
+- (1-2γ)² (quadratic) - would also have zero at 0.5
+- sin(πγ) - trigonometric alternative
+- But A(γ) = 2γ-1 has structural justification
+
+**Status**: FORM DERIVED (from asymmetry), SCALE EMPIRICAL (τ₀ = t_P as input)
+
+**Improvement from original**: Form now has structural justification, not just dimensional analysis.
+
+**See**: core/18_dynamics.md for full derivation, physics/gamma_dec_investigation.md for history
+
+---
+
+### A16: Gravitational Decoherence Modification h(γ) (NEW 2026-01-26)
+
+**Statement**: h(γ) = 2γ(1-γ) modifies gravitational decoherence
+
+**Type**: **ASSUMED** (not derived)
+
+**Formula**: Γ_grav = Gm²/(ℏΔx) × h(γ)
+
+**Justification**:
+- Symmetric in γ ↔ (1-γ)
+- Zeros at γ = 0 and γ = 1
+- Maximum at γ = 0.5 (critical point)
+- Simplest polynomial with these properties
+
+**Problems**:
+1. **Not unique** - many functions have same qualitative behavior
+2. **Coefficient arbitrary** - why 2, not 4 or π?
+3. **Counterintuitive** - predicts large objects have LESS gravitational decoherence
+4. **No observational support** - claimed effect not tested
+
+**Alternatives**:
+- h(γ) = 4γ(1-γ) (rescaled)
+- h(γ) = sin(πγ) (trigonometric)
+- h(γ) = √[γ(1-γ)] (square root)
+- h(γ) = 1 (no γ-dependence, like standard Penrose-Diosi)
+
+**Falsifiable?**: Yes - specific predictions differ from Penrose-Diosi at different scales
+
+**Status**: ASSUMPTION (symmetry argument, not derivation)
+
+**See**: physics/h_gamma_investigation.md for full analysis
+
+---
+
+## Assumptions Introduced But Not Yet Documented
+
+- [x] Complex structure of V - **NOW DOCUMENTED AS A14** (2026-01-25)
+- [x] Decoherence rate formula - **NOW DOCUMENTED AS A15** (2026-01-26)
+- [x] h(γ) function - **NOW DOCUMENTED AS A16** (2026-01-26)
+- [ ] Three spatial dimensions
+- [ ] Specific form of propagation operator P_D
+- [ ] Stability constraint on generations
+
+---
+
+### A14: Complex Structure of V (NEW 2026-01-25)
+
+**Statement**: V is a complex vector space (V ≅ ℂⁿ), not just real.
+
+**Type**: STRUCTURAL
+
+**Justification**: Required for quantum mechanical phase and unitarity.
+
+**Alternatives**:
+- V is real (no quantum interference)
+- Complex structure emergent from paired real dimensions
+- Quaternionic or other structure
+
+**Falsifiable?**: Partially - wrong quantum mechanics if V not complex
+
+**Status**: AXIOM (assumed, not derived)
+
+**Why this matters**:
+1. Without complex V, no quantum phase
+2. No interference patterns
+3. No unitary evolution
+4. The entire QM derivation depends on this assumption
+
+**CONCERN**: This is a significant assumption imported from known physics. The framework doesn't explain *why* V should be complex.
+
+**Possible resolution**: Derive complex structure from paired real dimensions with a rotation symmetry. Not yet attempted.
+
+---
+
+## Statistics
+
+| Type | Count |
+|------|-------|
+| FOUNDATIONAL | 3 |
+| STRUCTURAL | 4 (includes A14) |
+| PHYSICAL | 4 (A10 deprecated) |
+| TECHNICAL | 2 |
+| ASSUMED (not derived) | 2 (A15, A16) |
+| **TOTAL** | 15 |
+| **DEPRECATED** | 1 (A10) |
+
+**Free parameters disguised as assumptions**: 1-2 (δπ_min scaling)
+
+**Assumptions imported from known physics**:
+- A14 (complex V) - required for QM
+- A11 (sin²θ_W from GUT) - borrowed from mainstream
+
+**Assumed formulas (not derived)**:
+- A15 (Γ_dec formula) - dimensional analysis only, added 2026-01-26
+- A16 (h(γ) function) - symmetry argument only, added 2026-01-26
+
+**Deprecated assumptions**:
+- A10 (n_EW = 5) - was numerology, deprecated 2026-01-26
+
+---
+
+## The Honest Question
+
+How many of these assumptions are:
+1. **Necessary** (framework fails without them)?
+2. **Natural** (follow from deeper principles)?
+3. **Convenient** (chosen to get right answers)?
+
+If mostly (3), this is fitting, not derivation.
+
+---
+
+*Last updated: 2026-01-26 (A15 added - Γ_dec formula marked as assumption)*
