@@ -25,11 +25,15 @@
 ├── REORGANIZATION_PLAN.md       # Detailed rationale
 ├── divergence_registry.md       # Differences from standard physics (PRESERVE)
 │
+├── ## Governance
+├── CLAUDE.md                    # AI guidelines and workflow
+├── MIGRATION_FRAMEWORK.md       # Document standards, status categories, quality gates
+├── RIGOR_PROTOCOL.md            # Verification standards
+├── QUICKSTART.md                # Quick reference
+│
 ├── ## Session Management
 ├── session_log.md               # Work history, decisions, next steps
 ├── issues_log.md                # Active issues tracking
-├── CLAUDE.md                    # AI guidelines and workflow
-├── QUICKSTART.md                # Quick reference
 │
 ├── ## Framework Layers (COMPLETE)
 ├── framework/                   # Clean four-layer structure
@@ -103,8 +107,12 @@
 ├── ## Legacy
 ├── mathematical_framework.md    # [LEGACY - extracted to core/]
 │
+├── ## Quarantine (incomplete/problematic work)
+├── quarantine/
+│   └── README.md                # Index and migration criteria
+│
 └── archive/
-    └── deprecated/
+    └── deprecated/              # Dead-ends (preserved for honesty)
 ```
 
 ---

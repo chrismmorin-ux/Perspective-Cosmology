@@ -28,6 +28,7 @@ This is a speculative mathematical framework ("Perspective Cosmology") exploring
 ### Key Documents
 
 - `RIGOR_PROTOCOL.md` — **START HERE**: Verification standards and tool usage
+- `MIGRATION_FRAMEWORK.md` — **Document standards, status categories, quality gates**
 - `PLAN_ORDERED.md` — Eight-phase plan to physicist-ready state
 - `REORGANIZATION_PLAN.md` — Detailed rationale and steps
 - `divergence_registry.md` — Areas where perspective differs from standard physics (DON'T LOSE)
@@ -176,12 +177,58 @@ When documenting a derivation, ALWAYS include:
 
 ## Session Workflow
 
-### Starting a New Session
+### AUTOMATIC BEHAVIOR (No User Direction Required)
 
-1. **Read RIGOR_PROTOCOL.md** - verification standards
-2. **Read tracking files**: session_log.md, issues_log.md
-3. **Check priority queue** in session_log.md
-4. **Review open CRITICAL issues** - these block other work
+**Claude MUST do all of the following automatically, without being asked:**
+
+#### On Every Session Start
+1. Read session_log.md → find where we left off
+2. Read issues_log.md → check for CRITICAL blockers
+3. Check priority queue → identify next task
+4. Brief the user: "Last session: [X]. Next priority: [Y]. Any blockers: [Z]."
+
+#### On Every New Claim or Derivation
+1. **Automatically assign confidence level** — default to [CONJECTURE] unless proof exists
+2. **Automatically list imports** — any SM/observation values used
+3. **Automatically write [A]/[I]/[D] chain** — trace every "follows from"
+4. **Automatically identify gaps** — what's assumed but not proven
+5. **Automatically suggest falsification** — what would disprove this
+
+#### On Every Calculation
+1. **Write SymPy script FIRST** — before documenting in markdown
+2. **Run verification** — report PASS/FAIL with exact values
+3. **Only then document** — with script reference
+
+#### On Every Investigation
+1. **Create with ACTIVE status** — use standard template from MIGRATION_FRAMEWORK.md
+2. **Track in session_log.md** — note what's being investigated
+3. **When done, classify outcome**:
+   - Breakthrough → promote toward CANONICAL, verify rigorously
+   - Near-miss → note gaps, keep as ACTIVE or QUARANTINE
+   - Dead-end → archive with lessons learned
+   - Anomaly → flag for axiom review
+
+#### On Session End
+1. **Update session_log.md** — work done, decisions, next steps
+2. **Update issues_log.md** — any new issues or resolutions
+3. **Update priority queue** — what's next
+4. **Summarize for user** — "Done: [X]. Filed: [Y]. Next: [Z]."
+
+#### Automatic Triage (Run Periodically)
+When the user is exploring or when there's a natural pause:
+1. Check physics/ files — any without confidence tags? Fix them.
+2. Check derivations — any without [A]/[I]/[D] chains? Add them.
+3. Check claims — any without verification scripts? Flag for creation.
+4. Suggest promotions/demotions based on current evidence.
+
+---
+
+### Starting a New Session (Checklist)
+
+1. **Read tracking files**: session_log.md, issues_log.md
+2. **Check priority queue** in session_log.md
+3. **Review open CRITICAL issues** - these block other work
+4. **Brief user on status** - don't wait to be asked
 5. **Continue from last session's "Next Steps"**
 
 ### During a Session
@@ -190,6 +237,7 @@ When documenting a derivation, ALWAYS include:
 2. **Update files as you go** - don't accumulate unfiled changes
 3. **Cross-reference** issues to affected files
 4. **Be explicit about severity** - CRITICAL issues halt progress
+5. **Apply all tags and classifications automatically** - user shouldn't need to ask
 
 ### Verification Workflow (NON-NEGOTIABLE)
 
@@ -201,6 +249,28 @@ When documenting a derivation, ALWAYS include:
 | Claim numerical match | Calculate exact value, error, sensitivity |
 
 **Rule**: No calculation in markdown without a verification script.
+
+### Working Within MIGRATION_FRAMEWORK.md
+
+When creating or modifying documents:
+
+1. **Assign status**: Every document is CANONICAL, ACTIVE, QUARANTINE, or ARCHIVE
+2. **Tag all claims**: Use `[AXIOM]`, `[THEOREM]`, `[DERIVATION]`, `[CONJECTURE]`, `[SPECULATION]`
+3. **Tag all assumptions**: Use `[A-AXIOM]`, `[A-STRUCTURAL]`, `[A-PHYSICAL]`, `[A-IMPORT]`
+4. **Derivation chains**: Every "X follows from Y" needs `[A]/[I]/[D]` tags
+5. **Mark imports**: Physics values borrowed from SM/observation get `[A-IMPORT]`
+6. **Use templates**: See MIGRATION_FRAMEWORK.md §4 for standard templates
+
+**Promotion/Demotion triggers**:
+- ACTIVE → CANONICAL: All requirements met, verification passes
+- ACTIVE → QUARANTINE: Critical gap found, not immediately fixable
+- QUARANTINE → ARCHIVE: Confirmed dead-end, lessons documented
+
+**Signal interpretation**:
+- Breakthrough = verify rigorously, document fully
+- Near-miss = quarantine, analyze what's missing
+- Dead-end = archive with lessons learned
+- Anomaly = may indicate axiom problem, investigate
 
 ### Ending a Session
 
@@ -322,8 +392,27 @@ Reporting "0.7% accuracy" when the derivation has order-one uncertainties.
 
 ## AI Assistant Behavior
 
+### PROACTIVE ORGANIZATION (User Should Not Need to Ask)
+
+Claude MUST automatically handle all organizational work:
+
+1. **Tag everything** — Confidence levels, assumption types, derivation chains
+2. **File issues** — When problems found, immediately add to issues_log.md
+3. **Update tracking** — session_log.md at end of every session
+4. **Verify before documenting** — SymPy script first, then markdown
+5. **Classify outcomes** — Breakthrough/near-miss/dead-end/anomaly
+6. **Suggest next steps** — Based on priority queue and open issues
+7. **Brief at session start** — Status summary without being asked
+8. **Maintain structure** — Use templates, proper locations, cross-references
+
+**The user focuses on physics. Claude handles organization.**
+
 ### Claude Should:
 
+- **Proactively organize** without waiting to be asked
+- **Auto-tag all claims** with confidence levels
+- **Auto-trace all derivations** with [A]/[I]/[D] chains
+- **Auto-list imports** for any physics values used
 - Ask clarifying questions before accepting claims
 - Point out logical gaps and unsupported leaps
 - Suggest alternative interpretations

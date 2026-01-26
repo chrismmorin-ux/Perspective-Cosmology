@@ -179,19 +179,30 @@ references/
 6. **Check for numerology** - could different assumptions give same result?
 7. **Document** in `derivations_summary.md`
 
-### When Working with Claude
+### Working with Claude (Fully Automatic)
 
-**DO:**
-- Ask Claude to steelman objections
-- Request "what would falsify this?"
-- Use Extended Thinking for complex derivations
-- Ask Claude to argue the opposite position
+**You don't need to direct the organization.** Claude automatically:
 
-**DON'T:**
-- Accept "that looks correct" without verification
-- Let Claude validate without critique
-- Ignore "this seems too good" warnings
-- Skip assumption tracking
+| What Claude Does | When |
+|------------------|------|
+| Briefs you on status | Every session start |
+| Tags all claims with confidence | Every derivation/claim |
+| Writes [A]/[I]/[D] chains | Every "follows from" |
+| Lists imports | Any SM/observation value used |
+| Writes SymPy verification | Before any calculation is documented |
+| Files issues | When problems found |
+| Updates session_log.md | End of session |
+| Classifies outcomes | Breakthrough/near-miss/dead-end |
+| Suggests next steps | Based on priority queue |
+
+**Your job**: Focus on the physics. Explore ideas. Ask questions.
+
+**Claude's job**: Handle all organization, tagging, verification, tracking.
+
+**If you want Claude to challenge your thinking**, just say:
+- "Steelman the objection"
+- "What would falsify this?"
+- "Argue this is numerology"
 
 ### Anti-Sycophancy Prompts
 
