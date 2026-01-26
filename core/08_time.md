@@ -1,8 +1,23 @@
-# Time as Path
+# [08] Time as Path
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] + [THEOREM] — time definition + derived consequences
+**Dependencies**: 00_notation, 02_perspective, 04_adjacency
+**Verified**: N/A (definitions) / YES for theorems (logical proofs)
+
+---
 
 REQUIRES: 00_notation, 02_perspective, 04_adjacency
 DEFINES: temporal sequence T, arrow of time, no-loop theorem
-STATUS: DEFINITION + THEOREM
+CONTENT-TYPE: DEFINITION + THEOREM
+
+## Connections
+
+**Forward** (modules that use this):
+- 09_trajectory, 18_dynamics
+
+**Backward** (modules this uses):
+- 00_notation, 02_perspective, 04_adjacency
 
 ---
 

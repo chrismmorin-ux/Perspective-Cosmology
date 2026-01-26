@@ -1,8 +1,23 @@
-# Dimensional Stability
+# [14] Dimensional Stability
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines dimensional stability concepts
+**Dependencies**: 00_notation, 06_basis_geometry, 04_adjacency
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 06_basis_geometry, 04_adjacency
 DEFINES: stable/unstable dimensions, realization, collapse
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- physics/quantum_limit (measurement interpretation)
+
+**Backward** (modules this uses):
+- 00_notation, 06_basis_geometry, 04_adjacency, 10_entropy
 
 ---
 

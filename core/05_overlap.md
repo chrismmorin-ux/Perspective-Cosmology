@@ -1,8 +1,23 @@
-# Overlap Parameter
+# [05] Overlap Parameter
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines key parameter γ (Jaccard index)
+**Dependencies**: 00_notation, 02_perspective, 04_adjacency
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 02_perspective, 04_adjacency
 DEFINES: γ, μ, overlap regimes
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 08_time, 18_dynamics, physics/quantum_limit, physics/gravity_limit
+
+**Backward** (modules this uses):
+- 00_notation, 02_perspective, 04_adjacency
 
 ---
 

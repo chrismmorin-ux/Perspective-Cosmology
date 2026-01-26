@@ -1,8 +1,23 @@
-# Nucleation
+# [15] Nucleation
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] + [CONJECTURE] — defines nucleation; embedding hypothesis conjectural
+**Dependencies**: 00_notation, 13_crystallinity, 12_topology
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 13_crystallinity, 12_topology
 DEFINES: nucleation point, embedding, U scenarios
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + CONJECTURE
+
+## Connections
+
+**Forward** (modules that use this):
+- physics/ (cosmology interpretations)
+
+**Backward** (modules this uses):
+- 00_notation, 13_crystallinity, 12_topology
 
 ---
 

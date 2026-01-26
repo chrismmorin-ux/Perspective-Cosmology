@@ -1,8 +1,23 @@
-# Trajectories and Coherence
+# [09] Trajectories and Coherence
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines object identity through coherence
+**Dependencies**: 00_notation, 01_universe, 02_perspective, 08_time
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 01_universe, 02_perspective, 08_time
 DEFINES: trajectory γ, coherence Coh, object O
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 16_eddies (life as coherent eddy)
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe, 02_perspective, 08_time
 
 ---
 

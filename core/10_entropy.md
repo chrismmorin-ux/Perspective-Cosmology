@@ -1,8 +1,23 @@
-# Entropy
+# [10] Entropy
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] + [THEOREM] — entropy definition + Second Law proof
+**Dependencies**: 00_notation, 02_perspective, 04_adjacency, 06_basis_geometry
+**Verified**: N/A (definitions) / YES for Second Law (logical proof)
+
+---
 
 REQUIRES: 00_notation, 02_perspective, 04_adjacency, 06_basis_geometry
 DEFINES: S(π), entropy increase, entropy bounds
-STATUS: DEFINITION + THEOREM
+CONTENT-TYPE: DEFINITION + THEOREM
+
+## Connections
+
+**Forward** (modules that use this):
+- 14_dimensional_stability, 16_eddies
+
+**Backward** (modules this uses):
+- 00_notation, 02_perspective, 04_adjacency, 06_basis_geometry, 07_information
 
 ---
 

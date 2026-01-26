@@ -1,8 +1,23 @@
-# Perspective Adjacency
+# [04] Perspective Adjacency
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines structure that generates time
+**Dependencies**: 00_notation, 02_perspective
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 02_perspective
 DEFINES: adjacency relation ~, valid transitions
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + AXIOM
+
+## Connections
+
+**Forward** (modules that use this):
+- 05_overlap, 07_information, 08_time, 10_entropy, 14_dimensional_stability, 18_dynamics
+
+**Backward** (modules this uses):
+- 00_notation, 02_perspective
 
 ---
 

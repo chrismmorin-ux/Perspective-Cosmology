@@ -1,8 +1,23 @@
-# Universe Structure
+# [01] Universe Structure
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — foundational structure assumed without proof
+**Dependencies**: 00_notation
+**Verified**: N/A (axioms not verifiable)
+
+---
 
 REQUIRES: 00_notation
 DEFINES: U, P, Σ, Γ, C, V, B
-STATUS: AXIOM
+CONTENT-TYPE: AXIOM
+
+## Connections
+
+**Forward** (modules that use this):
+- 02_perspective, 03_propagation, 06_basis_geometry, 11_perspective_space, 12_topology
+
+**Backward** (modules this uses):
+- 00_notation only
 
 ---
 

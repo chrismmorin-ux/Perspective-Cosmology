@@ -1,8 +1,23 @@
-# Information Structure
+# [07] Information Structure
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines information measures
+**Dependencies**: 00_notation, 02_perspective, 04_adjacency
+**Verified**: N/A (definitions, standard information theory)
+
+---
 
 REQUIRES: 00_notation, 02_perspective, 04_adjacency
 DEFINES: I_π, ΔI, entropy, information bounds
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + THEOREM
+
+## Connections
+
+**Forward** (modules that use this):
+- 10_entropy (entropy refined)
+
+**Backward** (modules this uses):
+- 00_notation, 02_perspective, 04_adjacency
 
 ---
 

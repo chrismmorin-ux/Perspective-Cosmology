@@ -1,8 +1,23 @@
-# Crystallinity and Defects
+# [13] Crystallinity and Defects
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines crystalline structure and defects
+**Dependencies**: 00_notation, 11_perspective_space
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 11_perspective_space
 DEFINES: crystalline, defect, nucleation
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + THEOREM
+
+## Connections
+
+**Forward** (modules that use this):
+- 15_nucleation (embedding hypothesis), physics/alpha_crystal_interface
+
+**Backward** (modules this uses):
+- 00_notation, 11_perspective_space
 
 ---
 

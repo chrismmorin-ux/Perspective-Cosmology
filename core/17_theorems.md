@@ -1,7 +1,22 @@
-# Core Theorems Summary
+# [17] Core Theorems Summary
+
+**Status**: CANONICAL
+**Confidence**: [THEOREM] collection — summarizes proven results from other modules
+**Dependencies**: all core modules (00-16)
+**Verified**: Individual theorems verified in their source modules
+
+---
 
 REQUIRES: all core modules
-STATUS: THEOREM (collected)
+CONTENT-TYPE: THEOREM (collected)
+
+## Connections
+
+**Forward** (modules that use this):
+- Reference document; all physics/ modules may cite theorems here
+
+**Backward** (modules this uses):
+- All core modules 00-16
 
 ---
 

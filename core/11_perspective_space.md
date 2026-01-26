@@ -1,8 +1,23 @@
-# Perspective Space Structure
+# [11] Perspective Space Structure
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines geometry of perspective space Π
+**Dependencies**: 00_notation, 01_universe, 02_perspective
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 01_universe, 02_perspective
 DEFINES: Π structure, d_Π metric, subspaces of Π, measure ν
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 13_crystallinity (uses Var(U))
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe, 02_perspective
 
 ---
 

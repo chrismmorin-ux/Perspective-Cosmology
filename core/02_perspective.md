@@ -1,8 +1,23 @@
-# Perspective
+# [02] Perspective
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines core primitive of framework
+**Dependencies**: 00_notation, 01_universe
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 01_universe
 DEFINES: π, p, D, A, U_π, H_π, Π
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + AXIOM
+
+## Connections
+
+**Forward** (modules that use this):
+- 03_propagation, 04_adjacency, 05_overlap, 07_information, 08_time, 09_trajectory, 10_entropy, 11_perspective_space
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe
 
 ---
 

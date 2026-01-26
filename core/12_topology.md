@@ -1,8 +1,23 @@
-# Topology and Boundary
+# [12] Topology and Boundary
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines boundary structure of U
+**Dependencies**: 00_notation, 01_universe
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 01_universe
 DEFINES: shape of U, ∂U, boundary perspectives, permeability
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 15_nucleation, 16_eddies
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe
 
 ---
 

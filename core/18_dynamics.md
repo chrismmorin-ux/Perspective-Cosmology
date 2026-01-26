@@ -1,8 +1,23 @@
-# Dynamics
+# [18] Dynamics
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] (τ₀) + [DERIVATION] (Γ_dec form) + [A-IMPORT] (t_P scale)
+**Dependencies**: 00_notation, 05_overlap, 08_time
+**Verified**: YES (verification/sympy/h_gamma_derivation.py for h(γ) form)
+
+---
 
 REQUIRES: 00_notation, 05_overlap, 08_time
 DEFINES: tau_0, A(gamma), Gamma_dec, dynamics regime
-STATUS: AXIOM (D1) + DERIVED (D2 form) + EMPIRICAL (D2 scale)
+CONTENT-TYPE: AXIOM (D1) + DERIVED (D2 form) + EMPIRICAL (D2 scale)
+
+## Connections
+
+**Forward** (modules that use this):
+- physics/decoherence_rate, physics/quantum_limit
+
+**Backward** (modules this uses):
+- 00_notation, 05_overlap, 08_time
 
 ---
 

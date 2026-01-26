@@ -1,8 +1,23 @@
-# Eddies: Local Order
+# [16] Eddies: Local Order
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines entropy eddies and life abstraction
+**Dependencies**: 00_notation, 10_entropy, 12_topology
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 10_entropy, 12_topology
 DEFINES: entropy eddy, local order, life (abstract)
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION + THEOREM
+
+## Connections
+
+**Forward** (modules that use this):
+- physics/ (biological interpretations)
+
+**Backward** (modules this uses):
+- 00_notation, 10_entropy, 12_topology, 09_trajectory (coherent trajectory)
 
 ---
 

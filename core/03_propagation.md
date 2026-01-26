@@ -1,8 +1,23 @@
-# Propagation Operator
+# [03] Propagation Operator
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines how information propagates
+**Dependencies**: 00_notation, 01_universe, 02_perspective
+**Verified**: N/A (definitions)
+
+---
 
 REQUIRES: 00_notation, 01_universe, 02_perspective
 DEFINES: E_D, P_D, V_p, Π_p, I_p, A_π
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 04_adjacency (implicit via A_π)
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe, 02_perspective
 
 ---
 

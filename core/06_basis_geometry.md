@@ -1,8 +1,23 @@
-# Basis Geometry
+# [06] Basis Geometry
+
+**Status**: CANONICAL
+**Confidence**: [AXIOM] — defines structure of value space V
+**Dependencies**: 00_notation, 01_universe
+**Verified**: N/A (definitions, standard linear algebra)
+
+---
 
 REQUIRES: 00_notation, 01_universe
 DEFINES: B-structure, Aut(B), subspaces, projections
-STATUS: DEFINITION
+CONTENT-TYPE: DEFINITION
+
+## Connections
+
+**Forward** (modules that use this):
+- 10_entropy, 14_dimensional_stability, physics/ (coupling derivations)
+
+**Backward** (modules this uses):
+- 00_notation, 01_universe
 
 ---
 

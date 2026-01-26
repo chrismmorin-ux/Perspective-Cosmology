@@ -1,8 +1,15 @@
-# Notation and Conventions
+# [00] Notation and Conventions
+
+**Status**: CANONICAL
+**Confidence**: N/A (conventions, not claims)
+**Dependencies**: none
+**Verified**: N/A
+
+---
 
 REQUIRES: none
 DEFINES: symbolic conventions
-STATUS: CONVENTION
+CONTENT-TYPE: CONVENTION
 
 ---
 
