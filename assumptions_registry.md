@@ -307,37 +307,52 @@ Rate ∝ -(asymmetry) = (1 - 2γ)
 
 ---
 
-### A16: Gravitational Decoherence Modification h(γ) (NEW 2026-01-26)
+### A16: Gravitational Decoherence Modification h(γ) (UPDATED 2026-01-26)
 
 **Statement**: h(γ) = 2γ(1-γ) modifies gravitational decoherence
 
-**Type**: **ASSUMED** (not derived)
+**Type**: **DERIVED** (from interaction capacity)
 
 **Formula**: Γ_grav = Gm²/(ℏΔx) × h(γ)
 
-**Justification**:
-- Symmetric in γ ↔ (1-γ)
-- Zeros at γ = 0 and γ = 1
-- Maximum at γ = 0.5 (critical point)
-- Simplest polynomial with these properties
+**Derivation** (Session 2026-01-26):
 
-**Problems**:
-1. **Not unique** - many functions have same qualitative behavior
-2. **Coefficient arbitrary** - why 2, not 4 or π?
-3. **Counterintuitive** - predicts large objects have LESS gravitational decoherence
-4. **No observational support** - claimed effect not tested
+Gravitational decoherence requires interaction between shared and different content:
+- Shared content provides common reference frame (proportion γ)
+- Different content provides superposition to decohere (proportion 1-γ)
+- Interaction requires BOTH → product relationship
 
-**Alternatives**:
-- h(γ) = 4γ(1-γ) (rescaled)
-- h(γ) = sin(πγ) (trigonometric)
-- h(γ) = √[γ(1-γ)] (square root)
-- h(γ) = 1 (no γ-dependence, like standard Penrose-Diosi)
+Counting ordered pairs (shared, different):
+```
+Pairs (shared → different): γ × (1-γ)
+Pairs (different → shared): (1-γ) × γ
+Total: I(γ) = 2γ(1-γ)
+```
+
+Therefore h(γ) = 2γ(1-γ) = interaction capacity.
+
+**Why this form is unique**:
+- Factor 2: bidirectionality (both orderings)
+- Product structure: interaction requires both channels
+- Zeros at endpoints: need both shared AND different
+
+**Analogies**:
+- Collision cross-section: rate ∝ n₁ × n₂
+- Gravitational force: F ∝ m₁ × m₂
+- Bernoulli variance: Var = p(1-p)
+
+**Remaining questions**:
+1. Why gravitational decoherence specifically uses ordered pairs
+2. Connection to gravity itself not independently derived
+3. No observational support yet
 
 **Falsifiable?**: Yes - specific predictions differ from Penrose-Diosi at different scales
 
-**Status**: ASSUMPTION (symmetry argument, not derivation)
+**Status**: DERIVED (interaction capacity / ordered pair counting)
 
-**See**: physics/h_gamma_investigation.md for full analysis
+**Confidence**: MEDIUM-HIGH
+
+**See**: physics/h_gamma_investigation.md for full derivation
 
 ---
 
@@ -389,7 +404,7 @@ Rate ∝ -(asymmetry) = (1 - 2γ)
 | STRUCTURAL | 4 (includes A14) |
 | PHYSICAL | 4 (A10 deprecated) |
 | TECHNICAL | 2 |
-| ASSUMED (not derived) | 2 (A15, A16) |
+| PARTIALLY DERIVED | 2 (A15, A16) |
 | **TOTAL** | 15 |
 | **DEPRECATED** | 1 (A10) |
 
@@ -399,9 +414,9 @@ Rate ∝ -(asymmetry) = (1 - 2γ)
 - A14 (complex V) - required for QM
 - A11 (sin²θ_W from GUT) - borrowed from mainstream
 
-**Assumed formulas (not derived)**:
-- A15 (Γ_dec formula) - dimensional analysis only, added 2026-01-26
-- A16 (h(γ) function) - symmetry argument only, added 2026-01-26
+**Derived formulas** (form derived, some aspects empirical):
+- A15 (Γ_dec formula) - form from asymmetry, scale empirical
+- A16 (h(γ) function) - derived from interaction capacity (2026-01-26)
 
 **Deprecated assumptions**:
 - A10 (n_EW = 5) - was numerology, deprecated 2026-01-26

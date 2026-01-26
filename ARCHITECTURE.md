@@ -1,16 +1,45 @@
 # Framework Architecture
 
+## CURRENT DIRECTION (2026-01-26)
+
+**Major reorganization in progress.** See `PLAN_ORDERED.md` for full plan.
+
+**Goal**: Make framework evaluable by a theoretical physicist.
+
+**Approach**: Four-layer separation:
+- Layer 0: Pure axioms (no physics)
+- Layer 1: Mathematical consequences
+- Layer 2: Correspondence rules (explicit SM imports)
+- Layer 3: Predictions
+
+**Current Phase**: Phase 6 — Fresh Derivations (Phases 1-5 COMPLETE)
+
+---
+
 ## Directory Structure
 
 ```
 /
-├── ## Session Management (READ FIRST)
+├── ## Planning (CURRENT PRIORITY)
+├── PLAN_ORDERED.md              # Eight-phase reorganization plan
+├── REORGANIZATION_PLAN.md       # Detailed rationale
+├── divergence_registry.md       # Differences from standard physics (PRESERVE)
+│
+├── ## Session Management
 ├── session_log.md               # Work history, decisions, next steps
 ├── issues_log.md                # Active issues tracking
 ├── CLAUDE.md                    # AI guidelines and workflow
 ├── QUICKSTART.md                # Quick reference
 │
-├── ## Core Mathematics
+├── ## Framework Layers (COMPLETE)
+├── framework/                   # Clean four-layer structure
+│   ├── layer_0_pure_axioms.md   # ✓ CREATED (Phase 1)
+│   ├── layer_1_mathematics.md   # ✓ CREATED (Phase 2)
+│   ├── layer_2_correspondence.md # ✓ CREATED (Phase 3)
+│   ├── layer_3_predictions.md   # ✓ CREATED (Phase 4)
+│   └── divergence_analysis.md   # ✓ CREATED (Phase 5)
+│
+├── ## Core Mathematics (source for Layer 0)
 ├── core/                        # Pure mathematics (no physics)
 │   ├── 00_notation.md           # Symbols and conventions
 │   ├── 01_universe.md           # U = (P, Σ, Γ, C, V, B)
@@ -66,6 +95,7 @@
 │
 ├── ## References
 ├── references/
+│   ├── standard_model_reference.md  # NEW: Comprehensive SM reference
 │   ├── failed_alpha_derivations.md
 │   ├── methodology_research.md
 │   └── literature_notes/
@@ -143,18 +173,23 @@ The legacy `mathematical_framework.md` can now be archived.
 
 See `issues_log.md` for detailed tracking. Summary:
 
-| Issue | Area | Gap | Severity |
-|-------|------|-----|----------|
-| I-001 | Intermediate-γ | Recoherence paradox — **RESOLVED** (claim retracted) | ~~CRITICAL~~ |
-| I-007 | GR limit | g_μν not constructed from Γ | HIGH |
-| I-004 | Intermediate-γ | Γ_dec formula not derived | HIGH |
-| I-005 | Intermediate-γ | h(γ) function not derived | HIGH |
-| I-006 | α derivation | n_EW = 5 is numerology | HIGH (accepted) |
+| Issue | Area | Gap | Status |
+|-------|------|-----|--------|
+| I-001 | Intermediate-γ | Recoherence paradox | ✓ RESOLVED (retracted) |
+| I-004 | Intermediate-γ | Γ_dec formula | ✓ RESOLVED (form DERIVED) |
+| I-005 | Intermediate-γ | h(γ) function | ✓ RESOLVED (DERIVED) |
+| I-006 | α derivation | n_EW = 5 numerology | ✓ RESOLVED (replaced by 4²+11²) |
+| I-007 | GR limit | g_μν not constructed | ✓ RESOLVED (demoted) |
+| I-010 | Layer 0 | Discrete vs continuous V | **OPEN** (MEDIUM) |
 | - | QM limit | ℏ, Born rule incomplete | HIGH |
 | - | Gauge | Why n=3,2? | MEDIUM |
 | - | G derivation | \|Π\| not derived | MEDIUM |
 
-**RESOLVED (2026-01-26)**: I-001 (recoherence paradox) resolved by retracting the claim. Formula valid for γ ≤ 0.5 only. Next blocker: I-004 (derive Γ_dec from axioms).
+**Major progress (Sessions 9-21)**:
+- Γ_dec form derived from asymmetry
+- h(γ) derived from interaction capacity
+- α = 1/(4² + 11²) with running via spectral dimension reduction
+- γ > 0.5 resolved via tendency vs. rate distinction
 
 ---
 
@@ -169,5 +204,32 @@ See `issues_log.md` for detailed tracking. Summary:
 
 ---
 
+## Reorganization Progress
+
+| Phase | Task | Status |
+|-------|------|--------|
+| 0 | Reference library | ✓ DONE |
+| 1 | Layer 0 (pure axioms) | ✓ DONE |
+| 2 | Layer 1 (math consequences) | ✓ DONE |
+| 3 | Layer 2 (correspondence) | ✓ DONE |
+| 4 | Layer 3 (predictions) | ✓ DONE |
+| 5 | Divergence analysis | ✓ DONE |
+| 6 | Fresh derivations | ✓ **DONE** (Sessions 18-21) |
+| 7 | Physicist summary | **NEXT** |
+| 8 | External evaluation | Final |
+
+### Phase 6 Key Results
+
+**Major breakthroughs (Sessions 18-21)**:
+- **α = 1/(4² + 11²) = 1/137** — Crystal-defect interface geometry (0.026% accuracy)
+- **Running resolved** — Via spectral dimension reduction (mainstream physics)
+- **sin²θ_W = 2/9** — Matches on-shell value to 0.3%
+- **h(γ) DERIVED** — From interaction capacity / ordered pair counting
+- **Γ_dec form DERIVED** — From content asymmetry A(γ) = 2γ - 1
+
+See `physics/alpha_crystal_interface.md` and `framework/phase_6_derivation_attempts.md`
+
+---
+
 *Last updated: 2026-01-26*
-*Status: EXTRACTION COMPLETE, dynamics module added (18_dynamics.md)*
+*Status: Phases 1-6 COMPLETE, Phase 7 (Physicist Summary) NEXT*

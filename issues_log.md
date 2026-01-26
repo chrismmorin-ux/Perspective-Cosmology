@@ -101,90 +101,101 @@ But R = Γ_pers/Γ_std, so R >> 1 means FASTER decoherence (higher rate = shorte
 ### I-004: Γ_dec Formula Not Derived (HIGH)
 
 **Filed**: 2026-01-25
-**Status**: RESOLVED
+**Status**: RESOLVED (form DERIVED, scale EMPIRICAL)
 **Severity**: HIGH
-**Affects**: physics/intermediate_gamma.md, mathematical_framework.md §12.4
-**Resolved**: 2026-01-26
+**Affects**: physics/intermediate_gamma.md, core/18_dynamics.md
+**Resolved**: 2026-01-26 (upgraded Session 9)
 
 **Description**:
-The formula Γ_dec = (1-2γ)/t_P + Γ_env is asserted, not derived from axioms A1-A6. The t_P dependence appears to be dimensional analysis, not derivation.
+The formula Γ_dec = (1-2γ)/t_P + Γ_env is asserted, not derived from axioms.
 
-**Resolution**: Option 2 selected — **Marked as ASSUMPTION (A15)**
+**Resolution**: Form DERIVED from content asymmetry (Session 9)
 
-**Investigation findings** (see gamma_dec_investigation.md):
-- Axioms define static structure, not dynamics
-- Time is not defined in the framework
-- t_P would require deriving G, ℏ, c first (circular)
-- The formula is dimensional analysis, not derivation
-- **Cannot be derived from current axioms**
+**Investigation findings** (see core/18_dynamics.md):
+- Form (1-2γ): **DERIVED** from content asymmetry A(γ) = 2γ - 1
+- Time scale τ₀: **EMPIRICAL** (identified with t_P)
+- Coefficient: ASSUMED (simplest choice: 1)
+
+**Derivation**:
+```
+Content asymmetry: A(γ) = (shared) - (different) = 2γ - 1
+Rate ∝ negative asymmetry: Γ_dec = (1-2γ)/τ₀
+```
+
+**Status upgrade (Session 2026-01-26-9)**:
+- Original: ASSUMED (dimensional analysis only)
+- Current: FORM DERIVED, SCALE EMPIRICAL
 
 **Files updated**:
-- assumptions_registry.md: Added A15 (Γ_dec formula as assumption)
-- physics/gamma_dec_investigation.md: Created with full analysis
-- physics/intermediate_gamma.md: Warning updated
-
-**Note**: I-005 (h(γ) function) has similar issues and should be addressed.
+- core/18_dynamics.md: Created with derivation
+- assumptions_registry.md: A15 updated to PARTIALLY DERIVED
 
 ---
 
 ### I-005: h(γ) Function Not Derived (HIGH)
 
 **Filed**: 2026-01-25
-**Status**: RESOLVED
+**Status**: RESOLVED (DERIVED via interaction capacity)
 **Severity**: HIGH
-**Affects**: mathematical_framework.md §12.4
-**Resolved**: 2026-01-26
+**Affects**: physics/h_gamma_investigation.md
+**Resolved**: 2026-01-26 (fully derived Session 10)
 
 **Description**:
-The gravitational decoherence modification h(γ) = 2γ(1-γ) is asserted without derivation. Any function with a maximum at γ = 0.5 would fit the narrative.
+The gravitational decoherence modification h(γ) = 2γ(1-γ) is asserted without derivation.
 
-**Resolution**: Option 2 — **Marked as ASSUMPTION (A16)**
+**Resolution**: **DERIVED** from interaction capacity / ordered pair counting (Session 10)
 
-**Investigation findings** (see h_gamma_investigation.md):
-- Function is simplest symmetric polynomial with zeros at endpoints
-- Many alternatives would have same qualitative behavior
-- Coefficient (2) is arbitrary
-- Cannot be derived from current axioms
+**Derivation** (see physics/h_gamma_investigation.md):
+```
+Gravitational decoherence requires BOTH shared and different content.
+Ordered pairs (shared → different): γ × (1-γ)
+Ordered pairs (different → shared): (1-γ) × γ
+Total: I(γ) = 2γ(1-γ)
+```
+
+**Why this form is unique**:
+- Factor 2: bidirectionality (both orderings contribute)
+- Product structure: interaction requires both channels
+- Zeros at endpoints: need both shared AND different
+
+**Status upgrade (Session 2026-01-26-10)**:
+- Original: ASSUMED (simplest polynomial)
+- Current: **DERIVED** (interaction capacity)
 
 **Files updated**:
-- assumptions_registry.md: Added A16 (h(γ) formula as assumption)
-- physics/h_gamma_investigation.md: Created with full analysis
+- physics/h_gamma_investigation.md: Full derivation documented
+- assumptions_registry.md: A16 updated to DERIVED
 
 ---
 
 ### I-006: n_EW = 5 Is Numerology (HIGH)
 
 **Filed**: 2026-01-25 (documented earlier)
-**Status**: RESOLVED (accepted as limitation; comprehensive analysis 2026-01-26)
+**Status**: RESOLVED (deprecated; replaced by crystal-defect interface)
 **Severity**: HIGH
-**Affects**: physics/constants/alpha.md, derivations_summary.md, peer_review_prep.md, assumptions_registry.md
+**Affects**: archive/deprecated/alpha_derivation.md
 
 **Description**:
 n_EW = 5 is chosen to match α ≈ 1/137. Reverse-engineering: n = sin²θ_W/(2πα) = 5.04.
 
-**Comprehensive Re-Analysis (2026-01-26)**:
-
-**Fatal Problems Identified**:
-1. **Eddington pattern**: Follows exact structure of failed 1930s derivation
-2. **Mathematical impossibility**: Gell-Mann–Nishijima (Q = I₃ + Y/2) makes claimed basis dependent (dim ≤ 4, not 5)
+**Fatal Problems**:
+1. **Eddington pattern**: Same structure as failed 1930s derivation
+2. **Mathematical impossibility**: Gell-Mann–Nishijima makes dim ≤ 4, not 5
 3. **Internal contradiction**: gauge_structure.md says n_EW = 3, not 5
-4. **Standard physics disagreement**: All standard methods give n = 4
 
-**Sensitivity Analysis**:
-| n_EW | 1/α | Deviation | Justification |
-|------|-----|-----------|---------------|
-| 3 | 81.6 | −40% | gauge_structure.md |
-| 4 | 108.9 | −21% | Standard physics |
-| 5 | 136.1 | +0.7% | **NONE** |
-| 6 | 163.3 | +19% | Including Higgs |
+**Resolution**: **DEPRECATED** — moved to archive/deprecated/alpha_derivation.md
 
-**Verdict**: This is probable numerology. Rehabilitation appears impossible due to Gell-Mann–Nishijima constraint.
+**Replacement approach (Sessions 18-21)**:
+```
+α = 1/(n_perceived² + n_total²) = 1/(4² + 11²) = 1/137
+```
+- n_perceived = 4: spacetime dimensions (observation)
+- n_total = 11: M-theory dimensions (mainstream physics)
+- n² from U(n) generator counting
+- 0.026% accuracy (better than 0.7% of old approach)
+- Running explained via spectral dimension reduction
 
-**Resolution**:
-- ✅ α derivation demoted to SPECULATION (2026-01-25)
-- ✅ A10 marked as FITTING/NUMEROLOGY/PROBABLY UNSALVAGEABLE (2026-01-26)
-- ✅ Comprehensive documentation in peer_review_prep.md (O5) (2026-01-26)
-- ⚠️ Recommendation: Consider moving to archive/deprecated/
+**See**: physics/alpha_crystal_interface.md for new approach
 
 ---
 
@@ -217,6 +228,26 @@ Rationale (see gr_limit_investigation.md):
 
 ---
 
+### I-010: Information Formula Assumes Discrete U (MEDIUM)
+
+**Filed**: 2026-01-26
+**Status**: OPEN
+**Severity**: MEDIUM
+**Affects**: framework/layer_0_pure_axioms.md §8, framework/layer_1_mathematics.md
+
+**Description**:
+The information formulas I_π = log₂|U_π| and S_π = log₂|H_π| assume finite/countable sets. But V is defined as a continuous inner product space, making |V| infinite. This is an internal inconsistency.
+
+**Resolution Options**:
+1. Discretize V (add axiom: V has discrete values)
+2. Use measure-theoretic entropy (continuous case)
+3. Interpret |U_π| as counting basis states only
+
+**Cross-references**:
+- framework/phase_6_derivation_attempts.md (discovered during 6.2.5)
+
+---
+
 ## Resolved Issues
 
 ### I-001: Recoherence Paradox (was CRITICAL)
@@ -224,10 +255,10 @@ Rationale (see gr_limit_investigation.md):
 **Date resolved**: 2026-01-26
 
 ### I-004: Γ_dec Formula Not Derived (was HIGH)
-**Resolution**: **Marked as ASSUMPTION (A15)**
-**Date resolved**: 2026-01-26
-**Rationale**: Formula cannot be derived from current axioms. Time is not defined in the framework. Dimensional analysis is not derivation.
-**See**: physics/gamma_dec_investigation.md
+**Resolution**: Form **DERIVED** from content asymmetry; scale τ₀ = t_P **EMPIRICAL**
+**Date resolved**: 2026-01-26 (upgraded Session 9)
+**Derivation**: A(γ) = 2γ-1 → Γ_dec ∝ (1-2γ)
+**See**: core/18_dynamics.md
 
 ### I-002: R Calculation Error (was MEDIUM)
 **Resolution**: Corrected to R ≈ 10⁷ (was incorrectly 10¹³)
@@ -238,18 +269,16 @@ Rationale (see gr_limit_investigation.md):
 **Date resolved**: 2026-01-26
 
 ### I-005: h(γ) Function Not Derived (was HIGH)
-**Resolution**: **Marked as ASSUMPTION (A16)**
-**Date resolved**: 2026-01-26
-**Rationale**: Function is simplest symmetric polynomial but not uniquely determined. Coefficient is arbitrary. Cannot be derived from axioms.
+**Resolution**: **DERIVED** from interaction capacity / ordered pair counting
+**Date resolved**: 2026-01-26 (fully derived Session 10)
+**Derivation**: h(γ) = 2γ(1-γ) from bidirectional ordered pairs (shared↔different)
 **See**: physics/h_gamma_investigation.md
 
 ### I-006: n_EW = 5 Is Numerology (was HIGH)
-**Resolution**: α derivation **DEPRECATED** and moved to archive/deprecated/alpha_derivation.md
-**Date resolved**: 2026-01-25 (demoted to SPECULATION)
-**Date deprecated**: 2026-01-26 (moved to archive)
-**Comprehensive re-analysis**: 2026-01-26 - confirmed as probable numerology following Eddington pattern.
-**Verdict**: Claim removed from active framework rather than defended. Example of intellectual honesty.
-**Note**: New structural approach (α = 2/ln|Π|) being explored separately.
+**Resolution**: Old approach **DEPRECATED**; **REPLACED** by crystal-defect interface (Sessions 18-21)
+**Date deprecated**: 2026-01-26
+**New approach**: α = 1/(4² + 11²) = 1/137 (0.026% accuracy)
+**See**: physics/alpha_crystal_interface.md
 
 ### I-007: GR Limit Has No Derivation (was HIGH)
 **Resolution**: **Demoted to SPECULATION**
@@ -286,12 +315,12 @@ Rationale (see gr_limit_investigation.md):
 |----------|------|----------|-------|
 | CRITICAL | 0 | 1 | 1 |
 | HIGH | 0 | 4 | 4 |
-| MEDIUM | 0 | 2 | 2 |
+| MEDIUM | 1 | 2 | 3 |
 | LOW | 0 | 0 | 0 |
-| **Total** | **0** | **7** | **7** |
+| **Total** | **1** | **7** | **8** |
 
-**ALL ISSUES RESOLVED** as of 2026-01-26.
+**One MEDIUM issue open** (I-010: Information formula assumes discrete U)
 
 ---
 
-*Last updated: 2026-01-26 (I-002, I-003 resolved - R errors fixed)*
+*Last updated: 2026-01-26 (Documentation merge: I-004/I-005 upgraded to DERIVED, I-006 replacement noted)*

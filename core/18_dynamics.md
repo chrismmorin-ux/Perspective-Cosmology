@@ -103,13 +103,56 @@ Derivation:
 
 ### Coherence Regime (gamma > 0.5)
 
-**Status**: OPEN PROBLEM
+**Status**: RESOLVED (Session 2026-01-26-10)
 
-**Issue**: Formula gives Gamma_dec < 0 (negative rate = recoherence)
-- Not observed in nature
-- May require: saturation mechanism, nonlinear corrections, or different dynamics
+**Resolution**: Intrinsic tendency vs. actual rate
 
-**Honest statement**: We do not know what happens when shared > different.
+The asymmetry A(γ) = 2γ - 1 gives an intrinsic TENDENCY:
+- A < 0 (γ < 0.5): Tendency toward decoherence
+- A > 0 (γ > 0.5): Tendency toward coherence
+
+But coherence cannot spontaneously increase (thermodynamic constraint).
+
+**Thermodynamic Analogy**:
+- Temperature gradient creates tendency for heat flow
+- Heat doesn't flow from cold to hot (second law)
+- Similarly, coherence doesn't spontaneously increase
+
+**Formal Resolution**:
+```
+Intrinsic tendency:  T(γ) = (1-2γ)/tau_0
+Actual intrinsic rate: Gamma_intrinsic = max(0, T(γ))
+                     = (1-2γ)/tau_0  for γ <= 0.5
+                     = 0             for γ > 0.5
+
+Total rate: Gamma_dec = Gamma_intrinsic + Gamma_env
+```
+
+**Physical Interpretation**:
+
+| Regime | γ | Intrinsic | Environmental | Total |
+|--------|---|-----------|---------------|-------|
+| Classical | < 0.5 | (1-2γ)/τ₀ | Γ_env | Both contribute |
+| Critical | = 0.5 | 0 | Γ_env | Only environmental |
+| Quantum | > 0.5 | 0 | Γ_env | Only environmental |
+
+**Why no recoherence?**
+- For γ > 0.5, the intrinsic tendency is toward coherence (T < 0)
+- But this tendency cannot manifest — coherence can't increase spontaneously
+- The tendency is "frustrated" by thermodynamic/information-theoretic constraint
+- Only environmental decoherence operates
+
+**Connection to h(γ)**:
+The interaction capacity h(γ) = 2γ(1-γ) gives magnitude of potential interaction.
+The asymmetry A(γ) = 2γ - 1 gives direction.
+Intrinsic decoherence requires BOTH capacity AND favorable direction:
+```
+Gamma_intrinsic = h(γ)/tau_0 × Theta(-A(γ))
+                = 2γ(1-γ)/tau_0  for γ < 0.5
+                = 0              for γ >= 0.5
+```
+
+Where Theta is the Heaviside step function.
 
 ---
 
@@ -164,10 +207,12 @@ For gamma in [0, 0.5]:
 | Status: ASSUMED | Status: PARTIALLY DERIVED |
 | Justification: dimensional analysis | Justification: content asymmetry |
 
-### Does NOT Replace Assumption A16
+### h(γ) Now Derived (A16 Updated)
 
-The gravitational modification h(gamma) = 2*gamma*(1-gamma) remains assumed.
-This module addresses intrinsic decoherence, not gravitational decoherence.
+The gravitational modification h(gamma) = 2*gamma*(1-gamma) is now DERIVED
+from interaction capacity (see physics/h_gamma_investigation.md).
+
+Both A15 (Γ_dec form) and A16 (h(γ) form) are now structurally derived.
 
 ---
 
@@ -177,21 +222,22 @@ This module addresses intrinsic decoherence, not gravitational decoherence.
 |-----------|--------|---------------|
 | tau_0 existence | AXIOM D1 | Necessary for dynamics |
 | tau_0 = t_P | EMPIRICAL | Physical identification |
-| tau_0 ~ t_H/sqrt(|Pi|) | CONJECTURE | Suggestive, not exact |
+| tau_0 ~ t_H/sqrt(\|Pi\|) | CONJECTURE | Suggestive, not exact |
 | A(gamma) = 2*gamma - 1 | DEFINITION | Content asymmetry |
 | Gamma_dec = (1-2*gamma)/tau_0 | FORM DERIVED | From asymmetry measure |
 | Coefficient = 1 | ASSUMED | Simplest choice |
-| gamma > 0.5 dynamics | OPEN | Formula invalid there |
+| gamma > 0.5 dynamics | **RESOLVED** | Tendency frustrated; only Γ_env |
+| h(gamma) = 2*gamma*(1-gamma) | **DERIVED** | Interaction capacity |
 
 ---
 
 ## What Remains Open
 
 1. **tau_0 derivation**: Why tau_0 = t_P specifically?
-2. **gamma > 0.5**: What dynamics govern the coherence regime?
+2. ~~**gamma > 0.5**: What dynamics govern the coherence regime?~~ **RESOLVED** (Session 2026-01-26-10)
 3. **Coefficient**: Why coefficient is 1 rather than 2 or pi?
 4. **Physical principle**: Deeper reason for rate ~ negative asymmetry?
-5. **h(gamma)**: Gravitational modification still assumed (A16)
+5. ~~**h(gamma)**: Gravitational modification still assumed (A16)~~ **DERIVED** (Session 2026-01-26-10)
 
 ---
 

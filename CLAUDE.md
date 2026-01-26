@@ -2,9 +2,42 @@
 
 ## Project Overview
 
-This is a speculative theoretical physics framework ("Perspective Cosmology") attempting to derive physics from the primitive concept of perspective. The framework makes quantitative claims about fundamental constants.
+This is a speculative mathematical framework ("Perspective Cosmology") exploring whether perspective-based axioms can generate useful models for physics.
+
+**NOT a "theory of everything"** — the goal is a useful model that solves problems or reveals structure, not to replace established physics.
 
 **CRITICAL WARNING**: This is amateur theoretical physics. Treat all claims with appropriate skepticism.
+
+---
+
+## Current Direction (2026-01-26)
+
+**Goal**: Make framework "interesting enough to look at, concrete enough to be legitimate."
+
+**Problem identified**: We've been mixing pure perspective axioms with Standard Model imports, making it impossible to know what the framework actually predicts vs. assumes.
+
+### The Four-Layer Approach
+
+| Layer | Content | Purpose |
+|-------|---------|---------|
+| **Layer 0** | Pure perspective axioms | What we assume (NO physics) |
+| **Layer 1** | Mathematical consequences | What follows from axioms alone |
+| **Layer 2** | Correspondence rules | How we map math to physics (EXPLICIT imports) |
+| **Layer 3** | Predictions | What the combined system predicts |
+
+### Key Documents
+
+- `RIGOR_PROTOCOL.md` — **START HERE**: Verification standards and tool usage
+- `PLAN_ORDERED.md` — Eight-phase plan to physicist-ready state
+- `REORGANIZATION_PLAN.md` — Detailed rationale and steps
+- `divergence_registry.md` — Areas where perspective differs from standard physics (DON'T LOSE)
+- `references/standard_model_reference.md` — Comprehensive SM reference with assumptions
+
+### Current Phase
+
+**Phase 1**: Strip physics from axioms — create pure Layer 0
+
+**Success criterion**: A theoretical physicist finds it interesting enough to spend 30 minutes evaluating
 
 ---
 
@@ -88,12 +121,32 @@ When documenting a derivation, ALWAYS include:
 ```
 /
 ├── CLAUDE.md                    # This file (AI guidelines)
+├── RIGOR_PROTOCOL.md            # Verification standards (READ FIRST)
 ├── ARCHITECTURE.md              # Directory structure and status
 ├── QUICKSTART.md                # Quick reference for new sessions
+│
+├── ## Planning (CURRENT PRIORITY)
+├── PLAN_ORDERED.md              # Eight-phase reorganization plan
+├── REORGANIZATION_PLAN.md       # Detailed rationale
+├── divergence_registry.md       # Where we differ from standard physics
 │
 ├── ## Tracking (check these first each session)
 ├── session_log.md               # Work session history and decisions
 ├── issues_log.md                # Active issues and their status
+│
+├── ## Framework Layers (IN PROGRESS)
+├── framework/                   # Clean layer structure
+│   ├── layer_0_pure_axioms.md   # TO CREATE: No physics
+│   ├── layer_1_mathematics.md   # TO CREATE: What follows mathematically
+│   ├── layer_2_correspondence.md # TO CREATE: Explicit imports
+│   └── layer_3_predictions.md   # TO CREATE: Honest predictions
+│
+├── ## Verification (NON-NEGOTIABLE)
+├── verification/                # Computational verification of all claims
+│   ├── sympy/                   # Python symbolic computation scripts
+│   │   └── [claim_name].py      # One script per calculation
+│   ├── lean/                    # (Aspirational) Formal proofs
+│   └── mathematica/             # (If available) Notebooks
 │
 ├── ## Core Documentation
 ├── mathematical_framework.md    # Main framework [LEGACY - extracted to core/]
@@ -104,12 +157,13 @@ When documenting a derivation, ALWAYS include:
 ├── peer_review_prep.md          # Anticipated objections and responses
 ├── changelog.md                 # Track changes with reasoning
 │
-├── ## Content
-├── core/                        # Pure mathematics (17 modules)
+├── ## Content (will be reorganized into layers)
+├── core/                        # Pure mathematics (18 modules)
 ├── physics/                     # Physical interpretations (10+ modules)
 │
 ├── ## References
 ├── references/
+│   ├── standard_model_reference.md  # Comprehensive SM reference
 │   ├── related_theories.md
 │   ├── failed_alpha_derivations.md
 │   └── literature_notes/
@@ -124,10 +178,11 @@ When documenting a derivation, ALWAYS include:
 
 ### Starting a New Session
 
-1. **Read tracking files first**: session_log.md, issues_log.md
-2. **Check priority queue** in session_log.md
-3. **Review open CRITICAL issues** - these block other work
-4. **Continue from last session's "Next Steps"**
+1. **Read RIGOR_PROTOCOL.md** - verification standards
+2. **Read tracking files**: session_log.md, issues_log.md
+3. **Check priority queue** in session_log.md
+4. **Review open CRITICAL issues** - these block other work
+5. **Continue from last session's "Next Steps"**
 
 ### During a Session
 
@@ -136,12 +191,24 @@ When documenting a derivation, ALWAYS include:
 3. **Cross-reference** issues to affected files
 4. **Be explicit about severity** - CRITICAL issues halt progress
 
+### Verification Workflow (NON-NEGOTIABLE)
+
+| Action | Required Before Proceeding |
+|--------|---------------------------|
+| Claim a calculation | Write SymPy script in `verification/sympy/` |
+| Say "X follows from Y" | Write derivation chain with [A]/[I]/[D] tags |
+| Add new axiom | Write semi-formal predicate logic statement |
+| Claim numerical match | Calculate exact value, error, sensitivity |
+
+**Rule**: No calculation in markdown without a verification script.
+
 ### Ending a Session
 
 1. **Update session_log.md** with work done, decisions, issues filed
 2. **Update issues_log.md** with any status changes
-3. **Document "Next Steps"** clearly for continuation
-4. **Update priority queue** if needed
+3. **Verify all new calculations have scripts**
+4. **Document "Next Steps"** clearly for continuation
+5. **Update priority queue** if needed
 
 ### Issue Tracking Standards
 
@@ -266,6 +333,8 @@ Reporting "0.7% accuracy" when the derivation has order-one uncertainties.
 - Track assumptions systematically
 - Suggest testable predictions
 - Connect to mainstream physics honestly
+- **Write SymPy verification scripts** for any calculation discussed
+- **Demand derivation chains** with [A]/[I]/[D] tags for any "follows from" claim
 
 ### Claude Should NOT:
 
@@ -276,6 +345,30 @@ Reporting "0.7% accuracy" when the derivation has order-one uncertainties.
 - Accept "it works out" as justification
 - Ignore the difference between derivation and fitting
 - Pretend this is established science
+- **Trust its own mathematical derivations** without computational verification
+- **Claim to have verified anything** that wasn't run through SymPy/Mathematica
+
+### LLM Limitations (Critical)
+
+**What Claude can do:**
+- Organize ideas and documentation
+- Suggest approaches and catch some logical errors
+- Write verification scripts (which must then be run)
+- Explain concepts and connect to literature
+
+**What Claude CANNOT do:**
+- Verify mathematics (can hallucinate "proofs" that look correct but aren't)
+- Guarantee calculations are correct without computational check
+- Replace a physicist's evaluation
+- Provide the rigor that formal methods provide
+
+**Effective usage pattern:**
+1. Claude suggests a derivation or calculation
+2. Claude writes a SymPy script to verify it
+3. User runs the script and confirms it works
+4. Only then is the calculation documented as verified
+
+Never trust a Claude-generated derivation that hasn't been computationally verified.
 
 ---
 
@@ -304,5 +397,6 @@ The framework claims to derive physics from perspective. The honest questions ar
 
 ## Version
 
-Last updated: 2026-01-25
-Framework status: EXPLORATORY / UNVALIDATED
+Last updated: 2026-01-26
+Framework status: REORGANIZING / Four-layer approach in progress
+Current phase: Phase 1 (Strip physics from axioms)

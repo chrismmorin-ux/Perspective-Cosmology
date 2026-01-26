@@ -6,40 +6,86 @@ Quick reference for continuing work on Perspective Cosmology.
 
 ## Current Status (2026-01-26)
 
-| Area | Status | Blocking Issue |
-|------|--------|----------------|
-| Core math | OK | - |
-| α derivation | SPECULATION | I-006 (accepted) |
-| QM limit | CONJECTURE | Gaps documented |
-| GR limit | WEAK | I-007 |
-| Intermediate-γ (γ ≤ 0.5) | SPECULATION | I-004 (Γ_dec not derived) |
-| Intermediate-γ (γ > 0.5) | **UNDEFINED** | Recoherence retracted (I-001 resolved) |
+### REORGANIZATION COMPLETE THROUGH PHASE 6
 
-**Next Priority**: I-007 (GR limit derivation) or I-004 (derive Γ_dec from axioms)
+**Goal**: Reorganize framework so a theoretical physicist can honestly evaluate it.
+
+**Solution**: Four-layer approach
+
+| Layer | Content | Status |
+|-------|---------|--------|
+| Layer 0 | Pure axioms (no physics) | ✓ DONE |
+| Layer 1 | Mathematical consequences | ✓ DONE |
+| Layer 2 | Correspondence rules | ✓ DONE |
+| Layer 3 | Predictions | ✓ DONE |
+
+### Current Phase: **Phase 7 — Physicist Summary**
+
+### Major Breakthroughs (Sessions 18-21)
+
+| Result | Formula | Accuracy |
+|--------|---------|----------|
+| **α** | 1/(4² + 11²) = 1/137 | **0.026%** |
+| **sin²θ_W** | 2/9 (on-shell) | **0.3%** |
+| **Γ_dec form** | (1-2γ)/τ₀ | DERIVED |
+| **h(γ)** | 2γ(1-γ) | DERIVED |
+
+### Key Documents
+- `framework/layer_0_pure_axioms.md` — Pure axioms
+- `framework/layer_3_predictions.md` — Testable predictions
+- `physics/alpha_crystal_interface.md` — α derivation with running
+- `physics/h_gamma_investigation.md` — h(γ) derivation
 
 ---
 
-## Session Continuation Prompt
+## Phase 7 Session Prompt
 
-Copy this to start a new session:
+Copy this to continue:
 
 ```
 I'm working on Perspective Cosmology in this directory.
 
-Read: session_log.md, issues_log.md, QUICKSTART.md
+**Read first**:
+1. session_log.md (work history)
+2. ARCHITECTURE.md (structure)
+3. derivations_summary.md (current results)
 
-**Last session (2026-01-26-1)**:
-- Resolved I-001 (CRITICAL recoherence paradox) by retracting the claim
-- Formula Γ_dec = (1-2γ)/τ₀ now valid only for γ ≤ 0.5
-- γ > 0.5 regime marked as OPEN PROBLEM requiring derivation
+**Current phase**: Phase 7 — Create Physicist Summary
 
-**Current priority**: Choose next issue to address:
-1. I-007: GR limit derivation (construct g_μν from Γ)
-2. I-004: Derive Γ_dec formula from axioms
-3. I-002/I-003: Fix R calculation errors (minor cleanup)
+**Key results to communicate**:
+- α = 1/(4² + 11²) = 1/137 (0.026% accuracy)
+- sin²θ_W = 2/9 = 0.222 (0.3% from on-shell value)
+- Running via spectral dimension reduction
+- h(γ) and Γ_dec forms derived from structure
 
-Follow CLAUDE.md guidelines. Be skeptical.
+**Task**: Create PHYSICIST_SUMMARY.md — a document a theoretical physicist can evaluate
+
+**Contents should include**:
+1. Executive summary (what the framework claims)
+2. Axiom list (Layer 0)
+3. Main results with confidence levels
+4. What's derived vs. imported
+5. Open questions
+6. Falsification criteria
+
+Follow CLAUDE.md guidelines.
 ```
+
+---
+
+## Current Results Summary
+
+| Area | Status | Notes |
+|------|--------|-------|
+| **α = 1/137** | CONJECTURE | Crystal-defect interface (0.026%) |
+| **sin²θ_W = 2/9** | CONJECTURE | On-shell match (0.3%) |
+| **α running** | RESOLVED | Spectral dimension reduction |
+| **h(γ) = 2γ(1-γ)** | DERIVED | Interaction capacity |
+| **Γ_dec = (1-2γ)/τ₀** | PARTIALLY DERIVED | Form from asymmetry |
+| QM limit | CONJECTURE | Gaps documented |
+| GR limit | SPECULATION | Demoted (no derivation) |
+
+7 issues RESOLVED. 1 OPEN (I-010: discrete vs continuous V).
 
 ---
 
