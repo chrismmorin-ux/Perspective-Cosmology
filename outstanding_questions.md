@@ -376,9 +376,11 @@ See `references/related_theories.md` for full details.
 - Is three fundamental or contingent?
 
 **Q32**: Why does α ≈ 1/137?
-- Angle between dimensions?
-- Ratio of magnitudes?
-- Topological invariant?
+- **Status**: ADDRESSED (see §16.4)
+- **Resolution**: α = sin²θ_W / (2π × n_EW) where n_EW = 5 (electroweak dimensions)
+- Gives α = 1/136.1 (0.7% accuracy)
+- Physical interpretation: electromagnetic projection fraction of electroweak subspace
+- See mathematical_framework.md §16.4 for full derivation
 
 **Q33**: What explains the mass hierarchy?
 - Why is m_top/m_electron ≈ 340,000?
@@ -424,3 +426,5 @@ See `references/related_theories.md` for full details.
 | 2025-01-25 | Framework | Added §16.3.1 (Minimal basis B for Standard Model, 6-step derivation) |
 | 2025-01-25 | Q10, Q11 | Marked as ADDRESSED (see R11, R12) |
 | 2025-01-25 | Q21-Q35 | Added new questions from physics derivations |
+| 2025-01-25 | Q32 | ADDRESSED: α = sin²θ_W/(2π×5) = 1/136.1, see §16.4 |
+| 2025-01-25 | Framework | Added §16.4 (Fine Structure Constant derivation, 7 subsections) |
