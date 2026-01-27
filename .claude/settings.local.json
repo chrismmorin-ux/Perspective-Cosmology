@@ -30,7 +30,9 @@
       "WebFetch(domain:www.andrew.cmu.edu)",
       "WebFetch(domain:leanprover-community.github.io)",
       "Bash(git push:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)"
     ]
   }
 }

@@ -1,4 +1,4 @@
-# [16] Eddies: Local Order
+# [19] Eddies: Local Order
 
 **Status**: CANONICAL
 **Confidence**: [AXIOM] — defines entropy eddies and life abstraction
