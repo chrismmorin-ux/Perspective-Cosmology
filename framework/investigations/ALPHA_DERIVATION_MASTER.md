@@ -681,5 +681,62 @@ These are **convergent evidence** from multiple independent sources, not a singl
 
 ---
 
-*Last updated: 2026-01-26 (Session 2026-01-26-36)*
-*Document version: 1.0*
+---
+
+## Appendix C: Prime Attractor Connection (Session 77)
+
+### C.1 Discovery: 137 is a Framework Prime
+
+**BREAKTHROUGH**: The value 137 is not just "close to the formula" — it's a **framework prime** with deep algebraic structure.
+
+```
+137 = 4² + 11² = 16 + 121 = dim(H)² + n_c²
+```
+
+This parallels the Koide discovery where θ/π = 73/99 and:
+```
+73 = 8² + 3² = 64 + 9 = dim(O)² + Im(H)²
+```
+
+### C.2 Properties of 137
+
+1. **137 is prime** — irreducible crystallization mode
+2. **137 ≡ 1 (mod 4)** — can be written as sum of two squares (Fermat)
+3. **137 = 4² + 11²** — unique decomposition into framework dimensions
+4. **dim(H) = 4** — quaternion/defect structure (associativity boundary)
+5. **n_c = 11** — crystal dimensions (access constraint)
+
+### C.3 The Universal Selection Mechanism
+
+Both 73 (Koide) and 137 (alpha) follow the same pattern:
+
+| Feature | Koide (73) | Alpha (137) |
+|---------|------------|-------------|
+| Form | p = a² + b² | p = a² + b² |
+| Decomposition | 8² + 3² | 4² + 11² |
+| Structures | color + generation | defect + crystal |
+| Physics | mass hierarchy | EM coupling |
+
+**Conjecture**: Fundamental constants are selected by crystallization dynamics to align with prime attractors that encode relevant algebraic structures.
+
+### C.4 Why 4 and 11 — New Perspective
+
+The division into n_d = 4 and n_c = 11 gains additional significance:
+
+1. **Associativity split**: 4 = max associative (H), 11 = remaining (R+C+O)
+2. **Prime encoding**: 4² + 11² = 137 (prime!)
+3. **Sum constraint**: 4 + 11 = 15 (total division algebra dimensions)
+
+The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the associativity argument alone.
+
+### C.5 New Files
+
+- `core/axioms/AXM_0118_prime_attractor_selection.md` — Formal axiom
+- `verification/sympy/prime_attractor_alpha_test.py` — Verification script
+- `verification/sympy/sum_of_squares_prime_catalog.py` — Complete prime catalog
+- `framework/investigations/prime_attractor_selection_mechanism.md` — Full mechanism
+
+---
+
+*Last updated: 2026-01-27 (Session 77 — Prime Attractor Connection)*
+*Document version: 1.1*
