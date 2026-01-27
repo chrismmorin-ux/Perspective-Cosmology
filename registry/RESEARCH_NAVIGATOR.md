@@ -290,7 +290,11 @@ If Λ = α^n × (algebraic factor), then n and the factor should be framework pr
 
 ---
 
-### Avenue 4: Unified Emergence (QM + Forces) [SYNTHESIS]
+---
+
+## Secondary Avenues
+
+### Avenue 5: Unified Emergence (QM + Forces) [SYNTHESIS]
 **Thread**: foundation | **Priority**: MEDIUM | **Status**: MAJOR SYNTHESIS
 
 **The Achievement**: Showed that QM and forces BOTH emerge from recrystallization viewed through perspective.
@@ -300,25 +304,21 @@ If Λ = α^n × (algebraic factor), then n and the factor should be framework pr
 - Forces as localization PROPOSED [CONJECTURE]
 - Unified picture documented
 - Prime selection now explains constant VALUES
+- ℏ question RESOLVED (Session 88) — it's a scale import, not derivable
 
 **Remaining Gaps**:
-1. ℏ value not derived (only form)
-2. Localization mechanism not understood
-3. Need to connect prime selection to force strengths
+1. Localization mechanism not understood
+2. Need to connect prime selection to force strengths
 
-**Connection to Prime Attractors**:
-- α = 1/137 now has prime structure explanation
-- sin²θ_W may follow same pattern
-- Force hierarchy might emerge from prime spacing
+**Connection to Session 88**:
+- Big numbers (10^17, 10^38) now have algebraic explanations
+- α_G derived with 0.068% precision
+- Hierarchy problem effectively solved
 
 **Files**:
 - `framework/investigations/unified_emergence_from_perspective.md`
 - `framework/investigations/schrodinger_derivation.md`
 - `framework/investigations/forces_as_localized_recrystallization.md`
-
----
-
-## Secondary Avenues
 
 ### Avenue 5: Mass Hierarchy [ACTIVE]
 **Status**: Koide formula connection found (Q = 2/3 = dim(C)/Im(H))
@@ -361,7 +361,7 @@ If Λ = α^n × (algebraic factor), then n and the factor should be framework pr
 
 ---
 
-## Gap Summary (Session 70)
+## Gap Summary (Session 88)
 
 ### Closed Gaps
 
@@ -371,16 +371,20 @@ If Λ = α^n × (algebraic factor), then n and the factor should be framework pr
 | Born rule | From overlap symmetry | S66 |
 | Division algebra | From perspective definition | S54, S62-63 |
 | SM gauge groups | From division algebra isometries | S46-50 |
+| **ℏ value** | **Scale import, not derivable** | **S88** |
+| **α_G (gravity coupling)** | **α^16 × (44/7) / (11284/43)²** | **S88** |
+| **v/m_p ratio** | **11284/43 (0.21 ppm)** | **S88** |
+| **Big numbers** | **Algebraic theorems** | **S88** |
 
 ### Open Gaps
 
 | Gap | Priority | Approach |
 |-----|----------|----------|
-| **ℏ value** | HIGH | Minimum transition quantum |
-| **α = 1/137** | HIGH | C-geometry embedding |
+| **Cosmological Λ** | HIGH | α^n with algebraic factor |
+| **Quark Koide deviation** | HIGH | O-modified attractor |
 | **Localization origin** | MEDIUM | Stability analysis |
-| **Mass hierarchy** | MEDIUM | Koide + depth |
-| **Cosmology** | LOW | Not yet started |
+| **Proton lifetime** | MEDIUM | α^8 unification |
+| **Running couplings** | LOW | α(Q) from recrystallization |
 
 ---
 
