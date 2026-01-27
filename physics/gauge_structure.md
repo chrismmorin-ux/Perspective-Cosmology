@@ -1,9 +1,11 @@
 # Gauge Structure from B
 
-**Status**: ACTIVE-DEVELOPMENT
-**Confidence**: [SPECULATION]
+**Status**: SUPERSEDED
+**Confidence**: [SPECULATION] - now upgraded via `physics/gauge_groups.md`
 **Last Verified**: N/A (qualitative claims)
 **Verified**: N/A
+
+**SUPERSEDED BY**: `physics/gauge_groups.md` — Full derivation from T1 → F = C → division algebras
 
 **REQUIRES**: core/06_basis_geometry
 **PHYSICAL CLAIM**: Aut(B) → Standard Model gauge group

@@ -1,9 +1,12 @@
 # CNJ_0802 Conjecture: Gauge Groups from Automorphisms
 
 **Tag**: 0802
-**Type**: CONJECTURE
-**Status**: ACTIVE
+**Type**: CONJECTURE -> PARTIALLY RESOLVED
+**Status**: SUPERSEDED
 **Source**: framework/layer_2_correspondence.md
+
+**Resolution (Session 46)**: See `physics/gauge_groups.md` for full derivation.
+The SM gauge group SU(3)xSU(2)xU(1) is now DERIVED from T1 -> F = C -> division algebras.
 
 ---
 

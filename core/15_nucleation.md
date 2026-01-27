@@ -15,9 +15,12 @@ CONTENT-TYPE: DEFINITION + CONJECTURE
 
 **Forward** (modules that use this):
 - physics/ (cosmology interpretations)
+- 16_dimension_dynamics (antisymmetric emergence mechanism)
 
 **Backward** (modules this uses):
 - 00_notation, 13_crystallinity, 12_topology
+
+**See also**: `core/16_dimension_dynamics.md` — Formalizes HOW nucleation creates dimensions via antisymmetric comparison.
 
 ---
 

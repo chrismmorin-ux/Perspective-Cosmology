@@ -5,8 +5,10 @@
 **Last Verified**: N/A (qualitative claims)
 **Verified**: N/A
 
-**REQUIRES**: core/05_overlap, core/10_entropy, core/12_topology, core/13_crystallinity
+**REQUIRES**: core/05_overlap, core/10_entropy, core/12_topology, core/13_crystallinity, core/16_dimension_dynamics
 **PHYSICAL CLAIM**: Black holes are regions where γ → 0 and Var → 0 (recrystallization)
+
+**See also**: `core/16_dimension_dynamics.md` — Recrystallization as antisymmetric collapse (A → 0)
 
 ---
 

@@ -27,12 +27,21 @@ This is a speculative mathematical framework ("Perspective Cosmology") exploring
 
 ### Key Documents
 
-- `RIGOR_PROTOCOL.md` — **START HERE**: Verification standards and tool usage
-- `MIGRATION_FRAMEWORK.md` — **Document standards, status categories, quality gates**
+- `registry/RESEARCH_NAVIGATOR.md` — **TOP 4 PRIORITIES**: Current best avenues to explore
+- `RIGOR_PROTOCOL.md` — Verification standards and tool usage
+- `MIGRATION_FRAMEWORK.md` — Document standards, status categories, quality gates
 - `PLAN_ORDERED.md` — Eight-phase plan to physicist-ready state
-- `REORGANIZATION_PLAN.md` — Detailed rationale and steps
 - `divergence_registry.md` — Areas where perspective differs from standard physics (DON'T LOSE)
 - `references/standard_model_reference.md` — Comprehensive SM reference with assumptions
+
+### Quick Navigation
+
+| Need | File |
+|------|------|
+| **What to work on** | `registry/RESEARCH_NAVIGATOR.md` |
+| **Capture new insight** | `registry/emerging_patterns.md` |
+| **Full consolidation detail** | `registry/consolidation_prep.md` |
+| **Session history** | `session_log.md` |
 
 ### Current Phase
 
@@ -225,19 +234,19 @@ When the user is exploring or when there's a natural pause:
 
 ### Starting a New Session (Checklist)
 
-1. **Read tracking files**: session_log.md, issues_log.md
-2. **Check priority queue** in session_log.md
-3. **Review open CRITICAL issues** - these block other work
-4. **Brief user on status** - don't wait to be asked
-5. **Continue from last session's "Next Steps"**
+1. **Read `registry/RESEARCH_NAVIGATOR.md`** — Shows current Top 4 avenues
+2. **Check session_log.md** — What happened last time
+3. **Review CRITICAL issues** if any — These block progress
+4. **Brief user**: "Top priorities are: [X, Y, Z]. Last session did [W]. Which avenue?"
+5. **User chooses direction** — Work on selected avenue
 
 ### During a Session
 
-1. **File issues immediately** when problems are found (use issues_log.md)
-2. **Update files as you go** - don't accumulate unfiled changes
-3. **Cross-reference** issues to affected files
-4. **Be explicit about severity** - CRITICAL issues halt progress
-5. **Apply all tags and classifications automatically** - user shouldn't need to ask
+1. **Capture insights immediately** — Add to `registry/emerging_patterns.md`
+2. **File issues** when problems found — Use issues_log.md
+3. **Update investigation files** as work proceeds
+4. **Apply tags automatically** — [CONJECTURE], [A-IMPORT], etc.
+5. **If discovery changes priorities** — Note for navigator update
 
 ### Verification Workflow (NON-NEGOTIABLE)
 
@@ -274,11 +283,10 @@ When creating or modifying documents:
 
 ### Ending a Session
 
-1. **Update session_log.md** with work done, decisions, issues filed
-2. **Update issues_log.md** with any status changes
-3. **Verify all new calculations have scripts**
-4. **Document "Next Steps"** clearly for continuation
-5. **Update priority queue** if needed
+1. **Update session_log.md** — Work done, decisions, issues
+2. **Update RESEARCH_NAVIGATOR.md** if priorities changed
+3. **Promote patterns** — Move mature insights from emerging_patterns.md to proper files
+4. **Summarize for user**: "Did [X]. Top 4 are now [Y]. Ready for next direction."
 
 ### Issue Tracking Standards
 

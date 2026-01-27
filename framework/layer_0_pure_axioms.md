@@ -1,7 +1,7 @@
 # Layer 0: Pure Axioms
 
 **Status**: AXIOM (no physics, no interpretation)
-**Version**: 2.1 (Two-primitive foundation, with known gaps documented)
+**Version**: 2.2 (Two-primitive foundation, with known gaps documented)
 **Purpose**: Define the minimal mathematical structure from which all else derives
 **Audience**: Mathematician (no physics knowledge required)
 **Gaps**: See Section 22 for honest accounting of incomplete emergence
@@ -96,19 +96,27 @@ This is the only free parameter in the Crystal: how many dimensions it has.
 
 **Definition (Perspective)**
 
-A perspective π is a map from V_Crystal to a subspace, satisfying partiality:
+A perspective π is an orthogonal projection operator on V_Crystal:
 
 ```
-π: V_Crystal → V_π
-where V_π ⊊ V_Crystal (strict subset)
+π: V_Crystal → V_Crystal
+π² = π  (idempotent)
+π† = π  (self-adjoint)
 ```
+
+The **accessible subspace** is:
+```
+V_π = im(π) ⊊ V_Crystal
+```
+
+Intuitively: π "projects" the Crystal onto the subspace the perspective can access.
 
 ### 6. Perspective Axioms
 
 **Axiom P1 (Partiality)**
 ```
 Every perspective accesses strictly less than the whole:
-im(π) ⊊ V_Crystal
+V_π = im(π) ⊊ V_Crystal
 ```
 No perspective sees everything.
 
@@ -154,21 +162,29 @@ This decomposition BREAKS the symmetry of Axiom C4.
 
 ### 8. Tilted Dimensions (B̃)
 
-When perspective π accesses a finite-dimensional subspace of V_Crystal, it selects a subset of the Crystal's dimensions. But the perspective's "view" may not align perfectly with the Crystal's basis.
+When perspective π accesses a finite-dimensional subspace V_π ⊂ V_Crystal, the Crystal's basis vectors project onto V_π. These projections form the "tilted basis" — the Crystal's structure as seen through the perspective.
 
-**Definition (Tilt)**
+**Definition (Tilted Basis)**
 
-Given perspective π with accessible subspace V_π = span({b̃_1, ..., b̃_n}), the **tilt matrix** is:
+Let B_Crystal = {b_i : i ∈ I} be the Crystal's orthonormal basis. The **tilted basis** accessible to perspective π is:
 
 ```
-ε_ij = ⟨b̃_i, b̃_j⟩ - δ_ij
+B̃ = {b̃_i = π(b_i) : i ∈ I, π(b_i) ≠ 0}
 ```
 
-where {b̃_i} is the basis the perspective "sees."
+These are the projections of Crystal basis vectors onto V_π. Only those with non-zero projection are included.
+
+**Definition (Tilt Matrix)**
+
+The **tilt matrix** measures deviation from orthogonality:
+
+```
+ε_ij = ⟨b̃_i, b̃_j⟩ - δ_ij = ⟨π(b_i), π(b_j)⟩ - δ_ij
+```
 
 **Interpretation**:
-- ε_ij = 0 for all i,j: perspective sees perfect orthogonality (Crystal-aligned)
-- ε_ij ≠ 0 for some i≠j: perspective sees tilted dimensions
+- ε_ij = 0 for all i,j: V_π aligns perfectly with Crystal axes (π preserves orthogonality)
+- ε_ij ≠ 0 for some i≠j: projection distorts the Crystal's orthogonal structure
 
 **Axiom P4 (Tilt Possibility)**
 ```
@@ -182,16 +198,18 @@ At least some perspectives see tilted dimensions. (Whether "most" do requires a 
 
 **Definition**
 ```
-V_Observable = V_π = span(B̃)
-
-where B̃ = {b̃_1, ..., b̃_n} is the tilted basis accessible to perspective π
+V_Observable = V_π = im(π) = span(B̃)
 ```
 
-**Theorem V.1 (Observable is Subspace)**
+Note: span(B̃) = V_π because the tilted basis vectors {b̃_i = π(b_i)} span exactly the image of π.
+
+**Theorem V.1 (Observable is Finite Subspace)**
 ```
 V_Observable ⊊ V_Crystal
-dim(V_Observable) = n < dim(V_Crystal) or n < ∞ if Crystal infinite
+dim(V_Observable) = n < ∞  (by Axiom P3)
 ```
+If V_Crystal is finite-dimensional, then n < dim(V_Crystal).
+If V_Crystal is infinite-dimensional, n is still finite.
 
 ### 10. Points (P)
 
@@ -278,7 +296,7 @@ C(p) = {ε_ij(p) : i,j ∈ S_p}   (tilt as function of point)
 
 **Gap**: The relationship between global tilt (perspective's basis relative to Crystal) and local tilt (variation across points) needs development. See Section 22.
 
-**Conjecture C.1 (Matter = Geometry)**
+**Conjecture Content.1 (Matter = Geometry)**
 ```
 Content is entirely determined by tilt structure.
 There is no separate "stuff" — only deviation from perfect orthogonality.
@@ -432,7 +450,7 @@ See Section 22 for details on gaps.
 |----------|---------------|
 | Structure requires perspective | C4 + P1 |
 | Perspectives have finite access | P3 |
-| Tilt is generic | P4 |
+| Tilt is possible | P4 |
 | Points, Σ, Γ are emergent | Definitions from dimensions |
 | Content = tilt | Definition |
 | Time is perspective-relative | T1 |
@@ -536,7 +554,9 @@ Primitives: V_Crystal, Perspective — two fundamental elements
 
 ---
 
-**Document version**: 2.1
+**Document version**: 2.2
 **Created**: 2026-01-26 (rewritten from v1.0)
-**Revised**: 2026-01-26 (added Known Gaps section, fixed notation errors)
+**Revised**: 2026-01-26
+- v2.1: Added Known Gaps section, fixed notation errors
+- v2.2: Clarified perspective as projection operator, fixed tilt definition
 **Based on**: Foundational investigation (Session 2026-01-26-31)
