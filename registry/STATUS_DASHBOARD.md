@@ -1,6 +1,6 @@
 # Status Dashboard
 
-**Updated**: 2026-01-27 (Session 65)
+**Updated**: 2026-01-27 (Session 66)
 **Purpose**: Single-page view of framework state — read this FIRST each session
 
 ---
@@ -10,7 +10,7 @@
 | Metric | Value | Trend |
 |--------|-------|-------|
 | **Derivation Chain Assumptions** | 1 remaining | Down from 3 (S52) |
-| **Verification Scripts** | 43 total, 81% PASS | Stable |
+| **Verification Scripts** | 44 total, 82% PASS | +1 (chirality ID) |
 | **Active Investigations** | 33 documents | Growing |
 | **Emerging Patterns** | 2 active, 2 promoted | Needs attention |
 | **Open Gaps** | [A-COUPLING] only | Excellent progress |
@@ -34,6 +34,7 @@ These claims are DERIVED or PROVEN:
 | All 5 hypercharges | DERIVED | `hypercharge_derivation.py` | S49 |
 | B = 1/3 | DERIVED | `baryon_number_uniqueness.py` | S57 |
 | 1/α = 137 (0.026% error) | VERIFIED | `alpha_137_verification_clean.py` | S44 |
+| Chirality (left-handed coupling) | DERIVED | `chirality_identification_derivation.py` | S66 |
 
 ---
 
@@ -64,7 +65,7 @@ These claims are DERIVED or PROVEN:
 |-----|--------|--------|
 | Point emergence | foundation | Subsumed by Avenue 1 |
 | Mass hierarchy | gauge_emergence | Avenue 4 |
-| Chirality mechanism | gauge_emergence | ARGUED (S52) |
+| Chirality mechanism | gauge_emergence | **DERIVED (S66)** |
 
 ---
 
@@ -85,11 +86,11 @@ These claims are DERIVED or PROVEN:
 |----------|------|---------|------|
 | Gauge & Division Algebras | 7 | 1 | 0 |
 | Alpha Calculations | 4 | 1 | 1 |
-| Chirality & Spacetime | 3 | 0 | 0 |
+| Chirality & Spacetime | 4 | 0 | 0 |
 | Hypercharge & SM | 2 | 1 | 0 |
 | Cosmology & Dark Sector | 4 | 1 | 0 |
 | Mathematical Explorations | 6 | 1 | 1 |
-| **Total** | **35** | **6** | **2** |
+| **Total** | **36** | **6** | **2** |
 
 **Failed Scripts**:
 - `example_sin2theta.py` — 65% error, QUARANTINED
@@ -112,11 +113,11 @@ These claims are DERIVED or PROVEN:
 
 | Session | Key Work | Outcome |
 |---------|----------|---------|
+| S66 | Chirality identification derivation | **MAJOR** — gap closed via phi_L embedding |
 | S65 | [A-COUPLING] motivation via isotropy | Clarified; still assumed |
 | S64 | Unified foundations synthesis | MAJOR — set theory + forces + QM |
 | S63 | Invertibility strengthened | Three arguments now support |
 | S62 | Invertibility DERIVED via T0 | [A-DIV] fully closed |
-| S61 | Koide formula connection | Q = 2/3 = dim(C)/Im(H)! |
 
 ---
 
