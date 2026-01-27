@@ -1,6 +1,6 @@
 # Status Dashboard
 
-**Updated**: 2026-01-27 (Session 77 — Prime Attractor Selection Mechanism)
+**Updated**: 2026-01-27 (Session 80 — Enhanced Alpha 0.27 ppm)
 **Purpose**: Single-page view of framework state — read this FIRST each session
 
 ---
@@ -10,7 +10,7 @@
 | Metric | Value | Trend |
 |--------|-------|-------|
 | **Derivation Chain Assumptions** | 1 remaining | Down from 3 (S52) |
-| **Verification Scripts** | 50 total, 84% PASS | +4 (Weinberg) |
+| **Verification Scripts** | 53 total, 85% PASS | +3 (Alpha enhanced) |
 | **Active Investigations** | 33 documents | Growing |
 | **Emerging Patterns** | 2 active, 2 promoted | Needs attention |
 | **Open Gaps** | [A-COUPLING] only | Excellent progress |
@@ -33,7 +33,8 @@ These claims are DERIVED or PROVEN:
 | 15 fermions/generation | DERIVED | `fermion_multiplets_from_division_algebras.md` | S48 |
 | All 5 hypercharges | DERIVED | `hypercharge_derivation.py` | S49 |
 | B = 1/3 | DERIVED | `baryon_number_uniqueness.py` | S57 |
-| 1/α = 137 (0.026% error) | VERIFIED | `alpha_137_verification_clean.py` | S44 |
+| 1/α = 137 (main term) | DERIVED | `alpha_prime_attractor_investigation.py` | S44 |
+| **1/α = 137.036 (0.27 ppm)** | **DERIVED** | `alpha_enhanced_prediction.py` | **S80** |
 | Chirality (left-handed coupling) | DERIVED | `chirality_identification_derivation.py` | S66 |
 | Koide Q = 2/3 | DERIVED | `koide_mass_from_projection.py` | S74 |
 | Koide M = v/784 | MATCHED (0.07%) | `koide_scale_investigation.py` | S74 |
