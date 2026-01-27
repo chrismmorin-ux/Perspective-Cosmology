@@ -29,7 +29,8 @@
       "WebFetch(domain:www.sciencedirect.com)",
       "WebFetch(domain:www.andrew.cmu.edu)",
       "WebFetch(domain:leanprover-community.github.io)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(wc:*)"
     ]
   }
 }
