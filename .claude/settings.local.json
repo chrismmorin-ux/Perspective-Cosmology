@@ -32,7 +32,20 @@
       "Bash(git push:*)",
       "Bash(wc:*)",
       "Bash(git mv:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(for script in alpha_137_comprehensive_verification.py alpha_137_verification_clean.py alpha_running_test.py)",
+      "Bash(do echo \"=== Running $script ===\")",
+      "Bash(done)",
+      "Bash(for script in gauge_groups_derivation.py example_sin2theta.py division_algebra_connection.py dimension_constraints.py)",
+      "Bash(for script in field_type_counting.py orthogonality_field_emergence.py weight_vs_dimension_running.py bsm_field_bounds_test.py)",
+      "Bash(for script in alpha_crystal_interface.py pi_from_alpha_and_crystal.py comparison_channel_running.py equal_weighting_derivation.py independent_sectors_derivation.py)",
+      "Bash(for script in squarefree_point_correspondence.py perspective_prime_emergence.py half_dimension_investigation.py pi_derivation_mathematics.py)",
+      "Bash(for script in interface_state_counting.py grassmannian_55_connection.py multiplication_from_perspective.py observable_fraction_analysis.py)",
+      "Bash(for script in continuous_visibility_model.py perspective_mutation_analysis.py tilt_alpha_connection.py tetrahedral_connection.py cosmological_constant_connection.py)",
+      "WebFetch(domain:www.preprints.org)",
+      "Bash(grep:*)",
+      "Bash(sort:*)",
+      "mcp__mermaid__mermaid_preview"
     ]
   }
 }

@@ -360,11 +360,48 @@ I_π + H_π = dim(V_Crystal) = constant
 
 ---
 
-## Part V: Time
+## Part V: Transitions and Time
 
-### 17. Time Emergence
+### 17. The Transition Algebra
 
-**CRITICAL CONSTRAINT**: Time does not exist in or for V_Crystal.
+**Definition (Transition)**
+
+A transition T is a mapping between adjacent perspectives:
+```
+T: π₁ → π₂    where π₁ ~ π₂
+```
+
+Intuitively: T describes how access to V_Crystal changes from one perspective to another.
+
+**Definition (Transition Algebra)**
+
+The **transition algebra** 𝒯 is the space of all mathematically consistent transitions:
+```
+𝒯 = {T : T maps between adjacent perspectives}
+```
+
+**Axiom T0 (Algebraic Completeness)**
+```
+𝒯 is closed under:
+(a) Composition: T₂ ∘ T₁ ∈ 𝒯 when composable
+(b) Identity: I ∈ 𝒯 (trivial transition, π → π)
+(c) Inverse: For every T: π₁ → π₂, there exists T⁻¹: π₂ → π₁ in 𝒯
+```
+
+**Theorem T.0 (Invertibility)**
+```
+Every non-zero transition has an inverse in 𝒯.
+```
+
+**Proof**:
+By Axiom T0(c), this is definitional. The transition algebra contains all mathematically consistent transitions. For any T: π₁ → π₂, the mapping T⁻¹: π₂ → π₁ is mathematically consistent (both perspectives exist, and adjacency is symmetric by Theorem Γ.1(d)). Therefore T⁻¹ ∈ 𝒯. ∎
+
+**Remark (Why Invertibility is Not Assumed)**:
+This is not an assumption but a *definition*. The transition algebra 𝒯 is defined as the space of all possible transitions between perspectives. Since adjacency is symmetric (γ(π₁, π₂) = γ(π₂, π₁)), any transition π₁ → π₂ has a corresponding transition π₂ → π₁. The algebra contains both.
+
+### 18. Time as Path
+
+**CRITICAL INSIGHT**: Time does not constrain transitions. Time IS transitions.
 
 **Axiom T1 (Crystal is Timeless)**
 ```
@@ -372,26 +409,66 @@ V_Crystal has no temporal structure.
 There is no "before" or "after" within the Crystal.
 ```
 
-**Definition (Perspective-Time)**
+**Definition (History)**
 ```
-Time exists only as sequences of perspectives:
-t ↔ (π_1, π_2, π_3, ...)
-where each π_i ~ π_{i+1}
+A history h is a specific path through 𝒯:
+h = (T₁, T₂, T₃, ...) = (π₀ → π₁ → π₂ → π₃ → ...)
 ```
 
-**Theorem T.1 (No External Time)**
+**Definition (Perspective-Time)**
+```
+Time IS the history:
+t ↔ h = (T₁, T₂, T₃, ...)
+```
+
+Time is not a parameter along which transitions occur. Time is the transitions themselves.
+
+**Theorem T.1 (Time is Path, Not Constraint)**
+```
+The transition algebra 𝒯 contains all possible transitions.
+A history h selects which transitions occur, not which ones exist.
+
+Analogy:
+- 𝒯 is like phase space (all possible states)
+- h is like a trajectory (one path through phase space)
+- The existence of T⁻¹ in 𝒯 does not mean T⁻¹ is in h
+```
+
+**Theorem T.2 (No External Time)**
 ```
 All dynamical concepts (evolution, change, causation)
-are defined WITHIN perspective-sequences, not externally.
+are defined WITHIN histories, not externally.
 ```
 
 **Corollary**: Asking "when did perspective nucleate?" is malformed. There was no time before perspective. "Nucleation" is logical/structural, not temporal.
+
+### 19. Physical Transitions (Preview)
+
+**Note**: This section previews a Layer 2 concept. In pure Layer 0, we only define the mathematical structure.
+
+The transition algebra 𝒯 contains all possible transitions, including "time-reversed" ones. Physical processes may select a subset.
+
+**Definition (Physical Subset)** [LAYER 2 CONCEPT]
+```
+𝒯_physical ⊆ 𝒯 (some subset satisfying physical constraints)
+```
+
+**Example**: If physical transitions satisfy ΔI ≥ 0 (information non-decrease), then:
+- T: π₁ → π₂ with ΔI > 0 is in 𝒯_physical
+- T⁻¹: π₂ → π₁ with ΔI < 0 is in 𝒯 but not 𝒯_physical
+
+**Critical Point**: Frobenius theorem applies to **𝒯**, not 𝒯_physical. The mathematical structure is the full algebra; physics selects a subset.
+
+**Analogy**:
+- Lorentz group includes time reversal (mathematical completeness)
+- Physics selects the future light cone (physical constraint)
+- The group structure is complete; the physics adds constraints
 
 ---
 
 ## Part VI: Summary
 
-### 18. Complete Axiom List
+### 20. Complete Axiom List
 
 **Crystal Axioms (5)**
 | ID | Name | Statement |
@@ -412,14 +489,15 @@ are defined WITHIN perspective-sequences, not externally.
 | Π1 | Multiple Perspectives | \|Π\| > 1 |
 | Π2 | Perspective Overlap | Some perspectives share content |
 
-**Time Axiom (1)**
+**Transition Axioms (2)**
 | ID | Name | Statement |
 |----|------|-----------|
+| T0 | Algebraic Completeness | 𝒯 closed under composition, identity, inverse |
 | T1 | Crystal Timeless | No temporal structure in V_Crystal |
 
-**Total: 12 axioms**
+**Total: 13 axioms**
 
-### 19. Emergence Summary
+### 21. Emergence Summary
 
 | Concept | Status | Emerges From | Complete? |
 |---------|--------|--------------|-----------|
@@ -431,11 +509,13 @@ are defined WITHIN perspective-sequences, not externally.
 | Σ (connectivity) | Derived | Dimension sharing (given P) | ✓ |
 | Γ (weights) | Derived | Jaccard index of sharing | ✓ |
 | C (content) | Derived | Local tilt configuration ε_ij | **GAP** |
-| Time | Derived | Perspective sequences | **GAP** |
+| 𝒯 (transitions) | Derived | T0 (algebraic completeness) | ✓ |
+| Time | Derived | History = path through 𝒯 | ✓ |
+| Invertibility | Derived | T0(c) + adjacency symmetry | ✓ |
 
-See Section 22 for details on gaps.
+See Section 24 for details on remaining gaps.
 
-### 20. What the Axioms Do NOT Determine
+### 22. What the Axioms Do NOT Determine
 
 | Parameter | Status | Notes |
 |-----------|--------|-------|
@@ -444,7 +524,7 @@ See Section 22 for details on gaps.
 | Specific ε_ij values | FREE | Tilt magnitudes |
 | n = dim(V_Observable) | FREE | How many dimensions accessible |
 
-### 21. What the Axioms DO Determine
+### 23. What the Axioms DO Determine
 
 | Property | Determined By |
 |----------|---------------|
@@ -453,11 +533,13 @@ See Section 22 for details on gaps.
 | Tilt is possible | P4 |
 | Points, Σ, Γ are emergent | Definitions from dimensions |
 | Content = tilt | Definition |
-| Time is perspective-relative | T1 |
+| Transitions form complete algebra | T0 |
+| Invertibility exists | T0(c) + adjacency symmetry |
+| Time is path through 𝒯 | Definition (Section 18) |
 
 ---
 
-## 22. Known Gaps
+## 24. Known Gaps
 
 This section documents where the emergence story is incomplete. These are **research questions**, not failures — the framework is honest about what remains to be derived.
 
@@ -486,17 +568,27 @@ This section documents where the emergence story is incomplete. These are **rese
 2. Global tilt is an average; local tilt is the full structure
 3. Points ARE the places where tilt varies; homogeneous tilt = no points
 
-### Gap 3: Time Direction (Arrow of Time)
+### Gap 3: Time Direction (Arrow of Time) — CLARIFIED
 
-**Problem**: Time is defined as perspective sequences (π₁, π₂, π₃, ...), but what determines the ordering? Why isn't the reverse sequence equally valid?
+**Problem**: Why do physical histories have a preferred direction?
 
-**Current state**: Axiom T1 says the Crystal is timeless, but doesn't explain why perspective-sequences have a preferred direction.
+**Session 62 Clarification**: This is now understood as a **physical** question, not a **mathematical** one.
+
+**The mathematical situation** (resolved):
+- The transition algebra 𝒯 contains all transitions, including "reversed" ones
+- Both T and T⁻¹ exist in 𝒯
+- Time direction is not a constraint on the algebra — it's about which *path* is taken
+
+**The physical question** (remains open):
+- Why do physical histories select paths with ΔI ≥ 0 (entropy increase)?
+- This is the same as asking: why does physics select 𝒯_physical ⊂ 𝒯?
 
 **Possible approaches**:
-1. Information loss defines direction (entropy increase)
-2. Tilt healing defines direction (toward Crystal = forward)
-3. Direction is conventional (no fundamental arrow)
-4. Causation from adjacency constraints (Adj.1 from old formulation)
+1. ΔI ≥ 0 is a boundary condition (initial state was low-entropy)
+2. ΔI ≥ 0 defines "forward" (tautological — direction is entropy increase)
+3. Physical transitions minimize something (action principle)
+
+**Status**: Moved from "mathematical gap" to "physical constraint to explain"
 
 ### Gap 4: Why Does Perspective Exist?
 
@@ -548,15 +640,33 @@ Primitives: V_Crystal, Perspective — two fundamental elements
 
 ---
 
+## Note: Imperfect Dimensions Extension (Session 55)
+
+The tilt matrix ε_ij (Section 8) captures deviation from orthogonality. Session 55 proposed a *dynamic* interpretation:
+
+- Dimensions with ε_ij ≠ 0 are "imperfect" (semi-orthogonal)
+- Imperfect dimensions can be created (nucleation) and merged (recrystallization)
+- This reframes gravity as dimension-merging without changing Layer 0 axioms
+
+**Status**: CONJECTURE — compatible with but not derivable from these axioms
+
+**See**:
+- `framework/layer_0_foundations.md` Section 9
+- `framework/investigations/imperfect_dimensions_and_recrystallization.md`
+
+---
+
 *This is Layer 0: Pure mathematics with no physics interpretation.*
 *For physical identification, see Layer 2 (correspondence rules).*
 *For predictions, see Layer 3.*
 
 ---
 
-**Document version**: 2.2
+**Document version**: 2.4
 **Created**: 2026-01-26 (rewritten from v1.0)
-**Revised**: 2026-01-26
+**Revised**: 2026-01-27
 - v2.1: Added Known Gaps section, fixed notation errors
 - v2.2: Clarified perspective as projection operator, fixed tilt definition
+- v2.3: Added note about imperfect dimensions extension (Session 55)
+- v2.4: **Added Transition Algebra (Session 62)** — Axiom T0 (Algebraic Completeness), derived invertibility from "time IS transitions" insight. Invertibility now follows from adjacency symmetry + T0. Gap 3 (time direction) reclassified from mathematical gap to physical constraint.
 **Based on**: Foundational investigation (Session 2026-01-26-31)

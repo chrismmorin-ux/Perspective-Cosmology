@@ -220,10 +220,12 @@ Why n_defect = 4 and n_crystal = 11?
 
 ## 8. Next Steps
 
-1. **Close the division algebra gap**: Why must transitions form a division algebra?
+1. ~~**Close the division algebra gap**~~: **MOSTLY RESOLVED (S54)** — No-zero-divisors derived from perspective definition. Remaining: invertibility.
 2. **Explain interface = coupling**: Why does generator count determine alpha?
 3. **Alternative approaches**: Spinor structure, Clifford algebras, information theory
 
+**Session 54 Update**: See `framework/investigations/perspective_foundations_and_zero_divisors.md`
+
 ---
 
-*This document upgrades the alpha derivation from pattern-matching to partially-derived.*
+*This document upgrades the alpha derivation from pattern-matching to mostly-derived (S54 resolution).*

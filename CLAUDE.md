@@ -27,20 +27,27 @@ This is a speculative mathematical framework ("Perspective Cosmology") exploring
 
 ### Key Documents
 
+- `registry/STATUS_DASHBOARD.md` — **READ FIRST**: Current state at a glance
 - `registry/RESEARCH_NAVIGATOR.md` — **TOP 4 PRIORITIES**: Current best avenues to explore
+- `registry/RESEARCH_PROCESS.md` — How insights flow from speculation to theorem
+- `registry/CLAIM_DEPENDENCIES.md` — What breaks if an assumption changes
+- `registry/FALSIFICATION_REGISTRY.md` — What would prove us wrong
 - `RIGOR_PROTOCOL.md` — Verification standards and tool usage
 - `MIGRATION_FRAMEWORK.md` — Document standards, status categories, quality gates
-- `PLAN_ORDERED.md` — Eight-phase plan to physicist-ready state
 - `divergence_registry.md` — Areas where perspective differs from standard physics (DON'T LOSE)
-- `references/standard_model_reference.md` — Comprehensive SM reference with assumptions
 
 ### Quick Navigation
 
 | Need | File |
 |------|------|
+| **Session start (READ FIRST)** | `registry/STATUS_DASHBOARD.md` |
 | **What to work on** | `registry/RESEARCH_NAVIGATOR.md` |
+| **How research flows** | `registry/RESEARCH_PROCESS.md` |
 | **Capture new insight** | `registry/emerging_patterns.md` |
-| **Full consolidation detail** | `registry/consolidation_prep.md` |
+| **Track claim dependencies** | `registry/CLAIM_DEPENDENCIES.md` |
+| **Falsification criteria** | `registry/FALSIFICATION_REGISTRY.md` |
+| **Derivation chain status** | `verification/DERIVATION_CHAIN_AUDIT.md` |
+| **Script verification results** | `verification/VERIFICATION_STATUS.md` |
 | **Session history** | `session_log.md` |
 
 ### Current Phase
@@ -191,10 +198,11 @@ When documenting a derivation, ALWAYS include:
 **Claude MUST do all of the following automatically, without being asked:**
 
 #### On Every Session Start
-1. Read session_log.md → find where we left off
-2. Read issues_log.md → check for CRITICAL blockers
-3. Check priority queue → identify next task
-4. Brief the user: "Last session: [X]. Next priority: [Y]. Any blockers: [Z]."
+1. **Read `registry/STATUS_DASHBOARD.md`** → current state at a glance
+2. Read session_log.md → find where we left off
+3. Check `registry/emerging_patterns.md` → any stale patterns (>3 sessions)?
+4. Read issues_log.md → check for CRITICAL blockers
+5. Brief the user: "Last session: [X]. Next priority: [Y]. Any blockers: [Z]. Stale patterns: [N]."
 
 #### On Every New Claim or Derivation
 1. **Automatically assign confidence level** — default to [CONJECTURE] unless proof exists
@@ -202,6 +210,8 @@ When documenting a derivation, ALWAYS include:
 3. **Automatically write [A]/[I]/[D] chain** — trace every "follows from"
 4. **Automatically identify gaps** — what's assumed but not proven
 5. **Automatically suggest falsification** — what would disprove this
+6. **Add to `registry/CLAIM_DEPENDENCIES.md`** — map all dependencies
+7. **Add to `registry/FALSIFICATION_REGISTRY.md`** — if testable prediction
 
 #### On Every Calculation
 1. **Write SymPy script FIRST** — before documenting in markdown
@@ -234,11 +244,13 @@ When the user is exploring or when there's a natural pause:
 
 ### Starting a New Session (Checklist)
 
-1. **Read `registry/RESEARCH_NAVIGATOR.md`** — Shows current Top 4 avenues
-2. **Check session_log.md** — What happened last time
-3. **Review CRITICAL issues** if any — These block progress
-4. **Brief user**: "Top priorities are: [X, Y, Z]. Last session did [W]. Which avenue?"
-5. **User chooses direction** — Work on selected avenue
+1. **Read `registry/STATUS_DASHBOARD.md`** — Current state at a glance (READ FIRST)
+2. **Read `registry/RESEARCH_NAVIGATOR.md`** — Shows current Top 4 avenues
+3. **Check `registry/emerging_patterns.md`** — Any stale patterns needing attention?
+4. **Check session_log.md** — What happened last time
+5. **Review CRITICAL issues** if any — These block progress
+6. **Brief user**: "Status: [summary]. Top priorities: [X, Y, Z]. Last session: [W]. Stale patterns: [N]. Which avenue?"
+7. **User chooses direction** — Work on selected avenue
 
 ### During a Session
 
@@ -283,10 +295,13 @@ When creating or modifying documents:
 
 ### Ending a Session
 
-1. **Update session_log.md** — Work done, decisions, issues
-2. **Update RESEARCH_NAVIGATOR.md** if priorities changed
-3. **Promote patterns** — Move mature insights from emerging_patterns.md to proper files
-4. **Summarize for user**: "Did [X]. Top 4 are now [Y]. Ready for next direction."
+1. **Update `registry/STATUS_DASHBOARD.md`** — Refresh metrics and summary
+2. **Update session_log.md** — Work done, decisions, issues
+3. **Update RESEARCH_NAVIGATOR.md** if priorities changed
+4. **Increment pattern ages** — Add 1 to "Sessions since capture" in emerging_patterns.md
+5. **Promote patterns** — Move mature insights (score ≥ 4) to proper files
+6. **Check pattern health** — Flag any stale patterns (>3 sessions)
+7. **Summarize for user**: "Did [X]. Top 4 are now [Y]. Ready for next direction."
 
 ### Issue Tracking Standards
 

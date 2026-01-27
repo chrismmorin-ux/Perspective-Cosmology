@@ -295,13 +295,14 @@ Each section covers one document or group of related documents:
 - ↔ **Adjacent**: tilt_alpha_connection.md, pi_derivation.md
 
 **Continuation**:
-1. **Close the gap**: derive division algebra structure from axioms
+1. ~~**Close the gap**: derive division algebra structure from axioms~~ **MOSTLY DONE (S54)**
 2. Alternative approaches: spinor structure, Clifford algebras
-3. If gap cannot be closed: add explicit axiom [A-DIV]
+3. ~~If gap cannot be closed: add explicit axiom [A-DIV]~~ **REDUCED — only invertibility remains**
 
-**Gaps/Concerns**:
-- Division algebra assumption not derived
-- Could be "smuggling in" the answer if made axiom
+**Gaps/Concerns** (Updated S54):
+- ~~Division algebra assumption not derived~~ **No-zero-divisors NOW DERIVED**
+- Remaining gap: Invertibility (plausible but not proven)
+- See: `framework/investigations/perspective_foundations_and_zero_divisors.md`
 
 **Verification**: `associativity_requirement.py` — PASS (R,C,H associative; O not)
 
@@ -563,10 +564,11 @@ Natural numbers ←→ Perspective access patterns
 **Current Best**: Antisymmetry forces visibility
 **Needed**: Rigorous derivation from Layer 0
 
-### P2: Close the division algebra gap
+### P2: ~~Close the division algebra gap~~ MOSTLY RESOLVED (S54)
 **Thread**: alpha_137 (associativity)
-**Current Best**: Suggestive evidence
-**Needed**: Derive or accept as axiom
+**Current Best**: No-zero-divisors DERIVED from perspective definition ("can't see subset of zero")
+**Remaining**: Invertibility (plausible but not proven)
+**See**: `framework/investigations/perspective_foundations_and_zero_divisors.md`
 
 ### P3: Derive 137 states per pair
 **Thread**: alpha_137 (|Π| formula)

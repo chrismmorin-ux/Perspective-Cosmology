@@ -238,8 +238,73 @@ These foundational questions may connect to:
 
 ---
 
+## 9. Session 55 Extension: Imperfect Dimensions and Recrystallization
+
+**Status**: CONJECTURE — Significant but unproven extension
+**See**: `framework/investigations/imperfect_dimensions_and_recrystallization.md`
+
+### 9.1 The Core Reframe
+
+Session 55 proposed a dynamic interpretation of the foundational structure:
+
+| Concept | Static (existing) | Dynamic (extension) |
+|---------|-------------------|---------------------|
+| Crystal | Perfect orthogonal structure | Unchanged |
+| Our dimensions | Tilted projections (ε_ij) | *Imperfect* dimensions that can be created/destroyed |
+| Tilt ε_ij | Fixed deviation from orthogonality | Measure of *imperfection* (semi-orthogonality degree) |
+| Gravity | — (not in Layer 0) | Recrystallization — merging dimensions toward orthogonality |
+
+### 9.2 Compatibility with Existing Axioms
+
+This extension is **compatible** with Layer 0 pure axioms:
+
+- **C2 (Perfect Orthogonality)**: The Crystal remains perfectly orthogonal
+- **P4 (Tilt Possibility)**: Now interpreted as: perspectives exist along *imperfect* dimensions
+- **The tilt matrix ε_ij**: Already captures semi-orthogonality; the new picture gives it dynamical meaning
+
+What's **added**, not changed:
+1. Dimensions can be *created* (nucleation)
+2. Dimensions can be *merged* (recrystallization/gravity)
+3. The crystal's true dimensionality may be unknown (0, 1, finite, or infinite)
+
+### 9.3 Key Claims [CONJECTURE]
+
+1. **Nucleation** = creation of first imperfect dimension = Big Bang origin
+2. **Gravity** = recrystallization = merging imperfect dimensions toward orthogonality
+3. **Black holes** = intense recrystallization zones
+4. **Expansion** = ongoing dimension nucleation (dark energy)
+5. **α running** reflects dimension history (earlier epochs had fewer imperfect dimensions)
+
+### 9.4 What This Would Change
+
+If developed rigorously, this interpretation would:
+
+- Give physical meaning to gravity without importing GR
+- Explain black hole thermodynamics from first principles
+- Provide mechanism for α running beyond the n_d² + n_c² formula
+- Unify cosmology, thermodynamics, and coupling constants
+
+### 9.5 Current Status
+
+**CONJECTURE** — The picture is coherent and explanatory, but:
+
+- No mathematical formalism for "dimension creation/destruction"
+- No derivation of specific recrystallization dynamics
+- Connections to established physics are conceptual, not quantitative
+
+**Recommended**: Continue developing formalism while maintaining epistemic humility.
+
+### 9.6 Cross-References
+
+- Full investigation: `framework/investigations/imperfect_dimensions_and_recrystallization.md`
+- Layer 0 axioms: `framework/layer_0_pure_axioms.md` (compatible)
+- Predictions: `framework/layer_3_predictions.md` (Section 13)
+- Navigator: `registry/RESEARCH_NAVIGATOR.md` (Priority #1)
+
+---
+
 *This document captures open foundational questions. It is not a statement of settled axioms but a map of what needs to be resolved.*
 
-**Session**: 2026-01-26
+**Session**: 2026-01-26 (original), 2026-01-27 (Section 9 added)
 **Participants**: User + Claude
 **Status**: ACTIVE investigation

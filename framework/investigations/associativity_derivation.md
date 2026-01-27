@@ -76,34 +76,96 @@
 
 The argument requires transitions to form a **division algebra**, not just any algebraic structure.
 
-### Why Division Algebra?
+### Session 52 Analysis: Original Assessment
 
-**Suggestive evidence (NOT proof):**
+Detailed analysis in `verification/sympy/division_algebra_gap_analysis.py` originally showed:
 
-1. **Weights involve ratios**:
-   - Γ(p,q) = |S_p ∩ S_q| / |S_p ∪ S_q|
-   - γ(π_1, π_2) = dim(V_1 ∩ V_2) / dim(V_1 + V_2)
-   - Ratios require division
+**Properties DERIVED from axioms (4/7):**
+1. Composition - From T1 (perspective chains compose)
+2. Associativity - From path independence (time is unambiguous)
+3. Identity - Trivial transition T(pi, pi) exists
+4. Finite dimension - From P3 (finite information)
 
-2. **Transitions can be inverted**:
-   - If π_1 → π_2 is a valid transition
-   - Then π_2 → π_1 should also be meaningful
-   - Inverse operations require division
+**Properties NOT DERIVED (S52) (3/7):**
+5. Inverses - PLAUSIBLE (adjacency is symmetric) but not all transitions proven invertible
+6. **No zero divisors - GAP** (two non-trivial changes can't compose to nothing)
+7. Multiplicative norm - GAP (not needed for Frobenius)
 
-3. **Information is finite-dimensional**:
-   - I_π = dim(V_π) < ∞ (Axiom P3)
-   - Suggests finite-dimensional algebra
+---
 
-### What Would Close the Gap?
+### Session 54 Resolution: No-Zero-Divisors NOW DERIVED
 
-We need to show that **exactly** these three properties:
-- Composition (multiplication)
-- Inversion (division)
-- Finite dimensionality
+**Key insight**: "You can't see a subset of zero."
 
-**force** the algebra to be a normed division algebra (R, C, H, or O).
+The no-zero-divisors property follows from the **definition of perspective**:
 
-**Current status**: We have suggestive reasoning but not rigorous derivation.
+1. **A perspective necessarily has positive content**: dim(V_π) ≥ 1
+   - A perspective that sees nothing is not a perspective
+   - This is not an axiom but a logical necessity from the concept "perspective"
+
+2. **Legitimate transitions map perspectives to perspectives** (definitional)
+   - A "perspective transition" that outputs a non-perspective is not a perspective transition
+
+3. **Therefore chains preserve positive content**:
+   - Start with π₀: dim(V_{π₀}) ≥ 1
+   - Apply T₂: π₁ = T₂(π₀) is a perspective, so dim(V_{π₁}) ≥ 1
+   - Apply T₁: π₂ = T₁(π₁) is a perspective, so dim(V_{π₂}) ≥ 1
+   - Therefore T₁ ∘ T₂ ≠ 0 (the zero map would give dim = 0)
+
+**See**: `framework/investigations/perspective_foundations_and_zero_divisors.md`
+
+### Updated Property Status
+
+| Property | S52 Status | S54 Status |
+|----------|------------|------------|
+| Composition | DERIVED | DERIVED |
+| Associativity | DERIVED | DERIVED |
+| Identity | DERIVED | DERIVED |
+| Finite dimension | DERIVED | DERIVED |
+| **No zero divisors** | **GAP** | **DERIVED** |
+| Inverses | Plausible | Still open |
+| Multiplicative norm | Gap | Still open (not needed for Frobenius) |
+
+### Two Paths to n_d = 4
+
+**Path 1: Hurwitz (1898)** - Requires normed division algebra
+- R, C, H, O are the only options
+- With associativity: R, C, H
+- Max dimension: 4
+
+**Path 2: Frobenius (1878)** - Requires associative division algebra (no norm!)
+- R, C, H are the only options
+- Max dimension: 4
+
+**Updated (S54)**: Both paths require:
+- No zero divisors — **NOW DERIVED**
+- Invertibility — Still open (but plausible)
+
+### Remaining Gap: Invertibility
+
+The only remaining gap is universal invertibility: every non-zero transition has an inverse.
+
+**Plausibility argument**:
+- Adjacency is symmetric: γ(π₁, π₂) = γ(π₂, π₁)
+- This suggests transitions are reversible
+- But: not all transitions are between adjacent perspectives
+
+**Status**: PLAUSIBLE but not fully proven.
+
+### Updated Recommendation
+
+**The [A-DIV] assumption is now reduced**:
+
+Original [A-DIV] required:
+- No zero divisors — **NOW DERIVED**
+- Invertibility — Still assumed
+
+The derivation chain is now:
+```
+T1 + Perspective definition (dim ≥ 1) + [Invertibility] -> Frobenius -> n_d = 4
+```
+
+This is a significant strengthening: most of the division algebra structure is now derived, with only invertibility remaining open.
 
 ---
 

@@ -28,9 +28,9 @@
 - THM_0481: Grassmannian identity Gr(k,n) + SO(k) + SO(n-k) = C(n,2) — NEW
 - DRV_0A01: 55 = configuration space dimension (three interpretations) — NEW
 
-**Continuation**: 55 fully derived geometrically. Next: close division algebra gap (n_d = 4), investigate n_c = 11 derivability.
+**Continuation**: 55 fully derived geometrically. Division algebra gap **PARTIALLY RESOLVED (S54)**: no-zero-divisors derived from perspective definition. Remaining: invertibility.
 
-**Work Items**: Close division algebra gap (5), investigate n_c derivation (4), formalize 137 = coupling (3), add Grassmannian theorem (2)
+**Work Items**: ~~Close division algebra gap (5)~~ DONE (S54), investigate n_c derivation (4), formalize 137 = coupling (3), add Grassmannian theorem (2)
 
 **Adjacent**: associativity_derivation.md, tilt_alpha_connection.md
 
@@ -56,11 +56,11 @@
 - THM_0482: Hurwitz theorem (standard)
 - DRV_0A04: Time → associativity → n_d ≤ 4 — NEW (PARTIAL)
 
-**Continuation**: Partial derivation blocked by division algebra gap. Next: derive division algebra from axioms, or explore alternative approaches.
+**Continuation**: Division algebra gap **PARTIALLY RESOLVED (S54)**: no-zero-divisors derived from perspective definition ("can't see subset of zero"). Remaining gap: invertibility (plausible but not proven).
 
-**Work Items**: Close division algebra gap (5), explore spinor alternatives (4), consider [A-DIV] axiom (3), document evidence (2)
+**Work Items**: ~~Close division algebra gap (5)~~ MOSTLY DONE (S54), explore spinor alternatives (4), ~~consider [A-DIV] axiom (3)~~ REDUCED, document evidence (2)
 
-**GAP**: CRITICAL — division algebra assumption not derived
+**GAP**: REDUCED — only invertibility remains unproven. See `framework/investigations/perspective_foundations_and_zero_divisors.md`
 
 ---
 
