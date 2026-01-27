@@ -223,7 +223,40 @@ Everything else follows from dimensionless ratios.
 
 ---
 
-### Avenue 3: Quark Koide Deviation [HIGH POTENTIAL]
+### Avenue 3: Cosmological Constant Λ [NEW - HIGH POTENTIAL]
+**Thread**: cosmology | **Priority**: HIGH | **Status**: OPEN
+
+**The Question**: Can we derive the cosmological constant Λ ~ 10⁻¹²² (in Planck units)?
+
+**Why This Is Promising**:
+Session 88 showed that "big numbers" in physics are division algebra theorems:
+- M_Pl/v ~ 10¹⁷ = 1/(α^8 × √(44/7))
+- 1/α_G ~ 10³⁸ = (11284/43)²/(α^16 × 44/7)
+
+The cosmological constant Λ ~ 10⁻¹²² is the BIGGEST "big number". It may also be algebraic!
+
+**Candidate Approaches**:
+1. **Higher-order alpha**: Λ ~ α^48 or α^64 would give the right order
+2. **Cosmological attractor**: Different prime attractor for cosmic scale
+3. **Vacuum energy cancellation**: 122 ≈ 11² (crystal dimension squared?)
+4. **Dark energy interpretation**: Λ from residual crystallization pressure
+
+**Testable Prediction**:
+If Λ = α^n × (algebraic factor), then n and the factor should be framework primes.
+
+**Best Next Steps**:
+- Check if 122 has division algebra decomposition
+- Test α^48, α^56, α^64 with various algebraic prefactors
+- Connect to ongoing crystallization (dark energy)
+
+**If Solved**: Would be the most dramatic prediction — explaining the "worst prediction in physics"
+
+**Files**:
+- `framework/investigations/planck_scale_and_big_numbers.md` (Section: Potential Explorations)
+
+---
+
+### Avenue 4: Quark Koide Deviation [HIGH POTENTIAL]
 **Thread**: mass_hierarchy | **Priority**: HIGH | **Status**: OPEN
 
 **The Question**: Why don't quarks satisfy Koide exactly (Q ~ 0.6-0.8 instead of 2/3)?
