@@ -1,20 +1,25 @@
 # Formalization Gap Analysis
 
 **Created**: 2026-01-27
+**Updated**: 2026-01-27 (corrected AXM_0106 analysis)
 **Purpose**: Track what needs to be formalized into atomic units
 
 ---
 
-## Critical Issue
+## Issue Status
 
-**TWO AXIOM SYSTEMS EXIST AND ARE OUT OF SYNC**
+**TWO AXIOM SYSTEMS EXIST — Need reconciliation (NOT contradiction)**
 
 | System | Location | Status |
 |--------|----------|--------|
-| **Old** | `core/axioms/AXM_0100-0108` | Formalized, tagged, but OUTDATED |
-| **New** | `framework/layer_0_pure_axioms.md` | Current thinking, but NOT formalized |
+| **Old** | `core/axioms/AXM_0100-0108` | Formalized, tagged, still valid |
+| **New** | `framework/layer_0_pure_axioms.md` | Current thinking, NOT YET formalized |
 
-This must be reconciled. The recent work (S44-S65) uses the NEW system, but the formal tags point to the OLD system.
+**CORRECTION**: AXM_0106 (Non-Invertibility of ACCESS MAP) does NOT contradict T0 (Invertibility of TRANSITIONS). These are different concepts:
+- AXM_0106: Access map A loses information (many global states → same appearance)
+- T0: Transitions between perspectives are invertible (can go back)
+
+Both are true simultaneously. No contradiction.
 
 ---
 
@@ -22,57 +27,40 @@ This must be reconciled. The recent work (S44-S65) uses the NEW system, but the 
 
 | Old (core/axioms/) | New (layer_0) | Status |
 |-------------------|---------------|--------|
-| AXM_0100: Finiteness | C5: Cardinality | RENAME/UPDATE |
-| AXM_0101: Connectivity | (implicit in Π structure) | REVIEW |
+| AXM_0100: Finiteness | C5: Cardinality | COMPATIBLE |
+| AXM_0101: Connectivity | (implicit in Π structure) | COMPATIBLE |
 | AXM_0102: Non-Triviality | P2: Non-Triviality | MATCH |
-| AXM_0103: Closure | (implicit in V_Crystal) | REVIEW |
+| AXM_0103: Closure | (implicit in V_Crystal) | COMPATIBLE |
 | AXM_0104: Partiality | P1: Partiality | MATCH |
-| AXM_0105: Locality | (derived from P3?) | REVIEW |
-| AXM_0106: Non-Invertibility | DEPRECATED (T0 gives invertibility!) | DELETE |
-| AXM_0107: Non-Negative Loss | (physical constraint, not axiom) | DEMOTE |
-| AXM_0108: Time Scale | (physical import) | MOVE TO IMP |
-| — | C1: Existence | ADD |
-| — | C2: Perfect Orthogonality | ADD |
-| — | C3: Completeness | ADD |
-| — | C4: Symmetry | ADD |
-| — | P3: Finite Access | ADD |
-| — | P4: Tilt Possibility | ADD |
-| — | **T0: Algebraic Completeness** | **ADD (S62)** |
-| — | **T1: Crystal is Timeless** | **ADD** |
+| AXM_0105: Locality | (derived from P3) | COMPATIBLE |
+| AXM_0106: Non-Invertibility | Still valid (ACCESS map) | **CLARIFIED (S72)** |
+| AXM_0107: Non-Negative Loss | Physical constraint | REVIEW status |
+| AXM_0108: Time Scale | Physical import | REVIEW status |
+| AXM_0109 | C1: Existence | **DONE (S72)** |
+| AXM_0110 | C2: Perfect Orthogonality | **DONE (S72)** |
+| AXM_0111 | C3: Completeness | **DONE (S72)** |
+| AXM_0112 | C4: Symmetry | **DONE (S72)** |
+| AXM_0113 | P3: Finite Access | **DONE (S72)** |
+| AXM_0114 | P4: Tilt Possibility | **DONE (S72)** |
+| AXM_0115 | **T0: Algebraic Completeness** | **DONE (S72)** |
+| AXM_0116 | **T1: Crystal is Timeless** | **DONE (S72)** |
 
-**Critical**: AXM_0106 (Non-Invertibility) is now WRONG — invertibility was DERIVED in S62!
+**Note**: AXM_0106 clarified in S72 to explicitly state it's about ACCESS MAPS, not transitions.
 
 ---
 
-## Theorems Needing Formalization
+## Theorems Status
 
-### From S54: No Zero Divisors
+### COMPLETED (Session 72)
 
-**Source**: `framework/investigations/perspective_foundations_and_zero_divisors.md`
-**Claim**: T₁ ∘ T₂ ≠ 0 for non-zero transitions
-**Confidence**: DERIVED
-**Needs**: THM_0482_no_zero_divisors.md
+| Theorem | Source | Tag | Status |
+|---------|--------|-----|--------|
+| No Zero Divisors | S54 | THM_0482 | **DONE** |
+| Transition Invertibility | S62-63 | THM_0483 | **DONE** |
+| Division Algebra Structure | S46-48 | THM_0484 | **DONE** |
+| Complex Structure (F=C) | S44 | THM_0485 | **DONE** |
 
-### From S62-63: Invertibility
-
-**Source**: `framework/investigations/invertibility_investigation.md`
-**Claim**: Every transition T has inverse T⁻¹
-**Confidence**: DERIVED (from T0)
-**Needs**: THM_0483_invertibility.md
-
-### From S46-48: Division Algebra Structure
-
-**Source**: `framework/investigations/gauge_from_division_algebras.md`
-**Claim**: Transitions form a division algebra (R, C, H, or O)
-**Confidence**: DERIVED (from no zero divisors + invertibility + Frobenius)
-**Needs**: THM_0484_division_algebra_structure.md
-
-### From S44: Complex Structure
-
-**Source**: `core/17_complex_structure.md`
-**Claim**: F = C (field must be complex)
-**Confidence**: DERIVED (from T1)
-**Needs**: THM_0485_complex_structure.md (or update existing)
+### Still Needed
 
 ### From S46-48: SM Gauge Groups
 
@@ -88,6 +76,13 @@ This must be reconciled. The recent work (S44-S65) uses the NEW system, but the 
 **Confidence**: DERIVED
 **Needs**: DRV_0A00_baryon_number.md (first derivation!)
 
+### From S66: Chirality
+
+**Source**: `verification/sympy/chirality_identification_derivation.py`
+**Claim**: Left-handed coupling from phi_L embedding
+**Confidence**: DERIVED
+**Needs**: THM_0487_chirality.md
+
 ---
 
 ## Definitions Needing Formalization
@@ -101,35 +96,42 @@ This must be reconciled. The recent work (S44-S65) uses the NEW system, but the 
 
 ---
 
-## Tag Registry Updates Needed
+## Tag Registry Updates — COMPLETED (Session 72)
 
-### Axioms to Add
+### Axioms Added
+| Tag | Name | Status |
+|-----|------|--------|
+| 0109 | Crystal Existence (C1) | **DONE** |
+| 0110 | Perfect Orthogonality (C2) | **DONE** |
+| 0111 | Crystal Completeness (C3) | **DONE** |
+| 0112 | Crystal Symmetry (C4) | **DONE** |
+| 0113 | Finite Access (P3) | **DONE** |
+| 0114 | Tilt Possibility (P4) | **DONE** |
+| 0115 | Algebraic Completeness (T0) | **DONE** |
+| 0116 | Crystal Timeless (T1) | **DONE** |
+
+### Axioms Clarified (NOT deprecated)
+| Tag | Name | Action |
+|-----|------|--------|
+| 0106 | Non-Invertibility | Clarified: ACCESS MAP (no contradiction with T0) |
+
+### Theorems Added
+| Tag | Name | Status |
+|-----|------|--------|
+| 0482 | No Zero Divisors | **DONE** |
+| 0483 | Transition Invertibility | **DONE** |
+| 0484 | Division Algebra Structure | **DONE** |
+| 0485 | Complex Structure (F=C) | **DONE** |
+
+### Still Needed
+
+**Theorems**:
 | Tag | Name | Source |
 |-----|------|--------|
-| 0109 | Crystal Existence (C1) | layer_0 |
-| 010A | Perfect Orthogonality (C2) | layer_0 |
-| 010B | Crystal Completeness (C3) | layer_0 |
-| 010C | Crystal Symmetry (C4) | layer_0 |
-| 010D | Finite Access (P3) | layer_0 |
-| 010E | Tilt Possibility (P4) | layer_0 |
-| 010F | Algebraic Completeness (T0) | layer_0 v2.4 |
-| 0110 | Crystal Timeless (T1) | layer_0 |
-
-### Axioms to Deprecate
-| Tag | Name | Reason |
-|-----|------|--------|
-| 0106 | Non-Invertibility | CONTRADICTED by T0 (S62) |
-
-### Theorems to Add
-| Tag | Name | Source |
-|-----|------|--------|
-| 0482 | No Zero Divisors | S54 |
-| 0483 | Invertibility | S62 |
-| 0484 | Division Algebra Structure | S46-48 |
-| 0485 | Complex Structure (F=C) | S44 |
 | 0486 | SM Gauge Groups | S46-48 |
+| 0487 | Chirality | S66 |
 
-### Derivations to Add
+**Derivations**:
 | Tag | Name | Source |
 |-----|------|--------|
 | 0A00 | Baryon Number | S57 |
@@ -140,32 +142,34 @@ This must be reconciled. The recent work (S44-S65) uses the NEW system, but the 
 
 ## Priority Actions
 
-### Immediate (Must Fix)
-1. **Delete or deprecate AXM_0106** — it contradicts derived invertibility
-2. **Add T0 to axioms** — critical for derivation chain
-3. **Formalize no zero divisors** — key theorem from S54
-4. **Formalize invertibility** — key theorem from S62
+### COMPLETED (Session 72)
+1. ~~Delete or deprecate AXM_0106~~ — **NOT NEEDED** (different concept, clarified)
+2. ~~Add T0 to axioms~~ — **DONE** (AXM_0115)
+3. ~~Formalize no zero divisors~~ — **DONE** (THM_0482)
+4. ~~Formalize invertibility~~ — **DONE** (THM_0483)
+5. ~~Add new axioms C1-C5, P1-P4, T1~~ — **DONE** (AXM_0109-0116)
+6. ~~Update tag_registry~~ — **DONE**
 
-### Soon (Structural)
-5. Reconcile old/new axiom systems — either update old or replace
-6. Add new axioms C1-C5, P1-P4, T1
-7. Update tag_registry with all changes
-
-### Later (Completeness)
-8. Formalize all derived theorems
+### Remaining
+7. Formalize SM gauge groups theorem (THM_0486)
+8. Formalize chirality theorem (THM_0487)
 9. Add derivation files (DRV_xxxx)
-10. Create atomic files for new definitions
+10. Create atomic files for new definitions (tilt matrix, transition algebra)
 
 ---
 
 ## Verification of Reconciliation
 
-When reconciling, check:
-- [ ] Every axiom in layer_0_pure_axioms.md has corresponding AXM file
-- [ ] Every theorem in DERIVATION_CHAIN_AUDIT has corresponding THM file
-- [ ] Every claim in CLAIM_DEPENDENCIES has corresponding formal file
-- [ ] No contradictions between old and new systems
-- [ ] tag_registry is complete and accurate
+**Session 72 verification**:
+- [x] Core axioms from layer_0_pure_axioms.md now have AXM files (C1-C4, P3-P4, T0-T1)
+- [x] Core theorems from S44-65 now have THM files (4 of ~7)
+- [x] No contradictions between old and new systems (AXM_0106 clarified)
+- [x] tag_registry updated with all changes
+
+**Still to verify**:
+- [ ] All theorems in DERIVATION_CHAIN_AUDIT have THM files (need THM_0486, 0487)
+- [ ] All claims in CLAIM_DEPENDENCIES have formal files
+- [ ] Derivation files created for physics derivations
 
 ---
 

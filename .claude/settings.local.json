@@ -45,7 +45,12 @@
       "WebFetch(domain:www.preprints.org)",
       "Bash(grep:*)",
       "Bash(sort:*)",
-      "mcp__mermaid__mermaid_preview"
+      "mcp__mermaid__mermaid_preview",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "WebFetch(domain:www.anthropic.com)",
+      "Bash(pip install:*)",
+      "WebFetch(domain:www.humanlayer.dev)",
+      "WebFetch(domain:www.builder.io)"
     ]
   }
 }

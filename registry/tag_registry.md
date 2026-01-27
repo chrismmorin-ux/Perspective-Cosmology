@@ -1,7 +1,7 @@
 # Tag Registry
 
 **Created**: 2026-01-26
-**Updated**: 2026-01-26
+**Updated**: 2026-01-27
 **Purpose**: Master registry of all permanent tags in the framework
 
 ---
@@ -28,13 +28,23 @@
 |-----|------|------|------|--------|
 | 0100 | AXM | Finiteness | core/axioms/AXM_0100_finiteness.md | CANONICAL |
 | 0101 | AXM | Connectivity | core/axioms/AXM_0101_connectivity.md | CANONICAL |
-| 0102 | AXM | Non-Triviality | core/axioms/AXM_0102_nontriviality.md | CANONICAL |
+| 0102 | AXM | Non-Triviality (P2) | core/axioms/AXM_0102_nontriviality.md | CANONICAL |
 | 0103 | AXM | Closure | core/axioms/AXM_0103_closure.md | CANONICAL |
-| 0104 | AXM | Partiality | core/axioms/AXM_0104_partiality.md | CANONICAL |
+| 0104 | AXM | Partiality (P1) | core/axioms/AXM_0104_partiality.md | CANONICAL |
 | 0105 | AXM | Locality | core/axioms/AXM_0105_locality.md | CANONICAL |
-| 0106 | AXM | Non-Invertibility | core/axioms/AXM_0106_noninvertibility.md | CANONICAL |
+| 0106 | AXM | Non-Invertibility (Access Map) | core/axioms/AXM_0106_noninvertibility.md | CANONICAL (clarified S72) |
 | 0107 | AXM | Non-Negative Loss | core/axioms/AXM_0107_nonnegative_loss.md | CANONICAL |
 | 0108 | AXM | Time Scale | core/axioms/AXM_0108_time_scale.md | CANONICAL |
+| 0109 | AXM | Crystal Existence (C1) | core/axioms/AXM_0109_crystal_existence.md | CANONICAL (S72) |
+| 0110 | AXM | Perfect Orthogonality (C2) | core/axioms/AXM_0110_perfect_orthogonality.md | CANONICAL (S72) |
+| 0111 | AXM | Crystal Completeness (C3) | core/axioms/AXM_0111_crystal_completeness.md | CANONICAL (S72) |
+| 0112 | AXM | Crystal Symmetry (C4) | core/axioms/AXM_0112_crystal_symmetry.md | CANONICAL (S72) |
+| 0113 | AXM | Finite Access (P3) | core/axioms/AXM_0113_finite_access.md | CANONICAL (S72) |
+| 0114 | AXM | Tilt Possibility (P4) | core/axioms/AXM_0114_tilt_possibility.md | CANONICAL (S72) |
+| 0115 | AXM | Algebraic Completeness (T0) | core/axioms/AXM_0115_algebraic_completeness.md | CANONICAL (S72) |
+| 0116 | AXM | Crystal Timeless (T1) | core/axioms/AXM_0116_crystal_timeless.md | CANONICAL (S72) |
+| 0117 | AXM | Crystallization Tendency (R1) | core/axioms/AXM_0117_crystallization_tendency.md | PROPOSED (S73) |
+| 0118 | AXM | Prime Attractor Selection (R2) | core/axioms/AXM_0118_prime_attractor_selection.md | PROPOSED (S77) |
 
 ### Definitions (DEF_02xx)
 
@@ -125,6 +135,10 @@
 | 0470 | THM | Critical Slowing | core/theorems/THM_0470_critical_slowing.md | CANONICAL |
 | 0471 | THM | Monotonicity | core/theorems/THM_0471_monotonicity.md | CANONICAL |
 | 0480 | THM | Experiential Inertness | core/theorems/THM_0480_experiential_inertness.md | CANONICAL |
+| 0482 | THM | No Zero Divisors | core/theorems/THM_0482_no_zero_divisors.md | CANONICAL (S54, formalized S72) |
+| 0483 | THM | Transition Invertibility | core/theorems/THM_0483_transition_invertibility.md | CANONICAL (S62-63, formalized S72) |
+| 0484 | THM | Division Algebra Structure | core/theorems/THM_0484_division_algebra_structure.md | CANONICAL (S46-48, formalized S72) |
+| 0485 | THM | Complex Structure (F=C) | core/theorems/THM_0485_complex_structure.md | CANONICAL (S44, formalized S72) |
 
 ### Imports (IMP_06xx)
 
@@ -153,13 +167,13 @@
 
 | Category | Count |
 |----------|-------|
-| Axioms | 9 |
+| Axioms | 19 (+8 in S72, +2 in S73/S77) |
 | Definitions | 51 |
 | Lemmas | 3 |
-| Theorems | 20 |
+| Theorems | 24 (+4 in S72) |
 | Imports | 8 |
 | Conjectures | 3 |
-| **Total** | **94** |
+| **Total** | **108** |
 
 ---
 
@@ -167,10 +181,30 @@
 
 | Range | Next Available |
 |-------|----------------|
-| Axioms | 0109 |
+| Axioms | 0119 |
 | Definitions | 02A2 |
 | Lemmas | 0403 |
-| Theorems | 0481 |
+| Theorems | 0486 |
 | Imports | 0608 |
 | Conjectures | 0803 |
 | Derivations | 0A00 |
+
+---
+
+## Session 72 Formalization
+
+The following were formalized from `layer_0_pure_axioms.md` and investigation files:
+
+**New Axioms (8)**:
+- 0109-0112: Crystal axioms C1-C4
+- 0113-0114: Perspective axioms P3-P4
+- 0115-0116: Time axioms T0-T1
+
+**New Theorems (4)**:
+- 0482: No Zero Divisors (from S54)
+- 0483: Transition Invertibility (from S62-63)
+- 0484: Division Algebra Structure (from S46-48)
+- 0485: Complex Structure F=C (from S44)
+
+**Clarified**:
+- 0106: Non-Invertibility now explicitly about ACCESS MAP (not transitions)

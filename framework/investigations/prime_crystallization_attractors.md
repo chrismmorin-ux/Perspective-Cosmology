@@ -521,6 +521,7 @@ Connection to prime number theorem noted but not yet formalized.
 - `primes_and_recrystallization_unified.md` — Prime = basis vector identification
 - `koide_formula_connection.md` — θ = 73/99 × π as prime attractor
 - `gauge_from_division_algebras.md` — Division algebra constraints
+- `tilt_energy_functional.md` — **NEW**: F(ε) as Mexican hat; nucleation mechanism; addresses GAP-PCA-1
 
 ### Verification Scripts
 - `verification/sympy/koide_theta_prime_attractor.py` — Prime attractor for Koide phase

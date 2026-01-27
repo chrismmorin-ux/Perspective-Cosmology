@@ -15,7 +15,18 @@ This folder contains ideas that were explored and abandoned.
 
 ---
 
-## Template for Deprecated Ideas
+## Current Contents
+
+### alpha_derivation.md
+**Date deprecated**: 2026-01-25
+**Original location**: Early framework exploration
+**What it was**: Initial attempt at deriving α from perspective axioms
+**Why abandoned**: Superseded by n_d² + n_c² = 137 derivation achieving 0.27 ppm
+**Where current work is**: `framework/investigations/ALPHA_DERIVATION_MASTER.md`
+
+---
+
+## Template for New Deprecations
 
 When moving an idea here, document:
 
@@ -41,10 +52,12 @@ When moving an idea here, document:
 
 ---
 
-## Current Contents
+## See Also
 
-(None yet - this is good! But be honest about adding failures here.)
+- `archive/physics_deprecated/` — Superseded physics investigations
+- `archive/explorations_v1/` — Early exploration work
+- `archive/meta_plans/` — Completed planning documents
 
 ---
 
-*Last updated: 2026-01-25*
+*Last updated: 2026-01-27 (Session 89)*

@@ -42,6 +42,7 @@ This is a speculative mathematical framework ("Perspective Cosmology") exploring
 |------|------|
 | **Session start (READ FIRST)** | `registry/STATUS_DASHBOARD.md` |
 | **What to work on** | `registry/RESEARCH_NAVIGATOR.md` |
+| **Prime Physical Catalog** | `framework/PRIME_PHYSICAL_CATALOG.md` |
 | **How research flows** | `registry/RESEARCH_PROCESS.md` |
 | **Capture new insight** | `registry/emerging_patterns.md` |
 | **Track claim dependencies** | `registry/CLAIM_DEPENDENCIES.md` |

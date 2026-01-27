@@ -1221,14 +1221,154 @@ HIGH ENERGY (E large):
    - Currently verified computationally
    - Need theorem: "Overlapping perspective graphs → logarithmic scope growth"
 
-2. **Why does focused perspective see "more crystalline"?**
-   - Is this because primes are the "core" and composites are "surface"?
-   - At high energy (small n), closer to prime structure?
+2. ~~**Why does focused perspective see "more crystalline"?**~~ → **RESOLVED in Part IX-C**
 
 3. **Exact value of slope c?**
    - Simulation gives large slope due to model specifics
    - Real slope (0.128 from α data) depends on actual perspective graph structure
    - Can we derive the physical value?
+
+---
+
+## Part IX-C: Why Focused Perspective Sees More Crystalline Structure (Session 67)
+
+**Status**: DERIVED — Compositeness is relational, not intrinsic
+
+### 9C.1 The Key Insight
+
+**Compositeness is RELATIONAL, not intrinsic to dimensions.**
+
+A single dimension viewed alone has no context for overlap — it appears "prime-like."
+Many dimensions together reveal their relationships — this IS compositeness.
+
+```
+Single dimension: No relationships visible → appears PRIME-LIKE
+Many dimensions:  Relationships visible   → appears COMPOSITE
+```
+
+### 9C.2 Three Supporting Models
+
+All three models predict the same result and are computationally verified.
+
+#### Model 1: Relationship Density
+
+**Definition (Apparent Compositeness)**
+```
+C_apparent = N_relationships / n = (n-1)/2
+```
+
+| n (scope) | Relationships | C_apparent |
+|-----------|--------------|------------|
+| 2 | 1 | 0.5 |
+| 6 | 15 | 2.5 |
+| 11 | 55 | 5.0 |
+| 12 | 66 | 5.5 |
+
+**Result**: Compositeness grows LINEARLY with scope.
+
+#### Model 2: Core vs Surface
+
+Dimensions have different "depths" in the crystal:
+- **Core dimensions**: Low mutual overlap (prime-like)
+- **Surface dimensions**: High overlap (composite-like)
+
+**Simulation Results** (6 core + 6 surface):
+```
+Core-only observation:    Crystallinity = 56.0
+Surface-only observation: Crystallinity = 6.5
+Full observation:         Crystallinity = 12.2
+```
+
+**Result**: High energy (narrow scope) sees the core → more crystalline.
+
+#### Model 3: Network Centrality
+
+Dimensions form a network based on overlap:
+- **Peripheral dimensions**: Few connections (prime-like)
+- **Central dimensions**: Many connections (composite-like)
+
+**Simulation Results**:
+```
+Average centrality of core dimensions:    0.47
+Average centrality of surface dimensions: 0.92
+```
+
+**Result**: Narrow scope samples peripheral (prime-like) structure.
+
+### 9C.3 The Mechanism
+
+```
+HIGH ENERGY
+    ↓
+Narrow scope (few dimensions)
+    ↓
+Few relationships visible
+    ↓
+Structure appears PRIME-LIKE / CRYSTALLINE
+    ↓
+Strong coupling (large α)
+
+LOW ENERGY
+    ↓
+Broad scope (many dimensions)
+    ↓
+Many relationships visible
+    ↓
+Structure appears COMPOSITE
+    ↓
+Weak coupling (small α)
+```
+
+### 9C.4 Connection to α
+
+From the models:
+```
+1/α = n²
+C_apparent = (n-1)/2 ≈ n/2
+
+Therefore:
+1/α ≈ (2C + 1)² = 4C² + 4C + 1
+```
+
+**Interpretation**: α measures the inverse of visible compositeness squared.
+- Stronger coupling = less visible compositeness
+- Weaker coupling = more visible compositeness
+
+### 9C.5 Why This Explains "Fundamental" Physics
+
+The empirical observation that high-energy physics reveals "more fundamental" structure is explained:
+
+**We're not seeing something different at high energy.**
+**We're seeing LESS of the relational complexity.**
+
+The "fundamental" structure isn't hidden inside — it's what remains when we subtract the relationships.
+
+### 9C.6 Verification
+
+**Script**: `verification/sympy/crystalline_structure_analysis.py`
+
+**Tests Passed**: 5/5
+
+| Test | Result |
+|------|--------|
+| Relationship count = n(n-1)/2 | PASS |
+| Core crystallinity > Surface crystallinity | PASS (56 vs 6.5) |
+| Core mean overlap < Surface mean overlap | PASS (0.018 vs 0.153) |
+| Surface centrality > Core centrality | PASS (0.92 vs 0.47) |
+| Crystallinity decreases as scope broadens | PASS (56 → 12.2) |
+
+### 9C.7 Summary
+
+**Answer to Question 2**: Why does focused perspective see more crystalline?
+
+| Aspect | Explanation |
+|--------|-------------|
+| **What changes** | Not the dimensions — the VISIBLE RELATIONSHIPS |
+| **Why fewer = prime-like** | Fewer dimensions means fewer pairwise overlaps visible |
+| **Why more = composite** | More dimensions reveals the full relationship network |
+| **Connection to α** | 1/α ∝ (visible compositeness)² |
+
+**The dimensions don't change. What we SEE changes.**
 
 ---
 
@@ -1293,9 +1433,11 @@ The decay conjecture I(t) ~ I_0/ln(t) matches PNT form.
 
 ---
 
-**Document version**: 1.0
+**Document version**: 1.1
 **Created**: 2026-01-27
+**Updated**: 2026-01-27 (Session 73: Added link to prime crystallization attractors)
 **Related documents**:
 - `imperfect_dimensions_and_recrystallization.md`
 - `MASTER_DOCUMENT_prime_perspective_connection.md`
 - `layer_0_foundations.md`
+- `prime_crystallization_attractors.md` — **NEW**: Why low primes crystallize more often (probability distribution)
