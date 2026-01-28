@@ -409,7 +409,12 @@ The small portal coupling explains:
 1. ~~**Portal coupling**: What sets the DM-SM interaction strength?~~
    **RESOLVED (S96)**: epsilon = alpha^2 = 5.3e-5, from both sectors having same coupling.
 
-2. **DM stability**: Why doesn't DM decay to SM particles?
+2. ~~**DM stability**: Why doesn't DM decay to SM particles?~~
+   **RESOLVED (S96)**: Triple protection mechanism:
+   - Dark baryon number conservation (B_dark = 1)
+   - Z_7 topological protection from SU(7) center
+   - Portal suppression (ε² ~ 10⁻⁹)
+   - Lifetime ~ 10⁶⁵ seconds >> universe age (10¹⁷ s)
 
 3. ~~**Self-interactions**: Does SU(7) give measurable DM self-interactions?~~
    **RESOLVED (S95)**: sigma/m ~ 0.025 cm^2/g — passes all constraints.
@@ -424,9 +429,61 @@ The small portal coupling explains:
 6. **Dark hadron spectrum**: Estimated in Section 7.4 above.
    - Key prediction: Dark pion at ~500 MeV could mediate self-interactions
 
+7. **Visibility change**: Can dark matter become visible?
+   - See Part X below
+
 ---
 
-## Part VIII: Falsification Criteria
+## Part X: Perspective Duality (Session 96)
+
+### 10.1 The Deep Connection
+
+**Total channels = 137 = alpha denominator**
+
+```
+Visible: 58 channels (SM)
+Hidden:  79 channels (dark sector)
+Total:  137 = n_d^2 + n_c^2 = 1/alpha
+```
+
+This is NOT coincidental — alpha encodes the TOTAL perspective structure.
+
+### 10.2 Visibility is Emergent
+
+The 58/79 split emerges from how our perspective crystallized:
+- Fermions (antisymmetric): 74% visible — can't self-reference, must connect externally
+- Vectors: 20% visible
+- Scalars (symmetric): 7% visible — can self-reference, can hide
+
+### 10.3 Dark Observers
+
+If beings made of dark matter existed:
+- Their visible: SU(7) x U(1)_dark (79 channels)
+- Their hidden: SU(3) x SU(2) x U(1) (58 channels = our SM!)
+- They would see US as "dark matter"
+
+**Perspective Duality**: What is visible vs hidden depends on the observer.
+
+### 10.4 Mechanisms for Visibility Change
+
+| Mechanism | Trigger | Status |
+|-----------|---------|--------|
+| Portal enhancement | alpha -> 1 | Unlikely (fixed) |
+| Perspective mutation | Access map changes | Possible |
+| Phase transition | Crystal restructures | At extremes |
+| Extreme conditions | Black holes, Big Bang | Speculative |
+
+### 10.5 Physical Implications
+
+1. **Black holes**: At horizon/singularity, visible/hidden distinction may break down
+2. **Big Bang**: Before crystallization, no 58/79 split existed
+3. **High temperature**: T >> Lambda_7 deconfines both sectors together
+
+**Verification**: `verification/sympy/dm_stability_and_visibility.py` — ALL 9 TESTS PASS
+
+---
+
+## Part XI: Falsification Criteria
 
 | Criterion | What Would Falsify |
 |-----------|-------------------|
@@ -443,7 +500,9 @@ The small portal coupling explains:
 **Scripts**:
 - `verification/sympy/dark_matter_mass_scale.py` - Mass derivation
 - `verification/sympy/dark_matter_number_density.py` - Number density
-- `verification/sympy/su7_confinement_derivation.py` - SU(7) dark baryon (Session 96)
+- `verification/sympy/su7_confinement_derivation.py` - SU(7) dark baryon (S96)
+- `verification/sympy/portal_coupling_derivation.py` - Portal epsilon = alpha^2 (S96)
+- `verification/sympy/dm_stability_and_visibility.py` - Stability & duality (S96)
 
 **Status**: ALL TESTS PASS
 

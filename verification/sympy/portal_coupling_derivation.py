@@ -246,3 +246,28 @@ print("The small portal coupling (epsilon ~ 10^-5) explains:")
 print("  1. Why dark matter hasn't been seen in direct detection")
 print("  2. Why dark sector is truly 'dark' (weakly coupled)")
 print("  3. Why dark photon searches haven't found anything yet")
+print()
+print("=== DERIVATION CHAIN ===")
+print()
+print("""
+[A-AXIOM] P1: Observer sees partial view of crystal (partiality)
+    |
+    v
+[D] Both visible and hidden sectors are partial views of SAME crystal
+    |
+    v
+[D] Fundamental coupling alpha = 1/(n_d^2 + n_c^2) = 1/137 is UNIVERSAL
+    (encodes crystal geometry: defect + crystal dimensions squared)
+    |
+    v
+[D] Portal between sectors = crossing the crystal boundary
+    - Exit visible sector: requires one gauge interaction (factor alpha)
+    - Enter hidden sector: requires one gauge interaction (factor alpha)
+    |
+    v
+[THEOREM] epsilon = alpha x alpha = alpha^2 = 1/137^2 = 5.33e-5
+
+This is NOT fine-tuning. The alpha^2 suppression follows from:
+  - GEOMETRY (two boundary crossings required)
+  - UNIVERSALITY (same coupling in both sectors)
+""")

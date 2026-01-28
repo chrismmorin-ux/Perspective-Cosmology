@@ -1,6 +1,6 @@
 # Research Navigator
 
-**Updated**: 2026-01-27 (Session 95 — Dark Matter Mass Derived)
+**Updated**: 2026-01-27 (Session 97 — Cosmological Crystallization Sequence)
 **Purpose**: Surface the 4 best avenues to explore, integrate new discoveries
 
 ---
@@ -9,10 +9,10 @@
 
 | Avenue | Priority | Status | Key File |
 |--------|----------|--------|----------|
-| **1. Cosmological Parameters** | **HIGHEST** | **BREAKTHROUGH (S94)** | `dark_matter_crystallization.md` |
-| **2. Correction Term Derivation** | HIGH | **COMPLETE (S89)** | `correction_terms_unified.md` |
-| **3. Prime Attractor Selection** | HIGH | BREAKTHROUGH | `prime_attractor_selection_mechanism.md` |
-| **4. Hidden Sector Physics** | HIGH | **BREAKTHROUGH (S95)** | `dark_matter_mass_derivation.md` |
+| **1. CMB as Crystallization Boundary** | **HIGHEST** | **NEW (S97)** | `cosmological_crystallization_sequence.md` |
+| **2. Crystallization Sequence Scrutiny** | **HIGHEST** | **NEW (S97)** | `cosmological_crystallization_sequence.md` |
+| **3. Hidden Sector Physics** | HIGH | **BREAKTHROUGH (S95-96)** | `dark_matter_mass_derivation.md` |
+| **4. Prime Attractor Selection** | HIGH | BREAKTHROUGH | `prime_attractor_selection_mechanism.md` |
 
 ---
 
