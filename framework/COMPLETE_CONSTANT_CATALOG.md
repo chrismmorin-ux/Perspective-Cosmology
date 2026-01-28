@@ -1,7 +1,7 @@
 # Complete Catalog of Constants from Division Algebras
 
-**Status**: 16+ constants derived with sub-percent to ppm accuracy
-**Session**: 87-88 (2026-01-27)
+**Status**: 28 constants derived with sub-percent to ppm accuracy
+**Session**: 88 (2026-01-27)
 **Zero free parameters** (except v uses M_Pl as fundamental scale)
 
 ---
@@ -184,9 +184,13 @@ All formulas verified in `verification/sympy/`:
 - `lepton_mass_ratio_search.py`
 - `strong_coupling_search.py`
 - `ckm_matrix_search.py`
+- `ckm_complete_search.py`
 - `higgs_vev_derivation_v2.py`
 - `koide_theta_best_formula.py`
 - `new_constant_predictions.py`
+- `pmns_cp_phase_derivation.py` (S88)
+- `neutrino_mass_derivation.py` (S88)
+- `light_quark_mass_search.py` (S88)
 
 ---
 
@@ -194,7 +198,7 @@ All formulas verified in `verification/sympy/`:
 
 **Statement**: All dimensionless fundamental constants of nature can be expressed as rational functions of division algebra dimensions {1, 2, 4, 8} and their derived quantities, with corrections involving cyclotomic polynomials.
 
-**Evidence**: 16+ constants derived with sub-percent accuracy using zero free parameters.
+**Evidence**: 28 constants derived with sub-percent accuracy using zero free parameters.
 
 **Status**: VERY STRONG CONJECTURE
 
