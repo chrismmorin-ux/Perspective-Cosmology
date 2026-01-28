@@ -94,7 +94,7 @@ Verification:
   LHS = {Im_H}² + {Im_O}² - {H}² = {Im_H**2} + {Im_O**2} - {H**2} = {lhs}
   RHS = {C} × {Im_H} × {Im_O} = {rhs}
 
-  Identity holds: {lhs} = {rhs} ✓
+  Identity holds: {lhs} = {rhs} [VERIFIED]
 
 This is NOT trivial! It says:
   (gen² + color² - spacetime²) = EM × gen × color
@@ -244,7 +244,7 @@ The HIDDEN SECTOR CONSTANT (42) appears as:
       = 2×37 + (42 + 42/C)
       = 2×37 + 42×(1 + 1/C)
       = 74 + 42 × 3/2
-      = 74 + 63 = 137 ✓
+      = 74 + 63 = 137 [VERIFIED]
 """)
 
 # ==============================================================================
