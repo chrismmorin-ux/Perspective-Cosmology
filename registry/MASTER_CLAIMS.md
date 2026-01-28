@@ -90,7 +90,14 @@ When a claim's status changes, all downstream claims are flagged for review.
 |----|------|--------|------|----------|---------|
 | DRV_0100 | 1/α main term = 137 | DERIVED | DRV_0001, DRV_0002, AXM_0118 | exact | S44 |
 | DRV_0101 | 137 = 4² + 11² is prime | VERIFIED | DRV_0001, DRV_0002 | exact | S77 |
-| DRV_0102 | 1/α = 137 + 4/111 | DERIVED | DRV_0100, AXM_0118 | **0.27 ppm** | S80 |
+| DRV_0102 | 1/α = 137 + 4/111 | DERIVED | DRV_0100, DRV_0103, DRV_0104 | **0.27 ppm** | S80 |
+| DRV_0103 | 111 = EM channels in u(n_c) | **DERIVED** | DRV_0002 | exact | **S89** |
+| DRV_0104 | Equal distribution (transitive) | **DERIVED** | AXM_0112 | — | **S89** |
+
+**Session 89 Key Insight (α correction COMPLETE)**:
+- 111 = off-diagonal u(11) generators (110) + U(1) (1) = EM channels
+- Equal distribution: U(n_c) acts transitively → no preferred channel
+- Nucleation is random → defect is generic → equal distribution FORCED
 
 ### Weinberg Angle
 
@@ -127,7 +134,13 @@ When a claim's status changes, all downstream claims are flagged for review.
 
 | ID | Name | Status | Uses | Accuracy | Session |
 |----|------|--------|------|----------|---------|
-| DRV_0140 | m_p/m_e = 1836 + 11/72 | DERIVED | DRV_0001, DRV_0002 | **0.06 ppm** | S82 |
+| DRV_0140 | m_p/m_e = 1836 + 11/72 | DERIVED | DRV_0001, DRV_0002, DRV_0141 | **0.06 ppm** | S82 |
+| DRV_0141 | 72 = QCD × gen channels | **DERIVED** | DRV_0001 | exact | **S89** |
+
+**Session 89 Key Insight (m_p/m_e correction ~60% derived)**:
+- 72 = dim(su(3)) × dim(u(3)) = 8 × 9 = QCD-generation channels
+- Unified pattern with α: Correction = (modes) / (Lie algebra channels)
+- Gap remaining: Why n_c in numerator (not n_d like α)?
 
 ### Mixing Angles (PMNS)
 
@@ -154,12 +167,15 @@ When a claim's status changes, all downstream claims are flagged for review.
 
 | Category | Count | Sub-ppm | <0.1% | <1% | Exact |
 |----------|-------|---------|-------|-----|-------|
-| Universal Constants | 3 | 2 | 1 | 0 | 0 |
+| Universal Constants | 5 | 2 | 1 | 0 | 2 |
 | Scale Ratios (S88) | 3 | 1 | 2 | 0 | 0 |
+| Mass Ratios + Lie Algebra (S89) | 2 | 1 | 0 | 0 | 1 |
 | Mixing Angles (PMNS) | 3 | 0 | 1 | 1 | 0 |
 | Mixing Angles (CKM) | 4 | 0 | 3 | 0 | 1 |
-| Structural | 8 | — | — | — | — |
-| **Total Numerical** | **13** | **3** | **8** | **1** | **1** |
+| Structural | 10 | — | — | — | — |
+| **Total Numerical** | **17** | **4** | **7** | **1** | **4** |
+
+**Session 89 Update**: Added DRV_0103 (111 = EM channels), DRV_0104 (equal distribution), DRV_0141 (72 = QCD × gen)
 
 ---
 
@@ -192,4 +208,4 @@ Or use the Mermaid diagram below (auto-updated).
 
 ---
 
-*Last updated: 2026-01-27 (Session 88 — Big numbers are algebraic)*
+*Last updated: 2026-01-27 (Session 89 — Correction terms derived from Lie algebras)*
