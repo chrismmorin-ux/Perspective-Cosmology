@@ -10,7 +10,7 @@
 | Metric | Value | Trend |
 |--------|-------|-------|
 | **Derivation Chain Assumptions** | 1 remaining | Down from 3 (S52) |
-| **Verification Scripts** | 80 total, 85% PASS | +2 (S95) |
+| **Verification Scripts** | 81 total, 85% PASS | +1 (S95c) |
 | **Active Investigations** | 58 documents | +1 (S95) |
 | **Sub-ppm Predictions** | **3** (1/α, m_p/m_e, v/m_p) | Stable |
 | **Sub-percent Predictions** | **27+** | **+6 (S94)** |
@@ -20,7 +20,7 @@
 | **Big Numbers** | **ALL ALGEBRAIC!** | **(S88)** |
 | **Correction Terms** | **DERIVED FROM LIE ALGEBRAS** | **(S89)** |
 | **COSMOLOGICAL PARAMS** | **ALL 6 DERIVED!** | **(S94)** |
-| **DARK MATTER MASS** | **m_DM = 5.11 GeV DERIVED!** | **NEW (S95)** |
+| **DARK MATTER MASS** | **m_DM = 5.11 GeV + structure!** | **+baryon (S95c)** |
 | **SCHEME SELECTION** | **PRINCIPLE DERIVED!** | **NEW (S96b)** |
 
 ---

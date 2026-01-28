@@ -364,7 +364,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 | 79 | ? | (investigating) | Mass ratios |
 | 83 | ? | (investigating) | — |
 | 89 | 3 (Triple) | 3² + 4² + 8² | Mass ratios |
-| 97 | ? | (investigating) | — |
+| **97** | **2 (Framework)** | **Im_H^4 + H^2 = 9^2 + 4^2** | **cos(theta_W), up-Koide** |
 | 107 | 3 (Triple) | 3² + 7² + 7² | — |
 | 113 | 2 (Framework) | 7² + 8² | Glueball |
 | 131 | 3 (Triple) | 1² + 3² + 11² | — |
@@ -530,6 +530,37 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ---
 
+### Prime 97: The T3 Prime (SESSION 95 FINDING!)
+
+**Form**: 97 = 9² + 4² = Im(H)⁴ + H² = 81 + 16
+
+Note: 97 is NOT a simple sum of two dimension squares. It's Im_H⁴ + H².
+
+**Appearances** (NEWLY FOUND - Session 95):
+- **cos(θ_W) = 171/(2×97) = 171/194** (3.75 ppm error!)
+- **Up-quark Koide θ/π = 67/97** (0.05% error)
+- T3 = +1/2 structure in quark Koide
+
+**Physical meaning**:
+- 97 encodes the T3 = +1/2 (up-type) weak isospin structure
+- Appears in both weak mixing angle AND quark mass (Koide)
+- Part of the three-prime family: 37, 53, 97 (see Session 93)
+
+**Key formula decomposition**:
+```
+cos(θ_W) = 171/194 = (Im_H² × (n_c + O)) / (2 × (H² + Im_H⁴))
+         = (gen² × total) / (2 × T3_structure)
+```
+
+**The prime gap pattern** (Session 93):
+- 53 - 37 = 16 = H²
+- 97 - 53 = 44 = n_d × n_c
+- 97 - 37 = 60 = H² + n_d × n_c
+
+**Verification**: `mW_mZ_97_formula.py`, `quark_koide_prime_97_investigation.py`
+
+---
+
 ### Prime 113: The Pure Octonion Prime (SESSION 83 FINDING!)
 
 **Form**: 113 = 7² + 8² = Im(O)² + dim(O)²
@@ -566,7 +597,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ### Framework Primes All Found!
 
-All 8 framework primes have been identified:
+All 9 framework primes have been identified:
 
 | Prime | Status | Location | Precision |
 |-------|--------|----------|-----------|
@@ -576,6 +607,7 @@ All 8 framework primes have been identified:
 | 17 | CONFIRMED | Lepton mass ratios | 1.1% |
 | 53 | **CONFIRMED** | α_s, quark mass ratios | 0.02% |
 | 73 | CONFIRMED | Koide θ | 0.006% |
+| **97** | **CONFIRMED (S95)** | **cos(θ_W), up-Koide** | **3.75 ppm** |
 | 113 | **CONFIRMED** | Glueball mass | 0.004% |
 | 137 | CONFIRMED | Fine structure α | 0.27 ppm |
 

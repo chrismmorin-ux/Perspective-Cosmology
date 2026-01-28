@@ -124,6 +124,112 @@ A theory that can't be proven wrong isn't science. Every prediction must have:
 
 ---
 
+## Dark Matter Testable Predictions (Session 94)
+
+These are LOW-SCALE predictions from the crystallization cosmology dark matter theory.
+
+### F-DM-1: Dark Matter Mass from 49/9 Ratio
+
+**Prediction**: m_DM = m_p × (49/9) ≈ **5.11 GeV** (primary), or m_p × (9/49) ≈ **170 MeV** (alternative)
+
+**Rationale**: The same ratio 49/9 that gives Ω_DM/Ω_b should encode the mass relationship.
+- 49 = hidden gauge sector dimension (SU(7) × U(1)_dark)
+- 9 = non-EM crystal dimensions (n_c - C)
+- If m_DM/m_p = 49/9, then n_DM/n_b = 1 (asymmetric dark matter)
+
+**Test**: Direct detection experiments at these mass scales
+
+**Falsified if**: DM detected at mass NOT related to 49/9 or 9/49 times proton mass (± 10%)
+
+**Current Status**: Light DM searches probing this range NOW
+
+**Experiments & Timeline**:
+
+| Experiment | Technology | Mass Range | Timeline | Location |
+|------------|------------|------------|----------|----------|
+| **SuperCDMS** | Cryogenic Ge/Si | **1-10 GeV** (optimal) | 2026-2027 | SNOLAB |
+| **XENONnT** | Liquid xenon | 5-1000 GeV | Running | Gran Sasso |
+| **LZ** | Liquid xenon | 5-1000 GeV | Running | Sanford |
+| **PandaX-4T** | Liquid xenon | ~5 GeV+ | Running | Jinping |
+| **DarkSide-20k** | Liquid argon | ~GeV+ | 2026+ | Gran Sasso |
+| **NEWS-G** | Spherical counter | **50 MeV - 5 GeV** | Running | SNOLAB |
+
+**Best experiment for 5.11 GeV**: SuperCDMS (optimized for 1-10 GeV range)
+
+**Suggestiveness**: **VERY HIGH** — would be striking if confirmed
+
+**Testable within**: 2-5 years with current experimental programs
+
+---
+
+### F-DM-2: Dark Photon Mass and Kinetic Mixing
+
+**Prediction**:
+- m_A' = v/49 ≈ **5 GeV** (dark photon mass)
+- Kinetic mixing ε = α² ≈ **5×10⁻⁵** (loop-suppressed)
+
+**Rationale**: U(1)_dark mixes with U(1)_Y. Mixing through loops gives α² suppression.
+
+**Test**: Dark photon searches at colliders and beam dumps
+
+**Falsified if**: Dark photon discovered with ε >> α² or ε << α³, OR at wrong mass
+
+**Current Status**: Being actively searched at LHCb, Belle II, NA62
+
+**Experiments**: LHCb, Belle II, NA62, FASER, beam dumps
+
+**Suggestiveness**: **HIGH**
+
+---
+
+### F-DM-3: Dark Sector Gauge Structure = SU(7) × U(1)
+
+**Prediction**: Hidden gauge sector has exactly 49 gauge bosons (48 SU(7) + 1 U(1)_dark)
+
+**Rationale**: From channel counting — 49 hidden vectors required by partiality axiom
+
+**Test**: If dark sector is ever probed, check gauge structure
+
+**Falsified if**: Dark sector discovered with gauge group ≠ SU(7) × U(1)
+
+**Current Status**: UNTESTABLE with current technology (indirect only)
+
+**Suggestiveness**: **MEDIUM** (hard to test directly)
+
+---
+
+### F-DM-4: Fermionic Dark Matter (16 hidden fermions)
+
+**Prediction**: Dark matter is fermionic, not scalar
+
+**Rationale**: 16 hidden fermions vs 14 hidden scalars — fermions are the DM candidates
+
+**Test**: Determine spin of DM particle
+
+**Falsified if**: DM conclusively shown to be scalar (spin-0)
+
+**Current Status**: Spin determination is challenging but possible through directional detection
+
+**Suggestiveness**: **MEDIUM**
+
+---
+
+### F-DM-5: The "49/9 Test" — Master Criterion
+
+**Prediction**: The ratio 49/9 = 5.44 should appear in multiple dark sector observables:
+- Ω_DM/Ω_b = 49/9 (**CONFIRMED** to 2.3%)
+- m_DM/m_p = 49/9 or 9/49
+
+**Test**: Check any discovered DM particle mass against proton mass ratio
+
+**Falsified if**: DM discovered with mass ratio to proton NOT related to 49/9 or its inverse
+
+**Current Status**: Cosmological ratio matches; mass test awaits DM discovery
+
+**Suggestiveness**: **VERY HIGH** — this is the smoking gun test
+
+---
+
 ## Conjectural Falsification Criteria
 
 These predictions are less certain but still testable:
