@@ -24,24 +24,33 @@ from sympy import Rational, sqrt, pi, cos, sin, atan2, simplify
 from sympy import Integer, nsimplify
 import math
 
-# Division algebra dimensions
-R, C, H, O = 1, 2, 4, 8
-Im_H, Im_O = 3, 7
+# ==============================================================================
+# FRAMEWORK AXIOMS [A-AXIOM]
+# ==============================================================================
+# Division algebra dimensions from Frobenius theorem
+
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+R, C, H, O = 1, 2, 4, 8  # [D] Division algebra dimensions
+Im_H, Im_O = 3, 7        # [D] Imaginary dimensions = dim - 1
 
 # Framework quantities
-n_d = H  # 4
-n_c = R + C + O  # 11
-H_plus_O = H + O  # 12
-C_plus_O = C + O  # 10
+n_d = H  # [D] = 4 (defect dimension)
+n_c = R + C + O  # [D] = 11 (crystal dimension)
+H_plus_O = H + O  # [D] = 12
+C_plus_O = C + O  # [D] = 10
 
-# Key primes
-framework_primes = [2, 3, 7, 11, 13, 53, 73, 113, 137]
-non_fw_primes = [19, 31, 37, 43, 71, 79, 89]
+# Key primes (from sum-of-squares of division algebra dimensions)
+framework_primes = [2, 3, 7, 11, 13, 53, 73, 113, 137]  # [D] Framework primes
+non_fw_primes = [19, 31, 37, 43, 71, 79, 89]  # Non-framework primes found in CKM
 all_primes = sorted(set(framework_primes + non_fw_primes))
 
-# Experimental values
-V_ub_exp = 0.00382  # ± 0.00024
-delta_ckm_exp = 1.196  # ± 0.045 rad (about 68.5 degrees)
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+V_ub_exp = 0.00382  # [A-IMPORT] ± 0.00024 (PDG)
+delta_ckm_exp = 1.196  # [A-IMPORT] ± 0.045 rad (about 68.5 degrees)
 
 print("=" * 70)
 print("CKM MATRIX COMPLETION SEARCH")

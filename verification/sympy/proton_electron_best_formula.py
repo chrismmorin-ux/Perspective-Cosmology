@@ -25,18 +25,28 @@ print("PROTON/ELECTRON MASS RATIO: BEST FORMULA")
 print("=" * 70)
 
 # =============================================================================
-# DIVISION ALGEBRA DIMENSIONS
+# FRAMEWORK AXIOMS [A-AXIOM]
 # =============================================================================
+# From Frobenius theorem: R, C, H, O are the only finite-dimensional
+# associative division algebras over the reals.
 
-dim_R = 1
-dim_C = 2
-dim_H = 4
-dim_O = 8
+# =============================================================================
+# DERIVED QUANTITIES [D]
+# =============================================================================
+dim_R = 1   # [D] Real numbers - trivial division algebra
+dim_C = 2   # [D] Complex numbers - 2D division algebra
+dim_H = 4   # [D] Quaternions - 4D division algebra (largest associative)
+dim_O = 8   # [D] Octonions - 8D division algebra (non-associative)
 
-Im_H = 3
-Im_O = 7
+Im_H = 3    # [D] Imaginary quaternion dimensions = dim(H) - 1
+Im_O = 7    # [D] Imaginary octonion dimensions = dim(O) - 1
 
-n_c = dim_R + dim_C + dim_O  # = 11 (same as alpha!)
+n_c = dim_R + dim_C + dim_O  # [D] = 11 (crystal dimensions, same as alpha!)
+
+# =============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# =============================================================================
+# CODATA 2018: m_p/m_e = 1836.15267343(11)
 
 print(f"""
 DIVISION ALGEBRA DIMENSIONS:

@@ -37,19 +37,28 @@ Created: Session 98
 from sympy import *
 
 # ==============================================================================
-# FRAMEWORK DIMENSIONS
+# FRAMEWORK AXIOMS [A-AXIOM]
 # ==============================================================================
+# Division algebra dimensions from Frobenius theorem
 
-n_c = 11      # Crystal dimension
-n_d = 4       # Defect dimension (spacetime)
-Im_H = 3      # Imaginary quaternions (generations)
-Im_O = 7      # Imaginary octonions
-C = 2         # Complex dimension
-O = 8         # Octonion dimension
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+n_c = 11      # [D] Crystal dimension = dim(R) + dim(C) + dim(O) = 1 + 2 + 8
+n_d = 4       # [D] Defect dimension = dim(H) (spacetime from quaternion structure)
+Im_H = 3      # [D] Imaginary quaternions = dim(H) - 1 (generations)
+Im_O = 7      # [D] Imaginary octonions = dim(O) - 1
+C = 2         # [D] Complex dimension
+O = 8         # [D] Octonion dimension
 
-# Fine structure constant
-alpha = Rational(1, 137)  # Using integer approximation for clean formulas
-alpha_precise = Rational(7297352569, 10**12)  # CODATA 2022
+# Fine structure constant from framework
+alpha = Rational(1, 137)  # [D] Leading order from n_d^2 + n_c^2 = 137
+alpha_precise = Rational(7297352569, 10**12)  # [A-IMPORT] CODATA 2022
+
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+# Planck 2018 measurements used for comparison
 
 # ==============================================================================
 # MEASURED VALUES (Planck 2018)

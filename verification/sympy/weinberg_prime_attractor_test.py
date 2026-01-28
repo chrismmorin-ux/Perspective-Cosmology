@@ -60,14 +60,25 @@ print("\n" + "=" * 70)
 print("PART 2: NUMERICAL TEST")
 print("=" * 70)
 
-# Framework dimensions
-dim_R = 1
-dim_C = 2
-Im_H = 3
-dim_H = 4
-Im_O = 7
-dim_O = 8
-n_c = 11  # Crystal dimensions
+# ==============================================================================
+# FRAMEWORK AXIOMS [A-AXIOM]
+# ==============================================================================
+# Division algebra dimensions from Frobenius theorem
+
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+dim_R = 1   # [D] Real dimension
+dim_C = 2   # [D] Complex dimension
+Im_H = 3    # [D] Imaginary quaternions = 4 - 1
+dim_H = 4   # [D] Quaternion dimension
+Im_O = 7    # [D] Imaginary octonions = 8 - 1
+dim_O = 8   # [D] Octonion dimension
+n_c = 11    # [D] Crystal dimensions = 1 + 2 + 8
+
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
 
 # The two primes
 p1 = dim_R**2 + dim_H**2  # 17

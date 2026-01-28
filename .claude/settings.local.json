@@ -79,7 +79,22 @@
       "mcp__sympy-mcp__simplify_expression",
       "mcp__wolfram-alpha__query-wolfram-alpha",
       "mcp__sympy-mcp__reset_state",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(for script in verification/sympy/crystalline_structure_analysis.py verification/sympy/crystallization_dynamics.py verification/sympy/crystallization_stress_lambda.py verification/sympy/dark_baryon_structure.py verification/sympy/dark_matter_cosmology.py)",
+      "Bash(do echo \"=== Running: $script ===\")",
+      "Bash(for script in verification/sympy/dark_matter_mass_scale.py verification/sympy/dark_matter_number_density.py verification/sympy/dark_matter_testable_predictions.py verification/sympy/dark_sections_pi_formula.py verification/sympy/dark_sector_mapping.py)",
+      "Bash(for script in verification/sympy/dimension_constraints.py verification/sympy/division_algebra_connection.py verification/sympy/division_algebra_gap_analysis.py verification/sympy/dm_stability_and_visibility.py verification/sympy/dual_cyclotomic_identity.py)",
+      "Bash(for script in verification/sympy/equal_distribution_derivation.py verification/sympy/equal_weighting_derivation.py verification/sympy/extended_constants_verification.py verification/sympy/extended_prime_search.py verification/sympy/fermion_visibility_analysis.py)",
+      "Bash(for script in verification/sympy/field_type_counting.py verification/sympy/framework_prime_search.py verification/sympy/gauge_dimension_rank_analysis.py verification/sympy/gauge_group_from_tilts.py verification/sympy/gauge_groups_derivation.py)",
+      "Bash(for script in verification/sympy/higgs_vev_derivation.py verification/sympy/higgs_vev_derivation_v2.py verification/sympy/hypercharge_derivation.py verification/sympy/independent_sectors_derivation.py verification/sympy/interface_state_counting.py)",
+      "Bash(for script in verification/sympy/isotropy_scale_derivation.py verification/sympy/isotropy_scale_investigation.py verification/sympy/koide_denominator_99_97_connection.py verification/sympy/koide_formula_investigation.py verification/sympy/koide_mass_from_projection.py)",
+      "Bash(for script in verification/sympy/koide_scale_best_formula.py verification/sympy/koide_scale_investigation.py verification/sympy/koide_scale_prime_attractor.py verification/sympy/koide_theta_best_formula.py verification/sympy/koide_theta_correction_search.py)",
+      "Bash(for script in verification/sympy/koide_theta_derivation.py verification/sympy/koide_theta_entropy.py verification/sympy/koide_theta_extended_search.py verification/sympy/koide_theta_prime_attractor.py verification/sympy/koide_theta_prime_connection.py)",
+      "Bash(for script in verification/sympy/lepton_depth_formula_test.py verification/sympy/lepton_mass_ratio_search.py verification/sympy/lepton_mass_ratio_verification.py verification/sympy/light_quark_mass_search.py verification/sympy/mass_imperfection_analysis.py)",
+      "Bash(for script in verification/sympy/mass_ratio_prime_search.py verification/sympy/master_character_search.py verification/sympy/master_formula_search.py verification/sympy/master_generating_function.py verification/sympy/mixing_angles_prime_test.py)",
+      "Bash(for script in verification/sympy/mW_mZ_97_formula.py verification/sympy/neutrino_mass_absolute.py verification/sympy/neutrino_mass_derivation.py verification/sympy/neutrino_mass_search.py verification/sympy/new_constant_predictions.py)",
+      "Bash(for script in verification/sympy/newton_constant_search.py verification/sympy/non_framework_prime_search.py verification/sympy/observable_fraction_analysis.py verification/sympy/octonion_su3_decomposition.py verification/sympy/orthogonality_field_emergence.py)",
+      "Bash(for script in verification/sympy/perspective_mutation_analysis.py verification/sympy/perspective_prime_emergence.py verification/sympy/perspective_scope_analysis.py verification/sympy/pi_derivation_mathematics.py verification/sympy/pi_from_alpha_and_crystal.py)"
     ]
   }
 }

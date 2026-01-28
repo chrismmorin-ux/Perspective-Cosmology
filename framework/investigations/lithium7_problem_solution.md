@@ -153,11 +153,14 @@ The prediction can be tested:
 | New physics (dark matter) | Model-dependent | Unconstrained |
 | **Crystallization** | **Exactly 3 = Im_H** | **Matches observation** |
 
+---
+
 ## Verification
 
-**Script**: `verification/sympy/lithium7_crystallization.py`
+**Scripts**:
+- `verification/sympy/lithium7_crystallization.py` — 8/8 PASS
 
-**Tests**: 8/8 PASS
+**Last verified**: Session 100
 - Z_Li7 = Im_H (protons = generations)
 - N_Li7 = H (neutrons = quaternion)
 - A_Li7 = Im_O (mass = imaginary octonion)

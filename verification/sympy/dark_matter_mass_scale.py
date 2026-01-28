@@ -20,39 +20,48 @@ from mpmath import mp
 mp.dps = 50
 
 # ==============================================================================
-# FRAMEWORK QUANTITIES
+# FRAMEWORK AXIOMS [A-AXIOM]
 # ==============================================================================
+# Division algebra dimensions from Frobenius theorem
+# Hidden sector structure from crystallization partiality
 
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
 # Division algebra dimensions
-R = 1   # Real
-C = 2   # Complex
-H = 4   # Quaternion
-O = 8   # Octonion
-Im_H = 3  # Imaginary quaternions
-Im_O = 7  # Imaginary octonions
+R = 1   # [D] Real
+C = 2   # [D] Complex
+H = 4   # [D] Quaternion
+O = 8   # [D] Octonion
+Im_H = 3  # [D] Imaginary quaternions = H - 1
+Im_O = 7  # [D] Imaginary octonions = O - 1
 
-n_d = 4   # Defect dimension (R + C + H)
-n_c = 11  # Crystal dimension (R + C + O)
+n_d = 4   # [D] Defect dimension = H
+n_c = 11  # [D] Crystal dimension = R + C + O
 
 # Hidden sector (from dark_sector_from_partiality.md)
-hidden_fermions = 16   # SO(10) spinor
-hidden_vectors = 49    # dim(SU(7)) + 1 = 48 + 1
-hidden_scalars = 14
-hidden_total = 79      # Total hidden channels
+hidden_fermions = 16   # [D] SO(10) spinor from hidden gauge structure
+hidden_vectors = 49    # [D] dim(SU(7)) + 1 = 48 + 1
+hidden_scalars = 14    # [D] Hidden scalar modes
+hidden_total = 79      # [D] Total hidden channels
 
 # Visible sector
-visible_fermions = 15  # Per generation
-visible_vectors = 12   # 8 gluons + 3 weak + 1 photon
-visible_total = 58     # SM channels
+visible_fermions = 15  # [D] Per generation (SM fermion content)
+visible_vectors = 12   # [D] 8 gluons + 3 weak + 1 photon
+visible_total = 58     # [D] SM channels
 
-# Physical constants
-alpha = Rational(1, 137)  # Leading order
-alpha_precise = Float("0.0072973525693")  # CODATA 2022
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+# Fine structure constant
+alpha = Rational(1, 137)  # [D] Leading order from framework
+alpha_precise = Float("0.0072973525693")  # [A-IMPORT] CODATA 2022
 
-M_Pl_GeV = Float("1.220890e19")  # Planck mass in GeV
-v_GeV = Float("246.22")  # Higgs VEV in GeV
-m_p_GeV = Float("0.938272")  # Proton mass in GeV
-m_e_GeV = Float("0.000510999")  # Electron mass in GeV
+# Physical mass/energy scales
+M_Pl_GeV = Float("1.220890e19")  # [A-IMPORT] Planck mass in GeV
+v_GeV = Float("246.22")  # [A-IMPORT] Higgs VEV in GeV
+m_p_GeV = Float("0.938272")  # [A-IMPORT] Proton mass in GeV
+m_e_GeV = Float("0.000510999")  # [A-IMPORT] Electron mass in GeV
 
 print("=" * 70)
 print("DARK MATTER MASS SCALE INVESTIGATION")

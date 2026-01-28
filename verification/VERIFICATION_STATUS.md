@@ -1,19 +1,68 @@
 # Verification Script Status
 
 **Created**: 2026-01-26 (Stage 1.2)
-**Updated**: 2026-01-27 (Complete run of all 43 scripts)
+**Updated**: 2026-01-27 (Session 105d — Dark matter phenomenology)
 **Purpose**: Document results from running all verification scripts
 
 ---
 
 ## Executive Summary
 
-| Metric | Count |
+| Metric | Value |
 |--------|-------|
-| **Total Scripts** | 43 |
-| **PASS** | 35 (81%) |
-| **PARTIAL** | 6 (14%) |
-| **FAIL** | 2 (5%) |
+| **Total Scripts** | **186** |
+| **Pass Rate** | ~85% (per STATUS_DASHBOARD) |
+
+---
+
+## Script Categories (182 total)
+
+| Category | Count | Key Results |
+|----------|-------|-------------|
+| **Prime/Attractor** | 25 | Framework prime catalog, sum-of-squares |
+| **Koide** | 20 | Lepton + quark Koide (8 new S91-93) |
+| **Crystallization** | 18 | Order parameter, Lagrangian, Goldstone |
+| **Alpha (α)** | 10 | Enhanced formula, correction terms |
+| **Gravity/GR** | 10 | Einstein, graviton, torsion, BH, QG (S102) |
+| **Weinberg** | 7 | Tree, prime, running, on-shell |
+| **Dark Sector** | 10 | Cosmology, DM mass, 49/9 ratio, signatures |
+| **CMB** | 6 | δT/T, n_s, ℓ₁, ℓ₂ |
+| **Gauge** | 7 | Division algebra → gauge groups |
+| **CKM** | 4 | All 4 parameters |
+| **Hubble** | 3 | H₀, tension (13/12), analysis |
+| **PMNS** | 4 | Neutrino angles, CP phase |
+| **BBN** | 4 | Abundances, Li7, baryon asymmetry |
+| **Mass Ratios** | 8 | Quark, proton-electron |
+| **Other** | ~56 | Misc verification, experimental |
+
+---
+
+## Recent Scripts (S98-S104)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `cmb_observables_crystallization.py` | S98 | 7/7 | PASS |
+| `bbn_crystallization_precision.py` | S99 | 9/9 | PASS |
+| `lithium7_crystallization.py` | S100 | 8/8 | PASS |
+| `crystallization_order_parameter.py` | S100 | 6/6 | PASS |
+| `spacetime_emergence_from_goldstone.py` | S101 | 8/8 | PASS |
+| `crystallization_lagrangian.py` | S101 | 8/8 | PASS |
+| `hubble_constant_derivation.py` | S101b | 8/8 | PASS |
+| `baryon_asymmetry_best_formula.py` | S101c | 7/7 | PASS |
+| `hubble_tension_analysis.py` | S101d | 6/6 | PASS |
+| `coset_sigma_model_lorentz.py` | S102 | 8/8 | PASS |
+| `einstein_from_crystallization.py` | S102 | 8/8 | PASS |
+| `graviton_from_goldstone.py` | S102 | 8/8 | PASS |
+| `scalar_graviton_mode.py` | S102 | 8/8 | PASS |
+| `higher_curvature_corrections.py` | S102 | 8/8 | PASS |
+| `torsion_from_crystallization.py` | S102 | 8/8 | PASS |
+| `black_hole_information.py` | S102 | 8/8 | PASS |
+| `quantum_gravity_unitarity.py` | S102 | 8/8 | PASS |
+| `experimental_signatures.py` | S103 | 8/8 | PASS |
+| `omega_b_refinement.py` | S104 | 8/8 | PASS |
+| `cosmic_denominator_29.py` | S104 | 10/10 | PASS |
+| `dark_matter_phenomenology.py` | S105d | 12/12 | PASS |
+| `running_couplings_beta_identities.py` | S105a | 8/8 | PASS |
 
 ---
 

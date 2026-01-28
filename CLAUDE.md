@@ -8,6 +8,20 @@ Speculative mathematical framework exploring whether perspective axioms can gene
 
 **Goal**: "Interesting enough to look at, concrete enough to be legitimate."
 
+**See `HONEST_ASSESSMENT.md`** for full evaluation. **See `claims/README.md`** for tiered claims.
+
+---
+
+## Claims Tiering (Session 106)
+
+| Tier | Count | Precision | Assessment |
+|------|-------|-----------|------------|
+| **1** | 3 | < 10 ppm | Individually significant |
+| **2** | ~5 | 10-100 ppm | Possibly significant |
+| **3** | ~45 | > 100 ppm | Individually weak, collectively notable |
+
+Plus qualitative derivations (SM gauge groups, Einstein equations, 3+1 spacetime) not captured by random-matching tests.
+
 ---
 
 ## Four-Layer Architecture
@@ -167,13 +181,15 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 |------|------|
 | Current state | `registry/STATUS_DASHBOARD.md` |
 | What to work on | `registry/RESEARCH_NAVIGATOR.md` |
+| **Honest assessment** | **`HONEST_ASSESSMENT.md`** |
+| **Claims tiering** | **`claims/README.md`** |
 | Prime catalog | `framework/PRIME_PHYSICAL_CATALOG.md` |
 | Theory structure | `THEORY_STRUCTURE.md` |
 | Session history | `session_log.md` |
 | Emerging insights | `registry/emerging_patterns.md` |
 | Falsification criteria | `registry/FALSIFICATION_REGISTRY.md` |
-| **Hallucination protection** | **`HALLUCINATION_PROTECTION.md`** |
-| **Caught hallucinations** | **`registry/HALLUCINATION_LOG.md`** |
+| Hallucination protection | `HALLUCINATION_PROTECTION.md` |
+| Caught hallucinations | `registry/HALLUCINATION_LOG.md` |
 
 ---
 
@@ -218,4 +234,6 @@ See `registry/STATUS_DASHBOARD.md` for:
 - Open gaps and blocked work
 - Health metrics
 
-**Last updated**: 2026-01-27
+**Session 106**: Documentation restructure — claims tiering, balanced framing
+
+**Last updated**: 2026-01-27 (Session 106)

@@ -28,9 +28,23 @@ print("ENHANCED ALPHA PREDICTION")
 print("Prime Attractor + Crystallization Correction")
 print("=" * 70)
 
-# Division algebra dimensions
-n_d = 4   # dim(H) - quaternions (associative, defect)
-n_c = 11  # dim(R) + dim(C) + dim(O) = 1 + 2 + 8 (crystal)
+# ==============================================================================
+# FRAMEWORK AXIOMS [A-AXIOM]
+# ==============================================================================
+# From Frobenius theorem: only R, C, H, O are finite-dimensional associative
+# division algebras over the reals. H (quaternions) is the largest associative.
+
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+n_d = 4   # [D] dim(H) = 4 (largest associative division algebra - Frobenius)
+n_c = 11  # [D] dim(R) + dim(C) + dim(O) = 1 + 2 + 8 (crystal dimensions)
+
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+# CODATA 2018 recommended value (used for comparison only)
+# alpha = 7.2973525693(11) × 10^-3, so 1/alpha = 137.035999084(21)
 
 print(f"""
 DIVISION ALGEBRA STRUCTURE:

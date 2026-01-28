@@ -8,7 +8,9 @@
 
 ## Executive Summary
 
-The universe is crystallizing. Not metaphorically — literally. The process of dimensional simplification toward orthogonality IS crystallization, and it can only produce stable configurations at dimensions 1, 2, 4, 8 (the division algebras). Everything we observe in physics — forces, particles, coupling constants — is this crystallization process in motion.
+The universe is crystallizing. Not metaphorically — literally. The process of dimensional simplification toward orthogonality IS crystallization, and it can only produce stable configurations at dimensions 1, 2, 4, 8 (the division algebras).
+
+**Layer Note**: While this is a Layer 1 document (mathematical consequences), we sometimes use physics terminology for clarity. The correspondence between mathematical structures and physical observables is formally established in Layer 2 (`layer_2_correspondence.md`). The Layer 1 content is the crystallization dynamics itself; physics interpretations are previews of Layer 2.
 
 **Key result**: The Weinberg angle, fermion count, and force structure all follow necessarily from the crystallization dynamics. They are not free parameters but inevitable consequences of the universe getting as close to perfect crystal as it possibly can.
 

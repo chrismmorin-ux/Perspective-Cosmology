@@ -28,23 +28,33 @@ through all fermion species.
 
 from sympy import *
 
-# Framework constants
-R = 1
-C = 2
-H = 4
-Im_H = 3
-O = 8
-Im_O = 7
-n_c = 11
-n_d = 4
+# ==============================================================================
+# FRAMEWORK AXIOMS [A-AXIOM]
+# ==============================================================================
+# Division algebra dimensions from Frobenius theorem
 
-# Physical constants
-alpha_precise = Float('7.2973525693e-3')  # CODATA 2018
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+R = 1       # [D] Real dimension
+C = 2       # [D] Complex dimension
+H = 4       # [D] Quaternion dimension
+Im_H = 3    # [D] Imaginary quaternions = H - 1
+O = 8       # [D] Octonion dimension
+Im_O = 7    # [D] Imaginary octonions = O - 1
+n_c = 11    # [D] Crystal dimension = R + C + O
+n_d = 4     # [D] Defect dimension = H
 
-# Measured values
-eta_planck = Float('6.10e-10')      # Planck 2018 (from CMB)
-eta_err = Float('0.04e-10')
-eta_bbn = Float('6.13e-10')         # BBN + D/H
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+# Fine structure constant
+alpha_precise = Float('7.2973525693e-3')  # [A-IMPORT] CODATA 2018
+
+# Measured baryon asymmetry values
+eta_planck = Float('6.10e-10')      # [A-IMPORT] Planck 2018 (from CMB)
+eta_err = Float('0.04e-10')         # [A-IMPORT] Measurement uncertainty
+eta_bbn = Float('6.13e-10')         # [A-IMPORT] BBN + D/H
 
 print("="*70)
 print("BARYON ASYMMETRY eta - BEST FORMULA")

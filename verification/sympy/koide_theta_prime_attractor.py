@@ -13,16 +13,25 @@ Question: Is 73 uniquely selected, or is it "closest" to something?
 
 from sympy import *
 
-# Physical constants
-theta_observed = Float('2.3167', 5)  # radians, from lepton masses
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
+theta_observed = Float('2.3167', 5)  # [A-IMPORT] radians, from lepton masses
 
-# Division algebra dimensions
-dim_C = 2
-dim_H = 4
-dim_O = 8
-Im_H = 3  # imaginary quaternions
-Im_O = 7  # imaginary octonions
-n_c = 11  # crystal dimensions
+# ==============================================================================
+# FRAMEWORK AXIOMS [A-AXIOM]
+# ==============================================================================
+# Division algebra dimensions from Frobenius theorem
+
+# ==============================================================================
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+dim_C = 2   # [D] Complex dimension
+dim_H = 4   # [D] Quaternion dimension
+dim_O = 8   # [D] Octonion dimension
+Im_H = 3    # [D] Imaginary quaternions = dim_H - 1
+Im_O = 7    # [D] Imaginary octonions = dim_O - 1
+n_c = 11    # [D] Crystal dimensions = 1 + 2 + 8
 
 print("=" * 60)
 print("PART I: WHY 73 IS SPECIAL")

@@ -230,15 +230,18 @@ From Session 95, dark matter is asymmetric with n_DM = n_b. This connects:
 
 The baryogenesis and dark matter genesis are UNIFIED in crystallization.
 
-## Verification Scripts
+---
 
-| Script | Tests | Status |
-|--------|-------|--------|
-| `early_universe_crystallization.py` | 5 | PARTIAL |
-| `bbn_crystallization_precision.py` | 9 | ALL PASS |
-| `phase_transition_temperatures.py` | 7 | ALL PASS |
+## Verification
+
+**Scripts**:
+- `verification/sympy/early_universe_crystallization.py` — 5 tests, PARTIAL
+- `verification/sympy/bbn_crystallization_precision.py` — 9/9 PASS
+- `verification/sympy/phase_transition_temperatures.py` — 7/7 PASS
 
 Total: 21 tests, 20 PASS, 1 PARTIAL
+
+**Last verified**: Session 99
 
 ## Open Questions
 

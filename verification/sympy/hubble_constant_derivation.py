@@ -27,31 +27,39 @@ Depends on:
 from sympy import *
 
 # ==============================================================================
-# FRAMEWORK QUANTITIES
+# FRAMEWORK AXIOMS [A-AXIOM]
 # ==============================================================================
-
-R = Integer(1)      # Real dimension
-C = Integer(2)      # Complex dimension
-H = Integer(4)      # Quaternion dimension
-O = Integer(8)      # Octonion dimension
-Im_H = Integer(3)   # Imaginary quaternions
-Im_O = Integer(7)   # Imaginary octonions
-n_d = Integer(4)    # Defect dimension
-n_c = Integer(11)   # Crystal dimension (R + C + O)
+# Division algebra dimensions from Frobenius theorem
 
 # ==============================================================================
-# DERIVED FRAMEWORK QUANTITIES
+# DERIVED QUANTITIES [D]
+# ==============================================================================
+R = Integer(1)      # [D] Real dimension
+C = Integer(2)      # [D] Complex dimension
+H = Integer(4)      # [D] Quaternion dimension
+O = Integer(8)      # [D] Octonion dimension
+Im_H = Integer(3)   # [D] Imaginary quaternions = H - 1
+Im_O = Integer(7)   # [D] Imaginary octonions = O - 1
+n_d = Integer(4)    # [D] Defect dimension = H
+n_c = Integer(11)   # [D] Crystal dimension = R + C + O
+
+# ==============================================================================
+# DERIVED FRAMEWORK QUANTITIES [D]
 # ==============================================================================
 
 # Fine structure constant (from framework)
-alpha_inv = Integer(137) + Rational(4, 111)  # 1/alpha = 137 + 4/111
+alpha_inv = Integer(137) + Rational(4, 111)  # [D] 1/alpha = n_d^2 + n_c^2 + n_d/Phi_6(n_c)
 alpha = 1 / alpha_inv
 
-# Cosmological parameters (from framework)
-Lambda_exp = Integer(56)  # exponent: Lambda = alpha^56/77
-Lambda_denom = Integer(77)  # = n_c * Im_O
-Omega_Lambda_num = Integer(13)  # = C^2 + Im_H^2
-Omega_Lambda_denom = Integer(19)  # = n_c + O
+# Cosmological parameters (from framework derivations)
+Lambda_exp = Integer(56)  # [D] exponent: Lambda = alpha^56/77 (crystallization stress)
+Lambda_denom = Integer(77)  # [D] = n_c * Im_O (crystal × color structure)
+Omega_Lambda_num = Integer(13)  # [D] = C^2 + Im_H^2 (electroweak structure)
+Omega_Lambda_denom = Integer(19)  # [D] = n_c + O (total structure)
+
+# ==============================================================================
+# IMPORTS FROM OBSERVATION [A-IMPORT]
+# ==============================================================================
 
 # ==============================================================================
 # PHYSICAL CONSTANTS

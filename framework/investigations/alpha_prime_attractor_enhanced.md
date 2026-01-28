@@ -1,7 +1,7 @@
 # Investigation: Enhanced Alpha from Prime Attractor + Crystallization
 
 **Status**: ACTIVE
-**Confidence**: [STRONG DERIVATION]
+**Confidence**: [DERIVATION]
 **Created**: 2026-01-27 (Session 77)
 **Significance**: MAJOR — 0.27 ppm accuracy from division algebras alone
 
