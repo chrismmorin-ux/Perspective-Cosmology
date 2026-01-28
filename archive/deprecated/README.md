@@ -17,6 +17,20 @@ This folder contains ideas that were explored and abandoned.
 
 ## Current Contents
 
+### CLAUDE.md.pre-modular
+**Date deprecated**: 2026-01-27
+**Original location**: Root `CLAUDE.md`
+**What it was**: Monolithic 515-line AI assistant guidelines file
+**Why abandoned**: Migrated to modular system with lean root + `.claude/rules/` files
+**Where current work is**:
+- `CLAUDE.md` (141 lines)
+- `.claude/rules/01-confidence-tagging.md`
+- `.claude/rules/02-verification-protocol.md`
+- `.claude/rules/03-session-workflow.md`
+- `.claude/rules/04-skepticism-checklist.md`
+- `.claude/rules/05-derivation-templates.md`
+- `.claude/rules/06-decision-framework.md`
+
 ### alpha_derivation.md
 **Date deprecated**: 2026-01-25
 **Original location**: Early framework exploration
@@ -60,4 +74,4 @@ When moving an idea here, document:
 
 ---
 
-*Last updated: 2026-01-27 (Session 89)*
+*Last updated: 2026-01-27 (Session 90b)*
