@@ -43,6 +43,28 @@ Archive when:
 
 ## Active Patterns
 
+### 2026-01-27 QUARK KOIDE: COMPLETE CHARACTERIZATION (PHASE 1+2)
+**Thread**: mass_hierarchy / koide
+**Score**: 5 (MAJOR BREAKTHROUGH)
+**Sessions since capture**: 0
+**Insight**: BOTH Koide parameters (A² AND θ) have exact division algebra structure for quarks!
+
+**Phase 1 (A² formulas)**:
+- Leptons: A² = 2 = dim(C)
+- Up-type: A² = 34/11 = (Im(H)×n_c+R)/n_c [0.05%]
+- Down-type: A² = 19/8 = (C×O+Im(H))/O [0.52%]
+- Heavy: A² = 127/63 = 2+1/(Im(O)×Im(H)²) [0.004%]
+
+**Phase 2 (θ formulas)**:
+- Leptons: θ/π = 73/99 [0.006%] — 73 = Koide prime
+- Up-type: θ/π = 67/97 [0.05%] — 97 = H²+Im(H)⁴ = 4²+9²
+- Down-type: θ/π = 78/111 [0.14%] — 111 = α correction denominator!
+- Heavy: θ/π = 73/106 [0.03%] — 106 = C×53 (α_s prime!)
+
+**Key insight**: Heavy quarks use the SAME 73 as leptons, but modified denominator with α_s prime!
+**Next**: Phase 3 — Derive WHY these formulas hold from crystallization energy.
+**Status**: BREAKTHROUGH — Both parameters characterized, ready for derivation attempt
+
 ### 2026-01-26 n_d = 4 may not need derivation
 **Thread**: foundation
 **Score**: 3

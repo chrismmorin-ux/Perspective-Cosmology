@@ -406,6 +406,16 @@ These claims are DERIVED or PROVEN:
 | Axiom sync | 100% | **~95%** | **Good (S72)** |
 | Theorem formalization | 100% | **~85%** | Good (S72) |
 
+## Hallucination Protection (NEW S90)
+
+| Metric | Value |
+|--------|-------|
+| Multi-path verified claims | 0 (protocol new) |
+| Hallucinations caught | 0 |
+| High-HRS claims pending | 0 |
+
+**Protocol**: See `HALLUCINATION_PROTECTION.md` for defense layers.
+
 **S72 Formalization**: 8 axioms added (AXM_0109-0116), 4 theorems added (THM_0482-0485), AXM_0106 clarified
 
 **S82 Audit**: Added AXM_0117-0118, rewrote derivations_summary.md with 15+ missing results

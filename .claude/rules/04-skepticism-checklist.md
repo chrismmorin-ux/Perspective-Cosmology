@@ -10,6 +10,16 @@ Run through this checklist EVERY TIME:
 - [ ] **Find alternatives** - Could different assumptions yield the same result?
 - [ ] **Quantify precision** - "Order of magnitude" ≠ "derived"
 
+## LLM Hallucination Check (NEW)
+
+**Claude/LLMs can generate plausible-looking but wrong math.** Check:
+
+- [ ] **Intermediate steps shown** - Not just "it follows that"
+- [ ] **SymPy verification done** - Script exists and PASSES
+- [ ] **HRS calculated** - Hallucination Risk Score < 4
+- [ ] **Multi-path check** (if sub-percent precision) - Alternative derivation agrees
+- [ ] **What would falsify this?** - Can articulate failure criterion
+
 ## Red Flags (Stop and Investigate)
 
 ### 1. The Eddington Trap

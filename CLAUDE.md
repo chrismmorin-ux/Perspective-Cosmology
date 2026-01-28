@@ -33,6 +33,8 @@ Speculative mathematical framework exploring whether perspective axioms can gene
 ### During
 - Capture insights → `registry/emerging_patterns.md`
 - File issues → `session_log.md` (with severity: CRITICAL/HIGH/MEDIUM/LOW)
+- **Challenge derivations**: Ask "what would make this wrong?" before accepting
+- **Log caught hallucinations** → `registry/HALLUCINATION_LOG.md`
 
 ### End
 - Update `session_log.md` with work done
@@ -52,6 +54,81 @@ Speculative mathematical framework exploring whether perspective axioms can gene
 ```
 
 Claude CANNOT verify math by reasoning alone. Computational verification is NON-NEGOTIABLE.
+
+---
+
+## Hallucination Protection
+
+**LLMs hallucinate math.** Even correct-looking derivations may be wrong. See `HALLUCINATION_PROTECTION.md` for full protocol.
+
+### Three Defense Layers
+
+| Layer | Defense | When Required |
+|-------|---------|---------------|
+| **1** | SymPy verification | ALL calculations |
+| **2** | Multi-path verification | Sub-percent precision claims |
+| **3** | Semantic consistency | Complex derivations |
+
+### Warning Signs (STOP and verify)
+
+- "It can be shown that..." → DEMAND explicit steps
+- "After simplification..." → SHOW the simplification
+- Result matches known value exactly → CHECK for post-hoc fitting
+- No failed attempts mentioned → ASK what was tried
+- Precision better than inputs → PROPAGATE uncertainties
+
+### Hallucination Risk Score (HRS)
+
+| Risk Factor | Score |
+|-------------|-------|
+| Matches known value | +2 |
+| "It can be shown" language | +2 |
+| No intermediate steps | +3 |
+| Seems "too good" | +2 |
+| Multiple verifications | -2 |
+| Clear derivation chain | -2 |
+| Falsification stated | -1 |
+
+**HRS 4+** = HIGH risk → require multi-path verification before accepting.
+
+### Log Caught Hallucinations
+
+When a hallucination is caught: document in `registry/HALLUCINATION_LOG.md`
+
+---
+
+## Available Tools
+
+### MCP Servers (use directly)
+| Server | Purpose | Usage |
+|--------|---------|-------|
+| **sympy-mcp** | Symbolic algebra, calculus, solving, simplification | **PRIMARY** — use for all symbolic verification |
+| **wolfram-alpha** | Physics constants, cross-checks, complex queries | **CONSERVE** — 2,000 queries/month limit (~65/day) |
+| **mermaid** | Diagram generation | As needed |
+| **playwright** | Browser automation | Rarely needed |
+
+### Python Packages (via verification scripts)
+| Package | Purpose |
+|---------|---------|
+| **SymPy** | Symbolic math — equations, calculus, algebra |
+| **SciPy/NumPy** | Numerical computing, linear algebra |
+| **mpmath** | Arbitrary precision arithmetic |
+| **EinsteinPy** | General relativity — metrics, geodesics, tensors |
+| **galgebra** | Geometric/Clifford algebra |
+| **Astropy** | Physical constants with units |
+| **matplotlib** | Plotting and visualization |
+
+### Tool Selection Rules
+
+1. **For symbolic verification**: Use `sympy-mcp` or write SymPy script
+2. **For physics constants**: Use Astropy first (free, local), Wolfram Alpha only if needed
+3. **For GR calculations**: Use EinsteinPy via script
+4. **For cross-checking results**: Wolfram Alpha (but count toward daily budget)
+
+**WOLFRAM ALPHA BUDGET**: ~65 queries/day max. Prefer local tools. Use Wolfram for:
+- Verifying final results (not intermediate steps)
+- Looking up obscure constants not in Astropy
+- Complex integrations that SymPy struggles with
 
 ---
 
@@ -95,6 +172,8 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 | Session history | `session_log.md` |
 | Emerging insights | `registry/emerging_patterns.md` |
 | Falsification criteria | `registry/FALSIFICATION_REGISTRY.md` |
+| **Hallucination protection** | **`HALLUCINATION_PROTECTION.md`** |
+| **Caught hallucinations** | **`registry/HALLUCINATION_LOG.md`** |
 
 ---
 
@@ -105,6 +184,8 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 - Trace derivations with [A]/[I]/[D] chains
 - List imports for any physics values used
 - Write SymPy scripts for calculations
+- **Use sympy-mcp for quick symbolic checks** (don't need full script for simple verifications)
+- **Use Wolfram Alpha sparingly** — only for final cross-checks or missing constants
 - File issues when problems found
 - Update tracking files at session end
 

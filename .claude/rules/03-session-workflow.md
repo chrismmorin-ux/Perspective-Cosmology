@@ -40,6 +40,18 @@ Which direction?
 3. Only then document in markdown
 4. Reference script in documentation
 
+### Hallucination Protection (On Every Derivation)
+1. **Calculate HRS** (Hallucination Risk Score):
+   - Matches known value? +2
+   - "It can be shown" language? +2
+   - No intermediate steps? +3
+   - Seems "too good"? +2
+   - Multiple verifications? -2
+   - Clear derivation chain? -2
+2. **If HRS ≥ 4**: Require multi-path verification before accepting
+3. **Challenge**: Ask "What would make this wrong?"
+4. **If hallucination caught**: Log in `registry/HALLUCINATION_LOG.md`
+
 ### On Every Investigation
 1. Create with ACTIVE status
 2. Note in session_log.md
