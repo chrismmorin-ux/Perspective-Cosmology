@@ -388,32 +388,36 @@ If Λ = α^n × (algebraic factor), then n and the factor should be framework pr
 
 ---
 
-## The Big Picture (Session 70)
+## The Big Picture (Session 88)
 
 ```
 LAYER 0 AXIOMS (13 total)
         │
         ↓ Mathematical consequence
-RECRYSTALLIZATION
-(one process: dimensions simplify toward orthogonality)
+DIVISION ALGEBRA STRUCTURE
+{R=1, C=2, H=4, O=8}, n_d=4, n_c=11
         │
         ├─────────────────────────────────────┐
         ↓                                     ↓
-QUANTUM MECHANICS                        "FORCES"
-[DERIVED - Session 66]                   [CONJECTURE]
-• Hilbert space                          • Gravity (unconstrained)
-• Schrödinger equation                   • EM (C-localized)
-• Born rule                              • Weak (H-localized)
-• Unitary evolution                      • Strong (O-localized)
+DIMENSIONLESS RATIOS                    RECRYSTALLIZATION
+[THEOREMS - all derived]                [CONJECTURE]
+• alpha = 1/(137 + 4/111)               • Forces as localization
+• m_p/m_e = 1836 + 11/72                • QM from partial observation
+• v/M_Pl = alpha^8 * sqrt(44/7)         • Big numbers algebraic
+• v/m_p = 11284/43                           │
+• alpha_G = alpha^16 * (44/7)/(v/m_p)^2      │
         │                                     │
         └─────────────────────────────────────┘
                         │
                         ↓
-              WHAT OBSERVERS EXPERIENCE
-              (afterglow of recrystallization)
+              IMPORT: ONE SCALE (M_Pl or c + hbar)
+                        │
+                        ↓
+              ALL PHYSICS (no fine-tuning)
 ```
 
-**Everything is one thing doing one thing.**
+**Key Session 88 insight**: "Big numbers" (10^17, 10^38) are division algebra theorems.
+**Hierarchy problem**: SOLVED — gravity isn't mysteriously weak, it's α^16.
 
 ---
 
@@ -421,10 +425,13 @@ QUANTUM MECHANICS                        "FORCES"
 
 | If you want to know... | See File |
 |------------------------|----------|
+| **Big numbers explained** | `planck_scale_and_big_numbers.md` |
+| **Why hbar can't be derived** | `planck_constant_investigation.md` |
+| **Gravitational coupling** | `gravitational_coupling_derivation.py` |
 | The unified picture | `unified_emergence_from_perspective.md` |
 | QM derivation details | `schrodinger_derivation.md` |
 | Forces as localization | `forces_as_localized_recrystallization.md` |
-| α derivation attempts | `alpha_formula_derivations.md` |
+| All derived constants | `universal_constants_from_division_algebras.md` |
 | Mass hierarchy | `koide_formula_connection.md` |
 | Layer 0 axioms | `layer_0_pure_axioms.md` |
 | What's verified | `verification/DERIVATION_CHAIN_AUDIT.md` |

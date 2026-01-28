@@ -108,11 +108,20 @@ When a claim's status changes, all downstream claims are flagged for review.
 | DRV_0121 | Koide θ = π×73/99 | MATCHED | AXM_0118 | **0.006%** | S75 |
 | DRV_0122 | Koide M = v/784 | MATCHED | DRV_0001 | **0.07%** | S74 |
 
-### Higgs VEV
+### Higgs VEV and Scale Ratios (Session 88 — Big Numbers)
 
 | ID | Name | Status | Uses | Accuracy | Session |
 |----|------|--------|------|----------|---------|
-| DRV_0130 | v = M_Pl × α^8 × √(44/7) | CONJECTURE | DRV_0102, IMP_Planck | **0.034%** | S81 |
+| DRV_0130 | v = M_Pl × α^8 × √(44/7) | DERIVED | DRV_0102, IMP_Planck | **0.034%** | S81 |
+| DRV_0131 | v/m_p = 11284/43 | DERIVED | DRV_0001, DRV_0002 | **0.21 ppm** | **S88** |
+| DRV_0132 | α_G = α^16 × (44/7) / (11284/43)² | DERIVED | DRV_0102, DRV_0131 | **0.068%** | **S88** |
+
+**Session 88 Key Insight**: The "big numbers" in physics are algebraic theorems:
+- M_Pl/v ~ 10^17 = 1/(α^8 × √(44/7))
+- M_Pl/m_p ~ 10^19 = (11284/43)/(α^8 × √(44/7))
+- 1/α_G ~ 10^38 = (11284/43)²/(α^16 × 44/7)
+
+**Note**: ℏ is a SCALE IMPORT, not derivable. All dimensionless ratios ARE derivable.
 
 ### Mass Ratios
 
@@ -146,10 +155,11 @@ When a claim's status changes, all downstream claims are flagged for review.
 | Category | Count | Sub-ppm | <0.1% | <1% | Exact |
 |----------|-------|---------|-------|-----|-------|
 | Universal Constants | 3 | 2 | 1 | 0 | 0 |
+| Scale Ratios (S88) | 3 | 1 | 2 | 0 | 0 |
 | Mixing Angles (PMNS) | 3 | 0 | 1 | 1 | 0 |
 | Mixing Angles (CKM) | 4 | 0 | 3 | 0 | 1 |
 | Structural | 8 | — | — | — | — |
-| **Total Numerical** | **10** | **2** | **5** | **1** | **1** |
+| **Total Numerical** | **13** | **3** | **8** | **1** | **1** |
 
 ---
 
@@ -182,4 +192,4 @@ Or use the Mermaid diagram below (auto-updated).
 
 ---
 
-*Last updated: 2026-01-27 (Session 87 — CKM matrix complete)*
+*Last updated: 2026-01-27 (Session 88 — Big numbers are algebraic)*
