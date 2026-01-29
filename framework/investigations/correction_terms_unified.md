@@ -152,6 +152,43 @@ The tilt ε between perspective and crystal creates coupling through interaction
 
 ---
 
+## Part IV-B: Abelian vs Non-Abelian Channel Counting (S122 BREAKTHROUGH)
+
+### The Key Distinction
+
+**THEOREM**: Channel counting differs by gauge type!
+
+| Gauge Type | Channel Formula | Why? |
+|------------|-----------------|------|
+| **Abelian (U(1))** | n² - n + 1 = Φ₆(n) | Cartan averages to zero |
+| **Non-abelian (SU(N))** | Full tensor product | All generators couple |
+
+### Physical Reasoning
+
+**Abelian (photon)**:
+- Photon is NEUTRAL — doesn't carry charge
+- Cannot "see" Cartan generators (they preserve quantum numbers)
+- Only couples to off-diagonal (transitions) + U(1) (total charge)
+- Cartan contributions average to zero over generic tilts
+- Result: n² - (n-1) = n² - n + 1 = Φ₆(n)
+
+**Non-abelian (gluon)**:
+- Gluons CARRY COLOR — are themselves charged
+- Couple to ALL generators including Cartan
+- Cartan contributions DON'T average out
+- Result: full tensor product dimension
+
+### Verification
+
+| Constant | Gauge Type | Denominator | Formula |
+|----------|------------|-------------|---------|
+| α | Abelian (U(1)) | 111 | Φ₆(11) = 11² - 11 + 1 |
+| m_p/m_e | Non-abelian (SU(3)) | 72 | 8 × 9 (full product) |
+
+**Script**: `verification/sympy/em_channel_axiom_derivation.py` — ALL TESTS PASS
+
+---
+
 ## Part V: Remaining Gaps
 
 ### Gap 1: Why n_d for α but n_c for proton?

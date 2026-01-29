@@ -1,67 +1,64 @@
 # Session History
 
-**Purpose**: Navigation guide for the session log (11,000+ lines)
+**Purpose**: Navigation guide for session logs
 
 ---
 
-## Quick Navigation
+## File Locations
 
-The full session log is in `session_log.md` (root directory).
+| File | Sessions | Content |
+|------|----------|---------|
+| `session_log.md` (root) | 88-117+ | **Current** — Breakthrough Era |
+| `archive/sessions/sessions_foundation_era.md` | 1-87 | Historical — Foundation Era |
 
-### Session Eras
+---
 
-| Sessions | Era | Key Work | Lines (approx) |
-|----------|-----|----------|----------------|
-| 100-106 | **Cosmology Breakthroughs** | Einstein equations, CMB, BBN, Hubble | 1-1000 |
-| 90-99 | **Quark Koide + Crystallization** | Mass relations, rigorous crystallization | 1000-2500 |
-| 80-89 | **Precision Improvements** | Sub-ppm predictions, prime emergence | 2500-3500 |
-| 70-79 | **Framework Consolidation** | Theory structure, formalization | 3500-4500 |
-| 50-69 | **Investigation Era** | Fermion multiplets, hypercharges | 4500-6500 |
-| 1-49 | **Foundation Building** | Core axioms, first derivations | 6500-12000 |
+## Session Eras
 
-### Finding Specific Sessions
+| Era | Sessions | Key Work |
+|-----|----------|----------|
+| **Breakthrough Era** | 88-117+ | Major derivations, cosmology complete, QM derived |
+| **Foundation Era** | 1-87 | Core axioms, initial investigations, consolidation |
 
-Use grep or search for:
-- `## Session [NUMBER]` — e.g., `## Session 95`
-- `## Session 2026-01-27 (Session [NUMBER])` — newer format
+---
 
-### Major Breakthrough Sessions
+## Major Breakthrough Sessions
 
 | Session | Breakthrough |
 |---------|--------------|
-| **106** | Documentation restructure, balanced framing |
-| **105** | 7 parallel workstreams, Strong CP solved |
+| **117** | Hidden sector 42 unified |
+| **116** | Complete cosmic inventory, prime 37 |
+| **115** | H0 exact (337/5), fourth-power primes |
+| **114** | Prime 179 deep exploration |
+| **111** | Electroweak sector complete |
+| **109** | Quantum mechanics fully derived |
 | **102** | Einstein equations from crystallization |
 | **100** | Rigorous crystallization theory |
 | **97-99** | CMB + BBN predictions |
 | **94-96** | Dark matter structure |
-| **91** | Quark Koide complete |
+| **91-93** | Quark Koide complete |
 | **89** | α correction term derived |
 | **88** | Big numbers are algebraic |
-| **85** | Theory consolidation |
-| **83** | All framework primes found |
-
-### Key Derivation Sessions
-
-| Constant | First Derived | Key Session |
-|----------|---------------|-------------|
-| 1/α = 137 + 4/111 | S47 | S89 (complete) |
-| m_p/m_e = 1836 + 11/72 | S78 | S78 |
-| cos(θ_W) = 171/194 | S79 | S96b |
-| Ω_Λ = 13/19 | S94 | S94 |
-| Einstein equations | S102 | S102 |
 
 ---
 
-## Session Format
+## Key Derivation Sessions
 
-Each session entry contains:
-- **Focus**: Main topic
-- **Outcome**: What was accomplished
-- **Work Done**: Bullet points
-- **Files Created/Modified**: Documentation
-- **Next Steps**: Follow-up tasks
+| Constant | Session | Precision |
+|----------|---------|-----------|
+| 1/α = 137 + 4/111 | S89 | 0.27 ppm |
+| m_p/m_e = 1836 + 11/72 | S78 | 0.06 ppm |
+| cos(θ_W) = 171/194 | S96b | 3.75 ppm |
+| H₀ = 337/5 | S115 | EXACT |
+| Ω_Λ = 13/19 | S94 | 0.07% |
+| Einstein equations | S102 | — |
 
 ---
 
-*This directory may contain archived session segments in the future.*
+## Size Limits
+
+To maintain LLM compatibility:
+- Main session_log.md: Keep under 200KB (~4000 lines)
+- When exceeded: Archive older sessions to `archive/sessions/`
+
+*Last archived: 2026-01-28 (Sessions 1-87)*

@@ -94,7 +94,16 @@
       "Bash(for script in verification/sympy/mass_ratio_prime_search.py verification/sympy/master_character_search.py verification/sympy/master_formula_search.py verification/sympy/master_generating_function.py verification/sympy/mixing_angles_prime_test.py)",
       "Bash(for script in verification/sympy/mW_mZ_97_formula.py verification/sympy/neutrino_mass_absolute.py verification/sympy/neutrino_mass_derivation.py verification/sympy/neutrino_mass_search.py verification/sympy/new_constant_predictions.py)",
       "Bash(for script in verification/sympy/newton_constant_search.py verification/sympy/non_framework_prime_search.py verification/sympy/observable_fraction_analysis.py verification/sympy/octonion_su3_decomposition.py verification/sympy/orthogonality_field_emergence.py)",
-      "Bash(for script in verification/sympy/perspective_mutation_analysis.py verification/sympy/perspective_prime_emergence.py verification/sympy/perspective_scope_analysis.py verification/sympy/pi_derivation_mathematics.py verification/sympy/pi_from_alpha_and_crystal.py)"
+      "Bash(for script in verification/sympy/perspective_mutation_analysis.py verification/sympy/perspective_prime_emergence.py verification/sympy/perspective_scope_analysis.py verification/sympy/pi_derivation_mathematics.py verification/sympy/pi_from_alpha_and_crystal.py)",
+      "WebFetch(domain:newscenter.lbl.gov)",
+      "mcp__sympy-mcp__differentiate_expression",
+      "mcp__mermaid__mermaid_save",
+      "WebFetch(domain:ned.ipac.caltech.edu)",
+      "WebFetch(domain:background.uchicago.edu)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_snapshot"
     ]
   }
 }

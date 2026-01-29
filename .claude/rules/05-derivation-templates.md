@@ -1,5 +1,24 @@
 # Derivation Templates
 
+## Plain Language Requirement
+
+**Every major derivation or concept document SHOULD include a plain-language section.**
+
+Why:
+- If you can't explain it simply, you might not fully understand it
+- Makes the framework accessible to non-specialists
+- Helps identify where we're hiding complexity behind jargon
+- Creates a "sanity check" on technical claims
+
+When to include:
+- Any document explaining a physical concept (Big Bang, black holes, etc.)
+- Major derivations (Einstein equations, fine structure constant, etc.)
+- Foundational axioms and their consequences
+
+Format: Add a `## Plain Language` section near the top of the document, after the header but before technical details.
+
+---
+
 ## Standard Claim Documentation
 
 Use this template when documenting ANY derivation:
@@ -10,6 +29,12 @@ Use this template when documenting ANY derivation:
 **Confidence**: [AXIOM | THEOREM | DERIVATION | CONJECTURE | SPECULATION]
 
 **Statement**: [Precise mathematical statement]
+
+## Plain Language
+
+[2-5 paragraphs explaining this in everyday terms. No equations. Use analogies. Answer "what does this actually mean?"]
+
+**One-sentence version**: [Capture the essence in a single sentence]
 
 **Derivation Chain**:
 - Step 1 [A: axiom used] → Result
@@ -47,6 +72,16 @@ For new investigation files in `framework/investigations/`:
 **Status**: ACTIVE | QUARANTINE | CANONICAL
 **Created**: Session [N], YYYY-MM-DD
 **Last Updated**: Session [M], YYYY-MM-DD
+
+---
+
+## Plain Language
+
+[What is this about in everyday terms? 2-5 paragraphs, no equations, use analogies.]
+
+**One-sentence version**: [The core idea in one sentence]
+
+---
 
 ## Question
 

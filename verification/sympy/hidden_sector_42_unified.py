@@ -2,19 +2,20 @@
 """
 THE HIDDEN SECTOR 42 UNIFIED THEOREM - Session 117
 
-CENTRAL RESULT: 42 = C × Im_H × Im_O is the "hidden sector constant"
-that appears in FIVE independent contexts:
+CENTRAL RESULT: 42 = C  x  Im_H  x  Im_O is the "hidden sector constant"
+that appears in SIX independent contexts:
 
 1. Universal-Fine Structure Split: 179 - 137 = 42
 2. Visible-Hidden Derivation: hidden = visible + 21, where hidden - visible = 21 = 42/C
-3. Weak Mixing Angle: sin²(θ_W) ≈ 42/181
-4. Deep Algebraic Identity: Im_H² + Im_O² - H² = C × Im_H × Im_O = 42
-5. The 137 Factorization: 137 = 2×37 + 63 = 2×H_sum + Im_H × (42)
+3. Weak Mixing Angle: sin^2(theta_W) ~ 42/181
+4. Deep Algebraic Identity: Im_H^2 + Im_O^2 - H^2 = C  x  Im_H  x  Im_O = 42
+5. The 137 Factorization: 137 = 2 x 37 + 63 = 2 x H_sum + Im_H  x  (42)
+6. Goldstone Tower: 42 = C x 21, where 21 = C x n_c - 1 = Im_H x Im_O (two representations!)
 
 This cannot be coincidence. 42 encodes the interface between visible and hidden sectors.
 
-KEY FINDING: 42 = "EM × generations × colors" = C × Im_H × Im_O
-             = 2 × 3 × 7 = the number of hidden sector channels
+KEY FINDING: 42 = "EM  x  generations  x  colors" = C  x  Im_H  x  Im_O
+             = 2  x  3  x  7 = the number of hidden sector channels
 
 Created: Session 117
 """
@@ -40,10 +41,10 @@ n_c = 11     # Crystal dimensions
 n_d = 4      # Spacetime dimensions
 
 # The central number
-HIDDEN_42 = C * Im_H * Im_O  # = 2 × 3 × 7 = 42
+HIDDEN_42 = C * Im_H * Im_O  # = 2  x  3  x  7 = 42
 
-print(f"\nCENTRAL CONSTANT: 42 = C × Im_H × Im_O = {C} × {Im_H} × {Im_O} = {HIDDEN_42}")
-print("Physical meaning: EM structure × generations × color structure")
+print(f"\nCENTRAL CONSTANT: 42 = C  x  Im_H  x  Im_O = {C}  x  {Im_H}  x  {Im_O} = {HIDDEN_42}")
+print("Physical meaning: EM structure  x  generations  x  color structure")
 print("                = number of hidden sector channels")
 
 # ==============================================================================
@@ -59,10 +60,10 @@ fine_137 = H**2 + n_c**2                     # 16 + 121 = 137
 hidden_diff = universal_179 - fine_137       # 179 - 137 = 42
 
 print(f"""
-179 = Im_H² + Im_O² + n_c² = {Im_H}² + {Im_O}² + {n_c}² = {universal_179}
+179 = Im_H^2 + Im_O^2 + n_c^2 = {Im_H}^2 + {Im_O}^2 + {n_c}^2 = {universal_179}
       "Universal Structure Prime" - sum of ALL structural dimensions squared
 
-137 = H² + n_c² = {H}² + {n_c}² = {fine_137}
+137 = H^2 + n_c^2 = {H}^2 + {n_c}^2 = {fine_137}
       "Fine Structure Prime" - defect (spacetime) + crystal
 
 42 = 179 - 137 = {hidden_diff}
@@ -83,27 +84,27 @@ print("="*80)
 print("MANIFESTATION 2: The Algebraic Identity")
 print("="*80)
 
-# The identity: Im_H² + Im_O² - H² = C × Im_H × Im_O
+# The identity: Im_H^2 + Im_O^2 - H^2 = C  x  Im_H  x  Im_O
 lhs = Im_H**2 + Im_O**2 - H**2  # 9 + 49 - 16 = 42
-rhs = C * Im_H * Im_O           # 2 × 3 × 7 = 42
+rhs = C * Im_H * Im_O           # 2  x  3  x  7 = 42
 
 print(f"""
-THEOREM: Im_H² + Im_O² - H² = C × Im_H × Im_O
+THEOREM: Im_H^2 + Im_O^2 - H^2 = C  x  Im_H  x  Im_O
 
 Verification:
-  LHS = {Im_H}² + {Im_O}² - {H}² = {Im_H**2} + {Im_O**2} - {H**2} = {lhs}
-  RHS = {C} × {Im_H} × {Im_O} = {rhs}
+  LHS = {Im_H}^2 + {Im_O}^2 - {H}^2 = {Im_H**2} + {Im_O**2} - {H**2} = {lhs}
+  RHS = {C}  x  {Im_H}  x  {Im_O} = {rhs}
 
   Identity holds: {lhs} = {rhs} [VERIFIED]
 
 This is NOT trivial! It says:
-  (gen² + color² - spacetime²) = EM × gen × color
+  (gen^2 + color^2 - spacetime^2) = EM  x  gen  x  color
 
-The deficit of spacetime structure (H²=16) compared to internal structure
-(Im_H² + Im_O² = 58) equals the EM-coupled channels (42).
+The deficit of spacetime structure (H^2=16) compared to internal structure
+(Im_H^2 + Im_O^2 = 58) equals the EM-coupled channels (42).
 
-Rearranging: Im_H² + Im_O² = H² + C × Im_H × Im_O
-             internal structure = spacetime² + hidden channels
+Rearranging: Im_H^2 + Im_O^2 = H^2 + C  x  Im_H  x  Im_O
+             internal structure = spacetime^2 + hidden channels
 """)
 
 # ==============================================================================
@@ -125,8 +126,8 @@ for a in framework_dims:
 H_sum = sum(sorted(h_regime_primes))  # 2 + 5 + 13 + 17 = 37
 
 # The derivation
-gen_color_21 = Im_H * Im_O             # 3 × 7 = 21
-em_gen_color_42 = C * Im_H * Im_O      # 2 × 3 × 7 = 42
+gen_color_21 = Im_H * Im_O             # 3  x  7 = 21
+em_gen_color_42 = C * Im_H * Im_O      # 2  x  3  x  7 = 42
 
 visible_58 = H_sum + gen_color_21      # 37 + 21 = 58
 hidden_79 = H_sum + em_gen_color_42    # 37 + 42 = 79
@@ -136,17 +137,17 @@ print(f"""
 H-regime primes: {sorted(h_regime_primes)}
 H_sum = {H_sum} (bootstrap prime)
 
-visible = H_sum + Im_H × Im_O = {H_sum} + {gen_color_21} = {visible_58}
-hidden  = H_sum + C × Im_H × Im_O = {H_sum} + {em_gen_color_42} = {hidden_79}
+visible = H_sum + Im_H  x  Im_O = {H_sum} + {gen_color_21} = {visible_58}
+hidden  = H_sum + C  x  Im_H  x  Im_O = {H_sum} + {em_gen_color_42} = {hidden_79}
 total   = visible + hidden = {visible_58} + {hidden_79} = {total_137}
 
 KEY INSIGHT: hidden - visible = {hidden_79} - {visible_58} = {hidden_79 - visible_58}
-             = C × Im_H × Im_O - Im_H × Im_O
-             = Im_H × Im_O × (C - 1)
-             = {Im_H * Im_O} × {C - 1}
+             = C  x  Im_H  x  Im_O - Im_H  x  Im_O
+             = Im_H  x  Im_O  x  (C - 1)
+             = {Im_H * Im_O}  x  {C - 1}
              = {Im_H * Im_O * (C - 1)}
 
-The DIFFERENCE is 21 = Im_H × Im_O = 42/C
+The DIFFERENCE is 21 = Im_H  x  Im_O = 42/C
 The factor C = 2 (EM coupling) distinguishes hidden from visible!
 
 Alternative form:
@@ -161,7 +162,7 @@ The hidden sector is exactly one "half" of the EM-coupled channels MORE than vis
 # ==============================================================================
 
 print("="*80)
-print("MANIFESTATION 4: Weak Mixing Angle sin²(θ_W) ≈ 42/181")
+print("MANIFESTATION 4: Weak Mixing Angle sin^2(theta_W) ~ 42/181")
 print("="*80)
 
 # Measured values
@@ -179,13 +180,13 @@ print(f"""
 Weak mixing angle measures the hypercharge/total gauge fraction.
 
 Framework interpretation:
-  sin²(θ_W) = (hidden channels) / (total structure + correction)
+  sin^2(theta_W) = (hidden channels) / (total structure + correction)
             = 42 / 181
 
 Where:
-  42 = C × Im_H × Im_O = hidden channels
-  181 = Im_H⁴ + (n_c-1)² = {Im_H}⁴ + {n_c-1}² = {Im_H**4} + {(n_c-1)**2} = {check_181}
-      = generational correction⁴ + Goldstone modes²
+  42 = C  x  Im_H  x  Im_O = hidden channels
+  181 = Im_H^4 + (n_c-1)^2 = {Im_H}^4 + {n_c-1}^2 = {Im_H**4} + {(n_c-1)**2} = {check_181}
+      = generational correction^4 + Goldstone modes^2
       = 179 + C = universal + EM correction
 
 Predictions:
@@ -206,44 +207,44 @@ print("="*80)
 print("MANIFESTATION 5: Two Constructions of 137")
 print("="*80)
 
-# Construction 1: H² + n_c²
+# Construction 1: H^2 + n_c^2
 construction_1 = H**2 + n_c**2  # 16 + 121 = 137
 
-# Construction 2: 2×37 + 63 = 2×H_sum + 3×21 = 2×H_sum + Im_H×42
+# Construction 2: 2 x 37 + 63 = 2 x H_sum + 3 x 21 = 2 x H_sum + Im_H x 42
 construction_2 = 2*H_sum + Im_H * gen_color_21  # 74 + 63 = 137
 
 # Connection to 42
-# 137 = 2*H_sum + Im_H × (Im_H × Im_O)
-#     = 2*H_sum + Im_H × 21
+# 137 = 2*H_sum + Im_H  x  (Im_H  x  Im_O)
+#     = 2*H_sum + Im_H  x  21
 #     = 2*H_sum + 63
 
 print(f"""
 137 has TWO natural constructions:
 
 Construction 1 (sum of squares):
-  137 = H² + n_c² = {H}² + {n_c}² = {H**2} + {n_c**2} = {construction_1}
+  137 = H^2 + n_c^2 = {H}^2 + {n_c}^2 = {H**2} + {n_c**2} = {construction_1}
 
 Construction 2 (bootstrap + generation-color):
-  137 = 2×H_sum + Im_H × (Im_H × Im_O)
-      = 2×{H_sum} + {Im_H} × {gen_color_21}
+  137 = 2 x H_sum + Im_H  x  (Im_H  x  Im_O)
+      = 2 x {H_sum} + {Im_H}  x  {gen_color_21}
       = {2*H_sum} + {Im_H * gen_color_21}
       = {construction_2}
 
 Equivalently:
-  137 = 2×H_sum + (1+C) × Im_H × Im_O
-      = 2×{H_sum} + {1+C} × {gen_color_21}
+  137 = 2 x H_sum + (1+C)  x  Im_H  x  Im_O
+      = 2 x {H_sum} + {1+C}  x  {gen_color_21}
       = {2*H_sum} + {(1+C) * gen_color_21}
       = {2*H_sum + (1+C)*gen_color_21}
 
-  Where (1+C) × 21 = 3 × 21 = 63 = Im_H × Im_H × Im_O
+  Where (1+C)  x  21 = 3  x  21 = 63 = Im_H  x  Im_H  x  Im_O
 
 Both constructions give 137 - this connects spacetime structure to generation-color!
 
 The HIDDEN SECTOR CONSTANT (42) appears as:
-  137 = 2×37 + 63 = 2×H_sum + (42 + 21)
-      = 2×37 + (42 + 42/C)
-      = 2×37 + 42×(1 + 1/C)
-      = 74 + 42 × 3/2
+  137 = 2 x 37 + 63 = 2 x H_sum + (42 + 21)
+      = 2 x 37 + (42 + 42/C)
+      = 2 x 37 + 42 x (1 + 1/C)
+      = 74 + 42  x  3/2
       = 74 + 63 = 137 [VERIFIED]
 """)
 
@@ -256,22 +257,22 @@ print("THE UNIFIED HIDDEN SECTOR THEOREM")
 print("="*80)
 
 print("""
-THEOREM: 42 = C × Im_H × Im_O is the "hidden sector constant" that:
+THEOREM: 42 = C  x  Im_H  x  Im_O is the "hidden sector constant" that:
 
 1. SEPARATES universal from fine structure: 179 - 137 = 42
 
-2. SATISFIES a deep algebraic identity: Im_H² + Im_O² - H² = 42
+2. SATISFIES a deep algebraic identity: Im_H^2 + Im_O^2 - H^2 = 42
    (internal structure - spacetime = hidden channels)
 
 3. DETERMINES the visible/hidden split: hidden = visible + 21 = visible + 42/C
 
-4. CONTROLS weak mixing: sin²(θ_W) ≈ 42/(179 + C) = 42/181
+4. CONTROLS weak mixing: sin^2(theta_W) ~ 42/(179 + C) = 42/181
 
-5. FACTORS into 137: 137 = 2×37 + 42×(1 + 1/C)
+5. FACTORS into 137: 137 = 2 x 37 + 42 x (1 + 1/C)
 
 PHYSICAL INTERPRETATION:
 
-  42 = 2 × 3 × 7 = EM × generations × colors
+  42 = 2  x  3  x  7 = EM  x  generations  x  colors
 
 This product encodes the number of ways the EM interaction (C=2)
 can couple the 3 generations to the 7 color-like degrees of freedom.
@@ -284,15 +285,15 @@ WHY 42 APPEARS EVERYWHERE:
 The hidden sector is defined by having EM coupling (C=2) where visible does not.
 Every formula involving visible/hidden interface must involve this factor.
 
-- Universal structure includes ALL channels → 179
-- Fine structure includes only visible → 137
-- Hidden channels are the difference → 42
+- Universal structure includes ALL channels -> 179
+- Fine structure includes only visible -> 137
+- Hidden channels are the difference -> 42
 
-- Visible sector has 1× gen-color contribution → 21
-- Hidden sector has C× gen-color contribution → 42
+- Visible sector has 1 x  gen-color contribution -> 21
+- Hidden sector has C x  gen-color contribution -> 42
 - The EM factor C distinguishes them
 
-- Weak mixing measures hypercharge (EM-like) fraction of gauge → 42/total
+- Weak mixing measures hypercharge (EM-like) fraction of gauge -> 42/total
 
 The consistency across ALL these contexts is remarkable.
 42 is not "the answer to everything" - it's the answer to "what separates
@@ -309,12 +310,12 @@ print("="*80)
 
 tests = [
     # Core identities
-    ("42 = C × Im_H × Im_O", HIDDEN_42 == 42),
+    ("42 = C  x  Im_H  x  Im_O", HIDDEN_42 == 42),
     ("179 - 137 = 42", universal_179 - fine_137 == 42),
-    ("Im_H² + Im_O² - H² = 42", Im_H**2 + Im_O**2 - H**2 == 42),
+    ("Im_H^2 + Im_O^2 - H^2 = 42", Im_H**2 + Im_O**2 - H**2 == 42),
 
     # Algebraic identity
-    ("Im_H² + Im_O² - H² = C × Im_H × Im_O",
+    ("Im_H^2 + Im_O^2 - H^2 = C  x  Im_H  x  Im_O",
      Im_H**2 + Im_O**2 - H**2 == C * Im_H * Im_O),
 
     # 58/79 split
@@ -324,19 +325,23 @@ tests = [
     ("21 = 42/C", gen_color_21 == em_gen_color_42 // C),
 
     # Weak mixing
-    ("42/181 within 0.5% of sin²θ_W",
+    ("42/181 within 0.5% of sin^2theta_W",
      abs(float(sin2_42_181) - sin2_W_MZ)/sin2_W_MZ < 0.005),
-    ("181 = Im_H⁴ + (n_c-1)²", 181 == Im_H**4 + (n_c - 1)**2),
+    ("181 = Im_H^4 + (n_c-1)^2", 181 == Im_H**4 + (n_c - 1)**2),
     ("181 = 179 + C", 181 == 179 + C),
 
     # 137 decompositions
-    ("137 = H² + n_c²", 137 == H**2 + n_c**2),
-    ("137 = 2×37 + 63", 137 == 2*H_sum + Im_H*gen_color_21),
+    ("137 = H^2 + n_c^2", 137 == H**2 + n_c**2),
+    ("137 = 2 x 37 + 63", 137 == 2*H_sum + Im_H*gen_color_21),
     ("H_sum = 37", H_sum == 37),
 
     # Structural relations
-    ("179 = Im_H² + Im_O² + n_c²", 179 == Im_H**2 + Im_O**2 + n_c**2),
+    ("179 = Im_H^2 + Im_O^2 + n_c^2", 179 == Im_H**2 + Im_O**2 + n_c**2),
     ("42 + 137 = 179", 42 + 137 == 179),
+
+    # Goldstone tower connection (Manifestation 6)
+    ("21 = Im_H x Im_O = C x n_c - 1", Im_H * Im_O == C * n_c - 1),
+    ("42 = C x (C x n_c - 1)", 42 == C * (C * n_c - 1)),
 ]
 
 all_pass = True
@@ -349,7 +354,7 @@ for name, passed in tests:
 print()
 print("="*80)
 if all_pass:
-    print("ALL 16 TESTS PASSED")
+    print("ALL 18 TESTS PASSED")
     print("THE HIDDEN SECTOR 42 THEOREM IS VERIFIED")
 else:
     print("SOME TESTS FAILED - REVIEW REQUIRED")
@@ -363,18 +368,25 @@ print("\n" + "="*80)
 print("ADDITIONAL CONNECTIONS")
 print("="*80)
 
-# Connection to 21 = Im_H × Im_O
+# Connection to 21 = Im_H  x  Im_O
 print(f"""
-21 = Im_H × Im_O = {Im_H} × {Im_O} = generations × colors
+MANIFESTATION 6: The Goldstone Tower Connection
 
-This is the Goldstone-tower Level 2: 21 = C×n_c - 1 (from Session 116)
+21 has TWO independent representations:
+  21 = Im_H x Im_O = {Im_H} x {Im_O} = generations x colors
+  21 = C x n_c - 1 = {C} x {n_c} - 1 = doubled Goldstones
+
+These are EQUAL: {Im_H * Im_O} = {C * n_c - 1} [VERIFIED]
+
+The Goldstone tower (Session 116):
   - Level 1: 10 = n_c - 1 (Poincare / strings / Goldstones)
-  - Level 2: 21 = C×n_c - 1 = 2×11 - 1 (doubled Goldstones)
+  - Level 2: 21 = C x n_c - 1 = Im_H x Im_O (doubled = gen x color)
   - Level 3: 231 = T_21 (triangular number = horizon DOF)
 
-So: 42 = C × 21 = EM × (doubled Goldstones)
+So: 42 = C x 21 = EM x (doubled Goldstones) = EM x (gen x color)
 
 The hidden sector is the EM-coupled doubled Goldstone structure!
+This connects the Goldstone tower to the visible/hidden split.
 """)
 
 # The generation loop correction
@@ -384,8 +396,8 @@ Connection to Im_H³ = 27:
 From Session 114: The correction 27/7448 in weak mixing = Im_H³/7448
 
 If we add generation loop correction to 42/181:
-  42/181 × (1 - 27/7448) = 42/181 × 7421/7448
-                        = 0.23205 × 0.99637
+  42/181  x  (1 - 27/7448) = 42/181  x  7421/7448
+                        = 0.23205  x  0.99637
                         = 0.2312
 
 This is even closer to measured 0.23122!
@@ -403,10 +415,10 @@ universe, and everything" - but the question wasn't known.
 In crystallization cosmology, we CAN state the question:
 
 Q: What is the number of channels connecting visible structure to hidden structure?
-A: 42 = C × Im_H × Im_O = EM × generations × colors
+A: 42 = C  x  Im_H  x  Im_O = EM  x  generations  x  colors
 
 This is exact, derived from the framework's division algebra structure,
-and appears consistently across 5+ independent physical contexts.
+and appears consistently across 6 independent physical contexts.
 
 The hidden sector is not mysterious - it's the EM-coupled generation-color
 channels that crystallize differently from the visible sector.

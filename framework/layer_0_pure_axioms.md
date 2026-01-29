@@ -543,30 +543,24 @@ See Section 24 for details on remaining gaps.
 
 This section documents where the emergence story is incomplete. These are **research questions**, not failures — the framework is honest about what remains to be derived.
 
-### Gap 1: Point Emergence from Continuous Space
+### Gap 1: Point Emergence from Continuous Space — **RESOLVED (Session 120)**
 
 **Problem**: V_π is a vector space (continuous). How do discrete point-like structures emerge?
 
-**Current state**: Points are defined as "dimensional configurations" S_p ⊆ B̃, but the mechanism by which continuous geometry yields discrete locations is not specified.
+**Resolution**: Points emerge as **topological defects** in the tilt field ε_ij(x). The Mexican hat energy functional fixes |ε| = ε*, but the direction can wind. Topological defects are classified by integer homotopy groups, giving discrete points from continuous fields.
 
-**Possible approaches**:
-1. Points as maximal filters on a lattice of subspaces
-2. Points as equivalence classes under some relation
-3. Discreteness from tilt quantization (if tilts are constrained)
-4. Points as emergent from perspective overlap structure
+**See**: `foundations/tilt_topology_point_emergence.md`
 
-**Connection**: This relates to open issue I-010 (information formulas assume discrete sets).
-
-### Gap 2: Global vs Local Tilt
+### Gap 2: Global vs Local Tilt — **RESOLVED (Session 120)**
 
 **Problem**: Section 8 defines tilt globally (ε_ij is a single value for the perspective). Section 13 needs local tilt (ε_ij(p) varies by location) to define content.
 
-**Current state**: Both are mentioned but their relationship is not derived.
+**Resolution**: Global and local tilt are different aspects of the **same tilt field** ε_ij(x):
+- Global tilt = spatial average ⟨ε⟩ (determines coupling constants)
+- Local tilt = spatial variation δε(x) (determines matter distribution)
+- Points are where local tilt has topological winding
 
-**Possible approaches**:
-1. Local tilt emerges from multiple overlapping perspectives
-2. Global tilt is an average; local tilt is the full structure
-3. Points ARE the places where tilt varies; homogeneous tilt = no points
+**See**: `foundations/tilt_topology_point_emergence.md`
 
 ### Gap 3: Time Direction (Arrow of Time) — CLARIFIED
 
