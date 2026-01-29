@@ -8,7 +8,7 @@ Speculative mathematical framework exploring whether perspective axioms can gene
 
 **Goal**: "Interesting enough to look at, concrete enough to be legitimate."
 
-**See `HONEST_ASSESSMENT.md`** for full evaluation. **See `claims/README.md`** for tiered claims.
+**See `publications/HONEST_ASSESSMENT.md`** for full evaluation. **See `claims/README.md`** for tiered claims.
 
 ---
 
@@ -41,19 +41,22 @@ Plus qualitative derivations (SM gauge groups, Einstein equations, 3+1 spacetime
 
 ### Start (MANDATORY)
 1. Read `registry/STATUS_DASHBOARD.md` — current state
-2. Read `registry/RESEARCH_NAVIGATOR.md` — Top 4 priorities
-3. Brief user: "Session [N]. Last: [X]. Top priority: [Y]. Blockers: [Z]."
+2. Read `registry/RECOMMENDATION_ENGINE.md` — **PROJECT QUEUE** (what to work on)
+3. Brief user: "Session [N]. Top priority: [X]. Queue has [Y] projects."
 
 ### During
 - Capture insights → `registry/emerging_patterns.md`
 - File issues → `session_log.md` (with severity: CRITICAL/HIGH/MEDIUM/LOW)
 - **Challenge derivations**: Ask "what would make this wrong?" before accepting
 - **Log caught hallucinations** → `registry/HALLUCINATION_LOG.md`
+- **New project ideas** → Add to `RECOMMENDATION_ENGINE.md` Future Queue
+- **For critical claims**: Use blind prediction protocol → `registry/HYPOTHESIS_TESTING_PROTOCOL.md`
 
 ### End
 - Update `session_log.md` with work done
 - Update `STATUS_DASHBOARD.md` metrics
-- Summarize: "Did [X]. Filed [Y]. Next: [Z]."
+- Update `RECOMMENDATION_ENGINE.md` — mark completed, add new projects
+- Summarize: "Did [X]. Queue updated: [Y]."
 
 ---
 
@@ -180,9 +183,28 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 | Need | File |
 |------|------|
 | Current state | `registry/STATUS_DASHBOARD.md` |
-| What to work on | `registry/RESEARCH_NAVIGATOR.md` |
-| **Honest assessment** | **`HONEST_ASSESSMENT.md`** |
+| **PROJECT QUEUE** | **`registry/RECOMMENDATION_ENGINE.md`** |
+| Research guide | `registry/RESEARCH_NAVIGATOR.md` |
+| **Honest assessment** | **`publications/HONEST_ASSESSMENT.md`** |
 | **Claims tiering** | **`claims/README.md`** |
+
+### Red Team Infrastructure
+
+| Need | File |
+|------|------|
+| **Blind predictions** | **`predictions/BLIND_PREDICTIONS.md`** |
+| **Hypothesis testing** | **`registry/HYPOTHESIS_TESTING_PROTOCOL.md`** |
+| Formula attempts | `registry/FORMULA_SEARCH_LOG.md` |
+| Failed approaches | `registry/DEAD_ENDS.md` |
+| Interpretations | `registry/INTERPRETATION_AUDIT.md` |
+| Locked parameters | `registry/PARAMETER_FREEZE.md` |
+| LLM collaboration | `registry/LLM_COLLABORATION_LOG.md` |
+| Expert outreach | `registry/EXPERT_OUTREACH.md` |
+
+### Standard Navigation
+
+| Need | File |
+|------|------|
 | Prime catalog | `framework/PRIME_PHYSICAL_CATALOG.md` |
 | Theory structure | `THEORY_STRUCTURE.md` |
 | Session history | `session_log.md` |
@@ -190,6 +212,38 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 | Falsification criteria | `registry/FALSIFICATION_REGISTRY.md` |
 | Hallucination protection | `HALLUCINATION_PROTECTION.md` |
 | Caught hallucinations | `registry/HALLUCINATION_LOG.md` |
+| Session archive | `archive/sessions/` |
+| Achievement history | `registry/ACHIEVEMENTS_LOG.md` |
+
+---
+
+## File Size Limits (LLM Compatibility)
+
+LLMs have context limits. Keep operational files small enough to read in one pass.
+
+| File Type | Max Size | Action if Exceeded |
+|-----------|----------|-------------------|
+| STATUS_DASHBOARD.md | 15KB | Move history → ACHIEVEMENTS_LOG.md |
+| session_log.md | 200KB | Archive old sessions → archive/sessions/ |
+| Investigation files | 30KB | Split by subtopic |
+| Verification scripts | 20KB | Split by function |
+
+### Session End Size Check
+
+At session end, check sizes of key files:
+```bash
+wc -c session_log.md registry/STATUS_DASHBOARD.md
+```
+
+If approaching limits, archive older content before adding new.
+
+### Archive Locations
+
+| Content | Archive To |
+|---------|-----------|
+| Old sessions (90+) | `archive/sessions/sessions_*.md` |
+| Dashboard history | `registry/ACHIEVEMENTS_LOG.md` |
+| Deprecated investigations | `archive/deprecated/` |
 
 ---
 
@@ -234,6 +288,100 @@ See `registry/STATUS_DASHBOARD.md` for:
 - Open gaps and blocked work
 - Health metrics
 
-**Session 106**: Documentation restructure — claims tiering, balanced framing
+**Session 120**: Red Team review complete, infrastructure overhauled
 
-**Last updated**: 2026-01-27 (Session 106)
+**Last updated**: 2026-01-28 (Session 120)
+
+---
+
+## Red Team Findings (Session 120)
+
+A three-agent adversarial review identified these core issues:
+
+### Surviving Criticisms (Must Address)
+
+| Risk | Status | Mitigation |
+|------|--------|------------|
+| **Post-hoc interpretation** | ACKNOWLEDGED | `INTERPRETATION_AUDIT.md` |
+| **Cannot distinguish derivation from discovery** | CORE ISSUE | LLM Derivation Challenge |
+| **Formula structure unpredictable** | ACKNOWLEDGED | Need structure taxonomy |
+| **Φ₆ cyclotomic not derived** | HIGH PRIORITY | Research task |
+| **n_c = 11 derivation weak** | HIGH PRIORITY | Literature review |
+| **Reproducibility not demonstrated** | IN PROGRESS | LLM challenge + expert outreach |
+
+### Criticisms Resolved
+
+| Criticism | Resolution |
+|-----------|------------|
+| "Zero parameters" false | `PARAMETER_FREEZE.md` — honest count is ~3 structural assumptions |
+| No statistical denominator | `FORMULA_SEARCH_LOG.md` — flexibility test + search documentation |
+| No genuine predictions | `BLIND_PREDICTIONS.md` — 5.11 GeV DM is genuine |
+| Moving goalposts | `claims/FALSIFIED.md` — failed formulas documented |
+
+### Probability Estimates (From Critics)
+
+| Critic | Estimate | What Would Improve It |
+|--------|----------|----------------------|
+| Numerology | 15-30% | Blind prediction verified |
+| Physics Rigor | "Promising" | One complete dynamics calculation |
+| Methodology | 10-25% | LLM Derivation Challenge succeeds |
+
+---
+
+## New Infrastructure (Post-Red Team)
+
+### Auditing & Transparency
+
+| File | Purpose |
+|------|---------|
+| `predictions/BLIND_PREDICTIONS.md` | Predictions locked BEFORE measurement |
+| `registry/FORMULA_SEARCH_LOG.md` | Document the denominator |
+| `registry/DEAD_ENDS.md` | Failed approaches |
+| `registry/INTERPRETATION_AUDIT.md` | All interpretations considered |
+| `registry/PARAMETER_FREEZE.md` | Locked parameters |
+| `registry/LLM_COLLABORATION_LOG.md` | Human-LLM attribution |
+
+### Strategic Planning
+
+| File | Purpose |
+|------|---------|
+| `registry/RECOMMENDATION_ENGINE.md` | Dynamic priority system |
+| `registry/EXPERT_OUTREACH.md` | Expert contact templates |
+
+---
+
+## Session Protocol (Updated)
+
+### Start (MANDATORY)
+1. Read `registry/STATUS_DASHBOARD.md` — current state
+2. Read `registry/RECOMMENDATION_ENGINE.md` — top priority
+3. Brief user: "Session [N]. Top priority: [X]. Shall we work on this?"
+
+### During
+- **Log formula attempts** → `FORMULA_SEARCH_LOG.md`
+- **Log interpretations** → `INTERPRETATION_AUDIT.md`
+- **20% adversarial time** — challenge the framework
+- Challenge derivations: Ask "what would make this wrong?"
+
+### End
+- Update `session_log.md` with work done
+- Update `LLM_COLLABORATION_LOG.md` with attribution
+- Summarize: "Did [X]. Priority status: [Y]. Next: [Z]."
+
+---
+
+## The Derivation vs Discovery Problem
+
+**This is the core unresolved question.**
+
+The Red Team's central finding: We cannot currently prove formulas were DERIVED rather than DISCOVERED (found by searching, then justified).
+
+**Paths to resolution**:
+1. **LLM Derivation Challenge** — Do other LLMs derive same numbers from axioms alone?
+2. **Blind predictions** — Predict BEFORE knowing target values
+3. **Expert review** — External validation of derivation logic
+4. **Unique derivations** — Show only ONE interpretation works
+
+**Current probability**: 15-30% that this is genuine physics (per Red Team)
+
+Until this is resolved, maintain epistemic humility.

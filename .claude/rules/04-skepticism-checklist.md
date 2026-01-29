@@ -77,6 +77,22 @@ This is a WARNING SIGN. Immediately investigate:
    - Check literature for failed attempts
    - Why didn't previous "derivations" stick?
 
+## Blind Prediction Protocol (for Critical Claims)
+
+When extending a pattern or making new predictions:
+
+1. **State hypothesis** clearly and falsifiably
+2. **Lock prediction** BEFORE looking up measurement
+3. **Define tolerance** — what error falsifies the claim?
+4. **Check measurement** only after locking
+5. **Document result** — confirm OR falsify, both are progress
+
+See `registry/HYPOTHESIS_TESTING_PROTOCOL.md` for full details.
+
+**Key principle**: Falsification is progress. A cleanly falsified hypothesis constrains the space of valid interpretations.
+
+---
+
 ## Numerical Claims Checklist
 
 For ANY claim like "α ≈ 1/137":
