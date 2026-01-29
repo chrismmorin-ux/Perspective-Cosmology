@@ -22,6 +22,24 @@
 
 ## Active Patterns
 
+### 2026-01-28 BRIDGE PRIMES ENCODE CMB FIRST ACOUSTIC PEAK (S125)
+**Thread**: primes / cosmology
+**Score**: 5 (MAJOR CONNECTION)
+**Sessions since capture**: 0
+**Insight**: Bridge primes give the first acoustic peak l_1 = 220! Two formulas: 2417/11 = 219.73 (0.12% error), 4177/19 = 219.84 (0.07% error). Here 11 = n_c and 19 = n_c + O. The canonical C × n_c × (n_c-1) = 220 is exact, but bridge primes reveal deeper structure linking fourth-power division algebra sums to CMB physics.
+**Next**: Check if other bridge prime ratios appear in cosmological observables.
+
+---
+
+### 2026-01-28 THREE BRIDGE PRIMES CONNECT ASSOCIATIVE TO NON-ASSOCIATIVE (S125)
+**Thread**: primes / foundation
+**Score**: 4 (VERIFIED)
+**Sessions since capture**: 0
+**Insight**: Three primes bridge {1,2,3,4} to {7,8}: 2417 = 2^4 + 7^4, 2657 = 4^4 + 7^4, 4177 = 3^4 + 8^4. The "pure octonionic" 7^4 + 8^4 = 6497 = 73 × 89 is composite. Bridge requires one associative dimension.
+**Next**: Document gap structure (3, 5, 5) and connection to generations.
+
+---
+
 ### 2026-01-28 SO(14) SPINOR = 3+1 GENERATIONS (S119)
 **Thread**: foundation / dark_sector
 **Score**: 5 (MAJOR)

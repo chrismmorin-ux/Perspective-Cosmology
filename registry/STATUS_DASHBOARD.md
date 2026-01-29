@@ -25,8 +25,8 @@
 
 | Metric | Value |
 |--------|-------|
-| **Current Session** | 124 (CMB Extension + Blind Tests) |
-| **Verification Scripts** | 301 (90% PASS) |
+| **Current Session** | 122 (Black Holes Deep Dive) |
+| **Verification Scripts** | 302 (90% PASS) |
 | **Total Constants Derived** | 62 |
 | **EXACT Predictions** | 6 |
 | **Sub-10 ppm Predictions** | 12 |

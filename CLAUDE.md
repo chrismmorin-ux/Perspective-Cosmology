@@ -215,6 +215,18 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 | Session archive | `archive/sessions/` |
 | Achievement history | `registry/ACHIEVEMENTS_LOG.md` |
 
+### Specialized Agents
+
+| Command | Purpose | Knowledge Base |
+|---------|---------|----------------|
+| `/prime-expert` | Advanced prime number theory perspective | `foundations/prime_theory/` |
+
+### Knowledge Foundations
+
+| Topic | Location |
+|-------|----------|
+| Prime theory | `foundations/prime_theory/` (8 files) |
+
 ---
 
 ## File Size Limits (LLM Compatibility)
