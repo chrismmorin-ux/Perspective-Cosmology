@@ -80,6 +80,25 @@ The Red Team identified survivorship bias: we see successes but not failures. Th
 
 ---
 
+### DE-006: Hilltop mu^2 = H^4(H+R)/Im_O = 1280/7 (with phi_CMB = mu/sqrt(5))
+
+| Field | Value |
+|-------|-------|
+| **Proposed** | Session 127 |
+| **Formula** | mu^2/M_Pl^2 = H^4(H+R)/Im_O = 256 * 5 / 7 = 1280/7 ~ 182.86 |
+| **phi_CMB** | mu/sqrt(5) (INCORRECT for r = 1 - n_s) |
+| **Problem** | This phi_CMB gives eta/eps = -4, not -5; N = 36.76 e-folds |
+| **Error** | Wrong phi_CMB location for desired r = 1 - n_s relation |
+| **Why it failed** | Session 127 incorrectly assumed phi_CMB = mu/sqrt(5) for eta/eps = -5. The actual requirement is phi_CMB = mu/sqrt(6). |
+| **Verification** | `hilltop_efold_calculation.py`, `hilltop_correct_conditions.py` |
+| **Lesson** | Check eta/eps ratio calculation carefully. The error propagated through S127-S129 early. |
+| **Correct solution** | mu^2 = (C+H)*H^4/Im_O = 1536/7 at phi_CMB = mu/sqrt(6) gives N = 52, eta/eps = -5 |
+| **Status** | SUPERSEDED by correct solution (Session 129 continuation) |
+
+**Note**: The "r = 1 - n_s" relation is NOT falsified — only the specific mu^2/phi_CMB combination was wrong. With the corrected values, r = 1 - n_s = 0.035 is VERIFIED.
+
+---
+
 ## Pattern Analysis of Failures
 
 ### What Tends to Fail

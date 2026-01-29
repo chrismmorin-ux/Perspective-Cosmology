@@ -694,6 +694,49 @@ M ~ 35-70 M_Pl
 
 **Testability**: Only for primordial black holes at the end of evaporation. As M → M_crit, Hawking radiation would deviate from thermal. The final burst spectrum could carry crystallization signatures.
 
+### 7.8 PBH Evaporation Endpoint — Deep Analysis
+
+**Verification**: `pbh_evaporation_endpoint.py` — 5/5 PASS
+
+**The Three Evaporation Phases**:
+
+| Phase | Mass Range | Physics |
+|-------|------------|---------|
+| 1. Standard Hawking | M >> M_crit | ε(r_s) = ε* exactly, thermal radiation |
+| 2. Transition | M ~ M_crit | ε deviating, modified temperature |
+| 3. Crystallization | M < M_crit | ε dynamics dominate, "horizon" ill-defined |
+
+**Crystallization Prediction — Two-Component Burst**:
+
+Standard Hawking predicts a single burst with E ~ M_Pl c² ~ 10¹⁹ GeV.
+
+Crystallization predicts TWO components:
+1. **Hawking component**: E ~ M_Pl ~ 10¹⁹ GeV (slightly modified)
+2. **Crystallization transition**: E ~ α² M_Pl ~ 10¹⁴⁻¹⁵ GeV
+
+The second component comes from the ε = 0 → ε = ε* transition — the Mexican hat potential energy release.
+
+**Energy Ratio**:
+```
+E_crystal / E_Hawking ~ α² ~ 5×10⁻⁵
+```
+
+The crystallization component is 10⁻⁵ suppressed — a small but distinct signature.
+
+**Observational Prospects**:
+
+| Detector | Range | Could Detect? |
+|----------|-------|---------------|
+| Fermi LAT | 100 MeV - 300 GeV | Cascade products only |
+| HAWC | 100 GeV - 100 TeV | Cascade products only |
+| CTA (future) | 20 GeV - 300 TeV | Better precision |
+
+**The Problem**: Both primary energies (10¹⁹ GeV Hawking, 10¹⁴⁻¹⁵ GeV crystallization) are far above detector range. Only cascade products reach detectable energies, and the crystallization signature is washed out at the 10⁻⁵ level.
+
+**Honest Conclusion**: The evaporation endpoint IS theoretically distinct from standard Hawking, but the distinction is TOO SMALL for current (or near-future) detection.
+
+**Framework Insight**: The appearance of 137 = 1/α as the critical Schwarzschild radius is structurally satisfying — it connects black hole physics directly to the fine structure constant — even if not practically testable.
+
 ---
 
 ## Summary

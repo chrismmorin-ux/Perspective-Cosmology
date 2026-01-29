@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "created": "2026-01-28",
+  "last_audit": "2026-01-28",
+  "statistics": {
+    "papers_indexed": 0,
+    "internal_derivations": 0,
+    "crossrefs": 0,
+    "conflicts_logged": 3,
+    "audits_performed": 1
+  },
+  "tags": ["axioms", "dependencies", "structure", "conflict", "dimensions", "finiteness", "missing", "definition", "tilt", "blocker", "gap", "derivation", "n_c", "critical"],
+  "sources": [
+    "core/axioms/AXM_0100_finiteness.md",
+    "core/axioms/AXM_0101_connectivity.md",
+    "core/axioms/AXM_0102_nontriviality.md",
+    "core/axioms/AXM_0103_closure.md",
+    "core/axioms/AXM_0104_partiality.md",
+    "core/axioms/AXM_0105_locality.md",
+    "core/axioms/AXM_0106_noninvertibility.md",
+    "core/axioms/AXM_0107_nonnegative_loss.md",
+    "core/axioms/AXM_0108_time_scale.md",
+    "core/axioms/AXM_0109_crystal_existence.md",
+    "core/axioms/AXM_0110_perfect_orthogonality.md",
+    "core/axioms/AXM_0111_crystal_completeness.md",
+    "core/axioms/AXM_0112_crystal_symmetry.md",
+    "core/axioms/AXM_0113_finite_access.md",
+    "core/axioms/AXM_0114_tilt_possibility.md",
+    "core/axioms/AXM_0115_algebraic_completeness.md",
+    "core/axioms/AXM_0116_crystal_timeless.md",
+    "core/axioms/AXM_0117_crystallization_tendency.md",
+    "core/axioms/AXM_0118_prime_attractor_selection.md"
+  ],
+  "phase_1a_complete": true
+}

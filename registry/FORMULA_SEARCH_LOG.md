@@ -168,12 +168,82 @@ We derive Φ_6(n_c) from Lie algebra decomposition, but haven't proven axiomatic
 
 ---
 
+## Observable: Hilltop Mass Parameter mu^2 (Session 129)
+
+### Context
+
+For hilltop potential V = V0(1 - phi^2/mu^2) to give n_s = 193/200, the mass parameter must be mu^2 = 250 M_Pl^2.
+
+### Search Process
+
+**Script**: `verification/sympy/hilltop_mu_search.py`
+
+**Method**:
+1. Computed required mu^2 for n_s = 0.965 from hilltop slow-roll formulas
+2. Result: mu^2 = 35 * 200 / (4 * 7) = 250 (exact)
+3. Searched framework expressions within 15% of 250
+
+### All Candidates Found (sorted by closeness to 250)
+
+| Value | Expression | N (e-folds) | n_s | Status |
+|-------|------------|-------------|-----|--------|
+| 250 | C * (n_c^2 + H) = 2 * 125 | 50.3 | 0.9650 | **SELECTED (exact)** |
+| 248 | H * (5*n_c + Im_O) = 4 * 62 | 49.9 | 0.9647 | Rejected (not exact) |
+| 248 | C * (n_c^2 + Im_H) = 2 * 124 | 49.9 | 0.9647 | Rejected (not exact) |
+| 252 | H * (5*n_c + O) = 4 * 63 | 50.8 | 0.9653 | Rejected (not exact) |
+| 255 | 5 * (H*n_c + Im_O) | 51.4 | 0.9657 | Rejected |
+| 256 | H^4 | 51.6 | 0.9658 | Rejected |
+| 256 | 179 + Im_O*n_c | 51.6 | 0.9658 | Rejected |
+| 244 | 5*H^2*Im_H + H | 49.1 | 0.9641 | Rejected |
+| 258 | 137 + n_c^2 | 52.0 | 0.9661 | Rejected |
+| 260 | 5*H*(n_c + C) | 52.4 | 0.9663 | Rejected |
+| 234 | 5*H*n_c + Im_O*C | 47.1 | 0.9626 | Rejected |
+| 268 | (Im_H^2 + H^2)*n_c - Im_O | 54.0 | 0.9674 | Rejected |
+| 230 | 5*(O*H + Im_O*C) | 46.3 | 0.9620 | Rejected |
+| 270 | 25*n_c - R*5 | 54.4 | 0.9676 | Rejected |
+| 274 | C * 137 | 55.2 | 0.9681 | Rejected |
+| 222 | C * 111 | 44.7 | 0.9606 | Rejected |
+
+### Statistics
+
+- Framework expressions tested: ~200 (combinations of R, C, Im_H, H, Im_O, O, n_c, n_d, 137, 179, 337, 111, 97, 17)
+- Expressions within 15% of 250: 18
+- Expressions within 5% of 250: 7
+- Exact match (= 250): **1**
+
+### Key Finding
+
+**C * (n_c^2 + H) = 2 * (121 + 4) = 250** is the unique exact framework expression.
+
+### Interpretation
+
+- C = 2: Complex dimension
+- n_c^2 = 121: Crystal dimension squared
+- H = 4: Quaternion/spacetime dimension
+
+**Honesty note**: The interpretation came AFTER finding the numerical match. This is a searched formula, not a derived one.
+
+### What This Gives
+
+| Observable | Value | Status |
+|------------|-------|--------|
+| n_s | 0.965 = 193/200 | Matches Planck |
+| r | 0.04 | Within limits |
+| N | 50.3 e-folds | Acceptable |
+
+### What This Does NOT Give
+
+- r = 1 - n_s (the actual r = 0.04 != 0.035)
+- Physical derivation of why mu^2 = C(n_c^2 + H)
+
+---
+
 ## Running Global Statistics
 
 | Metric | Value | Updated |
 |--------|-------|---------|
-| Total observables investigated | ~62 | 2026-01-28 |
-| Total formulas attempted (est.) | ~500+ | 2026-01-28 |
+| Total observables investigated | ~63 | 2026-01-28 |
+| Total formulas attempted (est.) | ~700+ | 2026-01-28 |
 | Sub-1% matches | ~53 | 2026-01-28 |
 | Sub-10 ppm matches | 12 | 2026-01-28 |
 | Sub-ppm matches | 3 | 2026-01-28 |

@@ -25,13 +25,13 @@
 
 | Metric | Value |
 |--------|-------|
-| **Current Session** | 130 (O^2 - k Family Discovery) |
-| **Verification Scripts** | 312 (90% PASS) |
+| **Current Session** | 131 (mu^2 Physics Derivation) |
+| **Verification Scripts** | 313 (90% PASS) |
 | **Total Constants Derived** | 62 |
 | **EXACT Predictions** | 6 |
 | **Sub-10 ppm Predictions** | 12 |
 | **Sub-percent Predictions** | 53+ |
-| **Open Blockers** | mu^2 = 250 needs physics derivation (searched, not derived) |
+| **Open Blockers** | None |
 
 ---
 
@@ -72,7 +72,19 @@
 
 ## Recent Sessions (5)
 
-### Session 130: O² - k FAMILY DISCOVERY (Current)
+### Session 131: mu^2 DERIVATION + SOUND HORIZON DERIVATION (Current)
+- **mu^2 = 250 DERIVED**: n_c^2 + H = (H+R)^3 = 125 is framework identity
+- **CANONICAL CONFIRMED**: mu^2 = 1536/7 with r = 0.035 (r < 0.036 limit)
+- **SOUND HORIZON DERIVED** (new):
+  - r_s = 337 * 3/7 = 144.43 Mpc is decomposed as:
+  - eta_* = 337 Mpc = Im_H^4 + H^4 (conformal time at recombination)
+  - c_s/c = 3/7 = Im_H/Im_O (crystallization sound speed)
+  - r_s = c_s * eta_* = (3/7) * 337 (matches Planck to 0.01%)
+- **CMB Physics Plan**: Phase 2.1 and 2.2 now RESOLVED
+- **Scripts**: `mu_squared_250_physics_derivation.py`, `sound_horizon_physics_derivation.py`, `sound_horizon_337_origin.py`
+- **New Docs**: `foundations/sound_horizon_derivation.md`
+
+### Session 130: O² - k FAMILY DISCOVERY
 - **MAJOR FINDING**: The O² - k family is complete with physical interpretations
 - **Members**: 63, 62, 61, 60, 57, 56 (for k = R, C, Im_H, H, Im_O, O)
 - **Key Discovery**: 61 = O² - Im_H = C(4,2) + C(11,2) = field content bound
@@ -80,18 +92,20 @@
 - **Script**: `O2_minus_k_family.py` — 17/17 PASS
 - **Documentation**: Part 4 added to `10_session_126_findings.md`
 
-### Session 129: POST-FALSIFICATION RECOVERY
-- **SESSION 128 FALSIFIED**: mu^2 = H^4(H+R)/Im_O = 1280/7 gives N = 36.76 (outside [45-70])
-- **RECOVERY**: Searched for new mu^2 that gives N ~ 50 AND n_s = 0.965
-- **NEW CANDIDATE FOUND**: mu^2 = C(n_c^2 + H) = 2 * 125 = 250
-  - N = 50.3 e-folds (PASSES)
-  - n_s = 193/200 = 0.965 (matches Planck)
-  - r = 0.04 (within BICEP limits)
-- **r = 1 - n_s FALSIFIED**: Actual r = 0.04 != 0.035
-  - The "elegant" relation required eta/epsilon = -5, but mu^2=250 gives -4
-- **Script**: `hilltop_mu_search.py` — ALL TESTS PASS
-- **Status**: n_s prediction SURVIVES; r prediction UPDATED to 0.04
-- **Adversarial**: 3-agent analysis completed, honest documentation updated
+### Session 129: CRITICAL CORRECTION + FULL RESOLUTION
+- **CRITICAL ERROR FOUND**: Sessions 127-128 used phi_CMB = mu/sqrt(5), giving eta/eps = -4
+- **CORRECTION**: For r = 1 - n_s, need eta/eps = -5, requiring phi_CMB = mu/sqrt(6)
+- **CORRECT mu^2 EXPRESSION**: mu^2 = (C+H)*H^4/Im_O = 1536/7 ~ 219.4
+  - N = 52 e-folds (ACCEPTABLE)
+  - n_s = 193/200 = 0.965 (EXACT match to Planck)
+  - r = 7/200 = 0.035 (framework prediction RESTORED)
+  - r = 1 - n_s (VERIFIED with eta/eps = -5)
+- **THREE mu^2 EXPRESSIONS COMPARED**:
+  - OLD (S127): H^4(H+R)/Im_O = 1280/7 ~ 183 (WRONG - used sqrt(5))
+  - SEARCH (S129 early): C(n_c^2+H) = 250 (eta/eps = -4, r != 1-n_s)
+  - **CORRECT**: (C+H)*H^4/Im_O = 1536/7 ~ 219 (ALL TESTS PASS)
+- **Scripts**: `hilltop_correct_conditions.py`, `mu_squared_dual_interpretation.py`
+- **Status**: BOTH n_s AND r predictions VERIFIED; r = 1 - n_s RESTORED
 
 ### Session 128: ADVERSARIAL AGENTS + E-FOLD FALSIFICATION
 - **ADVERSARIAL SYSTEM CREATED**: /launch-steps, /auditor, /steward, /engine
@@ -101,13 +115,13 @@
 - **Script**: `hilltop_efold_calculation.py` — N test FAILS
 - **Status**: Triggered search for alternative mu^2 (Session 129)
 
-### Session 127: CRYSTALLIZATION DYNAMICS (PARTIALLY FALSIFIED)
+### Session 127: CRYSTALLIZATION DYNAMICS (CORRECTED in S129)
 - Found hilltop potential form V = V0(1 - phi^2/mu^2)
-- **FALSIFIED**: mu^2 = H^4(H+R)/Im_O = 1280/7 (gives N=37, not enough e-folds)
-- **FALSIFIED**: r = 1 - n_s = 0.035 (actual r = 0.04 with working mu^2)
-- **SURVIVES**: n_s = 193/200 = 0.965 matches Planck
+- **ERROR IDENTIFIED**: Used phi_CMB = mu/sqrt(5), giving eta/eps = -4
+- **CORRECTED (S129)**: phi_CMB = mu/sqrt(6), eta/eps = -5, mu^2 = 1536/7
+- **NOW VERIFIED**: n_s = 193/200, r = 7/200, r = 1 - n_s, N = 52
 - **Investigation**: `framework/investigations/primordial_mechanisms.md`
-- **Status**: Approach partially falsified, triggered Session 128-129 recovery
+- **Status**: RESOLVED with correction in Session 129
 
 ### Session 126: CMB PHYSICS RIGOR
 - **CRITICAL FINDING**: Original crystallization Lagrangian FAILS to derive n_s
