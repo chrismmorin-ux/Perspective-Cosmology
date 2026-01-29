@@ -165,7 +165,7 @@ STANDARD GR:
   omega_n = (1/r_s) * [a - i*(n + 1/2)*b]
 
   For the dominant l=2, n=0 mode:
-  omega * r_s ≈ 0.37 - 0.089i (dimensionless)
+  omega * r_s ~ 0.37 - 0.089i (dimensionless)
 
 CRYSTALLIZATION:
   If eps has dynamics, there could be ADDITIONAL modes.

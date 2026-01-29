@@ -25,13 +25,13 @@
 
 | Metric | Value |
 |--------|-------|
-| **Current Session** | 122 (Black Holes Deep Dive) |
-| **Verification Scripts** | 302 (90% PASS) |
+| **Current Session** | 126 (CMB Physics Rigor) |
+| **Verification Scripts** | 304 (90% PASS) |
 | **Total Constants Derived** | 62 |
 | **EXACT Predictions** | 6 |
 | **Sub-10 ppm Predictions** | 12 |
 | **Sub-percent Predictions** | 53+ |
-| **Open Blockers** | None |
+| **Open Blockers** | Crystallization Lagrangian fails to derive n_s |
 
 ---
 
@@ -72,12 +72,21 @@
 
 ## Recent Sessions (4)
 
-### Session 124: TWO PRIORITIES COMPLETE (Current)
+### Session 126: CMB PHYSICS RIGOR (Current)
+- **CRITICAL FINDING**: Crystallization Lagrangian FAILS to derive n_s
+  - phi^4 potential gives n_s = 0.945, not 0.965
+  - Error: 2% -- outside Planck bounds
+- **Created `cmb_canonical_formulas.py`**: Single source of truth, 12 observables
+- **Created `DEGREES_OF_FREEDOM_ANALYSIS.md`**: Honest count: 15-60 effective DOF
+- **Documented failed attempts**: ~485 formulas tried, 3% success rate
+- **Honest conclusion**: Formulas are NUMERICAL MATCHES, not physics derivations
+
+### Session 124: TWO PRIORITIES COMPLETE
 - **Priority 4 RESOLVED**: SM gauge group derived from division algebras (11/11 tests)
   - Two mechanisms: Unit elements (C,H) vs Automorphisms (O)
-  - Full chain: T1 -> SU(3)×SU(2)×U(1)
+  - Full chain: T1 -> SU(3)xSU(2)xU(1)
 - **Priority 5 RESOLVED**: m_p/m_e = 1836 + 11/72 derived (11/11 tests, 0.057 ppm)
-  - Key insight: 153 = Im_H² + dim_SM² = 9 + 144 (purely dimensional)
+  - Key insight: 153 = Im_H^2 + dim_SM^2 = 9 + 144 (purely dimensional)
   - Uses gauge dim = 12 from Priority 4
 - **2 new scripts**: 22 tests total, ALL PASS
 - **6 of 10 priorities now complete**

@@ -356,24 +356,55 @@ The damping scale:
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Lagrangian structure | PROPOSED | Needs verification |
-| V(φ) form | PROPOSED | Division algebra connection clear |
-| v², λ values | CONJECTURED | Need to check self-consistency |
+| V(phi) form | **FAILS** | Gives wrong n_s (see below) |
+| v^2, lambda values | CONJECTURED | Need to check self-consistency |
 | Equations of motion | STANDARD | No modification needed |
-| Perturbation theory | STANDARD | Framework enters through V(φ) |
-| n_s derivation | IN PROGRESS | Need slow-roll calculation |
+| Perturbation theory | STANDARD | Framework enters through V(phi) |
+| n_s derivation | **FAILED** | phi^4 gives 0.945, not 0.965 |
 | Peak heights | GAP | Major unsolved problem |
 | Silk damping | PROPOSED | Coherence length interpretation |
 
 ---
 
-## Next Steps
+## CRITICAL FINDING: Slow-Roll Calculation FAILS (Session 125)
 
-1. **Write `crystallization_potential.py`** — Calculate V(φ) parameters from framework
-2. **Calculate slow-roll parameters** — See if n_s = 0.965 emerges
-3. **Check consistency** — Does v² give correct energy scale?
-4. **Address peak heights** — Either derive or acknowledge as gap
+**Script**: `verification/sympy/crystallization_slow_roll.py`
+
+The proposed potential V(phi) = (lambda/4)(phi^2 - v^2)^2 was tested:
+
+1. In the large-field regime (where CMB fluctuations form), this behaves like phi^4
+2. For phi^4 potential: n_s = 1 - 3/N where N = e-folds
+3. With N = 55: n_s = 52/55 = **0.945**
+4. Framework claims: n_s = 193/200 = **0.965**
+5. Error: **2%** -- outside Planck error bars
+
+**The crystallization Lagrangian as specified does NOT derive the spectral index.**
+
+### What Would Fix This?
+
+| Option | Potential | n_s | r | Problem |
+|--------|-----------|-----|---|---------|
+| phi^4 (current) | (phi^2-v^2)^2 | 0.945 | 0.30 | Wrong n_s, wrong r |
+| phi^2 (quadratic) | m^2 phi^2 | 0.963 | 0.28 | Right n_s, wrong r |
+| Framework claim | ??? | 0.965 | 0.035 | r = 1 - n_s needed |
+
+The framework predicts r = 1 - n_s, which is NOT standard slow-roll.
+Standard slow-roll gives r ~ 8(1 - n_s) or r ~ 16(1 - n_s) depending on potential.
+
+**Conclusion**: Either the potential needs modification, or the primordial mechanism is not slow-roll inflation.
 
 ---
 
-**Document version**: 1.0
-**Last updated**: Session 123
+## Next Steps
+
+1. ~~Write `crystallization_potential.py`~~ -- DONE via slow_roll.py
+2. ~~Calculate slow-roll parameters~~ -- DONE, FAILS to match
+3. **Explore non-slow-roll mechanisms** -- curvaton, modulated reheating, etc.
+4. **Find potential giving r = 1 - n_s** -- unusual, requires investigation
+5. **Address peak heights** -- Either derive or acknowledge as gap
+
+---
+
+**Document version**: 1.1
+**Last updated**: Session 125 (2026-01-28)
+**Major change**: Slow-roll calculation performed and FAILS

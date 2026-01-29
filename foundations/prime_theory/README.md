@@ -18,6 +18,8 @@
 | `06_reciprocity_laws.md` | Quadratic and higher reciprocity |
 | `07_prime_distribution.md` | Density theorems and splitting |
 | `08_open_questions.md` | Unsolved problems and conjectures |
+| `09_session_125_findings.md` | Bridge primes and cosmology (NEW) |
+| `PROJECT_PRIME_PATTERN_AUDIT.md` | Systematic review project (PROPOSED) |
 
 ---
 
@@ -34,12 +36,20 @@
 
 ### Key Primes from Fourth-Power Sums
 
+**Consecutive (gap=1)**:
 | Formula | Value | Type |
 |---------|-------|------|
 | 1^4 + 2^4 | 17 | Fermat prime F_2 |
 | 2^4 + 3^4 | 97 | Prime |
 | 3^4 + 4^4 | 337 | Prime |
 | 1^4 + 4^4 | 257 | Fermat prime F_3 |
+
+**Bridge (cross associative/non-associative boundary)**:
+| Formula | Value | Cosmological Use |
+|---------|-------|------------------|
+| 2^4 + 7^4 | 2417 | l_1 = 2417/11 |
+| 4^4 + 7^4 | 2657 | Omega_m ~ 2657/42 |
+| 3^4 + 8^4 | 4177 | l_1 = 4177/19, H_0 = 4177/62 |
 
 ### Fermat Primes
 
@@ -70,6 +80,18 @@ This is NOT coincidence but reflects deep algebraic structure:
 1. Fourth power is the largest k where n^k + (n+1)^k can be prime
 2. The 8th cyclotomic polynomial Phi_8(x) = x^4 + 1 has degree phi(8) = 4 = dim(H)
 3. Splitting of primes in Q(zeta_8) connects to quaternionic structure
+
+### Dimension-Observable Correspondence (Session 125)
+
+Different dimensions govern different physics domains:
+
+| Dimension | Domain | Examples |
+|-----------|--------|----------|
+| Im_H = 3 | Expansion | H_0, r_s, horizons |
+| n_c = 11 | Oscillation | l_1, acoustic peaks |
+| Im_O = 7, O = 8 | Inventory | Omega_m, Omega_L |
+
+Crossover: z_star = (Im_H * n_c)^2 = 33^2 = 1089
 
 ---
 

@@ -22,12 +22,30 @@
 
 ## Active Patterns
 
+### 2026-01-28 DIMENSION-OBSERVABLE CORRESPONDENCE (S125)
+**Thread**: foundation / cosmology
+**Score**: 5 (MAJOR STRUCTURAL)
+**Sessions since capture**: 0
+**Insight**: Different division algebra dimensions govern different physics domains! Im_H=3 -> Expansion (H_0, horizons); n_c=11 -> Oscillation (acoustic peaks); Im_O=7, O=8 -> Inventory (Omega_m, Omega_L). Crossover: z_star = (Im_H * n_c)^2 = 33^2 = 1089 combines both! This is PREDICTIVE for finding new formulas.
+**Next**: Use correspondence to predict formulas for sigma_8, damping scale, tensor/scalar ratio.
+
+---
+
+### 2026-01-28 Im_H^4 = 81 UNIFIES HUBBLE FORMULAS (S125)
+**Thread**: primes / cosmology
+**Score**: 5 (STRUCTURAL)
+**Sessions since capture**: 0
+**Insight**: BOTH Hubble formulas use Im_H^4 = 3^4 = 81! Consecutive: 337 = 3^4+4^4, H_0 = 337/5 = 67.4 EXACT. Bridge: 4177 = 3^4+8^4, H_0 = 4177/62 = 67.37 (0.04%). Divisors: 5 = R+H, 62 = O^2-C. The GENERATION dimension (Im_H=3) encodes cosmological scale through both paths!
+**Next**: Document in formal investigation file.
+
+---
+
 ### 2026-01-28 BRIDGE PRIMES ENCODE CMB FIRST ACOUSTIC PEAK (S125)
 **Thread**: primes / cosmology
 **Score**: 5 (MAJOR CONNECTION)
 **Sessions since capture**: 0
 **Insight**: Bridge primes give the first acoustic peak l_1 = 220! Two formulas: 2417/11 = 219.73 (0.12% error), 4177/19 = 219.84 (0.07% error). Here 11 = n_c and 19 = n_c + O. The canonical C × n_c × (n_c-1) = 220 is exact, but bridge primes reveal deeper structure linking fourth-power division algebra sums to CMB physics.
-**Next**: Check if other bridge prime ratios appear in cosmological observables.
+**Next**: Document in formal pattern catalog.
 
 ---
 

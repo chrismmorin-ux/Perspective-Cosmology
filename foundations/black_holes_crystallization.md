@@ -542,6 +542,160 @@ If primordial BHs exist with M ~ 10¹⁵ g:
 
 ---
 
+## Part VII: The Discrepancy Problem
+
+### 7.1 The Honest Assessment
+
+**Problem**: The crystallization model gives IDENTICAL numerical predictions to standard GR for all currently observable black hole properties.
+
+| Quantity | Standard GR | Crystallization | Match? |
+|----------|-------------|-----------------|--------|
+| Schwarzschild radius | 2GM | C×GM, C=2 | **YES** |
+| Entropy | A/4 | A/n_d, n_d=4 | **YES** |
+| Temperature | 1/(8πGM) | 1/(C×n_d×πGM) | **YES** |
+| Photon sphere | 3GM/2 | (Im_H/C)×r_s | **YES** |
+| ISCO | 6GM | Im_H × r_s | **YES** |
+| Kerr spin limit | r_s/2 | r_s/C | **YES** |
+
+**This is concerning.** If the mechanism is truly different (ε field dynamics vs vacuum GR), there SHOULD be observable differences somewhere.
+
+### 7.2 Where Differences MIGHT Exist
+
+**Rank 1: Most Promising**
+
+1. **Gravitational Wave Echoes**
+   - ε transitions from ε* to 0 near horizon
+   - This creates a potential barrier that could partially reflect GWs
+   - Would cause "echoes" after ringdown
+   - LIGO/Virgo actively search for these
+   - **Status**: Mechanism identified, calculation needed
+
+2. **Primordial Black Hole Evaporation Endpoint**
+   - As M → M_Pl, ε = 0 core becomes exposed
+   - ε = 0 is unstable, decays to ε*
+   - Should produce characteristic gamma-ray burst
+   - Fermi LAT could potentially detect
+   - **Status**: Mechanism identified, spectrum calculation needed
+
+**Rank 2: Theoretically Distinct**
+
+3. **Logarithmic Entropy Corrections**
+   - S = A/4 + c×log(A) + ...
+   - Framework predicts: c = (n_d - 2)/2 = 1
+   - LQG predicts: c = -1/2 to -3/2
+   - String theory: c ~ 0
+   - **Status**: DIFFERENT PREDICTION, but only testable at Planck scale
+
+4. **Area Quantization (Barbero-Immirzi Parameter)**
+   - Framework: γ_eff ~ 0.18
+   - LQG (Dreyer): γ ~ 0.27
+   - **Status**: DIFFERENT PREDICTION, future GW spectroscopy
+
+**Rank 3: Same Outcome, Different Mechanism**
+
+5. **Information Paradox Resolution**
+   - Both predict: unitarity preserved, Page curve, no firewall
+   - Crystallization: ε pattern at horizon
+   - Island formula: entanglement islands
+   - **Status**: Same predictions, different story
+
+### 7.3 Why the Perfect Match?
+
+The crystallization model was constructed to REPRODUCE GR in the classical limit. The ε field equation of motion, when solved for slowly-varying ε near ε*, gives the Einstein equations.
+
+This is by design — any viable quantum gravity approach must reduce to GR.
+
+The differences appear in:
+1. **Planck-scale physics** (where ε deviates significantly from ε*)
+2. **Quantum corrections** (ε fluctuations)
+3. **Extreme regimes** (evaporation endpoint, extremal BH)
+
+### 7.4 The ε Profile — SOLVED
+
+**Calculation completed**: Session 122 derived ε(r) for Schwarzschild.
+
+**Key result**: The ε field is TOO MASSIVE to deviate from ε* at astrophysical scales.
+
+The ε fluctuation mass:
+```
+m² = 4α² M_Pl²
+m ~ 2α M_Pl ~ 0.015 M_Pl
+
+Compton wavelength: λ_c = 1/m ~ 70 L_Pl
+```
+
+**Physical meaning**: The ε field is "stiff" on scales larger than 70 Planck lengths.
+
+**Solution for ε(r)**:
+```
+ε(r) = ε* × [1 - O(exp(-m×r))]
+
+At horizon of astrophysical BH (r_s ~ 10³⁸ L_Pl):
+  m × r_s ~ 10³⁶
+  ε(r_s) = ε* + O(exp(-10³⁶))
+         = ε* (to incredible precision)
+```
+
+**Energy argument**: The cost to transition ε from ε* to 0 at horizon scale:
+```
+ΔE ~ α⁶ × (r_s/L_Pl)³ × M_Pl ~ 10¹⁰¹ M_Pl (for solar mass)
+```
+This exceeds the BH mass by 10⁶³ — the transition is energetically forbidden.
+
+**Conclusion**: ε = ε* everywhere outside r ~ 70 L_Pl. The crystallization model reproduces GR exactly because the ε field cannot vary on astrophysical scales.
+
+**Verification**: `epsilon_profile_schwarzschild.py` — 6/6 PASS
+
+### 7.5 Action Items for Testable Predictions
+
+1. **Solve ε(r) exactly** for Schwarzschild background
+2. **Compute GW echo properties** from ε profile
+3. **Model evaporation endpoint** and gamma-ray spectrum
+4. **Derive logarithmic corrections** rigorously
+5. **Investigate merger dynamics** — does ε constrain energy radiated?
+
+### 7.6 Current Status
+
+**Honest conclusion**: The crystallization model is currently an INTERPRETATION of black hole physics, not a source of distinguishing predictions.
+
+The framework adds:
+- **Explanation**: Why factors are 2, 4, 8 (division algebras)
+- **Unification**: Same structure that gives α = 1/137 also gives BH thermodynamics
+- **Mechanism**: For singularity resolution (ε = 0 unstable)
+
+But it does NOT yet give:
+- A number that differs from GR
+- A testable prediction unique to crystallization
+
+**This is a research gap, not a failure** — though the ε profile calculation shows the gap is fundamental.
+
+### 7.7 The Critical Mass Scale
+
+One interesting result from the ε(r) derivation:
+
+**Critical mass where deviations become O(1)**:
+```
+M_crit ~ 1/(2α) × M_Pl ~ 68 M_Pl ~ 1.5 × 10⁻⁶ kg
+```
+
+At this mass:
+- r_s ~ 137 L_Pl (note: 137 = α⁻¹!)
+- ε(r_s) begins to differ significantly from ε*
+- Black hole thermodynamics could deviate from Hawking
+
+**Framework number**: The critical radius r_s ~ 137 L_Pl = α⁻¹ L_Pl connects to the fine structure constant.
+
+This suggests crystallization effects become important when:
+```
+r_s × m ~ 1
+r_s ~ 1/m ~ 1/(2α M_Pl) × L_Pl ~ 70 L_Pl
+M ~ 35-70 M_Pl
+```
+
+**Testability**: Only for primordial black holes at the end of evaporation. As M → M_crit, Hawking radiation would deviate from thermal. The final burst spectrum could carry crystallization signatures.
+
+---
+
 ## Summary
 
 ### The Crystallization View of Black Holes
