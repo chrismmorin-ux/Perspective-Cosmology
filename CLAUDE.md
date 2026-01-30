@@ -40,9 +40,22 @@ Plus qualitative derivations (SM gauge groups, Einstein equations, 3+1 spacetime
 ## Session Protocol
 
 ### Start (MANDATORY)
+0. **Session Isolation** (do FIRST):
+   - Read `registry/ACTIVE_SESSIONS.md` — check for parallel sessions
+   - Clean up stale entries (>24h without update)
+   - Ask user for THIS session's focus (do NOT auto-pick from backlog)
+   - Register in ACTIVE_SESSIONS.md with session label, focus, date
+   - If focus overlaps an active session, WARN the user
 1. Read `registry/STATUS_DASHBOARD.md` — current state
 2. Read `registry/RECOMMENDATION_ENGINE.md` — **PROJECT QUEUE** (what to work on)
-3. Brief user: "Session [N]. Top priority: [X]. Queue has [Y] projects."
+3. Brief user: "Session [label]. Focus: [declared scope]. Active sessions: [list or none]. Backlog in-scope: [filtered]."
+
+### Scope Rule
+During a session, ONLY work on items within the declared focus.
+If the user asks for something outside scope, either:
+  a. Expand the scope (update ACTIVE_SESSIONS.md), or
+  b. Note it for a different session (add to STATUS_DASHBOARD work backlog)
+Do NOT silently pick up work from other sessions' domains.
 
 ### During
 - Capture insights → `registry/emerging_patterns.md`
@@ -53,10 +66,14 @@ Plus qualitative derivations (SM gauge groups, Einstein equations, 3+1 spacetime
 - **For critical claims**: Use blind prediction protocol → `registry/HYPOTHESIS_TESTING_PROTOCOL.md`
 
 ### End
-- Update `session_log.md` with work done
-- Update `STATUS_DASHBOARD.md` metrics
-- Update `RECOMMENDATION_ENGINE.md` — mark completed, add new projects
-- Summarize: "Did [X]. Queue updated: [Y]."
+0. **Deregister** (do FIRST):
+   - Move session from "Currently Active" to "Recently Completed" in `registry/ACTIVE_SESSIONS.md`
+   - Add handoff notes (what was done, what's next for this topic)
+   - Move unfinished items back to STATUS_DASHBOARD work backlog
+1. Update `session_log.md` with work done
+2. Update `STATUS_DASHBOARD.md` metrics
+3. Update `RECOMMENDATION_ENGINE.md` — mark completed, add new projects
+4. Summarize: "Did [X]. Queue updated: [Y]."
 
 ---
 
@@ -365,20 +382,23 @@ A three-agent adversarial review identified these core issues:
 ## Session Protocol (Updated)
 
 ### Start (MANDATORY)
+0. **Session Isolation**: Read `registry/ACTIVE_SESSIONS.md`, register session with focus scope
 1. Read `registry/STATUS_DASHBOARD.md` — current state
 2. Read `registry/RECOMMENDATION_ENGINE.md` — top priority
-3. Brief user: "Session [N]. Top priority: [X]. Shall we work on this?"
+3. Brief user: "Session [label]. Focus: [scope]. Active sessions: [list or none]."
 
 ### During
+- **Stay in declared scope** — see Scope Rule above
 - **Log formula attempts** → `FORMULA_SEARCH_LOG.md`
 - **Log interpretations** → `INTERPRETATION_AUDIT.md`
 - **20% adversarial time** — challenge the framework
 - Challenge derivations: Ask "what would make this wrong?"
 
 ### End
-- Update `session_log.md` with work done
-- Update `LLM_COLLABORATION_LOG.md` with attribution
-- Summarize: "Did [X]. Priority status: [Y]. Next: [Z]."
+0. **Deregister**: Move session to "Recently Completed" in `registry/ACTIVE_SESSIONS.md` with handoff notes
+1. Update `session_log.md` with work done
+2. Update `LLM_COLLABORATION_LOG.md` with attribution
+3. Summarize: "Did [X]. Priority status: [Y]. Next: [Z]."
 
 ---
 

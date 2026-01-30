@@ -2,6 +2,17 @@
 
 ## Session Start (MANDATORY - Do Without Being Asked)
 
+### Step 0: Session Isolation (do FIRST)
+```
+registry/ACTIVE_SESSIONS.md     → Check for active parallel sessions
+```
+1. Read `registry/ACTIVE_SESSIONS.md`
+2. Note any active sessions and their scopes
+3. Clean up stale entries (>24h without update)
+4. Ask user for THIS session's focus (do NOT auto-pick from backlog)
+5. Register: Add a row to "Currently Active" with session label, focus, date
+6. If focus overlaps an active session, WARN the user
+
 ### Step 1: Read Status (2 files)
 ```
 registry/STATUS_DASHBOARD.md    → Current state at a glance
@@ -17,11 +28,11 @@ registry/emerging_patterns.md   → Any stale patterns (>3 sessions)?
 ### Step 3: Brief the User
 Format:
 ```
-Session [N]. Last session: [summary].
-Top priorities: 1) [X], 2) [Y], 3) [Z].
+Session [label]. Focus: [declared scope].
+Active parallel sessions: [list or none].
+Backlog items in-scope: [filtered list from STATUS_DASHBOARD].
 Blockers: [any CRITICAL issues or none].
-Stale patterns: [count, if any].
-Which direction?
+Shall we proceed?
 ```
 
 ## During Session
@@ -68,6 +79,11 @@ registry/emerging_patterns.md → Add with timestamp and score
 ```
 
 ## Session End (MANDATORY)
+
+### Step 0: Deregister Session (do FIRST)
+1. Move this session's row from "Currently Active" to "Recently Completed" in `registry/ACTIVE_SESSIONS.md`
+2. Add handoff notes (1-2 sentences: what was done, what's next for this topic)
+3. Move any unfinished items back to the STATUS_DASHBOARD work backlog
 
 ### Step 1: Update Tracking Files
 ```

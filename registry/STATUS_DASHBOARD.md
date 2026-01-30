@@ -1,6 +1,6 @@
 # Status Dashboard
 
-**Updated**: 2026-01-28 (Session 120 finale)
+**Updated**: 2026-01-30 (Session 135)
 **Purpose**: Quick-reference view — read this FIRST each session
 
 ---
@@ -13,7 +13,7 @@
 | **Completed** | Session 120 |
 | **Central Document** | `publications/THESIS.md` |
 | **Strategic Plans** | `MASTER_PLAN.md`, `CMB_PHYSICS_PLAN.md` |
-| **Foundation Docs** | 9 complete (all done) |
+| **Foundation Docs** | 10 complete (9 original + SO(11) chain) |
 
 **Four Pillars**: Foundation (**DONE**) | Numerical (**DONE**) | Experimental (**DONE**) | Communication
 
@@ -25,11 +25,11 @@
 
 | Metric | Value |
 |--------|-------|
-| **Current Session** | 131 (mu^2 Physics Derivation) |
-| **Verification Scripts** | 313 (90% PASS) |
-| **Total Constants Derived** | 62 |
+| **Current Session** | 135 (CMB Phase 4.2 Complete) |
+| **Verification Scripts** | 335 (90% PASS) |
+| **Total Constants Derived** | 63 |
 | **EXACT Predictions** | 6 |
-| **Sub-10 ppm Predictions** | 12 |
+| **Sub-10 ppm Predictions** | 13 |
 | **Sub-percent Predictions** | 53+ |
 | **Open Blockers** | None |
 
@@ -49,7 +49,8 @@
 | Ξ⁰/m_d | 181×14/9 | 3.4 ppm |
 | W/Ξ⁻ | 139×7/16 | 6.4 ppm |
 | m_b/m_s | 179/4 | 8.0 ppm |
-| r_s | 337×3/7 | 9.9 ppm |
+| l_A | 96*pi | 0.012% (120 ppm) |
+| r_s | 337*3/7 | 9.9 ppm |
 | m_K/m_s | 37/7 | 11.6 ppm |
 
 ---
@@ -72,7 +73,157 @@
 
 ## Recent Sessions (5)
 
-### Session 131: mu^2 DERIVATION + SOUND HORIZON DERIVATION (Current)
+### Session 135: CMB PHASE 4.2 — LCDM DEVIATIONS (Current)
+- **10 DEVIATIONS FROM LCDM CATALOGED**:
+  - D-01: r = 7/200 = 0.035 (KEY test — CMB-S4 ~2028)
+  - D-03: w = -1 exactly (vs DESI dynamical DE hint)
+  - D-06: Running alpha_s = -637/1280000 ≈ -5.0e-4 (from V'''=0)
+  - D-08: f_NL = -7/480 ≈ -0.015 (single-field consistency)
+  - 6 more deviations documented with testability tiers
+- **z_* = 33^2 INVESTIGATED**: Found numerological, NOT physics prediction
+  - HS fitting formula with framework params: z_* ~ 1092.2
+  - Framework vs Planck params: only ~0.3 difference in z_*
+  - True prediction from standard recombination, consistent with Planck
+- **KEY CONCLUSION**: r = 0.035 is THE distinguishing framework prediction
+  - Most inflation models: r << 0.01 (Starobinsky r ~ 0.004)
+  - Framework: r large and specific, detectable by CMB-S4
+- **Scripts**: `lcdm_deviations_from_hilltop.py` (16/17), `z_star_recombination_test.py`
+- **Document**: `predictions/LCDM_DEVIATIONS.md`
+
+### Session 134 (Part 3): BORN RULE DERIVED FROM CRYSTALLIZATION
+- **BORN RULE P(k) = |c_k|^2 DERIVED** — three-step mechanism:
+  - Step 1: W = const on pure states (Tr(ρ²)=1) → ZERO DRIFT for populations
+  - Step 2: Crystallization noise ~ unorthogonality → g²(p) = p(1-p) [A-PHYSICAL]
+  - Step 3: Bounded martingale + optional stopping → P(k) = |c_k|^2
+  - Exit ODE: u''(p) = 0, BCs u(0)=0, u(1)=1 → u(p) = p [BORN RULE]
+- **Wright-Fisher diffusion**: Generalizes to n_d = 4 states on 3-simplex
+  - Covariance: Σ_{kl} = p_k(δ_{kl} - p_l), rank 3, eigenvalues {1/4: 3, 0: 1}
+- **Fubini-Study metric**: Natural noise structure from tilt matrix geometry
+- **Two-stage collapse**: decoherence (~2×10⁻³⁸ s) + selection (~4×10⁻³⁹ s)
+- **One [A-PHYSICAL] assumption**: noise proportional to unorthogonality
+- **Open since Session 132**: Now RESOLVED
+- **Script**: `born_rule_from_crystallization.py` — **12/12 PASS**
+- **Confidence**: [DERIVATION] with one well-motivated physical assumption
+
+### Session 134 (Part 2): CMB PHASE 3 COMPLETE
+- **PEAK HEIGHTS (Phase 3.2)**: R_* = 0.619 from framework Omega_b = 567/11600
+  - Matches Planck ~0.62-0.64 to 2%
+  - Four-effect model: baryon+driving (coupled) + tilt + damping -> D_l2/D_l1 ~ 0.37
+  - Semi-analytic ~18% off measured 0.44 (expected for simple model)
+  - Framework candidates: 10/23, 5/11, 9/20 all within 3% of measured
+  - Script: `peak_height_physics.py` — 15/15 PASS
+- **SILK DAMPING (Phase 3.3)**: l_D from photon diffusion physics
+  - Eisenstein-Hu fitting with framework params: l_D ~ 1243
+  - Framework expressions: C*Im_O*(n_c-1)^2 = (H+R)^2*O*Im_O = 1400 exact
+  - H^2*n_c*O = 1408 (0.6%)
+  - Damping envelope computed for all 7 peaks
+  - Script: `silk_damping_physics.py` — 13/13 PASS
+- **ODD-EVEN ASYMMETRY (Phase 3.4)**: Omega_b already derived, R_* computed
+- **CMB Phase 3**: ALL 4 ITEMS COMPLETE (3.1-3.4)
+- **Foundation docs**: `peak_heights.md`, `silk_damping.md`
+
+### Session 134 (Part 1): MIRROR UNIVERSE FORMALIZATION
+- **Hidden complement H_pi satisfies all 18 axioms** when h_pi >= 2 (d_pi <= 9)
+  - 8 inherited (V_Crystal properties), 5 dimensional (h_pi >= 2), 5 structural, 1 critical (connectivity)
+  - Key lemma: K_11 has vertex connectivity 10, so removing d_pi vertices leaves K_{h_pi} connected
+  - Script: `mirror_complement_axiom_check.py` — 8/8 PASS
+- **For d_pi <= 7**: Mirror develops full 3+1D spacetime with SAME physics constants
+  - Same Frobenius argument (n_d = 4), same framework primes, same alpha
+  - Causally disconnected from U_pi (non-traversable boundary)
+- **Dual nucleation**: Time-reversal invariant EOM has two branches from eps=0 boundary
+- **THM_0486 drafted** (SKETCH): Conditional theorem on mirror spacetime
+- **Gaps documented**: Connectivity hypothesis, quantifier scoping, perspective set construction
+- **Confidence**: [CONJECTURE] with [DERIVATION] elements
+
+### Session 133: V_eff LANDSCAPE TENSION -- RESOLVED
+- **TENSION CONFIRMED**: Session 132's b = M_Pl^4 makes condensate energy (alpha^4 M_Pl^4) exceed V_0 (1.3e-9 M_Pl^4) by 2.2x
+  - phi=0 becomes local MINIMUM, not hilltop -- inflation destroyed
+  - Adiabatic approximation valid (m_tilt/H_inf ~ 990), so tension is real
+  - Script: `veff_landscape_tension.py` -- 12/12 PASS
+- **RESOLUTION: b < V_0/(2*alpha^4) ~ 0.23 M_Pl^4 required**
+  - Physical meaning: Mexican hat depth < inflationary hilltop height
+  - Natural value: b = alpha * M_Pl^4 = M_Pl^4/137
+  - Script: `veff_resolution_b_constraint.py` -- 10/10 PASS
+- **b = M_Pl^4 FALSIFIED** (DE-008): Replaced by b = alpha * M_Pl^4
+  - eps* = alpha UNCHANGED
+  - m_tilt: 2.5e17 GeV --> 2.1e16 GeV (closer to GUT scale)
+  - Condensate: 217% of V_0 --> 1.6% of V_0
+  - g(phi) unification PRESERVED
+  - All CMB predictions PRESERVED (n_s correction < Planck sigma)
+- **New prediction**: r = 1-n_s slightly broken at 5e-4 level by condensate
+- **Document**: `crystallization_dynamics.md` updated v2.2 --> v2.3
+
+### Session 132b (Part 2): c3 DERIVED + GOLDSTONE IDENTITY + SSB THRESHOLD
+- **c3 > 0 DERIVED FROM BLOCK STABILITY**: If c3 < 0, spacetime fragments
+  - Within-block perturbation: Delta(I4) = 24*a^2*delta^2 > 0
+  - Full forcing chain now CLOSED: SO(11) -> SO(4)xSO(7) energetically FORCED
+  - Script: `c3_sign_from_stability.py` — 12/12 PASS
+- **194-153=41 IS STRUCTURAL**: Linking quadratic (n-4)(n-11)=0
+  - Sum=15, product=44, discriminant=49=Im_O^2 — all framework quantities
+  - Deep reason: n_c - n_d = Im_O = 7 (forced by division algebras)
+  - Script: `goldstone_denominator_identity.py` — 16/16 PASS
+- **SSB CRITICAL RATIO**: mu^2_crit = 2*Im_O^2/n_c = 98/11
+  - 98 = 97+1 = 99-1 (between electroweak and Koide denominators!)
+  - c3 > 0 raises threshold by factor (1 + 3*lambda/n_c)
+  - Script: `ssb_critical_ratio.py` — 11/11 PASS
+- **H^2=16 SPACING CHAIN**: 97, 113, 121, 137, 153 (span = 56 = O*Im_O)
+  - All = n_c^2 + offset; uniform point ratios all framework quantities
+  - Script: `denominator_spacing_and_barriers.py` — 15/15 PASS
+
+### Session 132b (Part 1): QUARTIC CURVATURE + COMPLETE DENOMINATOR UNIFICATION
+- **SECOND-ORDER DEGENERACY PROVED**: F''(0) is IDENTICAL for all SO(p)xSO(q)
+  - d2_I2 = 2, d2_I2_sq = 196/11, d2_I4 = 588/121 — all universal
+  - Energy landscape at hilltop cannot distinguish splittings at 2nd order
+- **FOURTH-ORDER SELECTION**: d4_I4(4,7) - d4_I4(3,8) = -11/7 = -n_c/Im_O
+  - c3 > 0 selects (4,7) over (3,8) energetically
+  - Script: `quartic_energy_curvature.py` — 12/12 PASS
+- **COMPLETE DENOMINATOR UNIFICATION**: ALL 14 denominators = f(n_c)
+  - 72 = (n_c-3)(n_c-2), 153 = (n_c-2)(n_c+6), 97 = n_c^2-2n_c-2
+  - 91 = (n_c-4)(n_c+2), 113 = n_c^2-8, 1836 = (n_c+1)(n_c-2)(n_c+6)
+  - KEY: 99+72 = 171 (Weinberg num), 194-153 = 41 (total Goldstones!)
+  - Script: `denominator_polynomial_unification.py` — 21/21 PASS
+- **INTRA-STAGE ORDERING RESOLVED**: Division algebra activation principle
+  - R->C->Im_H->H ordering gives 2->5->13->17 (1-to-1 labeling!)
+  - sum(a^2 in Stage 1) = 7 = Im_O (connects Stages 1 and 2)
+  - Script: `intra_stage_ordering.py` — 12/12 PASS
+
+### Session 132: SO(11) CRYSTALLIZATION CHAIN + DENOMINATOR UNIFICATION
+- **SO(11) CHAIN DERIVED**: SO(11) -> SO(4)xSO(7) -> SO(4)xG2 -> SO(4)xSU(3)
+  - Each step FORCED by division algebra structure
+  - (4,7) is max-coupling among D_framework valid splits
+  - G2 = unique octonionic automorphism; SU(3) = Stab_{G2}(C)
+  - Script: `crystallization_ordering_SO11.py` — 15/15 PASS
+- **8 PRIMARY PRIMES UNIQUELY DETERMINED**: D_framework = {1,2,3,4,7,8,11}
+  - Generates EXACTLY {2,5,13,17,53,73,113,137} via a^2+b^2
+  - Stage assignment forced by max(a,b): Stage 1 (<=4), Stage 2 (<=8), Stage 3 (=11)
+  - 97 is SECONDARY prime (uses 9 = Im_H^2, derived quantity)
+  - Script: `stage3_prime_selection_rule.py` — 9/9 PASS
+- **DENOMINATOR UNIFICATION**: All three major denominators are polynomials in n_c:
+  - 111 = n_c^2 - n_c + 1 (alpha)
+  - 99 = n_c(n_c - 2) (Koide)
+  - 200 = 2(n_c - 1)^2 (spectral index)
+  - KEY: 111 - 99 = 12 = dim(SM gauge) = n_c + 1
+- **F(epsilon) CONSTRAINED**: Mexican hat forced by SO(11) invariance + nucleation + stability
+  - Tr(epsilon) = n_d - n_c = -7 fixed (not dynamical)
+- **Investigation file**: `crystallization_ordering_from_SO11.md`
+
+### Session 132a: ACOUSTIC OSCILLATIONS — UNIFIED PEAK FORMULA
+- **KEY DISCOVERY: l_A = 96*pi = 301.59** (Planck: 301.63, error: **0.012%**)
+  - D_M/r_s ~ 96 = O * (n_c + R) = O * dim(SM_gauge) = 8 * 12
+  - Angular acoustic scale from framework parameters
+- **UNIFIED PEAK FORMULA**: l_n = 96*pi*(11n - 3)/11
+  - ALL 7 peaks match within 3.1% using ZERO free parameters
+  - Phase shift: phi = Im_H/n_c = 3/11 (spatial/crystal ratio)
+  - First peak: l_1 = 96*pi*8/11 = 219.3 (0.30% error)
+- **FRAMEWORK CHAIN**: Division algebras -> cosmo params -> standard LCDM -> D_M -> l_A -> peaks
+  - Framework DERIVES parameters, standard physics handles oscillations
+  - This is COMPATIBLE with (not alternative to) standard CMB physics
+- **NUMERATOR PATTERN**: 11n - 3 = {8, 19, 30, 41, 52, 63, 74}
+  - n=1: 8 = O; n=6: 63 = Im_O*Im_H^2 (= Omega_m numerator)
+- **Scripts**: `acoustic_oscillation_physics.py` (15/15), `acoustic_peaks_from_l_A.py` (13/13)
+- **CMB Phase 2.3**: RESOLVED
+
+### Session 131: mu^2 DERIVATION + SOUND HORIZON DERIVATION
 - **mu^2 = 250 DERIVED**: n_c^2 + H = (H+R)^3 = 125 is framework identity
 - **CANONICAL CONFIRMED**: mu^2 = 1536/7 with r = 0.035 (r < 0.036 limit)
 - **SOUND HORIZON DERIVED** (new):
@@ -235,24 +386,36 @@
 
 ## Current Focus
 
-**NEW PRIORITY**: `CMB_PHYSICS_PLAN.md` — 6 phases, 25 sessions
+**Active Sessions**: See `registry/ACTIVE_SESSIONS.md` for what's currently running.
+
+**CMB Physics Plan**: `CMB_PHYSICS_PLAN.md` — 6 phases, 25 sessions
 
 | Phase | Sessions | Focus | Status |
 |-------|----------|-------|--------|
-| 1. Cleanup | 121-122 | Consolidate formulas, DOF analysis | NEXT |
-| 2. Physics Foundations | 123-127 | Crystallization Lagrangian, sound horizon | PLANNED |
-| 3. Peak Structure | 128-132 | Heights, damping, odd-even | PLANNED |
-| 4. Predictions | 133-137 | Blind protocol, ΛCDM deviations | PLANNED |
-| 5. Validation | 138-142 | Full spectrum, statistics | PLANNED |
-| 6. Documentation | 143-145 | Technical summary update | PLANNED |
+| 1. Cleanup | 121-122 | Consolidate formulas, DOF analysis | DONE |
+| 2. Physics Foundations | 123-132 | Lagrangian, sound horizon, oscillations | **2.1-2.3 DONE** |
+| 3. Peak Structure | 132-134 | Heights, damping, odd-even | **ALL DONE** |
+| 4. Predictions | 135+ | Blind protocol, LCDM deviations | **4.2 DONE** |
+| 5. Validation | TBD | Full spectrum, statistics | PLANNED |
+| 6. Documentation | TBD | Technical summary update | PLANNED |
 
-**Immediate Next Steps**:
-1. Create `cmb_canonical_formulas.py` — single source of truth
-2. Create `DEGREES_OF_FREEDOM_ANALYSIS.md` — honest parameter counting
-3. Document failed attempts for ℓ₁ = 220
-4. Lock blind predictions for ℓ₄, ℓ₅ before looking up values
+### Work Backlog (unclaimed)
 
-**Open Avenues** (deferred during CMB plan):
+Items available for any new session to pick up. Check `ACTIVE_SESSIONS.md` first to avoid collisions.
+
+| Item | Topic | Priority | Notes |
+|------|-------|----------|-------|
+| `cmb_canonical_formulas.py` | CMB | HIGH | Single source of truth for CMB observables |
+| `DEGREES_OF_FREEDOM_ANALYSIS.md` | CMB | HIGH | Honest parameter counting |
+| Document failed attempts for ℓ₁ = 220 | CMB | MEDIUM | Per skeptical critique |
+| Lock blind predictions ℓ₄, ℓ₅ | CMB | MEDIUM | Before looking up values |
+| CMB Phase 5 — full spectrum validation | CMB | MEDIUM | Next major phase |
+| CMB Phase 6 — technical summary update | Documentation | LOW | After Phase 5 |
+| Strengthen connectivity lemma | Mirror | MEDIUM | Prove graph is K_11 |
+| Running couplings (beta coefficients) | Gauge Theory | LOW | Deferred — log form imported |
+| Proton lifetime prediction | Predictions | LOW | Deferred |
+
+### Open Avenues (deferred)
 1. Running couplings (beta coefficients match, log form imported)
 2. Proton lifetime prediction
 
