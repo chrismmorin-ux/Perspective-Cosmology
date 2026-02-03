@@ -8,7 +8,7 @@
 
 ## Statement
 
-Partiality (AXM_0104) forces an orthogonal decomposition of the crystal:
+[DERIVATION] Partiality (AXM_0104) forces an orthogonal decomposition of the crystal:
 
 ```
 V_Crystal = V_pi (+) V_pi^perp
@@ -19,7 +19,7 @@ where:
 - (+) denotes orthogonal direct sum
 ```
 
-The interface between visible and hidden sectors has dim = n_d^2 + n_c^2 = 137 degrees of freedom. [CONJECTURE: the DOF counting is [D] arithmetic; identifying 137 with 1/α is [A-PHYSICAL]]
+[CONJECTURE] The interface between visible and hidden sectors has dim = n_d^2 + n_c^2 = 137 degrees of freedom. [The DOF counting is [D] arithmetic; identifying 137 with 1/α is [A-PHYSICAL]]
 
 ## Proof Sketch
 

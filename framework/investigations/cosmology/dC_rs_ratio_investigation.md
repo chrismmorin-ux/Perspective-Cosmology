@@ -1,6 +1,6 @@
 # d_C/r_s Ratio Investigation: Is 96 = O x (n_c + R) Meaningful?
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 198, 2026-02-02
 **Last Updated**: Session 198, 2026-02-02
 

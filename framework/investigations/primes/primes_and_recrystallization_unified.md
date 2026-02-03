@@ -1,9 +1,10 @@
 # Investigation: Primes and Recrystallization — A Unified Mechanism
 
-**Status**: ACTIVE (Major Synthesis Attempt)
+**Status**: ARCHIVE (stale, pre-S150)
 **Created**: 2026-01-27
 **Origin**: Connecting prime orthogonality work with imperfect dimensions/recrystallization
 **Significance**: POTENTIALLY VERY HIGH — Could unify number theory and cosmology
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -1427,7 +1428,7 @@ The decay conjecture I(t) ~ I_0/ln(t) matches PNT form.
 
 ---
 
-*Investigation status: ACTIVE — Major synthesis with partial formalization*
+*Investigation status: ARCHIVE — Major synthesis with partial formalization*
 *Confidence: CONJECTURE with VERIFIED mathematical structure*
 *Priority: HIGH — Potentially unifies multiple domains*
 

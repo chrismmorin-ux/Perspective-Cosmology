@@ -1,9 +1,10 @@
 # Black Holes: A Crystallization Deep Dive
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S122)
 **Created**: Session 122
 **Confidence**: [CONJECTURE] with [DERIVATION] elements
 **Dependencies**: einstein_from_crystallization.md, white_holes_as_nucleation.md, black_hole_entropy_derivation.md
+**Last Updated**: 2026-02-03
 
 ---
 

@@ -99,10 +99,10 @@ QED (conditional on hypotheses 1 and 2)
 
 ## Implications
 
-1. The framework predicts a mirror universe as a logical consequence, not an additional assumption
-2. The mirror has identical physics (same alpha, same gauge groups, same particle spectrum)
-3. The mirror is non-traversable — no information exchange is possible
-4. This connects to the dynamical picture: time-reversal invariance of the crystallization EOM gives two nucleation branches from a shared eps = 0 boundary
+1. [CONJECTURE] The framework predicts a mirror universe as a logical consequence, not an additional assumption
+2. [CONJECTURE] The mirror has identical physics (same alpha, same gauge groups, same particle spectrum)
+3. [CONJECTURE] The mirror is non-traversable — no information exchange is possible
+4. [CONJECTURE] This connects to the dynamical picture: time-reversal invariance of the crystallization EOM gives two nucleation branches from a shared eps = 0 boundary
 
 ## Notes
 

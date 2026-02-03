@@ -3,6 +3,7 @@
 **Status**: DERIVATION (partial)
 **Created**: Session 134
 **Confidence**: [DERIVATION] for parameter inputs; [CONJECTURE] for l_D expressions
+**Last Updated**: 2026-02-03
 
 ---
 

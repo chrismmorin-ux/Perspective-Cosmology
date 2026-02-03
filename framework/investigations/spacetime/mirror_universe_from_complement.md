@@ -1,6 +1,6 @@
 # Mirror Universe from the Hidden Complement
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S134)
 **Confidence**: [CONJECTURE] with [DERIVATION] elements
 **Created**: Session 134
 **Last Updated**: Session 134

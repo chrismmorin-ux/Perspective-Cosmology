@@ -41,6 +41,8 @@ A theory that can't be proven wrong isn't science. Every prediction must have:
 | **F-STR-2** | SU(3)×SU(2)×U(1) unique | — | CONSISTENT | Theory check |
 | **F-STR-3** | Born rule from crystallization | — | CONSISTENT | QM precision tests |
 | **F-STR-4** | SM from SO(11) + F=C | — | THEORY | Internal consistency |
+| **F-COL-5** | kappa_lambda = 0.950 | 5.03% | UNTESTABLE (near-term) | FCC-hh, muon collider |
+| **F-STR-5** | 3 right-handed neutrinos | — | CONSISTENT | Cosmological N_eff |
 
 ---
 
@@ -698,6 +700,111 @@ All 7 computed from framework parameters BEFORE looking up measurements.
 
 ---
 
+## Section 8: Collider Predictions (Session 210)
+
+### F-COL-1: Higgs Coupling Deviations (Universal)
+
+| Field | Value |
+|-------|-------|
+| **Formula** | kappa_V = kappa_f = sqrt(1 - n_d/n_c^2) = sqrt(117/121) |
+| **Predicted** | kappa_V = kappa_f = 0.9833 (1.67% below SM, UNIVERSAL) |
+| **Discriminator** | kappa_f/kappa_V = 1 exactly (spinorial); would be 0.966 if fundamental |
+| **Current** | kappa_V = 1.00 +/- 0.04 (LHC Run 2) |
+| **Confidence** | DERIVATION (spinorial embedding, S212); CONJECTURE (xi value) |
+
+**Falsified if**: kappa_V measured > 1.0 at >3sigma, OR kappa_f/kappa_V measured != 1 at >3sigma, OR kappa_V differs from sqrt(117/121) by >2%.
+
+**Embedding**: Spinorial (MCHM4-type). Division algebra counting 15 = 1+2+4+8 matches SO(11) spinor (32), not fundamental (11 < 15). See `fermion_embedding_spinorial.py` (23/23 PASS).
+
+**Testability**: HL-LHC marginal (~1.1sigma for kappa_V); FCC-ee decisive (~5.6sigma).
+
+**Source**: Session 210, 212; `ewsb_coupling_deviations.py` (20/20 PASS), `fermion_embedding_spinorial.py` (23/23 PASS)
+
+---
+
+### F-COL-2: Single Higgs Doublet (No Extended Higgs Sector)
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | Exactly 1 Higgs doublet from real tilt matrix (AXM_0109) |
+| **Excludes** | 2HDM (all types), MSSM, NMSSM, Georgi-Machacek, scalar triplet |
+| **Specifically** | No H+/-, no heavy H/A, no singlet scalar |
+| **Confidence** | DERIVATION (from axiom AXM_0109) |
+
+**Falsified if**: Charged Higgs H+/- discovered, OR heavy neutral H/A found, OR scalar singlet found.
+
+**Status**: CONSISTENT — no extended Higgs sector observed at LHC.
+
+**Source**: Session 210; `ewsb_single_doublet_prediction.py` (10/10 PASS)
+
+---
+
+### F-COL-3: 24 Colored pNGBs (Leptoquark-Like)
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | 24 colored scalar pNGBs in (2,3)+(2,3bar) from SO(11)/[SO(4)xSO(7)] |
+| **Mass** | Must be > 1 TeV (S parameter + LHC), crude estimate ~151 GeV is excluded |
+| **Crude CW estimate** | ~151 GeV (BELOW LHC bounds — requires enhancement) |
+| **Enhanced estimate** | ~590 GeV (with log factor), ~1.5 TeV (with N_CW ~ 8 multi-site) |
+| **Confidence** | DERIVATION (existence), CONJECTURE (mass scale) |
+
+**Falsified if**: Leptoquark-like colored scalars found with quantum numbers inconsistent with (2,3), OR S parameter definitively excludes ANY colored scalar below 10 TeV.
+
+**Known tension**: Crude mass estimate is 10x below LHC bounds. Resolution requires multi-site enhancement (N_CW ~ 8) or strong dynamics. This is the same "little hierarchy" problem as in all composite Higgs models.
+
+**Status**: CONSISTENT (non-observation expected if heavy)
+
+**Source**: Session 210; `colored_pngb_mass_bounds.py` (14/14 PASS), `ewsb_oblique_parameters.py` (12/12 PASS)
+
+---
+
+### F-COL-4: Compositeness Scale f ~ 1354 GeV
+
+| Field | Value |
+|-------|-------|
+| **Formula** | f = v * n_c/2 = 246.22 * 11/2 = 1354 GeV |
+| **Consequence** | xi = v^2/f^2 = 4/121 = 0.033 |
+| **EW precision** | Safe (xi < 0.1) |
+| **Confidence** | CONJECTURE |
+
+**Falsified if**: Compositeness signatures at energy < 1 TeV (would imply f < 1 TeV), OR precise coupling measurements require f > 5 TeV (would break xi = 4/121).
+
+**Testability**: FCC-hh direct sensitivity to f ~ few TeV.
+
+**Source**: Session 179, 210; `ewsb_coupling_deviations.py`
+
+---
+
+### F-COL-5: Triple Higgs Coupling Modification (kappa_lambda)
+
+| Field | Value |
+|-------|-------|
+| **Formula** | kappa_lambda = (1-2*xi)/sqrt(1-xi) = 113/(11*sqrt(117)) |
+| **Numerical** | 0.9497 (5.03% below SM) |
+| **Derivation** | From MCHM4 sin²+sin⁴ potential, symbolic differentiation |
+| **Confidence** | DERIVATION (formula) + CONJECTURE (xi value) |
+
+**Falsified if**: Triple Higgs coupling measured > 1.0 (SM enhancement instead of reduction), OR measured > 0.97 at > 3σ (excludes sin²+sin⁴ potential at this xi).
+
+**Testability**: FCC-hh ~5% precision (~1σ). Muon collider ~3-5% (~1.7σ). HL-LHC insufficient (~50% precision).
+
+**Source**: Session 214; `kappa_lambda_mchm4.py` (20/20 PASS)
+
+---
+
+### Collider Predictions: Falsification Priority
+
+| Test | Prediction | Experiment | Timeline |
+|------|-----------|------------|----------|
+| **kappa_V = kappa_f = 0.983** | F-COL-1 | HL-LHC, FCC-ee | 2029+ |
+| **No H+/-, H, A** | F-COL-2 | LHC BSM Higgs | Ongoing |
+| **24 colored pNGBs** | F-COL-3 | LHC leptoquark | Ongoing |
+| **f ~ 1.35 TeV** | F-COL-4 | FCC-hh | 2040s |
+| **kappa_lambda = 0.950** | F-COL-5 | FCC-hh, muon coll. | 2040s+ |
+
+---
+
 ## Statistics
 
 | Category | Count | Status |
@@ -710,8 +817,9 @@ All 7 computed from framework parameters BEFORE looking up measurements.
 | Structural | 5 | All CONSISTENT |
 | Strong CP | 1 | PROOF INCOMPLETE |
 | QCD | 2 | 1 SAFE, 1 HIGH RISK |
+| Collider (EWSB) | 4 | All CONSISTENT |
 | **Already falsified** | **5** | Documented |
-| **TOTAL ACTIVE** | **40** | |
+| **TOTAL ACTIVE** | **44** | |
 
 ---
 
@@ -738,4 +846,4 @@ All 7 computed from framework parameters BEFORE looking up measurements.
 
 ---
 
-*Last updated: 2026-02-01 (Session 176 — comprehensive rebuild from 12 entries to 40)*
+*Last updated: 2026-02-03 (Session 210 — added Section 8: Collider Predictions, 40 → 44 entries)*

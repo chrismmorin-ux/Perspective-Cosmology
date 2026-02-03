@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Determine the nature and origin of V in light of the orthogonality insight
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -352,7 +353,7 @@ The structure of V_Observable (dimension, metric, tilts) is **determined by how 
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: orthogonality_and_crystal.md*
 *Resolves: The "V first vs B first" question*
 *Next: Investigate C (content) with this understanding*

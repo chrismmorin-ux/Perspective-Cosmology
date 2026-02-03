@@ -5,6 +5,7 @@
 **Confidence**: [CONJECTURE] — sign problem makes core mechanism invalid
 **Origin**: User insight connecting crystallization dynamics to dark energy via stress
 **S199 Audit**: `cosmological_constant_sign_analysis.py` (10/10 PASS) confirms: stress sigma >= 0 is RELATIVE energy, not absolute. V(eps) < 0 throughout physical range. Fine-tuning ~10^111 needed for V_0 resolution. Three CC formulas mutually incompatible.
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -608,6 +609,6 @@ print(f"Error:     {error:.2f}%")
 
 ---
 
-*Investigation status: ACTIVE*
-*Confidence: [DERIVATION] with [CONJECTURE] gaps*
+*Investigation status: QUARANTINE*
+*Confidence: [DERIVATION] with [CONJECTURE] gaps — sign problem (F-10, S199)*
 *Created: Session 94 (2026-01-27)*

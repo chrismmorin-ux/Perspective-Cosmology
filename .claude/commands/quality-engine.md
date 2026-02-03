@@ -109,15 +109,26 @@ E = Effort (estimated sessions to make progress)
     Scale: 1-5
 ```
 
-### Sources for Investigations
-1. Open questions from recent session files (S194-S198)
-2. `registry/FORMALIZATION_QUEUE.md` pending items
-3. Findings from Phases 1-3 of this scan
-4. `topics/` files with stalled progress
+### Primary Source: Exploration Queue
+
+Read `registry/EXPLORATION_QUEUE.md` as the **primary source** of open research questions.
+
+1. Score all OPEN items with D x G x F / E
+2. Write numeric scores into Active Queue Priority column
+3. Write the **Scored View** section in EXPLORATION_QUEUE.md (ranked top 10)
+4. Add new EQ entries for session questions not yet tracked
+5. Move resolved items to Recently Resolved
+6. Check BLOCKED items — unblock any whose blockers are resolved
+
+### Supplementary Sources
+1. `registry/FORMALIZATION_QUEUE.md` — move misplaced research questions to EQ
+2. Findings from Phases 1-3 of this scan
+3. `topics/` files with open paths not yet tracked as EQ items
+4. `registry/emerging_patterns.md` — score 4+ items get promoted to EQ entries
 5. Dead ends that might be unblocked by new results
 
 ### Output: registry/INVESTIGATION_PRIORITIES.md
-Ranked list with scores. Overwrites previous version.
+Ranked list with full justifications and session allocation suggestions. Overwrites previous version. Sourced from the exploration queue but includes richer detail (justifications, allocation).
 
 ## Report Format
 

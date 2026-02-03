@@ -5,6 +5,7 @@
 **Confidence**: [CONJECTURE] — Structurally motivated, not rigorously derived
 **Dependencies**: prime_crystallization_attractors.md, primes_and_recrystallization_unified.md, layer_1_crystallization.md
 **Significance**: HIGH — Connects abstract prime structure to observable physics
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -964,7 +965,7 @@ This needs immediate verification.
 
 ---
 
-*Investigation status: ACTIVE — Extended with complete prime catalog problem*
+*Investigation status: ARCHIVE — Extended with complete prime catalog problem*
 *Confidence: [CONJECTURE] — Structurally motivated, not rigorously derived*
 *Created: 2026-01-27 (Session 78)*
 *Extended: 2026-01-27 (Session 79) — Complete prime search program*

@@ -1,6 +1,6 @@
 # Topic: Collider Data Validation of Crystallization
 
-**Current state**: Phases I-IV complete (S168). S175: Higgs = pNGB doublet from epsilon_di. S179: CW potential computed — gauge sin^4 only, lambda_H = 125/968 conjecture (0.2%, HRS=3), f ~ 1.35 TeV. 27/27 PASS across 2 new scripts. Phase V deferred (needs CKM).
+**Current state**: Phases I-IV complete (S168). S175: Higgs = pNGB doublet from epsilon_di. S179: CW potential computed — gauge sin^4 only, lambda_H = 125/968 conjecture (0.2%, HRS=3), f ~ 1.35 TeV. S210: Coupling deviations computed (kappa_V=0.983), colored pNGB mass tension documented (crude 151 GeV vs LHC 1.5 TeV, N_CW~8 resolves), S parameter excludes light limit, single doublet formalized (8 BSM models excluded). S212: Fermion embedding RESOLVED — spinorial (MCHM4), kappa_f = kappa_V (universal). S213: LHC null results audit — 10 items, 9/10 consistent, 1 tension (95 GeV at 3.1σ). S217: **Democratic Bilinear Principle** — xi and sin^2(theta_W) unified via End(V). 153/153 PASS across 9 scripts.
 
 ---
 
@@ -28,6 +28,17 @@
 - **Pi^2 cancellation for lambda = 1/O**: CW with c_beta = pi^2/6 gives lambda = N_c/24 = 1/O because N_c*O = Im_H*dim(O) = 24. Pi^2 from loop factor and form factor cancel exactly. (S180, 15/15 PASS)
 - **N_c * O = 24 structural identity**: 3*8 = 24 = n_d! = N_Gold - N_Higgs = 2*dim(SM). Multiple independent realizations of 24. (S180)
 - **(1+xi)/(1-xi) correction resolved**: beta depends on xi through partial compositeness. Required enhancement 125/117 = 6.8% is physically reasonable. (S180)
+- **Coupling deviations from xi = 4/121**: kappa_V = kappa_f = sqrt(117/121) = 0.9833 (1.67% below SM, UNIVERSAL). Spinorial embedding (MCHM4-type) determined by division algebra fermion counting: 15 = 1+2+4+8 matches SO(11) spinor (32), fundamental (11) too small. kappa_f/kappa_V = 1 exactly. mu = 117/121 for all channels. FCC-ee decisive (~5.6 sigma). (S210 coupling formulas, S212 embedding resolved, 23/23 + 20/20 PASS)
+- **Single Higgs doublet from real tilt (AXM_0109)**: 4 real DOF = 1 complex doublet. Excludes 2HDM (all types), MSSM, NMSSM, Georgi-Machacek, Type-II seesaw. (S210, 10/10 PASS)
+- **S parameter excludes light colored pNGBs**: Delta_S(light) = 6/(6*pi) = 0.318, excluded at 2.8 sigma. Heavy pNGBs (>1 TeV) decouple safely. T parameter negligible for degenerate multiplets. (S210, 12/12 PASS)
+- **Colored pNGB mass bounds documented**: Crude CW ~151 GeV (below LHC). Enhanced with log ~590 GeV. Multi-site N_CW~8 gives ~1.7 TeV (above LHC). Tension is GENERIC to composite Higgs, not framework-specific. (S210, 14/14 PASS)
+- **LHC null results audit — 9/10 consistent**: No SUSY (single doublet excludes MSSM), no extra dims (n_d=4 from Frobenius), no W'/Z' (55 generators exhausted), EW desert (f/v=5.5), R(K) retraction consistent (quaternionic democracy), 750 GeV gone (not in spectrum). Gauge completeness formalized with explicit generator accounting: 12 SM + 15 massive + 28 pNGBs = 55. (S213, 5 new scripts 74/74 PASS)
+- **Colored pNGBs distinct from VLQ**: Framework predicts spin-0 scalars at ~1.7 TeV, not spin-1/2 VLQs. Correct search: scalar leptoquarks. Pair-production σ ~0.15 fb at 13 TeV. HL-LHC testable (reach ~2.5 TeV for β=1). (S213, 12/12 PASS)
+- **Run 3 Higgs update**: All κ = sqrt(117/121) universal (MCHM4). All within Run 2 uncertainties. SM and framework chi² indistinguishable. FCC-ee decisive (~5.6σ on κ_Z). (S213, 15/15 PASS)
+- **95 GeV scalar tension documented**: Framework predicts NO scalar at 95 GeV (zero (1,1) in coset, radial mode at f, no second doublet). CMS diphoton 2.9σ local + LEP bb 2.3σ = ~3.1σ combined. Tau-tau null creates internal BSM tension. Most dangerous active anomaly. (S213, 15/15 PASS)
+- **Triple Higgs coupling kappa_lambda = (1-2xi)/sqrt(1-xi) = 0.9497**: Derived from MCHM4 sin²+sin⁴ potential via symbolic differentiation. 5.03% below SM (3x larger deviation than kappa_V). Framework expression: 113/(11*sqrt(117)). Quartic kappa_4 ≈ 0.726 (27.4%). FCC-hh marginal (~1σ). F-COL-5 registered. (S214, 20/20 PASS)
+- **nu_R structural prediction from spinor 32**: SO(11) spinor 32 = 16+16', where 16 = 15 SM + 1 nu_R. Right-handed neutrino required to complete half-spinor. dim(R)=1 maps to unique gauge singlet (1,1,0). Exactly 3 nu_R from Im_H=3. Connects to S167 predictions (R_31=33, R_32=32). F-STR-5 registered. (S214, 19/19 PASS)
+- **Democratic Bilinear Principle**: xi = 4/121 and sin^2(theta_W) = 28/121 UNIFIED as fractions of dim(End(V)) = n_c^2 = 121, the bilinear order parameter space. End(V) decomposes as 16 + 28 + 28 + 49 under SO(4) x SO(7). Bernoulli parameter p = n_d/n_c = 4/11 gives sin^2(theta_W) = p(1-p) and xi = p/n_c. Also: N_I = n_c^2 + n_d^2 = 121 + 16 = 137 (alpha connection). Three EQs unified (EQ-004/EQ-007/EQ-020). Gap: "why democratic not Dynkin?" (shared with S215). (S217, 35/35 PASS)
 
 ## What Failed / Dead Ends
 
@@ -47,9 +58,15 @@
 7. **Open**: Bridge from Planck-scale tilt dynamics to IR effective theory
 8. ~~**Open**: Coleman-Weinberg calculation to confirm b2_eff < 0~~ — DONE: CW is NEUTRAL. b₂ not generated from b₁ at one loop (O(16) symmetry preservation). Gauge loops would give b₂>0 but don't apply (emergent gauge bosons). `coleman_weinberg_b2_sign.py` 15/16 PASS.
 9. **Open**: Derive lambda_0 = 1/O from CW form factors (S179 — WHY 1/dim(O)?)
-10. **Open**: Derive xi = n_d/n_c^2 from vacuum alignment dynamics (S179)
-11. **Open**: Top Yukawa from SO(11) fermion embedding (S179 — needed for m_H derivation)
-12. **Open**: Colored pNGB mass spectrum vs LHC bounds (S179 — crude estimate ~151 GeV, potential tension)
+10. ~~**Open**: Derive xi = n_d/n_c^2 from vacuum alignment dynamics~~ — MAJOR PROGRESS: **Democratic Bilinear Principle** (S217) unifies xi = 4/121 and sin^2(theta_W) = 28/121 as fractions of dim(End(V)) = 121. Bernoulli p = 4/11. Residual gap: "why democratic not Dynkin?" Same gap as S215. First-order transition (S211) most promising resolution. (S179, S210, S214, S217)
+11. ~~**Open**: Fermion embedding (MCHM4 vs MCHM5)~~ — RESOLVED (S212): Spinorial (MCHM4). Division algebra counting 15=1+2+4+8 matches SO(11) spinor 32; fundamental 11 too small (11<15). kappa_f = kappa_V (universal). `fermion_embedding_spinorial.py` 23/23 PASS.
+12. ~~**Open**: Colored pNGB mass spectrum vs LHC bounds~~ — DONE: Crude ~151 GeV (tension), enhanced ~590 GeV (better), N_CW~8 resolves. S parameter independently requires heavy. Tension is GENERIC to composite Higgs. (S179, S210, 14/14 + 12/12 PASS)
+13. **Open**: Top Yukawa from SO(11) partial compositeness (S179 — needed for m_H derivation). BLOCKED on UV dynamics (S214 assessment).
+14. **MONITOR**: 95 GeV scalar excess — CMS+ATLAS Run 3 full dataset (2025-2026) will resolve. Framework says NO; 5σ kills AXM_0109. (S213)
+15. **Open**: Colored pNGB branching ratios (beta parameter for LQ searches) — needed to sharpen HL-LHC prediction.
+16. **Open**: R(D)/R(D*) anomalies — may connect to mass-dependent effects beyond Im(H) democracy (Phase V, blocked on CKM).
+17. ~~**Open**: Triple Higgs coupling kappa_lambda~~ — DONE (S214): kappa_lambda = (1-2xi)/sqrt(1-xi) = 0.9497 (5.03% below SM). Derived via symbolic differentiation of MCHM4 potential. Also: kappa_4 ≈ 0.726. `kappa_lambda_mchm4.py` 20/20 PASS.
+18. ~~**Open**: nu_R prediction from spinor 32~~ — DONE (S214): nu_R required to complete half-spinor (16 = 15 + 1). dim(R)=1 maps to (1,1,0). 3 generations from Im_H. Connects to S167. `nu_R_structural_prediction.py` 19/19 PASS.
 
 ## Key Conjectures to Test
 
@@ -71,6 +88,11 @@
 | S175 | EWSB: Higgs from epsilon_di | Higgs = pNGB doublet (2,1)_{Y=1/2}, 3 massive bosons, 32/32 PASS |
 | S179 | CW potential for pNGB Higgs mass | Gauge sin^4 only, lambda_H=125/968 (0.2%), f~1.35 TeV, 27/27 PASS |
 | S180 | Derive lambda_0=1/O from CW | Pi^2 cancellation (c_beta=pi^2/6), N_c*O=24, (1+xi)/(1-xi) resolved, D+ grade, 15/15 PASS |
+| S210 | EWSB testable predictions | Coupling deviations (kappa_V=0.983, MCHM5 kappa_f=0.950), colored pNGB bounds (crude 151 vs LHC 1.5 TeV, N_CW~8 resolves), oblique S excludes light, single doublet from AXM_0109. 4 scripts, 56/56 PASS |
+| S212 | Fermion embedding resolved | Spinorial (MCHM4): 15=1+2+4+8 matches SO(11) spinor 32, fundamental 11 too small. kappa_f=kappa_V (universal). 1 script, 23/23 PASS |
+| S213 | LHC null results audit | 10 items: SUSY, extra dims, W'/Z', EW desert, 95 GeV, Run 3 Higgs, colored pNGBs, soft leptons, R(K), 750 GeV. 9/10 consistent, 1 tension (95 GeV). 5 new scripts, 74/74 PASS |
+| S214 | S210/S212 open questions | kappa_lambda = 0.9497 (5.03% below SM, MCHM4 potential). nu_R structural prediction formalized. xi/y_t/pNGB mass assessed (BLOCKED on dynamics). 2 scripts, 39/39 PASS |
+| S217 | Mass scale f: democratic bilinear | **Democratic Bilinear Principle**: xi=4/121 and sin^2(theta_W)=28/121 unified via End(V)=121. Bernoulli p=4/11. Unifies EQ-004/EQ-007/EQ-020. Gap: "why democratic?" 2 scripts, 35/35 PASS |
 
 ## Key Files
 
@@ -89,6 +111,21 @@
 | `verification/sympy/higgs_mass_pngb_cw.py` | pNGB Higgs CW potential (15/15 PASS) |
 | `verification/sympy/higgs_quartic_conjecture.py` | lambda_H = 125/968 conjecture (12/12 PASS) |
 | `verification/sympy/higgs_quartic_from_cw.py` | CW derivation of lambda = 1/O (15/15 PASS) |
+| `verification/sympy/ewsb_coupling_deviations.py` | Coupling deviations from xi=4/121 (20/20 PASS) |
+| `verification/sympy/colored_pngb_mass_bounds.py` | Colored pNGB mass vs LHC bounds (14/14 PASS) |
+| `verification/sympy/ewsb_oblique_parameters.py` | S, T parameter constraints (12/12 PASS) |
+| `verification/sympy/ewsb_single_doublet_prediction.py` | Single doublet from real tilt (10/10 PASS) |
+| `verification/sympy/fermion_embedding_spinorial.py` | Spinorial embedding: SO(11) rep theory + coupling (23/23 PASS) |
+| `verification/sympy/kappa_lambda_mchm4.py` | Triple Higgs coupling from MCHM4 potential (20/20 PASS) |
+| `verification/sympy/nu_R_structural_prediction.py` | nu_R from spinor 32 + S167 connection (19/19 PASS) |
+| `framework/investigations/crystallization/lhc_null_results_investigation.md` | LHC null results master audit (S213) |
+| `verification/sympy/lhc_gauge_completeness.py` | SO(11) generator exhaustion, no W'/Z' (10/10 PASS) |
+| `verification/sympy/lhc_electroweak_desert.py` | EW desert v to f=1354 GeV (12/12 PASS) |
+| `verification/sympy/lhc_95gev_scalar_analysis.py` | 95 GeV scalar tension analysis (15/15 PASS) |
+| `verification/sympy/lhc_colored_pngb_signatures.py` | Colored pNGBs vs VLQ, LQ bounds (12/12 PASS) |
+| `verification/sympy/lhc_run3_higgs_update.py` | Run 3 Higgs couplings, MCHM4 universal (15/15 PASS) |
+| `verification/sympy/mass_scale_f_analysis.py` | Four approaches to f derivation surveyed (20/20 PASS) |
+| `verification/sympy/xi_democratic_bilinear.py` | Democratic Bilinear Principle: xi + sin^2 from End(V) (15/15 PASS) |
 
 ## Dependencies
 

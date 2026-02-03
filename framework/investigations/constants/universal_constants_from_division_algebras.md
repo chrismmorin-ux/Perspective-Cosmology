@@ -1,10 +1,11 @@
 # Investigation: Universal Constants from Division Algebras
 
-**Status**: ACTIVE - MAJOR FINDINGS
+**Status**: ARCHIVE (stale since S90; findings consolidated into claims/)
 **Confidence**: [STRONG DERIVATION] for multiple formulas
 **Created**: 2026-01-27 (Session 81)
 **Updated**: 2026-01-27 (Session 90 — Quark mass ratios derived!)
 **Significance**: SIXTEEN fundamental constants from division algebras with ppm-level accuracy
+**Last Updated**: 2026-01-30
 
 ---
 

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   CMB Comparison Dashboard — Rendering Engine
-   Pure presentation. All data lives in data.js.
+   Perspective Framework Explorer — Rendering Engine
+   Pure presentation. All data lives in data.js / crystal-data.js.
    ========================================================================== */
 
 (function () {
@@ -75,18 +75,74 @@
   }
 
   // =========================================================================
+  // MODULE SYSTEM
+  // =========================================================================
+  var MODULES = [
+    { id: "cmb", label: "CMB Cosmology", nav: null },
+    { id: "crystal", label: "Crystal Structure", nav: null },
+    { id: "catalog", label: "Crystallization Catalogue", nav: null },
+    { id: "primes", label: "Prime Attractors", nav: null },
+  ];
+
+  var activeModule = "cmb";
+
+  function renderModuleTabs() {
+    var container = qs("#module-tabs");
+    MODULES.forEach(function (mod) {
+      var btn = el("button", {
+        class: "module-tab" + (mod.id === activeModule ? " active" : ""),
+        text: mod.label,
+        "data-module": mod.id,
+        onclick: function () {
+          switchModule(mod.id);
+        },
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  function switchModule(moduleId) {
+    activeModule = moduleId;
+
+    // Toggle tab active state
+    var tabs = document.querySelectorAll(".module-tab");
+    tabs.forEach(function (t) {
+      t.classList.toggle("active", t.getAttribute("data-module") === moduleId);
+    });
+
+    // Toggle module content visibility
+    var modules = document.querySelectorAll(".module-content");
+    modules.forEach(function (m) {
+      m.style.display = m.id === "module-" + moduleId ? "" : "none";
+    });
+
+    // Update navigation pills
+    renderNavigationFor(moduleId);
+
+    // Scroll to top of main content
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function getNavForModule(moduleId) {
+    if (moduleId === "cmb") return NAV_ITEMS;
+    if (moduleId === "crystal" && window.CrystalModule) return window.CrystalModule.nav;
+    if (moduleId === "catalog" && window.CatalogModule) return window.CatalogModule.nav;
+    if (moduleId === "primes" && window.PrimesModule) return window.PrimesModule.nav;
+    return [];
+  }
+
+  // =========================================================================
   // HEADER
   // =========================================================================
   function renderHeader() {
     var h = qs("#header");
-    h.appendChild(el("h1", { text: D.meta.title }));
+    h.appendChild(el("h1", { text: "Perspective Framework Explorer" }));
     h.appendChild(el("div", { class: "subtitle", text: "Speculative framework. NOT established physics. All claims are [CONJECTURE] unless stated otherwise." }));
     h.appendChild(el("div", { class: "disclaimer-banner", text: D.meta.disclaimer }));
     var row = el("div", { class: "meta-row" });
     row.appendChild(el("span", { text: "Updated: " + D.meta.lastUpdated }));
     row.appendChild(el("span", { text: "Session: " + D.meta.sessionRef }));
     row.appendChild(el("span", { text: "Red Team probability: " + D.meta.redTeamProbability }));
-    row.appendChild(el("span", { text: "Source: " + D.meta.canonicalScript }));
     h.appendChild(row);
   }
 
@@ -109,9 +165,15 @@
     { id: "sec-assessment", label: "Assessment" },
   ];
 
-  function renderNavigation() {
+  var currentObserver = null;
+
+  function renderNavigationFor(moduleId) {
     var nav = qs("#nav-pills");
-    NAV_ITEMS.forEach(function (item) {
+    nav.innerHTML = "";
+    if (currentObserver) { currentObserver.disconnect(); currentObserver = null; }
+
+    var items = getNavForModule(moduleId);
+    items.forEach(function (item) {
       var pill = el("button", {
         class: "nav-pill",
         text: item.label,
@@ -125,7 +187,7 @@
     });
     // Scroll spy
     if ("IntersectionObserver" in window) {
-      var observer = new IntersectionObserver(function (entries) {
+      currentObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) {
             var pills = nav.querySelectorAll(".nav-pill");
@@ -135,11 +197,15 @@
           }
         });
       }, { rootMargin: "-40% 0px -55% 0px" });
-      NAV_ITEMS.forEach(function (item) {
+      items.forEach(function (item) {
         var section = document.getElementById(item.id);
-        if (section) observer.observe(section);
+        if (section) currentObserver.observe(section);
       });
     }
+  }
+
+  function renderNavigation() {
+    renderNavigationFor(activeModule);
   }
 
   // =========================================================================
@@ -1370,8 +1436,7 @@
   function renderFooter() {
     var footer = qs("#footer");
     footer.innerHTML =
-      "Perspective Framework CMB Dashboard | " +
-      "Data: " + D.meta.canonicalScript + " | " +
+      "Perspective Framework Explorer | " +
       D.meta.sessionRef + " | " +
       D.meta.lastUpdated + "<br>" +
       "Works offline from file:// — no server, no CDN, no external dependencies.";
@@ -1382,7 +1447,10 @@
   // =========================================================================
   function init() {
     renderHeader();
+    renderModuleTabs();
     renderNavigation();
+
+    // CMB module
     renderStatsOverview();
     renderSkyMap();
     renderLCDMParams();
@@ -1397,6 +1465,22 @@
     renderSO11Epochs();
     renderCMBSynthesis();
     renderHonestAssessment();
+
+    // Crystal module
+    if (window.CrystalModule) {
+      window.CrystalModule.init();
+    }
+
+    // Catalog module
+    if (window.CatalogModule) {
+      window.CatalogModule.init();
+    }
+
+    // Primes module
+    if (window.PrimesModule) {
+      window.PrimesModule.init();
+    }
+
     renderFooter();
   }
 

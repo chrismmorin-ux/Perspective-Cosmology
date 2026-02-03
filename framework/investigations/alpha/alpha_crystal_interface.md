@@ -1,10 +1,11 @@
 # Alpha from Crystal-Defect Interface Geometry
 
-**Status**: ACTIVE-DEVELOPMENT
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [CONJECTURE]
 **Created**: 2026-01-26
 **Last Verified**: 2026-01-26
 **Verified**: YES → verification/sympy/alpha_crystal_interface.py
+**Last Updated**: 2026-02-03
 
 ---
 

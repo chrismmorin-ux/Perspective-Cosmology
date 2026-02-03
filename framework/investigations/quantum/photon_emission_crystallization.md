@@ -1,6 +1,6 @@
 # Investigation: Photon Emission as Dynamic Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S148)
 **Created**: Session 148, 2026-01-30
 **Last Updated**: Session 148, 2026-01-30
 **Confidence**: [CONJECTURE] — conceptual framework under development

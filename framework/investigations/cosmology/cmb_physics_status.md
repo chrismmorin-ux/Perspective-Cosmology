@@ -2,6 +2,7 @@
 
 **Created**: Session 123
 **Purpose**: Document what we have vs. what we need for genuine CMB physics
+**Last Updated**: 2026-01-30
 
 ---
 

@@ -1,8 +1,9 @@
 # Alpha Formula Derivations
 
-**Status**: ACTIVE (upgrades to prior work)
+**Status**: ARCHIVE (stale, pre-S150; see ALPHA_DERIVATION_MASTER.md)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-27
+**Last Updated**: 2026-01-30
 
 ---
 

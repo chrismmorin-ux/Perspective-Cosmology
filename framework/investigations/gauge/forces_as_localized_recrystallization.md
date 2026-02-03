@@ -4,6 +4,7 @@
 **Created**: 2026-01-27
 **Origin**: Side session exploring push/pull mechanics from semi-orthogonal dimensions
 **Significance**: HIGH — Potential radical unification of all forces as one process
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -583,7 +584,7 @@ This plan outlines systematic exploration of the localized recrystallization hyp
 - [ ] Mathematical definition of subspace embedding
 - [ ] Projection operators P_C, P_H, P_O defined
 - [ ] Table: SM particles mapped to subspace projections
-- [ ] SymPy script: `verification/sympy/subspace_embeddings.py`
+- [ ] SymPy script: `verification/sympy/subspace_embeddings.py` [planned, never created]
 
 **Success criteria**:
 - Embedding structure matches known SM charge assignments
@@ -662,7 +663,7 @@ Mass = energy cost of maintaining imperfection pattern
 - [ ] Definition: localization depth per particle
 - [ ] Correlation analysis: depth vs mass
 - [ ] Explanation for 3 generations from quaternionic structure
-- [ ] SymPy script: `verification/sympy/mass_from_localization.py`
+- [ ] SymPy script: `verification/sympy/mass_from_localization.py` [planned, never created]
 - [ ] Quantitative predictions (even if approximate)
 
 **Success criteria**:
@@ -746,7 +747,7 @@ W, Z become massive; photon stays massless
 - [ ] Geometric model of electroweak structure
 - [ ] Physical interpretation of symmetry breaking
 - [ ] Weinberg angle derivation attempt
-- [ ] SymPy script: `verification/sympy/electroweak_geometry.py`
+- [ ] SymPy script: `verification/sympy/electroweak_geometry.py` [planned, never created]
 
 **Success criteria**:
 - Electroweak structure emerges from C ⊂ H
@@ -1716,7 +1717,7 @@ All scripts: **PASS**
 
 ---
 
-*Investigation status: ACTIVE — Thread E COMPLETE, others in progress*
+*Investigation status: ARCHIVE — Thread E COMPLETE, others in progress*
 *Confidence: CONJECTURE → DERIVATION (for Thread E)*
 *Created: 2026-01-27*
 *Last updated: 2026-01-27*

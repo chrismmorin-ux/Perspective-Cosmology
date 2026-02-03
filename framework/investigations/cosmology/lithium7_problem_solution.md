@@ -1,6 +1,6 @@
 # Lithium-7 Problem: Crystallization Solution
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S100)
 **Created**: Session 100, 2026-01-27
 **Confidence**: [DERIVATION] with clear physical mechanism
 
@@ -109,6 +109,7 @@ The suppression is **proton-number (Z) dependent**, not mass-number (A) dependen
 | **Li-7** | **3** | **Im_H (imaginary)** | **NO** |
 
 **Key insight**: Protons couple through generational structure (Im_H = 3 generations). When Z = Im_H, there's a "crystallization resonance" that enhances destruction rates.
+**Last Updated**: 2026-01-30
 
 This explains why:
 - He-3 (A = 3 = Im_H, but **Z = 2 = C**) matches BBN — Z is a division algebra dimension

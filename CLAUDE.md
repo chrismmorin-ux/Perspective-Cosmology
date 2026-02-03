@@ -45,10 +45,11 @@ Mixing axioms with imports makes it impossible to know what the framework predic
 1. Read `sessions/INDEX.md` — orientation
 2. Read `sessions/S{last_relevant}.md` + `topics/{topic}.md` — if continuing a topic
 3. Check `registry/FORMALIZATION_QUEUE.md` — deferred items matching focus?
+3c. Check `registry/EXPLORATION_QUEUE.md` — OPEN items matching focus, report top EQ IDs
 4. If `.quality/report.md` exists (< 5 sessions old), note top issues for this focus
 5. Brief user: "Session [label]. Focus: [scope]. Shall we proceed?"
 
-**Total startup reads**: 2-4 files. Do NOT read STATUS_DASHBOARD.md, RECOMMENDATION_ENGINE.md, or session_log.md (frozen/historical).
+**Total startup reads**: 3-5 files. Do NOT read STATUS_DASHBOARD.md, RECOMMENDATION_ENGINE.md, or session_log.md (frozen/historical).
 
 ### During
 - Capture insights immediately to `registry/emerging_patterns.md`
@@ -134,6 +135,7 @@ Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
 | **Honest assessment** | `publications/HONEST_ASSESSMENT.md` |
 | **Blind predictions** | `predictions/BLIND_PREDICTIONS.md` |
 | **Investigation index** | `framework/investigations/_INDEX.md` |
+| **Exploration queue** | `registry/EXPLORATION_QUEUE.md` |
 | **Investigation priorities** | `registry/INVESTIGATION_PRIORITIES.md` |
 | **Quality report** | `.quality/report.md` |
 | **File placement** | `PLACEMENT_GUIDE.md` |
@@ -191,7 +193,7 @@ See `sessions/INDEX.md` for current state. Historical snapshot: `registry/STATUS
 | Per-session files | 10KB | Focus on key findings only |
 | Topic files | 10KB | Split by sub-topic |
 | Investigation files | 30KB | Split by subtopic |
-| Verification scripts | 20KB | Split by function |
+| Verification scripts | 20KB (25KB if ≥3 functions + main()) | Split by function |
 | Registry files | 15KB | Split by domain |
 
 Archive locations: Old sessions to `archive/sessions/`, deprecated content to `archive/deprecated/`.

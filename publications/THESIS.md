@@ -103,7 +103,7 @@ If the framework captures fundamental structure, constants should be determined 
 ```
 Division algebra dimensions:  1, 2, 4, 8
 Imaginary dimensions:         Im(H) = 3, Im(O) = 7
-Crystal dimension:            n_c = 1 + 2 + 8 = 11
+Crystal dimension:            n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
 Spacetime dimension:          n_d = 4
 ```
 

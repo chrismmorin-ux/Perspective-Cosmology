@@ -4,6 +4,7 @@
 **Confidence**: [SPECULATION] — numerical patterns identified but not derived
 **Created**: 2026-01-27 (Session 57)
 **Dependencies**: imperfect_dimensions_and_recrystallization.md, mass_hierarchy_investigation.md
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -304,6 +305,6 @@ All numerical values in this document were computed by the verification script.
 
 ---
 
-*Investigation status: ACTIVE — Interesting coincidences found, no derivation achieved*
+*Investigation status: ARCHIVE — Interesting coincidences found, no derivation achieved*
 *Confidence: SPECULATION*
 *Priority: MEDIUM — Worth tracking, not blocking*

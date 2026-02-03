@@ -120,3 +120,50 @@ Alpha falls into the **Tilt-type (Born rule)** category:
 3. **Attractor-type** (prime structure): cos θ_W on-shell, Koide θ
 4. **Slow-roll-type** (crystallization potential): n_s, r
 5. **Structural-type** (dimensional matching): n_gen, ℓ₁
+
+---
+
+### 1.30b Coleman-Weinberg Potential and Higgs Mass (Sessions 179-180)
+
+**Confidence**: [CONJECTURE] — three independent assumptions, grade D+
+
+#### A. CW Potential Structure (S179)
+
+| Result | Value | Status |
+|--------|-------|--------|
+| Gauge loops: sin⁴(h/f) only | Cannot trigger EWSB alone | [DERIVATION] |
+| Gauge contribution negligible | 0.9% of top | [DERIVATION] |
+| Top Yukawa dominates | Controls Higgs mass | [D] from CW formalism |
+| λ_H leading order | ~1/O = 1/8 = 0.125 | [CONJECTURE] |
+| λ_H refined | 125/968 = 0.12913 (0.2% match) | [CONJECTURE] — HRS=3 |
+
+#### B. λ = 1/O from π² Cancellation (S180)
+
+CW one-loop with top Yukawa gives λ = (3y_t⁴)/(8π²) × c_β × (1+ξ)/(1-ξ). Setting c_β = π²/6, y_t = 1, the π² cancels: λ = N_c/24 = 1/O because N_c × O = 3 × 8 = 24.
+
+#### C. Three Independent Conjectures
+
+| # | Assumption | Classification | Notes |
+|---|-----------|---------------|-------|
+| 1 | c_β = π²/6 = ζ(2)/2 | **[CONJECTURE]** | Form factor for top loop; no framework derivation |
+| 2 | y_t = 1 (top Yukawa unity) | **[A-PHYSICAL]** | Matches y_t ≈ 0.994; already used in m_t derivation |
+| 3 | ξ = n_d/n_c² = 4/121 | **[CONJECTURE]** | Misalignment parameter; no vacuum alignment derivation |
+
+#### D. Numerical Predictions
+
+| Observable | Formula | Value | Measured | Error | Status |
+|-----------|---------|-------|----------|-------|--------|
+| λ_H (leading) | 1/O | 0.125 | 0.1294 | 3.4% | [CONJECTURE] |
+| λ_H (refined) | 125/968 | 0.12913 | 0.12938 | **0.2%** | [CONJECTURE] HRS=3 |
+| m_H | v×5√5/22 | 125.13 GeV | 125.25 GeV | 0.72σ | [CONJECTURE] |
+| f (composite scale) | v×n_c/2 | 1354 GeV | — | — | [CONJECTURE] testable |
+| ξ | n_d/n_c² | 0.033 | — | — | [CONJECTURE] EW-safe |
+
+#### Honest Assessment
+
+- **Grade D+**: π² cancellation mechanism rests on three independent conjectures with no axiom-level justification.
+- **What works**: N_c × O = 24 identity appears multiple independent ways. 125 = n_c² + n_d is structural.
+- **What doesn't**: c_β = π²/6 is unmotivated. ξ = n_d/n_c² lacks vacuum alignment mechanism.
+- **Promotion path**: Derive c_β from SO(11) dynamics, derive ξ from vacuum alignment, or derive y_t from SO(11) fermion embedding.
+
+**Verification**: `higgs_mass_pngb_cw.py` [15/15 PASS], `higgs_quartic_conjecture.py` [12/12 PASS], `higgs_quartic_from_cw.py` [15/15 PASS]

@@ -1,9 +1,10 @@
 # Investigation: Running Couplings from Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S105)
 **Created**: Session 105, 2026-01-27
 **Confidence**: [DERIVATION] for beta coefficient identities; [CONJECTURE] for mechanism
 **Purpose**: Derive scale-dependence of coupling constants from crystallization dynamics
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -365,5 +366,5 @@ The beta coefficient identities are EXACT (not approximate):
 
 ---
 
-*Investigation status: ACTIVE — promising identities found, mechanism incomplete*
+*Investigation status: ARCHIVE — promising identities found, mechanism incomplete*
 *Confidence: [DERIVATION] for identities, [CONJECTURE] for interpretation*

@@ -1,6 +1,6 @@
 # Investigation: Godel Incompleteness and Self-Inaccessibility
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 188
 **Last Updated**: Session 192
 **Confidence**: [THEOREM] for core results, [CONJECTURE] for Godel analogy, [SPECULATION] for dimensional consequences and consciousness conjecture

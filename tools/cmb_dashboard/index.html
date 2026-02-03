@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMB Comparison Dashboard — Perspective Framework</title>
+  <title>Perspective Framework Explorer</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,14 @@
     <div class="container" id="header"></div>
   </header>
 
-  <!-- Navigation -->
+  <!-- Module Tabs -->
+  <div class="module-bar">
+    <div class="container">
+      <div class="module-tabs" id="module-tabs"></div>
+    </div>
+  </div>
+
+  <!-- Section Navigation -->
   <nav class="nav-bar">
     <div class="container">
       <div class="nav-pills" id="nav-pills"></div>
@@ -21,6 +28,9 @@
   </nav>
 
   <main class="container">
+
+    <!-- ============ CMB MODULE ============ -->
+    <div id="module-cmb" class="module-content">
 
     <!-- Stats Overview -->
     <section id="sec-stats">
@@ -100,12 +110,119 @@
       <div id="assessment"></div>
     </section>
 
+    </div><!-- /module-cmb -->
+
+    <!-- ============ CRYSTAL MODULE ============ -->
+    <div id="module-crystal" class="module-content" style="display:none">
+
+    <!-- Crystal Overview -->
+    <section id="sec-crystal-stats">
+      <h2 class="section-title">Crystal Overview</h2>
+      <div id="crystal-stats"></div>
+    </section>
+
+    <!-- Symmetry Breaking -->
+    <section id="sec-breaking">
+      <h2 class="section-title">SO(11) Symmetry Breaking Cascade</h2>
+      <div id="symmetry-breaking"></div>
+    </section>
+
+    <!-- Crystal Decomposition -->
+    <section id="sec-decomposition">
+      <h2 class="section-title">Crystal Decomposition — Division Algebras</h2>
+      <div id="crystal-decomposition"></div>
+    </section>
+
+    <!-- Tilt Matrix -->
+    <section id="sec-tilt">
+      <h2 class="section-title">Tilt Matrix (15×15)</h2>
+      <div id="tilt-matrix"></div>
+    </section>
+
+    </div><!-- /module-crystal -->
+
+    <!-- ============ CATALOG MODULE ============ -->
+    <div id="module-catalog" class="module-content" style="display:none">
+
+    <!-- Catalog Overview -->
+    <section id="sec-catalog-stats">
+      <h2 class="section-title">Crystallization Catalogue — Overview</h2>
+      <div id="catalog-stats"></div>
+    </section>
+
+    <!-- Order Parameter -->
+    <section id="sec-order-param">
+      <h2 class="section-title">Order Parameter ε(φ)</h2>
+      <div id="order-parameter"></div>
+    </section>
+
+    <!-- Type Gallery -->
+    <section id="sec-type-gallery">
+      <h2 class="section-title">9 Crystallization Types</h2>
+      <div id="type-gallery"></div>
+    </section>
+
+    <!-- Composability -->
+    <section id="sec-composability">
+      <h2 class="section-title">Composability Chains</h2>
+      <div id="composability"></div>
+    </section>
+
+    <!-- Gap Tracker -->
+    <section id="sec-gaps">
+      <h2 class="section-title">Gap Tracker</h2>
+      <div id="gap-tracker"></div>
+    </section>
+
+    </div><!-- /module-catalog -->
+
+    <!-- ============ PRIMES MODULE ============ -->
+    <div id="module-primes" class="module-content" style="display:none">
+
+    <!-- Primes Overview -->
+    <section id="sec-primes-stats">
+      <h2 class="section-title">Prime Attractors — Overview</h2>
+      <div id="primes-stats"></div>
+    </section>
+
+    <!-- Prime Constellation -->
+    <section id="sec-constellation">
+      <h2 class="section-title">Prime Constellation</h2>
+      <div id="prime-constellation"></div>
+    </section>
+
+    <!-- Precision Chart -->
+    <section id="sec-precision">
+      <h2 class="section-title">Precision of Prime-Physics Matches</h2>
+      <div id="precision-chart"></div>
+    </section>
+
+    <!-- Tier Explorer -->
+    <section id="sec-tier-explorer">
+      <h2 class="section-title">Tier Explorer</h2>
+      <div id="tier-explorer"></div>
+    </section>
+
+    <!-- Key Formulas -->
+    <section id="sec-prime-formulas">
+      <h2 class="section-title">Key Formulas</h2>
+      <div id="prime-formulas"></div>
+    </section>
+
+    </div><!-- /module-primes -->
+
   </main>
 
   <!-- Footer -->
   <footer class="footer" id="footer"></footer>
 
   <script src="data.js"></script>
+  <script src="crystal-data.js"></script>
+  <script src="crystal.js"></script>
+  <script src="catalog-data.js"></script>
+  <script src="catalog.js"></script>
+  <script src="primes-data.js"></script>
+  <script src="primes.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

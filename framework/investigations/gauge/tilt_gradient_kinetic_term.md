@@ -5,6 +5,7 @@
 **Created**: 2026-01-30
 **Source**: alpha_mechanism_exploration Step 8b; alpha_mechanism_derivation Option B
 **Purpose**: Formal statement of the tilt field gradient kinetic term used in the alpha mechanism derivation
+**Last Updated**: 2026-02-03
 
 ---
 

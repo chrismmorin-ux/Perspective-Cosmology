@@ -4,6 +4,7 @@
 **Created**: 2026-01-27 (Session 95)
 **Confidence**: [DERIVATION] for formula, [PREDICTION] for mass value
 **Origin**: Extension of Omega_DM/Omega_b = 49/9 to mass ratio
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -545,7 +546,7 @@ This is "asymmetric dark matter" derived from first principles, with specific te
 
 ---
 
-*Investigation status: ACTIVE - Major prediction*
+*Investigation status: ARCHIVE - Major prediction*
 *Confidence: [DERIVATION] for ratio, [PREDICTION] for mass value*
 *Created: Session 95 (2026-01-27)*
 *Updated: Session 96 — SU(7) confinement unification*

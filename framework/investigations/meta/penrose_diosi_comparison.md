@@ -1,12 +1,13 @@
 # Quantitative Comparison: Perspective Framework vs Diósi-Penrose
 
-**Status**: ACTIVE-DEVELOPMENT
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [DERIVATION] (analysis of comparison)
 **Created**: 2026-01-26
 **Last Verified**: 2026-01-26
 **Verified**: N/A (qualitative comparison)
 
 **PURPOSE**: Determine if perspective framework makes distinct, testable predictions
+**Last Updated**: 2026-01-30
 
 ---
 

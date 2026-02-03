@@ -2,11 +2,12 @@
 
 ## Consolidated Investigation Document
 
-**Status**: ACTIVE INVESTIGATION
+**Status**: ARCHIVE (stale, Sessions 34-42)
 **Created**: 2026-01-26
 **Sessions**: 34, 35, 36, 38, 39, 40, 41, 42
 **Purpose**: Preserve key findings for project restructuring
 **Confidence**: [CONJECTURE] with strong numerical support
+**Last Updated**: 2026-02-03
 
 ---
 

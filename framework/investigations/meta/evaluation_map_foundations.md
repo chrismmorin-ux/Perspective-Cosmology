@@ -1,8 +1,8 @@
 # Investigation: Evaluation Map Foundations
 
-**Status**: ACTIVE
+**Status**: CANONICAL
 **Created**: Session 188
-**Last Updated**: Session 200
+**Last Updated**: Session 219
 **Confidence**: [THEOREM] for core results, [DERIVATION] for rank selection
 
 ---
@@ -253,7 +253,7 @@ The three routes use DIFFERENT axiom inputs and arrive at the SAME structure. Th
 | QM from observable algebra | **DERIVED** (C*-algebra route: M_2(C) -> density matrices -> Born rule) | Resolved |
 | Gauge chain from eval map | **DERIVED** (S200: two-route convergence with THM_0487, 9/9 PASS) | Resolved |
 | Uniqueness of perspective (C4 equivariance issue) | All same-rank equivalent | Open |
-| Herm(2) = spacetime events identification | [A-PHYSICAL] Layer 2 correspondence | Fundamental |
+| Herm(2) = spacetime events identification | **CLOSED** (S219: exhaustion + uniqueness + CP-1). Gap reduced to standard theory-physics bridge. | Resolved (CP-1 may be definitional) |
 | Continuous parameter s gap (THM_0493) | **IRREDUCIBLE** from eval map (kinematics != dynamics) | Documented |
 
 ---
@@ -276,6 +276,8 @@ The three routes use DIFFERENT axiom inputs and arrive at the SAME structure. Th
 | `spectral_metric_selection.py` | 7/7 | PASS | Spectral metric argument: Cayley-Hamilton, gap, dynamics, causal structure |
 | `observable_algebra_cstar.py` | 5/5 | PASS | C*-algebra structure, density matrices, Born rule (algebraic), superposition |
 | `gauge_chain_convergence.py` | 9/9 | PASS | Two-route gauge convergence, generator accounting, SO(8) triality, s gap, Herm(2) status |
+| `herm2_jordan_spacetime.py` | 8/8 | PASS | Jordan algebra h_2(K) table, F=C selection, operational identification, Connes dead end |
+| `herm2_uniqueness_as_spacetime.py` | 10/10 | PASS | Exhaustion argument, Herm(2) uniqueness, kernel inaccessibility, no alternative subspace |
 
 ---
 
@@ -309,9 +311,87 @@ Both give SU(3)xSU(2)xU(1) with dim = 8 + 3 + 1 = 12. [DERIVATION]
 
 The eval map determines kinematics (algebra of observables, gauge structure) but NOT dynamics (which Hamiltonian, what coupling constants, particle masses). The continuous parameter s in THM_0493 reflects this distinction. Resolution requires dynamical input: AXM_0117 (crystallization tendency), THM_0487 (Landau energetics), THM_0494 (Wright-Fisher dynamics).
 
-### Herm(2) = Spacetime: Weakest Link
+### Herm(2) = Spacetime: Gap Analysis (Sessions 211, 219)
 
-The identification of Herm(2) elements with spacetime events remains [A-PHYSICAL]. The eval map gives an algebra, not a manifold. Bridging requires spectral geometry (Connes). Three strengthening paths: (A) derive Dirac operator from crystallization, (B) show Herm(2) parametrizes perspective equivalences, (C) use Kadison duality.
+The identification of Herm(2) elements with spacetime events was originally [A-PHYSICAL]. This section documents the progressive closure of this gap.
+
+#### Dead Ends (S211)
+
+**Path (A) Connes spectral triple: DEAD END.** A spectral triple (M₂(C), C², D) gives a zero-dimensional NCG — a "fuzzy sphere" approximation of S², not R^{3,1}. The Connes distance on the state space of M₂(C) gives geometry on B³ (3D Bloch ball), missing the time dimension entirely. The trace constraint (Tr(ρ)=1 for states) projects out the 4th dimension. Connes' Standard Model construction INPUTS the 4-manifold; it does not derive it from the algebra. Literature: D'Andrea-Lizzi-Varilly (2012), Lira-Torres-Majid (2022, 2024).
+
+**Path (C) Kadison duality: INSUFFICIENT.** Gelfand-Naimark gives state space B³ (3D), not R⁴ (4D). Same time-dimension problem as Path (A).
+
+#### Jordan Algebra Selection (S211)
+
+The self-adjoint part Herm(2) = h₂(C) is a formally real Jordan algebra. The division algebra family h₂(K) gives:
+
+| K | dim h₂(K) | Minkowski | Signature |
+|---|-----------|-----------|-----------|
+| R | 3 | R^{2,1} | (2,1) |
+| **C** | **4** | **R^{3,1}** | **(3,1)** |
+| H | 6 | R^{5,1} | (5,1) |
+| O | 10 | R^{9,1} | (9,1) |
+
+The framework derives F = C (THM_0485). This UNIQUELY selects h₂(C) = R^{3,1} from the family. The same axiom that gives complex Hilbert space and the gauge group also selects 4D Lorentzian spacetime. [I-MATH: Jordan algebra classification + THM_0485]
+
+**Literature**: Boyle-Farnsworth (2019) propose "Jordan geometry" spectral triples using Jordan algebras instead of associative algebras, yielding SM + right-handed neutrinos. Devastato-Lizzi-Martinetti (2025) show Lorentzian signature emerges from twisting the almost-commutative spectral triple.
+
+**Verification**: `herm2_jordan_spacetime.py` (8/8 PASS)
+
+#### Exhaustion + Uniqueness Argument (S219) [DERIVATION]
+
+Session 219 identified a stronger argument that reduces the gap to a near-tautology within the framework's definitions. The argument has two derived parts and one bridge statement.
+
+**Part 1 — Exhaustion (derived, no new assumptions).**
+The eval map (THM_04AC) proves the perspective can only access End(W) = M₂(C). The remaining 117 of 121 operator dimensions are in the kernel — structurally invisible. Therefore any physical structure the perspective builds must come from M₂(C). There is nothing else available.
+
+**Part 2 — Uniqueness (derived, no new assumptions).**
+Within M₂(C), Herm(2) is the UNIQUE 4D real subspace satisfying:
+- (a) Real eigenvalues: physical measurements yield real numbers [I-MATH]
+- (b) Lorentzian quadratic form: det gives signature (1,3) [THM_04AE]
+- (c) 1+3 split: center R·I = time, traceless su(2) = space [THM_04AE]
+
+No other real subspace of M₂(C) has all three properties:
+- Anti-Hermitian part iHerm(2) has imaginary eigenvalues (not physical)
+- Full M₂(C) is 8-dimensional with complex eigenvalues
+- Any smaller subspace lacks either time or spatial directions
+- Adding any non-Hermitian direction introduces complex eigenvalues
+
+**Verification**: `herm2_uniqueness_as_spacetime.py` (10/10 PASS)
+
+#### The Minimal Bridge
+
+After Parts 1 and 2, the remaining gap reduces to a single statement:
+
+> **Correspondence Principle (CP-1)**: A perspective's physical arena is the space of measurement outcomes available to it.
+
+This is the ONLY non-derived step in the chain from axioms to spacetime. It replaces:
+- The old [A-PHYSICAL]: "Herm(2) elements = spacetime events" (specific, structural)
+- The S211 reduction: "events = measurement outcomes" (general, operational)
+
+CP-1 is arguably not a new assumption but a restatement of what "perspective" means: the framework's two primitives are V_Crystal and perspective; perspective is defined as partial access (P1-P3); the accessible algebra is all the perspective has (THM_04AC + Theorem P.1 corollary: "perspective is the only source of structure"). If reality is what perspectives observe, then the physical arena = the accessible measurement space. This follows from the framework's founding premise.
+
+**Full derivation chain from CP-1**:
+1. Observable algebra = M₂(C) [THM_04AC + THM_04AD + THM_0485]
+2. Measurement outcomes are real → self-adjoint operators [I-MATH: spectral theorem]
+3. Self-adjoint part of M₂(C) = Herm(2) [I-MATH: linear algebra]
+4. Physical arena = Herm(2) [CP-1 + steps 1-3]
+5. Physical metric = det (causal structure, eigenvalue gap) [THM_04AE Part g]
+6. (Herm(2), det) = R^{3,1} [I-MATH: explicit computation]
+
+**Assessment of CP-1**: Every physical theory needs at least one bridge between formalism and physics ("F=ma applies to objects," "operators represent observables," etc.). CP-1 is the framework's version. It is:
+- **Weaker** than directly assuming spacetime (doesn't specify dimension, metric, or signature)
+- **Weaker** than the QM measurement postulate (doesn't assume which operators are physical)
+- **General** (applies to any perspective, not just the specific k=4 case)
+- **Arguably tautological** within the framework (if perspectives define reality, the arena = what's accessible)
+
+The gap is no longer mathematical or even physical — it is the standard philosophy-of-physics bridge that every theory requires. Within the framework's own conceptual setup, CP-1 is essentially definitional.
+
+**Remaining caveats**:
+- Herm(2) is a vector space (flat Minkowski), not a manifold (curved spacetime). Curvature comes from FIELDS of perspectives and is addressed separately (Einstein equations derivation in THM_0486).
+- The "real eigenvalues = physical" step uses the standard mathematical convention [I-MATH]. Within the framework, this is motivated by the fact that Born-rule probabilities (derived) are real.
+
+**Status**: Gap upgraded from [A-PHYSICAL with philosophical reduction] to [DERIVATION + CP-1]. CP-1 is the weakest correspondence statement in the framework and may be definitional.
 
 ---
 
@@ -333,3 +413,5 @@ The identification of Herm(2) elements with spacetime events remains [A-PHYSICAL
 | 188 (cont.) | THM_04AE Part (g): Spectral metric selection from crystallization dynamics; Cayley-Hamilton completeness, eigenvalue gap involves det, transition probability E-independent, light cone = shared eigenvector, causal structure from det | det vs Tr gap upgraded from [CONJECTURE] to [DERIVATION]; remaining gap is [A-PHYSICAL] eigenvalue=measurement identification |
 | 188 (cont.) | C*-algebra route to QM: End_C(W) = M_2(C) is C*-algebra; density matrices, spectral decomposition, Born rule from algebraic structure; composition blindness forces superposition; three routes converge | Third independent route to QM; convergence of geometric + dynamical + algebraic; dim(state space) = 3 = dim(space) |
 | 200 | Gauge chain convergence: two-route derivation of SM gauge group from eval map + THM_0487; generator accounting identity (44 = n_d x n_c); continuous s gap documented as irreducible; Herm(2) weakest link assessed | Gauge chain upgraded from [CONJECTURE] to [DERIVATION]; 9/9 PASS; three open items (perspective uniqueness, Herm(2), s gap) all documented |
+| 211 | Herm(2) gap analysis: Connes spectral triple (dead end), Jordan algebra h₂(K) family, operational identification, literature survey (Boyle-Farnsworth, Devastato-Lizzi-Martinetti) | Path (A) closed (NCG gives S² not R^{3,1}). Path (D) productive: F=C selects h₂(C)=R^{3,1} uniquely. Gap REDUCED to operationalism. 8/8 PASS. |
+| 219 | Herm(2) gap closure: exhaustion + uniqueness argument, minimal bridge formalization (CP-1) | Exhaustion: End(W) is all accessible, 117/121 in kernel. Uniqueness: Herm(2) is ONLY 4D real subspace with real eigenvalues + Lorentzian metric + 1+3 split. Bridge (CP-1): "physical arena = measurement-outcome space." Gap CLOSED (reduced to standard theory-physics bridge, arguably definitional). 10/10 PASS. |

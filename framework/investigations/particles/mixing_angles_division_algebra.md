@@ -1,10 +1,11 @@
 # Investigation: Mixing Angles from Division Algebra Ratios
 
-**Status**: ACTIVE — CKM matrix parametrized, under adversarial review
+**Status**: ARCHIVE (stale since S162)
 **Created**: 2026-01-27 (Session 82)
 **Updated**: 2026-01-30 (Session 162) — PDG 2024 values, honest error reassessment
 **Confidence**: [CONJECTURE] — Formulas numerically discovered, not structurally derived
 **Significance**: HIGH — All CKM/PMNS parameters match division algebra ratios at 0-4%
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -548,6 +549,6 @@ a genuine theorem-level result regardless of whether R₃₁ = 33 holds.
 
 ---
 
-*Investigation status: ACTIVE — neutrino masses added, structural derivation still needed*
+*Investigation status: ARCHIVE — neutrino masses added, structural derivation still needed*
 *Confidence: [CONJECTURE] — collectively significant (~10⁻¹²+), individually unproven*
 *Last updated: Session 189 (2026-02-02) — assumption classification + honest grades*

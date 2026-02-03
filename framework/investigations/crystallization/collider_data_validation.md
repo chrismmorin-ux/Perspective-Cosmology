@@ -1,6 +1,6 @@
 # Collider Data Validation of Crystallization Dynamics
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S161)
 **Layer**: mixed (Layer 1 tilt counting + Layer 2 SM identification + Layer 3 predictions)
 **Topic**: crystallization
 **Canonical**: NO

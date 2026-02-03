@@ -1,10 +1,11 @@
 # Investigation: Unified Foundations — Set Theory, Forces, and Quantum Mechanics
 
-**Status**: ACTIVE (Major Synthesis)
+**Status**: ARCHIVE (stale, pre-S150; see evaluation_map_foundations.md)
 **Created**: 2026-01-27
 **Origin**: Deep exploration of set theory + corrections on V_Crystal + force localization + QM connection
 **Significance**: CRITICAL — Provides unified mathematical foundation for the framework
 **Confidence**: [DERIVATION] for structure, [CONJECTURE] for specific claims
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -764,7 +765,7 @@ with the identification t ↔ T (time = transitions).
 
 ---
 
-*Investigation status: ACTIVE — Major synthesis requiring continued development*
+*Investigation status: ARCHIVE — Major synthesis requiring continued development*
 *Confidence: [DERIVATION] for structure, [CONJECTURE] for specific claims*
 *Priority: CRITICAL — Foundational document*
 

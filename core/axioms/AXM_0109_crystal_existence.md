@@ -51,9 +51,8 @@ dim(V_Crystal) = n_c = 11  [D: from Frobenius-Hurwitz]
 The basis B_Crystal corresponds to points P via [DEF_02B1: Point-Basis Mapping].
 
 **Field choice**: F = C (complex numbers) is justified by:
-- Real observables require complex amplitudes
-- Quantum mechanics structure
-- See [THM_0485: Complex Structure] for derivation
+- Mathematical structure of the inner product space requires algebraic closure
+- See [THM_0485: Complex Structure] for the derivation from framework axioms
 
 ---
 

@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE] moving toward [DERIVATION]
 **Purpose**: Understand the relationship between perfect orthogonality, perspective, and dimensional structure
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -425,7 +426,7 @@ PERFECT CRYSTAL
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: crystal_structure.md, perspective_origin.md*
 *Feeds into: All physics interpretations*
 *Priority: HIGH — this may be the key structural insight*

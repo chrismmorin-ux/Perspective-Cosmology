@@ -1,6 +1,6 @@
 # Mode Sector Decomposition of 137 Interface Modes
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S164)
 **Created**: Session 164, 2026-01-30
 **Last Updated**: Session 164, 2026-01-30
 

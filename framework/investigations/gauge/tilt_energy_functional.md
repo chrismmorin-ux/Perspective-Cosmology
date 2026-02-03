@@ -5,6 +5,7 @@
 **Origin**: Investigating nucleation mechanism; extending AXM_0117
 **Significance**: HIGH — Resolves nucleation paradox; unifies crystallization and nucleation
 **Confidence**: [CONJECTURE] with structural arguments
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -556,7 +557,7 @@ The true ground state has negative energy (relative to F(0) = 0).
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Confidence: [CONJECTURE] with structural derivation*
 *Priority: HIGH — Resolves fundamental nucleation question*
 *Next steps: Formalize phase transition, derive ε* from observables, reconcile with AXM_0117*

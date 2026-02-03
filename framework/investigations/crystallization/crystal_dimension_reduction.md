@@ -3,6 +3,7 @@
 **Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S30, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-31
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -247,4 +248,4 @@ The measured α(E) might distinguish these!
 
 ---
 
-*Investigation status: ACTIVE — pursuing CY connection*
+*Investigation status: ARCHIVE — pursuing CY connection*

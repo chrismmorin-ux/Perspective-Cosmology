@@ -4,6 +4,7 @@
 **Created**: 2026-01-27 (Session 105)
 **Confidence**: [DERIVATION] for cross sections, [DERIVATION] for event rates (both derived from framework quantities)
 **Origin**: Extension of dark matter mass derivation to experimental observables
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -414,6 +415,6 @@ sigma/m = 2.3e-26 cm^2 / (5.11 GeV x 1.78e-24 g/GeV)
 
 ---
 
-*Investigation status: ACTIVE - Comprehensive experimental predictions*
+*Investigation status: ARCHIVE - Comprehensive experimental predictions*
 *Confidence: [DERIVATION] for cross sections, [PREDICTION] for event rates*
 *Created: Session 105 (2026-01-27)*

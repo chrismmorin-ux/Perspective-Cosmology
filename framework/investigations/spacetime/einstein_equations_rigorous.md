@@ -1,10 +1,11 @@
 # Einstein's Equations: Rigorous Derivation from Crystallization
 
-**Status**: ACTIVE - AUDITED S195
+**Status**: ARCHIVE - AUDITED S195 (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 121
 **Purpose**: Complete, step-by-step derivation of Einstein's equations from crystallization dynamics
 **Confidence**: [HYBRID] — EFE form [I-MATH via Lovelock], signature [CONJECTURE], coefficients [CONJECTURE/F]. Overall grade C-.
 **S195 Audit**: THEOREM target NOT achievable without resolving coset inconsistency, computing signature via tensor calculation, and deriving Λ with correct sign.
+**Last Updated**: 2026-02-03
 
 ---
 

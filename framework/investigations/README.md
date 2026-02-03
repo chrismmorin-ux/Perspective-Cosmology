@@ -5,6 +5,7 @@
 
 **Machine-readable index**: `_INDEX.md`
 **Placement rules**: `../../PLACEMENT_GUIDE.md`
+**Last Updated**: 2026-02-03
 
 ---
 

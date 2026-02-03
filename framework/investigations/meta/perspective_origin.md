@@ -1,9 +1,10 @@
 # Investigation: Origin of Perspective
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale, pre-S150)
 **Created**: 2026-01-26
 **Confidence**: [SPECULATION]
 **Purpose**: Understand how/why perspective comes into existence
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -345,6 +346,6 @@ P1, P2, P3 are now **theorems**, not axioms. The axiom count for perspective red
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: crystal_structure.md*
 *Feeds into: dimension_emergence.md, godel_self_inaccessibility.md*

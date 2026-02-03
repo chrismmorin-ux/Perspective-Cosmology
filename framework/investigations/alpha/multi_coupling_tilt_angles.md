@@ -1,6 +1,6 @@
 # Multi-Coupling Tilt Angles: Each Force as a Crystallization Angle
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S160)
 **Created**: Session 151, 2026-01-30
 **Last Updated**: Session 160, 2026-01-30
 **Confidence**: [CONJECTURE] for the overall picture; [DERIVATION] for algebraic identities

@@ -5,6 +5,7 @@
 **Dependencies**: core/17_complex_structure.md, layer_0_pure_axioms.md
 **Verified**: `verification/sympy/octonion_su3_decomposition.py`, `verification/sympy/rank4_gauge_enumeration.py`, `verification/sympy/weinberg_angle_running.py`
 **Created**: 2026-01-26 (Session 46)
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -220,7 +221,7 @@ Both have dimension 12, so minimality alone doesn't select SM.
         Maximum dimension → H (4D)
         |
         v
-[DERIVED] Crystal = remaining = R + C + O (1+2+8 = 11D)
+[DERIVED] Crystal = remaining = Im(C) + Im(H) + Im(O) (1+3+7 = 11D)
 ```
 
 **Status**: [DERIVED] from T1 + Hurwitz + associativity theorem
@@ -699,7 +700,8 @@ If P violation follows from T1, what about CP?
 
 **Key gap**: ~~Explicitly showing how T1 identifies gauge SU(2) with spacetime su(2)_L.~~ **RESOLVED** (Session 66)
 
-**Verified by**: `verification/sympy/chirality_quaternion_analysis.py`, `verification/sympy/chirality_spacetime_gauge_unification.py`, `verification/sympy/chirality_identification_derivation.py`
+**Verified by**: `verification/sympy/chirality_quaternion_analysis.py`, `verification/sympy/chirality_identification_derivation.py`
+*(Note: `chirality_spacetime_gauge_unification.py` was referenced but never created)*
 
 ---
 

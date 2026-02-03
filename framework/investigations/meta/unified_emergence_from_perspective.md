@@ -1,9 +1,10 @@
 # Unified Emergence: QM, Forces, and Spacetime from Perspective
 
-**Status**: ACTIVE — Synthesis document
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [DERIVATION] for QM, [CONJECTURE] for forces
 **Created**: 2026-01-27
 **Purpose**: Show how quantum mechanics and all "forces" emerge from a single process viewed through perspective
+**Last Updated**: 2026-01-30
 
 ---
 

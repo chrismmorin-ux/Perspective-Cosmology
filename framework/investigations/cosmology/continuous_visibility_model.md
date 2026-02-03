@@ -5,6 +5,7 @@
 **Confidence**: [CONJECTURE] moving toward [DERIVATION]
 **Purpose**: Develop a continuous visibility spectrum for crystal dimensions
 **Depends on**: layer_0_pure_axioms.md, orthogonality_and_crystal.md, dark_sections_and_pi_formula.md
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -605,7 +606,7 @@ These are DIFFERENT quantities:
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: layer_0_pure_axioms.md, orthogonality_and_crystal.md*
 *Feeds into: dark_sections_and_pi_formula.md, dark matter model*
 *Priority: HIGH — fundamental structure question*

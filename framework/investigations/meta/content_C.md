@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Understand what "content" is and where it comes from
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -360,7 +361,7 @@ If black holes heal tilts:
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: orthogonality_and_crystal.md, value_space_V.md*
 *Potentially unifies: matter, geometry, information*
 *Priority: HIGH — this could be the key insight*

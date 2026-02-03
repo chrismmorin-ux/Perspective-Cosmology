@@ -1,8 +1,9 @@
 # Derivation of Schrödinger Equation from Perspective Axioms
 
-**Status**: ACTIVE investigation
+**Status**: ARCHIVE (stale, pre-S150; see projection_qm_derivation.md)
 **Confidence**: [DERIVATION] with acknowledged gaps
 **Created**: 2026-01-27
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -595,7 +596,7 @@ where the sum is over all paths in 𝒯 from π_i to π_f.
 
 **Created**: 2026-01-27
 **Author**: Claude + User collaboration
-**Status**: ACTIVE investigation
+**Status**: ARCHIVE investigation (reclassified Run 4: no session reference S190-S210)
 **Next steps**:
 1. Write SymPy verification of mathematical claims
 2. Investigate ℏ derivation from α or other constants

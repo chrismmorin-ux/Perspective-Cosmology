@@ -1,6 +1,6 @@
 # Composite Gauge Field Analysis for Step 5
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S149)
 **Created**: Session 147, 2026-01-30
 **Last Updated**: Session 149, 2026-01-30
 **Confidence**: [DERIVATION] for coset structure and scalar counting; [CONJECTURE] for all coupling determinations

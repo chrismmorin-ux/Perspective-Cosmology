@@ -41,9 +41,9 @@ where A_ij are one-loop beta function coefficients. This proves NO stable mixed 
 
 ## Implications
 
-- SO(11) crystallization is necessarily first-order (no continuous transition)
-- lambda = c_3/c_2 is a free parameter in Landau theory (not determined by RG)
-- Consistent with hilltop inflation scenario (first-order -> nucleation dynamics)
+- [CONJECTURE] SO(11) crystallization is necessarily first-order (no continuous transition)
+- [CONJECTURE] lambda = c_3/c_2 is a free parameter in Landau theory (not determined by RG)
+- [CONJECTURE] Consistent with hilltop inflation scenario (first-order -> nucleation dynamics)
 
 ## Source
 

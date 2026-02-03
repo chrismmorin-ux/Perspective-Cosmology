@@ -2,7 +2,8 @@
 
 **Created**: Session 127
 **Updated**: Session 129
-**Status**: ACTIVE - PARTIALLY RESOLVED
+**Status**: ARCHIVE (stale since S129)
+**Last Updated**: 2026-01-30
 
 ---
 

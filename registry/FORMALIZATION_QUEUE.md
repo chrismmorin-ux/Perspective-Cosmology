@@ -42,7 +42,28 @@ access to this conversation should be able to formalize this from the sketch alo
 
 ## Active Queue
 
-*Empty — no pending items.*
+### 8 planned scripts in crystallization_dynamics.md
+
+**Added**: Quality Engine Run 3 follow-up, 2026-02-03
+**Type**: new-file (8 verification scripts)
+**Target**: `verification/sympy/` — scripts referenced in `framework/investigations/crystallization/crystallization_dynamics.md`
+**Priority**: MEDIUM
+
+**What**: 8 TODO scripts in crystallization_dynamics.md were never created. Deferring to a future CMB/cosmology-focused session.
+
+**Why/How** (reasoning sketch):
+These scripts cover CMB-related calculations from the crystallization dynamics investigation. They require substantive physics work, not mechanical stubs. The scripts are:
+1. `crystallization_potential.py` — Calculate V(φ), v², λ from SO(11) Landau expansion
+2. `slow_roll_parameters.py` — Calculate ε, η slow-roll parameters from framework potential
+3. `spectral_index_derivation.py` — Derive n_s from slow-roll (connects to hilltop inflation)
+4. `sound_horizon_integral.py` — Calculate r_s from first principles (note: r_s claim demoted S205)
+5. `peak_height_ratios.py` — Attempt to derive C_ℓ₂/C_ℓ₁ peak ratios
+6. `crystallization_coupled_potential.py` — Verify W(ε,φ) coupled potential behavior
+7. `attractor_eigenvalue_structure.py` — Check prime classification of attractor eigenvalues
+8. `collapse_threshold_estimate.py` — Estimate U_threshold for gravitational collapse
+Scripts 1-3 form a coherent chain (potential → slow-roll → n_s). Script 4 lower priority after r_s demotion.
+
+**Status**: DEFERRED (next CMB/cosmology session)
 
 ---
 

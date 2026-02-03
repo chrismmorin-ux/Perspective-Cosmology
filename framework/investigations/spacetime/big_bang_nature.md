@@ -1,9 +1,10 @@
 # The Nature of the Big Bang in Crystallization
 
-**Status**: ACTIVE - Deep exploration
+**Status**: ARCHIVE (stale since S121)
 **Created**: Session 121
 **Confidence**: [SPECULATION] to [CONJECTURE] — foundational questions
 **Dependencies**: white_holes_as_nucleation.md, einstein_equations_rigorous.md
+**Last Updated**: 2026-02-03
 
 ---
 

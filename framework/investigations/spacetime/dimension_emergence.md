@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [SPECULATION]
 **Purpose**: Understand how the dimensional basis B emerges from perspective breaking symmetry
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -262,6 +263,6 @@ If all perspectives must have γ > 0 with at least one other (connectivity):
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: crystal_structure.md (what is C?)*
 *Next: Formalize boundary-direction relationship*

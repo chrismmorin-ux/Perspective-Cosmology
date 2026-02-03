@@ -1,9 +1,10 @@
 # White Holes as Perspective Nucleation Points
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S121)
 **Created**: Session 121
 **Confidence**: [CONJECTURE] with [DERIVATION] elements
 **Dependencies**: einstein_from_crystallization.md, 15_nucleation.md, black_hole_entropy_derivation.md
+**Last Updated**: 2026-01-30
 
 ---
 

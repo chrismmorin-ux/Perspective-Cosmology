@@ -6,6 +6,7 @@
 **Created**: 2026-01-30
 **Related**: alpha_forced_vs_fitted.md (Step 5 gap), DEF_02B3 (interface mode count)
 **Formal derivation**: `alpha_mechanism_derivation.md` — tagged chain; `tilt_gradient_kinetic_term.md` — formal kinetic term; `verification/sympy/alpha_mechanism_interface_kinetic.py` — verification
+**Last Updated**: 2026-02-03
 
 ---
 

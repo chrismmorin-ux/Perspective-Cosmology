@@ -1,8 +1,9 @@
 # Perspective as Rigorous Self-Aware Substructure
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 189 (MUH comparison)
 **Layer**: Meta (framework foundations)
+**Last Updated**: 2026-02-03
 
 ---
 

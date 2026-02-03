@@ -9,6 +9,7 @@ Single source of truth for tracking framework state — claims, proofs, dependen
 | `ACTIVE_SESSIONS.md` | Parallel session tracking |
 | `CLAIM_DEPENDENCIES.md` | What breaks if X changes |
 | `FALSIFICATION_REGISTRY.md` | What would disprove claims |
+| `EXPLORATION_QUEUE.md` | Central research question lifecycle tracking |
 | `FORMALIZATION_QUEUE.md` | Deferred items awaiting formalization |
 | `INVESTIGATION_PRIORITIES.md` | Scored investigation queue (from `/quality-engine`) |
 | `HALLUCINATION_LOG.md` | Caught LLM errors |

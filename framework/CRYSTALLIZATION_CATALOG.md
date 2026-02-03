@@ -11,7 +11,7 @@
 
 ### Executive Summary
 
-Crystallization — the tendency of the tilt matrix toward orthogonality — is the single dynamical principle underlying all physics in the Perspective framework. This document catalogs the nine distinct types of crystallization identified across the project, standardizes their descriptions, maps their relationships, and provides composability rules for chaining types in sequential analysis. It also documents three cross-cutting mechanisms (entanglement, EWSB, collider validation) that enrich existing types without requiring new ones.
+Crystallization — the tendency of the tilt matrix toward orthogonality — is the single dynamical principle underlying all physics in the Perspective framework. This document catalogs seventeen types of crystallization (C1-C17), standardizes their descriptions, maps their relationships, and provides composability rules for chaining types in sequential analysis. It also documents three cross-cutting mechanisms (entanglement, EWSB, collider validation) that enrich existing types without requiring new ones. Process-level detail (specific decays, scattering, bound states, etc.) is in the sub-catalog system at `framework/crystallization_processes/`.
 
 ### Plain Language
 
@@ -23,7 +23,7 @@ Between these extremes, crystallization appears as symmetry breaking (forces sep
 
 All of these are the same underlying process — the tilt matrix evolving toward lower energy — just operating at different scales, in different channels, and with different boundary conditions. This catalog maps them all.
 
-**One-sentence version**: Nine manifestations of one principle — tilt reduction — spanning from the Big Bang to quantum measurement, backed by 49 verification scripts (~530+ tests), with three cross-cutting mechanisms (entanglement, EWSB, collider phenomenology) enriching the taxonomy.
+**One-sentence version**: Seventeen manifestations of one principle — tilt reduction — spanning from the Big Bang to quantum measurement to gravitational waves, backed by 51+ verification scripts (~616+ tests), with three cross-cutting mechanisms (entanglement, EWSB, collider phenomenology) enriching the taxonomy.
 
 ### How to Use This Document
 
@@ -49,6 +49,15 @@ All of these are the same underlying process — the tilt matrix evolving toward
 | Cosmological phase transitions | C7 in Part II |
 | Photon emission mechanism | C8 in Part II |
 | Particle mass freezing | C9 in Part II |
+| Weak decay / flavor change | C10 in Part II |
+| Pair creation & annihilation | C11 in Part II |
+| Hadronization & jets | C12 in Part II |
+| Nuclear binding | C13 in Part II |
+| Neutrino oscillation | C14 in Part II |
+| Gravitational waves | C15 in Part II |
+| Baryogenesis | C16 in Part II |
+| Structure formation | C17 in Part II |
+| Specific process decompositions | `crystallization_processes/` sub-catalogs |
 | How to chain types together | Part III: Composability |
 | All scripts and their status | Index 4.4 in Part IV |
 | What is NOT yet derived | Index 4.5 in Part IV |
@@ -90,7 +99,7 @@ AXM_0117 is the "engine" — it says imperfection is unstable and the universe e
 
 ### 1.3 The Universal Order Parameter
 
-The scalar epsilon threads through ALL nine types:
+The scalar epsilon threads through ALL seventeen types:
 
 ```
 epsilon = 0      Pure crystal. No physics. (Pre-Big-Bang, BH singularity)
@@ -648,7 +657,7 @@ vertex factor = sqrt(alpha) = 1/sqrt(N_I)        [QED correspondence]
 3 generations from Im(H) = {i, j, k}             [quaternionic structure]
 m_tilt ~ 2 sqrt(2) alpha^(3/2) M_Pl ~ 2.1e16 GeV  [tilt field mass]
 m_tilt(phi) = m_tilt(0) sqrt(g(phi))              [mass evolves with crystallization]
-m_p/m_e = 12 * 153 - 11/72                       [main term [CONJECTURE] + correction [DERIVATION]]
+m_p/m_e = 12 * 153 + 11/72 = 1836 + 11/72        [main term [CONJECTURE] + correction [DERIVATION]]
 y_t = 1 - 1/n_c^2 = 120/121                     [top Yukawa, 145 ppm]
 Koide Q = 2/3                                     [algebraically forced, [DERIVATION]]
 ```
@@ -694,6 +703,305 @@ Koide Q = 2/3                                     [algebraically forced, [DERIVA
 
 ---
 
+### C10: Weak Decay (Flavor-Changing Crystallization)
+
+**Classification**: Forward | Particle | H-channel | Emission
+
+**Before -> After**:
+- Physical: Parent particle -> daughter(s) via W boson (flavor change)
+- Tilt: H-channel generation transition; tilt excess exits through weak + EM channels
+
+**Mechanism**:
+- The three Im(H) directions correspond to three generations [CONJECTURE]
+- Flavor-changing processes are transitions between Im(H) directions
+- CKM matrix encodes the misalignment between mass and weak eigenstates
+- Each weak vertex involves H-channel tilt redistribution
+- Distinct from C8 (EM emission): C10 changes particle identity (flavor), C8 does not
+
+**Key Equations**:
+```
+Im(H) = {i, j, k} -> 3 generation directions           [A: from H structure]
+V_CKM: rotation between mass and weak tilt bases         [A-IMPORT]
+G_F = g^2 / (4 sqrt(2) m_W^2)                           [A-IMPORT]
+```
+
+**Physical Signatures**:
+
+| Observable | Framework | Measured | Error | Source |
+|-----------|-----------|----------|-------|--------|
+| 3 generations | Im(H) = 3 | 3 | 0% | [DERIVATION] |
+| CKM unitarity | Required by framework | Confirmed | < 0.1% | PDG |
+| CKM elements | Not derived | See pdg_couplings.md | — | Gap |
+
+**Verification**: Needed (Phase 1: `weak_decay_mode_counting.py`)
+
+**Dependencies**:
+- Requires: C2 (gauge structure), C9 (mass eigenstates)
+- Enables: Nuclear beta decay (C10 + C13), meson decays
+- Related: C8 (emission mechanism), C14 (neutrino sector)
+
+**Confidence & Gaps**:
+- Status: [CONJECTURE] for generation-Im(H) mapping; [A-IMPORT] for all rates
+- Open: CKM matrix from crystallization; CP violation mechanism; why 3 and not more
+- Falsification: Discovery of 4th generation weak decay
+
+---
+
+### C11: Pair Creation / Annihilation
+
+**Classification**: Both (Forward + Reverse) | Particle | C-channel (or mixed) | Emission
+
+**Before -> After**:
+- Forward (creation): Energy/photons -> particle-antiparticle pair
+- Reverse (annihilation): particle-antiparticle -> photons/energy
+- Tilt: Reversible crystallization — tilt structure created or dissolved in matched pairs
+
+**Mechanism**:
+- Creation: Sufficient energy concentrates tilt into matched (particle, antiparticle) configurations
+- Annihilation: Matched tilt configurations cancel, releasing energy through interface modes
+- CPT symmetry: Every tilt configuration has a conjugate (antiparticle = reflected tilt)
+- Pair creation threshold = 2 m_particle (energy conservation)
+- Distinct from C8 (single emission) and C10 (flavor change): C11 creates/destroys matter
+
+**Key Equations**:
+```
+E_threshold = 2 m c^2                                   [A-IMPORT: kinematics]
+sigma(e+e- -> mu+mu-) = 4pi alpha^2 / (3s)             [A-IMPORT: QED]
+P(pair) involves 1/N_I = 1/137 per vertex               [from C8]
+```
+
+**Verification**: Needed (Phase 2: `pair_processes_crystallization.py`)
+
+**Dependencies**:
+- Requires: C8 (coupling strength), C4 (Born rule for branching)
+- Enables: Baryogenesis (C16), collider processes
+- Related: C8 (shared vertex structure), C10 (can involve flavor)
+
+**Confidence & Gaps**:
+- Status: [STANDARD-RELABELED] — crystallization language describes standard pair physics
+- Open: Whether framework adds predictive content beyond vertex counting
+- Falsification: Violation of CPT in pair processes
+
+---
+
+### C12: Hadronization & Confinement
+
+**Classification**: Forward | Particle | O-channel | Boundary-induced
+
+**Before -> After**:
+- Physical: Free quarks/gluons -> color-singlet hadrons (mesons, baryons)
+- Tilt: O-channel tilt concentrates into confined bound states; color neutralization
+
+**Mechanism**:
+- O-channel confinement: color charges cannot exist in isolation (string tension ~ sigma)
+- As quarks separate, O-channel tilt energy grows linearly (string formation)
+- At sufficient energy, string breaks -> new q-qbar pair -> hadron formation
+- Fragmentation: high-energy parton -> cascade of hadrons (jet)
+- Distinct from C6 (static force): C12 is the dynamic process of hadron formation
+
+**Key Equations**:
+```
+V_conf(r) = sigma * r                                   [A-IMPORT: linear potential]
+sqrt(sigma) ~ 8 m_p / 17 = 441.5 MeV                   [CONJECTURE, HRS=6]
+N_c = 3 from SU(3) [D: from C2 eigenvalue selection]
+Hadron = color singlet (1 representation of SU(3))       [A-IMPORT]
+```
+
+**Verification**: Needed (Phase 3: `r_ratio_crystallization.py`)
+
+**Dependencies**:
+- Requires: C2 (SU(3) gauge group), C6 (O-channel force law)
+- Enables: All hadron physics, nuclear binding (C13)
+- Related: C6 (same O-channel, static vs dynamic)
+
+**Confidence & Gaps**:
+- Status: [FRAMEWORK-CONSTRAINED] for channel identification; [STANDARD-RELABELED] for dynamics
+- Open: Fragmentation functions from mode counting; hadron mass spectrum
+- Falsification: Free quarks observed; fractional charges in isolation
+
+---
+
+### C13: Nuclear Binding
+
+**Classification**: Forward (Static) | Nuclear | Mixed (O + C + H) | Multi-channel
+
+**Before -> After**:
+- Physical: Free nucleons -> bound nucleus
+- Tilt: Multi-channel short-range crystallization: O-channel (strong), C-channel (Coulomb), H-channel (beta stability)
+
+**Mechanism**:
+- Nuclear force: residual O-channel interaction between color-singlet nucleons
+- Short-range: O-channel modes confined within ~ 1 fm
+- Binding involves competition: O-channel attraction vs C-channel (Coulomb) repulsion
+- H-channel (weak) determines beta stability (neutron-proton ratio)
+- Distinct from C6/C12 (quark level): C13 operates at nucleon level with residual forces
+
+**Key Equations**:
+```
+B(A,Z) = a_V A - a_S A^(2/3) - a_C Z^2/A^(1/3) - a_A (A-2Z)^2/A + delta
+[A-IMPORT: Bethe-Weizsacker semi-empirical mass formula]
+Channel decomposition: a_V (O), a_S (O boundary), a_C (C), a_A (H)
+```
+
+**Verification**: Needed (Phase 4: `nuclear_binding_channels.py`)
+
+**Dependencies**:
+- Requires: C12 (nucleons as confined states), C6 (channel-specific forces)
+- Enables: Nuclear decays, stellar processes, BBN (C7)
+- Related: C10 (weak decay within nuclei), C8 (gamma emission)
+
+**Confidence & Gaps**:
+- Status: [STANDARD-RELABELED] — channel labeling of known nuclear physics
+- Open: Magic numbers from division algebra dimensions (2, 8, 28 suggestive but [SPECULATION])
+- Falsification: Framework-specific nuclear prediction that fails
+
+---
+
+### C14: Neutrino Oscillation
+
+**Classification**: Oscillatory | Particle | H-channel | Precession
+
+**Before -> After**:
+- Physical: Neutrino of flavor alpha -> detected as flavor beta (probability oscillates with distance)
+- Tilt: H-channel flavor precession between Im(H) generation directions
+
+**Mechanism**:
+- Neutrino mass eigenstates differ from flavor eigenstates (PMNS matrix)
+- Propagation: mass eigenstates evolve with different phases
+- Detection: flavor projection gives oscillating probability
+- Unique among types: inherently oscillatory (not forward or reverse)
+- H-channel specific: only weak-interacting sector shows this effect
+- Distinct from C10 (charged-current flavor change): C14 is neutral-current oscillation in vacuum
+
+**Key Equations**:
+```
+P(nu_alpha -> nu_beta) = sum |U_ai|^2 |U_bi|^2 - 2 Re[...] cos(Delta m^2 L / 2E) + ...
+[A-IMPORT: standard oscillation formula]
+PMNS matrix U: rotation in Im(H) space                  [CONJECTURE]
+3 mass eigenstates from 3 Im(H) directions              [CONJECTURE]
+```
+
+**Verification**: Needed (Phase 6: `neutrino_oscillation_h_channel.py`)
+
+**Dependencies**:
+- Requires: C9 (neutrino masses), C2 (generation structure from Im(H))
+- Related: C10 (both involve H-channel generation physics)
+
+**Confidence & Gaps**:
+- Status: [STANDARD-RELABELED] for oscillation physics; [CONJECTURE] for Im(H) mapping
+- Open: PMNS matrix from crystallization; mass hierarchy; Dirac vs Majorana nature
+- Falsification: Sterile neutrino oscillation (4th direction beyond Im(H))
+
+---
+
+### C15: Gravitational Radiation
+
+**Classification**: Forward | Astrophysical | R-channel | Emission
+
+**Before -> After**:
+- Physical: Accelerating mass -> gravitational wave emission; binary inspiral -> merger
+- Tilt: R-channel tilt wave emission, analog of C8 (EM emission) in gravity sector
+
+**Mechanism**:
+- R-channel (spacetime/gravity) carries 16 = n_d^2 tilt DOF
+- Accelerating mass distributions radiate R-channel tilt waves
+- Quadrupole formula: lowest-order radiation (no monopole/dipole for gravity)
+- Binary inspiral: continuous R-channel emission -> orbital decay -> merger
+- Framework adds: R-channel mode counting (16 DOF, of which 2 physical polarizations for spin-2)
+- Distinct from C8 (EM): C15 is R-channel, C8 is C-channel; different spin (2 vs 1)
+
+**Key Equations**:
+```
+P_GW = (32/5) G^4 m_1^2 m_2^2 (m_1 + m_2) / (c^5 r^5)  [A-IMPORT: quadrupole]
+R-channel DOF = n_d^2 = 16                                  [D: from Herm(n_d)]
+Physical polarizations = 2 (spin-2 massless)                 [A-IMPORT: GR]
+No GW echoes: R ~ exp(-m_tilt r_BH) ~ 0                    [DERIVATION]
+```
+
+**Verification**: Needed (Phase 7: `gravitational_tests_framework.py`); echo prediction verified in `casimir_completeness_audit.py`
+
+**Dependencies**:
+- Requires: C3 (tilt dynamics in R-channel), C5 (BH as source)
+- Related: C8 (EM emission = C-channel analog), C5 (BH mergers)
+
+**Confidence & Gaps**:
+- Status: [STANDARD-RELABELED] for GW physics; [DERIVATION] for echo non-detection
+- Open: Ringdown QNMs from tilt dynamics; stochastic background from C1
+- Falsification: Detection of GW echoes; graviton mass != 0
+
+---
+
+### C16: Baryogenesis
+
+**Classification**: Forward | Cosmological | Mixed (H + O + C) | Asymmetric
+
+**Before -> After**:
+- Physical: Symmetric matter-antimatter plasma -> baryon excess (eta ~ 6 x 10^-10)
+- Tilt: Asymmetric crystallization producing net matter over antimatter
+
+**Mechanism**:
+- Sakharov conditions: (1) baryon number violation, (2) C and CP violation, (3) departure from equilibrium
+- Framework mapping: (1) B-violation from tilt topology?, (2) CP from CKM phase in H-channel, (3) non-equilibrium from C7 phase transitions
+- Distinct from all other types: irreversible asymmetry generation
+- Currently the least developed type — mechanism is [SPECULATION]
+
+**Key Equations**:
+```
+eta = n_B / n_gamma ~ 6.1 x 10^-10                      [A-IMPORT: observed]
+Sakharov conditions: B-violation, C/CP-violation, non-eq  [A-IMPORT]
+Framework: no specific prediction for eta                 Gap
+```
+
+**Verification**: Needed (Phase 5: future script)
+
+**Dependencies**:
+- Requires: C7 (non-equilibrium context), C10 (weak interactions), C11 (pair processes)
+- Enables: All matter-dominated physics
+- Related: C7 (occurs during cosmological phase transitions)
+
+**Confidence & Gaps**:
+- Status: [SPECULATION] — framework has no mechanism for eta
+- Open: Everything (baryon number violation mechanism, CP violation magnitude, departure from equilibrium dynamics)
+- Falsification: N/A (nothing predicted)
+
+---
+
+### C17: Structure Formation (Gravitational Clustering)
+
+**Classification**: Forward | Cosmological | R-channel (dominant) + mixed | Potential-driven
+
+**Before -> After**:
+- Physical: Nearly uniform post-recombination matter -> galaxies, clusters, cosmic web
+- Tilt: Large-scale forward crystallization in R-channel; gravitational potential wells deepen
+
+**Mechanism**:
+- Primordial density fluctuations (from C1 inflation) seed structure
+- Gravitational instability (Jeans instability) amplifies R-channel tilt inhomogeneities
+- Dark matter (if framework's 5.11 GeV prediction holds) provides scaffolding
+- Baryon acoustic oscillations: frozen C7 sound waves in matter distribution
+- Distinct from C1 (cosmic): C17 is post-recombination gravitational growth, not primordial nucleation
+
+**Key Equations**:
+```
+delta_k(a) = delta_k(a_i) * D(a)                        [A-IMPORT: growth function]
+P(k) = A_s k^(n_s) T^2(k)                              [A-IMPORT + D: n_s from C1]
+sigma_8 = 0.8111(60)                                     [A-IMPORT: Planck]
+BAO scale ~ r_s = 144.4 Mpc                             [D + I: from C7]
+```
+
+**Verification**: Needed (Phase 5: `structure_growth_framework.py`)
+
+**Dependencies**:
+- Requires: C1 (initial perturbation spectrum), C7 (acoustic oscillations), dark matter
+- Related: C15 (gravitational radiation from mergers)
+
+**Confidence & Gaps**:
+- Status: [FRAMEWORK-CONSTRAINED] for n_s input; [STANDARD-RELABELED] for growth dynamics
+- Open: sigma_8 from framework; dark matter interaction cross-section; halo mass function
+- Falsification: n_s measured far from 0.965; BAO scale inconsistent with r_s
+
+---
+
 ## Part III: Composability Framework
 
 ### 3.1 Chain Notation
@@ -720,6 +1028,19 @@ means: Type A completes, producing a state satisfying [condition],
 | **EWSB** | C2(eigenvalue) -> C9 -> C8 | (3,1) partition selects gauge group -> masses freeze -> Higgs mechanism |
 | **BH Evaporation** | C5 -> C1 (local) | De-crystallization -> epsilon = 0 unstable -> re-nucleation (white-hole burst) |
 | **Collider Process** | C8(inject) -> C6(confine) -> C4(collapse) -> C8(emit) | Energy injection -> confinement dynamics -> state collapse -> particle emission |
+| **Neutron Beta Decay** | C10(H) -> C4 -> C8(C) | Weak flavor change -> state collapse -> electron + photon emission |
+| **Muon Decay** | C10(H) -> C4 -> C8(C) | Pure H-channel 3-body weak decay |
+| **Pair Annihilation** | C11(reverse) -> C8(C) | Matter-antimatter cancel -> photon emission |
+| **Pair Production** | C8(absorb) -> C11(forward) | Photon absorbed -> pair created above threshold |
+| **Jet Formation** | C8(inject) -> C12(O) -> C9 | High-energy parton -> hadronization cascade -> stable hadrons |
+| **Nuclear Fusion** | C13 + C10(H) + C8(C) | Nucleons bind (O-channel) + weak conversion + gamma emission |
+| **Stellar Evolution** | C13 -> C8(C) -> C10(H) -> ... -> C5 or C13(NS) | Nuclear burning chain -> eventual collapse |
+| **Solar pp Chain** | C10(H) -> C13 -> C8(C) -> C11 | Weak capture -> nuclear binding -> photon + pair emission |
+| **Neutrino Propagation** | C10(H,source) -> C14(oscillation) -> C10(H,detect) | Weak production -> flavor precession -> weak detection |
+| **Binary Inspiral** | C15(R) -> C5+C5 -> C5 + C15(ringdown) | GW emission -> merger -> final BH + ringdown radiation |
+| **BBN** | C7 -> C10(H) -> C13 | Cosmological cooling -> weak freeze-out -> light element formation |
+| **Recombination** | C7 -> C8(C,capture) -> C17 | Cosmological cooling -> electron capture -> structure formation begins |
+| **Galaxy Formation** | C17(R) -> C13 -> C8(C) | Gravitational collapse -> star formation -> stellar emission |
 
 ### 3.3 Interface Conditions
 
@@ -759,10 +1080,10 @@ Verification: [script reference or "needed"]
 | Scale | Types | Key Observable |
 |-------|-------|---------------|
 | Planck (10^-35 m) | C4, C5 (near singularity) | Collapse timescale, BH critical radius |
-| Particle (10^-18 m) | C6, C8, C9 | Casimir, alpha, particle masses |
-| Nuclear (10^-15 m) | C6(O) | QCD string tension, confinement |
-| Astrophysical (>1 m) | C5 | BH entropy, Hawking temperature |
-| Cosmological (10^26 m) | C1, C2, C7 | n_s, r, Omega_Lambda, sin^2 theta_W |
+| Particle (10^-18 m) | C6, C8, C9, C10, C11, C12, C14 | Casimir, alpha, particle masses, decays, oscillations |
+| Nuclear (10^-15 m) | C6(O), C12, C13 | QCD string tension, confinement, nuclear binding |
+| Astrophysical (>1 m) | C5, C13, C15 | BH entropy, Hawking temperature, GW emission |
+| Cosmological (10^26 m) | C1, C2, C7, C16, C17 | n_s, r, Omega_Lambda, baryogenesis, structure |
 
 ### 4.2 By Observable
 
@@ -793,8 +1114,9 @@ Verification: [script reference or "needed"]
 |-------|-------|
 | **CANONICAL/THEOREM** | C2 (SO(11) chain, Frobenius results), C4 entanglement correlations (Bell/CHSH) |
 | **DERIVATION** | C1 (n_s, r), C2 (eigenvalue selection), C3 (g(phi) unification), C4 (Born rule + geometric noise), C6 (mode counting + beta coefficients) |
-| **CONJECTURE** | C5 (BH interpretation), C7 (Omega_Lambda), C8 (emission mechanism), C9 (mass freezing) |
-| **SPECULATION** | C5 (evaporation endpoint), C6 (240 = 16 x 15 numerology) |
+| **CONJECTURE** | C5 (BH interpretation), C7 (Omega_Lambda), C8 (emission mechanism), C9 (mass freezing), C10 (generation mapping), C14 (PMNS from Im(H)) |
+| **STANDARD-RELABELED** | C11 (pair processes), C12 (hadronization dynamics), C13 (nuclear binding), C15 (GW physics), C17 (structure growth) |
+| **SPECULATION** | C5 (evaporation endpoint), C6 (240 = 16 x 15 numerology), C16 (baryogenesis mechanism) |
 | **FALSIFIED** | C7: CC from V(ε*) wrong sign (F-10), η*=337, c_s=3/7 |
 
 ### 4.4 Verification Status
@@ -850,23 +1172,24 @@ Verification: [script reference or "needed"]
 | `peak_height_physics.py` | C7 | 15/15 | PASS |
 | `rs_derivation_from_framework.py` | C7 | 13/14 | PASS (1 fail) |
 | `cosmological_constant_sign_analysis.py` | C7 | 10/10 | PASS |
+| `b2_nonzero_from_axioms.py` | C2 | 10/10 | PASS |
+| `c3_positive_from_nd4.py` | C2 | 7/8 | PASS (1 fail: global min test, see note) |
 
-**Totals**: 49 scripts, 598 tests, 590 PASS (8 diagnostic/fail).
+**Totals**: 51 scripts, 616 tests, 607 PASS (9 diagnostic/fail).
 
 ### 4.5 Gap Tracker
 
 **CRITICAL** (blocks major predictions):
 
-- [ ] Landau coefficients c_1, c_2, c_3 not derived from axioms (affects C2 energy selection)
+- [ ] Landau coefficients c_1, c_2 signs derived (c_1<0 from AXM_0114, c_2>0 from AXM_0113); c_3 sign now [DERIVATION] (see RESOLVED). Magnitudes still not derived from axioms (affects C2 energy selection)
 - [ ] V_0 not derived (affects C1 amplitude A_s; currently imported)
 - [ ] Individual particle masses not derived (C9)
 - [ ] Peak heights in CMB not fully derived from framework (C7)
 
 **HIGH** (significant derivation gaps):
 
-- [ ] c_3 > 0 not proven (needed to select (4,7) over (3,8) in C2)
-- [ ] b₂ < 0 from AXM_0117 is [CONJECTURE], not derived (C2 eigenvalue selection)
-- [ ] n_c/Im_H as gauge self-coupling factor — mechanism unknown (C6, affects all beta coefficients)
+- [ ] b₂ < 0 sign: b₂ ≠ 0 now [DERIVATION from AXM_0109] (S207, 10/10 PASS); sign b₂ < 0 remains [CONJECTURE with physical motivation] (C2 eigenvalue selection)
+- [ ] n_c/Im_H as gauge self-coupling factor — mechanism unknown, investigated S207: pattern-matching only, would need first-principles vacuum polarization calc (C6, affects all beta coefficients)
 - [ ] g(phi) quadratic form assumed, not derived (C3)
 - [ ] Crystallization rate/timescale not derived from axioms (C3)
 - [ ] QCD string tension formula sqrt(sigma) = 8 m_p/17 is pattern-matched, HRS=6 (C6)
@@ -884,6 +1207,8 @@ Verification: [script reference or "needed"]
 
 **RESOLVED** (since last update):
 
+- [x] ~~c_3 > 0 not proven~~ — RESOLVED S207: c_3 ≠ 0 from AXM_0109 (degeneracy argument, 7/8 PASS); c_3 > 0 from n_d = 4 + dynamical curvature selection (quartic_energy_curvature.py 12/12 PASS). Scripts: `c3_positive_from_nd4.py`, `b2_nonzero_from_axioms.py`
+- [x] ~~b₂ ≠ 0 not derived~~ — RESOLVED S207: b₂ = 0 gives degenerate minima on Herm(n_d), contradicting AXM_0109. Script: `b2_nonzero_from_axioms.py` (10/10 PASS)
 - [x] ~~Noise structure in Born rule not derived from Layer 0~~ — RESOLVED S169: derived from Fubini-Study geometry (CR-035)
 - [x] ~~l₂ second acoustic peak~~ — RESOLVED S199: baryon loading with phi_odd = 3/11 (0.4%)
 - [x] ~~Coset space structure~~ — RESOLVED S195: Gr(4,11) gives 28 = 4(Higgs) + 24(pNGBs)
@@ -908,14 +1233,25 @@ C1 (Big Bang)
   |                        |--[gauge structure set]--> C7 (Cosmo Phases)
   |                        |                            |
   |                        |                            |--[masses freeze]--> C9 (Mass)
+  |                        |                            |--[baryogenesis]---> C16 (Baryon Asymmetry)
+  |                        |                            |--[recombination]--> C17 (Structure Formation)
   |                        |
   |                        |--[tilt structure set]----> C3 (Tilt Dynamics)
   |                                                      |
   |                                                      |--[fluctuation modes]--> C6 (Forces)
+  |                                                      |      |
+  |                                                      |      |--[O-channel dynamics]--> C12 (Hadronization)
+  |                                                      |      |--[residual O-channel]--> C13 (Nuclear Binding)
   |                                                      |
   |                                                      |--[collapse mechanism]--> C4 (Collapse)
   |                                                      |                           |
-  |                                                      |                           |--> C8 (Emission)
+  |                                                      |                           |--> C8 (EM Emission)
+  |                                                      |                           |--> C10 (Weak Decay)
+  |                                                      |                           |--> C11 (Pair Processes)
+  |                                                      |
+  |                                                      |--[H-channel precession]--> C14 (Neutrino Osc.)
+  |
+  |--[R-channel radiation]--> C15 (Gravitational Waves)
   |
   |--[REVERSE]---------> C5 (Black Holes)
                            |
@@ -924,12 +1260,20 @@ C1 (Big Bang)
 
 **Special relationships**:
 - C1 and C5 are **reverses**: C1 is epsilon: 0 -> epsilon*, C5 is epsilon: epsilon* -> 0
-- C3 is the **universal substrate**: its potential W governs C4, C6, C8, and C9
+- C3 is the **universal substrate**: its potential W governs C4, C6, C8, C9, C10-C15
 - C4 and C8 are **sequential**: collapse (C4) produces the eigenstate from which emission (C8) occurs
 - C6(C) and C6(O) are **parallel**: same mechanism in different channels (EM vs QCD)
 - C2 and C9 are **coupled**: eigenvalue selection (C2) determines which masses freeze (C9)
 - C4(shared) creates **entanglement**: non-factorizable constraints in V that persist across C4(local) collapses
 - C6 and C8 share **interface modes**: Casimir (C6) is vacuum version, emission (C8) is excitation version of same 137-mode structure
+- C8 and C10 are **channel siblings**: C8 is C-channel emission, C10 is H-channel flavor change
+- C8 and C15 are **channel analogs**: C8 is C-channel (spin-1), C15 is R-channel (spin-2)
+- C11 is **reversible**: forward = pair creation, reverse = pair annihilation
+- C12 is **dynamic C6**: C6(O) is the static force, C12 is the process of forming bound states
+- C13 is **residual C12**: nuclear binding from residual O-channel forces between color-singlets
+- C14 is **oscillatory**: unique among types in not being forward/reverse/static
+- C16 requires **C7 + C10**: baryogenesis needs non-equilibrium (C7) + CP violation (C10)
+- C17 follows **C7**: structure formation begins after recombination, seeded by C1 fluctuations
 
 ### 5.2 g(phi) Unification
 
@@ -1128,10 +1472,19 @@ Systematic comparison of framework predictions against collider data, organized 
 | "What do collider experiments test?" | Section 5.8 (collider validation), connecting C6 + C8 + C9 |
 | "Why are there exactly 3 generations?" | C9 (Im_H = 3 quaternionic directions), then C2 (division algebra structure) |
 | "Where do beta functions come from?" | C6, section on beta coefficient decomposition |
+| "How does a particle decay?" | C10 (weak) or C8 (EM), then check `crystallization_processes/decays/` |
+| "What happens in pair annihilation?" | C11, then `crystallization_processes/scattering/electromagnetic_scattering.md` |
+| "How do hadrons form?" | C12, then `crystallization_processes/bound_states/hadron_formation.md` |
+| "Why are nuclei stable?" | C13, then `crystallization_processes/bound_states/nuclear_binding.md` |
+| "How do neutrinos oscillate?" | C14, then `crystallization_processes/scattering/weak_scattering.md` |
+| "What are gravitational waves?" | C15, then `crystallization_processes/astrophysical/gravitational_waves.md` |
+| "Why is there more matter than antimatter?" | C16 (baryogenesis, currently [SPECULATION]) |
+| "How did galaxies form?" | C17, then `crystallization_processes/cosmological/structure_formation.md` |
+| "How does a specific process decompose?" | `crystallization_processes/` sub-catalogs |
 
 ### 6.2 Growth Protocol
 
-To add a new crystallization type (C10+):
+**Adding a new crystallization type (C10+)**:
 
 1. **Identify**: Confirm the phenomenon is a distinct manifestation of tilt dynamics, not a sub-case of an existing type
 2. **Classify**: Assign direction, scale, channel, and mechanism from the taxonomy (section 1.4)
@@ -1142,6 +1495,15 @@ To add a new crystallization type (C10+):
 
 No renumbering of existing types is needed — the C-prefix system allows indefinite extension.
 
+**Adding a process entry to the sub-catalogs**:
+
+1. Choose the appropriate sub-catalog file in `framework/crystallization_processes/`
+2. Follow `PROCESS_TEMPLATE.md` format
+3. Assign honesty tag: [FRAMEWORK-DERIVED], [FRAMEWORK-CONSTRAINED], or [STANDARD-RELABELED]
+4. Explicitly separate "what framework adds" from "what is imported"
+5. Reference data from `data/` reference files
+6. Write or reference a verification script for any [FRAMEWORK-DERIVED] entry
+
 ### 6.3 Formalization Queue
 
 Types needing promotion to `core/` formal status:
@@ -1149,7 +1511,7 @@ Types needing promotion to `core/` formal status:
 | Type | Current Status | Needed for Promotion |
 |------|---------------|---------------------|
 | C4 (Born rule) | THM_0494 exists (SKETCH); noise now derived (S169) | Upgrade THM_0494 to DERIVATION; formalize geometric noise proof |
-| C2 (SSB chain) | THM_0487 exists (SKETCH); eigenvalue selection (S168) | Prove c_3 > 0 from axioms; formalize b₂ < 0 selection |
+| C2 (SSB chain) | THM_0487 exists (SKETCH); eigenvalue selection (S168); c_3 > 0 now [DERIVATION] (S207) | Formalize b₂ < 0 sign (b₂ ≠ 0 proven); derive Landau coefficient magnitudes |
 | C3 (tilt dynamics) | DEF_02C0, DEF_02C4 exist | Derive a, b from axioms |
 | C1 (cosmic) | Partial in layer_1_crystallization.md | Derive V_0 |
 | C6 (beta coefficients) | Verified exact (S163), no formal theorem | Formalize n_c/Im_H mechanism; prove beta = framework numbers |
@@ -1175,10 +1537,12 @@ Types needing promotion to `core/` formal status:
 | 191-195 | C7, C2 | Cosmo audit: CC wrong sign (F-10); coset resolved Gr(4,11); 24 colored pNGBs |
 | 198-199 | C7 | η*=337 FALSIFIED; c_s=3/7 FALSIFIED; l₂ resolved (baryon loading, 0.4%); r_s confirmed (0.03%) |
 | 206 | All | Catalog v2.0: expanded entries (C2/C4/C6/C7), 3 new Part V sections, gap tracker updated |
+| 221 | C10-C17 | Catalog v3.0: 8 new types, sub-catalog system, 6 data reference files, 14 new chains |
 
 ---
 
-*Document version: 2.0*
+*Document version: 3.0*
 *Created: 2026-01-30*
-*Updated: 2026-02-03 (S206 -- major expansion: C2/C4/C6/C7 updates, entanglement/EWSB/collider sections, gap tracker refresh)*
+*Updated: 2026-02-03 (S221 -- Phase 0: C10-C17 skeleton entries, sub-catalog infrastructure, 6 data reference files, 14 new chains, index updates)*
 *This is a CATALOG — it introduces no new derivations or claims. All content points to existing source files.*
+*Process-level detail: see `framework/crystallization_processes/` sub-catalogs.*

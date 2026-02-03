@@ -1,6 +1,6 @@
 # Mass = Internal Crystallization Energy
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 186, 2026-02-02
 **Last Updated**: Session 186, 2026-02-02
 

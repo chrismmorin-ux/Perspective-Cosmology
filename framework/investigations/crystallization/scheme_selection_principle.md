@@ -149,5 +149,6 @@ If this principle is correct:
 - [A-IMPORT] sin²(θ_W) = 0.23122 MS-bar at M_Z (PDG 2024)
 
 **Used by**:
+**Last Updated**: 2026-01-30
 - Understanding of gauge coupling unification
 - Predictions for other electroweak observables

@@ -5,6 +5,7 @@
 **Confidence**: [DERIVATION] for main result; [CONJECTURE] for some details
 **Purpose**: Derive theta_QCD = 0 from crystallization structure
 **Verification**: `verification/sympy/strong_cp_crystallization.py` — ALL 10 TESTS PASS
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -376,6 +377,6 @@ Any detection of nonzero theta falsifies this derivation.
 
 ---
 
-*Investigation status: ACTIVE — main derivation complete*
+*Investigation status: ARCHIVE — main derivation complete*
 *Confidence: [DERIVATION] for theta = 0*
 *This solves a fundamental puzzle in particle physics from first principles*

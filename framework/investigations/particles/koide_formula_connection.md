@@ -1,10 +1,11 @@
 # Investigation: Koide Formula and Division Algebra Structure
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S73)
 **Confidence**: [STRONG DERIVATION] — Q=2/3 derived; M and theta matched to <0.1%
 **Created**: 2026-01-27 (Session 58)
 **Updated**: 2026-01-27 (Session 73) — MAJOR BREAKTHROUGH
 **Dependencies**: gauge_from_division_algebras.md, fermion_multiplets_from_division_algebras.md
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -544,6 +545,6 @@ All 8 quark Koide parameters (4 A², 4 θ) are classified as **[CONJECTURE]**:
 
 ---
 
-*Investigation status: ACTIVE — Strong derivation pathway identified*
+*Investigation status: ARCHIVE — Strong derivation pathway identified*
 *Confidence: STRONG DERIVATION (Q, θ) / MATCHED (M)*
 *Priority: HIGH — Selection mechanism for θ confirmed; parallel to alpha found!*

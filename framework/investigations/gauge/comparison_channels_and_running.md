@@ -3,6 +3,7 @@
 **Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S25, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-27
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -371,4 +372,4 @@ The formula α = 1/(n_d² + n_c²) is the **IR LIMIT** from geometry.
 
 ---
 
-*Investigation status: ACTIVE — exploring connection between field emergence and running*
+*Investigation status: ARCHIVE — exploring connection between field emergence and running*

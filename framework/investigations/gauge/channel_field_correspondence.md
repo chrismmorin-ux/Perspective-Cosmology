@@ -3,6 +3,7 @@
 **Status**: ARCHIVE
 **Created**: 2026-01-26
 **Session**: 2026-01-26-34
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -408,4 +409,4 @@ A field φ "occupies" a comparison channel (i,j,type) if:
 
 ---
 
-*Investigation status: ACTIVE — field-channel correspondence derived; "slot filling" needs definition*
+*Investigation status: ARCHIVE — field-channel correspondence derived; "slot filling" needs definition*

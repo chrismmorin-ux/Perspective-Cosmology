@@ -144,7 +144,7 @@ These follow rigorously from the postulates.
 
 **T4. Crystal Constraint Dimension** [DRV_0002]
 > From T3 and total dimension count:
-> n_c = dim(R) + dim(C) + dim(O) = 1 + 2 + 8 = 11
+> n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
 
 - Derivation: Total 15 dimensions, minus n_d = 4
 - Note: NOT M-theory import — derived from division algebras
@@ -406,7 +406,7 @@ Primes that ARE division algebra dimensions (not sums of squares):
 | **2** | dim(C) | Complex numbers, U(1), EM |
 | **3** | Im(H) | Quaternion imaginaries, 3 generations, 3 colors |
 | **7** | Im(O) | Octonion imaginaries, internal structure |
-| **11** | n_c | Crystal dimensions (R+C+O = 1+2+8) |
+| **11** | n_c | Crystal dimensions (Im(C)+Im(H)+Im(O) = 1+3+7) |
 
 ### §4.3 Additive-Framework Primes
 

@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE] with promising structure
 **Purpose**: Justify |Π| = 137^55 through perspective accessibility and "dark sections"
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -453,7 +454,7 @@ See: `verification/sympy/dark_sections_pi_formula.py` (to be created)
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Depends on: layer_0_pure_axioms.md, orthogonality_and_crystal.md, alpha_crystal_interface.md*
 *Feeds into: cosmological predictions, dark matter model*
 *Priority: HIGH — could unify α and |Π| derivation*

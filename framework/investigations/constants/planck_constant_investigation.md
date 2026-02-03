@@ -1,9 +1,10 @@
 # Investigation: Planck's Constant ℏ and the Scale Problem
 
-**Status**: ACTIVE — RESOLVED with key insight
+**Status**: ARCHIVE — RESOLVED (stale since S88)
 **Confidence**: [DERIVATION] for gravitational coupling; [AXIOM] for ℏ as scale
 **Created**: 2026-01-27 (Session 88)
 **Significance**: HIGH — Clarifies what IS and ISN'T derivable from axioms
+**Last Updated**: 2026-01-30
 
 ---
 

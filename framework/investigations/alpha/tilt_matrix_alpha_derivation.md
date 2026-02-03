@@ -1,6 +1,6 @@
 # Tilt Matrix Derivation of Alpha
 
-**Status**: ACTIVE-DEVELOPMENT
+**Status**: ARCHIVE (stale since S41; see ALPHA_DERIVATION_MASTER.md)
 **Confidence**: [CONJECTURE]
 **Created**: 2026-01-26
 **Last Updated**: 2026-01-26 (Session 41)

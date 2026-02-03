@@ -3,6 +3,7 @@
 **Date**: 2026-01-26
 **Focus**: Re-examine the fundamental ontology of Layer 0
 **Outcome**: Major revision — P is not fundamental
+**Last Updated**: 2026-01-30
 
 ---
 

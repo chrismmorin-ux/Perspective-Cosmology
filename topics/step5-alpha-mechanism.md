@@ -1,6 +1,6 @@
 # Topic: Step 5 Alpha Mechanism
 
-**Current state**: Six approaches analyzed (5A-5F). THM_04A2 (single-photon tilt, 5F) is clearest physical picture. All require one undetermined scale. Grade: D+ (5D/5F at C-). Gap G2 (uniformity) CLOSED via HS derivation (S165). Born rule uniqueness + robustness proven (S173, 37/37 PASS). THM_0491 promoted to CANONICAL, THM_0493 promoted to DERIVATION (CR-037 resolved via automatic continuity, 18/18 PASS). Remaining gap: gauge kinetic term normalization.
+**Current state**: Six approaches analyzed (5A-5F). THM_04A2 (single-photon tilt, 5F) is clearest physical picture. All require one undetermined scale. Grade: D+ (5D/5F at C-). Gap G2 (uniformity) CLOSED via HS derivation (S165). Born rule uniqueness + robustness proven (S173, 37/37 PASS). THM_0491 promoted to CANONICAL, THM_0493 promoted to DERIVATION (CR-037 resolved via automatic continuity, 18/18 PASS). **S211 update**: Critical equipartition mechanism RULED OUT (SO(11) transition is first-order, no Wilson-Fisher fixed point for N≥4). Coset geometry is ONLY remaining path to democratic counting. Remaining gap: gauge kinetic term normalization.
 
 ---
 
@@ -38,6 +38,8 @@
 - **"Generic -> uniform" from symmetry alone**: DOES NOT WORK. Schur gives 3 free params, not 0. (S165)
 - **Random pure state argument**: DOES NOT WORK. Beta(1,136) has 99% relative std. (S165)
 - ~~**Counting metric is structural**~~: RESOLVED — derived from AXM_0110 via HS inner product. (S165)
+- **Critical equipartition**: RULED OUT (S211) — SO(11) transition is first-order (no WF fixed point for N>=4, discriminant < 0). All modes NOT equally excited at transition.
+- **HS metric for democratic counting**: RULED OUT (S215) — HS inner product is universal rescaling, cannot change coupling RATIOS. Commutator [A,M] still gives Dynkin indices at one loop.
 
 ## Open Paths
 
@@ -61,6 +63,8 @@
 | S164 | THM_04A2 formalized | SKETCH, 5 mechanism categories, falsification criteria |
 | S165 | Gap G2 CLOSED | Irrep decomposition + HS derivation: counting metric [D from AXM_0110], regime resolved |
 | S173 | Born rule uniqueness + robustness | WF UNIQUE at degree 2, Born rule robust to noise amplitude, 37/37 PASS |
+| S211 | Democratic counting mechanism triage | Critical equipartition RULED OUT (first-order transition). Coset geometry ONLY remaining path. Eval map convergence noted (28/121). |
+| S215 | Coset geometry: three paths | HS metric DEAD END, coset PARTIAL, democratic counting PROMISING. Gap: why democratic not Dynkin? 15/15 PASS. |
 
 ## Key Files
 

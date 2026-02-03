@@ -1,9 +1,10 @@
 # Step 5 Unified: Induced Gauge Field + Crystallization Coupling
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S153; see ALPHA_DERIVATION_MASTER.md)
 **Created**: Session 153, 2026-01-30
 **Confidence**: [DERIVATION] for algebraic structure; [CONJECTURE] for physical identification
 **Layer**: Meta-analysis (combines 5C and 5D)
+**Last Updated**: 2026-02-03
 
 ---
 

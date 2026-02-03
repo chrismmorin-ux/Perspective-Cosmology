@@ -1,6 +1,6 @@
 # Investigation: Im(C) Necessity and the Consciousness Conjecture
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 192
 **Last Updated**: Session 192
 **Confidence**: [THEOREM] for necessity results (Tests 1-8), [SPECULATION] for consciousness interpretation

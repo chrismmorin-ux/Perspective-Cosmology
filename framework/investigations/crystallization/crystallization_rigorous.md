@@ -1,9 +1,10 @@
 # Investigation: Rigorous Crystallization Theory
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S100; see CRYSTALLIZATION_CATALOG.md)
 **Created**: Session 100, 2026-01-27
 **Confidence**: [DERIVATION] for order parameter and symmetry breaking; [CONJECTURE] for time emergence
 **Purpose**: Answer "What IS crystallization?" with mathematical precision, not metaphor
+**Last Updated**: 2026-01-30
 
 ---
 

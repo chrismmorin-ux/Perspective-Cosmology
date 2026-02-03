@@ -6,6 +6,7 @@
 **Created**: 2026-01-26
 **Sessions**: 2026-01-26-27, 2026-01-26-36
 **Purpose**: Complete reference for alpha formula derivation from Layer 0 axioms
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -92,7 +93,7 @@ Sum: 1 + 2 + 4 + 8 = **15** = n_defect + n_crystal
 
 **Proposed interpretation**:
 - Defect = H (quaternions, dim 4) — largest ASSOCIATIVE division algebra
-- Crystal = R + C + O (dim 1 + 2 + 8 = 11) — remaining algebras
+- Crystal = Im(C) + Im(H) + Im(O) (dim 1 + 3 + 7 = 11) — imaginary dimensions [canonical per CR-010]
 
 ---
 
@@ -243,7 +244,7 @@ where each π_i ~ π_{i+1} (adjacent)
 - Normed division algebras: R(1), C(2), H(4), O(8)
 - Sum: 1 + 2 + 4 + 8 = 15 = 4 + 11
 - Defect = 4 = dim(H) = quaternions (largest associative)
-- Crystal = 11 = 1 + 2 + 8 = R + C + O (remaining)
+- Crystal = 11 = 1 + 3 + 7 = Im(C) + Im(H) + Im(O) [canonical per CR-010]
 
 **Status**: [PARTIALLY DERIVED] — see Section 5 for full analysis
 

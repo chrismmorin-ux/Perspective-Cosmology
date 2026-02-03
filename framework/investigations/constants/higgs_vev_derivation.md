@@ -5,6 +5,7 @@
 **Created**: 2026-01-27 (Session 81)
 **Updated**: 2026-01-28 (Session 111) — Exponent 8 = 2×n_d DERIVED from portal coupling
 **Verification**: `verification/sympy/higgs_vev_from_portal.py` — 7/7 PASS
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -65,7 +66,7 @@ where:
 - α = 1/137.036... (fine structure constant)
 - dim(O) = 8 (octonion dimension)
 - n_d = 4 = dim(H) (defect/spacetime dimensions)
-- n_c = 11 = 1 + 2 + 8 (crystal dimensions: R + C + O)
+- n_c = 11 = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (crystal dimensions: canonical Im-form per CR-010)
 - Im(O) = 7 (imaginary octonion directions)
 
 ### 2.2 Numerical Verification

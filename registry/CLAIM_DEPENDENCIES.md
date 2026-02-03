@@ -514,7 +514,7 @@ All references use the canonical `core/` numbering system:
 | THM_0496 | `equal_distribution_derivation.py` | PASS |
 | THM_0497 | `strong_cp_crystallization.py` | PASS (10/10) — proof incomplete |
 | THM_04A2 | `single_photon_tilt_chain.py` | PASS (21/21) |
-| THM_04A3 | `tilt_dynamics_beta_functions.py` | PASS (18/18) |
+| THM_04A3 | `tilt_dynamics_beta_functions.py` | PASS (17/18) |
 | THM_04A4 | `entropy_crystallization_collider.py` | PASS (12/12) |
 | n_d = 4 | `associativity_requirement.py` | PARTIAL |
 | n_c = 11 | `nc_11_rigorous_derivation.py` | PASS |
@@ -539,7 +539,7 @@ All references use the canonical `core/` numbering system:
 | Neutrino R₃₁ | `neutrino_mass_blind_predictions.py` | PASS (21/21) |
 | eps* convention | `eps_star_convention_resolution.py` | PASS (18/18) |
 | Democratic b | `democratic_quartic_derivation.py` | PASS (18/18) |
-| Beta coeffs | `tilt_dynamics_beta_functions.py` | PASS (18/18) |
+| Beta coeffs | `tilt_dynamics_beta_functions.py` | PASS (17/18) |
 | Casimir | `casimir_completeness_audit.py` | PASS (23/23) |
 
 ---

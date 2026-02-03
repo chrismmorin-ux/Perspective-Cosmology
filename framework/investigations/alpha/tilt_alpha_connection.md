@@ -4,6 +4,7 @@
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Connect the tilt matrix formalism of Layer 0 v2.2 to the fine structure constant
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -384,6 +385,6 @@ This partially resolves Gap 2: different physical quantities may require differe
 
 ---
 
-*Investigation status: ACTIVE*
+*Investigation status: ARCHIVE*
 *Confidence: [CONJECTURE]*
 *Key result: α = 1/(n_d² + n_c²) connected to tilt matrix dimension counting*

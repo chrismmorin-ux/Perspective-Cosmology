@@ -88,7 +88,7 @@ Primes that ARE division algebra dimensions (not sums of squares):
 | **2** | dim(C) | Complex numbers, U(1), EM | CONFIRMED |
 | **3** | Im(H) | Quaternion imaginaries, 3 generations, 3 colors | CONFIRMED |
 | **7** | Im(O) | Octonion imaginaries, internal structure | CONFIRMED |
-| **11** | n_c = 1+2+8 | Crystal dimensions (R+C+O) | CONFIRMED |
+| **11** | n_c = 1+3+7 | Crystal dimensions (Im(C)+Im(H)+Im(O)) | CONFIRMED |
 
 ---
 
@@ -400,7 +400,7 @@ Primes that ARE division algebra dimensions themselves:
 | **2** | dim(C) | Φ₆(1)+1 | Complex numbers, EM, binary structure |
 | **3** | Im(H) | Φ₆(2) | Generations, colors, quaternion imaginaries |
 | **7** | Im(O) | Φ₆(3) | Octonion imaginaries, internal structure |
-| **11** | n_c = 1+2+8 | — | Crystal dimensions, denominators |
+| **11** | n_c = 1+3+7 | — | Crystal dimensions, denominators |
 
 Note: 3, 7, 11 are ≡ 3 (mod 4), so they cannot be sums of two squares.
 
@@ -593,7 +593,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 **Form**: 11 is NOT a sum of two squares (11 ≡ 3 mod 4)
 
 **Appearances**:
-- n_c = 1 + 2 + 8 = 11 (crystal-side dimensions)
+- n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 (crystal-side dimensions)
 - Appears in 1/α = 4² + 11² = 137
 - **sin²θ₂₃ denominator: 6/11**
 - **m_c/m_u factor: 588 ≈ 11 × 53**

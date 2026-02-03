@@ -1,6 +1,6 @@
 # Investigation: Recursive Gap Tower and Consciousness
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 196, 2026-02-02
 **Last Updated**: Session 201, 2026-02-02
 **Confidence**: [THEOREM] for tower structure, [DERIVATION] for meta-level ranks, [CONJECTURE] for Gödel meta-tower, [SPECULATION] for consciousness connection

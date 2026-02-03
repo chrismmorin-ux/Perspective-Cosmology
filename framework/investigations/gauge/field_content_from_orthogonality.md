@@ -1,10 +1,11 @@
 # Field Content from Orthogonality Structure
 
-**Status**: ACTIVE-DEVELOPMENT (INVESTIGATING)
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [CONJECTURE] (upgraded from SPECULATION due to three-type decomposition finding)
 **Created**: 2026-01-26
 **Last Verified**: 2026-01-26
 **Verified**: YES → verification/sympy/orthogonality_field_emergence.py, verification/sympy/field_type_counting.py
+**Last Updated**: 2026-01-30
 
 ---
 

@@ -1,12 +1,13 @@
 # Intermediate-γ Regime: Quantum Gravity
 
-**Status**: ACTIVE-DEVELOPMENT
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [CONJECTURE]
 **Last Verified**: 2026-01-26
 **Verified**: Partial (forms derived, scale empirical)
 
 **REQUIRES**: core/05_overlap, core/03_propagation
 **PHYSICAL CLAIM**: γ ≈ 0.5 gives quantum gravity, interpolating QM and GR
+**Last Updated**: 2026-02-03
 
 ---
 

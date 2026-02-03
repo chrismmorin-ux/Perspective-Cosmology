@@ -121,7 +121,8 @@
       "Bash(timeout:*)",
       "Bash(ping:*)",
       "mcp__playwright__browser_evaluate",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Bash(start:*)"
     ]
   }
 }

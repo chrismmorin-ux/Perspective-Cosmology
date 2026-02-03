@@ -1,9 +1,10 @@
 # Investigation: Weinberg Angle from Prime Attractor Selection
 
-**Status**: ACTIVE — BREAKTHROUGH
+**Status**: ARCHIVE (stale since S81)
 **Created**: 2026-01-27 (Session 81)
 **Confidence**: [STRONG DERIVATION] — Numerical match excellent, scale meaningful
 **Significance**: VERY HIGH — Third constant following prime attractor pattern
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -225,6 +226,6 @@ Match: 1.4% error
 
 ---
 
-*Investigation status: ACTIVE — Major discovery*
+*Investigation status: ARCHIVE — Major discovery*
 *Confidence: STRONG DERIVATION*
 *Priority: HIGH — Confirms universal prime attractor mechanism*

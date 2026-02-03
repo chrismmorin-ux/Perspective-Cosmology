@@ -6,6 +6,7 @@
 **Created**: 2026-01-30
 **Source**: alpha_mechanism_exploration.md (formalization with proper labeling)
 **Adversarial review**: Session 141 — six findings documented; Option B downgraded to [CONJECTURE]
+**Last Updated**: 2026-02-03
 
 ---
 

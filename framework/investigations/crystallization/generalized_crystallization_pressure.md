@@ -1,6 +1,6 @@
 # Generalized Crystallization Pressure
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S169)
 **Created**: Session 169, 2026-02-01
 **Last Updated**: Session 169, 2026-02-01
 **Layer**: Mixed (Layer 1 mathematics + Layer 2 correspondence)

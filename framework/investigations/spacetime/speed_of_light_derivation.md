@@ -1,6 +1,6 @@
 # Speed of Light: Derivation from Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 183, 2026-02-01
 **Last Updated**: Session 183, 2026-02-01
 

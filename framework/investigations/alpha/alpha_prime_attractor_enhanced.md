@@ -1,9 +1,10 @@
 # Investigation: Enhanced Alpha from Prime Attractor + Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S77; see ALPHA_DERIVATION_MASTER.md)
 **Confidence**: [DERIVATION]
 **Created**: 2026-01-27 (Session 77)
 **Significance**: MAJOR — 0.27 ppm accuracy from division algebras alone
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -44,7 +45,7 @@ We derive the fine structure constant with sub-ppm accuracy using ONLY division 
 | Dimension | Value | Source |
 |-----------|-------|--------|
 | n_d | 4 | dim(H) — largest associative division algebra |
-| n_c | 11 | dim(R) + dim(C) + dim(O) = 1 + 2 + 8 |
+| n_c | 11 | Im(C) + Im(H) + Im(O) = 1 + 3 + 7 |
 
 These are the ONLY inputs. No free parameters.
 

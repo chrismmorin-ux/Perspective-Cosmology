@@ -1,6 +1,6 @@
 # Dimensionless Constant Mechanism Taxonomy
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S164)
 **Created**: Session 164, 2026-01-30
 **Last Updated**: Session 164, 2026-01-30
 **Confidence**: [DERIVATION] for classification scheme; individual constants retain their original confidence tags

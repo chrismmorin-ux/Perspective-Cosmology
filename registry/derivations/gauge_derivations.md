@@ -514,3 +514,87 @@ Assumption count: 1 [CONJECTURE] (pNGB mechanism), 1 [I-MATH], 3 [D]
 | **Photon massless** | Q_EM = T₃ + Y preserved by VEV |
 | **pNGB mechanism** | SO(11) global → SM gauge local; Higgs mass from CW loops |
 | **Verification** | `ewsb_higgs_from_tilt_interface.py` [32/32 PASS] |
+
+---
+
+### 1.18 Strong CP Problem — theta_QCD = 0 [CONJECTURE] (Session 105, downgraded S189)
+
+**Confidence**: [CONJECTURE] — **DOWNGRADED** from DERIVATION (CR-029 + S189 audit)
+
+| Property | Value |
+|----------|-------|
+| **Prediction** | theta_QCD = 0 (exactly) |
+| **Measured bound** | \|theta\| < 10^{-10} |
+| **Mechanism** | ~~G2 instanton trivialization~~ **INVALID** — see below |
+
+**Original Derivation Chain** (with current status):
+- [AXIOM] T1: Time exists → [D] F = C (THM_0485) → [I-MATH] SU(3) = Stab_{G₂}(C) — SOUND
+- ~~π₃(G₂) = 0 trivializes instantons~~ — **FALSE** (π₃(G₂) = Z for any compact simple simply-connected Lie group)
+- [CONJECTURE] No direction in color space → no CP phase — **LOGICAL GAP** (theta is topological, not directional)
+
+**What Remains Valid**: O vs H contrast (non-associative vs associative) is genuine. CKM phase exists because H supports orientation; theta might vanish because O doesn't. Prediction theta = 0 is specific and falsifiable.
+
+**Falsification**: d_n > 10^{-28} e*cm would falsify. Axion discovery would suggest different solution.
+
+---
+
+### 1.21 SO(11) Crystallization Chain and Energy Ordering (Session 132)
+
+**Confidence**: DERIVATION — full chain forced including c₃ > 0 (block stability)
+
+**The Chain**:
+```
+SO(11) → SO(4)×SO(7) → SO(4)×G₂ → SO(4)×SU(3)
+  28        7             6          (41 total Goldstone modes)
+```
+
+**Energy Landscape**:
+- Second-order curvature F''(0) is IDENTICAL for all SO(p)×SO(q) splittings
+- Fourth-order: d⁴Tr(ε⁴)/ds⁴ differs by -11/7 = -n_c/Im_O for (4,7) vs (3,8)
+- c₃ > 0 DERIVED from block stability (if c₃ < 0, spacetime fragments)
+- c₃ > 0 energetically selects (4,7) over (3,8)
+
+**SSB Critical Ratio**: mu²_crit = 2·Im_O²/n_c = 98/11 (pure framework quantity)
+
+**Goldstone-Denominator Identity**: 194 - 153 = 41 = total Goldstone modes (structural, not coincidence)
+
+**Verification** (9 scripts, all PASS):
+- `crystallization_ordering_SO11.py` — 15/15 PASS
+- `stage3_prime_selection_rule.py` — 9/9 PASS
+- `quartic_energy_curvature.py` — 12/12 PASS
+- `denominator_polynomial_unification.py` — 21/21 PASS
+- `intra_stage_ordering.py` — 12/12 PASS
+- `c3_sign_from_stability.py` — 12/12 PASS
+- `goldstone_denominator_identity.py` — 16/16 PASS
+- `denominator_spacing_and_barriers.py` — 15/15 PASS
+- `ssb_critical_ratio.py` — 11/11 PASS
+
+---
+
+### 2.1 Standard Model Gauge Group (Qualitative, UPDATED S174)
+
+| Property | Status |
+|----------|--------|
+| **SU(3)_c × SU(2)_L × U(1)_Y** | **DERIVED** from SO(11) breaking + F=C (S174) |
+| **SU(3)_c** | Stab_{G₂}(C): G₂→SU(3) via F=C in internal sector (Stage 3) |
+| **SU(2)_L** | SU(2)₋ from SO(4)→U(2) via F=C in defect sector (Stage 4) |
+| **U(1)_Y** | U(1)_J from Kahler form J in SO(4) |
+| **dim = 12 = n_c + 1** | 8 + 3 + 1 from two F=C applications |
+| **Verification** | `sm_gauge_group_from_fc.py` [25/25 PASS] |
+
+### 2.2 Color Confinement
+
+| Property | Status |
+|----------|--------|
+| **Mechanism** | ‖b_r + b_g + b_b‖ = 0 enforces colorlessness |
+| **Physical meaning** | Color dimensions not separately accessible |
+
+### 2.3 Electroweak Symmetry Breaking (Qualitative, UPDATED S175)
+
+| Property | Status |
+|----------|--------|
+| **Mechanism** | Higgs = pNGB from ε_di off-diagonal tilt (4×7=28 modes) |
+| **Higgs quantum numbers** | (2,1)_{Y=1/2} — unique SM singlet in ε_di decomposition |
+| **Verification** | `ewsb_higgs_from_tilt_interface.py` [32/32 PASS] |
+
+See sections 1.33 (SM Gauge Group) and EWSB above for full quantitative treatment.

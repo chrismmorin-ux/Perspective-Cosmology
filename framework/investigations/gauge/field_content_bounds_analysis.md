@@ -1,9 +1,10 @@
 # Investigation: Field Content Bounds vs BSM Models
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale, pre-S150)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-31
 **Verified**: YES → verification/sympy/bsm_field_bounds_test.py
+**Last Updated**: 2026-01-30
 
 ---
 
@@ -250,4 +251,4 @@ If correct, this **rules out E6** (and similar large GUTs) as fundamental theori
 
 ---
 
-*Investigation status: ACTIVE — E6 prediction identified as genuine test of framework*
+*Investigation status: ARCHIVE — E6 prediction identified as genuine test of framework*

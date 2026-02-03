@@ -3,6 +3,7 @@
 **Status**: DERIVATION (partial)
 **Created**: Session 135 (Phase 4.3)
 **Confidence**: [DERIVATION] for EE peaks, BB amplitude; [CONJECTURE] for E/T ratio, tau
+**Last Updated**: 2026-02-03
 
 ---
 

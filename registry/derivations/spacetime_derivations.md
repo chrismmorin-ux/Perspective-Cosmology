@@ -247,3 +247,42 @@ The investigation files used SO(11)/SO(10) = S¹⁰ giving 10 Goldstone modes (d
 >
 > **Conclusion**: Penrose-Diosi comparison does NOT provide a practical novelty claim.
 > Both models predict gravitational decoherence below current detectability.
+
+---
+
+### 1.15 Crystallization Theory — DERIVED (Sessions 100-101)
+
+**Confidence**: DERIVATION — Mathematical structure established
+
+#### A. Order Parameter Definition
+
+| Property | Value |
+|----------|-------|
+| **Definition** | ε = ‖εᵢⱼ‖ (Frobenius norm of tilt matrix) |
+| **Ground state** | ε* = α² = 5.33 × 10⁻⁵ |
+
+#### B. ε* = α² DERIVED
+
+| Property | Value |
+|----------|-------|
+| **Mechanism** | Portal coupling: visible↔hidden requires two gauge vertices |
+| **Derivation** | √α × √α = α (amplitude), |α|² = α² (probability = tilt) |
+
+#### C. Symmetry Breaking and Goldstone Modes
+
+| Property | Value |
+|----------|-------|
+| **Breaking** | SO(n_c) → SO(n_c - 1) = SO(11) → SO(10) |
+| **Goldstone modes** | n_c - 1 = 10 |
+| **Split** | 1 (time) + 3 (space = Im_H) + 6 (internal = C × Im_H) |
+
+#### D. Crystallization Lagrangian
+
+| Property | Value |
+|----------|-------|
+| **Formula** | L = (M_Pl²/2) × [-g^μν(∂_με)(∂_νε) + a|ε|² - b|ε|⁴] |
+| **Constraint** | a/b = 2α⁴ (from ε* = α²) |
+
+**Verification**: `crystallization_order_parameter.py`, `spacetime_emergence_from_goldstone.py`, `crystallization_lagrangian.py`
+
+**See**: `framework/investigations/crystallization/crystallization_rigorous.md`

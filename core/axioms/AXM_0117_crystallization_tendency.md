@@ -17,7 +17,7 @@
 ## Provides
 
 - Tilt is dynamically unstable — tends to reduce over proper time
-- Crystallization (tilt reduction) is the universal process underlying gravity
+- Crystallization (tilt reduction) is the universal dynamical tendency of the tilt field
 
 ---
 
@@ -60,7 +60,7 @@ The gradient flow ∂ε/∂τ = -∇_ε F drives:
 - |ε| < ε* → ε* (tilt growth = nucleation)
 ```
 
-This resolves the nucleation paradox: ε = 0 is unstable, so nucleation (the Big Bang) is dynamically inevitable.
+This resolves the nucleation paradox: ε = 0 is unstable, so nucleation (emergence of nonzero tilt) is dynamically inevitable.
 
 ---
 
@@ -92,7 +92,7 @@ These aren't contradictory:
 - Thermodynamic entropy: statistical disorder in matter/energy
 - Tilt: structural disorder in dimensional geometry
 
-Gravity (tilt reduction in the |ε| > ε* regime) creates local order (stars, planets) while increasing global entropy.
+Tilt reduction in the |ε| > ε* regime creates local order while global entropy increases. [Layer 2 identification: tilt reduction ↔ gravitational attraction; see Physical Consequences section below.]
 
 ---
 
@@ -121,7 +121,7 @@ The axiom contains two levels of assumption:
 |-----------|---------------|---------------|
 | Gradient flow structure | [A-AXIOM] | Autonomous dynamics for tilt field |
 | Mexican hat form (quartic) | **[A-STRUCTURAL]** | Simplest potential with unstable maximum + stable minimum. NOT derived from more primitive axioms. |
-| Coefficients a, b | **[CONJECTURE]** | Best candidate: b = alpha M_Pl^4, a = 2 alpha^3 M_Pl^4 giving eps* = alpha |
+| Coefficients a, b | **[CONJECTURE]** | Values undetermined at Layer 0. See `framework/investigations/gauge/tilt_energy_functional.md` for candidate values. |
 | eps = 0 is unstable | [D] from quartic form | Follows from a > 0 in Mexican hat |
 
 **Honest assessment**: The gradient flow is natural. The quartic form is the simplest Landau-type potential with the required symmetry-breaking structure, but other forms (sextic, logarithmic, Coleman-Weinberg) could also work. The framework assumes quartic as [A-STRUCTURAL].
@@ -132,7 +132,7 @@ The axiom contains two levels of assumption:
 
 ## Open Questions
 
-1. **What determines a and b?** The Mexican hat coefficients are constrained by inflation self-consistency (b < V_0/(2 alpha^4), see DEF_02C4) but their exact values are [CONJECTURE]: best candidate is b = alpha M_Pl^4, a = 2 alpha^3 M_Pl^4 giving eps* = alpha.
+1. **What determines a and b?** The Mexican hat coefficients are constrained by self-consistency conditions (see DEF_02C4) but their exact values are [CONJECTURE]. Candidate values discussed in `framework/investigations/gauge/tilt_energy_functional.md`.
 
 2. **Are there metastable states?** Can tilt get "stuck" at local minima before reaching eps*? The Mexican hat has a single minimum ring, but in multi-component tilt space there may be saddle points.
 

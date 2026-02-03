@@ -1,9 +1,10 @@
 # Points from Tilt Topology: Unified Resolution of Gaps 1 and 2
 
-**Status**: ACTIVE — Foundational investigation
+**Status**: ARCHIVE — Foundational investigation (reclassified Run 4: no session reference S190-S210)
 **Created**: Session 120 (2026-01-28)
 **Confidence**: [DERIVATION] for structure, [CONJECTURE] for physical identification
 **Purpose**: Resolve how discrete points emerge from continuous space (Gap 1) and how global/local tilt relate (Gap 2)
+**Last Updated**: 2026-02-03
 
 ---
 

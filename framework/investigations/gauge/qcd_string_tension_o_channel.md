@@ -1,6 +1,6 @@
 # QCD String Tension from O-Channel Casimir
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S152)
 **Created**: Session 152, 2026-01-30
 **Last Updated**: Session 152, 2026-01-30
 **Layer**: Mixed (Layer 1 mode counting + Layer 2 channel identification + Layer 3 predictions)
@@ -229,6 +229,34 @@ m_constituent / sqrt(sigma) = 17/(O * Im_H) = 17/24  [CONJECTURE]
 
 ---
 
+### Finding 7: Lattice Validation Status (S220 Literature Review)
+
+**Confidence**: [CONJECTURE] — HRS unchanged at 5. DATA INSUFFICIENT to promote or falsify.
+
+**Two modern lattice QCD determinations found (post-2022):**
+
+| Source | Year | Nf | √σ (MeV) | Error | Continuum? |
+|--------|------|----|-----------|-------|------------|
+| Knechtli et al. (PLB, arXiv:2403.00754) | 2024 | 2+1 | 445 | ±3 stat, ±6 sys | NO (single a) |
+| TUMQCD (PRD 107, arXiv:2206.03156) | 2023 | 2+1+1 | ~467 | Not published | YES |
+
+**Framework comparison (√σ_framework = 441.5 MeV):**
+- vs. Knechtli: -0.8%, within 1σ → CONSISTENT
+- vs. TUMQCD: -5.5% → TENSION
+- vs. conventional (~440 MeV): +0.35% → CONSISTENT
+
+**Tertiary (√σ/Λ_QCD = 4/3 = 1.333):**
+- Using PDG Λ_MS-bar^(3) = 332 ± 17 MeV and Knechtli √σ = 445: ratio = 1.34 ± 0.07 → 4/3 within error
+
+**Why the two determinations disagree (~5%):**
+Different Nf (charm quark effects), different lattice actions (Wilson vs HISQ), different methods (string-breaking model vs static energy), different scale-setting inputs.
+
+**What would resolve this**: Continuum-extrapolated Nf=2+1 result with explicit <2% error from 2+ groups. Or a direct lattice calculation of the dimensionless ratio m_N/√σ.
+
+**Session**: S220 (2026-02-03)
+
+---
+
 ## Dependencies
 
 - **Uses**: AXM_0117 (crystallization tendency), Division algebra structure, alpha_s = 25/212 (framework prediction), Casimir = crystallization pressure (S150)
@@ -241,3 +269,4 @@ m_constituent / sqrt(sigma) = 17/(O * Im_H) = 17/24  [CONJECTURE]
 | 150 | Initial O-channel Casimir conjecture | Finding 5 in casimir_crystallization_pressure.md |
 | 152 | Full QCD analysis: beta coefficients, string tension, Luscher term | 5 findings (18/18 PASS), 4 open questions |
 | 152 | Derivation attempt: constituent quark decomposition of 8/17 | Finding 6 added. 24=O*Im_H double appearance. Cannot derive 17/24 from QCD dynamics (12/12 PASS). |
+| 220 | Lattice validation literature search | 2 modern determinations found: Knechtli 445(7) consistent, TUMQCD 467 in tension. Data insufficient — 5% spread between groups. |

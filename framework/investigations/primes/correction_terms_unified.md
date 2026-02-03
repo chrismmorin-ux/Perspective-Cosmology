@@ -1,8 +1,9 @@
 # Investigation: Unified Structure of Correction Terms
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S89)
 **Created**: 2026-01-27 (Session 89)
 **Confidence**: [DERIVATION] — Structure derived, some gaps remain
+**Last Updated**: 2026-02-03
 
 ---
 

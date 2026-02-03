@@ -1,6 +1,6 @@
 # Critical Analysis: Intermediate-γ Predictions
 
-**Status**: ACTIVE-DEVELOPMENT (UPDATED)
+**Status**: ARCHIVE (stale, pre-S150)
 **Confidence**: [CONJECTURE] (upgraded from SPECULATION)
 **Created**: 2026-01-25
 **Last Verified**: 2026-01-26
@@ -9,6 +9,7 @@
 **PURPOSE**: Evaluate the intermediate-γ regime as "best hope" for genuine predictions
 
 **UPDATE 2026-01-26-10**: Issues 3, 4, 5 now RESOLVED. See session_log.md.
+**Last Updated**: 2026-01-30
 
 ---
 

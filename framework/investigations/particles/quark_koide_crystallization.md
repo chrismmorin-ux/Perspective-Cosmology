@@ -1,9 +1,10 @@
 # Investigation: Quark Koide Crystallization Mechanism
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S92)
 **Confidence**: [DERIVATION] — Structural pattern identified, mechanism proposed
 **Created**: Session 92 (Phase 3)
 **Dependencies**: koide_formula_connection.md, quark_koide_empirical.py, quark_koide_theta_primes.py
+**Last Updated**: 2026-02-03
 
 ---
 
@@ -444,7 +445,7 @@ Script: `verification/sympy/T3_prime_selection_derivation.py` — ALL PASS
 
 ---
 
-*Investigation status: ACTIVE — Major unification found (S93)*
+*Investigation status: ARCHIVE — Major unification found (S93)*
 *Confidence: [DERIVATION] — Three-prime structure verified, mechanism proposed*
 *Priority: HIGH — Unifies gauge couplings with quark mass structure*
 

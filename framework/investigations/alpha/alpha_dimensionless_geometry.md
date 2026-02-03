@@ -1,6 +1,6 @@
 # Alpha as Dimensionless Crystallization Geometry
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (stale since S146)
 **Created**: Session 146, 2026-01-30
 **Last Updated**: Session 146, 2026-01-30
 **Confidence**: [DERIVATION] for geometric properties; [CONJECTURE] for identification with gauge coupling

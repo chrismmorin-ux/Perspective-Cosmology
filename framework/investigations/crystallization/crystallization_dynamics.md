@@ -1,8 +1,9 @@
 # Crystallization Dynamics: From Label to Physics
 
 **Created**: Session 123
-**Status**: ACTIVE DEVELOPMENT
+**Status**: ARCHIVE (stale since S123; see CRYSTALLIZATION_CATALOG.md)
 **Purpose**: Transform "crystallization" from a descriptive label into genuine field theory
+**Last Updated**: 2026-02-03
 
 ---
 

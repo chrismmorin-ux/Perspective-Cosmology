@@ -34,6 +34,16 @@ If `.quality/report.md` exists and is less than 5 sessions old:
 - Note the top-ranked investigation from `registry/INVESTIGATION_PRIORITIES.md` matching the focus
 - Include in briefing (one line each, don't overload)
 
+### Step 3c: Check Exploration Queue
+```
+registry/EXPLORATION_QUEUE.md  → OPEN/BLOCKED items matching this session's focus
+```
+Filter by topic column. Present top OPEN items in briefing:
+```
+Exploration queue: [N] OPEN items in scope, [M] HIGH priority. Top: EQ-001 (description), EQ-002 (description).
+```
+If any BLOCKED items have their blockers resolved, note them for status update.
+
 ### Step 4: Brief the User
 Format:
 ```
@@ -41,11 +51,12 @@ Session [label]. Focus: [declared scope].
 Active parallel sessions: [list or none].
 Topic state: [summary from topic file, or "new topic"].
 Open questions: [from previous session file].
+Exploration queue: [N] OPEN items in scope, [M] HIGH priority. Top: EQ-NNN (...), EQ-NNN (...).
 Quality issues in scope: [from .quality/report.md, or "none" / "no recent scan"].
 Shall we proceed?
 ```
 
-**Total startup reads**: 2-5 files (~30KB). Do NOT read STATUS_DASHBOARD.md, RECOMMENDATION_ENGINE.md, or session_log.md at startup (these are frozen/historical).
+**Total startup reads**: 3-6 files (~35KB). Do NOT read STATUS_DASHBOARD.md, RECOMMENDATION_ENGINE.md, or session_log.md at startup (these are frozen/historical).
 
 ---
 
@@ -156,6 +167,19 @@ Review every entry in `registry/FORMALIZATION_QUEUE.md`:
 - **PENDING items**: Formalize now or explicitly DEFER with a target session.
 - **Never leave PENDING items from this session untriaged.**
 - Move completed/discarded items to the "Completed / Discarded" section.
+
+### Step 4b: Exploration Queue Triage
+Update `registry/EXPLORATION_QUEUE.md`:
+1. For each **new open question** from this session → add EQ entry (or update existing)
+2. For each **question resolved** this session → move to Recently Resolved with resolution note
+3. For **BLOCKED items** whose blockers resolved → move back to OPEN
+4. Trim: Recently Resolved to 30 entries, Archive to 20 entries
+5. Update header counts (Active, Resolved since last engine run)
+
+Session file "Open Questions" sections reference EQ IDs:
+```
+1. **Top Yukawa** (EQ-006): Can y_t ~ 1 be derived...
+```
 
 ### Step 5: File Placement Check
 For every NEW file created this session:
