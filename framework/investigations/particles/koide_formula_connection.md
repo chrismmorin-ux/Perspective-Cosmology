@@ -487,6 +487,63 @@ The framework PREDICTS that other constants should show similar prime structure.
 
 ---
 
+## Session 188 Audit: Assumption Classification
+
+### Lepton Koide — Complete Chain (10 Steps)
+
+| # | Step | Classification | Status | Notes |
+|---|------|---------------|--------|-------|
+| 1 | Hurwitz → R, C, H, O | [I-MATH] | SOUND | Standard theorem (1898) |
+| 2 | Koide parameterization √m_g = √M(1+A cos(θ+2πg/3)) | [I-MATH] | SOUND | Standard reparameterization |
+| 3 | Q = (1+A²/2)/3, set Q=2/3 → A²=2=dim(C) | [D] | **DERIVED** | Algebraically forced — strongest step |
+| 4 | Z₃ symmetry from Im(H)={i,j,k} | [A-STRUCTURAL] | Reasonable | 3 generations ↔ Im(H) |
+| 5 | Prime attractor selection (AXM_0118) | [A-AXIOM] | Layer 1 axiom | Crystallization toward primes |
+| 6 | 73 = 8²+3² = dim(O)²+Im(H)² (unique decomposition) | [D] | SOUND | Fermat sum-of-squares; uniqueness verified |
+| 7 | 99 = Im(H)²×n_c = 9×11 | [D] | SOUND | Arithmetic identity |
+| 8 | θ = π×73/99 (local minimum of crystallization energy) | **[CONJECTURE]** | 0.006% | Local minimum shown; global minimum NOT proven |
+| 9 | M = v/(n_d×Im_O)² = v/784 | **[CONJECTURE]** | 0.069% | No dynamics derivation for scale formula |
+| 10 | v = 246.22 GeV | [A-IMPORT] or [D] | SOUND | Imported or derived via portal coupling |
+
+### Assumption Count
+
+| Type | Count | Items |
+|------|-------|-------|
+| [D] (derived) | 3 | Steps 3, 6, 7 |
+| [I-MATH] | 2 | Steps 1, 2 |
+| [A-STRUCTURAL] | 1 | Step 4 (generations = Im(H)) |
+| [A-AXIOM] | 1 | Step 5 (prime attractor, AXM_0118) |
+| [A-IMPORT] | 1 | Step 10 (v, if imported) |
+| [CONJECTURE] | 2 | Steps 8 (θ value), 9 (M scale) |
+
+### Quark Koide Extensions
+
+All 8 quark Koide parameters (4 A², 4 θ) are classified as **[CONJECTURE]**:
+- Discovered with target values known (Sessions 91-93)
+- Each formula uses framework numbers but choice of which numbers is post-hoc
+- The T3→prime selection mechanism (S93) is structurally motivated but not derived
+- The quark Koide primes (37, 53, 97) form an algebraic family — gap structure 16, 44 is suggestive
+
+### Honest Assessment
+
+**What IS derived**: Q=2/3 is genuinely algebraically forced — this is the framework's best Koide result. A=√2 follows automatically. The prime 73 is provably the unique prime encoding both dim(O) and Im(H). The lepton Koide has structural depth beyond numerology.
+
+**What is NOT derived**: (1) θ = π×73/99 relies on crystallization energy minimization (AXM_0118), which is a Layer 1 axiom — it's assumed, not derived from Layer 0. The local minimum is shown but global minimum is not proven. (2) M = v/784 has no dynamics derivation. (3) All quark extensions are post-hoc pattern matching.
+
+**Derivation-vs-discovery assessment**: LOW RISK for Q=2/3 (algebraically forced). MEDIUM RISK for θ (structural mechanism + prime uniqueness, but AXM_0118 assumed). HIGH RISK for quark extensions (all discovered with targets known).
+
+**Grade**: B for lepton Koide, C- for quark extensions.
+
+### Promotion History
+
+- Session 58: Investigation created
+- Session 73: Q=2/3 DERIVED from A²=dim(C)
+- Session 75: θ=π×73/99 selection mechanism (prime attractor)
+- Session 77: Alpha-Koide parallel discovered
+- Sessions 91-93: Quark Koide extensions
+- Session 188: Added assumption classification, honest assessment. Verification: `top_quark_koide_chain_audit.py` (36/36 PASS).
+
+---
+
 *Investigation status: ACTIVE — Strong derivation pathway identified*
 *Confidence: STRONG DERIVATION (Q, θ) / MATCHED (M)*
 *Priority: HIGH — Selection mechanism for θ confirmed; parallel to alpha found!*

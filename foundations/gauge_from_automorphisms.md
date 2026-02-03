@@ -169,6 +169,54 @@ This appears as the number of generations:
 
 ---
 
+## Part IV-B: Gap Analysis — Automorphisms to Gauge Groups
+
+> **This section documents the most critical unresolved gap in the derivation chain.** [CONJECTURE]
+
+### The Categorical Gap (G-006)
+
+The derivation requires three jumps from finite/algebraic automorphism groups to continuous Lie groups used in the Standard Model. Each jump has a distinct logical gap:
+
+**Gap 1: Aut(C) = Z₂ → U(1)**
+
+Z₂ = {identity, conjugation} is a finite group with two elements. U(1) is a continuous circle group with uncountably many elements. The document claims "continuous symmetries of C preserving |z|²" give U(1), but this is the **isometry group** of C, not the automorphism group. The jump from Aut(C) to U(1) replaces algebraic automorphisms with norm-preserving maps — a different mathematical object.
+
+**Confidence**: [CONJECTURE] — The connection is suggestive but not rigorous.
+
+**Gap 2: Aut(H) = SO(3) → SU(2)**
+
+SO(3) is indeed the automorphism group of H. Physics uses SU(2), the double cover of SO(3). The standard argument is that spinor representations require the cover, but this introduces a physical input [A-IMPORT: spinor representations exist] not derived from division algebras alone.
+
+**Confidence**: [DERIVATION] — The SO(3) part is proven; the cover step is physically motivated.
+
+**Gap 3: Aut(O) = G₂ → SU(3)**
+
+G₂ (dim 14) is proven as Aut(O). SU(3) (dim 8) is a maximal subgroup of G₂. The breaking G₂ → SU(3) requires choosing a preferred quaternionic subalgebra H ⊂ O, which is physically interpreted as selecting spacetime structure. This step is the best-motivated of the three but still requires the [A-PHYSICAL] interpretation that spacetime selection breaks G₂.
+
+**Confidence**: [DERIVATION] — Both G₂ and SU(3) ⊂ G₂ are proven; the breaking mechanism is [A-PHYSICAL].
+
+### Resolution Status (Session 182)
+
+**The automorphism-based path (Aut(A) → gauge group) is SUPERSEDED by the stabilizer-based path (THM_0487 Stages 2-4).** The new path does not require promoting discrete automorphism groups to continuous Lie groups:
+
+| Old Path (Automorphism) | Gap | New Path (Stabilizer, S174) | Gap? |
+|------------------------|-----|----------------------------|------|
+| Aut(C) = Z₂ → U(1) | G-006: finite → continuous | SO(4) → Stab_{SO(4)}(J) = U(2) = SU(2) × U(1) | **CLOSED** [I-MATH] |
+| Aut(H) = SO(3) → SU(2) | Need double cover [A-IMPORT] | SO(4) = SU(2)₊ × SU(2)₋; J preserves SU(2)₋ | **CLOSED** [I-MATH] |
+| Aut(O) = G₂ → SU(3) | Need spacetime selection [A-PHYSICAL] | SU(3) = Stab_{G₂}(C) via THM_0485 (F = C) | **CLOSED** [I-MATH + THM_0485] |
+
+**Key insight**: The Kähler form J (the complex structure on R⁴ = C²) is an element of so(4). Its stabilizer under the adjoint action is U(2) = SU(2)₋ × U(1)_J. This gives continuous U(1) from **isometry** (norm preservation), not from algebraic automorphisms. The mathematical content is standard Kähler geometry [I-MATH].
+
+**G-006 status**: **RESOLVED** (Session 182) — the categorical gap from Aut(C) = Z₂ to U(1) existed in the *automorphism-based* derivation path. The *stabilizer-based* path (THM_0487 Stage 4, verified 25/25 PASS in `sm_gauge_group_from_fc.py`) produces U(1) without this gap. The automorphism path is retained here as historical context.
+
+**What remains**: The automorphism table (Aut(C) = Z₂, Aut(H) = SO(3), Aut(O) = G₂) is a suggestive structural parallel but is NOT the derivation path. The actual derivation uses the SO(11) breaking chain (THM_0487) where gauge groups emerge as stabilizers under crystallization, not as automorphism groups.
+
+### Literature Context
+
+The connection between division algebras and SM gauge groups has been explored by Furey (2016), Dixon (1994), and Baez (2002). None have fully closed the automorphism gap. The framework's stabilizer approach (crystallization breaking chain) provides an alternative route that avoids this gap entirely.
+
+---
+
 ## Part V: The Derivation Chain
 
 ```

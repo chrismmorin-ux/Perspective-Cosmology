@@ -1,6 +1,6 @@
 # Investigation: Imperfect Dimensions, Recrystallization, and Black Hole Physics
 
-**Status**: ACTIVE (Significant Conceptual Development)
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S56, 100+ sessions stale)
 **Created**: 2026-01-27
 **Origin**: Session exploring α running failure led to fundamental ontological reframe
 **Significance**: HIGH — Provides unified picture connecting perspective framework to black hole thermodynamics, holographic principle, and cosmology

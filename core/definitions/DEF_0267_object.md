@@ -23,7 +23,7 @@
 An **object** O is an equivalence class of trajectory-slices:
 
 ```
-O = { A_π(γ ∩ U_π) | π ∈ T, Coh(γ, πᵢ, πᵢ₊₁) ≥ ξ ∀ i }
+O = { A_π(τ_traj ∩ U_π) | π ∈ T, Coh(τ_traj, πᵢ, πᵢ₊₁) ≥ ξ ∀ i }
 ```
 
 Objects don't move through time. Perspectives move through Π; coherent trajectories appear as persistent objects.

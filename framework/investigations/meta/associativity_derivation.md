@@ -1,6 +1,6 @@
 # Associativity Derivation for n_defect = 4
 
-**Status**: ACTIVE (partial derivation achieved)
+**Status**: RESOLVED (Session 181 -- G-004 closed via AXM_0119)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-27
 
@@ -289,4 +289,39 @@ Verifies:
 
 ---
 
-*This investigation documents progress toward deriving n_defect = 4 from Layer 0 axioms.*
+---
+
+## 10. Resolution (Session 181)
+
+**G-004 RESOLVED** via AXM_0119 (Transition Linearity).
+
+### Summary of Session 181 Analysis
+
+Three proof strategies were attempted to derive associativity from the existing 19 axioms:
+
+| Strategy | Verdict |
+|----------|---------|
+| A: Group structure from AXM_0115 | FAILS -- AXM_0115 gives a loop, not a group |
+| B: Linear map composition | POTENTIALLY succeeds but needs linearity stated explicitly |
+| C: Algebraic properties alone | FAILS -- octonions are a counterexample |
+
+Mathematical survey of classification theorems:
+
+| Theorem | Requires | Gives |
+|---------|----------|-------|
+| Frobenius (1878) | Associativity | R, C, H |
+| Hurwitz (1898) | Multiplicative norm | R, C, H, O |
+| Zorn (1930) | Alternativity | R, C, H, O |
+| Bott-Milnor-Kervaire (1958) | Nothing extra | dim in {1,2,4,8} only |
+
+**Critical finding**: Without associativity (or alternativity or a norm), infinitely many non-isomorphic division algebras exist in each allowed dimension. BMK alone is insufficient.
+
+**Resolution**: AXM_0119 states transitions are R-linear maps on V_Crystal. Since V_Crystal is already a vector space (AXM_0109), this is a natural formalization of implicit framework structure. Associativity follows from composition of linear maps [I-MATH].
+
+**Axiom count**: 19 -> 20 (but hidden [A-STRUCTURAL] assumption eliminated, so net honesty improves).
+
+### Verification
+
+`verification/sympy/associativity_vs_alternativity.py` -- 11/11 PASS
+
+*This investigation documents the derivation of n_defect = 4 from Layer 0+1 axioms including AXM_0119.*

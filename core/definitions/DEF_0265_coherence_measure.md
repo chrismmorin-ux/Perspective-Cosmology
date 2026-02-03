@@ -21,10 +21,10 @@
 
 ## Statement
 
-For trajectory γ and adjacent perspectives π₁ ~ π₂:
+For trajectory τ_traj and adjacent perspectives π₁ ~ π₂:
 
 ```
-Coh(γ, π₁, π₂) = |A_{π₁}(γ) ∩ A_{π₂}(γ)| / max(|A_{π₁}(γ)|, |A_{π₂}(γ)|)
+Coh(τ_traj, π₁, π₂) = |A_{π₁}(τ_traj) ∩ A_{π₂}(τ_traj)| / max(|A_{π₁}(τ_traj)|, |A_{π₂}(τ_traj)|)
 ```
 
 Measures how much of the trajectory's projection overlaps between perspectives.

@@ -49,16 +49,10 @@ Without tilt (ε = 0), a perspective would see V_Crystal's perfect symmetry — 
 
 ---
 
-## Physical Significance
-
-- **Imperfect dimensions**: Our observable dimensions have ε ≠ 0
-- **Recrystallization**: Processes that reduce ε toward orthogonality
-- **Gravity**: The universal recrystallization process
-
----
-
 ## Cross-References
 
-- [DEF_02A3: Tilt Matrix] (to be created)
+> **Layer 0 purity note (Session 140 audit)**: Physics interpretations (gravity, recrystallization) moved to Layer 2. See `framework/layer_2_correspondence.md` and `framework/investigations/gauge/forces_as_localized_recrystallization.md`.
+
+- [DEF_02A3: Tilt Matrix] — formal definition of ε_ij
 - [DEF_0285: Crystalline] — zero tilt state
 - [DEF_0286: Defect] — non-zero tilt regions

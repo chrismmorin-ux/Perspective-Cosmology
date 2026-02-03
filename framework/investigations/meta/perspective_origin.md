@@ -269,16 +269,82 @@ Interesting but probably not the foundation we want. Too philosophical, not enou
 
 ---
 
-## 9. Summary
+## 9. Session 188 Formalization Update
 
-**Best current hypothesis**: Perspective is necessary because self-representing structures must be incomplete (Cantor/Gödel/Lawvere). The incompleteness gap defines perspective, and its structure may determine dimensions.
+The self-reference path (Candidate 3) was partially formalized in Session 188:
 
-**Status**: [CONJECTURE] — mathematically motivated but not formalized.
+### What's Now Proven (CANONICAL)
 
-**Next step**: Formalize self-representing structure and characterize the gap.
+| Result | Status | Reference |
+|--------|--------|-----------|
+| Self-Inaccessibility: ker(pi) != {0}, blind spots invisible | CANONICAL | THM_0410 |
+| Self-Model Incompleteness: M_pi loses kernel information | CANONICAL | THM_04A7 |
+| Perspective Space Cardinality: \|Pi\| = \|R\| | CANONICAL | THM_04A8 |
+| Non-Paradoxical Gap: G_pi is well-defined, no Russell paradox | CANONICAL | THM_04A9 |
+
+### What Remains Open
+
+| Question | Status | Reference |
+|----------|--------|-----------|
+| Self-representation implies perspective (conditional) | SKETCH | THM_04AA |
+| Antecedent (SR3) for finite V_Crystal | IMPOSSIBLE | THM_04AA proof |
+| Perspective is necessary | [CONJECTURE] | No derivation pathway |
+| Gap structure determines dimensions | [SPECULATION] | No derivation pathway |
+
+### Key Insight from Formalization
+
+THM_04AA proves: IF V_Crystal has a self-representing proper subspace, THEN perspective exists. But for finite dim(V_Crystal) = 11, strict self-representation is impossible (proper subspace dimension < whole space dimension). The self-reference argument for perspective's necessity therefore requires either:
+- A weakened notion of self-representation (not yet developed)
+- An infinite-dimensional V_Crystal (conflicts with AXM_0100)
+- An entirely different argument
+
+See `framework/investigations/meta/godel_self_inaccessibility.md` for the full analysis.
+
+---
+
+## 10. Session 188 (continued): Evaluation Map Resolution
+
+The "entirely different argument" turned out to be the **evaluation map** approach (THM_04AC, CANONICAL).
+
+### The Argument
+
+1. The operator algebra End(V_Crystal) has dim n^2, while V_Crystal has dim n.
+2. The evaluation map ev_{v_0}: T |-> T(v_0) is a linear map from n^2-dim to n-dim space.
+3. By proof by contradiction: if ker(ev_{v_0}) = {0}, then n^2 <= n, which fails for n >= 2.
+4. Therefore every evaluation point has blind spots — perspective (partiality) is STRUCTURALLY INEVITABLE.
+5. k linearly independent evaluation points induce a rank-k orthogonal projection satisfying P1, P2, P3.
+
+### What This Resolves
+
+P1, P2, P3 are now **theorems**, not axioms. The axiom count for perspective reduces from 3 to 1 weaker condition (existence of evaluation points in V_Crystal — trivially satisfied).
+
+### What Remains Open
+
+| Question | Status |
+|----------|--------|
+| Why specific k (e.g., k = 4) is selected | Open — requires dynamics |
+| Gap structure determines dimensions | [SPECULATION] — no pathway |
+| Connection to crystallization dynamics | Open — needs Layer 1 bridge |
+
+### Candidate Assessment Update
+
+| # | Candidate | Status After S188 |
+|---|-----------|-------------------|
+| 3 | Self-reference instability | Superseded by evaluation map; conditional THM_04AA valid but antecedent fails |
+| **6 (NEW)** | **Evaluation map inevitability** | **PROVEN (THM_04AC) — blind spots mandatory for dim >= 2** |
+
+---
+
+## 11. Summary
+
+**Resolved**: Perspective's PARTIALITY (P1) is now a theorem, not an axiom. For dim(V_Crystal) >= 2, the evaluation map on End(V_Crystal) forces blind spots (n^2 > n). P2 and P3 also follow as theorems.
+
+**Status**: [THEOREM] for "partiality is inevitable" (THM_04AC). [OPEN] for "why rank-4 specifically?"
+
+**Next step**: Investigate why k = n_d = 4 is the selected rank — this likely connects to division algebra structure (THM_0484, THM_04AB) and crystallization dynamics.
 
 ---
 
 *Investigation status: ACTIVE*
 *Depends on: crystal_structure.md*
-*Feeds into: dimension_emergence.md*
+*Feeds into: dimension_emergence.md, godel_self_inaccessibility.md*

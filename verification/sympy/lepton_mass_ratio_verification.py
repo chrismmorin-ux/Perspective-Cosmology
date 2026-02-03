@@ -42,10 +42,10 @@ print(f"  Predicted: 8891/43 = {float(predicted):.8f}")
 print(f"  As: 207 - 10/43 = {207 - 10/43:.8f}")
 
 deviation = abs(float(predicted) - ratio_mu_e)
-error_ppm = deviation / ratio_mu_e * 1e6
+error_ppm_mu_e = deviation / ratio_mu_e * 1e6
 
 print(f"\n  Deviation: {deviation:.8f}")
-print(f"  Error: {error_ppm:.2f} ppm")
+print(f"  Error: {error_ppm_mu_e:.2f} ppm")
 
 # Propagate measurement errors
 ratio_error = ratio_mu_e * sqrt((m_mu_error/m_mu)**2 + (m_e_error/m_e)**2)
@@ -74,10 +74,10 @@ print(f"  Predicted: 185/11 = {float(predicted):.6f}")
 print(f"  As: 16 + 9/11 = dim(H)^2 + Im(H)^2/n_c = {16 + 9/11:.6f}")
 
 deviation = abs(float(predicted) - ratio_tau_mu)
-error_ppm = deviation / ratio_tau_mu * 1e6
+error_ppm_tau_mu = deviation / ratio_tau_mu * 1e6
 
 print(f"\n  Deviation: {deviation:.6f}")
-print(f"  Error: {error_ppm:.1f} ppm")
+print(f"  Error: {error_ppm_tau_mu:.1f} ppm")
 
 # Propagate measurement errors
 ratio_error = ratio_tau_mu * sqrt((m_tau_error/m_tau)**2 + (m_mu_error/m_mu)**2)
@@ -132,10 +132,10 @@ print("=" * 70)
 print(f"""
 LEPTON MASS RATIOS FROM DIVISION ALGEBRAS:
 
-  m_mu/m_e = 8891/43              [{error_ppm:.1f} ppm]
+  m_mu/m_e = 8891/43              [{error_ppm_mu_e:.1f} ppm]
            = 207 - 10/43
 
-  m_tau/m_mu = 185/11             [70 ppm]
+  m_tau/m_mu = 185/11             [{error_ppm_tau_mu:.1f} ppm]
              = 16 + 9/11
              = dim(H)^2 + Im(H)^2/n_c
 

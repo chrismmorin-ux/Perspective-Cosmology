@@ -1,64 +1,88 @@
-# Session History
+# Session Management
 
-**Purpose**: Navigation guide for session logs
+## Structure
 
----
+```
+sessions/
+    INDEX.md          # Lightweight global index (<5KB) -- THE file to read at start
+    S152.md           # Per-session context files
+    S153.md
+    S154.md
+    S155.md
+    S156.md
+    ...               # Future sessions get their own files
+    archive/          # Old session files (>20 sessions back)
 
-## File Locations
+topics/               # Multi-session investigation trackers
+    weinberg-angle.md
+    step5-alpha-mechanism.md
+    casimir-crystallization.md
+    ...
+```
 
-| File | Sessions | Content |
-|------|----------|---------|
-| `session_log.md` (root) | 88-117+ | **Current** — Breakthrough Era |
-| `archive/sessions/sessions_foundation_era.md` | 1-87 | Historical — Foundation Era |
+## How It Works
 
----
+### Per-Session Files (`sessions/S{N}.md`)
 
-## Session Eras
+Each session gets its own file. Contains:
+- Header: date, focus, topic link, status, previous/next session links
+- Outcome: 2-3 sentence summary
+- Key findings, scripts, files modified
+- Open questions for continuation (the actual handover context)
 
-| Era | Sessions | Key Work |
-|-----|----------|----------|
-| **Breakthrough Era** | 88-117+ | Major derivations, cosmology complete, QM derived |
-| **Foundation Era** | 1-87 | Core axioms, initial investigations, consolidation |
+**Never overwritten.** Each session gets its own file.
 
----
+### Topic Files (`topics/{slug}.md`)
 
-## Major Breakthrough Sessions
+Created when a second session works on the same topic. Contains:
+- Current state (2-3 sentences)
+- What works (proven results, append-only)
+- What failed / dead ends (append-only)
+- Open paths (current research plan)
+- Session list and key files
 
-| Session | Breakthrough |
-|---------|--------------|
-| **117** | Hidden sector 42 unified |
-| **116** | Complete cosmic inventory, prime 37 |
-| **115** | H0 exact (337/5), fourth-power primes |
-| **114** | Prime 179 deep exploration |
-| **111** | Electroweak sector complete |
-| **109** | Quantum mechanics fully derived |
-| **102** | Einstein equations from crystallization |
-| **100** | Rigorous crystallization theory |
-| **97-99** | CMB + BBN predictions |
-| **94-96** | Dark matter structure |
-| **91-93** | Quark Koide complete |
-| **89** | α correction term derived |
-| **88** | Big numbers are algebraic |
+These are the critical multi-session memory. A new session on "Weinberg angle" reads one file instead of reconstructing 5+ sessions of history.
 
----
+### Index (`sessions/INDEX.md`)
 
-## Key Derivation Sessions
+The single orientation file. Contains:
+- Active topics table (5-7 rows)
+- Work backlog (replaces RECOMMENDATION_ENGINE priority queue)
+- Recent sessions (last 10)
+- Framework quick reference
 
-| Constant | Session | Precision |
-|----------|---------|-----------|
-| 1/α = 137 + 4/111 | S89 | 0.27 ppm |
-| m_p/m_e = 1836 + 11/72 | S78 | 0.06 ppm |
-| cos(θ_W) = 171/194 | S96b | 3.75 ppm |
-| H₀ = 337/5 | S115 | EXACT |
-| Ω_Λ = 13/19 | S94 | 0.07% |
-| Einstein equations | S102 | — |
+Update cost at session end: change 2-3 lines.
 
----
+## Session Protocol
+
+### Start (read 2-4 files, ~25KB total)
+1. `registry/ACTIVE_SESSIONS.md` -- parallel session check, register
+2. `sessions/INDEX.md` -- orientation
+3. `sessions/S{last_relevant}.md` -- if continuing a topic
+4. `topics/{topic}.md` -- if topic file exists
+
+### End (write 2-3 files)
+1. `sessions/S{N}.md` -- this IS the session record AND continuation prompt
+2. `sessions/INDEX.md` -- move to recent, update topic row (2-3 line edits)
+3. `topics/{topic}.md` -- append what worked/failed, rewrite current state
+4. `registry/ACTIVE_SESSIONS.md` -- deregister
+
+## Archive Policy
+
+Session files older than 20 sessions are moved to `sessions/archive/`.
+
+## Historical Files (Frozen)
+
+These files are preserved as historical snapshots but are NOT read at session start:
+- `registry/STATUS_DASHBOARD.md` -- frozen at S142
+- `registry/RECOMMENDATION_ENGINE.md` -- frozen at S131
+- `session_log.md` -- frozen, contains S131-156 transitional entries
+- `CONTINUATION_PROMPT.md` -- deprecated, replaced by per-session files
 
 ## Size Limits
 
-To maintain LLM compatibility:
-- Main session_log.md: Keep under 200KB (~4000 lines)
-- When exceeded: Archive older sessions to `archive/sessions/`
-
-*Last archived: 2026-01-28 (Sessions 1-87)*
+| File | Max Size | Action if Exceeded |
+|------|----------|-------------------|
+| `sessions/INDEX.md` | 5KB | Trim recent sessions list |
+| Per-session files | 10KB | Focus on key findings only |
+| Topic files | 10KB | Split by sub-topic |

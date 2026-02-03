@@ -1,6 +1,6 @@
 # CMB as Crystallization Boundary
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: Session 98, 2026-01-27
 **Updated**: Session 99, 2026-01-27 — Major expansion with 12 observables
 **Confidence**: [DERIVATION] — Multiple observables derived with 0 free parameters

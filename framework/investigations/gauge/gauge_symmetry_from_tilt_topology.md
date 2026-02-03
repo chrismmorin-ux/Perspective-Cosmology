@@ -368,7 +368,7 @@ TILT FIELD with U(4) × U(11) symmetry
 
 ## References
 
-- `foundations/tilt_topology_point_emergence.md` — Tilt field and topology
+- `framework/investigations/spacetime/tilt_topology_point_emergence.md` — Tilt field and topology
 - `framework/investigations/gauge_from_division_algebras.md` — Division algebra → gauge
 - `framework/investigations/chirality_derivation.md` — Why left-handed
 - `core/17_complex_structure.md` — F = C derivation

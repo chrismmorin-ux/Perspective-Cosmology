@@ -1,6 +1,6 @@
 # Investigation: Prime Attractor Selection Mechanism
 
-**Status**: ACTIVE — BREAKTHROUGH
+**Status**: ARCHIVE — BREAKTHROUGH
 **Created**: 2026-01-27 (Session 76)
 **Confidence**: [STRONG DERIVATION] — Selection mechanism identified, local minimum confirmed
 **Significance**: VERY HIGH — First physical mechanism for Koide phase, potential extension to all constants

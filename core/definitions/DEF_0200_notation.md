@@ -70,6 +70,19 @@
 4. dim(V) denotes dimension of vector space V
 5. ⟨·,·⟩ denotes inner product
 6. ||v|| = sqrt(⟨v,v⟩) denotes norm
+7. For subspaces U ⊆ V, use `dim(U)` (not `|U|`) to measure size. The cardinality notation `|·|` is reserved for discrete sets. (Clarification added Session 189; see CR-078.)
+
+### Epsilon Symbol Disambiguation (Session 189, CR-079)
+
+The symbol ε is used in three distinct senses. Context determines which:
+
+| Symbol | Object | Defined In | Domain |
+|--------|--------|-----------|--------|
+| ε_ij | Tilt matrix (tensor) | DEF_02A3 | ε_ij = ⟨π(b_i), π(b_j)⟩ - δ_ij |
+| ε = ‖ε_ij‖_F | Order parameter (scalar norm) | DEF_02C0 | ε = √(Σ_ij \|ε_ij\|²) |
+| ε_SR | Slow-roll parameter | DEF_02C4 | ε_SR = (M_Pl²/2)(V'/V)² |
+
+When ambiguity is possible, use the subscript forms: ε_ij for the matrix, ‖ε‖ or ε* for the scalar norm/equilibrium, and ε_SR for slow-roll.
 
 ---
 

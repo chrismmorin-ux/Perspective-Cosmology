@@ -1,6 +1,6 @@
 # Dark Matter Phenomenology: Comprehensive Experimental Predictions
 
-**Status**: ACTIVE - Experimental test predictions
+**Status**: ARCHIVE - Experimental test predictions
 **Created**: 2026-01-27 (Session 105)
 **Confidence**: [DERIVATION] for cross sections, [DERIVATION] for event rates (both derived from framework quantities)
 **Origin**: Extension of dark matter mass derivation to experimental observables

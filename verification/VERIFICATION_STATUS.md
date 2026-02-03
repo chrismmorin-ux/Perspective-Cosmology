@@ -1,17 +1,31 @@
 # Verification Script Status
 
+> **⚠️ RETIRED (Session 144, 2026-01-30)**
+>
+> This file tracked 189 scripts as of Session 135 but fell 154 scripts behind
+> `registry/STATUS_DASHBOARD.md` (which reports 343 scripts at ~90% pass rate).
+> Reconciling the gap is not cost-effective.
+>
+> **Single source of truth**: `registry/STATUS_DASHBOARD.md`
+>
+> This file is preserved for its **qualitative analysis** (gaps, honest assessment,
+> verified-vs-assumed distinctions in the "Detailed Analysis" section below), which
+> STATUS_DASHBOARD does not replicate. New script results should be logged in
+> STATUS_DASHBOARD only.
+
 **Created**: 2026-01-26 (Stage 1.2)
-**Updated**: 2026-01-27 (Session 105d — Dark matter phenomenology)
-**Purpose**: Document results from running all verification scripts
+**Updated**: 2026-01-30 (Session 135 — LCDM deviations, z_* recombination, Born rule)
+**Retired**: 2026-01-30 (Session 144 — superseded by STATUS_DASHBOARD)
+**Purpose**: ~~Document results from running all verification scripts~~ Historical reference only
 
 ---
 
-## Executive Summary
+## Executive Summary (STALE — see STATUS_DASHBOARD)
 
-| Metric | Value |
-|--------|-------|
-| **Total Scripts** | **186** |
-| **Pass Rate** | ~85% (per STATUS_DASHBOARD) |
+| Metric | Value | Note |
+|--------|-------|------|
+| **Total Scripts** | **189** | STATUS_DASHBOARD reports 343 |
+| **Pass Rate** | ~85% | STATUS_DASHBOARD reports ~90% |
 
 ---
 
@@ -34,6 +48,66 @@
 | **BBN** | 4 | Abundances, Li7, baryon asymmetry |
 | **Mass Ratios** | 8 | Quark, proton-electron |
 | **Other** | ~56 | Misc verification, experimental |
+
+---
+
+## Recent Scripts (S138c — Coleman-Weinberg)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `coleman_weinberg_so11.py` | S138c | 12/12 | PASS |
+
+**Key findings**:
+- Mass spectrum at (4,7) background verified by full 65×65 numerical matrix diagonalization (error < 10⁻¹⁴).
+- CW effective potential does NOT pin λ (equivalent to one-loop RG improvement).
+- Quartic-only potential selects (5,6), NOT (4,7) — I₄(5,6) = 31/330 < I₄(4,7) = 37/308.
+- Cubic invariant Tr(φ³) with w < 0 required for (4,7) selection; selects at η ≈ 3.
+- Mass ratio intra-SO(4)/intra-SO(7) = 10 at extremum (exact).
+- Goldstone theorem verified: 29 massless modes at u + vI₄ = 0.
+
+## Recent Scripts (S138)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `so11_beta_functions.py` | S138 | 13/13 | PASS |
+| `so11_discriminant_proof.py` | S138 | 11/11 | PASS |
+| `so11_beta_exact_arithmetic.py` | S138 | 10/10 | PASS |
+| `so11_beta_analytic_derivation.py` | S138 | 13/13 | PASS |
+
+**Key findings**:
+- All 6 one-loop beta function coefficients for SO(N) symmetric traceless model are analytic functions of N.
+- **THEOREM**: Discriminant < 0 for ALL N ≥ 4 (algebraic proof, not just numerical). Polynomial p(N) = -4N⁴-4N³+19N²-72N+432; largest real root ≈ 2.91.
+- A₁₃ = (N²+6)/(6N²) and A₂₃ = (2N²+9N-36)/(6N) **ANALYTICALLY DERIVED** from symmetric traceless projector via symbolic trace algebra engine. Also verified by exact rational arithmetic for N=4,5,6,7. Upgraded from [CONJECTURE] to **[THEOREM]**.
+
+## Recent Scripts (S135)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `lcdm_deviations_from_hilltop.py` | S135 | 16/17 | PASS (1 boundary) |
+| `z_star_recombination_test.py` | S135 | 4/8 | PARTIAL (HS systematic) |
+
+## Recent Scripts (S134)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `born_rule_from_crystallization.py` | S134 | 12/12 | PASS |
+| `peak_height_physics.py` | S134 | 15/15 | PASS |
+| `silk_damping_physics.py` | S134 | 13/13 | PASS |
+| `mirror_complement_axiom_check.py` | S134 | 8/8 | PASS |
+
+## Recent Scripts (S132)
+
+| Script | Session | Tests | Status |
+|--------|---------|-------|--------|
+| `crystallization_ordering_SO11.py` | S132 | 15/15 | PASS |
+| `stage3_prime_selection_rule.py` | S132 | 9/9 | PASS |
+| `quartic_energy_curvature.py` | S132b | 12/12 | PASS |
+| `denominator_polynomial_unification.py` | S132b | 21/21 | PASS |
+| `intra_stage_ordering.py` | S132b | 12/12 | PASS |
+| `c3_sign_from_stability.py` | S132b | 12/12 | PASS |
+| `goldstone_denominator_identity.py` | S132b | 16/16 | PASS |
+| `denominator_spacing_and_barriers.py` | S132b | 15/15 | PASS |
+| `ssb_critical_ratio.py` | S132b | 11/11 | PASS |
 
 ---
 

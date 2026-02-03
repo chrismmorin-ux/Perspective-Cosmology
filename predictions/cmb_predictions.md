@@ -1,8 +1,10 @@
 # CMB Predictions from Crystallization
 
-**Status**: VERIFIED — 12 observables with 0 free parameters
+**Status**: VERIFIED — 12 observables (see parameter note below)
 **Confidence**: HIGH for positions/ratios, MEDIUM for amplitudes
 **Verification**: `cmb_observables_crystallization.py`, `cmb_acoustic_peaks.py`, `cmb_deep_physics.py`
+
+> **Audit note (S189)**: "Zero free parameters" claim is imprecise — the framework has ~3 structural assumptions (see `PARAMETER_FREEZE.md`). Some CMB formulas (n_s, r) were updated in S124/S129 but this file retained the old versions. Updated per CR-093/CR-094.
 
 ---
 
@@ -25,7 +27,7 @@ The crystallization framework predicts 12 CMB observables using **zero free para
 |------------|---------|-----------|-----------|----------|-------|------|
 | **ℓ₁** | 2×n_c×(n_c-1) | 2×11×10 | 220 | 220 | EXACT | 1 |
 | **z_rec** | 10×(n_c(n_c-1)-1) | 10×109 | 1090 | 1089.8 | 0.02% | 1 |
-| **n_s** | 1 - n_d/n_c² | 1 - 4/121 | 0.9669 | 0.9649 | 0.21% | 2 |
+| **n_s** | 1 - Im_O/200 | 193/200 | 0.965 | 0.9649 | 0.01% | 2 |
 | **ℓ₂** | ℓ₁×2n_c/(n_c-C) | 220×22/9 | 537.8 | 537.5 | 0.05% | 2 |
 | **ℓ_D** | n_c×137 | 11×137 | 1507 | ~1500 | 0.5% | 2 |
 | **ℓ₃** | ℓ₁×H_sum/(n_c-1) | 220×37/10 | 814 | 810.8 | 0.39% | 2 |
@@ -34,7 +36,7 @@ The crystallization framework predicts 12 CMB observables using **zero free para
 | **R₁₂** | (2n_c+1)/(n_c-1) | 23/10 | 2.3 | ~2.3 | ~0% | 2 |
 | **R₁₃** | C | 2 | 2.0 | ~2.0 | ~0% | 2 |
 | **E/T** | 1/n_c | 1/11 | 0.091 | ~0.1 | 9% | 3 |
-| **r** | α⁴ | (1/137)⁴ | 2.8×10⁻⁹ | <0.036 | — | pred |
+| **r** | 7/200 | Im_O/200 | 0.035 | <0.036 | — | pred |
 
 ---
 
@@ -107,36 +109,36 @@ z_rec = 10 × (ℓ₁/2 - 1) = 10 × (110 - 1) = 1090
 
 ---
 
-### 3. Spectral Index: n_s = 117/121 = 0.9669
+### 3. Spectral Index: n_s = 193/200 = 0.965
 
-**Confidence**: [DERIVATION] — Clear formula, physical interpretation developing
+**Confidence**: [DERIVATION] — Hilltop slow-roll derivation (S124/S129)
 
 **Formula**:
 ```
-n_s = 1 - n_d/n_c² = 1 - 4/121 = 117/121 = 0.966942...
+n_s = 1 - Im_O/200 = 1 - 7/200 = 193/200 = 0.965
 ```
 
+> **Supersedes**: Earlier n_s = 117/121 = 0.9669 (Session 77). The 193/200 formula has a complete hilltop derivation chain and satisfies the consistency relation r = 1 - n_s. See `claims/FALSIFIED.md` F-6.
+
 **Derivation Chain**:
-- n_s = 1 would be perfect scale invariance (Harrison-Zeldovich) [A-IMPORT]
-- n_d = 4 [D: spacetime dimension from Frobenius]
-- n_c = 11 [D: crystal dimension]
-- Deviation: n_d/n_c² = 4/121 [D: defect-to-crystal squared ratio]
-- n_s = 1 - 4/121 = 117/121 [D]
+- Hilltop potential V = V_0(1 - φ²/μ²) with μ² = (C+H)H⁴/Im_O = 1536/7 [D]
+- Slow-roll: ε = 1/(2μ²) × (φ/M_Pl)² [D]
+- n_s = 1 - 2ε - η evaluated at 60 e-folds [D]
+- Result: n_s = 1 - Im_O/200 = 193/200 [D]
 
 **Physical Interpretation**:
-The spectral tilt encodes how spacetime (n_d = 4) "tilts" the crystallization:
-- Perfect crystallization would give scale-invariant (n_s = 1) fluctuations
-- Spacetime dimensions (n_d = 4) create a "red" tilt toward large scales
-- Tilt = (defect dimensions)/(crystal channels) = 4/121
-- This is the ratio of spacetime DOF to crystallization DOF squared
+The spectral tilt encodes the octonion hidden fraction:
+- Im_O = 7 hidden dimensions create the tilt
+- 200 = scale from crystallization dynamics
+- Consistency relation: r = 1 - n_s = 7/200
 
 **Measured**: 0.9649 ± 0.0042 (Planck 2018)
-**Predicted**: 0.9669
-**Error**: 0.21% (within 0.5σ of measurement)
+**Predicted**: 0.965
+**Error**: 0.01% (within 0.03σ of measurement)
 
 **What Would Falsify**: If n_s measured at 0.980 or 0.950 (outside framework range).
 
-**Verification**: `cmb_observables_crystallization.py` line 104
+**Verification**: `hilltop_correct_conditions.py` (S129)
 
 ---
 
@@ -333,36 +335,40 @@ R₁₃ = C = 2
 
 ---
 
-### 10. Tensor-to-Scalar Ratio: r = α⁴ [PREDICTION]
+### 10. Tensor-to-Scalar Ratio: r = 7/200 = 0.035 [PREDICTION]
 
-**Confidence**: [PREDICTION] — Far below current detection, testable by future missions
+**Confidence**: [DERIVATION] — From hilltop potential consistency relation (S124/S129)
 
 **Formula**:
 ```
-r = α⁴ = (1/137)⁴ ≈ 2.84 × 10⁻⁹
+r = 1 - n_s = Im_O/200 = 7/200 = 0.035
 ```
 
+> **Supersedes**: Earlier r = α⁴ ~ 2.84×10⁻⁹ (pre-S124). The hilltop derivation gives r = 7/200 = 0.035, which is detectable by CMB-S4. See `predictions/LCDM_DEVIATIONS.md` D-01 for full analysis.
+
 **Derivation Chain**:
-- Scalar fluctuations: δT/T ~ α²/3 [D]
-- Tensor fluctuations: gravitational waves from boundary
-- Ratio: r = (tensor)/(scalar) ~ (α²)² = α⁴ [D]
+- Hilltop potential V = V_0(1 - φ²/μ²) with μ² = 1536/7 [D]
+- Consistency relation: r = 1 - n_s [D: single-field hilltop]
+- n_s = 193/200 → r = 7/200 = 0.035 [D]
 
 **Physical Interpretation**:
-- Tensor modes are doubly suppressed by portal coupling
-- Primordial gravitational waves essentially absent
-- All observed B-modes should be from lensing
+- r encodes the hidden octonion fraction Im_O/200
+- Detectable by next-generation CMB experiments
+- This is the framework's KEY distinguishing prediction
 
 **Current limit**: r < 0.036 (Planck + BICEP)
-**Predicted**: r ~ 3 × 10⁻⁹
+**Predicted**: r = 0.035 (just below current limit)
 
 **FALSIFICATION CRITERION**:
 ```
-If r is detected at r > 10⁻⁴, crystallization is FALSIFIED.
+If r is measured and differs from 0.035 by more than 0.01,
+AND the relationship r = (1-n_s) fails, this prediction is falsified.
+If r < 0.01: framework hilltop potential FALSIFIED.
 ```
 
-This is a strong, testable prediction. CMB-S4 and LiteBIRD will improve limits.
+CMB-S4 (expected sensitivity σ(r) ~ 0.001) will test this definitively.
 
-**Verification**: `cmb_observables_crystallization.py` line 140
+**Verification**: `lcdm_deviations_from_hilltop.py`, `cmb_spectral_index_derivation.py`
 
 ---
 
@@ -371,10 +377,10 @@ This is a strong, testable prediction. CMB-S4 and LiteBIRD will improve limits.
 | Observable | Crystallization | Inflation (ΛCDM) |
 |------------|-----------------|------------------|
 | δT/T | DERIVED (α²/3) | FITTED (A_s) |
-| n_s | DERIVED (117/121) | FITTED (~0.965) |
+| n_s | DERIVED (193/200) | FITTED (~0.965) |
 | ℓ₁ | DERIVED (220) | From Ω_m, H₀ (fitted) |
-| r | PREDICTED (<10⁻⁸) | Model-dependent |
-| **Free params** | **0** | **6** |
+| r | PREDICTED (7/200 = 0.035) | Model-dependent |
+| **Free params** | **~3 structural** | **6** |
 
 ---
 
@@ -382,8 +388,8 @@ This is a strong, testable prediction. CMB-S4 and LiteBIRD will improve limits.
 
 | Observation | Falsifies Crystallization? | Falsifies Inflation? |
 |-------------|---------------------------|----------------------|
-| r = 0.01 detected | **YES** (predicts r ~ 10⁻⁹) | Some models |
-| n_s = 0.980 | **YES** (predicts 0.9669) | Tension |
+| r < 0.01 | **YES** (predicts r = 0.035) | Some models |
+| n_s = 0.980 | **YES** (predicts 0.965) | Tension |
 | ℓ₁ ≠ 220 | **YES** (exact prediction) | Very unlikely |
 | Large f_NL > 1 | **YES** (predicts ~10⁻⁵) | Rules out slow-roll |
 
@@ -393,11 +399,11 @@ This is a strong, testable prediction. CMB-S4 and LiteBIRD will improve limits.
 
 ## Summary
 
-The crystallization framework derives 12 CMB observables with zero free parameters:
+The crystallization framework derives 12 CMB observables from ~3 structural assumptions:
 - 2 exact matches (ℓ₁, z_rec)
-- 3 sub-0.5% matches (n_s, ℓ₂, ℓ_D)
+- 3 sub-0.5% matches (n_s = 193/200, ℓ₂, ℓ_D)
 - 6 sub-2% matches
-- 1 testable prediction (r ~ 10⁻⁹)
+- 1 testable prediction (r = 7/200 = 0.035, detectable by CMB-S4)
 
 The key insight is that all CMB physics encodes the **crystallization boundary** — where the 11-dimensional crystal interior meets the uncrystallized exterior. The CMB is literally the frozen edge of the mathematical crystal that is our universe.
 
@@ -415,5 +421,5 @@ The key insight is that all CMB physics encodes the **crystallization boundary**
 
 ---
 
-*Last updated: Session 121 (2026-01-28)*
+*Last updated: Session 189 audit (2026-02-02) — r updated α⁴→7/200, n_s updated 117/121→193/200 per CR-093/CR-094*
 *All predictions verified by SymPy scripts with PASS status*

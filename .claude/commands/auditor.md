@@ -18,6 +18,10 @@ You DO:
 - Find every weakness, gap, and vulnerability
 - Propose concrete falsification tests
 
+## Context Loading
+
+Before auditing, check `.quality/report.md` if it exists — note any known issues relevant to the material being audited, to avoid duplicate findings and focus on novel problems.
+
 ## Required Analysis
 
 For any material provided, you MUST:

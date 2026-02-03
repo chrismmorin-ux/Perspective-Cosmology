@@ -2,6 +2,10 @@
 
 **What you can verify with a calculator in 60 seconds.**
 
+> **Post-Hoc Notice (S189 audit)**: All three predictions below were formulated AFTER the measured values were known. These are post-hoc matches, not blind predictions. The statistical impressiveness must be evaluated against the framework's formula search flexibility (~86% match rate at 0.1% precision, ~30% at 100 ppm — see `framework/STATISTICAL_ANALYSIS_HONEST.md`). For genuine blind predictions, see `predictions/BLIND_PREDICTIONS.md`.
+
+> **Confidence**: All three claims below are [CONJECTURE] — formulas identified post-hoc using division algebra building blocks {1, 2, 4, 8, 11}. The n_c = 11 derivation itself has gaps (see `claims/TIER_1_SIGNIFICANT.md` audit notes).
+
 ---
 
 ## Three Predictions from Four Numbers
@@ -19,7 +23,7 @@ These are the ONLY finite-dimensional division algebras over the reals (Frobeniu
 
 Define two derived quantities:
 - **n_d = 4** (dimension of H, the largest associative division algebra)
-- **n_c = 11** = 1 + 2 + 8 (dimensions excluding H)
+- **n_c = 11** = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (imaginary dimensions of division algebras)
 
 ---
 
@@ -35,7 +39,7 @@ Define two derived quantities:
     = 137.036036036...
 ```
 
-**Measured (CODATA 2022)**: 137.035999177(21)
+**Measured (CODATA 2018)**: 137.035999084(21)
 
 **Error**: **0.27 ppm** (parts per million)
 
@@ -55,7 +59,7 @@ m_p/m_e = (4+8) × (3² + (4+8)²) + 11/(8 × 3²)
         = 1836.152777...
 ```
 
-**Measured (CODATA 2022)**: 1836.152673426(32)
+**Measured (CODATA 2018)**: 1836.15267343(11)
 
 **Error**: **0.06 ppm**
 
@@ -86,7 +90,9 @@ Where:
 
 ## What This Means
 
-**Three predictions. Zero free parameters. Sub-ppm accuracy.**
+**Three post-hoc matches. ~3 structural assumptions. Sub-ppm accuracy.**
+
+**[A-IMPORT] values used**: CODATA 2018 for α and m_p/m_e; PDG 2024 for cos(θ_W).
 
 | Prediction | Correct Digits | Random Chance |
 |------------|----------------|---------------|

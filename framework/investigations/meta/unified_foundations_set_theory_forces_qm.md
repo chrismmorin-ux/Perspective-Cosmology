@@ -100,7 +100,10 @@ The crystal doesn't try to "contain itself" or "model itself." It just IS orthog
 
 **The perspective space Π is where complexity lives:**
 
-**Theorem 2.1 (Cantor on Perspectives)**
+**Theorem 2.1 (Cantor on Perspectives)** — *Superseded by THM_04A8 (Session 188)*
+
+> **Note**: This informal diagonal argument has been replaced by a rigorous Grassmannian proof in `core/theorems/THM_04A8_perspective_space_cardinality.md`. THM_04A8 proves |Pi| = |R| for any finite dim(V_Crystal) >= 2 using smooth manifold theory rather than the diagonal construction below (which requires infinite V_Crystal).
+
 ```
 For any enumeration of perspectives {π_1, π_2, π_3, ...}
 there exists a perspective π_d not in the enumeration.
@@ -113,7 +116,10 @@ Proof sketch:
 Consequence: |Π| > ℵ_0 (perspective space is uncountable)
 ```
 
-**Theorem 2.2 (Gödel on Self-Modeling Perspectives)**
+**Theorem 2.2 (Gödel on Self-Modeling Perspectives)** — *Superseded by THM_04A7 (Session 188)*
+
+> **Note**: This informal argument has been replaced by a rigorous proof in `core/theorems/THM_04A7_self_model_incompleteness.md`. THM_04A7 proves that M_pi = id|_{V_pi} captures pi's identity action but cannot represent pi's annihilation of ker(pi), because ker(pi) intersect V_pi = {0}. The self-model DEF_02C5 and incompleteness gap DEF_02C6 provide precise definitions.
+
 ```
 Let π be a perspective that attempts to model itself within V_π.
 Let M_π ⊂ V_π be "π's model of π."
@@ -132,7 +138,10 @@ Proof sketch:
 Consequence: Every perspective has aspects of itself it cannot model.
 ```
 
-**Theorem 2.3 (Russell-Type Gap)**
+**Theorem 2.3 (Russell-Type Gap)** — *Superseded by THM_04A9 (Session 188)*
+
+> **Note**: This informal argument has been replaced by a rigorous proof in `core/theorems/THM_04A9_non_paradoxical_gap.md`. THM_04A9 proves that the gap G_pi = ker(pi) is non-paradoxical because: (a) pi is in End(V_Crystal), not in V_pi (type separation); (b) G_pi is defined non-self-referentially via orthogonal complement; (c) V_Crystal = V_pi + G_pi is a clean direct sum.
+
 ```
 Define R_π = {aspects of π not accessible to π}.
 

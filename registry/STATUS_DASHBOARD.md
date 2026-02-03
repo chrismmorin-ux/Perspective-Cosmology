@@ -1,7 +1,13 @@
-# Status Dashboard
+# Status Dashboard — FROZEN
 
-**Updated**: 2026-01-30 (Session 135)
-**Purpose**: Quick-reference view — read this FIRST each session
+**FROZEN at Session 142.** This file is preserved as a historical snapshot. It is no longer read at session start or updated at session end.
+
+**For current state**: Read `sessions/INDEX.md` instead.
+
+---
+
+**Updated**: 2026-01-30 (Session 142)
+**Purpose**: Historical snapshot (was: quick-reference view)
 
 ---
 
@@ -12,7 +18,7 @@
 | **Current Phase** | **CMB PHYSICS DEVELOPMENT** (New 25-session plan) |
 | **Completed** | Session 120 |
 | **Central Document** | `publications/THESIS.md` |
-| **Strategic Plans** | `MASTER_PLAN.md`, `CMB_PHYSICS_PLAN.md` |
+| **Strategic Plans** | `MASTER_PLAN.md`, `registry/CMB_PHYSICS_PLAN.md` |
 | **Foundation Docs** | 10 complete (9 original + SO(11) chain) |
 
 **Four Pillars**: Foundation (**DONE**) | Numerical (**DONE**) | Experimental (**DONE**) | Communication
@@ -25,8 +31,8 @@
 
 | Metric | Value |
 |--------|-------|
-| **Current Session** | 135 (CMB Phase 4.2 Complete) |
-| **Verification Scripts** | 335 (90% PASS) |
+| **Current Session** | 156 (Casimir deeper: E1/E2/E3) |
+| **Verification Scripts** | 349 (90% PASS) |
 | **Total Constants Derived** | 63 |
 | **EXACT Predictions** | 6 |
 | **Sub-10 ppm Predictions** | 13 |
@@ -73,7 +79,100 @@
 
 ## Recent Sessions (5)
 
-### Session 135: CMB PHASE 4.2 — LCDM DEVIATIONS (Current)
+### Session 152: QCD STRING TENSION FROM O-CHANNEL CASIMIR
+- **BETA COEFFICIENTS = FRAMEWORK NUMBERS**: b_0=33=Im_H*n_c, b_1=153=Im_H^2*17, b_3=Im_O=7
+- **LUSCHER TERM DECOMPOSED**: pi*(D-2)/24 = pi*C/(O*Im_H), with 24 = n_d!
+- **STRING TENSION CONJECTURE**: sqrt(sigma) = 8*m_p/17 = 441.5 MeV (0.35% from 440)
+  - HRS = 5-6: pattern-matched, not derived
+  - Constituent decomposition: m_p = Im_H * m_q, m_q/sqrt(sigma) = 17/(O*Im_H) = 17/24
+  - QCD dynamics (large-N_c, bag model, Regge) CANNOT derive 17/24 analytically
+- **24 DOUBLE APPEARANCE**: O*Im_H=24 in both Luscher and constituent mass ratio
+- **Scripts**: `qcd_string_tension_from_framework.py` (18/18), `qcd_string_tension_derivation.py` (12/12)
+- **Document**: `framework/investigations/gauge/qcd_string_tension_o_channel.md`
+
+### Session 142: FULL POWER SPECTRUM (Phase 5.1)
+- **SEMI-ANALYTIC MODEL**: 6-component D_l model tested at 18 multipoles (l=2 to 2500)
+  - Sachs-Wolfe plateau: ~960 muK^2 (Planck ~1050, within 10%)
+  - Peak positions: All 7 within 3.1% (established formula l_n = 96*pi*(11n-3)/11)
+  - First peak height: Model 4894, Planck 5750 (within factor 1.2)
+  - Damping tail: Correct qualitative behavior; 4 models tested
+- **8 PHYSICS GAPS IDENTIFIED**: Boltzmann hierarchy (fundamental), driving effect,
+  diffusion damping, peak shape, lensing, ISW, reionization, non-linear effects
+- **KEY FINDING**: Framework constrains PARAMETERS, standard Boltzmann handles DYNAMICS
+  - All 6 LCDM parameters within 1 sigma of Planck
+  - CAMB with framework inputs would produce Planck-quality spectrum
+- **Script**: `full_power_spectrum.py` — **24/24 PASS**
+- **Document**: `framework/investigations/cosmology/full_power_spectrum.md`
+- **CMB Phase 5.1**: COMPLETE
+
+### Session 139: SECONDARY ANISOTROPIES (Phase 4.4) — PHASE 4 COMPLETE
+- **ISW EFFECT**: Standard LCDM from Omega_Lambda = 137/200
+  - Dark energy transition: z_Lambda = (137/63)^{1/3} - 1 = 0.296
+  - Growth rate: f(z=0) = Omega_m^{6/11}, where 6/11 = C*Im_H/n_c
+  - Epsilon frozen (m_tilt/H_0 ~ 10^49): w = -1 at all redshifts
+- **LENSING**: A_L = 1 exactly (w = -1, standard gravity)
+  - Planck: 1.073 +/- 0.041 (1.8 sigma tension, ACT/SPT consistent with 1)
+- **SZ**: sigma_8 ~ 0.811 from framework inputs; GAP: no algebraic expression
+  - S_8 tension noted (CMB ~0.83 vs weak lensing ~0.76)
+- **FRAMEWORK CONNECTIONS**: 137/63 links alpha to matter; 6/11 growth exponent
+- **RISK**: DESI hints at w != -1; if confirmed, CHALLENGE for framework
+- **Script**: `secondary_anisotropies.py` — **18/18 PASS**
+- **Document**: `framework/investigations/cosmology/secondary_anisotropies.md`
+- **CMB PHASE 4**: ALL 4 ITEMS NOW COMPLETE (4.1, 4.2, 4.3, 4.4 done)
+
+### Session 137: CMB POLARIZATION (Phase 4.3)
+- **EE PEAK POSITIONS DERIVED**: l_n^EE = 96*pi*(22n+5)/22 — 5 peaks within 7%
+  - Velocity maxima (half-period shifted from TT density maxima)
+  - EE-TT offset = l_A/2 = 48*pi ~ 150.8 (exact for all n)
+  - Notable: n=6 EE numerator = 137 (alpha integer)
+- **B-MODE PREDICTIONS WITH r = 0.035**: Major update from old r = alpha^4
+  - Primordial/lensing ratio at l ~ 80: ~42:1 (primordial dominates)
+  - CMB-S4: 35 sigma detection; LiteBIRD: 18 sigma; Simons Obs: 12 sigma
+- **TE, E/T, tau**: rho_TE = 4/11 (10% match), E/T = 1/11 (9%), tau = 3/56 (0.8%)
+- **Script**: `cmb_polarization_predictions.py` — **16/16 PASS**
+- **Document**: `foundations/cmb_polarization.md`
+- **CMB Phase 4**: 3 of 4 items now complete (4.2, 4.3 done; 4.1, 4.4 remain)
+
+### Session 138b: CMB BLIND PREDICTIONS (Phase 4.1)
+- **7 BLIND PREDICTIONS COMPUTED AND CHECKED**: P-010 through P-016
+  - t_0 = 13.790 Gyr (0.3 sigma), z_eq = 3426 (0.9 sigma), q_0 = -211/400 (0.1 sigma)
+  - 100*theta_s = 1.04175 (2.1 sigma — MARGINAL), R = 1.7494 (0.2 sigma)
+  - D_M/r_d(0.51) = 13.49 (0.6 sigma), H_0*t_0 = 0.9506 (0.1 sigma)
+- **NOTABLE**: R = Im_O/H = 7/4 = 1.750 (shift parameter, 0.035% match)
+- **MARGINAL**: 100*theta_s at 2.1 sigma (traces to H_0 = 67.4 vs 67.36)
+- **Score**: 6/7 within 1 sigma, 7/7 within 3 sigma
+- **CMB Phase 4.1**: COMPLETE — 7 blind predictions exceed the 5 required
+- **Script**: `blind_predictions_phase41.py` — **19/19 PASS**
+
+### Session 138: QUARTIC COUPLING LANDSCAPE + BETA FUNCTIONS
+- **ALL 6 ONE-LOOP BETA FUNCTION COEFFICIENTS ANALYTIC**: For SO(N) symmetric traceless model
+  - A₁₃ = (N²+6)/(6N²), A₂₃ = (2N²+9N-36)/(6N) — new conjectured formulas
+  - Verified for N = 4, 5, 6, 7, 8, 11 (R² = 1.0 to machine precision)
+- **NO MIXED FIXED POINT FOR N ≥ 4**: Discriminant negative for all tested N
+  - SO(11) transition is FIRST ORDER at one loop
+  - λ = c₃/c₂ NOT fixed by one-loop RG (remains free, constrained by c₃ > 0)
+- **BUG FIX**: T vertex symmetrization corrected (S₁+S₂+S₃)/3 vs (S₁+2S₃)/3
+- **Script**: `so11_beta_functions.py` — **13/13 PASS**
+- **Document**: `quartic_coupling_landscape.md` v2.0
+- **Project F6 status**: PARTIALLY RESOLVED (λ free at one loop; analytic derivation of A₁₃,A₂₃ open)
+- **S138 CONTINUATION**: Discriminant proof + exact arithmetic verification
+  - **THEOREM**: disc < 0 for ALL N ≥ 4 (algebraic proof: p(N) = -4N⁴-4N³+19N²-72N+432 < 0)
+  - **EXACT**: A₁₃, A₂₃ verified by SymPy rational arithmetic at N=4,5,6,7 → upgraded to [DERIVATION]
+  - Scripts: `so11_discriminant_proof.py` (11/11), `so11_beta_exact_arithmetic.py` (10/10)
+  - **ANALYTIC DERIVATION**: A₁₃, A₂₃ derived from projector algebra via trace engine → **[THEOREM]**
+  - Script: `so11_beta_analytic_derivation.py` (13/13 PASS) — symbolic trace contraction
+
+### Session 136: STALE PATTERN TRIAGE
+- **10 STALE PATTERNS FORMALIZED**: All patterns 8-16 sessions old archived to formal docs
+- **Algebraic structure investigation**: 42 theorem, PSL(2,7), 231 decomposition, Goldstone tower, Lie algebra dims
+  - Unifying principle: 21 = Im_H * Im_O organizes all five patterns
+  - Script: `algebraic_structure_patterns.py` — 38/38 PASS
+- **Dimension-observable correspondence**: Im_H->expansion, n_c->oscillation, O->inventory
+  - 5 inter-domain bridges identified (c_s, 567, r_s, 96, 193)
+  - Script: `dimension_observable_correspondence.py` — 22/22 PASS (updated)
+- **emerging_patterns.md cleaned**: 10 archived, 8 active remain, all at 1 session
+
+### Session 135: CMB PHASE 4.2 — LCDM DEVIATIONS
 - **10 DEVIATIONS FROM LCDM CATALOGED**:
   - D-01: r = 7/200 = 0.035 (KEY test — CMB-S4 ~2028)
   - D-03: w = -1 exactly (vs DESI dynamical DE hint)
@@ -233,7 +332,7 @@
   - r_s = c_s * eta_* = (3/7) * 337 (matches Planck to 0.01%)
 - **CMB Physics Plan**: Phase 2.1 and 2.2 now RESOLVED
 - **Scripts**: `mu_squared_250_physics_derivation.py`, `sound_horizon_physics_derivation.py`, `sound_horizon_337_origin.py`
-- **New Docs**: `foundations/sound_horizon_derivation.md`
+- **New Docs**: `framework/investigations/cosmology/sound_horizon_derivation.md`
 
 ### Session 130: O² - k FAMILY DISCOVERY
 - **MAJOR FINDING**: The O² - k family is complete with physical interpretations
@@ -395,8 +494,8 @@
 | 1. Cleanup | 121-122 | Consolidate formulas, DOF analysis | DONE |
 | 2. Physics Foundations | 123-132 | Lagrangian, sound horizon, oscillations | **2.1-2.3 DONE** |
 | 3. Peak Structure | 132-134 | Heights, damping, odd-even | **ALL DONE** |
-| 4. Predictions | 135+ | Blind protocol, LCDM deviations | **4.2 DONE** |
-| 5. Validation | TBD | Full spectrum, statistics | PLANNED |
+| 4. Predictions | 135-139 | Blind, deviations, polarization, secondary | **ALL DONE** |
+| 5. Validation | 142+ | Full spectrum (DONE), statistics, verification, comparison | **IN PROGRESS** |
 | 6. Documentation | TBD | Technical summary update | PLANNED |
 
 ### Work Backlog (unclaimed)
@@ -408,8 +507,9 @@ Items available for any new session to pick up. Check `ACTIVE_SESSIONS.md` first
 | `cmb_canonical_formulas.py` | CMB | HIGH | Single source of truth for CMB observables |
 | `DEGREES_OF_FREEDOM_ANALYSIS.md` | CMB | HIGH | Honest parameter counting |
 | Document failed attempts for ℓ₁ = 220 | CMB | MEDIUM | Per skeptical critique |
-| Lock blind predictions ℓ₄, ℓ₅ | CMB | MEDIUM | Before looking up values |
-| CMB Phase 5 — full spectrum validation | CMB | MEDIUM | Next major phase |
+| ~~Lock blind predictions~~ | ~~CMB~~ | ~~DONE~~ | Phase 4.1 complete (Session 138b) |
+| ~~CMB Phase 5.1 — full spectrum~~ | ~~CMB~~ | ~~DONE~~ | Phase 5.1 complete (Session 142) |
+| CMB Phase 5.2 — honest statistical analysis | CMB | MEDIUM | Next validation step |
 | CMB Phase 6 — technical summary update | Documentation | LOW | After Phase 5 |
 | Strengthen connectivity lemma | Mirror | MEDIUM | Prove graph is K_11 |
 | Running couplings (beta coefficients) | Gauge Theory | LOW | Deferred — log form imported |

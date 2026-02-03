@@ -1,9 +1,10 @@
 # Crystallization Stress Cosmology: The Prince Rupert's Drop Model
 
-**Status**: ACTIVE — Formalization in progress
+**Status**: QUARANTINE — Sign problem confirmed (S199: V(eps*) < 0, stress argument does NOT fix sign)
 **Created**: 2026-01-27 (Session 94)
-**Confidence**: [DERIVATION] with [CONJECTURE] elements
+**Confidence**: [CONJECTURE] — sign problem makes core mechanism invalid
 **Origin**: User insight connecting crystallization dynamics to dark energy via stress
+**S199 Audit**: `cosmological_constant_sign_analysis.py` (10/10 PASS) confirms: stress sigma >= 0 is RELATIVE energy, not absolute. V(eps) < 0 throughout physical range. Fine-tuning ~10^111 needed for V_0 resolution. Three CC formulas mutually incompatible.
 
 ---
 
@@ -14,8 +15,8 @@
 **Key Results**:
 1. The universe has a "shell-interior" structure from differential crystallization rates
 2. Dark energy = stress from interior not at equilibrium
-3. Λ = α^56/77 emerges from octonionic crystallization depth
-4. Predicts Λ slowly decreases as stress relaxes
+3. [FALSIFIED] Λ = α^56/77 emerges from octonionic crystallization depth
+4. [CONJECTURE] Predicts Λ slowly decreases as stress relaxes
 
 ---
 

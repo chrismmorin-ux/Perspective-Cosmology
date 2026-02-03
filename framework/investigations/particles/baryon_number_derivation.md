@@ -1,6 +1,6 @@
 # Baryon Number B = 1/3 Investigation
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Confidence**: [INVESTIGATION]
 **Dependencies**: gauge_from_division_algebras.md, fermion_multiplets_from_division_algebras.md
 **Created**: 2026-01-27 (Session 56)

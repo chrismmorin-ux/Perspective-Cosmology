@@ -3,7 +3,7 @@
 **Status**: UNCERTAIN - These are at 10-100 ppm precision where random match rate is ~30%
 
 **Created**: 2026-01-27
-**Updated**: 2026-01-28 (Session 121 — CMB/BBN expansion)
+**Updated**: 2026-02-03 (Session 205 — r_s demoted from Tier 1, m_μ/m_e promoted out)
 **Purpose**: Claims that MAY be significant but cannot be definitively distinguished from numerology
 
 ---
@@ -23,33 +23,34 @@ This means about 1 in 3 random numbers can be matched by framework formulas at t
 
 ### Sub-100 ppm Claims (10-100 ppm)
 
-| # | Constant | Formula | Precision |
-|---|----------|---------|-----------|
-| 1 | m_μ/m_e | 207 - 10/43 | 4.1 ppm |
-| 2 | m_K/m_s | 37/7 | 11.6 ppm |
-| 3 | Koide θ | 2/9 rad | 14.7 ppm |
-| 4 | v/m_p | 179 × π/2 | 21 ppm |
-| 5 | sin²(θ_W) MS | 37/157 | 30 ppm |
-| 6 | m_τ/m_μ | 185/11 | 70 ppm |
+| # | Constant | Formula | Precision | Notes |
+|---|----------|---------|-----------|-------|
+| 1 | r_s | 337×3/7 | 9.9 ppm | ⬇ Demoted from Tier 1 (S205): both factors FALSIFIED (F-8, F-9). Compensating errors. |
+| 2 | m_B0/Σ⁻ | 97/22 | 11 ppm | ⬇ Demoted from Tier 1 (S204): PDG 2024 B0 mass shifted |
+| 3 | m_K/m_s | 37/7 | 11.6 ppm | |
+| 4 | Koide θ | π×73/99×(1+1/17689) | 14.7 ppm | |
+| 5 | sin²(θ_W) MS | 123/532 | 30 ppm | |
+| 6 | m_τ/m_μ | 185/11 | 68.5 ppm | |
+| 7 | m_b/m_s | 179/4 | 84 ppm | ⬇ Demoted from Tier 1 (S204): both quark masses uncertain ~10% |
 
 ### Sub-Percent CMB Claims (100-10000 ppm)
 
 | # | Constant | Formula | Precision | Verification |
 |---|----------|---------|-----------|--------------|
-| 7 | **ℓ₂** | 220×22/9 | **0.05%** | `cmb_acoustic_peaks.py` |
-| 8 | **n_s** | 1 - 4/121 = 117/121 | **0.21%** | `cmb_observables_crystallization.py` |
-| 9 | **ℓ₃** | 220×37/10 | **0.39%** | `cmb_acoustic_peaks.py` |
-| 10 | **ℓ_D** | 11×137 | **0.5%** | `cmb_deep_physics.py` |
-| 11 | **σ₈** | 8/10 | **1.2%** | `cmb_deep_physics.py` |
-| 12 | **δT/T** | α²/3 | **1.4%** | `cmb_fluctuation_amplitude.py` |
+| 8 | **ℓ₂** | 220×22/9 | **0.05%** | `cmb_acoustic_peaks.py` |
+| 9 | **n_s** | 1 - 7/200 = 193/200 | **0.01%** | `hilltop_correct_conditions.py` (supersedes 117/121) |
+| 10 | **ℓ₃** | 220×37/10 | **0.39%** | `cmb_acoustic_peaks.py` |
+| 11 | **ℓ_D** | 11×137 | **0.5%** | `cmb_deep_physics.py` |
+| 12 | **σ₈** | 8/10 | **1.2%** | `cmb_deep_physics.py` |
+| 13 | **δT/T** | α²/3 | **1.4%** | `cmb_fluctuation_amplitude.py` |
 
 ### Sub-Percent BBN Claims
 
 | # | Constant | Formula | Precision | Verification |
 |---|----------|---------|-----------|--------------|
-| 13 | **Y_p (He-4)** | 1/4 - 1/242 = 119/484 | **0.40%** | `bbn_crystallization_precision.py` |
-| 14 | **D/H** | α²×10/21 | **0.8%** | `bbn_crystallization_precision.py` |
-| 15 | **Li-7 (SOLVED)** | BBN × (1/Im_H) = BBN/3 | **2%** | `lithium7_crystallization.py` |
+| 14 | **Y_p (He-4)** | 1/4 - 1/242 = 119/484 | **0.40%** | `bbn_crystallization_precision.py` |
+| 15 | **D/H** | α²×10/21 | **0.8%** | `bbn_crystallization_precision.py` |
+| 16 | **Li-7 (SOLVED)** | BBN × (1/Im_H) = BBN/3 | **2%** | `lithium7_crystallization.py` |
 
 ### BBN Note: Lithium-7 Problem SOLVED
 
@@ -105,23 +106,25 @@ The Li-7 prediction is particularly significant because it **explains** the 40-y
 
 ---
 
-### Claim: Muon-Electron Mass Ratio (m_mu/m_e)
+### Claim: Muon-Electron Mass Ratio — PROMOTED TO TIER 1 (S205)
+
+**m_μ/m_e = 8891/43 at 4.1 ppm** — promoted to Tier 1 after sub-10 ppm confirmation. Uses Phi_6(Im_O) = 43, same cyclotomic denominator as v/m_p (Tier 1 #7). See `TIER_1_SIGNIFICANT.md` claim #10.
+
+---
+
+### Claim: Sound Horizon — DEMOTED FROM TIER 1 (S205)
 
 | Property | Value |
 |----------|-------|
-| **Formula** | m_mu/m_e = 8891/43 = (207 x 43 - 10)/43 |
-| **Predicted** | 206.768... |
-| **Measured** | 206.7683 |
-| **Precision** | **4.1 ppm** |
-| **Random match probability** | ~30% |
+| **Formula** | r_s = 337×3/7 = 144.43 Mpc |
+| **Predicted** | 144.43 Mpc |
+| **Measured** | 144.42 Mpc |
+| **Precision** | **9.9 ppm** |
+| **Status** | ⚠ SEVERELY COMPROMISED |
 
-**Framework Numbers**:
-- 43 = Phi_6(7) = cyclotomic value at Im_O
-- 8891 = 207 x 43 - 10 = lepton formula
+**Both factors FALSIFIED**: η* = 337 Mpc is F-8 (actual 280 Mpc, 16.8% error). c_s = 3/7 is F-9 (5.6-20% error). The 9.9 ppm product is compensating errors (HRS=7). Framework parameters DO give r_s = 144.48 via standard physics (0.03%), but this is derivative of H₀/Ω_m/Ω_b — not independent.
 
-**Status**: POSSIBLY SIGNIFICANT - Uses cyclotomic structure
-
-**Verification**: `lepton_mass_ratio_search.py`
+**Verification**: `sound_horizon_337_origin.py` (script predates falsification, needs update)
 
 ---
 
@@ -145,47 +148,32 @@ The Li-7 prediction is particularly significant because it **explains** the 40-y
 
 ---
 
-### Claim: v/m_p Ratio
+### Claim: v/m_p Ratio — PROMOTED TO TIER 1 (S204)
 
-| Property | Value |
-|----------|-------|
-| **Formula** | v/m_p = 11284/43 |
-| **Predicted** | 262.42... |
-| **Measured** | 262.36 |
-| **Precision** | **21 ppm** |
-| **Random match probability** | ~30% |
-
-**Framework Numbers**:
-- 11284 = 4 x 2821 or other factorization
-- 43 = Phi_6(7) (same as muon ratio!)
-
-**Status**: POSSIBLY SIGNIFICANT - Connection to muon suggests real structure
-
-**Verification**: Needed
-
----
+**v/m_p = 11284/43 at 1.63 ppm** — promoted to Tier 1 after `v_mp_ratio.py` confirmation (8/8 PASS). See `TIER_1_SIGNIFICANT.md` claim #7.
 
 ---
 
 ## CMB Claims - Detailed Analysis
 
-### Claim: Spectral Index n_s = 117/121
+### Claim: Spectral Index n_s = 193/200
 
 | Property | Value |
 |----------|-------|
-| **Formula** | n_s = 1 - n_d/n_c² = 1 - 4/121 = 117/121 |
-| **Predicted** | 0.966942... |
+| **Formula** | n_s = 1 - Im_O/200 = 1 - 7/200 = 193/200 |
+| **Predicted** | 0.965 |
 | **Measured** | 0.9649 ± 0.0042 |
-| **Precision** | **0.21%** |
+| **Precision** | **0.01%** (within 1σ) |
 
 **Framework Numbers**:
-- n_d = 4 (spacetime = quaternion dimension)
-- n_c = 11 (crystal dimension)
-- 121 = n_c² (crystallization channels)
+- Im_O = 7 (imaginary octonions = hidden fraction numerator)
+- 200 = 2 × Ω denominator (from cosmological structure)
 
-**Physical Interpretation**: Spacetime dimensions (4) create a "red" tilt in an otherwise scale-invariant spectrum.
+**Physical Interpretation**: The spectral tilt is the hidden octonion fraction of the crystallization channel structure.
 
-**Verification**: `cmb_observables_crystallization.py`
+**Verification**: `hilltop_correct_conditions.py` (Session 129)
+
+> **History**: Original derivation (Session 77) gave n_s = 117/121 = 0.96694. Superseded by Session 129 derivation: n_s = 193/200 = 0.965 with correct hilltop parameters (mu² = 1536/7). The new formula also satisfies r = 1 - n_s exactly. See `claims/FALSIFIED.md` F-6 for full history.
 
 ---
 
@@ -305,11 +293,13 @@ This could indicate:
 
 | Claim | Precision | Gap to Tier 1 |
 |-------|-----------|---------------|
+| r_s | 9.9 ppm | Demoted S205: both factors FALSIFIED. Compensating errors. |
+| m_B0/Sigma- | 11 ppm | Demoted S204: PDG 2024 B0 mass shifted |
+| m_K/m_s | 11.6 ppm | Need < 10 ppm |
 | Koide theta | 14.7 ppm | Need < 10 ppm |
-| sin^2(theta_W) | 30 ppm | Need < 10 ppm |
-| m_mu/m_e | 4.1 ppm | Formula less clean than Tier 1 |
-| m_tau/m_mu | 70 ppm | Need < 10 ppm |
-| v/m_p | 21 ppm | Need < 10 ppm |
+| sin^2(theta_W) MS | 30 ppm | Need < 10 ppm |
+| m_tau/m_mu | 68.5 ppm | Need < 10 ppm |
+| m_b/m_s | 84 ppm | Demoted S204: quark mass uncertainties ~10% |
 
 ---
 
@@ -317,7 +307,7 @@ This could indicate:
 
 These 15 claims span a range of significance:
 
-**Sub-100 ppm (6 claims)**: Individually at ~30% random match probability, but:
+**Sub-100 ppm (7 claims)**: Individually at ~30% random match probability, but:
 - Cyclotomic 43 reuse suggests real structure
 - Framework prime 37 appears multiple times
 
@@ -358,4 +348,4 @@ This is the framework's strongest example of **explanatory** rather than just **
 
 ---
 
-*Last updated: 2026-01-28 (Session 121 — CMB/BBN expansion)*
+*Last updated: 2026-02-03 (S205 — r_s demoted from Tier 1 (both factors falsified). m_μ/m_e promoted to Tier 1 (4.1 ppm, cyclotomic 43). sin²θ_W MS corrected 74→30 ppm. m_τ/m_μ corrected 70→68.5 ppm. Count: 7 sub-100 ppm + 6 CMB + 3 BBN = 16)*

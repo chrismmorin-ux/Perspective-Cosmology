@@ -20,6 +20,9 @@ Error: ~0.00003% (0.3 ppm)
 Status: VERIFICATION
 """
 
+import sys, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
 import math
 from fractions import Fraction
 
@@ -206,11 +209,11 @@ Form 2 (explicit):
 # Note: 37 is also prime
 print(f"""
 Form 3 (number-theoretic):
-  Denominator: 111 = 3 × 37
+  Denominator: 111 = 3 x 37
 
   Note: n_c^2 - n_c + 1 = (n_c^3 + 1)/(n_c + 1) for n_c odd
         11^2 - 11 + 1 = 111
-        (11^3 + 1)/(11 + 1) = 1332/12 = 111 ✓
+        (11^3 + 1)/(11 + 1) = 1332/12 = 111 [OK]
 
   This is related to cyclotomic polynomials!
   Phi_6(n) = n^2 - n + 1 (6th cyclotomic polynomial)

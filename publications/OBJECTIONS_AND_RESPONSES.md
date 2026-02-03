@@ -1,5 +1,12 @@
 # Objections and Responses
 
+> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
+> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
+> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
+> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
+> - **Script count**: ~514 (not ~291-295)
+> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
+
 **Purpose**: Honest engagement with expected criticisms
 **Audience**: Skeptical physicists evaluating the framework
 **Status**: Phase 4 Communication document
@@ -122,7 +129,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
    - Hubble tension ratio 13/12 — predicted BEFORE being widely discussed
    - These are genuine predictions, not retrofits
 
-2. **Formulas with no free parameters:**
+2. **Formulas with no free parameters** **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**:
    - 1/α = 137 + 4/111 uses only framework dimensions
    - No adjustable coefficients
    - Change ANY input and the formula fails
@@ -136,7 +143,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
    - sin²θ_W = 2/25 (tried, failed at 65% error)
    - We're not hiding failures
 
-**Honest acknowledgment**: The development WAS iterative. But the final formulas are parameter-free and make untested predictions. The dark matter test is decisive.
+**Honest acknowledgment**: The development WAS iterative. But the final formulas are parameter-free **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)** and make untested predictions. The dark matter test is decisive.
 
 ---
 
@@ -159,7 +166,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
 1. **Mathematics doesn't care about credentials.** If 1/α = 137 + 4/111 is correct, it's correct regardless of who derived it.
 
 2. **Everything is verifiable:**
-   - 291 verification scripts (all available)
+   - 291 **(OUTDATED: ~514 as of S189)** verification scripts (all available)
    - Complete derivation chains
    - No hidden steps or appeals to authority
 

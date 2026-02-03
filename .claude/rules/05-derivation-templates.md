@@ -1,3 +1,11 @@
+---
+paths:
+  - "core/**"
+  - "framework/investigations/**"
+  - "verification/**"
+  - "sessions/**"
+---
+
 # Derivation Templates
 
 ## Plain Language Requirement
@@ -240,7 +248,7 @@ from sympy import Rational as R
 # ==============================================================================
 
 n_d = 4   # [D] Defect dimension from Frobenius
-n_c = 11  # [D] Crystal dimension sum: 1 + 2 + 4 + 4
+n_c = 11  # [D] Crystal dimension: Im(C) + Im(H) + Im(O) = 1 + 3 + 7
 
 # ==============================================================================
 # IMPORTS (from Standard Model / observation)

@@ -1,6 +1,6 @@
 # Investigation: Content (C)
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Understand what "content" is and where it comes from

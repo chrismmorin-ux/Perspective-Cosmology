@@ -32,7 +32,7 @@ After the subagent returns, evaluate:
 
 ### Step 3: Record Results
 
-Append results to `registry/llm_challenge_results.md` using the template there.
+Append results to `registry/llm_challenge/results/` using the template in `registry/llm_challenge/results/TEMPLATE.md`.
 
 ### Step 4: Report Outcome
 
@@ -156,7 +156,7 @@ Please derive these values step by step. Show your mathematical reasoning. What 
 
 ## Historical Results
 
-See `registry/llm_challenge_results.md` for all test outcomes.
+See `registry/llm_challenge/results/SUMMARY.md` for all test outcomes.
 
 ## Caveats
 

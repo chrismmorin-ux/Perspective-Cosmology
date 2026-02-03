@@ -496,7 +496,7 @@ print("[OK] All verifications passed")
 
 ### Relation to alpha_crystal_interface.md
 
-This document provides the **tilt matrix foundation** for the formula presented in `physics/alpha_crystal_interface.md`.
+This document provides the **tilt matrix foundation** for the formula presented in `alpha_crystal_interface.md`.
 
 **Contributions from that document**:
 - Interface picture (defect in crystal)
@@ -608,7 +608,7 @@ This derivation would be **FALSIFIED** if:
 | Document | Relation |
 |----------|----------|
 | `framework/layer_0_pure_axioms.md` | Source of tilt definitions |
-| `physics/alpha_crystal_interface.md` | Interface picture, running analysis |
+| `alpha_crystal_interface.md` | Interface picture, running analysis |
 | `framework/investigations/tilt_alpha_connection.md` | Original investigation |
 | `verification/sympy/tilt_alpha_connection.py` | Computational verification |
 

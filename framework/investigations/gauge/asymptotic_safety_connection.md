@@ -1,6 +1,6 @@
 # Asymptotic Safety and the Crystal-Defect Interface
 
-**Status**: ACTIVE-DEVELOPMENT (INVESTIGATING)
+**Status**: ARCHIVE (INVESTIGATING)
 **Confidence**: [SPECULATION]
 **Created**: 2026-01-26
 **Last Verified**: 2026-01-26

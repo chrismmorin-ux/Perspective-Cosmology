@@ -217,7 +217,7 @@ Remarkably, 17 = 1^4 + 2^4 divides many fourth-power sums:
 - 5^4 + 6^4 = 1921 = 17 × 113
 - 11^4 + 12^4 = 35377 = 17 × 2081
 
-This is because 17 | (n^4 + (n+1)^4) whenever n ≡ 1 or 5 (mod 17).
+This is because 17 | (n^4 + (n+1)^4) whenever n ≡ 1, 5, 11, or 15 (mod 17). (Corrected S189: four residue classes, not two. The pairs {1,15} and {5,11} reflect the n ↔ 16-n symmetry mod 17.)
 
 ---
 

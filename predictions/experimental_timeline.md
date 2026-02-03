@@ -13,7 +13,7 @@
 | **1** | m_DM = 5.11 GeV | Direct detection | 2025-2027 | ONGOING |
 | **2** | H₀ ratio = 13/12 | Precision cosmology | 2024-2030 | ONGOING |
 | **3** | Dark photon ~5 GeV | Colliders | 2025-2030 | ONGOING |
-| **4** | n_s = 117/121 | CMB-S4 | 2027-2030 | FUTURE |
+| **4** | n_s = 193/200 | CMB-S4 | 2027-2030 | FUTURE |
 | **5** | Proton lifetime | Hyper-K | 2027+ | FUTURE |
 
 ---
@@ -154,9 +154,11 @@ At m_A' ~ 5 GeV, ε ~ 10⁻⁵:
 
 ---
 
-## Priority 4: CMB Precision (n_s = 117/121)
+## Priority 4: CMB Precision (n_s = 193/200)
 
-**Prediction**: Scalar spectral index n_s = 117/121 = 0.9669
+**Prediction**: Scalar spectral index n_s = 193/200 = 0.965 (supersedes 117/121, S129)
+
+> **Updated S189 audit**: n_s formula updated from 117/121 = 0.9669 to 193/200 = 0.965 per hilltop derivation (S124/S129). See `predictions/BLIND_PREDICTIONS.md` P-006.
 
 ### Timeline
 
@@ -176,13 +178,14 @@ At m_A' ~ 5 GeV, ε ~ 10⁻⁵:
 
 | Measurement | n_s | Error | Status |
 |-------------|-----|-------|--------|
-| Planck 2018 | 0.9649 | ±0.0042 | 0.21% from prediction |
-| Framework | 0.9669 | — | 117/121 exactly |
+| Planck 2018 | 0.9649 | ±0.0042 | 0.01% from prediction |
+| Framework | 0.965 | — | 193/200 exactly |
 
 ### What CMB-S4 Will Test
 
 - Precision goal: σ(n_s) ~ 0.0015 (3× improvement)
-- If n_s = 0.9669 ± 0.0015, framework confirmed at 2σ
+- If n_s = 0.965 ± 0.0015, framework confirmed
+- CMB-S4 will also test r = 0.035 (σ(r) ~ 0.001) — the KEY distinguishing prediction
 - If n_s outside 0.96-0.97, tension with framework
 
 ---

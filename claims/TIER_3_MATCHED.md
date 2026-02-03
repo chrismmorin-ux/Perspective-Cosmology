@@ -50,7 +50,7 @@ The framework either describes real physics or is an unusually comprehensive coi
 | **Precision** | 0.07% |
 | **Random match probability** | ~86% |
 
-Note: Included for completeness; does not constitute evidence
+Note: Included for completeness; does not constitute evidence. **⚠ CONFLICT**: Tier 1 uses a different formula Ω_Λ = 137/200 = 0.685. A third formula Λ/M_Pl⁴ = α⁵⁶/77 exists. Three incompatible formulas is a RED FLAG — see Tier 1 caveat.
 
 ---
 
@@ -64,7 +64,7 @@ Note: Included for completeness; does not constitute evidence
 | **Precision** | 0.16% |
 | **Random match probability** | ~86% |
 
-Note: Included for completeness; does not constitute evidence
+Note: Included for completeness; does not constitute evidence. **⚠ CONFLICT**: Tier 1 uses Ω_m = 63/200 = 0.315, incompatible with 6/19 = 0.3158.
 
 ---
 
@@ -160,13 +160,13 @@ Note: Included for completeness; does not constitute evidence
 
 | Property | Value |
 |----------|-------|
-| **Formula** | n_s = 1 - 4/121 = 117/121 |
-| **Predicted** | 0.9669 |
+| **Formula** | n_s = 1 - 7/200 = 193/200 (supersedes 117/121, S129) |
+| **Predicted** | 0.965 |
 | **Measured** | 0.9649 |
-| **Precision** | 0.21% |
+| **Precision** | 0.01% |
 | **Random match probability** | ~86% |
 
-Note: Included for completeness; does not constitute evidence
+Note: Also listed in Tier 2. Updated S189 audit. The 193/200 formula from hilltop derivation (S129) supersedes 117/121
 
 ---
 
@@ -180,7 +180,7 @@ Note: Included for completeness; does not constitute evidence
 | **Precision** | "EXACT" |
 | **Random match probability** | HIGH (matching integers is easier) |
 
-Note: Matching an integer is less impressive than it appears. The formula 2 x 11 x 10 is one of many that give 220.
+Note: Also listed in Tier 1. Matching an integer is less impressive than it appears. The formula 2 x 11 x 10 is one of many that give 220.
 
 ---
 
@@ -188,13 +188,13 @@ Note: Matching an integer is less impressive than it appears. The formula 2 x 11
 
 | Property | Value |
 |----------|-------|
-| **Formula** | ell_2 = 220 x 19/17 |
-| **Predicted** | 245.9 |
-| **Measured** | 246 (approximate) |
+| **Formula** | ell_2 = ell_1 × 2n_c/(n_c - C) = 220 × 22/9 |
+| **Predicted** | 537.78 |
+| **Measured** | 537.5 ± 0.7 |
 | **Precision** | 0.05% |
 | **Random match probability** | ~86% |
 
-Note: Included for completeness; does not constitute evidence
+Note: Also listed in Tier 2. See `TIER_2_POSSIBLE.md` for detailed analysis. Previous formula (220×19/17=245.9) was erroneous — corrected S202.
 
 ---
 
@@ -202,18 +202,22 @@ Note: Included for completeness; does not constitute evidence
 
 | Property | Value |
 |----------|-------|
-| **Formula** | r = alpha^4 |
-| **Predicted** | ~3 x 10^-9 |
+| **Formula** | r = Im_O/200 = 7/200 |
+| **Predicted** | 0.035 |
 | **Upper bound** | r < 0.036 |
-| **Status** | Consistent (below detection) |
+| **Status** | Just below detection — testable by CMB-S4 |
 
-Note: Predictions below detection limits are not confirmations
+> **Updated S189 audit**: Supersedes r = α⁴ ~ 3×10⁻⁹ (pre-S124). Current prediction r = 7/200 = 0.035 from hilltop slow-roll (S124/S129). See `predictions/LCDM_DEVIATIONS.md` D-01.
+
+Note: This is now the framework's KEY distinguishing prediction — detectable by CMB-S4 (~2028-2030)
 
 ---
 
 ## BBN Predictions
 
 **NOT STATISTICALLY SIGNIFICANT** - All at 0.4-2% precision (P ~ 100%)
+
+Note: Y_p, D/H, and Li-7 are also listed in Tier 2 with detailed analysis. See `TIER_2_POSSIBLE.md`.
 
 ### Primordial Helium (Y_p)
 
@@ -461,7 +465,7 @@ Note: Predicting zero is qualitative, not a precision test
 
 ---
 
-## Quark Koide (8 Constants)
+## Quark Koide (6 Parameters)
 
 **NOT STATISTICALLY SIGNIFICANT** - All at 0.05-0.5% precision (P ~ 86-100%)
 
@@ -520,11 +524,11 @@ Note: Exact matches between integers suggest post-hoc fitting, not derivation
 
 | Category | Count | Average Precision | P(random) | Verdict |
 |----------|-------|-------------------|-----------|---------|
-| Cosmological | 8 | 0.5% | ~100% | NOT EVIDENCE |
+| Cosmological | 7 | 0.5% | ~100% | NOT EVIDENCE |
 | CMB | 5 | 0.5% | ~90% | NOT EVIDENCE |
 | BBN | 5 | 0.8% | ~100% | NOT EVIDENCE |
-| Mixing angles | 9 | 0.5% | ~95% | NOT EVIDENCE |
-| Quark Koide | 8 | 0.2% | ~86% | NOT EVIDENCE |
+| Mixing angles | 8 | 0.5% | ~95% | NOT EVIDENCE |
+| Quark Koide | 6 | 0.2% | ~86% | NOT EVIDENCE |
 | Other | ~10 | varies | ~90% | NOT EVIDENCE |
 
 **Total Tier 3 claims**: ~45
@@ -538,7 +542,7 @@ This document contains ~45 claims that:
 2. **DO NOT** constitute statistical evidence
 3. **COULD** all be numerology (indistinguishable from random matching)
 
-The framework's claim of "46+ derived constants" is misleading. Only 3 are statistically significant (Tier 1).
+The framework's claim of "46+ derived constants" is misleading. Only 12 are statistically significant (Tier 1).
 
 These Tier 3 claims are included for:
 - Completeness
@@ -549,4 +553,4 @@ But they should NOT be cited as evidence for the framework.
 
 ---
 
-*Last updated: 2026-01-27 (Session 106)*
+*Last updated: 2026-02-03 (S205 — "Only 3" count fixed to 12. Quark Koide "8 Constants" → 6. Summary stats corrected. Mixing angles 9→8.)*

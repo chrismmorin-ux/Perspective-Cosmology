@@ -1,6 +1,6 @@
 # Dark Matter Mass Scale from Crystallization Structure
 
-**Status**: ACTIVE - Major prediction
+**Status**: ARCHIVE - Major prediction
 **Created**: 2026-01-27 (Session 95)
 **Confidence**: [DERIVATION] for formula, [PREDICTION] for mass value
 **Origin**: Extension of Omega_DM/Omega_b = 49/9 to mass ratio

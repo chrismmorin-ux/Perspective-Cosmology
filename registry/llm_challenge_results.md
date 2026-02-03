@@ -1,173 +1,21 @@
 # LLM Derivation Challenge — Results
 
-**Created**: Session 128
-**Purpose**: Document outcomes of blind derivation tests
+**This file has moved.**
+
+Results have been restructured into individual files for easier navigation:
+
+**New location**: [`registry/llm_challenge/results/SUMMARY.md`](llm_challenge/results/SUMMARY.md)
+
+## Quick Links
+
+| Content | New Location |
+|---------|-------------|
+| Summary table & analysis | [`llm_challenge/results/SUMMARY.md`](llm_challenge/results/SUMMARY.md) |
+| Test 1: Claude (internal) | [`llm_challenge/results/v1_test1_claude.md`](llm_challenge/results/v1_test1_claude.md) |
+| Test 2: ChatGPT GPT-4o | [`llm_challenge/results/v1_test2_gpt4o.md`](llm_challenge/results/v1_test2_gpt4o.md) |
+| Test 3: Google Gemini | [`llm_challenge/results/v1_test3_gemini.md`](llm_challenge/results/v1_test3_gemini.md) |
+| Recording template | [`llm_challenge/results/TEMPLATE.md`](llm_challenge/results/TEMPLATE.md) |
 
 ---
 
-## Test 1: Claude Subagent (Internal)
-
-**Date**: 2026-01-28
-**Model**: Claude (via Task tool subagent, same session)
-**Session**: Spawned with axiom content only, instructed not to read files
-**Limitation**: Same model, shared training data — not truly independent
-
-### Prompt Given
-
-Full axiom document from `framework/axioms_for_llm_challenge.md` with explicit instructions:
-- Work purely from mathematics
-- Do NOT read any files
-- Do NOT look up physics constants
-- Show step-by-step derivation
-
-### Response (Verbatim)
-
-#### Part 1: Determining n_d
-
-The agent identified constraints:
-1. Algebraic Completeness (T0): T closed under composition, identity, inverse
-2. No Zero Divisors
-3. Associativity for time evolution
-
-Applied **Frobenius Theorem (1878)**:
-> "The only finite-dimensional associative division algebras over R are:
-> - R (dimension 1)
-> - C (dimension 2)
-> - H (dimension 4)
->
-> There are no others. The octonions O (dimension 8) fail because they are non-associative."
-
-**Conclusion**: n_d = 4 (from quaternions H)
-
-#### Part 2: Determining n_c
-
-Decomposed each division algebra into real + imaginary parts:
-
-| Algebra | Total dim | Im(D) dim |
-|---------|-----------|-----------|
-| R | 1 | 0 |
-| C | 2 | 1 |
-| H | 4 | 3 |
-| O | 8 | 7 |
-
-Agent initially tried n_c = 0 + 1 + 3 = 4 (excluding O), then reconsidered:
-
-> "If we count imaginary units as the 'hidden' dimensions:
-> Total imaginary units in the Cayley-Dickson sequence up to and including O:
-> 0 + 1 + 3 + 7 = 11"
-
-**Conclusion**: n_c = 11
-
-#### Part 3: Dimensionless Quantities
-
-Computed combinations:
-
-| Quantity | Value |
-|----------|-------|
-| n_d + n_c | 15 |
-| n_d × n_c | 44 |
-| n_c - n_d | 7 |
-| **n_d² + n_c²** | **137** |
-
-Agent noted: "This is a pure integer emerging from the algebraic structure."
-
-#### Theorems Cited
-
-1. Frobenius Classification Theorem (1878)
-2. Hurwitz Theorem (1898)
-3. Cayley-Dickson Construction
-
-### Analysis
-
-**n_d derived**: 4 — CORRECT
-**n_c derived**: 11 — CORRECT (after reconsideration)
-**Ratio derived**: 137 — CORRECT
-
-**Reasoning quality**: Valid mathematical reasoning throughout. Correctly applied Frobenius theorem. Key insight was including O's imaginary dimensions in n_c despite O being non-associative.
-
-**Hesitation noted**: Agent initially computed n_c = 4 (excluding O), then realized the "hidden dimensions" should include all normed division algebras, not just associative ones.
-
-**Errors or gaps**: None in final answer. Initial n_c attempt was wrong but self-corrected.
-
-### Outcome
-
-[X] FULL SUCCESS — All three values derived correctly
-[ ] PARTIAL SUCCESS — Some values derived
-[ ] INTERESTING FAILURE — Different values with valid reasoning
-[ ] UNINFORMATIVE FAILURE — Could not engage with problem
-
-### Significance
-
-**Positive**:
-- Valid derivation chain from axioms to numbers
-- Self-corrected on n_c interpretation
-- No physics knowledge invoked
-- Pythagorean combination identified independently
-
-**Limitations**:
-- Same Claude model (not independent)
-- Training data may include similar ideas
-- Subagent has access to same knowledge base
-
-### Verdict
-
-**Encouraging but not conclusive.** This demonstrates that:
-1. The axioms are sufficient to derive the numbers
-2. The derivation path is reproducible
-3. No hidden assumptions are needed
-
-But true independence requires testing on GPT-4 or other models.
-
----
-
-## Test 2: GPT-4 (Pending)
-
-**Status**: NOT YET RUN
-
-To run:
-1. Open fresh ChatGPT session
-2. Use prompts from `registry/llm_challenge_prompt.md`
-3. Record verbatim response
-4. Analyze using criteria above
-
----
-
-## Test 3: Other LLMs (Pending)
-
-**Status**: NOT YET RUN
-
-Candidates: Gemini, Llama, Mistral
-
----
-
-## Summary Statistics
-
-| Test | Model | n_d | n_c | 137 | Outcome |
-|------|-------|-----|-----|-----|---------|
-| 1 | Claude (internal) | 4 | 11 | 137 | FULL SUCCESS |
-| 2 | GPT-4 | — | — | — | PENDING |
-| 3 | Other | — | — | — | PENDING |
-
----
-
-## Implications
-
-### If All Tests Succeed
-
-Would indicate:
-- Mathematical necessity (not numerology)
-- Reproducible derivation chain
-- Framework captures real structure
-
-Probability update: 15-30% → 30-40%
-
-### If Tests Diverge
-
-Would indicate:
-- Hidden flexibility in axioms
-- Multiple valid interpretations
-- Need tighter constraints
-
----
-
-*This document will be updated as more tests are run.*
+*Restructured Session 135. Original content preserved in `registry/llm_challenge/results/`.*

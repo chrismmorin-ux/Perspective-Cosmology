@@ -7,7 +7,9 @@
 
 ## The Claim
 
-> **Physics is not contingent. It is the unique mathematical structure compatible with observation.**
+> **Physics is not contingent. It is the unique mathematical structure compatible with observation.** [CONJECTURE]
+
+**Confidence note**: This master summary presents the framework's thesis. Individual steps have varying confidence levels: [THEOREM] for mathematical facts (Frobenius-Hurwitz), [DERIVATION] for rigorous-but-gapped arguments (spacetime=4), and [CONJECTURE] for interpretive steps (gauge groups from automorphisms). See individual documents for detailed tags.
 
 ---
 
@@ -111,7 +113,7 @@ Zero-divisors would mean certain observation sequences annihilate information.
 
 **Document**: `observation_consistency.md`, Section III
 
-### Step 5: Division Algebras (Theorem)
+### Step 5: Division Algebras [THEOREM]
 
 **Frobenius-Hurwitz** (1877/1898): The only finite-dimensional division algebras over R are:
 
@@ -126,26 +128,43 @@ Zero-divisors would mean certain observation sequences annihilate information.
 
 **Document**: `frobenius_necessity.md`
 
-### Step 6: Spacetime = 4 Dimensions
+### Step 6: Spacetime = 4 Dimensions [DERIVATION]
 
-Time evolution must be associative (causality).
-Maximal associative division algebra: H (dimension 4).
+Time evolution must be associative (causality). [A-PHYSICAL]
+Maximal associative division algebra: H (dimension 4). [THEOREM]
 Therefore spacetime dimension = 4.
 
 Structure: 1 (time) + 3 (space) from H = R + Im(H).
 
 **Document**: `spacetime_from_associativity.md`
 
-### Step 7: Gauge Groups from Automorphisms
+### Step 7: Gauge Groups from Automorphisms [CONJECTURE]
 
-Internal symmetries = automorphisms of division algebras:
-- Aut(C) → U(1) (electromagnetism)
-- Aut(H) → SU(2) (weak force)
-- Aut(O) ⊃ SU(3) (strong force)
+Internal symmetries = automorphisms of division algebras: [A-PHYSICAL]
+- Aut(C) = Z₂ → U(1) (electromagnetism) [GAP: finite→continuous, see G-006]
+- Aut(H) = SO(3) → SU(2) (weak force) [GAP: why double cover?]
+- Aut(O) = G₂ ⊃ SU(3) (strong force) [GAP: specific embedding]
 
 Standard Model: U(1) × SU(2) × SU(3)
 
 **Document**: `gauge_from_automorphisms.md`
+
+### Step 7b: The SO(11) Symmetry Breaking Chain
+
+The crystal (n_c = 11 dims) breaks through a unique chain forced by division algebras:
+
+```
+SO(11) → SO(4) × SO(7) → SO(4) × G₂ → SO(4) × SU(3)
+```
+
+- (4,7) split selected: max coupling among D_framework-valid splits
+- G₂ = Aut(O): unique octonionic automorphism group
+- SU(3) = Stab_{G₂}(C): forced by complex field identification
+- 41 total Goldstone modes = 194 - 153 (Weinberg denominator minus proton factor)
+- 8 primary framework primes uniquely determined from D_framework
+- ALL denominators are polynomials in n_c
+
+**Document**: `symmetry_breaking_chain.md`
 
 ### Step 8: Fermion Content
 
@@ -156,7 +175,7 @@ Division algebra representations give:
 
 **Document**: `gauge_from_automorphisms.md`, Section IV
 
-### Step 9: Constants from Dimensions
+### Step 9: Constants from Dimensions [CONJECTURE]
 
 The dimensionless constants of physics are ratios of {1, 2, 4, 8} and their combinations:
 
@@ -171,13 +190,13 @@ The dimensionless constants of physics are ratios of {1, 2, 4, 8} and their comb
 
 **Document**: `constants_from_dimensions.md` (TODO)
 
-### Step 10: Einstein's Equations
+### Step 10: Einstein's Equations [DERIVATION]
 
-Crystallization dynamics (tendency toward orthogonality) applied to the metric yields:
+Crystallization dynamics (tendency toward orthogonality) applied to the metric yields: [A-PHYSICAL]
 
 G_μν + Λg_μν = 8πG T_μν
 
-**Document**: `einstein_from_crystallization.md` (TODO)
+**Document**: `framework/investigations/spacetime/einstein_from_crystallization.md`
 
 ---
 
@@ -202,7 +221,7 @@ From the four division algebras:
 ```
 Dimensions:     R=1, C=2, H=4, O=8
 Imaginaries:    Im(H)=3, Im(O)=7
-Crystal dim:    n_c = 1+2+8 = 11
+Crystal dim:    n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11
 Spacetime:      n_d = 4
 
 Key combinations:
@@ -248,9 +267,11 @@ If this chain is correct:
 | 1-4 | `observation_consistency.md` | ACTIVE |
 | 5 | `frobenius_necessity.md` | ACTIVE |
 | 6 | `spacetime_from_associativity.md` | ACTIVE |
-| 7-8 | `gauge_from_automorphisms.md` | ACTIVE |
+| 7 | `gauge_from_automorphisms.md` | ACTIVE |
+| 7b | `framework/investigations/crystallization/symmetry_breaking_chain.md` | **COMPLETE** |
+| 8 | `fermions_from_representations.md` | ACTIVE |
 | 9 | `constants_from_dimensions.md` | **COMPLETE** |
-| 10 | `einstein_from_crystallization.md` | **COMPLETE** |
+| 10 | `framework/investigations/spacetime/einstein_from_crystallization.md` | **COMPLETE** |
 
 ---
 
@@ -258,8 +279,8 @@ If this chain is correct:
 
 > **Observation → Consistency → Division Algebras → Physics**
 
-The chain has no gaps in principle. Each step follows from the previous.
-The evidence (sub-ppm predictions, exact cosmological values) suggests the chain is correct.
+The chain has identified gaps (see G-003, G-004, G-006 in `.auditor/AUDIT_PROGRESS.md`), but the logical path is clear.
+The evidence (sub-ppm predictions, exact cosmological values) is suggestive but not conclusive (see `publications/HONEST_ASSESSMENT.md`).
 
 **This is either the explanation of physics, or the most elaborate coincidence in history.**
 

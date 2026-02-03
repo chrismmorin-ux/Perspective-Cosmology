@@ -1,6 +1,6 @@
 # Investigation: The Value Space V
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Determine the nature and origin of V in light of the orthogonality insight

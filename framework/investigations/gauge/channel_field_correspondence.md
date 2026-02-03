@@ -1,6 +1,6 @@
 # Investigation: Channel → Field Correspondence
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Session**: 2026-01-26-34
 

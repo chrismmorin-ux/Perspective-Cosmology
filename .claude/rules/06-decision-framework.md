@@ -1,3 +1,9 @@
+---
+paths:
+  - "registry/**"
+  - "sessions/**"
+---
+
 # Decision Framework
 
 ## Priority Matrix

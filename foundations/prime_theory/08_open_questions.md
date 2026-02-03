@@ -69,7 +69,7 @@
 - 11⁴ + 12⁴ = 35377 = 17 × 2081
 - 1⁸ + 2⁸ = 257, but 1⁸ + 4⁸ = 4097 = 17 × 241
 
-**Explanation**: n⁴ + (n+1)⁴ ≡ 0 (mod 17) when n ≡ 1 or 5 (mod 17).
+**Explanation**: n⁴ + (n+1)⁴ ≡ 0 (mod 17) when n ≡ 1, 5, 11, or 15 (mod 17). (Corrected S189: four residue classes, not two.)
 
 But the deeper question: why this particular congruence pattern?
 
@@ -90,7 +90,7 @@ But the deeper question: why this particular congruence pattern?
 
 ## Questions Connecting Primes and Division Algebras
 
-### 9. The Octonionic Barrier (PARTIALLY RESOLVED - S125)
+### 9. The Octonionic Barrier (PARTIALLY RESOLVED - S125, DEEPENED S184)
 
 **Observation**: Pure octonionic patterns fail:
 - 7⁴ + 8⁴ = 6497 = 73 × 89 (not prime)
@@ -101,15 +101,19 @@ But the deeper question: why this particular congruence pattern?
 - 2657 = 4⁴ + 7⁴ (dim(H) + Im(O))
 - 4177 = 3⁴ + 8⁴ (Im(H) + dim(O))
 
+**S184 insight**: These are all norms in Z[ζ₈]: e.g. 2417 = N(2 + 7ζ₈). The pure non-associative case fails because:
+- 7⁴ + 8⁴ = N(7 + 8ζ₈) = 6497 = 73 × 89 (norm is composite)
+- In Z[ζ₈], this factors as N(7 + 8ζ₈) = N(π₁)·N(π₂) where π₁, π₂ are primes above 73 and 89
+
 **Refined Question**: Why do bridges require at least one associative dimension?
 
-**Speculation**: Non-associativity only fully "blocks" when BOTH dimensions are non-associative. Hybrid combinations inherit partial protection from the associative partner.
+**Speculation**: Non-associativity only fully "blocks" when BOTH dimensions are non-associative. The factorization 6497 = 73 × 89 is notable: both 73 and 89 are primes ≡ 1 mod 8, so both split completely in Q(ζ₈). The element 7 + 8ζ₈ factors into two non-principal elements in Z[ζ₈]... but Z[ζ₈] has class number 1, so this is factorization into non-unit elements — the norm is composite because the element itself factors.
 
 ---
 
 ### 10. The Consecutive Prime Sequence
 
-**Observation**: 1, 2, 3, 4 giving three consecutive fourth-power primes uses exactly:
+**Observation**: n = 1, 2, 3, 4 giving four consecutive fourth-power-sum primes (17, 97, 337, 881) uses exactly:
 - dim(R) = 1
 - dim(C) = 2
 - Im(H) = 3
@@ -133,11 +137,19 @@ But the deeper question: why this particular congruence pattern?
 
 ---
 
-### 12. The Cyclotomic Connection
+### 12. The Cyclotomic Connection (DEEPENED S184)
 
 **Observation**: deg(Φ₈) = φ(8) = 4 = dim(H)
 
 The 8th cyclotomic polynomial governs fourth-power arithmetic, and its degree equals the quaternion dimension.
+
+**S184 findings**:
+- Q(ζ₈) splits the Hamilton quaternion algebra H = (−1,−1)_Q [PROVEN]
+- Q(ζ₈) = Q(i, √2) contains Q(i) as a subfield; Q(i) is the "natural home" of H's norm
+- The Galois group Gal(Q(ζ₈)/Q) ≅ Z/2 × Z/2 (Klein four-group) — abelian, NOT isomorphic to Q₈
+- BUT the subgroup {1, ζ₈², ζ₈⁴, ζ₈⁶} = {1, i, −1, −i} ≅ Z₄ embeds in both Z₈ and Q₈
+
+**Current status**: No theorem in current mathematics establishes that dim(H) = 4 **causes** the special properties of fourth powers. The three instances of "4" (Cayley-Dickson doubling 2², Euler totient φ(8), field degree [Q(ζ₈):Q]) arise from independent constructions. The question remains **OPEN**.
 
 **Question**: Is this coincidence, or does dim(H) = 4 fundamentally determine quartic number theory?
 

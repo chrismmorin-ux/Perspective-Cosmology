@@ -145,6 +145,21 @@ You should look up or recall what these theorems state about:
 - What dimensions these algebras have
 - Which ones are associative (required for consistent time evolution)
 
+### Key Distinction: Two Classification Theorems
+
+The axioms invoke two related but distinct classification results:
+
+1. **Hurwitz's Theorem (1898)** classifies all **normed division algebras** over R. These are the algebras that exist in the algebraic structure — they satisfy the no-zero-divisors condition. There are exactly four: R (dim 1), C (dim 2), H (dim 4), O (dim 8).
+
+2. **Frobenius' Theorem (1878)** classifies all **associative** division algebras over R. These are the algebras that can serve as the transition algebra (because time evolution requires associativity). There are exactly three: R (dim 1), C (dim 2), H (dim 4).
+
+**These have different roles**:
+- Hurwitz tells you what **exists** in the total algebraic structure
+- Frobenius tells you which algebras can serve as the **transition algebra**
+- The octonions O satisfy no-zero-divisors but fail associativity — they exist as structure but cannot carry time evolution
+
+Keep this distinction in mind for Part 4.
+
 ---
 
 ## Part 4: Derived Quantities
@@ -153,22 +168,24 @@ From the axioms, we can define:
 
 ### The Accessible Dimension (n_d)
 
-Let n_d = dim(V_pi) be the dimension of the accessible subspace for a "standard" perspective.
+Let n_d = dim(D), where D is the transition algebra — i.e., the **total dimension** of the algebra itself (not just its imaginary part). The real axis of a division algebra carries the identity element, which is a genuine algebraic dimension participating in transitions.
 
 **Question**: What is the maximum value of n_d consistent with the axioms, given that:
 - The transition algebra must have no zero divisors
 - Time evolution (sequential transitions) requires associativity
+- n_d is the full dimension of the algebra, including its real axis
 
 ### The Hidden Dimension (n_c)
 
-Let n_c be a quantity derived from the total algebraic structure minus the accessible part.
+Let n_c be the total count of imaginary dimensions across the algebraic structure.
 
-**Question**: Given the division algebras permitted by Frobenius, what is n_c?
+**Question**: Given the division algebras that **exist** (Hurwitz classification — all normed division algebras, including non-associative ones), what is n_c?
 
 Hint: Consider:
 - Each division algebra D decomposes as D = R_real + Im(D) where Im(D) is the "imaginary" part
-- The total structure involves contributions from all permitted algebras
-- n_c counts something about the "hidden" or "imaginary" dimensions
+- n_c sums the imaginary dimensions of ALL normed division algebras (Hurwitz), not just the associative ones (Frobenius)
+- An algebra can contribute hidden dimensions to the structure even if it cannot serve as the transition algebra
+- The Frobenius constraint (associativity) determines which algebra carries time evolution; the Hurwitz classification determines what exists in the total structure
 
 ### The Dimensionless Ratio
 

@@ -1,52 +1,21 @@
-# Physics Interpretations
+# Physics Interpretations — RETIRED
 
-**Updated**: 2026-01-27 (Session 87 cleanup)
+> **This directory is retired (2026-01-30).** All active files have been moved to
+> `framework/investigations/` subdirectories. Do not add new files here.
 
----
+## Where Files Went
 
-## Note: Most Content Has Moved
+| Old Location | New Location |
+|-------------|-------------|
+| `physics/alpha_crystal_interface.md` | `framework/investigations/alpha/` |
+| `physics/tilt_matrix_alpha_derivation.md` | `framework/investigations/alpha/` |
+| `physics/asymptotic_safety_connection.md` | `framework/investigations/gauge/` |
+| `physics/field_content_from_orthogonality.md` | `framework/investigations/gauge/` |
+| `physics/intermediate_gamma.md` | `framework/investigations/constants/` |
+| `physics/intermediate_gamma_analysis.md` | `framework/investigations/constants/` |
+| `physics/penrose_diosi_comparison.md` | `framework/investigations/meta/` |
 
-The detailed physics investigations are now in `framework/investigations/` with:
-- Sub-ppm verified results
-- Explicit derivation chains
-- Computational verification scripts
+## For New Physics Work
 
-**See**: `framework/THEORY_STRUCTURE.md` for the complete logical structure.
-
----
-
-## Active Files in This Directory
-
-These files contain unique investigations not yet fully integrated:
-
-| File | Status | Topic |
-|------|--------|-------|
-| `field_content_from_orthogonality.md` | ACTIVE | Field emergence mechanism |
-| `asymptotic_safety_connection.md` | ACTIVE | Asymptotic safety connection |
-| `alpha_crystal_interface.md` | ACTIVE | Crystal-defect interface |
-| `tilt_matrix_alpha_derivation.md` | ACTIVE | Tilt-to-alpha mapping |
-| `intermediate_gamma.md` | ACTIVE | Intermediate regime physics |
-| `intermediate_gamma_analysis.md` | ACTIVE | Intermediate regime analysis |
-| `penrose_diosi_comparison.md` | ACTIVE | Literature connection |
-
----
-
-## Archived Files
-
-Files that were superseded by framework/investigations/ have been moved to:
-`archive/physics_deprecated/`
-
-See that directory's README.md for pointers to current content.
-
----
-
-## Quick Reference
-
-| Need | Location |
-|------|----------|
-| Fine structure constant | `framework/investigations/ALPHA_DERIVATION_MASTER.md` |
-| Weinberg angle | `framework/investigations/weinberg_prime_attractor.md` |
-| All constants | `framework/investigations/universal_constants_from_division_algebras.md` |
-| Gauge groups | `framework/investigations/gauge_from_division_algebras.md` |
-| Prime theory | `framework/PRIME_PHYSICAL_CATALOG.md` |
-| Complete theory | `THEORY_STRUCTURE.md` |
+See `PLACEMENT_GUIDE.md` at project root. All physics investigations go to
+`framework/investigations/[topic]/`.

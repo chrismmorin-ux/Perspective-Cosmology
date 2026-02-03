@@ -1,6 +1,6 @@
 # Investigation: Forces as Localized Recrystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S2, 100+ sessions stale)
 **Created**: 2026-01-27
 **Origin**: Side session exploring push/pull mechanics from semi-orthogonal dimensions
 **Significance**: HIGH — Potential radical unification of all forces as one process

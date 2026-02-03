@@ -1,6 +1,6 @@
 # Investigation: Master Formula Search
 
-**Status**: ACTIVE - SIGNIFICANT FINDINGS
+**Status**: ARCHIVE - SIGNIFICANT FINDINGS
 **Confidence**: [STRONG CONJECTURE]
 **Created**: 2026-01-27 (Session 84)
 **Related**: `universal_constants_from_division_algebras.md`

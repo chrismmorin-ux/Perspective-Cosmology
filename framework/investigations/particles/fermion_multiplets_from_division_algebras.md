@@ -1,6 +1,6 @@
 # Fermion Multiplets from Division Algebras
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S50, 100+ sessions stale)
 **Confidence**: [DERIVATION] — hypercharges now derived from Im(H) = 3
 **Dependencies**: gauge_from_division_algebras.md, core/17_complex_structure.md
 **Created**: 2026-01-26 (Session 48)

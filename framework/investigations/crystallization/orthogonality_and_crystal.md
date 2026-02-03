@@ -1,6 +1,6 @@
 # Investigation: Orthogonality and the Crystal
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE] moving toward [DERIVATION]
 **Purpose**: Understand the relationship between perfect orthogonality, perspective, and dimensional structure

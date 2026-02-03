@@ -2,7 +2,7 @@
 
 ## The Four Division Algebras
 
-### Hurwitz's Theorem (1923)
+### Hurwitz's Theorem (1898; published posthumously 1923)
 
 The only normed division algebras over R are:
 
@@ -47,6 +47,8 @@ This is {dim(R), dim(C), Im(H), dim(H)} - the ASSOCIATIVE dimensions plus Im(H).
 ---
 
 ## Fourth-Power Primes from Division Algebra Dimensions
+
+> **Note on "Interpretation" column**: The entries describe the division algebra dimension labels for the input values a, b. Since {1,2,3,4,7,8} ARE the division algebra dimensions, these are descriptions (tautologies), not derivations. [MATHEMATICAL FACT: primality results] [CONJECTURE: physical significance of interpretations]
 
 ### All Primes of Form a^4 + b^4 with a,b ∈ {1,2,3,4,7,8}:
 
@@ -120,7 +122,12 @@ For k = 6: n^6 + (n+1)^6 = (2n^2 + 2n + 1)(quartic)
 
 For k = 4: NO algebraic factorization over Z!
 
-**Conclusion**: k = 4 is the LARGEST power where n^k + (n+1)^k can be prime.
+**Correction (Session 189 audit)**: The claim "k=4 is the largest power" is **false**. For k=8: 1⁸+2⁸ = 257 (prime). For k=16: 1¹⁶+2¹⁶ = 65537 (prime). In general, n^k + (n+1)^k is algebraically irreducible over Z iff k is a power of 2 (k = 2, 4, 8, 16, ...).
+
+**Correct conclusion**: k = 4 is special among powers of 2 for:
+1. **Consecutive-prime density**: n = 1,2,3,4 all give primes (unique run of 4)
+2. **Cyclotomic connection**: Φ₈(x) = x⁴+1, degree = dim(H) = 4
+3. **Norm form**: Q(ζ₈) norm forms connect to quaternionic structure
 
 ### Cyclotomic Connection
 
@@ -130,7 +137,7 @@ The 8th cyclotomic polynomial Φ_8(x) = x^4 + 1
 - Splitting field Q(ζ_8) has degree 4
 - dim(H) = 4
 
-Fourth powers are intimately connected to quaternionic structure via 8th roots of unity.
+These three instances of 4 arise from independent mathematical constructions (Euler's totient, field extension degree, Cayley-Dickson). [CONJECTURE: suggestive structural parallel — causal mechanism not proven.]
 
 ---
 
@@ -202,7 +209,7 @@ This is the topological proof of Hurwitz's theorem!
 
 ## The Bridge Primes (Session 125 Discovery)
 
-Three primes connect associative dimensions {1,2,3,4} to non-associative dimensions {7,8}:
+Three primes connect associative dimensions {1,2,3,4} to non-associative dimensions {7,8}. [MATHEMATICAL FACT: primality verified] [CONJECTURE: physical significance]
 
 | Prime | Formula | Interpretation |
 |-------|---------|----------------|
@@ -214,7 +221,7 @@ All three bridge primes involve Im(O) = 7 or dim(O) = 8.
 
 The "pure octonionic" combination 7^4 + 8^4 = 6497 = 73 × 89 remains composite.
 
-**Key insight**: The bridge requires at least one associative dimension. The fully non-associative case fails.
+**Observation** [CONJECTURE]: The bridge requires at least one associative dimension. The fully non-associative case fails. (Based on 3 data points; not a theorem.)
 
 ---
 
@@ -228,7 +235,7 @@ The first fourth-power prime (17) "blocks" the octonionic Fermat pattern!
 
 ---
 
-## Speculation: Why the Octonionic Barrier?
+## Speculation: Why the Octonionic Barrier? [SPECULATION]
 
 The octonions are non-associative. This breaks:
 - Ring structure (no good "integer" subring)

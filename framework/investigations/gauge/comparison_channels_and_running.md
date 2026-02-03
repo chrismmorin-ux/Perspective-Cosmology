@@ -1,6 +1,6 @@
 # Investigation: Comparison Channels and Coupling Running
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S25, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-27
 

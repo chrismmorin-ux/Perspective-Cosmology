@@ -1,7 +1,7 @@
 # Sound Horizon Derivation
 
 **Created**: Session 131
-**Status**: RESOLVED
+**Status**: CONJECTURE — precision suspicious (see Compensating Errors Warning below)
 **Purpose**: Derive r_s = 337 * 3/7 Mpc from physics principles
 
 ---
@@ -19,9 +19,26 @@ r_s = 337 * (Im_H / Im_O) Mpc
 
 ---
 
+## ⚠ Compensating Errors Warning
+
+**Hallucination Risk Score (HRS): 7 (HIGH)**
+
+| Risk Factor | Score | Reason |
+|------------|-------|--------|
+| Matches known value | +2 | r_s = 144.43 matches Planck to 0.01% |
+| No intermediate derivation | +3 | Both η_* and c_s are [PHYSICAL] assertions, not derived |
+| Seems "too good" | +2 | 0.01% from two quantities each off by 5-18% |
+| Multiple verification scripts | -0 | Scripts verify arithmetic, not the physics claims |
+
+**The core concern**: The framework's c_s/c = 3/7 ≈ 0.429 differs from standard physics c_s/c ≈ 0.45 by 5%. The framework's η_* = 337 Mpc differs from standard physics η_* ≈ 285 Mpc by 18%. These errors compensate almost exactly in the product r_s = c_s × η_*. This is a textbook **Precision Illusion** (see Skepticism Checklist red flag #5): final precision (0.01%) far exceeds either intermediate value's accuracy.
+
+**What would strengthen this**: Derive η_* = 337 Mpc from the cosmological integral η = ∫₀^{a_*} da/(a² H(a)) using only framework parameters (H₀, Ω values). Currently η_* = 337 is an identification (337 = Im_H⁴ + H⁴), not a calculation.
+
+---
+
 ## Physical Interpretation
 
-### Component 1: The Conformal Time (337 Mpc)
+### Component 1: The Conformal Time (337 Mpc) [CONJECTURE]
 
 The number 337 = Im_H^4 + H^4 = 81 + 256 represents the **conformal time at recombination**:
 
@@ -36,7 +53,7 @@ This is the same 337 that appears in the Hubble constant H_0 = 337/5 km/s/Mpc.
 - At recombination (z_* = 1089), this horizon is 337 Mpc in framework units
 - The fourth powers Im_H^4 and H^4 encode quaternion and spacetime structure
 
-### Component 2: The Sound Speed (3/7)
+### Component 2: The Sound Speed (3/7) [CONJECTURE]
 
 The ratio Im_H/Im_O = 3/7 ~ 0.429 represents the **crystallization sound speed**:
 
@@ -71,19 +88,22 @@ The sound horizon is the distance sound waves could travel from the Big Bang to 
         Imaginary dimensions: Im_H=3, Im_O=7
     |
    v
-[DERIVED] Cosmological prime: 337 = Im_H^4 + H^4 = 81 + 256
+[DERIVED] Number theory: 337 = Im_H^4 + H^4 = 81 + 256
     |
    v
-[PHYSICAL] Conformal time at recombination:
-           eta_* = 337 Mpc (framework prediction)
+[CONJECTURE] Identification: eta_* = 337 Mpc
+             (asserting conformal time equals this framework number;
+              standard physics gives eta_* ≈ 285 Mpc, a 18% discrepancy)
     |
    v
-[PHYSICAL] Sound speed in crystallization picture:
-           c_s/c = Im_H/Im_O = 3/7 ~ 0.429
+[CONJECTURE] Identification: c_s/c = Im_H/Im_O = 3/7 ≈ 0.429
+             (asserting sound speed equals this framework ratio;
+              standard physics gives c_s/c ≈ 0.45, a 5% discrepancy)
     |
    v
-[DERIVED] Sound horizon:
-           r_s = c_s * eta_* = (3/7) * 337 = 144.43 Mpc
+[ARITHMETIC] Product: r_s = (3/7) × 337 = 144.43 Mpc
+             (correct arithmetic, but product precision exceeds input accuracy
+              due to compensating errors in η_* and c_s)
 ```
 
 ---
@@ -171,8 +191,8 @@ The sound horizon r_s = 337 * 3/7 Mpc is derived from:
 
 This matches the Planck measurement to **0.01%** — sub-10 ppm precision.
 
-**Status**: DERIVATION COMPLETE (within framework)
-**Remaining gap**: Derive eta_* = 337 Mpc from cosmological integral
+**Status**: [CONJECTURE] — Correct arithmetic from two unverified identifications. The 0.01% match may be coincidental (compensating errors in intermediates). HRS = 7.
+**Remaining gap**: Derive η_* = 337 Mpc from cosmological integral using framework parameters. This would convert the [CONJECTURE] identifications into [DERIVATION].
 
 ---
 

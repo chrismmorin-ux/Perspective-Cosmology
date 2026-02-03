@@ -1,9 +1,10 @@
 # Einstein's Equations: Rigorous Derivation from Crystallization
 
-**Status**: ACTIVE - RIGOROUS DERIVATION IN PROGRESS
+**Status**: ACTIVE - AUDITED S195
 **Created**: Session 121
 **Purpose**: Complete, step-by-step derivation of Einstein's equations from crystallization dynamics
-**Confidence Target**: [THEOREM] level with full verification
+**Confidence**: [HYBRID] — EFE form [I-MATH via Lovelock], signature [CONJECTURE], coefficients [CONJECTURE/F]. Overall grade C-.
+**S195 Audit**: THEOREM target NOT achievable without resolving coset inconsistency, computing signature via tensor calculation, and deriving Λ with correct sign.
 
 ---
 
@@ -49,11 +50,11 @@ from the crystallization framework, starting from Layer 0 axioms.
 
 | Axiom | Statement | Role |
 |-------|-----------|------|
-| AXM_0101 | Universe U is complete static object | Defines the "crystal" |
-| AXM_0102 | Perspectives exist within U | Creates observational structure |
-| AXM_0105 | Defect space D exists | Where perspectives reside |
-| AXM_0109 | Crystal C with perfect orthogonality | Target state |
-| AXM_0117 | Crystallization tendency | d‖ε‖/dτ ≤ 0 |
+| AXM_0101 | Connectivity: universe graph is connected | Ensures global structure |
+| AXM_0102 | Non-triviality: content varies across points | Creates distinguishable states |
+| AXM_0105 | Locality: access depends on local path structure | Constrains propagation |
+| AXM_0109 | Crystal existence: V_Crystal exists with perfect orthogonality | Target state |
+| AXM_0117 | Crystallization tendency: d‖ε‖/dτ ≤ 0 | Drives toward crystal |
 
 ### 1.2 Division Algebra Constraints
 
@@ -64,7 +65,7 @@ Division algebras over R: {R, C, H, O}
 Dimensions: 1, 2, 4, 8
 
 n_d = dim(H) = 4  (spacetime dimension)
-n_c = 1 + 2 + 4 + 4 = 11  (crystal dimension)
+n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11  (crystal dimension)
 ```
 
 ### 1.3 The Fine Structure Constant
@@ -168,102 +169,151 @@ b = a/(2α⁴) = α² · M_Pl² / (2α⁴) = M_Pl²/(2α²)
 
 ### 3.3 Symmetry Structure
 
-The Lagrangian has SO(n_c) = SO(11) symmetry, spontaneously broken to SO(n_c - 1) = SO(10).
+> **S195 COSET INCONSISTENCY — RESOLVED (S195 continuation)**
+>
+> This section previously used SO(11)/SO(10) ≅ S¹⁰ giving 10 Goldstones.
+> That was WRONG. The correct breaking per THM_0487 is below.
+> See `verification/sympy/coset_inconsistency_resolution.py` (20/20 PASS).
 
-This breaking produces:
+The Lagrangian has SO(n_c) = SO(11) symmetry, spontaneously broken by THM_0487:
+
 ```
-dim(SO(11)) - dim(SO(10)) = 55 - 45 = 10 Goldstone modes
+SO(11) → SO(4) × SO(7) → SO(4) × G₂ → SO(4) × SU(3)
 ```
+
+Stage 1 produces **28 Goldstone modes** on the Grassmannian Gr(4,11):
+```
+dim(SO(11)) - dim(SO(4)) - dim(SO(7)) = 55 - 6 - 21 = 28
+dim(Gr(4,11)) = 4 × 7 = 28  (consistent)
+```
+
+The coset is the Grassmannian Gr(4,11) = SO(11)/(SO(4)×SO(7)), which parametrizes all 4-dimensional subspaces of R¹¹. This is NOT the sphere S¹⁰ = SO(11)/SO(10) used in the earlier (S101-102) model.
 
 ---
 
 ## Part IV: Goldstone Modes and Spacetime
 
-### 4.1 Mode Decomposition
+### 4.1 Mode Decomposition (CORRECTED S195)
 
-The 10 Goldstone modes φ^a (a = 0,...,9) decompose as:
-
-| Modes | Count | Physical Role |
-|-------|-------|---------------|
-| φ⁰ | 1 | Time (gradient direction) |
-| φ¹, φ², φ³ | 3 = Im(H) | Space |
-| φ⁴,...,φ⁹ | 6 = C × Im(H) | Internal (gauge) |
-
-### 4.2 Spacetime Emergence
-
-**Theorem**: The spacetime coordinates x^μ ARE the first four Goldstone modes.
-
-**Proof sketch**:
-1. The crystallization gradient ∂ε/∂τ picks out a preferred direction
-2. This direction becomes the time coordinate: x⁰ = φ⁰
-3. The quaternion structure H provides 3 orthogonal spatial directions
-4. These become space coordinates: xⁱ = φⁱ (i = 1,2,3)
-5. The spacetime manifold IS the Goldstone mode space restricted to these 4 modes
-
-### 4.3 The Induced Metric
-
-The metric on spacetime is INDUCED by the Goldstone kinetic term:
+The **28 Goldstone modes** of Gr(4,11) decompose under SO(4) × SO(7) as:
 
 ```
-g_μν = G_ab · (∂_μ φ^a)(∂_ν φ^b)|_{a,b ∈ {0,1,2,3}}
+T_p Gr(4,11) = R⁴ ⊗ R⁷  (28-dimensional)
 ```
 
-Where G_ab is the metric on the coset space SO(11)/SO(10).
+Under the further breaking SO(7) → G₂ → SU(3), the 7 of SO(7) restricts as:
+- 7 of G₂ → 1 + 3 + 3̄ under SU(3) → 1 + 6 (real representations)
 
-At the ground state (φ^a = x^a):
+Therefore the 28 modes decompose under SO(4) × SU(3) as:
+
+| Rep | Count | Physical Role |
+|-----|-------|---------------|
+| (4,1) | 4 | **Higgs doublet** — SU(3) singlets, (2,1)_{Y=1/2} under SM gauge |
+| (4,6) | 24 | **Colored scalar pNGBs** — SU(3) non-singlets, (2,3)+(2,3̄) |
+
+> **S195 continuation CORRECTION**: The (4,1) modes are the **Higgs doublet**, NOT spacetime coordinates. Spacetime = the defect manifold (n_d = 4), which exists independently. The 28 Goldstones are FIELDS on spacetime (the off-diagonal ε_di block of the tilt matrix). See `ewsb_higgs_from_tilt_interface.py` (32/32 PASS) and `colored_pngb_24_modes.py` (28/28 PASS).
+
+The 24 colored modes decompose further under SU(2)_L × U(1)_Y × SU(3)_c:
+
+| Multiplet | Real DOF | Properties |
+|-----------|----------|------------|
+| (2,3)_{Y} + conj | 12 | Colored SU(2) doublets |
+| (2,3̄)_{Y} + conj | 12 | Conjugate colored doublets |
+
+These are **leptoquark-like** scalar fields. [CONJECTURE] They acquire mass from QCD Coleman-Weinberg loops, expected heavy (GUT scale or above).
+
+Framework identities: singlet fraction = 4/28 = 1/Im_O = 1/7. After EWSB: 3 eaten → 1 Higgs + 24 colored = 25 physical scalars.
+
+**Note**: The old "10 = 1+3+6" decomposition (from the wrong S¹⁰ coset) is SUPERSEDED. The correct decomposition is 28 = 4 + 24.
+
+### 4.2 Spacetime vs Goldstone Modes (CORRECTED S195 continuation)
+
+**Spacetime** = the defect manifold (n_d = 4), arising from THM_0484 + THM_04AE. It is NOT a Goldstone mode sector.
+
+**The (4,1) Goldstone modes** = the Higgs doublet, a scalar field ON spacetime with SM quantum numbers (2,1)_{Y=1/2}. See S175 EWSB analysis.
+
+**How spacetime emerges** [DERIVATION]:
+1. THM_0484 (division algebra structure): n_d = 4 = dim(H) [CANONICAL]
+2. THM_04AE (observable algebra): Herm(2) ≅ R⁴ with det form of signature (1,3) [DERIVATION]
+3. The quaternion structure H = R ⊕ Im(H) gives 1 (time) + 3 (space)
+4. Time = Z(H) = R (center of quaternion algebra) [THM_04AE Part (e)]
+
+**Why the old picture was wrong**: The earlier version identified (4,1) Goldstone modes with spacetime coordinates. But Goldstone modes are field fluctuations of the order parameter ε_di around the ground state — they live ON spacetime, not AS spacetime. The defect manifold (which IS spacetime) exists independently of the Goldstone spectrum. The coincidence that both have dimension 4 is because both arise from n_d = dim(H) = 4, but they are conceptually distinct.
+
+**Layer 2 import**: The identification of the defect manifold with physical spacetime is [A-PHYSICAL].
+
+### 4.3 The Induced Metric and Signature
+
+The metric on spacetime comes from THM_04AE (observable algebra), NOT from the coset metric:
+
+The observable algebra M₂(C) equips Herm(2) ≅ R⁴ with the determinant form:
+```
+det(X) = t² - x² - y² - z²   [signature (1,3)]
+```
+
+This is the UNIQUE (up to scale) non-Euclidean SU(2)-invariant quadratic form on Herm(2) [Schur's lemma]. See THM_04AE for the full proof and verification (19 tests across 3 scripts).
+
+At the ground state:
 ```
 g_μν = η_μν = diag(-1, +1, +1, +1)
 ```
 
+**Note**: The previous signature derivation (radial vs angular modes on S¹⁰) is INVALID — it relied on the wrong coset. THM_04AE provides the correct algebraic derivation.
+
 ---
 
-## Part V: Lorentz Signature Derivation
+## Part V: Lorentz Signature Derivation (REWRITTEN S195)
+
+> **S195 Resolution**: The original signature derivation used the radial/angular
+> distinction on S¹⁰. This is INVALID (wrong coset). The correct derivation
+> uses THM_04AE (algebraic det form on Herm(2)), which is independent of the coset.
 
 ### 5.1 The Key Insight
 
-The Lorentz signature (-,+,+,+) is NOT assumed — it EMERGES from the crystallization dynamics.
+The Lorentz signature (-,+,+,+) is NOT assumed — it is **algebraically forced** by the observable algebra structure.
 
-**Theorem**: The time direction has opposite signature from space directions.
+**Theorem** (THM_04AE): The self-adjoint part Herm(2) of the observable algebra M₂(C) carries exactly two SU(2)-invariant quadratic forms: the Euclidean form Tr(X²) with signature (4,0) and the Lorentzian form det(X) with signature (1,3).
 
-### 5.2 Proof
+### 5.2 Proof (from THM_04AE)
 
-**Step 1**: Identify the gradient direction
+**Step 1**: Observable algebra = M₂(C) [from k=4, F=C]
 
-The crystallization tendency (AXM_0117) gives:
+**Step 2**: Herm(2) = {X ∈ M₂(C) : X† = X} has dim = 4, with basis {I, σ₁, σ₂, σ₃}
+
+**Step 3**: For X = tI + xσ₁ + yσ₂ + zσ₃:
 ```
-dε/dτ ≤ 0
-```
-
-This defines a preferred direction in the Goldstone mode space — the direction along which ε decreases most rapidly.
-
-**Step 2**: Analyze the kinetic energy
-
-For modes ALONG the gradient (time-like):
-- Moving along the gradient COSTS energy (you're fighting crystallization)
-- The kinetic term is: -(∂_0 φ)²
-
-For modes PERPENDICULAR to the gradient (space-like):
-- Moving perpendicular doesn't affect crystallization directly
-- The kinetic term is: +(∂_i φ)²
-
-**Step 3**: Construct the Lagrangian
-
-```
-L_kinetic = -(∂_0 φ)² + (∂_1 φ)² + (∂_2 φ)² + (∂_3 φ)²
-         = η^μν (∂_μ φ)(∂_ν φ)
+det(X) = t² - x² - y² - z²   [signature (1,3)]
 ```
 
-Where η^μν = diag(-1,+1,+1,+1).
+**Step 4**: By Schur's lemma, the most general SU(2)-invariant form is Q = at² + b(x²+y²+z²). The determinant (a=1, b=-1) is the unique non-Euclidean choice.
 
-**Step 4**: Why 3 spatial dimensions?
+**Step 5**: SL(2,C)/Z₂ ≅ SO⁺(1,3) — the Lorentz group emerges as the symmetry of det.
 
-The quaternion structure H = R ⊕ Im(H) naturally gives:
-- 1 real direction → time
-- 3 imaginary directions → space
+### 5.3 The 1+3 Split
 
-The imaginary quaternions {i, j, k} satisfy i² = j² = k² = -1, giving 3 perpendicular spatial directions.
+The quaternion structure H = R ⊕ Im(H) gives:
+- **Time** = center Z(H) = R (1-dim, invariant under SU(2) adjoint action)
+- **Space** = Im(H) = span{i,j,k} (3-dim, adjoint representation of SU(2))
 
-**Verification**: `coset_sigma_model_lorentz.py` — PASS
+This is algebraically forced: the unique SU(2)-invariant direction IS the time direction.
+
+### 5.4 Why the Old S¹⁰ Argument Fails
+
+The S¹⁰ radial/angular argument claimed:
+- 1 radial mode (crystallization gradient) → time (minus sign)
+- 3 angular modes (Im(H)) → space (plus signs)
+
+This fails because:
+1. The correct coset is Gr(4,11), not S¹⁰
+2. On Gr(4,11), ALL 28 modes are Goldstone (flat potential) — no radial/angular distinction
+3. The magnitude mode (radial) lives OUTSIDE the coset
+4. The argument was narrative, with no tensor calculation
+
+THM_04AE avoids all these issues by deriving signature from the algebra M₂(C), not from coset geometry.
+
+**Verification**: `coset_inconsistency_resolution.py` (20/20 PASS), THM_04AE scripts (19 PASS)
+
+**Deprecated**: `coset_sigma_model_lorentz.py` (uses wrong coset SO(11)/SO(10))
 
 ---
 
@@ -587,9 +637,15 @@ EMERGE from crystallization dynamics through:
 4. **General covariance** → Einstein tensor is unique
 5. **Ground state energy** → Cosmological constant
 
-**Confidence**: [DERIVATION] with key steps verified
+**Confidence**: [HYBRID] — Form via Lovelock [I-MATH, grade B]; Signature [CONJECTURE, grade D+]; Coefficients [CONJECTURE/F]. Overall grade C-.
 
-**Remaining gap**: Full tensor calculation of graviton propagator from first principles
+**S195 remaining gaps**:
+1. Coset inconsistency: SO(11)/SO(10) ≅ S¹⁰ vs actual SO(11) → SO(4) × SO(7) = Gr(4,11)
+2. Lorentz signature: need tensor calculation, not physical narrative
+3. Cosmological constant: V(ε*) gives wrong sign, "crystallization stress" resolution not shown
+4. Newton's G: M_Pl value imported, not derived
+5. Full graviton propagator from first principles
+6. 2-derivative truncation justification
 
 ---
 

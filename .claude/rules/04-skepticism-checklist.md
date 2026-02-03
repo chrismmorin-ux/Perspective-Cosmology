@@ -1,3 +1,11 @@
+---
+paths:
+  - "core/**"
+  - "framework/**"
+  - "claims/**"
+  - "predictions/**"
+---
+
 # Skepticism Checklist
 
 ## Before Adding Any Derivation

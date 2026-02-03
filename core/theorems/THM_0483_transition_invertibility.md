@@ -69,6 +69,18 @@ QED
 
 ---
 
+## Circularity Assessment (Session 189 Audit)
+
+**Question**: Is THM_0483 circular — merely restating AXM_0115(c)?
+
+**Analysis**: AXM_0115(c) asserts: "For every T: π₁ → π₂, there exists T⁻¹: π₂ → π₁ in 𝒯." If taken literally, this DEFINES invertibility into the algebra, making THM_0483 a restatement.
+
+**What THM_0483 adds**: The proof's step 2 provides a justification for WHY inverses should exist: adjacency symmetry (γ is symmetric) means the reverse transition is mathematically consistent. This is an argument for the PLAUSIBILITY of AXM_0115(c), not a derivation from more primitive axioms.
+
+**Verdict**: THM_0483 is best understood as a **Corollary of AXM_0115** with an informal justification of why AXM_0115(c) is natural. The "theorem" label slightly overstates the content — the heavy lifting is done by the axiom.
+
+---
+
 ## Notes
 
 **IMPORTANT**: This does NOT contradict AXM_0106 (Non-Invertibility):

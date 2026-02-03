@@ -41,7 +41,7 @@
 > - **Γ_dec formula is ASSUMED, not derived** - marked as A15 (I-004 RESOLVED)
 > - **h(γ) function is ASSUMED, not derived** - marked as A16 (I-005 RESOLVED)
 > - Formula valid only for γ ≤ 0.5; γ > 0.5 regime is undefined
-> See physics/intermediate_gamma_analysis.md and issues_log.md for details.
+> See intermediate_gamma_analysis.md and issues_log.md for details.
 
 ---
 

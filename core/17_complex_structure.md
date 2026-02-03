@@ -16,11 +16,11 @@ CONTENT-TYPE: DERIVATION
 
 **Main Result**: The existence of directed time forces the Crystal to be complex (F = C), which in turn determines:
 - Why fermions exist (antisymmetric structure)
-- Why α = 1/137 (not 1/61)
+- Why the interface symmetry group is U(n) (not O(n)), so the generator count is 137 (not 61)
 - Why n_d = 4 (quaternionic associativity)
 - Why n_c = 11 (remaining division algebra dimensions)
 
-This is a derivation, not an assumption.
+F = C is derived from Layer 0 (time) alone. Identification of the generator count 137 with 1/α is the separate Step 5 in the alpha chain; see `framework/investigations/alpha/alpha_forced_vs_fitted.md`.
 
 ---
 
@@ -154,22 +154,22 @@ Proof:
     Modes living in this structure have fermionic exchange properties. ∎
 ```
 
-### 2.4 Why α = 1/137 (Not 1/61)
+### 2.4 Why the generator count is 137 (not 61)
 
-The interface coupling depends on the symmetry group of the defect and crystal.
+**Given F = C** (derived in Part I from time), the crystal is a complex inner product space, so the relevant symmetry group is U(n), not O(n). The dimension of the Lie algebra is then the generator count at the defect–crystal interface:
 
-**Real case (F = R):**
+**If F = R (ruled out by Part I):**
 ```
 Symmetry group: O(n) (orthogonal group)
-dim(O(n)) = n(n-1)/2
+dim(O(n)) = n(n−1)/2
 
 For n_d = 4:  dim(O(4)) = 6
 For n_c = 11: dim(O(11)) = 55
 
-1/α_real = 6 + 55 = 61
+Interface generator count = 6 + 55 = 61
 ```
 
-**Complex case (F = C):**
+**Given F = C:**
 ```
 Symmetry group: U(n) (unitary group)
 dim(U(n)) = n²
@@ -177,17 +177,17 @@ dim(U(n)) = n²
 For n_d = 4:  dim(U(4)) = 16
 For n_c = 11: dim(U(11)) = 121
 
-1/α_complex = 16 + 121 = 137 ✓
+Interface generator count = 16 + 121 = 137
 ```
 
-**Theorem 17.3 (α Requires Complex Structure)**
+**Theorem 17.3 (Generator count from F = C)**
 ```
-α = 1/137 implies F = C.
+Given F = C (from directed time, Part I), the interface generator count is
+n_d² + n_c² = 137. The real alternative F = R would give 61.
 
-Proof:
-The observed α ≈ 1/137.036 matches 1/(n_d² + n_c²) for U(n).
-The real alternative gives 1/(n_d(n_d-1)/2 + n_c(n_c-1)/2) = 1/61.
-Observation rules out F = R. ∎
+The identification of this count with the inverse fine structure constant 1/α
+is the separate Step 5 in the alpha derivation chain; see
+framework/investigations/alpha/alpha_forced_vs_fitted.md.
 ```
 
 ---
@@ -241,27 +241,30 @@ If the total structure involves all division algebras:
 Total dimension: dim(R) + dim(C) + dim(H) + dim(O) = 1 + 2 + 4 + 8 = 15
 
 Defect uses: H → 4 dimensions
-Crystal has: R + C + O → 1 + 2 + 8 = 11 dimensions
+Crystal has: Im(C) + Im(H) + Im(O) → 1 + 3 + 7 = 11 dimensions
 ```
+
+**Note**: The canonical decomposition (per CR-010) uses imaginary dimensions: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11. An alternative counting dim(R) + dim(C) + dim(O) = 1 + 2 + 8 = 11 gives the same total but with different algebraic meaning. The Im-decomposition is preferred.
 
 **Theorem 17.5 (Crystal Dimension)**
 ```
-n_c = 11 = dim(R) + dim(C) + dim(O)
+n_c = 11 = Im(C) + Im(H) + Im(O) = 1 + 3 + 7
 
 Interpretation:
-- Defect: quaternionic (associative, supports time)
-- Crystal: contains the remaining division algebra structure
-- The octonions (non-associative) live in the crystal, not defect
+- Defect: quaternionic H (associative, supports time)
+- Crystal: imaginary parts of C, H, O
+- The octonions (non-associative) contribute Im(O) = 7 to crystal
 ```
 
-### 3.5 Verification of 137
+### 3.5 Verification of generator count 137
 
 ```
-1/α = n_d² + n_c²
-    = 4² + 11²
-    = 16 + 121
-    = 137 ✓
+Interface generator count = n_d² + n_c²
+                          = 4² + 11²
+                          = 16 + 121
+                          = 137 ✓
 ```
+(Identification of this number with 1/α is Step 5 of the alpha chain.)
 
 ---
 
@@ -325,7 +328,7 @@ Status: CONJECTURE — structural parallel, not derivation
     │       │
     │       ├──► [DERIVED] U(n) is symmetry group, not O(n)
     │       │
-    │       └──► [DERIVED] α = 1/137 (not 1/61)
+    │       └──► [DERIVED] Interface generator count = 137 (not 61); 1/α identification → alpha chain Step 5
     │
     └──► [DERIVED] Associativity required (path independence)
             │
@@ -337,9 +340,9 @@ Status: CONJECTURE — structural parallel, not derivation
 ```
 
 **From T1 alone, we derive:**
-- Complex structure
+- Complex structure (F = C)
 - Fermion existence
-- α = 1/137
+- U(n) symmetry → interface generator count 137 (identification with 1/α is alpha chain Step 5)
 - n_d = 4
 - n_c = 11
 
@@ -351,7 +354,7 @@ Status: CONJECTURE — structural parallel, not derivation
 |----------|-------|--------------|--------|
 | F | C (complex) | Time has direction | DERIVED |
 | Fermions | Exist | Im(⟨·,·⟩) antisymmetric | DERIVED |
-| α | 1/137 | dim(U(n)) = n² | DERIVED |
+| Interface generator count | 137 | dim(U(n)) = n² given F = C | DERIVED; 1/α = alpha chain Step 5 |
 | n_d | 4 | Associativity → H | DERIVED |
 | n_c | 11 | 15 - 4 = R + C + O | DERIVED |
 | Spin-1/2 | Exists | SU(2) ⊂ H | DERIVED |
@@ -395,12 +398,12 @@ total = R_dim + C_dim + H_dim + O_dim  # = 15
 n_d = H_dim  # = 4 (associative max)
 n_c = total - n_d  # = 11
 
-# Alpha calculation
-alpha_inv_complex = n_d**2 + n_c**2  # = 16 + 121 = 137
-alpha_inv_real = n_d*(n_d-1)//2 + n_c*(n_c-1)//2  # = 6 + 55 = 61
+# Interface generator count (given F = C from Part I)
+gen_count_complex = n_d**2 + n_c**2   # = 16 + 121 = 137
+gen_count_real = n_d*(n_d-1)//2 + n_c*(n_c-1)//2  # = 6 + 55 = 61
 
-print(f"Complex: 1/α = {alpha_inv_complex}")  # 137 ✓
-print(f"Real: 1/α = {alpha_inv_real}")        # 61 ✗
+print(f"Given F = C: generator count = {gen_count_complex}")  # 137 ✓
+print(f"If F = R:    generator count = {gen_count_real}")     # 61 (ruled out by Part I)
 ```
 
 ### 8.2 Symmetry Verification
@@ -433,6 +436,7 @@ Antisymmetric part vanishes for self-comparison ✓
 - `layer_0_pure_axioms.md` — Axiom T1, F = R or C allowed
 - `associativity_derivation.md` — Time requires associativity
 - `16_dimension_dynamics.md` — Antisymmetric creates dimensions
+- [DEF_02B3: Interface Mode Count] — N_I = n_d² + n_c², s_I = 1/N_I (framework-only; no α identification)
 - `alpha_crystal_interface.md` — α = 1/(n_d² + n_c²)
 - Hurwitz theorem (1898) — Four normed division algebras
 

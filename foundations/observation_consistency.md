@@ -4,6 +4,16 @@
 **Priority**: HIGHEST
 **Purpose**: Establish that observation → no zero-divisors → division algebras
 
+> **⚠ Logical Gap Note (Session 189 audit)**: This document's central argument has a known weakness:
+>
+> 1. **C*-algebra problem**: Quantum operators form a C*-algebra, which HAS zero divisors (via projection operators). The argument that "observation requires no zero divisors" is incorrect if applied to the operator algebra.
+>
+> 2. **Coefficient-field resolution**: The division algebra may characterize the COEFFICIENT FIELD (over which Hilbert space is defined), not the operator algebra. This is a weaker but more defensible claim. The auditor note at Part VI, Objection 3 identifies this correctly.
+>
+> 3. **Circularity risk**: The argument uses "unitarity" (Objection 3) and "information preservation" (Objection 4) to justify invertibility. But if QM is supposed to be DERIVED from the framework, importing unitarity is circular. The non-circular path is: invertibility comes from AXM_0115 (Algebraic Completeness), a pre-physical axiom. [A-IMPORT: unitarity] should be tagged where used.
+>
+> **Bottom line**: The chain "observation → division algebra" has gaps. The chain "AXM_0115 (algebraic completeness) → division algebra" (via THM_0484) is rigorous. This document should be read as motivational, not foundational.
+
 ---
 
 ## The Central Claim
@@ -132,7 +142,9 @@ Zero-divisors would mean:
 
 ### 3.4 The Conclusion
 
-> **Consistent observation requires the transition algebra to have no zero-divisors.**
+> **Consistent observation requires the transition algebra to have no zero-divisors.** [CONJECTURE]
+
+More precisely: the algebra of COEFFICIENTS over which observational states are defined must be a division algebra. This is the field F in the statement "Hilbert space is a module over F." See Objection 3 response for the distinction between coefficient algebra and operator algebra.
 
 An algebra with no zero-divisors is a **division algebra**.
 
@@ -213,7 +225,9 @@ Complex numbers emerge from the algebra structure (C ⊂ H ⊂ O), not as an ass
 
 ### Objection 3: "Why must inverses exist?"
 
-**Response**: If T: A → B has no inverse, then from state B, the observer cannot determine that they arrived via T from A. Information is lost. But quantum mechanics (and all known physics) preserves information — unitarity is a fundamental principle.
+**Response**: If T: A → B has no inverse, then from state B, the observer cannot determine that they arrived via T from A. Information is lost. But quantum mechanics (and all known physics) preserves information — unitarity is a fundamental principle. **[A-IMPORT: unitarity from QM]** — this is circular if QM is supposed to be derived. The non-circular argument comes from AXM_0115 (Algebraic Completeness), which postulates invertibility directly.
+
+> **Auditor note (G-006 related)**: This argument conflates two distinct concepts: (a) algebraic invertibility in a division algebra, and (b) information preservation (unitarity). Unitarity guarantees that evolution operators are invertible on Hilbert space, but the transition operators do not obviously form a division algebra — they form a C*-algebra (which has zero-divisors via projection operators). The gap: why should the observational transition structure be modeled as a division algebra rather than as a C*-algebra of operators? A possible resolution is that the division algebra captures the COEFFICIENTS of transitions (the field over which Hilbert space is defined), not the transitions themselves. This interpretation is more defensible but requires explicit statement. **Confidence of this step: [CONJECTURE]**.
 
 ### Objection 4: "Maybe zero-divisors are allowed in some exotic physics"
 

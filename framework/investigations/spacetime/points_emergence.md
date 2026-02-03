@@ -1,6 +1,6 @@
 # Investigation: How Points Emerge from Dimensional Overlap
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Formalize how P (the point set) emerges from B (the basis)

@@ -33,7 +33,7 @@ Quick reference for continuing work on Perspective Cosmology.
 ### Key Documents
 - `framework/layer_0_pure_axioms.md` — Pure axioms
 - `framework/layer_3_predictions.md` — Testable predictions
-- `physics/alpha_crystal_interface.md` — α derivation with running
+- `framework/investigations/alpha/alpha_crystal_interface.md` — α derivation with running
 - `physics/h_gamma_investigation.md` — h(γ) derivation
 
 ---
@@ -127,12 +127,10 @@ ARCHITECTURE.md           ← Full directory structure
 
 ## Core Content
 core/                     ← Pure mathematics (17 modules)
-physics/                  ← Physical interpretations
+framework/investigations/ ← Physical interpretations (organized by topic)
 
 ## Analysis Files (recent)
-physics/intermediate_gamma_analysis.md ← Critical γ analysis
-physics/limits_analysis.md             ← QM/GR gap analysis
-physics/predictions_analysis.md        ← Are predictions genuine?
+framework/investigations/constants/intermediate_gamma_analysis.md ← Critical γ analysis
 
 ## Reference Documents
 assumptions_registry.md   ← Every assumption (A1-A14)

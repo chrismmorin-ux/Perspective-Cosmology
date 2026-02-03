@@ -1,6 +1,8 @@
 # Layer 1: Crystallization Dynamics
 
-**Status**: CORE FRAMEWORK
+> **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. Since then: AXM_0117 promoted PROPOSED→CANONICAL (S178), AXM_0119 added (S181), THM_0494 (Born rule), THM_0498 (quartic discriminant), and the SO(11) breaking chain (THM_0487) have been significantly developed. Some content is superseded (e.g., isotropy scale 3693 GeV → 188 TeV). Canonical crystallization content is in `core/axioms/AXM_0117`, `core/theorems/THM_0487-0498`, and `framework/investigations/crystallization/`.
+
+**Status**: HISTORICAL (was CORE FRAMEWORK)
 **Created**: 2026-01-27 (Session 77)
 **Confidence**: DERIVATION (from axioms) + VERIFIED (numerical predictions)
 
@@ -10,9 +12,13 @@
 
 The universe is crystallizing. Not metaphorically — literally. The process of dimensional simplification toward orthogonality IS crystallization, and it can only produce stable configurations at dimensions 1, 2, 4, 8 (the division algebras).
 
-**Layer Note**: While this is a Layer 1 document (mathematical consequences), we sometimes use physics terminology for clarity. The correspondence between mathematical structures and physical observables is formally established in Layer 2 (`layer_2_correspondence.md`). The Layer 1 content is the crystallization dynamics itself; physics interpretations are previews of Layer 2.
+**Layer Note**: This document spans multiple layers:
+- **Parts I-III** (Layer 1): Pure mathematical consequences of crystallization axioms
+- **Parts IV-VIII** (Layer 2/3 Preview): Physical interpretations requiring additional imports [A-COUPLING], [A-IMPORT]
 
-**Key result**: The Weinberg angle, fermion count, and force structure all follow necessarily from the crystallization dynamics. They are not free parameters but inevitable consequences of the universe getting as close to perfect crystal as it possibly can.
+The correspondence between mathematical structures and physical observables is formally established in Layer 2 (`layer_2_correspondence.md`). Parts IV-VIII use physics terminology and make identifications (division algebras = forces, dimensions = fermion counts) that are Layer 2 correspondence rules, not pure Layer 1 mathematics. These sections are retained here for narrative flow but should be read with their Layer 2/3 status in mind.
+
+**Key result**: Given [A-DIV] (division algebra assumption), the Weinberg angle, fermion count, and force structure follow from crystallization dynamics plus Layer 2 imports. See `layer_3_predictions.md` for the properly tagged derivation chains.
 
 ---
 
@@ -143,25 +149,30 @@ This is the **total crystalline capacity** — the sum of all stable configurati
 
 These are not coincidences. They all trace back to the same crystalline structure.
 
-### 3.3 Physical Meaning
+### 3.3 Physical Meaning [LAYER 2/3 PREVIEW]
 
-At high enough energy, ALL crystalline configurations participate equally. The scale where this happens is:
+At high enough energy, ALL crystalline configurations participate equally. A heuristic estimate of this scale is:
 
 ```
-mu_isotropy = 15 × v = 15 × 246 GeV = 3693 GeV ≈ 4 TeV
+mu_isotropy_heuristic = 15 × v = 15 × 246 GeV = 3693 GeV ≈ 4 TeV   [CONJECTURE]
+⚠ SUPERSEDED (Session 52+): This is the old formula for sin²(θ_W) = 2/9. Current prediction: sin²(θ_W) = 1/4 at ~188 TeV (see predictions/BLIND_PREDICTIONS.md P-COUP-1).
 ```
 
-Below this scale: configurations separate into distinct channels (forces)
-At this scale: all 15 dimensions crystallize together (isotropy)
-Above this scale: unified crystalline dynamics
+**Important note**: This heuristic estimate (15 × v) does NOT match the RG-running analysis. SM β-function running gives sin²θ_W = 1/4 at μ ≈ 188 TeV (see `layer_3_predictions.md` §4.1, P-COUP-1), which differs by a factor of ~50. The RG-running value is the verified result; the 15 × v estimate is a rough heuristic that should not be treated as a prediction.
+
+Below some scale: configurations separate into distinct channels (forces)
+At that scale: all 15 dimensions crystallize together (isotropy)
+Above that scale: unified crystalline dynamics
 
 ---
 
-## Part IV: Forces as Crystallization Channels
+## Part IV: Forces as Crystallization Channels [LAYER 2 PREVIEW]
+
+> **Layer boundary**: This section requires [A-IMPORT: gauge group identification] and [A-COUPLING]. The mathematical content (4 division algebras with dimensions 1, 2, 4, 8) is Layer 1; the identification with specific forces is Layer 2. See `layer_2_correspondence.md` §2.3.
 
 ### 4.1 The Four Forces
 
-Each stable configuration corresponds to a "force":
+Each stable configuration corresponds to a "force" [A-IMPORT: force identification]:
 
 | Configuration | Dimension | Force | Gauge Group |
 |---------------|-----------|-------|-------------|
@@ -214,11 +225,13 @@ This is not a guess — it's mathematically necessary.
 
 ---
 
-## Part V: The Weinberg Angle Derivation
+## Part V: The Weinberg Angle Derivation [LAYER 3 PREVIEW]
+
+> **Layer boundary**: This section requires [A-DIV] + [A-COUPLING] (Tier C predictions). The properly tagged derivation chain is in `layer_3_predictions.md` §4.1 (P-COUP-1).
 
 ### 5.1 The Formula
 
-At the isotropy scale where all crystalline configurations are active:
+At the isotropy scale where all crystalline configurations are active [A-COUPLING]:
 
 ```
 sin²θ_W = dim(C) / dim(O) = 2/8 = 1/4 = 0.25
@@ -275,7 +288,9 @@ The measured deviation from 1/4 is entirely explained by quantum corrections (ru
 
 ---
 
-## Part VI: The 15 Fermions
+## Part VI: The 15 Fermions [LAYER 2 PREVIEW]
+
+> **Layer boundary**: The mathematical fact (1+2+4+8=15) is Layer 1. The identification of these 15 dimensions with fermion degrees of freedom is Layer 2 [A-IMPORT: fermion identification]. See `layer_3_predictions.md` §3.3 (P-DIV-3).
 
 ### 6.1 The Count
 
@@ -316,11 +331,13 @@ This is explored further in the mass hierarchy investigation.
 
 ---
 
-## Part VII: Coupling Constants
+## Part VII: Coupling Constants [LAYER 3 PREVIEW]
+
+> **Layer boundary**: This entire section requires [A-DIV] + [A-COUPLING]. The coupling constant predictions are Tier C (see `layer_3_predictions.md` §4). Running analysis uses [A-IMPORT: SM β-functions].
 
 ### 7.1 The Ratios
 
-At the isotropy scale, coupling constants should reflect dimensional ratios:
+At the isotropy scale [A-COUPLING], coupling constants should reflect dimensional ratios:
 
 ```
 alpha_1 : alpha_2 : alpha_3
@@ -357,7 +374,7 @@ Note: n_d² = 16 = 2 × dim(O) — another appearance of the crystalline structu
 
 ---
 
-## Part VIII: The Complete Picture
+## Part VIII: The Complete Picture [LAYERS 1-3 SUMMARY]
 
 ### 8.1 Everything Connected
 
@@ -376,21 +393,21 @@ Total capacity: 1+2+4+8 = 15
     ↓
 FERMIONS fill 15 slots per generation
     ↓
-WEINBERG ANGLE = ratio of channels = dim(C)/dim(O) = 1/4
+WEINBERG ANGLE = ratio of channels = dim(C)/dim(O) = 1/4 [A-COUPLING]
     ↓
-ISOTROPY SCALE = 15 × v = 4 TeV
+ISOTROPY SCALE = ~188 TeV (from SM RG running) [A-IMPORT: β-functions]
     ↓
-SM RUNNING gives measured value 0.231
+SM RUNNING gives measured value 0.231 at M_Z
 ```
 
 ### 8.2 What's Necessary vs. Contingent
 
-**NECESSARY (follows from crystallization)**:
-- Four forces (four division algebras)
-- Dimensions 1, 2, 4, 8 (Frobenius theorem)
-- Sum = 15 (arithmetic)
-- sin²θ_W = 1/4 at tree level (dimensional ratio)
-- 15 fermions per generation (crystalline slots)
+**NECESSARY (follows from crystallization + [A-DIV])**:
+- Four division algebras with dimensions 1, 2, 4, 8 (Frobenius theorem) [Layer 1]
+- Sum = 15 (arithmetic) [Layer 1]
+- Four forces [Layer 2: requires gauge group identification]
+- sin²θ_W = 1/4 at tree level [Layer 3: requires [A-COUPLING]]
+- 15 fermions per generation [Layer 2: requires fermion identification]
 
 **CONTINGENT (needs additional input)**:
 - v = 246 GeV (Higgs VEV — from experiment)

@@ -1,6 +1,6 @@
 # Investigation: Perspective Mutations and Dark Sector Dynamics
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S38, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-39
 **Confidence**: [CONJECTURE] developing toward [DERIVATION]

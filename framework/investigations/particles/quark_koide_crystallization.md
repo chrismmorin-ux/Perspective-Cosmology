@@ -447,3 +447,64 @@ Script: `verification/sympy/T3_prime_selection_derivation.py` — ALL PASS
 *Investigation status: ACTIVE — Major unification found (S93)*
 *Confidence: [DERIVATION] — Three-prime structure verified, mechanism proposed*
 *Priority: HIGH — Unifies gauge couplings with quark mass structure*
+
+---
+
+## Session 188 Audit: Quark Koide + Top Quark Chain
+
+### Scope
+
+This audit covers:
+1. Top Yukawa y_t = 1 - 1/n_c² = 120/121 (145 ppm)
+2. Full quark mass hierarchy chain (5 sequential ratios)
+3. Quark Koide A² (4 triplets)
+4. Quark Koide θ (4 triplets)
+5. Three-prime structure (37, 53, 97)
+
+### Assumption Classification Summary
+
+| Component | Steps | [D] | [CONJECTURE] | Grade |
+|-----------|-------|-----|--------------|-------|
+| Top Yukawa (7 steps) | 7 | 2 | 1 (1/n_c²) | B+ |
+| Hierarchy ratios | 5 | 0 | 5 (all post-hoc) | C- |
+| Lepton Koide | 10 | 3 | 2 (θ, M) | B |
+| Quark Koide A² | 4 | 1 (lepton) | 3 | C |
+| Quark Koide θ | 4 | 0 | 4 | C |
+| Three-prime structure | — | — | 1 (T3 mapping) | B- |
+
+### Key Findings
+
+**Strongest result**: Top Yukawa y_t = 120/121 — clean single formula, uses only n_c, 145 ppm accuracy, physically motivated (y_t ≈ 1 with crystallization correction). Among framework numbers, n_c² = 121 gives best match (next best: 137 at 0.083%, 111 at 0.090%).
+
+**Most derived**: Lepton A² = dim(C) = 2 — algebraically forced. This is the only genuinely derived Koide parameter.
+
+**Most suggestive**: Three-prime structure. The primes 37, 53, 97 form an algebraic family with gaps H² = 16 and n_d×n_c = 44. The same primes appear in both gauge couplings AND quark Koide denominators. This is the framework's strongest claim for mass-coupling unification.
+
+**Highest risk**: Full quark mass hierarchy. All 5 ratios are independent conjectures discovered with target values known. Errors range from 0.5% to 5.7%. Joint confidence is much lower than any individual ratio.
+
+### Discovery-vs-Derivation Risk
+
+| Item | Risk | Rationale |
+|------|------|-----------|
+| Top Yukawa | MEDIUM | One clean formula, physical motivation, but 1/n_c² not derived |
+| Hierarchy chain | HIGH | All 5 ratios discovered post-hoc, ~3-13 alternatives per ratio |
+| Quark Koide A² | HIGH | All discovered with targets, though structural pattern exists |
+| Quark Koide θ | HIGH | All discovered with targets |
+| Three-prime | MEDIUM | Algebraic family is genuine, T3 mapping plausible but not derived |
+
+### What Would Strengthen This
+
+1. **Derive y_t = 1 - 1/n_c²** from Yukawa coupling dynamics (e.g., show crystallization correction to y_t = 1 is proportional to 1/n_c²)
+2. **Derive mass ratios from one mechanism** rather than matching each individually
+3. **Derive T3 → prime mapping** from gauge algebra (why T3 = +1/2 selects 97 etc.)
+4. **Predict a new mass** using the chain BEFORE measuring it
+
+### Verification
+
+`verification/sympy/top_quark_koide_chain_audit.py` — 36/36 PASS
+
+### Promotion History
+
+- Session 91-93: Quark Koide parameters discovered, T3→prime mechanism
+- Session 109: Top Yukawa y_t = 120/121 discovered
+- Session 188: Full audit — assumption classification, risk assessment, comparison script (36/36 PASS)

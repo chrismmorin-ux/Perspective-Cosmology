@@ -1,6 +1,6 @@
 # Investigation: The Planck Scale and the Origin of Big Numbers
 
-**Status**: ACTIVE — MAJOR CONCEPTUAL FINDING
+**Status**: ARCHIVE — MAJOR CONCEPTUAL FINDING
 **Confidence**: [DERIVATION] for formulas; [INSIGHT] for interpretation
 **Created**: 2026-01-27 (Session 88)
 **Significance**: CRITICAL — Explains hierarchy problem; reveals natural unit system

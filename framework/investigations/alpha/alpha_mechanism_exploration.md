@@ -290,23 +290,23 @@ This section sketches how g² = 1/N_I could emerge from an interface effective a
   ```
   A_μ^{EM} = (1/√N_I) Σ_a A_μ^a
   ```
-  So F_μν^{EM} = (1/√N_I) Σ_a F_μν^a. If all F^a are equal in this combination (symmetric configuration), then F_μν^a = √N_I F_μν^{EM} for each a.
+  So F_μν^{EM} = (1/√N_I) Σ_a F_μν^a. If all F^a are equal (symmetric configuration: F^a = F for all a), then F^{EM} = (1/√N_I) · N_I · F = √N_I · F, hence **F^a = F^{EM}/√N_I** for each a.
 
 ### Step C: Effective kinetic term for the photon
 
-- Summing the kinetic terms:
+- **CORRECTED (Session 141 adversarial review)**: Summing the kinetic terms with the correct relationship F^a = F^{EM}/√N_I:
   ```
-  Σ_a (1/4)(F_μν^a)² = N_I × (1/4)(F_μν^{EM})²
+  Σ_a (1/4)(F^a)² = N_I × (1/4) × (F^{EM}/√N_I)²
+                   = N_I × (1/4) × (F^{EM})²/N_I
+                   = (1/4)(F^{EM})²
   ```
-  (when F^a = √N_I F^{EM} for all a). So the effective 4D action for the photon is
-  ```
-  S_EM = (N_I/4) ∫ d⁴x F_μν F^μν
-  ```
-  Comparing to the standard normalization S = (1/(4g²)) ∫ F^2, we get
-  ```
-  1/g² = N_I   ⇒   g² = 1/N_I   ⇒   α = g² = 1/N_I
-  ```
-  in natural units (ℏ = c = 1, 4πε₀ absorbed).
+  The N_I factors **cancel**. The democratic normalization (1/√N_I) absorbs the multiplicity. This gives **1/g² = 1, not N_I**.
+
+- **The original claim (S_EM = (N_I/4) F²) was algebraically incorrect**: it used F^a = √N_I F^{EM}, but the correct relation is F^a = F^{EM}/√N_I (inverted).
+
+- **Alternative per-mode interpretation**: The `tilt_gradient_kinetic_term.md` avoids this by working with the per-mode field ε (not the democratic combination), getting S = (N_I/2)(∂ε)². But extracting a gauge coupling from this requires showing the scalar kinetic coefficient determines the gauge kinetic coefficient — which is a separate, unresolved issue (see Step D).
+
+- **Status**: The effective-action path to g² = 1/N_I requires **additional physics input** beyond the democratic superposition. See `tilt_gradient_kinetic_term.md` adversarial notes for what would be needed.
 
 ### Step D: What this sketch assumes and what remains
 
@@ -318,8 +318,10 @@ This section sketches how g² = 1/N_I could emerge from an interface effective a
 
 ### Step E: Link to tilt field ε(x)
 
-- In the tilt picture, ε(x) has N_I real components (dim Herm(n_d) + dim Herm(n_c) = 137). The **photon** is identified with the **democratic combination** (1/√N_I) Σ_a ε_a (or the corresponding gauge field A_μ), not with a single component (e.g. trace alone). If the trace alone were the photon, we would get one mode → coefficient 1/4 → g² = 1, which is wrong. So the framework must identify the low-energy U(1) with the equal-weight superposition of all N_I interface modes; then the kinetic term (1/2) Σ_a (∂_μ ε_a)² becomes (N_I/2)(∂_μ ε_EM)² for ε_EM = (1/√N_I) Σ ε_a, hence (N_I/4) F² for the gauge field, so g² = 1/N_I.
-- **Missing step**: Derive from the actual tilt Lagrangian (F(ε) in `tilt_energy_functional.md` plus gradient kinetic term for ε(x) in `tilt_topology_point_emergence.md`) that (i) the kinetic term has the form (1/2) Σ_a (∂ε_a)² with equal weight per a, and (ii) the combination that couples to charge (the "photon") is the democratic one (1/√N_I) Σ_a ε_a, so that the effective 4D coefficient is N_I/4.
+- In the tilt picture, ε(x) has N_I real components (dim Herm(n_d) + dim Herm(n_c) = 137). The **photon** is identified with the **democratic combination** (1/√N_I) Σ_a ε_a (or the corresponding gauge field A_μ), not with a single component (e.g. trace alone).
+- **Algebraic issue (Session 141 review)**: If ε_EM = (1/√N_I) Σ ε_a and all ε_a = ε, then ε_EM = √N_I · ε, so ε = ε_EM/√N_I. Substituting: (1/2) Σ_a (∂ε_a)² = (N_I/2)(∂ε)² = (N_I/2)(∂(ε_EM/√N_I))² = **(1/2)(∂ε_EM)²**. The democratic normalization gives a **standard** kinetic term for ε_EM, not an enhanced one. The factor N_I cancels.
+- **What would be needed**: A mechanism where the per-mode kinetic coefficient (1/2 per mode, N_I/2 total) produces an enhanced gauge kinetic coefficient (N_I/4 in front of F²). In standard gauge theory, the matter and gauge kinetic terms are independent. A valid path would require: (a) Kaluza-Klein reduction where the internal volume = N_I, or (b) induced gauge kinetics from matter loops, or (c) composite gauge field construction. None is currently derived.
+- **Missing step**: Derive from the actual tilt Lagrangian that the gauge field kinetic coefficient is N_I/4 (not just 1/4). This cannot follow from the scalar kinetic term alone.
 
 ---
 
@@ -360,7 +362,7 @@ This section sketches how g² = 1/N_I could emerge from an interface effective a
 | **Normalization (Step 6)** | Sketch | Only dimensionless scale at interface is N_I → coupling = 1/N_I. [CONJECTURE] |
 | **Identification with QED (Step 7)** | In place | Facet coupling = EM coupling (only universal low-energy gauge coupling at the interface). |
 | **Normalization as convention (Step 8a)** | In place | Explicit: set e² = 1/N_I in interface-natural charge units (4πε₀ = 1); then α = 1/N_I is the **prediction**. |
-| **Derivation from tilt kinetic term (Step 8b)** | In place | Tr[(∂ε)(∂ε)] → (1/2) Σ_a (∂ε_a)² (equal weight) → (N_I/2)(∂ε_EM)² → gauging → (N_I/4) F² → **g² = 1/N_I**. No free constant. [DERIVATION SKETCH] |
+| **Derivation from tilt kinetic term (Step 8b)** | **PROBLEMATIC** | Equal weight (1/2) Σ_a (∂ε_a)² is derived. But democratic normalization gives (1/2)(∂ε_EM)², not (N_I/2)(∂ε_EM)² — the N_I cancels. The per-mode approach gives (N_I/2)(∂ε)² but extracting gauge coupling requires independent input. [CONJECTURE] — see Session 141 adversarial review |
 
 **Current state**: We have **both** normalization options: (1) **Convention**: interface-natural charge units e² = 1/N_I ⇒ α = 1/N_I. (2) **Derivation**: tilt gradient kinetic term ⇒ equal weight per generator ⇒ democratic mode ⇒ (N_I/4) F² ⇒ g² = 1/N_I. With cancellation (form), identification (facet = EM), and either normalization, Step 5 (alpha_forced_vs_fitted) is closed at the level of a coherent mechanism.
 

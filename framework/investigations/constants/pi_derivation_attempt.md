@@ -1,6 +1,6 @@
 # Derivation Attempt: |Pi| from Layer 0 Axioms
 
-**Status**: ACTIVE-INVESTIGATION
+**Status**: ARCHIVE (reclassified from ACTIVE-INVESTIGATION -- last referenced ~S34, 100+ sessions stale)
 **Confidence**: [CONJECTURE] attempting upgrade to [DERIVATION]
 **Created**: 2026-01-26
 **Session**: 34

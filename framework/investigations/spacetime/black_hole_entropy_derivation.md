@@ -1,6 +1,6 @@
 # Black Hole Physics in Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: Session 110c
 **Confidence**: [CONJECTURE] with [DERIVATION] elements
 **Last Updated**: Session 110c (continued)

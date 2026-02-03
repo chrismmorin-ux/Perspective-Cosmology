@@ -1,6 +1,6 @@
 # Investigation: Strong CP Problem from Crystallization
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: Session 105, 2026-01-27
 **Confidence**: [DERIVATION] for main result; [CONJECTURE] for some details
 **Purpose**: Derive theta_QCD = 0 from crystallization structure

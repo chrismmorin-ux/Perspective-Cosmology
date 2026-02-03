@@ -21,10 +21,23 @@
 
 ## Statement
 
+### Direction Function
+
+For an edge {x, y} ∈ Σ₁ traversed from x:
+
+```
+direction(x→y) := y
+```
+
+That is, `direction(x→y)` denotes the neighbor reached by traversing edge {x, y} from x. Consequently, `direction(x→y) ∈ D` is equivalent to `y ∈ D`.
+
+### D-Compatible Edges
+
 Given direction set D at point x:
 
 ```
 E_D(x) = { y ∈ P : {x,y} ∈ Σ_1 and direction(x→y) ∈ D }
+       = { y ∈ P : {x,y} ∈ Σ_1 and y ∈ D }
 ```
 
 The neighbors of x reachable along directions in D.
@@ -35,3 +48,5 @@ The neighbors of x reachable along directions in D.
 
 This filters the simplicial neighbors by direction compatibility.
 Used in defining the propagation operator.
+
+The `direction()` function is trivial (it returns the endpoint) but is retained for readability in the propagation chain DEF_0221–DEF_0224, where "direction-compatible" is more intuitive than raw set membership.

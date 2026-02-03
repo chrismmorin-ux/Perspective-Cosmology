@@ -47,8 +47,28 @@ This is related to:
 
 ---
 
+---
+
+## Unification Note (Session 132)
+
+Under the unified framework [DEF_02B0]:
+```
+dim(V_Crystal) = n_c = 11 < ∞
+```
+
+Therefore V_Crystal itself is finite-dimensional. The finite access constraint becomes:
+```
+0 < dim(V_π) < 11
+```
+
+This resolves the apparent conflict with AXM_0100 (finiteness): both P and V_Crystal have the same finite dimension n_c = 11.
+
+---
+
 ## Cross-References
 
 - [AXM_0104: Partiality (P1)]
 - [AXM_0102: Non-Triviality (P2)]
 - [DEF_0244: Dimension Counting]
+- [DEF_02B0: Universe-Crystal Correspondence]
+- [AXM_0100: Finiteness]

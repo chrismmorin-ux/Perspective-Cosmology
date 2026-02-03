@@ -15,10 +15,12 @@
 | `03_algebraic_integers.md` | Gaussian, Eisenstein, and general algebraic integers |
 | `04_division_algebra_connections.md` | Links between primes and R, C, H, O |
 | `05_fourth_power_theory.md` | Why fourth powers are special |
+| `05b_fourth_power_norm_forms.md` | **KEY**: a⁴+b⁴ as cyclotomic norm form (S184) |
 | `06_reciprocity_laws.md` | Quadratic and higher reciprocity |
 | `07_prime_distribution.md` | Density theorems and splitting |
 | `08_open_questions.md` | Unsolved problems and conjectures |
-| `09_session_125_findings.md` | Bridge primes and cosmology (NEW) |
+| ~~`09_session_125_findings.md`~~ | Moved → `framework/investigations/primes/session_125_cosmological_primes.md` (S140 audit: physics content) |
+| ~~`10_session_126_findings.md`~~ | Moved → `framework/investigations/primes/session_126_density_primes.md` (S140 audit: physics content) |
 | `PROJECT_PRIME_PATTERN_AUDIT.md` | Systematic review project (PROPOSED) |
 
 ---
@@ -34,14 +36,16 @@
 | H (quaternions) | 4 | 3 | Associative, non-commutative |
 | O (octonions) | 8 | 7 | Non-associative, alternative |
 
-### Key Primes from Fourth-Power Sums
+### Key Primes from Fourth-Power Sums (= Z[ζ₈] Norm Values)
 
-**Consecutive (gap=1)**:
+**Identity (S184)**: a⁴ + b⁴ = N_{Q(ζ₈)/Q}(a + bζ₈) — quartic analogue of a² + b² = N_{Q(i)/Q}(a + bi)
+
+**Pure associative** (a, b ∈ {1,2,3,4}):
 | Formula | Value | Type |
 |---------|-------|------|
 | 1^4 + 2^4 | 17 | Fermat prime F_2 |
-| 2^4 + 3^4 | 97 | Prime |
-| 3^4 + 4^4 | 337 | Prime |
+| 2^4 + 3^4 | 97 | Quartan prime (CR-061 resolved) |
+| 3^4 + 4^4 | 337 | Quartan prime |
 | 1^4 + 4^4 | 257 | Fermat prime F_3 |
 
 **Bridge (cross associative/non-associative boundary)**:
@@ -50,6 +54,12 @@
 | 2^4 + 7^4 | 2417 | l_1 = 2417/11 |
 | 4^4 + 7^4 | 2657 | Omega_m ~ 2657/42 |
 | 3^4 + 8^4 | 4177 | l_1 = 4177/19, H_0 = 4177/62 |
+
+**Crystal bridge** (involving n_c = 11):
+| Formula | Value | Use |
+|---------|-------|-----|
+| 2^4 + 11^4 | 14657 | Unmapped |
+| 4^4 + 11^4 | 14897 | Unmapped |
 
 ### Fermat Primes
 
@@ -76,8 +86,8 @@ The consecutive fourth-power primes 17, 97, 337 use exactly the dimensions:
 
 These are the **associative** division algebra dimensions. The pattern breaks at octonions (non-associative).
 
-This is NOT coincidence but reflects deep algebraic structure:
-1. Fourth power is the largest k where n^k + (n+1)^k can be prime
+**[CONJECTURE]**: This may reflect deep algebraic structure (causal mechanism not proven):
+1. ~~Fourth power is the largest k where n^k + (n+1)^k can be prime~~ **Corrected (S189)**: n^k + (n+1)^k can be prime for all k = 2^m. k=4 is special for having the densest consecutive prime run (n=1,2,3,4 all prime — unique among all k).
 2. The 8th cyclotomic polynomial Phi_8(x) = x^4 + 1 has degree phi(8) = 4 = dim(H)
 3. Splitting of primes in Q(zeta_8) connects to quaternionic structure
 
@@ -105,4 +115,4 @@ Crossover: z_star = (Im_H * n_c)^2 = 33^2 = 1089
 
 ---
 
-*Last updated: 2026-01-28*
+*Last updated: 2026-01-30 (Session 136: auditor tags added)*

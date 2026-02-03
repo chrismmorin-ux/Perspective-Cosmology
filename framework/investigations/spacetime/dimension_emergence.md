@@ -1,6 +1,6 @@
 # Investigation: How Dimensions Emerge from Nucleation
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [SPECULATION]
 **Purpose**: Understand how the dimensional basis B emerges from perspective breaking symmetry

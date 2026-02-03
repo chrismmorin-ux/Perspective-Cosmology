@@ -42,7 +42,12 @@ The intrinsic decoherence rate for γ ≤ 0.5 is:
 
 ## Notes
 
-**Status breakdown**:
-- Form (1-2γ): DERIVED from asymmetry structure
-- Coefficient 1: ASSUMED (simplest choice)
-- Scale τ₀: EMPIRICAL
+**Assumption Classification (Session 181 Audit)**:
+
+| Component | Classification | Notes |
+|-----------|---------------|-------|
+| Form (1-2γ) | [D] DERIVED | From asymmetry structure DEF_02A0 |
+| Coefficient 1 | [A-STRUCTURAL] | Simplest normalization; not derived |
+| Scale τ₀ | [A-IMPORT: Planck time] | Empirical; AXM_0108 defines existence but not value |
+
+**Honest assessment**: The functional form is derived, but the overall scale depends on τ₀ which is not derivable from axioms. τ₀ is the Planck time t_P = sqrt(hbar G/c^5), which involves three empirical constants. This definition bridges Layer 0/1 mathematics to Layer 2 physics via the import of τ₀.

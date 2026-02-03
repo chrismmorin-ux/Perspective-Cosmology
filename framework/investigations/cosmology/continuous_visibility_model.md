@@ -1,6 +1,6 @@
 # Investigation: Continuous Visibility Model
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE] moving toward [DERIVATION]
 **Purpose**: Develop a continuous visibility spectrum for crystal dimensions

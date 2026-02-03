@@ -21,7 +21,7 @@ These parameters follow from the axioms via mathematical necessity.
 | Parameter | Value | Derivation | Frozen Since | Status |
 |-----------|-------|------------|--------------|--------|
 | n_d | 4 | Frobenius theorem + time direction axiom | S10 | LOCKED |
-| n_c | 11 | Division algebra sum: R+C+H+H = 1+2+4+4 | S15 | LOCKED |
+| n_c | 11 | Crystal dimensions: Im(C)+Im(H)+Im(O) = 1+3+7 | S15 | LOCKED (value); decomposition TENTATIVE (see §Tentative #2) |
 | F | C | Time direction requires minimal phase structure | S5 | LOCKED |
 | Aut(O) | G₂ | Mathematical fact | S1 | LOCKED |
 | Aut(H) | SU(2) | Mathematical fact | S1 | LOCKED |
@@ -85,33 +85,68 @@ These parameters are used but not yet derived from first principles:
 ### 1. Φ₆ Cyclotomic Polynomial
 
 **Status**: TENTATIVE
-**Used in**: α correction (111 = Φ₆(11)), Weinberg angle (133 = Φ₆(12))
+**Used in**: α correction (111 = Φ₆(11)); also appears in alpha_enhanced_prediction.py cyclotomic analysis
 **Problem**: Why Φ₆ specifically? Not Φ₄, Φ₈, Φ₁₂?
 **Required**: Derivation from division algebra structure
 **Priority**: HIGH (see Recommendation Engine)
 
-### 2. n_c = 11 (not 15)
+### 2. n_c = 11 (not 15) — Decomposition Justification
 
-**Status**: LOCKED but weakly justified
-**Justification**: "O appears as H+H from internal perspective"
-**Problem**: The H+H decomposition needs rigorous proof
-**Required**: Literature review (Baez's "The Octonions")
+**Status**: VALUE LOCKED (11 works; 15 does not); DECOMPOSITION TENTATIVE
+**Canonical form**: Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (per DEF_02C1)
+**Historical form**: R+C+H+H = 1+2+4+4 = 11 (deprecated — see CR-065)
+**Problem**: Why imaginary parts? Why not full dimensions R+C+H+O = 1+2+4+8 = 15?
+**Required**: Rigorous derivation of why Im() rather than full dim()
 **Priority**: HIGH
+
+---
+
+### 3. Landau Expansion Form (S132)
+
+**Status**: TENTATIVE
+**Used in**: THM_0487 (SO(11) breaking chain), crystallization dynamics
+**Tag**: [A-STRUCTURAL: Landau expansion]
+**Problem**: Why polynomial potential? This is a standard physics technique imported without derivation.
+
+### 4. B_total = M_Pl^4 (S172)
+
+**Status**: TENTATIVE
+**Used in**: Democratic quartic derivation, Higgs quartic coupling
+**Tag**: [A-STRUCTURAL: B_total = M_Pl^4]
+**Problem**: Normalization choice. Why M_Pl^4 specifically?
+
+### 5. Noise ∝ Unorthogonality (S134)
+
+**Status**: TENTATIVE
+**Used in**: Born rule derivation (THM_0494)
+**Tag**: [A-PHYSICAL: noise proportional to unorthogonality]
+**Problem**: Physical interpretation postulated, not derived from axioms.
+
+### 6. g² ∝ Im(algebra) (Tree-Level Couplings)
+
+**Status**: TENTATIVE
+**Used in**: Tree Weinberg angle, gauge coupling ratios
+**Tag**: [A-COUPLING: g² proportional to Im(algebra)]
+**Problem**: Proportionality constant and functional form not derived.
 
 ---
 
 ## Parameter Count
 
+> Updated S189 audit (CR-105): Previous count of 3 structural choices was an undercount.
+
 | Category | Count | Notes |
 |----------|-------|-------|
 | Derived from axioms | 6 | Mathematically necessary |
-| Structural choices | 3 | Explicit assumptions |
+| Structural choices | 3 | Explicit in Category 2 above |
 | Imports | 3 | From measurement |
-| **Tentative** | **2** | **Need derivation** |
+| **Tentative (original)** | **2** | **Φ₆ and n_c decomposition** |
+| **Tentative (S132-S175)** | **4** | **Landau, B_total, noise, g² rule** |
+| **Total structural assumptions** | **~6-8** | |
 
-**Honest assessment**: The framework has ~3 structural choices that are ASSUMPTIONS, not derivations. The "zero free parameters" claim is overstated.
+**Honest assessment**: The framework has ~6-8 structural choices that are ASSUMPTIONS, not derivations. The "zero free parameters" claim is significantly overstated. The original count of ~3 only included the oldest assumptions; at least 4 more were introduced in S132-S175 without being registered here.
 
-**More accurate claim**: "Three explicit structural assumptions, no continuous free parameters."
+**More accurate claim**: "Six to eight structural assumptions, no continuous free parameters."
 
 ---
 

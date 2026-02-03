@@ -39,10 +39,11 @@ For adjacent π₁ ~ π₂:
 
 **T_{12}: U_{π₁} → U_{π₂}**
 ```
-T_{12}(x) = A_{π₂}(A_{π₁}^{-1}(x))
+T_{12}(x) = A_{π₂}(σ_{π₁}(x))
 ```
 
-(Where A_{π₁}^{-1} selects a preimage.)
+Where σ_{π₁}(x) selects an element from the preimage set A_{π₁}⁻¹({x}).
+(A is non-invertible by AXM_0106; the notation A⁻¹({x}) denotes the set-theoretic fiber, not a function inverse. See DEF_0226.)
 
 ---
 

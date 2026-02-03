@@ -18,6 +18,14 @@ You DO:
 - Identify what unlocks the most downstream work
 - Recommend explicit deferrals
 
+## Context Loading
+
+Before generating recommendations, read these if they exist:
+- `.quality/report.md` — Known structural/content/consistency issues
+- `registry/INVESTIGATION_PRIORITIES.md` — Scored investigation queue from `/quality-engine`
+
+Use these to avoid recommending work on issues that are already tracked, and to align priorities with the quality engine's scoring.
+
 ## Required Analysis
 
 For any material (especially after Auditor and Steward), you MUST:

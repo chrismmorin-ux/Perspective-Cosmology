@@ -1,6 +1,6 @@
 # Investigation: Non-Framework Primes in Physics
 
-**Status**: ACTIVE — MAJOR DISCOVERY
+**Status**: ARCHIVE — MAJOR DISCOVERY
 **Created**: 2026-01-27 (Session 84)
 **Confidence**: [STRONG PATTERN] — Multiple high-precision matches
 **Verification**: `verification/sympy/non_framework_prime_search.py`

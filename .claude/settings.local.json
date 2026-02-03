@@ -103,7 +103,25 @@
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_take_screenshot",
       "mcp__playwright__browser_press_key",
-      "mcp__playwright__browser_snapshot"
+      "mcp__playwright__browser_snapshot",
+      "mcp__sympy-mcp__substitute_expression",
+      "mcp__sympy-mcp__solve_algebraically",
+      "Bash(test:*)",
+      "Bash(du:*)",
+      "WebFetch(domain:site.physics.georgetown.edu)",
+      "WebFetch(domain:scipost.org)",
+      "WebFetch(domain:www.esi.ac.at)",
+      "WebFetch(domain:journals.aps.org)",
+      "mcp__sympy-mcp__intro",
+      "Bash(cd:*)",
+      "Bash(curl:*)",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_close",
+      "Bash(timeout:*)",
+      "Bash(ping:*)",
+      "mcp__playwright__browser_evaluate",
+      "Bash(netstat:*)"
     ]
   }
 }

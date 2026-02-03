@@ -5,6 +5,13 @@
 **Purpose**: Show how α, masses, and other constants derive from {1, 2, 4, 8}
 **Updated**: Session 118 — Crystallization parameters added
 
+> **⚠ Audit Note (Session 189)**: This document has the highest pattern-fitting risk (7/10) in the foundation corpus. Key concerns:
+> - "EXACT" labels overstated — matching within ~1% error bars ≠ exact
+> - Missing verification script (`cosmological_parameters_exact.py` referenced but does not exist)
+> - Hidden [A-PHYSICAL] assumptions (which dimension maps to which observable)
+> - "No free parameters" understates structural choices (see Part X.1 revision)
+> See assumption classification below for honest accounting.
+
 ---
 
 ## The Claim
@@ -79,7 +86,7 @@ Equivalently: n_c = R + C + H + O - 4 = 15 - 4 = 11
 
 137 is the sum of squares of the two fundamental dimensions:
 - **n_d = 4**: Spacetime (quaternion dimension)
-- **n_c = 11**: Crystal (R + C + O = 1 + 2 + 8)
+- **n_c = 11**: Crystal (Im(C) + Im(H) + Im(O) = 1 + 3 + 7; also R + C + O = 1 + 2 + 8, non-canonical)
 
 The electromagnetic coupling measures the "interface" between spacetime and internal structure.
 
@@ -264,9 +271,11 @@ Or equivalently:
 
 | Parameter | Predicted | Measured | Error |
 |-----------|-----------|----------|-------|
-| H₀ | 67.4 | 67.4 ± 0.5 | **EXACT** |
-| Ω_Λ | 0.685 | 0.685 ± 0.007 | **EXACT** |
-| Ω_m | 0.315 | 0.315 ± 0.007 | **EXACT** |
+| H₀ | 67.4 | 67.4 ± 0.5 | Within 1σ |
+| Ω_Λ | 0.685 | 0.685 ± 0.007 | Within 1σ |
+| Ω_m | 0.315 | 0.315 ± 0.007 | Within 1σ |
+
+> **Note (S189 audit)**: "EXACT" replaced with "Within 1σ". Matching within current ~1% measurement error bars does not warrant "EXACT" — future measurements could reveal discrepancies. These are consistency checks, not exact predictions.
 
 ### 5.6 Crystallization Parameters [Session 118]
 
@@ -283,7 +292,9 @@ ALL crystallization parameters derived from alpha, M_Pl, H_0:
 
 **Key insight**: alpha = 1/137 = 1/(n_d^2 + n_c^2) controls ALL parameters.
 
-**No free parameters** — everything from division algebra dimensions.
+**Claim: No free parameters** — everything from division algebra dimensions.
+
+> **Audit caveat (S189)**: "No free parameters" understates the structural choices involved. The division algebra dimensions {1,2,4,8} are fixed, but WHICH combination maps to WHICH physical constant is an [A-PHYSICAL] assumption. For example, why is 337/5 = H₀ rather than some other constant? The mapping choices are hidden parameters. See Part X.1 for honest accounting.
 
 ---
 
@@ -383,10 +394,10 @@ The physical quantity determines the combination:
 
 | Constant | Formula | Status |
 |----------|---------|--------|
-| H₀ | 337/5 | EXACT |
-| Ω_Λ | 137/200 | EXACT |
-| Ω_m | 63/200 | EXACT |
-| ℓ₁ | 220 | EXACT |
+| H₀ | 337/5 | Within 1σ |
+| Ω_Λ | 137/200 | Within 1σ |
+| Ω_m | 63/200 | Within 1σ |
+| ℓ₁ | 220 | Within 1σ |
 
 ### All Scripts
 
@@ -394,20 +405,29 @@ Located in `verification/sympy/`:
 - `alpha_enhanced_prediction.py`
 - `proton_electron_best_formula.py`
 - `weinberg_best_formula.py`
-- `cosmological_parameters_exact.py`
+- `cosmological_parameters_exact.py` — **⚠ MISSING (S189 audit): referenced but does not exist. Violates cardinal rule.**
 
 ---
 
 ## Part X: What This Means
 
-### 10.1 No Free Parameters
+### 10.1 Parameter Accounting (Revised Session 189)
 
-Once you accept:
-1. Division algebras are required (from consistency)
-2. Only R, C, H, O exist (Frobenius-Hurwitz)
-3. Physical constants are dimensional ratios
+**What is truly parameter-free**: The division algebra dimensions {1, 2, 4, 8} and their derived quantities (n_d = 4, n_c = 11, Φ₆(11) = 111, etc.) follow from Frobenius' theorem. These are mathematical necessities, not parameters.
 
-Then the constants are **calculable**, not parameters.
+**What involves choices** [A-PHYSICAL / A-STRUCTURAL]:
+
+| Choice | Classification | Example |
+|--------|---------------|---------|
+| n_c = Im(C)+Im(H)+Im(O) (sum, not product) | [A-STRUCTURAL] | Why add, not multiply? |
+| n_d = H (largest associative) | [D] from Frobenius + AXM_0119 | Derived |
+| H₀ = 337/5 (which dimensions, which operation) | [A-PHYSICAL] | Why these for Hubble? |
+| Ω_Λ = 137/200 = (n_d²+n_c²)/(2(n_c-1)²) | [A-PHYSICAL] | Identification with dark energy |
+| Each formula's specific form | [A-PHYSICAL] | Many possible expressions from {1,2,4,8} |
+
+**Honest count**: ~3 structural assumptions (how to combine dimensions) + 8+ physical identification assumptions (which formula → which constant). The "zero parameters" claim applies to the building blocks, not to the formula selection.
+
+> This is acknowledged in Part X.2 ("Why these combinations?") but should be foregrounded.
 
 ### 10.2 The Question of "Why These Combinations?"
 
@@ -435,11 +455,11 @@ We need:
 
 The evidence:
 - 3 sub-ppm predictions
-- 4 exact predictions
+- 4 predictions consistent with measurement within 1σ (not "exact" — see S189 audit)
 - 50+ sub-percent predictions
 - All from the same dimensional building blocks
 
-This is either fundamental truth or extraordinary coincidence.
+This is either fundamental truth or extraordinary coincidence. (Or, per Red Team review: post-hoc pattern fitting — see `registry/FORMULA_SEARCH_LOG.md` for the denominator.)
 
 ---
 

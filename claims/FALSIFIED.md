@@ -131,6 +131,90 @@ Science learns from failure. Recording what didn't work:
 
 ---
 
+### F-7: Higher CMB Acoustic Peaks (ℓ₄, ℓ₅, ℓ₆) — BLIND PREDICTION
+
+**Claim**: Alternating H/Im_O shift pattern extends to peaks 4-6
+
+**Predictions** (P-008, locked Session 124):
+- ℓ₄ = 220 × 48/11 = 960
+- ℓ₅ = 220 × 62/11 = 1240
+- ℓ₆ = 220 × 70/11 = 1400
+
+**Measured** (arXiv:1412.3552):
+- ℓ₄ ≈ 1120 (predicted 960, **-14%**)
+- ℓ₅ ≈ 1444 (predicted 1240, **-14%**)
+- ℓ₆ ≈ 1735 (predicted 1400, **-19%**)
+
+**Error**: All predictions off by 12-19% (all FALSIFIED per pre-committed criteria)
+
+**Why it failed**: Higher peaks are dominated by acoustic physics (Silk damping, driving effects) not captured by simple harmonic scaling. The pattern that works for ℓ₁, ℓ₂, ℓ₃ does NOT extend.
+
+**Lesson**: Framework's CMB predictions have a validity boundary. Simple division-algebra scaling works for the first three peaks but fails for higher harmonics where detailed physics matters.
+
+**Status**: **FALSIFIED** (Session 124, blind prediction with pre-committed criteria)
+
+**Note**: This is the framework's cleanest falsification — a genuine blind prediction that failed cleanly. This constrains the interpretation of the successful ℓ₁, ℓ₂, ℓ₃ predictions.
+
+---
+
+### F-8: eta* = 337 Mpc (Conformal Distance to Last Scattering)
+
+**Claim**: The conformal distance to last scattering is eta* = 337 Mpc, where 337 = Im_H^4 + H^4
+
+**Computed**: eta* = 280.40 Mpc (from cosmological integral using framework parameters)
+
+**Error**: **16.8%** (definitively wrong)
+
+**Why it failed**: The number 337 was reverse-engineered so that eta* x 3/7 = 144.43 Mpc (matching Planck r_s). The actual conformal distance integral int_0^{a*} c da/(a^2 H(a)) gives ~280 Mpc using the framework's own H0, Om_m, Om_L values. The "match" was an artifact of back-solving from the desired r_s.
+
+**Positive finding**: Framework parameters (H0=337/5, Om_m=63/200, Om_b=567/11600) DO produce the correct r_s = 144.48 Mpc via standard physics (0.03% error). The parameters are good; the decomposition was wrong.
+
+**Lesson**: Always compute integral quantities from first principles. Identifying dimensionally-correct numbers without computing them is a recipe for numerology.
+
+**Script**: `verification/sympy/eta_star_cosmological_integral.py` (16/18 PASS, 2 FAIL are the eta*=337 tests)
+
+---
+
+### F-9: c_s = 3/7 = Im_H/Im_O (Sound Speed in Baryon-Photon Plasma)
+
+**Claim**: The sound speed in the baryon-photon plasma is c_s = 3/7 from the ratio of division algebra dimensions
+
+**Computed**: c_s(a*) = 0.4538 (standard), effective average <c_s> = 0.5153
+
+**Error**: **5.6%** from standard c_s at recombination, **20%** from effective average
+
+**Why it failed**: Four derivation paths tested in S191, all failed. The eta* integral (S194) makes it worse: the effective sound speed needed to match r_s from the actual eta* = 280 is 0.515, not 0.429. The 5.6% error was the optimistic case — the real discrepancy is 20%.
+
+**Related**: F-8 (eta* = 337). Together these showed that r_s = 337 x 3/7 was a numerical coincidence, not physics.
+
+**Lesson**: When a product of two wrong quantities gives a right answer, always check both factors independently.
+
+**Script**: `verification/sympy/sound_speed_from_crystallization.py` (S191) + `eta_star_cosmological_integral.py` (S194)
+
+---
+
+### F-10: V(ε*) < 0 — Cosmological Constant Wrong Sign
+
+**Claim**: The tilt potential minimum V(ε*) = -α⁵ M_Pl⁴ gives the cosmological constant
+
+**Computed**: V(ε*) = -a²/(4b) < 0 (symbolically proven), while observed Λ > 0
+
+**Error**: **Wrong sign** — qualitative failure, not a precision issue
+
+**Why it failed**: The tilt potential V(ε) = -aε² + bε⁴ has a global minimum at ε* = √(a/2b) with V(ε*) = -a²/(4b) < 0. With framework values a = 2α³M_Pl⁴ and b = αM_Pl⁴, this gives V(ε*) = -α⁵M_Pl⁴ ≈ -3.5 × 10⁻¹² M_Pl⁴. The observed Λ ≈ +2.846 × 10⁻¹²² M_Pl⁴ is positive AND 10¹¹⁰ times smaller.
+
+**Crystallization stress doesn't fix it**: σ = V(ε) - V(ε*) ≥ 0 is a *relative* energy density. It is always non-negative but says nothing about the absolute value V(ε*) which sets the vacuum energy. The sign problem is fundamental.
+
+**Three incompatible CC formulas**: The framework has produced three different CC expressions — Ω_Λ = 13/19, 137/200, α⁵⁶/77 — which are mutually inconsistent, suggesting numerological fitting rather than derivation.
+
+**What would fix it**: A mechanism that shifts V(ε*) from -α⁵M_Pl⁴ to +10⁻¹²²M_Pl⁴. This requires either (a) a positive bare cosmological constant that nearly exactly cancels V(ε*), or (b) a fundamentally different vacuum energy mechanism. Both require 10¹¹¹-level fine-tuning.
+
+**Lesson**: Getting the sign wrong is worse than getting the magnitude wrong. A potential with V_min < 0 cannot produce Λ > 0 without additional physics.
+
+**Script**: `verification/sympy/cosmological_constant_sign_analysis.py` (10/10 PASS)
+
+---
+
 ## Deprecated Approaches
 
 ### D-1: Gravity from |Pi| (Perspective Count)
@@ -189,7 +273,7 @@ Science learns from failure. Recording what didn't work:
 
 **Status**: WITHDRAWN (not falsified, just not testable)
 
-**See**: `physics/penrose_diosi_comparison.md`
+**See**: `framework/investigations/meta/penrose_diosi_comparison.md`
 
 ---
 
@@ -206,17 +290,21 @@ Science learns from failure. Recording what didn't work:
 | S = A/4 | Proportionality != derivation |
 | Einstein equations | Don't claim without construction |
 | h(gamma) | Check testability before claiming novelty |
+| Higher CMB peaks | Simple scaling has validity boundary |
+| eta* = 337 Mpc | Always compute integrals, don't back-solve |
+| c_s = 3/7 | Check both factors in a product independently |
 
 ---
 
 ## Meta-Lesson
 
-The framework has ~45 "matches" but only 3 are statistically significant.
+The framework has ~60 "matches" of which 12 meet the sub-10 ppm statistical significance threshold (see `claims/TIER_1_SIGNIFICANT.md`). Another ~16 are at Tier 2 precision (10-10000 ppm). The remainder are individually weak.
 
-The rest (including some above) are likely:
-1. **Numerology** (fitting to known values)
+Even for the significant matches, these risks remain:
+1. **Numerology** (fitting to known values — most claims are post-hoc)
 2. **Post-hoc rationalization** (finding formulas after knowing answer)
 3. **Selection bias** (remembering hits, forgetting misses)
+4. **Compensating errors** (e.g., r_s = 337*3/7: both factors wrong by ~17%, product coincidentally right — now FALSIFIED as F-8/F-9)
 
 Recording failures helps combat confirmation bias.
 
@@ -233,4 +321,4 @@ When exploring new claims, ALWAYS:
 
 ---
 
-*Last updated: 2026-01-27 (Session 106)*
+*Last updated: 2026-02-03 (S205 — count corrected 13→12 for Tier 1 reference. F-8/F-9 added S194.)*

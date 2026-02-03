@@ -1,6 +1,6 @@
 # Investigation: Why n_crystal → 6 at GUT Scale
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S30, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-31
 

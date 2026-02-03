@@ -1,6 +1,6 @@
 # Early Universe Crystallization Predictions
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: Session 99, 2026-01-27
 **Confidence**: [DERIVATION] with verified numerical matches
 

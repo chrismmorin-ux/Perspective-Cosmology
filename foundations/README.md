@@ -1,10 +1,15 @@
 # Foundations: The Inevitability Argument
 
-**Purpose**: Rigorous documentation of the path from "observation exists" to "physics is unique"
+**Purpose**: The 10-step narrative chain from "observation exists" to "physics is unique"
 **Status**: Phase 1 COMPLETE — All core documents created
-**Updated**: Session 119
+**Updated**: 2026-01-30 (reorganized)
 
 **Start here**: `THE_CHAIN.md` — Complete overview with visual diagram
+
+> **Scope notice (2026-01-30)**: This directory holds ONLY the Chain narrative
+> (9 core documents + supporting files + prime_theory/). Physics applications
+> (CMB, Einstein equations, black holes, etc.) now live in
+> `framework/investigations/[topic]/`. See `PLACEMENT_GUIDE.md` at project root.
 
 ---
 
@@ -26,7 +31,7 @@ This directory contains the rigorous arguments supporting this claim.
 | **`README.md`** | This file — navigation | COMPLETE |
 | **`inevitability_chain.svg`** | Visual diagram | COMPLETE |
 
-### The Logical Chain (Complete)
+### The Logical Chain
 
 | Step | Document | Claim | Status |
 |------|----------|-------|--------|
@@ -35,11 +40,12 @@ This directory contains the rigorous arguments supporting this claim.
 | 3 | `spacetime_from_associativity.md` | n_d = 4 from associativity | **COMPLETE** |
 | 4 | `gauge_from_automorphisms.md` | U(1)×SU(2)×SU(3) from Aut | **COMPLETE** |
 | 5 | `constants_from_dimensions.md` | α, masses from {1,2,4,8} | **COMPLETE** |
-| 6 | `einstein_from_crystallization.md` | GR from crystallization | **COMPLETE** |
+| 6 | `framework/investigations/spacetime/einstein_from_crystallization.md` | GR from crystallization | **COMPLETE** (moved S140) |
 | 7 | `fermions_from_representations.md` | 15 per generation | **COMPLETE** |
 | 8 | `generations_from_quaternions.md` | 3 generations from Im(H) | **COMPLETE** |
+| 9 | `symmetry_breaking_chain.md` | SO(11) → SO(4)×SU(3) forced | **COMPLETE** |
 
-**All 8 foundation documents now exist.**
+**All 9 foundation documents now exist.**
 
 ---
 
@@ -56,6 +62,7 @@ Dimensions: {1, 2, 4, 8}
        ↓
 ├── Spacetime = 4 (associativity)        [spacetime_from_associativity.md]
 ├── Gauge = U(1)×SU(2)×SU(3) (automorphisms)  [gauge_from_automorphisms.md]
+├── SO(11) → SO(4)×SU(3) (forced chain) [symmetry_breaking_chain.md]
 ├── Fermions = 15/gen (representations)  [fermions_from_representations.md]
 ├── Generations = 3 (Im(H))              [generations_from_quaternions.md]
 ├── Constants = ratios (algebra)         [constants_from_dimensions.md]
@@ -83,6 +90,9 @@ PHYSICS IS UNIQUE
 |--------|------------|----------|
 | n_d = 4 | Associativity requirement | `spacetime_from_associativity.md` |
 | Gauge = U(1)×SU(2)×SU(3) | Automorphism groups | `gauge_from_automorphisms.md` |
+| SO(11) → SO(4)×SU(3) | Unique breaking chain | `symmetry_breaking_chain.md` |
+| 8 framework primes | D_framework sum-of-squares | `symmetry_breaking_chain.md` |
+| All denominators = f(n_c) | Polynomial unification | `symmetry_breaking_chain.md` |
 | 15 fermions/gen | dim(R⊕C⊕H⊕O) | `fermions_from_representations.md` |
 | 3 generations | dim(Im(H)) = 3 | `generations_from_quaternions.md` |
 | 1/α = 137 + 4/111 | Dimension ratios | `constants_from_dimensions.md` |
@@ -165,9 +175,9 @@ Every document in this directory:
 
 ---
 
-## Phase 1 Status: COMPLETE
+## Phase 1 Status: COMPLETE (Extended)
 
-All 8 foundation documents have been created:
+All 9 foundation documents have been created:
 - The logical chain is documented from start to finish
 - Each step has its own detailed document
 - The chain can be read sequentially or by topic

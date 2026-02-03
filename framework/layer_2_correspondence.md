@@ -1,6 +1,8 @@
 # Layer 2: Correspondence Rules
 
-**Status**: IMPORT (from physics, cosmology, observation)
+> **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. Many correspondence rules have been added or refined since (e.g., DEF_02B0-02B3, DEF_02C0-02C6). Canonical Layer 2 content is in `core/definitions/DEF_02B0+` and `framework/investigations/`. Use this file for historical reference only.
+
+**Status**: HISTORICAL (was IMPORT)
 **Purpose**: Catalog EVERY identification between mathematical framework and physical reality
 **Principle**: Complete honesty about what is assumed vs. derived
 
@@ -79,17 +81,22 @@ Layer 2 bridges the gap between:
 - Real numbers insufficient for QM dynamics
 
 **Could we derive it?**
-- Layer 0 allows 𝔽 = ℝ or ℂ
-- Nothing in axioms forces ℂ
-- Possible approach: Show ℝ leads to inconsistency?
-- Status: **NOT DERIVED**
+- **Status: DERIVED (Session 133, THM_0485)**
+- THM_0485 derives F = C from:
+  1. AXM_0107 (time direction) → antisymmetric structure needed
+  2. THM_0484 (division algebra structure) → F ∈ {R, C, H, O}
+  3. Fields are commutative by definition → eliminates H, O
+  4. R lacks antisymmetric structure → eliminated
+  5. C is the minimal commutative division algebra with antisymmetry → F = C
+- **Caveat**: Depends on [A-STRUCTURAL: associativity] (Gap G-004), which is not yet proven from axioms
+- Earlier status ("NOT DERIVED") is now outdated
 
 **What if wrong?**
 - Real-valued framework would give different physics
 - Would need alternative explanation for interference
 - Framework survives but QM interpretation fails
 
-**Classification**: **ESSENTIAL** — framework cannot reproduce QM without it.
+**Classification**: **DERIVED** (conditional on [A-STRUCTURAL: associativity]) — previously ESSENTIAL import, now follows from axioms given G-004.
 
 ---
 
@@ -468,22 +475,37 @@ Layer 0 (Axioms)
 
 ## 8. The Central Problem
 
-### The Gap
+### The Gap (Original Assessment, Pre-Session 46)
 
 Layer 0 + Layer 1 = Almost nothing constrained
 
 Layer 2 = Everything we need for physics
 
-**This is the problem**: The "derivations" mostly happen in the imports, not the axioms.
+**This was the problem**: The "derivations" mostly happened in the imports, not the axioms.
 
-### What Would Change This?
+### Progress Since Original Assessment (Sessions 46-133)
 
-1. **Derive n_space = 3** from stability → Huge win
-2. **Derive |Π|** from self-consistency → Huge win
-3. **Derive sin²θ_W** from dimension counting → Meaningful
-4. **Derive 𝔽 = ℂ** from interference requirement → Nice
+Several of the original "impossible to derive" items have been addressed:
 
-Until these are achieved, the framework is a **repackaging** of known physics, not a derivation from first principles.
+| Item | Original Status | Current Status | Reference |
+|------|----------------|----------------|-----------|
+| **F = C** | NOT DERIVED | **DERIVED** (conditional on G-004) | THM_0485, Session 133 |
+| **n_d = 4** | NOT DERIVED | **DERIVED** [A-DIV] | THM_0484, Frobenius |
+| **SM gauge group** | NOT DERIVED | **DERIVED** [A-DIV] | Session 46-52 |
+| **15 fermions** | NOT DERIVED | **DERIVED** [A-DIV] | P-DIV-3 |
+| **sin²θ_W = 1/4** | NOT DERIVED | **DERIVED** [A-DIV]+[A-COUPLING] | P-COUP-1 |
+| **n_space = 3** | NOT DERIVED | NOT DERIVED | Still open |
+| **\|Π\|** | NOT DERIVED | NOT DERIVED | Still open |
+
+**Remaining open question**: The division algebra assumption [A-DIV] is the key structural input. Is it derivable from Layer 0, or is it a disguised import? Gap G-004 (associativity) is the critical unresolved step.
+
+### What Would Still Change the Picture
+
+1. **Derive associativity** from axioms → Would close Gap G-004, making [A-DIV] a theorem
+2. **Derive n_space = 3** from stability → Huge win (still open)
+3. **Derive |Π|** from self-consistency → Huge win (still open)
+
+The derivation-vs-discovery question remains the central epistemic challenge (see `publications/HONEST_ASSESSMENT.md`).
 
 ---
 
@@ -491,24 +513,24 @@ Until these are achieved, the framework is a **repackaging** of known physics, n
 
 ### What This Document Establishes
 
-1. **10 essential imports** are required for physics
-2. **5 convenient imports** simplify the framework
-3. **1 import is potentially testable** (sin²θ_W)
+1. **10 essential imports** were originally required for physics
+2. **Several imports have since been derived** (F=C, n_d=4, gauge group, fermion count) — conditional on [A-DIV]
+3. **1 import is potentially testable** (sin²θ_W running to 1/4)
 4. **4 interpretive claims** connect math to physics
-5. **Layer 0 axioms derive none of these** — they are assumptions
+5. **Key remaining gap**: [A-STRUCTURAL: associativity] (Gap G-004)
 
-### The Honest Conclusion
+### The Honest Conclusion (Updated)
 
-The Perspective Framework does not currently derive physics from perspective.
+The Perspective Framework has made significant progress since the original assessment. Given the division algebra assumption [A-DIV], it now **derives** (not just organizes) the SM gauge group, spacetime dimension, fermion count, and base field.
 
-It **organizes** physics using perspective language, with every physical value imported from observation, SM, or GUT.
+However, [A-DIV] itself rests on an unproven structural assumption (associativity, Gap G-004). Until this gap is closed, the framework status is: **Partial derivation, conditional on one key structural assumption.**
 
-The framework would become interesting if:
-- Any import could be derived from Layer 0
-- Predictions differed from SM and were confirmed
-- The organizational structure revealed new connections
+The framework becomes genuinely interesting if:
+- Gap G-004 (associativity) can be derived from Layer 0
+- Predictions differed from SM and were confirmed (e.g., 5.11 GeV dark matter)
+- The derivation-vs-discovery question is resolved (LLM Derivation Challenge)
 
-Currently: **Reorganization, not derivation.**
+Current status: **Conditional derivation** (upgraded from "reorganization").
 
 ---
 

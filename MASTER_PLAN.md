@@ -44,8 +44,8 @@ Present the framework to the physics community with appropriate confidence and h
 | Prove Frobenius necessity (not just sufficiency) | OPEN | — | `core/theorems/THM_frobenius_necessary.md` |
 | Derive n_d = 4 from associativity requirement | PARTIAL | — | Strengthen `associativity_derivation.md` |
 | Derive gauge groups from Aut(C×H×O) rigorously | PARTIAL | — | `gauge_from_division_algebras.md` |
-| Fill Gap 1: Point emergence from continuous space | **RESOLVED (S120)** | — | `foundations/tilt_topology_point_emergence.md` |
-| Fill Gap 2: Global vs local tilt relationship | **RESOLVED (S120)** | — | `foundations/tilt_topology_point_emergence.md` |
+| Fill Gap 1: Point emergence from continuous space | **RESOLVED (S120)** | — | `framework/investigations/spacetime/tilt_topology_point_emergence.md` |
+| Fill Gap 2: Global vs local tilt relationship | **RESOLVED (S120)** | — | `framework/investigations/spacetime/tilt_topology_point_emergence.md` |
 
 **Success criterion**: A physicist reading the axioms should see NO logical gap from "observation exists" to "SM gauge group."
 

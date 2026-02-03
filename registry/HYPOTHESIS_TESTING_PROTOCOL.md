@@ -174,12 +174,17 @@ Track in STATUS_DASHBOARD.md:
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| Blind predictions made | 9 | 20+ |
-| Confirmed | 6 | — |
-| Falsified | 3 | — |
-| Confirmation rate | 67% | >50% |
+| Predictions registered | 21 (P-001 to P-021) | — |
+| Genuinely blind | 12 (P-010 to P-016, P-018/P-019, P-008 pre-check) | — |
+| Confirmed/PASS | 14 | — |
+| Falsified | 1 (P-008 higher CMB peaks) | — |
+| Marginal | 1 (P-013, 2.1 sigma) | — |
+| Not yet testable | 5 (P-002, P-007, P-017, P-020, P-021) | — |
+| Confirmation rate | 93% (14/15 testable) | >50% |
 
-A ~50-70% confirmation rate is healthy — it means we're making non-trivial predictions.
+*Updated 2026-02-02 from BLIND_PREDICTIONS.md.*
+
+A ~50-70% confirmation rate is healthy — it means we're making non-trivial predictions. The current 93% rate is high, partly because cosmological predictions (P-010 to P-016) are LCDM-derived from framework parameters and thus expected to be self-consistent. The genuinely informative tests are the falsified P-008 (higher peaks) and the upcoming P-002 (dark matter mass), P-009 (r = 0.035), and neutrino predictions.
 
 ---
 

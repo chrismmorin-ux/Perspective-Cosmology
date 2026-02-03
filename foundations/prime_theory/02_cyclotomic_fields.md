@@ -57,7 +57,7 @@ This is the polynomial that governs fourth-power arithmetic!
 ζ_8^7 = (1 - i)/√2
 ```
 
-**Remarkable fact**: [Q(ζ_8) : Q] = 4 = dim(H) (quaternions!)
+**Remarkable fact**: [Q(ζ_8) : Q] = 4 = dim(H) (quaternions). [CONJECTURE: suggestive structural parallel — both numbers arise from independent constructions (Euler's totient vs Cayley-Dickson); causal mechanism not proven.]
 
 ---
 
@@ -134,7 +134,7 @@ This is the Klein four-group!
 | Φ_8(x) degree | 4 |
 | Fourth power | 4 |
 
-This is NOT coincidence!
+**[CONJECTURE]**: These four instances of the number 4 arise from different mathematical constructions. Whether they share a common root is an open question — see `08_open_questions.md` Q12.
 
 ### Deeper Connection
 
@@ -143,7 +143,7 @@ The splitting of x^4 + 1 over Q(ζ_8) parallels the structure of quaternions:
 - Both have dimension 4 over their base
 - Both relate to rotations in 4D
 
-The 8th roots of unity form the unit quaternions ±1, ±i, ±j, ±k when we identify:
+**Note on group structure**: The 8th roots of unity form the cyclic group Z₈, which is abelian. The quaternion unit group {±1, ±i, ±j, ±k} forms Q₈, which is non-abelian. These groups are NOT isomorphic. However, the subgroup {1, ζ₈², ζ₈⁴, ζ₈⁶} = {1, i, -1, -i} ≅ Z₄ does embed in both, providing a partial connection:
 - 1 = 1
 - ζ_8^2 = i
 - ζ_8^4 = -1

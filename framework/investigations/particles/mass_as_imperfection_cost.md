@@ -1,6 +1,6 @@
 # Investigation: Mass as Imperfection Cost
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Confidence**: [SPECULATION] — numerical patterns identified but not derived
 **Created**: 2026-01-27 (Session 57)
 **Dependencies**: imperfect_dimensions_and_recrystallization.md, mass_hierarchy_investigation.md

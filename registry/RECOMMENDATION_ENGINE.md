@@ -1,9 +1,14 @@
-# Recommendation Engine
+# Recommendation Engine — FROZEN
+
+**FROZEN at Session 131.** This file is preserved as a historical snapshot. It is no longer read at session start or updated at session end.
+
+**For current work backlog**: Read `sessions/INDEX.md` instead.
+
+---
 
 **Created**: 2026-01-28 (Session 120 - Red Team Review)
-**Updated**: 2026-01-28 (Session 123)
-**Purpose**: Master project queue — what to work on next
-**Protocol**: Read at every session start, update at session end
+**Updated**: 2026-01-29 (Session 131)
+**Purpose**: Historical snapshot (was: master project queue)
 
 ---
 
@@ -31,25 +36,26 @@ Each session, Claude reads this file and recommends the TOP PRIORITY based on:
 
 **Last Updated**: 2026-01-28
 
-### PRIORITY 1: LLM Derivation Challenge ⭐ HIGHEST IMPACT
+### PRIORITY 1: LLM Derivation Challenge ✅ PARTIAL (Test 1 Complete)
 
 **What**: Test if GPT-4/other LLMs derive same numbers from axioms alone
 **Why**: Directly tests reproducibility without target knowledge
-**Feasibility**: HIGH — can do this week
-**Impact**: Would move methodology probability from 10-25% to 30-40%
-**Status**: PLAN COMPLETE — Ready to execute
+**Status**: **TEST 1 COMPLETE — FULL SUCCESS**
 
-**Detailed Plan**: `registry/LLM_CHALLENGE_PLAN.md` (created Session 122)
+**Results** (Session 128):
+- Claude subagent derived n_d=4, n_c=11, 137 from axioms alone
+- Valid mathematical reasoning (Frobenius theorem, imaginary dimension counting)
+- Self-corrected on n_c interpretation (initially tried 4, corrected to 11)
 
-**Action Steps**:
-1. ✅ Create implementation plan (DONE)
-2. Create clean axiom document `axioms_for_llm_challenge.md`
-3. Prepare exact prompt (no information leakage)
-4. Run GPT-4 with axioms only, ask "what numbers emerge?"
-5. Check if it derives n_d=4, n_c=11, 137
-6. Document results in `llm_challenge_results.md`
+**Remaining**:
+- [ ] Run GPT-4 external test (true independence)
+- [ ] Run Gemini/Llama tests
+- [ ] Update probability estimates if external tests succeed
 
-**Success Criterion**: Another LLM arrives at same values without knowing targets
+**Results file**: `registry/llm_challenge/results/SUMMARY.md`
+**Axiom document**: `framework/axioms_for_llm_challenge.md`
+
+**Significance**: Internal test is ENCOURAGING but not conclusive. External tests needed.
 
 ---
 
@@ -158,12 +164,15 @@ Each session, Claude reads this file and recommends the TOP PRIORITY based on:
 | F3 | Complete dark matter package | EXPERIMENTAL | VERY HIGH | HIGH |
 | F4 | Derive G (Newton's constant) | EXTEND | VERY HIGH | LOW |
 | F5 | The "200 family" pattern | DEEPEN | MEDIUM | HIGH |
+| F6 | Axiomatic derivation of b (tilt quartic coupling) | CORE | HIGH | MEDIUM | **PARTIAL** (S138: λ free at 1-loop RG AND CW; disc<0 PROVEN ∀N≥4; quartic selects (5,6) not (4,7); **cubic Tr(φ³) required** for (4,7) selection; need cubic coupling mechanism) |
 
 ### MEDIUM PRIORITY (Sessions 10-25)
 
 | ID | Project | Category | Impact | Feasibility |
 |----|---------|----------|--------|-------------|
 | M1 | Neutrino masses from octonions | EXTEND | VERY HIGH | LOW |
+| M6 | QCD string tension from O-channel Casimir | PARTIALLY RESOLVED | HIGH | MEDIUM | S152: 6 findings (30/30 PASS). Beta coefficients = framework numbers. Luscher = piC/(O*Im_H). sqrt(sigma)=8m_p/17 [CONJECTURE, HRS=5]. Constituent decomposition found but not derivable from QCD dynamics. Open: lattice test of 17/24, 24 double-appearance connection. |
+| M7 | Tilt field Casimir between black hole horizons | EXTEND | MEDIUM | LOW | S150: eps=0 at horizons = Dirichlet BC for tilt. Planck-scale effect. |
 | M2 | CKM/PMNS mixing angles | EXTEND | VERY HIGH | LOW |
 | M3 | Proton lifetime prediction | EXTEND | HIGH | MEDIUM |
 | M4 | Octonion Fano plane → 3 generations | DEEPEN | HIGH | MEDIUM |
@@ -212,6 +221,8 @@ Move completed items here with date and outcome.
 | **Gauge Groups from Div Algebras** | **Session 124** | **T1 → SM gauge group complete (11/11 tests)** |
 | **1836 Derivation Rigor** | **Session 124** | **T1 → m_p/m_e = 1836.153 complete (11/11 tests, 0.057 ppm)** |
 | **Crystallization n_s Derivation** | **Session 127-129** | **n_s = 193/200 survives; r = 1 - n_s falsified; mu^2 = 250 candidate** |
+| **V_eff Self-Consistency** | **Session 133** | **b = M_Pl^4 falsified; b < 0.23 M_Pl^4 required; b = alpha M_Pl^4 resolves tension (22/22 tests)** |
+| **Born Rule from Crystallization** | **Session 134** | **P(k)=\|c_k\|² from martingale on pure state manifold (12/12 tests). One [A-PHYSICAL] assumption.** |
 
 ---
 
@@ -241,11 +252,12 @@ Items that were deprioritized and why.
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| Priorities completed | **7** | 10 |
-| Active priorities | 1 (P1 LLM Challenge) | — |
-| Future projects queued | 14 | 20+ |
-| Blind predictions logged | 7 | 20 |
+| Priorities completed | **9** (P1 partial) | 10 |
+| Active priorities | 2 (LLM external, CMB Phase 5) | — |
+| Future projects queued | 15 | 20+ |
+| Blind predictions logged | **16** (7 original + 2 S124 + 7 S138b) | 20 |
 | Expert responses received | 0 | 1 |
+| CMB Plan phases complete | **4 of 6** (Phase 4 ALL DONE) | 6 |
 
 ---
 
@@ -262,4 +274,4 @@ When a new project idea arises:
 ---
 
 *This engine ensures systematic progress on the most impactful work.*
-*Last updated: Session 127*
+*Last updated: Session 133*

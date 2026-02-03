@@ -1,13 +1,15 @@
 # Session 125 Findings: Bridge Primes and Cosmology
 
 **Created**: Session 125 (2026-01-28)
-**Status**: VERIFIED
+**Status**: CONJECTURE — arithmetic verified, physical significance unproven
+**Arithmetic Verification**: All scripts PASS (see below)
+**Physical Significance**: [CONJECTURE] — cosmological connections are post-hoc pattern-matching
 
 ---
 
 ## Summary
 
-Session 125 discovered that **bridge primes** (fourth-power sums crossing the associative/non-associative boundary) encode cosmological observables through division by framework dimensions.
+Session 125 found that **bridge primes** (fourth-power sums crossing the associative/non-associative boundary) produce ratios close to cosmological observables when divided by framework dimensions. [CONJECTURE: whether this reflects genuine structure or post-hoc numerology is unresolved.]
 
 ---
 
@@ -56,9 +58,9 @@ Uses 337 (consecutive prime), Im_H = 3, Im_O = 7.
 
 ---
 
-## Dimension-Observable Correspondence
+## Dimension-Observable Correspondence [CONJECTURE]
 
-**Major structural finding**: Different framework dimensions govern different physics domains.
+**Observed pattern** [CONJECTURE]: Different framework dimensions appear in formulas for different physics domains. No derivation chain exists from axioms to this correspondence — it is an empirical observation on framework formulas.
 
 | Dimension | Physical Domain | Verified Examples |
 |-----------|-----------------|-------------------|
@@ -125,3 +127,36 @@ New pattern added to `registry/emerging_patterns.md`:
 - Dimension-Observable Correspondence (Score 5)
 - Im_H⁴ unification of Hubble formulas (Score 5)
 - Bridge primes encode CMB (Score 5)
+
+---
+
+## Numerology Risk Assessment
+
+> **Per framework skepticism checklist**: When results match known values, investigate harder.
+
+### Risk Factors
+
+| Factor | Score | Reason |
+|--------|-------|--------|
+| Matches known values | +2 | All ratios tuned to known observables |
+| Post-hoc division | +3 | Divisors chosen AFTER seeing target values |
+| No failed attempts documented | +2 | What other prime/dimension ratios were tried? |
+| Seems "too good" | +1 | Multiple matches from same prime set |
+| Scripts verify arithmetic | -1 | Computation is correct |
+| **Total HRS** | **7** | **HIGH RISK** — requires multi-path verification |
+
+### Missing Denominator Analysis
+
+The formula search process is not documented:
+- How many bridge prime / dimension ratios were computed?
+- How many did NOT match any observable?
+- What is the probability of getting 2-3 matches from ~50 possible ratios?
+
+Without this analysis, the statistical significance of the matches cannot be assessed.
+
+### What Would Strengthen These Claims
+
+1. **Predict BEFORE measuring**: Use bridge prime ratios to predict an unmeasured observable
+2. **Document the search space**: Log all ratios tried, including failures
+3. **Derive the correspondence**: Show from axioms why bridge primes should encode CMB
+4. **Uniqueness test**: Show no other set of primes produces similar matches

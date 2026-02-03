@@ -1,5 +1,9 @@
 # Layer 0: Pure Axioms
 
+> **Deprecation notice (2026-01-30)**: The canonical axiom definitions are in
+> `core/axioms/` (AXM-numbered files). This document is a narrative overview.
+> For formal axiom statements, always reference `core/axioms/AXM_XXXX_*.md`.
+
 **Status**: AXIOM (no physics, no interpretation)
 **Version**: 2.2 (Two-primitive foundation, with known gaps documented)
 **Purpose**: Define the minimal mathematical structure from which all else derives
@@ -341,22 +345,26 @@ Some perspectives share accessible content.
 
 ### 16. Information Structure
 
-**Definition (Perspective Information)**
+**Definition (Perspective Dimension)**
 ```
-I_π = dim(V_π)
+d_π = dim(V_π)
 ```
-Information content = number of accessible dimensions.
+The number of accessible dimensions in perspective π.
 
-**Definition (Hidden Information)**
-```
-H_π = dim(V_Crystal) - dim(V_π)
-```
-Or H_π = ∞ if V_Crystal is infinite-dimensional.
+**Note on Notation**: The core definitions (DEF_0250) define information content as `I_π = log₂|U_π|` (information-theoretic measure). Here in Layer 0 we work with the dimensional quantity `d_π` which is the more natural Layer 0 concept. The relationship between dimension and information content depends on the structure of the accessible content set U_π. See DEF_0250 for the information-theoretic definition.
 
-**Theorem I.1 (Conservation)**
+**Definition (Hidden Dimension)**
 ```
-I_π + H_π = dim(V_Crystal) = constant
+h_π = dim(V_Crystal) - d_π
 ```
+Or h_π = ∞ if V_Crystal is infinite-dimensional.
+
+**Theorem I.1 (Dimensional Conservation)**
+```
+d_π + h_π = dim(V_Crystal) = constant
+```
+
+**Note**: This is a dimensional conservation law. The corresponding cardinality conservation law (THM_0450, Session 133) states: `|U_π| + |H_π| = |U|`. The information-theoretic bound is: `I_π + S_π ≤ 2·log₂|U| - 2`.
 
 ---
 
@@ -549,7 +557,7 @@ This section documents where the emergence story is incomplete. These are **rese
 
 **Resolution**: Points emerge as **topological defects** in the tilt field ε_ij(x). The Mexican hat energy functional fixes |ε| = ε*, but the direction can wind. Topological defects are classified by integer homotopy groups, giving discrete points from continuous fields.
 
-**See**: `foundations/tilt_topology_point_emergence.md`
+**See**: `framework/investigations/spacetime/tilt_topology_point_emergence.md`
 
 ### Gap 2: Global vs Local Tilt — **RESOLVED (Session 120)**
 
@@ -560,7 +568,7 @@ This section documents where the emergence story is incomplete. These are **rese
 - Local tilt = spatial variation δε(x) (determines matter distribution)
 - Points are where local tilt has topological winding
 
-**See**: `foundations/tilt_topology_point_emergence.md`
+**See**: `framework/investigations/spacetime/tilt_topology_point_emergence.md`
 
 ### Gap 3: Time Direction (Arrow of Time) — CLARIFIED
 
@@ -584,13 +592,25 @@ This section documents where the emergence story is incomplete. These are **rese
 
 **Status**: Moved from "mathematical gap" to "physical constraint to explain"
 
-### Gap 4: Why Does Perspective Exist?
+### Gap 4: Why Does Perspective Exist? — **SUBSTANTIALLY ADDRESSED (Session 188)**
 
 **Problem**: We axiomatize that perspective exists (P1-P4) but don't explain why.
 
-**Current state**: The investigation file `perspective_origin.md` suggests self-reference (Cantor/Gödel/Lawvere), but this isn't formalized in Layer 0.
+**Resolution via Evaluation Map (THM_04AC, CANONICAL)**:
 
-**Status**: This may be the deepest question. It might not have an answer within the framework (perspective might be truly primitive).
+THM_04AC proves that for dim(V_Crystal) = n >= 2, any set of k linearly independent vectors (1 <= k <= n-1) induces a rank-k orthogonal projection satisfying P1, P2, and P3.
+
+**Proof by contradiction**: Suppose position v_0 has no blind spots. Then ev_{v_0}: End(V) -> V is injective, requiring n^2 <= n. For n >= 2: contradiction. Therefore blind spots (partiality) are STRUCTURALLY INEVITABLE.
+
+**Axiom reduction**: P1 (Partiality), P2 (Non-Triviality), and P3 (Finite Access) are now theorems, not independent axioms. They follow from dim >= 2 plus the existence of evaluation points (which is trivially satisfied — every non-zero vector is one).
+
+**What remains open**:
+- Why a SPECIFIC rank k is selected (why k = 4 and not k = 3 or k = 7) — requires dynamics or additional structure
+- Whether one perspective is "real" or all are potential — C4 equivariance says all same-rank perspectives are equivalent
+
+**Previous approach (THM_04AA)**: The self-representation conditional fails for finite dimensions but is superseded by the evaluation map argument, which works directly for finite V_Crystal.
+
+**See**: `framework/investigations/meta/godel_self_inaccessibility.md`, THM_04AC.
 
 ### Gap 5: Measure on Perspective Space
 

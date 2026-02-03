@@ -1,5 +1,12 @@
 # Honest Assessment of the Perspective Cosmology Framework
 
+> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
+> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
+> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
+> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
+> - **Script count**: ~514 (not ~291-295)
+> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
+
 **Purpose**: A balanced evaluation of what this framework achieves, where it's strong, and where skepticism is warranted.
 
 **Who should read this first**: Anyone evaluating this work.

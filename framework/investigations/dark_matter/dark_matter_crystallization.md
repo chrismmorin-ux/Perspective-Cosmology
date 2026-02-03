@@ -1,6 +1,6 @@
 # Dark Matter from Crystallization Cosmology
 
-**Status**: ACTIVE — Major discovery
+**Status**: ARCHIVE — Major discovery
 **Created**: 2026-01-27 (Session 94)
 **Confidence**: [DERIVATION] with numerical verification
 **Origin**: Extension of crystallization stress cosmology to matter sector

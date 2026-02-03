@@ -1,6 +1,6 @@
 # Mass Hierarchy Investigation
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S50, 100+ sessions stale)
 **Confidence**: [SPECULATION] — qualitative mechanism identified, no quantitative predictions
 **Dependencies**: fermion_multiplets_from_division_algebras.md
 **Created**: 2026-01-26 (Session 50)

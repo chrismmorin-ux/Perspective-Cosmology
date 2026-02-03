@@ -1,6 +1,6 @@
 # Investigation: Dark Sector from Axiom P1 (Partiality)
 
-**Status**: ACTIVE
+**Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S36, 100+ sessions stale)
 **Created**: 2026-01-26
 **Session**: 2026-01-26-35
 **Confidence**: [CONJECTURE] with strong numerical support

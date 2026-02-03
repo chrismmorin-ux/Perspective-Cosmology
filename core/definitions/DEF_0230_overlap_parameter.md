@@ -25,14 +25,16 @@ For adjacent perspectives π₁ ~ π₂:
 **γ (Overlap Parameter)**
 
 ```
-γ(π₁, π₂) = |U_{π₁} ∩ U_{π₂}| / |U_{π₁} ∪ U_{π₂}|
+γ(π₁, π₂) = dim(U_{π₁} ∩ U_{π₂}) / dim(U_{π₁} + U_{π₂})
 ```
 
-Jaccard index of accessible content.
+Dimension-based Jaccard index of accessible content subspaces.
+
+Here `U_{π₁} + U_{π₂}` denotes the subspace sum (span of the union), and `dim()` is the vector space dimension. This is consistent with DEF_0227/0228 which use `dim()` for the same objects.
 
 **Range**: γ ∈ [0, 1]
-- γ = 0: disjoint access (no overlap)
-- γ = 1: identical access (same perspective)
+- γ = 0: disjoint access (no overlap, U_{π₁} ∩ U_{π₂} = {0})
+- γ = 1: identical access (same perspective, U_{π₁} = U_{π₂})
 
 ---
 
@@ -40,3 +42,5 @@ Jaccard index of accessible content.
 
 The overlap parameter is the central quantity for regime classification.
 It measures "how similar" two perspectives are.
+
+**Notation (Session 189)**: Earlier versions used set cardinality |·| notation. Since U_π is a subspace of V (not a discrete set), `dim()` is the correct measure. See DEF_0200 conventions.

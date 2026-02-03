@@ -1,11 +1,26 @@
 # Master Claims Registry
 
-**Purpose**: Single source of truth for ALL claims, their dependencies, and status
+> **⚠️ DEPRECATED (Session 176, 2026-02-01)**
+>
+> This file has been **archived** and is no longer maintained. Last substantive update: Session 102.
+>
+> **Superseded by**:
+> - `registry/CLAIM_DEPENDENCIES.md` — dependency graph (current through S144+)
+> - `registry/derivations_summary.md` — all derived constants (current through S142+)
+> - `registry/FALSIFICATION_REGISTRY.md` — falsification criteria
+>
+> **Archived copy**: `archive/deprecated/MASTER_CLAIMS_S102.md`
+>
+> The combined coverage of CLAIM_DEPENDENCIES + derivations_summary fully replaces
+> this file's original purpose. Maintaining a third redundant registry was causing
+> sync failures (this file fell 73 sessions behind).
+
+**Purpose**: ~~Single source of truth for ALL claims, their dependencies, and status~~
 **Inspired by**: [Lean Blueprint](https://github.com/PatrickMassot/leanblueprint), [KnowTeX](https://arxiv.org/html/2601.15294)
 
-## ✅ UPDATED (Session 102)
+## ~~✅ UPDATED (Session 102)~~ ❌ DEPRECATED (Session 176)
 
-This registry now includes all sessions through Session 102 (Einstein equations).
+This registry covers sessions through Session 102 only. See files above for current state.
 
 ---
 

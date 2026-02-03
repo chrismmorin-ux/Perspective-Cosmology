@@ -1,6 +1,8 @@
 # Layer 1: Mathematical Consequences
 
-**Status**: DERIVED (from Layer 0 only)
+> **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S55. It uses the OLD six-primitive ontology (U = (P, Σ, Γ, C, V, B)) not the current two-primitive (V_Crystal, Perspective). Canonical Layer 1 content is in `core/theorems/THM_0410-04AC` and `core/definitions/`. Many theorems added since S140 (THM_04A0-04AC) are not reflected here.
+
+**Status**: HISTORICAL (was DERIVED)
 **Purpose**: Document what follows mathematically from the axioms — NO physics
 **Method**: Rigorous analysis of what axioms FORCE vs. ALLOW vs. UNDERDETERMINE
 
@@ -342,15 +344,25 @@ This is close to sin²θ_W ≈ 0.223. But **this is an observation, not a deriva
 
 ### 5.4 Entropy and Information Bounds
 
-From Theorem I.1:
+From THM_0450 (Conservation, Session 133 fix):
+
+**Primary form (cardinality conservation):**
 ```
-I_π + S_π = I_total = log₂|U|
+|U_π| + |H_π| = |U|
 ```
+The accessible and hidden content partition the universe.
+
+**Information-theoretic bound:**
+```
+I_π + S_π = log₂|U_π| + log₂|H_π| = log₂(|U_π|·|H_π|) ≤ 2·log₂|U| - 2
+```
+
+Note: `I_π + S_π ≠ log₂|U|` in general (log of sum ≠ sum of logs). The earlier version of this document contained this error; see CR-009.
 
 This gives bounds:
 ```
-0 ≤ I_π ≤ I_total
-0 ≤ S_π ≤ I_total
+0 ≤ |U_π| ≤ |U|
+0 ≤ |H_π| ≤ |U|
 ```
 
 But specific values depend on the structure, which is free.

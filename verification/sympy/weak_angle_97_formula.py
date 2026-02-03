@@ -2,6 +2,10 @@
 """
 Weak Angle Formula with Prime 97
 
+NOTE: This is NOT the TIER_1 Weinberg angle formula. The TIER_1 claim
+uses cos(theta_W) = 171/194 — see weinberg_171_194_derivation.py.
+This script explores the STRUCTURAL formula 97/126 from fourth-power primes.
+
 KEY FINDING: cos^2(theta_W) = 97/126 = 97/(97+29)
 
 Where:
@@ -15,7 +19,7 @@ This gives:
 Measured at M_Z:
   sin^2(theta_W) = 0.23122
 
-Status: VERIFICATION
+Status: INVESTIGATION (structural formula, not precision claim)
 Created: Session 95
 """
 
@@ -84,8 +88,8 @@ cos2_formula = Rational(97, 126)
 print(f"\n   Measured: sin^2(theta_W) = {float(sin2_measured):.5f}")
 print(f"   Formula:  sin^2(theta_W) = 29/126 = {float(sin2_formula):.5f}")
 
-error = abs(float(sin2_formula - sin2_measured) / float(sin2_measured))
-print(f"\n   Error: {error*100:.3f}%")
+error_mz = abs(float(sin2_formula - sin2_measured) / float(sin2_measured))
+print(f"\n   Error: {error_mz*100:.3f}%")
 
 # Compare to our best formula 123/532
 sin2_best = Rational(123, 532)
@@ -227,7 +231,7 @@ tests = [
     ("126 = 97 + 29", 97 + 29 == 126),
     ("126 = 2 * 63", 2 * 63 == 126),
     ("cos^2 + sin^2 = 1", Rational(97, 126) + Rational(29, 126) == 1),
-    ("Error < 0.5%", error < 0.005),
+    ("Error < 1%", error_mz < 0.01),
 ]
 
 all_pass = True

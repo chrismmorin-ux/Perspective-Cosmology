@@ -1,6 +1,6 @@
 # Investigation: Prime Crystallization Attractors
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-27
 **Origin**: Session exploring how perfect orthogonal dimensions emerge post-nucleation
 **Significance**: HIGH — Connects prime structure to particle stability hierarchy

@@ -1,8 +1,9 @@
 # Session 126 Findings: Omega Formula Prime Structure
 
 **Created**: Session 126 (2026-01-28)
-**Status**: VERIFIED
-**Verification**: `verification/sympy/omega_prime_structure.py` — 12/12 PASS
+**Status**: [DERIVATION] — identities verified, physical interpretations conjectural
+**Arithmetic Verification**: `verification/sympy/omega_prime_structure.py` — 12/12 PASS
+**Physical Significance**: [CONJECTURE] — division algebra factorizations are verified; cosmological interpretations are post-hoc
 
 ---
 
@@ -112,12 +113,12 @@ The number 9 appears as the squared imaginary quaternion dimension:
 2. **Im_H² = 9** appears in matter fraction: 63 = 7 × 9
 3. **9 = O + 1** connects back to octonion dimension
 
-The identity O + 1 = Im_H² is NOT obvious:
+The identity O + 1 = Im_H² (i.e., 8 + 1 = 9 = 3²) is arithmetically trivial but its framework interpretation is [CONJECTURE]:
 ```
 8 + 1 = 9 = 3²
 ```
 
-This suggests a deep relationship between octonion dimension and quaternion imaginary structure.
+Whether this reflects a structural relationship between octonion and quaternion dimensions, or is simply 8 + 1 = 9, is an open question.
 
 ---
 
@@ -240,6 +241,14 @@ The fraction 171/729 simplifies to 19/81, revealing:
 - Numerator: n_c + O = 11 + 8 = 19 (crystal + octonion)
 - Denominator: Im_H⁴ = 3⁴ = 81 (fourth power!)
 
+### Measurement Comparison
+
+| Prediction | Value | Measured (M_Z) | Error | Notes |
+|------------|-------|----------------|-------|-------|
+| sin²θ_W = 19/81 | 0.2346 | 0.2312 ± 0.0002 | **1.5%** | MS-bar at M_Z |
+
+> **Internal tension**: The framework elsewhere predicts sin²θ_W = 1/4 = 0.25 at the isotropy scale (~188 TeV, see `layer_1_crystallization.md`). Having TWO different predictions (19/81 and 1/4) for the same quantity from the same framework is problematic. These may refer to different energy scales (19/81 at M_Z vs 1/4 at ~188 TeV), but the RG running between them has not been verified to connect the two values. [CONJECTURE]
+
 ### Partition Identity
 
 ```
@@ -285,7 +294,9 @@ The numbers 63 and 62 from Parts 1 and 3 are part of a systematic pattern:
 
 **O² - k for k in {R, C, Im_H, H, Im_O, O}**
 
-Each member of this family has physical significance.
+The claim is that each member has physical significance. [CONJECTURE]
+
+> **Auditor note**: Only k = R (63 → Ω_m) and k = C (62 → cos²θ_W) have clear connections to measured physical observables. The assignments for k = Im_H (field content bound), k = H (prime gap), k = Im_O (indirect link), and k = O (representation dimension) are post-hoc pattern assignments with varying plausibility. Treat k ≥ 3 entries as [SPECULATION].
 
 ### The Complete Family
 

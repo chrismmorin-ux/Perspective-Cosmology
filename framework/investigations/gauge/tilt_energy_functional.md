@@ -1,6 +1,6 @@
 # Investigation: The Tilt Energy Functional F(ε)
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-27 (Session 76)
 **Origin**: Investigating nucleation mechanism; extending AXM_0117
 **Significance**: HIGH — Resolves nucleation paradox; unifies crystallization and nucleation

@@ -62,7 +62,7 @@ t = 0:    NUCLEATION (perspective begins)
           First distinction becomes possible
 
 t > 0:    Crystallization propagates
-          eps → eps* = alpha^2
+          eps → eps* (equilibrium tilt; ε*_portal = α², ε*_MH = α; see DEF_02C0)
           Structure emerges
 ```
 
@@ -122,19 +122,22 @@ This is NOT saying "we can't know what was before." It's saying the question is 
    - Non-nucleating crystals have no observers
    - Not an explanation, but may be the only answer
 
-### The Potential at eps = 0
+### The Potential at eps = 0 [CONJECTURE]
+
+> **Note**: The canonical crystallization potential is the Mexican hat F(ε) = -a|ε|² + b|ε|⁴ (see AXM_0117, DEF_02C4). For the inflationary sector, the canonical form is the hilltop V(φ) = V₀(1 - φ²/μ²). The coupled two-field picture is developed in `crystallization_dynamics.md`.
 
 ```
-V(eps) = -a*eps^2 + b*eps^4
+F(ε) = -a|ε|² + b|ε|⁴    [Mexican hat — canonical per AXM_0117]
 
-V(0) = 0          (saddle point)
-V'(0) = 0         (extremum)
-V''(0) = -2a < 0  (unstable - hill top)
+F(0) = 0          (local maximum — unstable)
+F'(0) = 0         (extremum)
+F''(0) = -2a < 0  (unstable hilltop)
+F(ε*) < 0         (global minimum at |ε*| = √(a/2b))
 ```
 
-The eps = 0 state is **unstable**. Any perturbation causes eps to grow.
+The ε = 0 state is **unstable**. Any perturbation causes ε to grow toward the equilibrium ε*.
 
-**In the framework**: eps = 0 is not a stable state. Nucleation is "inevitable" in the sense that the potential drives it.
+**In the framework**: ε = 0 is not a stable state. Nucleation is "inevitable" in the sense that the potential drives it.
 
 ---
 
@@ -142,13 +145,17 @@ The eps = 0 state is **unstable**. Any perturbation causes eps to grow.
 
 ### The Energy of Nucleation
 
-**Potential energy change**:
+**Potential energy change** [CONJECTURE — specific a, b values from Session 133 best candidate]:
 ```
-Delta_V = V(eps*) - V(0)
+Delta_F = F(eps*) - F(0)
         = [-a*eps*^2 + b*eps*^4] - 0
-        = -a*alpha^4 + b*alpha^8
-        = -(1/2)*alpha^6 * M_Pl^2   [using a = alpha^2, b = 1/(2*alpha^2)]
+        = -a^2/(4b) < 0
+
+With best-candidate values (b = α M_Pl⁴, a = 2α³ M_Pl⁴, ε* = α):
+  Delta_F = -α⁵ M_Pl⁴    (Mexican hat depth)
 ```
+
+> **Note**: Earlier versions used a = α², b = 1/(2α²), which are inconsistent with the corrected constraints from Session 133 (see crystallization_dynamics.md). The qualitative picture (energy release during nucleation) is unchanged.
 
 This is **NEGATIVE** — the ground state has LOWER energy than eps = 0.
 
@@ -408,9 +415,11 @@ The "singularity" is not a point of infinite density. It's the **boundary of per
 
 ### 2. Inflation as Nucleation Spreading
 
-**Prediction**: Inflation parameters are determined by crystallization potential.
+**Prediction**: Inflation parameters are determined by crystallization potential (hilltop form).
 
-**Test**: n_s = 117/121 = 0.9669 (observed: 0.9649, 0.2% error)
+**Test**: n_s = 193/200 = 0.965 (observed: 0.9649 ± 0.0042, within 1σ), r = 7/200 = 0.035 (within BICEP/Keck r < 0.036 limit). See `hilltop_inflation_canonical.md` for full derivation.
+
+> **Note**: Earlier versions used n_s = 117/121 = 0.9669 from a double-well potential. This was superseded in Session 131 by the hilltop treatment with mu² = 1536/7.
 
 ### 3. Temperature from Phase Transition
 
@@ -441,4 +450,4 @@ The framework doesn't deny the hot Big Bang — it EXPLAINS it as the natural co
 - Session 118: Crystallization-inflation connection
 - Session 99: Early universe BBN predictions
 - `verification/sympy/crystallization_inflation_connection.py`
-- `foundations/white_holes_as_nucleation.md`
+- `white_holes_as_nucleation.md`

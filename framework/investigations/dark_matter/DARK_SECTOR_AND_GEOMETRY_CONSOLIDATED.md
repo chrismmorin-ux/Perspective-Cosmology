@@ -670,8 +670,8 @@ See: `framework/investigations/continuous_visibility_model.md`
 
 | File | Relevance |
 |------|-----------|
-| `physics/alpha_crystal_interface.md` | Alpha formula origin |
-| `physics/field_content_from_orthogonality.md` | Field bounds |
+| `../alpha/alpha_crystal_interface.md` | Alpha formula origin |
+| `../gauge/field_content_from_orthogonality.md` | Field bounds |
 | `divergence_registry.md` | Where framework differs from SM |
 
 ### 13.4 Session Log Entries

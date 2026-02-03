@@ -772,7 +772,7 @@ What it ADDS is a unified conceptual picture: Black holes are the reverse of the
 ## References
 
 ### Internal
-- `foundations/white_holes_as_nucleation.md` — Dual picture
+- `white_holes_as_nucleation.md` — Dual picture
 - `foundations/einstein_from_crystallization.md` — How gravity emerges
 - `framework/investigations/black_hole_entropy_derivation.md` — Factor 4 = n_d
 

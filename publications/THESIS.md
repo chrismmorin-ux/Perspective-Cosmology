@@ -1,5 +1,12 @@
 # The Thesis: Physics as Mathematical Necessity
 
+> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
+> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
+> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
+> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
+> - **Script count**: ~514 (not ~291-295)
+> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
+
 **Version**: 1.1
 **Status**: CENTRAL DOCUMENT — Read this first
 **Updated**: 2026-01-28 (Session 120)
@@ -140,8 +147,8 @@ Physics scales are built into the algebra.
 ### Complete Inventory
 
 - **62 physical constants** derived
-- **291 verification scripts** (90% passing)
-- **Zero free parameters** once division algebras accepted
+- **291 verification scripts** **(OUTDATED: ~514 as of S189)** (90% passing)
+- **Zero free parameters** once division algebras accepted **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**
 - **9 foundation documents** proving the logical chain
 
 ---
@@ -150,7 +157,7 @@ Physics scales are built into the algebra.
 
 ### Why This Might Be THE Theory
 
-Most theories have free parameters. This framework claims **zero** once you accept consistent observation.
+Most theories have free parameters. This framework claims **zero** once you accept consistent observation. **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**
 
 The logic:
 1. Consistent observation requires division algebras (**theorem**)
@@ -284,7 +291,7 @@ Either outcome advances knowledge.
 
 ---
 
-**All materials available**: 291 verification scripts, complete derivation chains, 9 foundation documents, honest assessment.
+**All materials available**: 291 **(OUTDATED: ~514 as of S189)** verification scripts, complete derivation chains, 9 foundation documents, honest assessment.
 
 **Status**: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance. All claims should be treated skeptically.
 

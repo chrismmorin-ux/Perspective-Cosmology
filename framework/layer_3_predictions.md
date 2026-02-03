@@ -1,6 +1,8 @@
 # Layer 3: Predictions
 
-**Status**: What the framework actually predicts
+> **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. The canonical predictions are in `predictions/BLIND_PREDICTIONS.md` and `claims/README.md` (tiered claims). Many predictions have been added, refined, or falsified since. Use this file for historical reference only.
+
+**Status**: HISTORICAL (was active predictions)
 **Purpose**: Separate genuine predictions from pattern-matching and hopes
 **Principle**: Every prediction must trace to Layers 0-2 with explicit dependencies
 **Updated**: 2026-01-27 (Session 53 — Stage 1 completion)

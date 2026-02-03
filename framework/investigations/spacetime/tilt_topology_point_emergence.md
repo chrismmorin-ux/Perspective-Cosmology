@@ -136,7 +136,9 @@ For S^N with N ≥ 2:
 
 **Problem**: For the full S^136, π₂(S^136) = 0. No point defects!
 
-### 2.3 Resolution: Symmetry Breaking
+### 2.3 Resolution: Symmetry Breaking [CONJECTURE]
+
+> **⚠ Important**: The resolution below **imports** the Standard Model gauge group [A-IMPORT: SM gauge group identification]. The gauge group G = U(1) × SU(2) × SU(3) is NOT derived from the perspective axioms in this document — it is taken from observation. Deriving the gauge group from the tilt structure is an open problem (see GAP-TT-1).
 
 The full tilt space has too much symmetry. Physical symmetry breaking reduces the effective manifold.
 
@@ -147,21 +149,23 @@ Herm(n) → Herm(n)/G
 where G = gauge group acting on tilt configurations
 ```
 
-For the Standard Model:
+For the Standard Model [A-IMPORT]:
 ```
 G = U(1) × SU(2) × SU(3)
 ```
 
-The quotient space has non-trivial homotopy.
+The quotient space has non-trivial homotopy (claimed but not rigorously computed — see note in Section 2.4).
 
-### 2.4 The Effective Order Parameter Manifold
+### 2.4 The Effective Order Parameter Manifold [CONJECTURE]
 
 After symmetry breaking, the effective manifold is:
 ```
 M_eff = S^(n²-1) / G
 ```
 
-For physically relevant cases:
+> **⚠ Rigorous computation needed**: The homotopy groups of the quotient spaces below are **asserted by analogy** with condensed matter / GUT defect classification. Rigorous computation of π_k(S^136 / G) for the specific G has NOT been performed. This is an open verification task.
+
+For physically relevant cases [A-IMPORT: each case imports specific gauge group structure]:
 
 **Electromagnetism** (U(1) breaking):
 ```
@@ -177,12 +181,12 @@ M_eff ≅ S³
 
 **Grand Unified** (SU(5) → SM):
 ```
-M_eff has π₂ ≠ 0  → magnetic monopoles
+M_eff has π₂ ≠ 0  → magnetic monopoles  [CLAIMED, not computed for this specific quotient]
 ```
 
-### 2.5 Point Emergence Mechanism
+### 2.5 Point Emergence Mechanism [CONJECTURE]
 
-**Theorem (Point Emergence)**:
+**Theorem (Point Emergence)** [CONJECTURE — depends on unverified homotopy claims above]:
 ```
 Points in physical space emerge as locations where the tilt field
 ε̂(x) : M → M_eff has non-trivial homotopy.
@@ -274,7 +278,9 @@ C(p) = {winding number, local tilt value, tilt gradient}
 
 ## Part IV: Physical Identifications
 
-### 4.1 Particles as Defects
+### 4.1 Particles as Defects [SPECULATION]
+
+> **Note**: The identifications below are schematic and motivated by dimensional/structural analogy. No derivation from the tilt field dynamics produces these specific assignments. All entries are [SPECULATION] pending rigorous computation.
 
 | Particle Type | Topological Structure | Homotopy |
 |---------------|----------------------|----------|

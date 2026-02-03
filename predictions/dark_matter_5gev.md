@@ -206,7 +206,7 @@ If dark matter is detected at mass outside 4.5-5.7 GeV:
 
 ## Verification
 
-**Script**: `verification/sympy/dark_matter_mass_prediction.py`
+**Script**: `verification/sympy/dark_matter_testable_predictions.py` (note: originally referenced as `dark_matter_mass_prediction.py`, which does not exist)
 
 ```python
 # Key calculation

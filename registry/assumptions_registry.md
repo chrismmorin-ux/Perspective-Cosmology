@@ -18,6 +18,37 @@ A complete list of every assumption in the Perspective Cosmology framework.
 
 ---
 
+## Numbering Cross-Reference
+
+| A-Number | AXM-Number | Name | Status |
+|----------|------------|------|--------|
+| A1 | AXM_0100 | Finiteness (Static Universe) | CANONICAL |
+| A2 | AXM_0101 | Connectivity (Finite Completeness) | CANONICAL |
+| A3 | AXM_0102 | Perspective as Primitive | CANONICAL |
+| A4 | AXM_0103 | Weighted Simplicial Complex | CANONICAL |
+| A5 | AXM_0104 | Orthonormal Basis | CANONICAL |
+| A6 | AXM_0105-0107 | Adjacency / Information Loss | CANONICAL |
+| A7 | — | High-γ = QM | CONJECTURE (no AXM equivalent) |
+| A8 | — | Low-γ = GR | CONJECTURE (no AXM equivalent) |
+| A9 | AXM_0115 | B-Geometry / Algebraic Completeness | CANONICAL |
+| A10 | — | Electroweak n_EW=5 | DEPRECATED |
+| A11 | — | sin²θ_W from GUT | [A-IMPORT] |
+| A12 | AXM_0110 | Counting Measure | CANONICAL |
+| A13 | — | δπ_min scaling | CONJECTURE |
+| A14 | AXM_0108 | Complex Structure | CANONICAL |
+| A15 | — | Decoherence Rate | PARTIALLY DERIVED |
+| A16 | — | h(γ) function | DERIVED |
+| — | AXM_0109 | Crystal Existence | CANONICAL |
+| — | AXM_0113 | Finite Access | CANONICAL |
+| — | AXM_0114 | Tilt Possibility | CANONICAL |
+| — | AXM_0117 | Crystallization Tendency | CANONICAL |
+| — | AXM_0118 | Prime Attractor Selection | CANONICAL |
+| — | AXM_0119 | Transition Linearity | PROPOSED |
+
+> **Note (S189 audit)**: The A-number system (A1-A16) predates the formal AXM system. Not all entries map 1:1. AXM_0109-0119 were added in sessions S132-S181 and have no A-number equivalents. The AXM system is authoritative; the A-numbers are retained for backward compatibility.
+
+---
+
 ## Foundational Assumptions
 
 ### A1: Static Universe
@@ -435,3 +466,4 @@ If mostly (3), this is fitting, not derivation.
 ---
 
 *Last updated: 2026-01-26 (A15 added - Γ_dec formula marked as assumption)*
+*Reviewed: 2026-02-01 (Session 176 — audit confirmed content current for foundational/structural/physical assumptions. Sessions 143+ primarily extended Layer 2 derivations, not foundational assumptions.)*

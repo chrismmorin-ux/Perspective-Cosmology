@@ -4,6 +4,7 @@
 **Type**: DEFINITION
 **Status**: CANONICAL
 **Source**: core/09_trajectory.md
+**Updated**: Session 133 (CR-007: renamed symbol γ → τ_traj to resolve collision with DEF_0230)
 
 ---
 
@@ -14,7 +15,7 @@
 
 ## Provides
 
-- γ: Trajectory (world-line in U)
+- τ_traj: Trajectory (world-line in U)
 
 ---
 
@@ -23,9 +24,9 @@
 A **trajectory** is a connected subset of P:
 
 ```
-γ ⊂ P
+τ_traj ⊂ P
 
-such that ∀ x, y ∈ γ : ∃ path in γ via Σ₁
+such that ∀ x, y ∈ τ_traj : ∃ path in τ_traj via Σ₁
 ```
 
 Trajectories are "world-lines" embedded in U's structure.
@@ -34,4 +35,4 @@ Trajectories are "world-lines" embedded in U's structure.
 
 ## Notes
 
-Not to be confused with the overlap parameter γ (same symbol, different context).
+**Symbol history**: Previously denoted γ, renamed to τ_traj (Session 133) to avoid collision with the overlap parameter γ [DEF_0230]. The subscript "traj" distinguishes from the time scale τ₀ [AXM_0108].

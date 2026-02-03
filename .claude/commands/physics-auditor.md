@@ -257,6 +257,15 @@ BATCH AUDIT REPORT: [BATCH NAME]
 
 ## Recommended Next
 [Suggested next batch or file]
+
+## Change Requests Filed
+[List of CRs added this session]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To implement fixes: /maintainer
+To preview first:   /maintainer --dry-run
+New session prompt: .auditor/MAINTAINER_PROMPT.md
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ---
@@ -279,7 +288,23 @@ Before ending an audit session:
    Audited: [N] files
    Sound: [X], Needs-Rigor: [Y], Red-Flags: [Z]
    New conflicts: [list or "None"]
+   Change requests filed: [N]
    Next recommended: [target]
+   ```
+
+5. **ALWAYS end with maintainer option** (if CRs were filed):
+   ```
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CHANGE REQUESTS FILED: [N]
+
+   To implement fixes, run:
+     /maintainer                    # Process all pending CRs
+     /maintainer CR-XXX             # Process specific CR
+     /maintainer --dry-run          # Preview changes first
+
+   Or start a new session with the maintainer prompt:
+     See: .auditor/MAINTAINER_PROMPT.md
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ```
 
 ---

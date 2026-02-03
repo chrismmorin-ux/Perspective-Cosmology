@@ -4,6 +4,8 @@
 **Priority**: HIGH
 **Purpose**: Derive why there are exactly 3 generations of fermions
 
+> **Verification note (S189 audit)**: This document's core claim (3 generations = dim(Im(H)) = 3) is a structural correspondence [A-PHYSICAL], not a quantitative prediction requiring SymPy verification. The identification of quaternionic imaginary dimensions with fermion generations is a conceptual assertion that needs physical justification, not computational verification. Mass ratio claims (if any) would require scripts.
+
 ---
 
 ## The Claim

@@ -1,6 +1,8 @@
 # Layer 0: Foundational Questions
 
-**Status**: ACTIVE — Open ontological questions
+> **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S55. The canonical Layer 0 content is now in `core/axioms/AXM_0100-0119` and `core/definitions/DEF_0200+`. This file is retained for historical reference but may contain outdated ontology (e.g., six-primitive model superseded by two-primitive V_Crystal/Perspective model).
+
+**Status**: HISTORICAL (was ACTIVE)
 **Purpose**: Document the deepest assumptions and unresolved origin questions
 **Created**: 2026-01-26
 

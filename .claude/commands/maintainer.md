@@ -22,6 +22,10 @@ You DO NOT:
 
 ---
 
+## 0. CONTEXT LOADING
+
+Before processing changes, check `.quality/report.md` if it exists — note any auto-fixable structural issues in the current session's scope that can be addressed alongside queued changes.
+
 ## 1. WORKFLOW
 
 ### Step 1: Read Queue

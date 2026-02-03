@@ -1,5 +1,12 @@
 # Technical Summary: Perspective Cosmology
 
+> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
+> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
+> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
+> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
+> - **Script count**: ~514 (not ~291-295)
+> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
+
 ## A Framework Deriving Physical Constants from Division Algebra Structure
 
 **Version**: 1.0
@@ -20,7 +27,7 @@ We present a framework claiming that the structure of physics — gauge groups, 
 - **Cosmological parameters**: H₀, Ω_Λ, Ω_m (exact matches)
 - **Dark matter mass**: m_DM = 5.11 GeV (falsifiable prediction)
 
-The framework has zero free parameters once division algebras are accepted as the consistency requirement. We present the derivation chain, numerical evidence, and honest assessment of limitations.
+The framework has zero free parameters once division algebras are accepted as the consistency requirement **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**. We present the derivation chain, numerical evidence, and honest assessment of limitations.
 
 ---
 
@@ -78,10 +85,10 @@ From {1, 2, 4, 8} we construct:
 |----------|--------|-------|---------|
 | Imaginary quaternions | Im(H) | 3 | dim(H) - 1 |
 | Imaginary octonions | Im(O) | 7 | dim(O) - 1 |
-| Crystal dimension | n_c | 11 | R + C + O = 1 + 2 + 8 |
+| Crystal dimension | n_c | 11 | Im(C) + Im(H) + Im(O) = 1 + 3 + 7 |
 | Defect dimension | n_d | 4 | dim(H) |
 
-The number 11 = 1 + 2 + 8 represents the "hidden" dimensions (all algebras except the one used for observable spacetime).
+The number 11 = 1 + 3 + 7 = Im(C) + Im(H) + Im(O) represents the imaginary dimensions of the three division algebras that form the crystal structure.
 
 ### 2.3 The Crystallization Picture
 
@@ -201,7 +208,7 @@ The Cartan generators don't contribute because they preserve quantum numbers (ve
 | Value | Source |
 |-------|--------|
 | Predicted | 137.036036036... |
-| Measured (CODATA 2022) | 137.035999084(21) |
+| Measured (CODATA 2018) | 137.035999084(21) |
 | Error | **0.27 ppm** |
 
 This is sub-ppm accuracy from integer structure alone.
@@ -379,7 +386,7 @@ For random matching to produce these results:
 - Sub-ppm from random integers: P < 10⁻⁶ per trial
 - 3 independent sub-ppm: P < 10⁻¹⁸
 - Including exact cosmological matches: P < 10⁻²⁵
-- Conservative estimate: **P ~ 10⁻³⁷**
+- Conservative estimate: **P ~ 10⁻³⁷** **(OUTDATED: internal analysis recommends P ~ 10^-8 to 10^-7; see STATISTICAL_ANALYSIS_HONEST.md)**
 
 This does NOT prove the framework correct, but indicates the pattern is unlikely to be coincidence.
 
@@ -410,7 +417,7 @@ A "lucky formula" might match one constant. Matching structure across physics is
 |------------|--------|------|
 | n_d = 4 | COMPLETE | None |
 | Gauge group | COMPLETE | None |
-| 1/α = 137 + 4/111 | COMPLETE | None (S122) |
+| 1/α = 137 + 4/111 | COMPLETE **(OUTDATED: Step 5 is [CONJECTURE] per S187 alpha audit)** | None (S122) |
 | m_p/m_e = 1836 + 11/72 | PARTIAL | Why n_c not n_d? |
 | cos(θ_W) = 171/194 | COMPLETE | None |
 | H₀ = 337/5 | COMPLETE | None |
@@ -463,7 +470,7 @@ We invite physicists to:
 3. **Find** errors or alternative explanations
 4. **Watch** dark matter experiments
 
-All 295 verification scripts and complete derivation chains are available.
+All 295 **(OUTDATED: ~514 as of S189)** verification scripts and complete derivation chains are available.
 
 ### 12.4 Final Note
 
@@ -487,7 +494,7 @@ All calculations are computationally verified:
 | `em_channel_axiom_derivation.py` | 111 = EM channels | PASS |
 | `core_derivation_unification.py` | Pattern verification | PASS |
 
-Total: 295 scripts, 90% passing.
+Total: 295 **(OUTDATED: ~514 as of S189)** scripts, 90% passing.
 
 ---
 
@@ -524,7 +531,7 @@ m_DM = m_e × (n_c - 1)⁴ = 0.511 MeV × 10⁴ = 5.11 GeV
 ## Appendix C: Resources
 
 - Full documentation: 9 foundation files, 51 investigation files
-- Verification: `verification/sympy/` (295 scripts)
+- Verification: `verification/sympy/` (295 scripts) **(OUTDATED: ~514 as of S189)**
 - Claims tiering: `claims/README.md`
 - Honest assessment: `HONEST_ASSESSMENT.md`
 - Objections addressed: `OBJECTIONS_AND_RESPONSES.md`

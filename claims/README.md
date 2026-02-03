@@ -25,49 +25,43 @@ A flexibility test (Session 104) established statistical baselines:
 
 **File**: `TIER_1_SIGNIFICANT.md`
 
-**Count**: 12 claims (including 6 EXACT matches)
+**Count**: 12 claims (11 sub-10 ppm + 1 exact integer within measurement uncertainty)
 
 **Random match probability**: ~0%
 
 **Verdict**: These deserve serious attention
 
-| Claim | Formula | Precision |
-|-------|---------|-----------|
-| H₀ | 337/5 = 67.4 km/s/Mpc | **EXACT** |
-| Ω_Λ | 137/200 = 0.685 | **EXACT** |
-| Ω_m | 63/200 = 0.315 | **EXACT** |
-| ℓ₁ (CMB) | 220 | **EXACT** |
-| m_p/m_e | 1836 + 11/72 | 0.06 ppm |
-| 1/α | 137 + 4/111 | 0.27 ppm |
-| m_B0/Σ⁻ | 97/22 | 1.1 ppm |
-| Ξ⁰/m_d | 181×14/9 | 3.4 ppm |
-| cos(θ_W) | 171/194 | 3.75 ppm |
-| W/Ξ⁻ | 139×7/16 | 6.4 ppm |
-| m_b/m_s | 179/4 | 8.0 ppm |
-| r_s | 337×3/7 | 9.9 ppm |
+| Claim | Formula | Precision | Notes |
+|-------|---------|-----------|-------|
+| H₀ | 337/5 = 67.4 km/s/Mpc | **EXACT** | |
+| Ω_Λ | 137/200 = 0.685 | **EXACT** | ⚠ Conflicts with 13/19 (S94) |
+| Ω_m | 63/200 = 0.315 | **EXACT** | ⚠ Conflicts with 6/19 (S94) |
+| ℓ₁ (CMB) | 220 | **EXACT** | |
+| m_p/m_e | 1836 + 11/72 | 0.06 ppm | |
+| 1/α | 137 + 4/111 | 0.27 ppm | F=C circularity (CR-041) |
+| v/m_p | 11284/43 | 1.63 ppm | ✱ Promoted S204 |
+| Ξ⁰/m_d | 181×14/9 | 3.4 ppm | ⚠ d-quark mass uncertainty ~10% |
+| cos(θ_W) | 171/194 | 3.75 ppm | ⚠ m_W-sensitive |
+| m_μ/m_e | 8891/43 | 4.1 ppm | ✱ Promoted S205 |
+| W/Ξ⁻ | 139×7/16 | 6.35 ppm | |
+| z_rec | 10×109 | 0.02% | EXACT integer |
 
 ---
 
-### Tier 2: Possibly Significant (10-100 ppm)
+### Tier 2: Possibly Significant (10-10000 ppm)
 
 **File**: `TIER_2_POSSIBLE.md`
 
-**Count**: ~8 claims
+**Count**: 16 claims (7 sub-100 ppm + 6 CMB sub-percent + 3 BBN; includes 2 demoted from Tier 1)
 
-**Random match probability**: ~30%
+**Random match probability**: ~30% individually at sub-100 ppm; collectively notable
 
-**Verdict**: Uncertain - could be real or coincidence
+**Verdict**: Uncertain individually — collectively notable due to coherence
 
-| Claim | Formula | Precision |
-|-------|---------|-----------|
-| m_K/m_s | 37/7 | 11.6 ppm |
-| Koide theta | 2/9 rad | 14.7 ppm |
-| v/m_p | 179 × π/2 | 21 ppm |
-| sin²(θ_W) MS-bar | 37/157 | 30 ppm |
-| m_μ/m_e | 207 - 10/43 | 4.1 ppm |
-| m_τ/m_μ | 185/11 | 70 ppm |
-| n_s (CMB) | 117/121 | 0.03% |
-| Y_p (BBN) | 157/637 | 0.06% |
+Includes:
+- 7 sub-100 ppm claims (r_s, m_B0/Σ⁻, m_K/m_s, Koide θ, sin²θ_W MS, m_τ/m_μ, m_b/m_s)
+- 6 CMB claims (ℓ₂, n_s, ℓ₃, ℓ_D, σ₈, δT/T) — all sub-percent
+- 3 BBN claims (Y_p, D/H, **Li-7** — solves 40-year cosmological lithium problem)
 
 ---
 
@@ -75,7 +69,7 @@ A flexibility test (Session 104) established statistical baselines:
 
 **File**: `TIER_3_MATCHED.md`
 
-**Count**: ~45 claims
+**Count**: ~41 claims
 
 **Random match probability**: 80-100% individually
 
@@ -102,13 +96,16 @@ Includes:
 
 **File**: `FALSIFIED.md`
 
-**Count**: 5+ claims
+**Count**: 9 definitively falsified + 4 deprecated + 1 withdrawn (F-6 was restored)
 
 Claims that were **tried and failed**:
-- sin^2(theta_W) = 2/25 (65% error)
-- n_EW = 5 (mathematically impossible)
-- Alpha at GUT scale (can't reach 1/42)
-- Various deprecated approaches
+- F-1: sin²(θ_W) = 2/25 (65% error)
+- F-2: n_EW = 5 (mathematically impossible)
+- F-3: Alpha at GUT scale (can't reach 1/42)
+- F-7: Higher CMB peaks ℓ₄,ℓ₅,ℓ₆ (12-19% error, blind prediction)
+- F-8: η* = 337 Mpc (16.8% error)
+- F-9: c_s = 3/7 (5.6-20% error)
+- F-10: V(ε*) < 0 (wrong sign for cosmological constant)
 
 ---
 
@@ -146,8 +143,8 @@ Sub-10 ppm matches are individually significant. Percent-level matches gain sign
 
 ### The Framework's Honest Claim
 
-> **12 constants** at sub-10 ppm (including 6 EXACT) — individually remarkable
-> **~8 constants** at 10-100 ppm — possibly significant
+> **12 constants** at sub-10 ppm (4 EXACT, 3 with caveats) — individually remarkable
+> **16 constants** at 10-10000 ppm — possibly significant (includes Li-7 puzzle solution)
 > **~40 constants** at 0.1-5% — individually weak, collectively notable
 > **Qualitative structure** — SM gauge groups, Einstein equations, 3+1 dimensions, 3 generations
 
@@ -190,15 +187,15 @@ Sub-10 ppm matches are individually significant. Percent-level matches gain sign
 
 The Perspective Cosmology framework:
 
-1. **Has 12 extraordinary matches** at sub-10 ppm (including 6 EXACT) that deserve explanation
-2. **Has ~8 suggestive matches** at 10-100 ppm that might be real
-3. **Has ~40 broader predictions** at 0.1-5% (individually weak, collectively coherent)
+1. **Has 12 extraordinary matches** at sub-10 ppm (4 EXACT, 3 with caveats) that deserve explanation
+2. **Has 16 suggestive matches** at 10-10000 ppm (includes Li-7 puzzle solution and 3 demoted from Tier 1)
+3. **Has ~41 broader predictions** at 0.1-5% (individually weak, collectively coherent)
 4. **Derives qualitative structure**: SM gauge groups, Einstein equations, 3+1 spacetime, 3 generations
-5. **Has ~5 falsified claims** that were tried and failed (documented honestly)
+5. **Has 9 falsified claims** + 4 deprecated + 1 withdrawn (documented honestly in `FALSIFIED.md`)
 
 The honest assessment:
 
-> **12 constants at sub-10 ppm are individually remarkable. The broader predictions gain significance through coherence. The qualitative derivations (SM gauge group, Einstein equations, 3 generations) are not captured by random-matching statistics.**
+> **12 claims at sub-10 ppm (3 with caveats) are individually remarkable. The broader predictions gain significance through coherence. The qualitative derivations (SM gauge group, Einstein equations, 3 generations) are not captured by random-matching statistics. Honest robust count (no caveats): ~9.**
 
 ---
 
@@ -207,10 +204,10 @@ The honest assessment:
 ```
 claims/
     README.md                 <- This file
-    TIER_1_SIGNIFICANT.md     <- The 3 sub-ppm claims
-    TIER_2_POSSIBLE.md        <- The 5 10-100 ppm claims
+    TIER_1_SIGNIFICANT.md     <- 12 sub-10 ppm claims (11 + z_rec)
+    TIER_2_POSSIBLE.md        <- 16 claims at 10-10000 ppm
     TIER_3_MATCHED.md         <- The 40+ broader predictions
-    FALSIFIED.md              <- What didn't work
+    FALSIFIED.md              <- What didn't work (7 failures + deprecated)
 ```
 
 ---
@@ -226,4 +223,4 @@ claims/
 
 ---
 
-*Last updated: 2026-01-28 (Session 120)*
+*Last updated: 2026-02-03 (S205 — r_s demoted (both factors falsified), m_μ/m_e promoted (4.1 ppm). Precision fixes: sin²θ_W MS 74→30 ppm, m_τ/m_μ 70→68.5 ppm. Stale count "3" in Tier 3 → 12. Counts: 12/16/~41/9+4+1)*

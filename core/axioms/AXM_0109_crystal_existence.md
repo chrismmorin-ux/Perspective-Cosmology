@@ -38,8 +38,29 @@ V_Crystal is the "ground of being" — a perfect, symmetric space with no intrin
 
 ---
 
+---
+
+## Unification Note (Session 132)
+
+V_Crystal is the SAME space as the value space V in the Universe axioms:
+```
+V = V_Crystal
+dim(V_Crystal) = n_c = 11  [D: from Frobenius-Hurwitz]
+```
+
+The basis B_Crystal corresponds to points P via [DEF_02B1: Point-Basis Mapping].
+
+**Field choice**: F = C (complex numbers) is justified by:
+- Real observables require complex amplitudes
+- Quantum mechanics structure
+- See [THM_0485: Complex Structure] for derivation
+
+---
+
 ## Cross-References
 
 - [AXM_0110: Perfect Orthogonality (C2)]
 - [AXM_0111: Crystal Completeness (C3)]
 - [AXM_0112: Crystal Symmetry (C4)]
+- [DEF_02B0: Universe-Crystal Correspondence]
+- [AXM_0100: Finiteness]

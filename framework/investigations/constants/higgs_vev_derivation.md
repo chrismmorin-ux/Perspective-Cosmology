@@ -48,7 +48,7 @@ The hierarchy is explained by:
 v / M_Pl = α^8 × √(44/7) ≈ 2 × 10^-17
 ```
 
-The suppression factor α^8 ≈ 10^-17 arises from the electromagnetic coupling raised to the **octonion dimension**.
+The suppression factor α^8 ≈ 10^-17 arises from the electromagnetic coupling raised to the power 8 = 2×n_d. [DERIVATION: exponent derived from portal coupling — each of n_d=4 spacetime dimensions contributes one ε*=α² crossing. See Part III §3.1.]
 
 ---
 
@@ -284,5 +284,65 @@ M_Koide = v / 784 = 314 MeV
 
 ---
 
+---
+
+## Session 188 Audit: Higgs Mass Canonical Selection
+
+### Four Competing Paths to m_H
+
+| Path | Formula | Source | m_H (GeV) | Error | Confidence | Grade |
+|------|---------|--------|-----------|-------|------------|-------|
+| **1 (CANONICAL)** | m_H = v × 121/238 | S111 EW sector | 125.18 | 0.057% | [DERIVATION] | B+ |
+| 2 | λ_H = 125/968 | S179 formula search | 125.13 | 0.10% | [CONJECTURE] HRS=3 | C |
+| 3 | λ = 1/O = 1/8 | S179 leading order | 125.05 | 0.16% | [CONJECTURE] | C- |
+| 4 | CW: c_beta=π²/6 | S180 mechanism | ~125 | ~0.2% | [CONJECTURE] (3 assumed) | D+ |
+
+### Why Path 1 Is Canonical
+
+1. **Structural**: Uses same EW sector algebra as m_Z = v × 44/119 and m_W = m_Z × 171/194. All three boson masses come from one algebraic system.
+2. **No formula search**: 121 = n_c² and 238 = 2(n_c² - C) arise from the same algebraic structure as the Z denominator. This is not post-hoc numerology.
+3. **Beautiful ratio**: m_H/m_Z = (121/238)/(44/119) = 121/88 = n_c/(2n_d) = 11/8. Error 0.11%.
+4. **Best accuracy**: 0.057% vs 0.10-0.16% for alternatives.
+5. **Consistency**: Self-coupling λ = n_c⁴/(O×(n_c²-C)²) = 11⁴/(8×119²) = 0.1292 (0.18% error) follows from the same structure.
+
+### Paths 2-4: Status
+
+- **Path 2** (λ_H = 125/968): Emerged from ~20 formula trials. Look-elsewhere ~8%. Decomposition (1/O)(1+n_d/n_c²) is suggestive but not derived. Archive as [CONJECTURE] — interesting but not canonical.
+- **Path 3** (λ = 1/O): Intermediate result subsumed by Path 2. Archive.
+- **Path 4** (CW mechanism): Most physically motivated but requires 3 independent conjectures (c_beta=π²/6, y_t=1, ξ=n_d/n_c²). Grade D+. This is the active frontier for deriving the quartic from dynamics. Keep ACTIVE but do not use as canonical prediction.
+
+### Assumption Classification (Canonical Path)
+
+| # | Step | Classification | Status | Notes |
+|---|------|---------------|--------|-------|
+| 1 | M_Pl as sole dimensional input | [A-IMPORT] | SOUND | Standard physics |
+| 2 | α = 1/(137 + 4/111) | [CONJECTURE] (Step 15) | Inherited gap | From alpha chain |
+| 3 | ε* = α² (portal coupling) | [A-PHYSICAL] | S101 | Crystallization ground state |
+| 4 | Exponent = 2×n_d from portal crossings | [DERIVATION] S111 | SOUND | Each spacetime dim contributes one crossing |
+| 5 | v = M_Pl × α^8 × √(44/7) | [DERIVATION] | 0.034% | Portal mechanism + geometric factor |
+| 6 | √(44/7): interface/color geometry | [A-PHYSICAL] | Gap | Why this ratio under square root? |
+| 7 | 119 = n_c² - C (EW denominator) | [D] | SOUND | Arithmetic identity |
+| 8 | m_H/v = 121/238 = n_c²/(2×119) | **[CONJECTURE]** | **Key gap** | Why this ratio for Higgs mass? |
+| 9 | m_H/m_Z = 11/8 | [D] from Steps 7-8 | SOUND | Follows from algebra |
+| 10 | λ = n_c⁴/(O×119²) | [CONJECTURE] | From m_H formula | Self-coupling |
+
+### Honest Assessment
+
+**What IS derived**: The VEV formula v = M_Pl × α^8 × √(44/7) has a physical mechanism (portal coupling, S111) and uses only one dimensional import (M_Pl). The exponent 8 = 2×n_d is derived. The electroweak boson spectrum (m_Z, m_W, m_H) forms a self-consistent algebraic system.
+
+**What is NOT derived**: Why m_H = v × 121/238 specifically. The ratio 121/238 = n_c²/(2(n_c²-C)) is algebraically natural (uses framework quantities) but there is no dynamics calculation showing why the Higgs mass should be this fraction of v. The CW mechanism (Path 4) is the most promising dynamics route but requires three unproven conjectures.
+
+**Derivation-vs-discovery assessment**: MEDIUM RISK. The VEV formula was discovered with target known, but the portal mechanism (S111) provides genuine physical content. The boson mass ratios (m_H/m_Z = 11/8) are structural, not searched. The self-coupling formula is consistent but also post-hoc.
+
+**Grade**: B+ for the overall EW sector package. The VEV derivation is the framework's strongest mass result. The boson ratios are structurally motivated. The quartic coupling derivation (CW) is the active frontier.
+
+### Promotion History
+
+- Session 81: VEV formula discovered
+- Session 111: Exponent 8 = 2×n_d DERIVED from portal coupling. Promoted to [DERIVATION].
+- Session 175: Higgs identified as pNGB from SO(11) breaking (32/32 PASS)
+- Session 179-180: CW mechanism explored (Paths 2-4)
+- Session 188: Canonical selection — Path 1 chosen. Assumption classification added. 4-path comparison script `higgs_mass_canonical_selection.py` (18/18 PASS).
+
 *Document created: 2026-01-27 (Session 81)*
-*Last updated: 2026-01-27*
+*Last updated: 2026-02-02 (Session 188)*

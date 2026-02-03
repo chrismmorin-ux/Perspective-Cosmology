@@ -482,7 +482,7 @@ This is speculative but shows the direction.
    - Structural parallels found but no derivation
    - If n_crystal fixed at 11, formula bounded: α ∈ [1/137, 1/121]
    - **Conclusion**: n_crystal MUST also run for this to work
-   - See: `physics/asymptotic_safety_connection.md`
+   - See: `../gauge/asymptotic_safety_connection.md`
 
 ### SHOULD DO (to make it interesting)
 

@@ -4,11 +4,12 @@
 
 ### The Uniqueness Theorem
 
-**Theorem**: Among all powers k ≥ 2, fourth power (k=4) is special:
+**Corrected Statement (Session 189 audit)**: Among all powers k ≥ 2, fourth power (k=4) has special properties:
 
-1. It is the LARGEST k where n^k + (n+1)^k can be prime for infinitely many n
-2. It is the SMALLEST even k > 2 without algebraic factorization
-3. Its cyclotomic polynomial Φ_8(x) = x^4 + 1 is irreducible over Q
+1. ~~It is the LARGEST k where n^k + (n+1)^k can be prime~~ **FALSE** — k=8 gives 257 (prime), k=16 gives 65537 (prime)
+2. n^k + (n+1)^k is algebraically irreducible over Z iff k is a power of 2 (k = 2, 4, 8, 16, ...)
+3. k = 4 has the densest consecutive prime run: n = 1,2,3,4 all give primes (unique among all k)
+4. Its cyclotomic polynomial Φ_8(x) = x^4 + 1 is irreducible over Q, with degree = dim(H) = 4
 
 ### Proof Sketch
 
@@ -18,17 +19,20 @@ a^k + b^k = (a + b)(a^{k-1} - a^{k-2}b + ... + b^{k-1})
 ```
 So n^k + (n+1)^k is always divisible by 2n+1 ≥ 3, never prime.
 
-**k = 6**: We have
+**Even k not a power of 2** (e.g., k = 6, 10, 12, ...): Algebraic factorization exists over Z.
+For k = 6:
 ```
 n^6 + (n+1)^6 = (2n^2 + 2n + 1)(n^4 + 2n^3 + 5n^2 + 4n + 1)
 ```
 Both factors > 1 for n ≥ 1, so always composite.
 
-**k = 4**: No such factorization exists over Z. This is because:
-- Φ_8(x) = x^4 + 1 is irreducible over Q
-- The splitting field Q(ζ_8) has prime degree structure
+**k = power of 2** (k = 2, 4, 8, 16, ...): No algebraic factorization over Z. Primes can and do occur:
+- k=2: 1² + 2² = 5 (prime)
+- k=4: 1⁴ + 2⁴ = 17 (prime)
+- k=8: 1⁸ + 2⁸ = 257 (prime)
+- k=16: 1¹⁶ + 2¹⁶ = 65537 (prime)
 
-**k = 2**: Also has no algebraic factorization, and n^2 + (n+1)^2 can be prime.
+**What makes k=4 special**: The consecutive run 17, 97, 337, 881 (n = 1,2,3,4 all prime) is unmatched by any other power. For k=8, the first composite appears at n=2 (2⁸ + 3⁸ = 6817 = 17 × 401).
 
 ---
 
@@ -75,12 +79,12 @@ There's no other run of 4+ consecutive fourth-power-sum primes in the first 100 
 So always ≡ 1 or 2 (mod 3), never divisible by 3.
 
 **mod 5**:
-Fourth powers mod 5 are {0, 1}
-- n^4 ≡ 0 or 1
-- (n+1)^4 ≡ 0 or 1
-- Sum ≡ 0, 1, or 2 (mod 5)
+Fourth powers mod 5 are {0, 1} (by Fermat's little theorem, a⁴ ≡ 0 or 1 mod 5).
+- If n ≡ 0 mod 5: n⁴ ≡ 0, (n+1)⁴ ≡ 1, sum ≡ 1
+- If n ≡ 4 mod 5: n⁴ ≡ 1, (n+1)⁴ ≡ 0, sum ≡ 1
+- Otherwise: both ≡ 1, sum ≡ 2
 
-Can be divisible by 5 (when both ≡ 0, which happens when n ≡ 0 mod 5 and n ≡ 4 mod 5).
+**n⁴ + (n+1)⁴ is NEVER divisible by 5.** (Corrected Session 189: the previous claim was false. Since consecutive integers cannot both be ≡ 0 mod 5, the sum is always 1 or 2 mod 5.)
 
 **mod 17**:
 Since 17 = 1^4 + 2^4, we expect patterns. Indeed:

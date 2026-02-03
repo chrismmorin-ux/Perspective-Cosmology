@@ -4,6 +4,8 @@
 **Priority**: HIGH
 **Purpose**: Derive the Standard Model fermion content from division algebras
 
+> **Verification note (S189 audit)**: This document makes qualitative/counting claims (15 = 1+2+4+8, anomaly cancellation arithmetic). These are verifiable by inspection and do not require SymPy scripts. The anomaly check ΣY³ = 0 (Section 6.3) is a simple rational arithmetic identity. More substantive claims (chirality from H non-commutativity, color from O decomposition) are structural correspondences [A-PHYSICAL], not quantitative predictions.
+
 ---
 
 ## The Claim

@@ -1,6 +1,6 @@
 # Investigation: Prime Attractor Physical Mapping
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-27 (Session 78)
 **Confidence**: [CONJECTURE] — Structurally motivated, not rigorously derived
 **Dependencies**: prime_crystallization_attractors.md, primes_and_recrystallization_unified.md, layer_1_crystallization.md

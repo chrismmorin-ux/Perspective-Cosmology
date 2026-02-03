@@ -1,6 +1,6 @@
 # Investigation: What Is "The Crystal"?
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [SPECULATION]
 **Purpose**: Define the mathematical structure of the undifferentiated background

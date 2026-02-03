@@ -1,6 +1,6 @@
 # Investigation: Connecting Tilts to α = 1/137
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: 2026-01-26
 **Confidence**: [CONJECTURE]
 **Purpose**: Connect the tilt matrix formalism of Layer 0 v2.2 to the fine structure constant

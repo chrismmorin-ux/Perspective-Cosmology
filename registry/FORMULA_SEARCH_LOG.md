@@ -80,6 +80,62 @@ For every observable being investigated:
 
 ---
 
+## Observable: CKM Matrix Elements (Session 189 Audit)
+
+### Search Log
+
+| Session | Formula Attempted | Precision | Status | Notes |
+|---------|-------------------|-----------|--------|-------|
+| S82 | λ = 9/40 = Im(H)²/(5×dim(O)) | 0.01% | CURRENT | First formula found; "5" has no framework origin |
+| S82 | λ = various simple DA fractions | >1% | REJECTED | ~20 alternatives tested (ckm_matrix_search.py) |
+| S83 | \|V_cb\| = 2/49 = C/Im(O)² | 2-4% | CURRENT | Inclusive/exclusive tension |
+| S83 | \|V_cb\| = other DA ratios near 0.04 | >5% | REJECTED | ~15 alternatives tested |
+| S87 | \|V_ub\| = 1/262 = 1/(137+121+4) | ~0.1% | CURRENT | Systematic search (ckm_completion_search.py) |
+| S87 | \|V_ub\| = 1/(other DA combos) | >1% | REJECTED | ~30 alternatives tested |
+| S87 | δ = π×8/21 = π×O/(Im_H×Im_O) | 3.9% (PDG 2024) | CURRENT | Was 0.07% with older data; degraded |
+| S87 | δ = π×other DA ratios | varies | REJECTED | ~10 alternatives tested (ckm_delta_alternatives.py) |
+
+### Statistics
+
+From `ckm_adversarial_audit.py` (S162):
+- Total DA ratios in search space (denom ≤ 300): **27,397**
+- Per-parameter matches within 5%: 26-1549 depending on target value
+- Joint probability (all 4 CKM within 5%): 3.2 × 10⁻⁹ uncorrected
+- Joint probability (all 7 CKM+PMNS within 5%): 1.1 × 10⁻¹⁴ uncorrected
+- Trials-corrected (×125): ~10⁻¹²
+
+### Current Best (updated PDG 2024)
+
+| Parameter | Formula | Precision (PDG 2024) | Interpretation came |
+|-----------|---------|---------------------|---------------------|
+| λ | 9/40 | 0.01% | AFTER numerical match |
+| \|V_cb\| | 2/49 | 2-4% | AFTER numerical match |
+| \|V_ub\| | 1/262 | ~0.1% | AFTER numerical match |
+| δ_CKM | π×8/21 | 3.9% | AFTER numerical match |
+
+**Transparency note**: ALL CKM formulas were discovered by systematic search over DA ratios, then given algebraic interpretations. The search space is documented in ckm_adversarial_audit.py. Individual matches are not statistically significant; the collective pattern (~10⁻¹²) is.
+
+---
+
+## Observable: PMNS Matrix Elements
+
+### Search Log
+
+| Session | Formula Attempted | Precision | Status | Notes |
+|---------|-------------------|-----------|--------|-------|
+| S82 | sin²θ₂₃ = 4/7 = H/Im(O) | 0.1% | CURRENT | Simple, clean ratio |
+| S82 | sin²θ₁₂ = 10/33 = 10/(Im_H×n_c) | 0.01% | CURRENT | "10" has no clear origin |
+| S82 | sin²θ₁₃ = 1/44 = 1/(n_d×n_c) | 3.2% | CURRENT | Structural (key dims product) |
+| S88 | δ_PMNS = π×19/14 = π×(n_c+O)/(C×Im_O) | TBD | AT RISK | NuFIT 6.0 shifted values |
+| S167 | R₃₁ = 33 = Im_H×n_c | 1.7% | CURRENT | Semi-blind prediction |
+
+### Statistics
+- Search process: Less systematic than CKM (simpler ratios found early)
+- Estimated formulas attempted: ~30 total across PMNS parameters
+- R₃₁ = 33 was predicted BEFORE checking (semi-blind)
+
+---
+
 ## Template for New Observables
 
 ```markdown

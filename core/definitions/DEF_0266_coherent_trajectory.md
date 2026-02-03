@@ -20,10 +20,10 @@
 
 ## Statement
 
-Trajectory γ is **coherent** w.r.t. temporal sequence T iff:
+Trajectory τ_traj is **coherent** w.r.t. temporal sequence T iff:
 
 ```
-∀ i : Coh(γ, πᵢ, πᵢ₊₁) ≥ ξ
+∀ i : Coh(τ_traj, πᵢ, πᵢ₊₁) ≥ ξ
 ```
 
 where ξ ∈ (0,1] is the coherence threshold.

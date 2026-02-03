@@ -1,6 +1,6 @@
 # Gauge Groups from Division Algebras
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Confidence**: [DERIVATION] - geometric argument with clear path, not fully rigorous
 **Dependencies**: core/17_complex_structure.md, layer_0_pure_axioms.md
 **Verified**: `verification/sympy/octonion_su3_decomposition.py`, `verification/sympy/rank4_gauge_enumeration.py`, `verification/sympy/weinberg_angle_running.py`

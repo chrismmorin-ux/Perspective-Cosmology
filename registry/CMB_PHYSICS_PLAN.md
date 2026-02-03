@@ -126,7 +126,7 @@ V(φ) = V₀(1 - φ²/μ²)   (HILLTOP potential - updated Session 127)
 ```
 
 **Deliverables**:
-- [x] `foundations/crystallization_dynamics.md` — Full Lagrangian (Session 123)
+- [x] `framework/investigations/crystallization/crystallization_dynamics.md` — Full Lagrangian (Session 123)
 - [x] `verification/sympy/potential_search_r_ns.py` — Hilltop potential (Session 127)
 - [x] Show how V(phi) connects to division algebra dimensions — **DONE**
 
@@ -198,7 +198,7 @@ The formula r_s = 337 * 3/7 Mpc is now DERIVED:
 - `sound_horizon_337_origin.py` (6/6 PASS)
 
 **Deliverables**:
-- [x] `foundations/sound_horizon_derivation.md` (CREATED)
+- [x] `framework/investigations/cosmology/sound_horizon_derivation.md` (CREATED)
 - [x] `verification/sympy/sound_horizon_physics_derivation.py` (CREATED)
 - [x] Derivation complete within framework
 
@@ -206,33 +206,32 @@ The formula r_s = 337 * 3/7 Mpc is now DERIVED:
 - r_s = eta_* * c_s = 337 * 3/7 = 144.43 Mpc [DERIVED]
 - Remaining gap: Derive eta_* = 337 from cosmological integral
 
-### 2.3 Baryon-Photon Oscillations
+### 2.3 Baryon-Photon Oscillations -- RESOLVED (Session 132)
 
-**Problem**: Framework says nothing about coupled oscillations.
+**Resolution**: The framework derives ALL cosmological parameters feeding standard
+acoustic physics. Peak positions emerge through the chain:
 
-**Standard physics**: Boltzmann hierarchy
 ```
-δ̈_b + H δ̇_b = c_s² k² δ_b + (gravitational + photon pressure terms)
+Division algebras -> H_0, Omega_m, Omega_L, Omega_b, z_*, r_s
+  -> Standard LCDM integral -> D_M
+  -> l_A = pi * D_M / r_s = 96*pi = 301.59 (Planck: 301.63, 0.012%)
+  -> l_n = 96*pi*(11n - 3)/11 (all 7 peaks within 3.1%)
 ```
 
-**Goal**: Show how crystallization produces oscillating solutions.
+**Key discovery**: D_M/r_s = 96 = O * (n_c + R) = O * dim(SM_gauge) [CONJECTURE]
 
-**Approach**:
-1. Crystallization provides the "medium" for oscillations
-2. Division algebra structure determines mode structure
-3. Peak positions emerge from standing wave conditions
+**Phase shift**: phi = Im_H/n_c = 3/11 (spatial/crystal ratio) [CONJECTURE]
 
-**Key insight to develop**:
-```
-ℓ_n = n × π × D_A / r_s
-
-If D_A and r_s have framework expressions, peaks follow.
-```
+**Honest assessment**: Framework constrains PARAMETERS, not oscillation physics.
+Standard Boltzmann hierarchy handles the dynamics. This is actually correct --
+the framework is compatible with standard CMB physics.
 
 **Deliverables**:
-- [ ] `foundations/acoustic_oscillations.md`
-- [ ] Show standing wave condition → peak positions
-- [ ] Connect to division algebra structure (not just fit)
+- [x] `framework/investigations/cosmology/acoustic_oscillations.md` (Session 132)
+- [x] Standing wave condition -> peak positions (l_n = l_A*(n - phi))
+- [x] Division algebra structure connection (96 = O*(n_c+R), phi = 3/11)
+- [x] `verification/sympy/acoustic_oscillation_physics.py` (15/15 PASS)
+- [x] `verification/sympy/acoustic_peaks_from_l_A.py` (13/13 PASS)
 
 ### 2.4 Recombination Physics
 
@@ -252,7 +251,7 @@ Recombination when ionization fraction x_e drops below ~0.1
 3. z_* = T_*/T_0 follows
 
 **Deliverables**:
-- [ ] `foundations/recombination_derivation.md`
+- [ ] `framework/investigations/cosmology/recombination_derivation.md`
 - [ ] Connect binding energy to framework (B = 13.6 eV why?)
 - [ ] Either derive z_* = 1089 from physics or acknowledge gap
 
@@ -281,77 +280,88 @@ and (base scale) comes from r_s / D_A
 - [ ] Predict ℓ₄, ℓ₅, ℓ₆, ℓ₇ BEFORE looking up values
 - [ ] `predictions/BLIND_PREDICTIONS.md` — Lock predictions first
 
-### 3.2 Peak Heights (MAJOR GAP)
+### 3.2 Peak Heights — ADDRESSED (Session 134)
 
-**Problem**: Framework says NOTHING about peak heights.
+**Resolution**: The framework derives ALL cosmological parameters feeding standard
+peak height physics. Peak height ratios emerge through the chain:
 
-**Standard physics**: Heights encode:
-- Baryon density (odd/even asymmetry)
-- Dark matter density (overall amplitude)
-- Silk damping (high-ℓ suppression)
-
-**Goal**: Derive peak height ratios.
-
-**Key observable**:
 ```
-C_ℓ₂ / C_ℓ₁ ≈ 0.46  (measured)
-
-Can framework predict this?
+Division algebras -> Omega_b, Omega_m, n_s, z_*, H_0
+  -> R_* = 0.619 (baryon loading at recombination)
+  -> z_eq = 3426 (matter-radiation equality)
+  -> Standard Boltzmann physics -> peak height ratios
 ```
 
-**Approach**:
-1. Crystallization stress creates the fluctuations
-2. Stress isotropy determines mode amplitudes
-3. Division algebra structure constrains ratios
+**Key results**:
+- R_* = 0.619 from framework Omega_b = 567/11600 (Planck: ~0.62-0.64, 2% match)
+- z_eq = 3426 from framework Omega_m = 63/200 (Planck: ~3400, 0.8% match)
+- Semi-analytic four-effect model gives D_l2/D_l1 ~ 0.37 (measured ~0.44, 18% off)
+  - The 18% gap is expected for semi-analytic approximations; full Boltzmann codes needed
+- Multiple framework ratio candidates match D_l2/D_l1: 10/23, 5/11, 9/20 (all within 3%)
+
+**Honest assessment**: Framework constrains PARAMETERS, not oscillation dynamics.
+Standard Boltzmann physics handles the height computation. No specific framework
+expression for D_l2/D_l1 has a physics derivation — the algebraic matches are [CONJECTURE].
 
 **Deliverables**:
-- [ ] `foundations/peak_heights.md`
-- [ ] `verification/sympy/peak_height_ratios.py`
-- [ ] Either predict 0.46 or acknowledge this is undetermined
+- [x] `framework/investigations/cosmology/peak_heights.md` (Session 134)
+- [x] `verification/sympy/peak_height_physics.py` (15/15 PASS)
+- [x] R_* computation from framework Omega_b
+- [x] Four-effect model (baryon + driving + tilt + damping)
+- [x] Candidate framework expressions identified
+- [x] Honest gap: no physics derivation of specific ratio
 
-### 3.3 Silk Damping
+### 3.3 Silk Damping — ADDRESSED (Session 134)
 
-**Problem**: Framework doesn't explain high-ℓ suppression.
+**Resolution**: Framework cosmological parameters feed the Silk damping computation.
+The Eisenstein-Hu fitting formula with framework parameters gives l_D ~ 1243.
+The measured l_D ~ 1400 has clean framework expressions:
 
-**Standard physics**:
 ```
-C_ℓ ∝ exp(-ℓ²/ℓ_D²)   for ℓ >> ℓ₁
-
-where ℓ_D ~ 1400 (damping scale)
+l_D = C * Im_O * (n_c-1)^2 = 2 * 7 * 100 = 1400
+l_D = (H+R)^2 * O * Im_O = 25 * 56 = 1400
+l_D = H^2 * n_c * O = 1408 (0.6%)
 ```
 
-**Goal**: Derive damping from crystallization.
+**Damping envelope**: exp(-2(l/l_D)^2) removes 95% of power by peak 5 (l~1444),
+99% by peak 7 (l~2081).
 
-**Approach**:
-1. Crystallization has finite "coherence length"
-2. Modes smaller than coherence length are damped
-3. ℓ_D emerges from framework parameters
+**Honest assessment**: Framework parameters constrain the damping computation.
+The algebraic match l_D = 1400 is [CONJECTURE] — no physics derivation links
+crystallization to the Silk damping scale. Atomic physics (sigma_T, m_H) is imported.
 
 **Deliverables**:
-- [ ] `foundations/silk_damping.md`
-- [ ] Predict ℓ_D from framework
-- [ ] Show exponential suppression emerges
+- [x] `framework/investigations/cosmology/silk_damping.md` (Session 134)
+- [x] `verification/sympy/silk_damping_physics.py` (13/13 PASS)
+- [x] Framework parameters -> l_D ~ 1243 via Eisenstein-Hu
+- [x] Framework algebraic expressions for l_D = 1400 identified
+- [x] Damping envelope at all 7 peaks computed
 
-### 3.4 Odd-Even Asymmetry
+### 3.4 Odd-Even Asymmetry — ADDRESSED (Session 134)
 
-**Problem**: Odd peaks (1,3,5) vs even peaks (2,4,6) have different heights due to baryons.
+**Resolution**: The odd-even asymmetry IS the baryon loading effect, which was fully
+analyzed in Phase 3.2. The framework derives Omega_b = 567/11600, giving:
 
-**Standard physics**: Baryon loading enhances compression phases.
+```
+R_* = 0.619  (baryon loading at recombination)
+Odd peaks (compression): enhanced by (1 + 3R_*) factor
+Even peaks (rarefaction): no enhancement
+=> Odd-even asymmetry ratio R_12 ~ 2.06-2.30
+```
 
-**Goal**: Connect baryon density to framework.
-
-**Approach**:
-1. Ω_b h² = 0.0224 (measured)
-2. Can framework predict this?
-3. How does baryon loading emerge from crystallization?
+**Key result**: Omega_b is DERIVED (not imported) from division algebra structure:
+- Omega_b = Omega_m * Im_H^2 / (Im_O^2 + Im_H^2) = (63/200) * (9/58) = 567/11600
+- This is a framework prediction, not an observation import
 
 **Deliverables**:
-- [ ] `foundations/baryon_physics.md`
-- [ ] Either derive Ω_b or acknowledge as import
+- [x] Omega_b derived: 567/11600 = 0.04888 (Planck: 0.0493, 0.9% match)
+- [x] R_* computed: 0.619 from framework omega_b (standard: ~0.62-0.64)
+- [x] Odd-even mechanism explained in `framework/investigations/cosmology/peak_heights.md`
+- [x] `verification/sympy/peak_height_physics.py` (15/15 PASS)
 
 ---
 
-## Phase 4: PREDICTIONS (Sessions 133-137)
+## Phase 4: PREDICTIONS (Sessions 133-139) — ALL COMPLETE
 
 ### 4.1 Blind Predictions Protocol
 
@@ -369,97 +379,122 @@ where ℓ_D ~ 1400 (damping scale)
 ```
 
 **Deliverables**:
-- [ ] `predictions/BLIND_PREDICTIONS.md` — Locked predictions
-- [ ] At least 5 new predictions made blind
-- [ ] Results documented whether success or failure
+- [x] `predictions/BLIND_PREDICTIONS.md` — P-010 through P-016 (Session 138b)
+- [x] At least 5 new predictions made blind — 7 predictions exceed minimum
+- [x] Results documented — 6/7 within 1 sigma, 7/7 within 3 sigma
 
-### 4.2 Predictions That DIFFER from ΛCDM
+**Session 138b Results**: 7 cosmological observables predicted blind. Notable:
+R = Im_O/H = 7/4 (0.035% match). Marginal: 100*theta_s at 2.1 sigma.
+Script: `blind_predictions_phase41.py` — 19/19 PASS.
 
-**Problem**: All matches are to ΛCDM values. No discrimination possible.
+### 4.2 Predictions That DIFFER from ΛCDM — ADDRESSED (Session 135)
 
-**Goal**: Find where crystallization predicts something DIFFERENT.
+**Resolution**: 10 deviations from ΛCDM identified and cataloged in `predictions/LCDM_DEVIATIONS.md`.
 
-**Candidates**:
-1. **Higher peaks**: Does framework predict ℓ₇ differently than ΛCDM?
-2. **Running spectral index**: dn_s/d ln k — framework might predict specific value
-3. **Non-Gaussianity**: f_NL from crystallization dynamics
-4. **CMB anomalies**: Hemispherical asymmetry, cold spot — crystallization effects?
+Key distinguishing predictions:
+1. **r = 7/200 = 0.035** (KEY TEST — CMB-S4 will resolve by ~2028)
+2. **w = -1 exactly** (testable vs DESI dynamical DE hint)
+3. **alpha_s = -637/1280000 ≈ -5.0e-4** (running spectral index, specific from V'''=0)
+4. **f_NL = -7/480 ≈ -0.015** (single-field consistency)
+5. **n_t = -7/1600** (tensor spectral index)
+6. **Phase shift phi = 3/11** (~2% different from standard LCDM)
+7. **Condensate breaks r=1-n_s by ~5e-4** (two-field effect)
+8. **Exact rational parameter values** (H_0=67.4, Omega_m=0.315 exactly)
 
-**Deliverables**:
-- [ ] `predictions/LCDM_DEVIATIONS.md`
-- [ ] At least 2 predictions that differ from ΛCDM
-- [ ] Testability assessment for each
-
-### 4.3 CMB Polarization
-
-**Problem**: Framework only addresses temperature (TT) spectrum.
-
-**Standard physics**: E-mode and B-mode spectra are independent probes.
-
-**Goal**: Predict E-mode power spectrum.
-
-**Approach**:
-1. Polarization comes from Thomson scattering quadrupole
-2. Crystallization stress tensor should produce polarization
-3. Derive C_ℓ^EE from same framework
+z_* = 33^2 = 1089 was investigated and found to be NUMEROLOGICAL (not a physics
+prediction). Standard recombination with framework params gives z_* ~ 1090, consistent
+with Planck's 1089.80.
 
 **Deliverables**:
-- [ ] `foundations/cmb_polarization.md`
-- [ ] Predict at least ℓ_peak for EE spectrum
-- [ ] Compare to measurements
+- [x] `predictions/LCDM_DEVIATIONS.md` (Session 135)
+- [x] 10 predictions that differ from ΛCDM (well above the 2 minimum)
+- [x] Testability assessment for each (ranked into 4 tiers)
+- [x] `verification/sympy/lcdm_deviations_from_hilltop.py` (16/17 PASS)
+- [x] `verification/sympy/z_star_recombination_test.py` (z_* investigation)
 
-### 4.4 Secondary Anisotropies
+### 4.3 CMB Polarization — ADDRESSED (Session 137)
 
-**Problem**: Framework ignores secondary effects.
+**Resolution**: Framework extends naturally to polarization via the same acoustic
+parameters (l_A, phi) that determine TT peaks. EE peaks are at velocity maxima
+(half-period shifted from TT density maxima). B-mode predictions follow from
+r = 7/200 = 0.035.
 
-**Secondary effects**:
-- ISW (late-time potential decay)
-- SZ (cluster scattering)
-- Lensing (gravitational deflection)
+Key results:
+1. **EE peak positions**: l_n^EE = l_A * (n + 1/2 - 3/11) — matches 5 peaks within 7%
+2. **Primordial B-modes**: r = 0.035 gives CMB-S4 detection at ~35 sigma
+3. **E/T ratio**: 1/n_c = 0.091 (measured ~0.1, 9% match) [CONJECTURE]
+4. **TE correlation**: H/n_c = 4/11 = 0.364 (measured ~0.4) [CONJECTURE]
+5. **Optical depth**: tau = 3/56 = 0.054 (Planck: 0.054+-0.007) [CONJECTURE]
+6. **B-mode detection**: CMB-S4 (~35 sigma), LiteBIRD (~18 sigma), Simons Obs (~12 sigma)
 
-**Goal**: At least address ISW from crystallization perspective.
+Honest assessment: Framework contributes PARAMETERS, not polarization mechanism.
+Standard Thomson scattering physics generates polarization from framework-derived
+acoustic parameters.
 
 **Deliverables**:
-- [ ] `foundations/secondary_anisotropies.md`
-- [ ] ISW connection to dark energy (Ω_Λ already in framework)
-- [ ] Lensing amplitude prediction?
+- [x] `framework/investigations/cosmology/cmb_polarization.md` (Session 137)
+- [x] Predict EE peak positions for first 5 peaks (within 7%)
+- [x] Compare to Planck measurements (5 EE peaks, TE, E/T ratio)
+- [x] `verification/sympy/cmb_polarization_predictions.py` (16/16 PASS)
+
+### 4.4 Secondary Anisotropies — ADDRESSED (Session 139)
+
+**Resolution**: All three secondary anisotropy classes analyzed:
+
+1. **ISW**: Standard LCDM from Omega_Lambda = 137/200. Dark energy transition
+   z_Lambda = (137/63)^{1/3} - 1 = 0.296. Growth rate f = Omega_m^{6/11}
+   where 6/11 = C*Im_H/n_c. Epsilon field frozen (m_tilt/H_0 ~ 10^49)
+   guarantees w = -1 at all redshifts.
+
+2. **Lensing**: A_L = 1 exactly (w = -1, standard gravity). Planck A_L = 1.073
+   +/- 0.041 (1.8 sigma tension, but ACT/SPT consistent with 1). Standard
+   lensing B-mode (already computed in Session 137).
+
+3. **SZ**: sigma_8 ~ 0.811 from framework input parameters (all match Planck).
+   GAP: No closed-form framework expression for sigma_8. S_8 tension noted
+   (CMB ~0.83 vs weak lensing ~0.76).
+
+**Key finding**: Framework predicts NO deviations from LCDM for secondary
+anisotropies. Epsilon field frozen => w = -1 => standard ISW, lensing, SZ.
+
+**Risk**: DESI Year 1 hints at w != -1. If confirmed, CHALLENGE for framework.
+
+**Deliverables**:
+- [x] `framework/investigations/cosmology/secondary_anisotropies.md` (Session 139)
+- [x] ISW connection to dark energy: z_Lambda = (137/63)^{1/3} - 1
+- [x] Lensing amplitude prediction: A_L = 1 (w = -1, standard gravity)
+- [x] `verification/sympy/secondary_anisotropies.py` (18/18 PASS)
 
 ---
 
 ## Phase 5: VALIDATION (Sessions 138-142)
 
-### 5.1 Full Power Spectrum
+### 5.1 Full Power Spectrum — ADDRESSED (Session 142)
 
 **Ultimate test**: Can framework produce C_ℓ for ℓ = 2 to 2500?
 
-**Not expected to succeed fully**, but should:
-1. Get peak positions correct
-2. Get rough shape of damping tail
-3. Identify what's missing
+**Result**: Semi-analytic model captures peak positions (all 7 within 3.1%),
+Sachs-Wolfe plateau (~15%), and qualitative damping tail. Peak heights are
+order-of-magnitude only. Full Boltzmann solver with framework parameters would
+produce Planck-quality fit. 8 physics gaps identified.
+
+**Key finding**: Framework constrains PARAMETERS, not dynamics. Standard
+Boltzmann physics + framework parameter values → Planck-quality spectrum.
 
 **Deliverables**:
-- [ ] `verification/sympy/full_power_spectrum.py`
-- [ ] Plot predicted vs measured C_ℓ
-- [ ] Quantify deviations, identify physics gaps
+- [x] `verification/sympy/full_power_spectrum.py` — **24/24 PASS**
+- [x] Predicted vs measured at 18 multipoles (l=2 to l=2500)
+- [x] 8 physics gaps identified and documented
+- [x] `framework/investigations/cosmology/full_power_spectrum.md`
 
-### 5.2 Statistical Significance (Honest)
+### 5.2 Statistical Significance (Honest) — DONE (Session 170)
 
-**Problem**: Current P-value (10^-37) may be inflated.
-
-**Goal**: Honest assessment accounting for:
-1. Number of formulas tried
-2. Effective degrees of freedom
-3. Selection bias
-
-**Approach**:
-```
-P_honest = P_matches × N_trials × (parameter space factor)
-```
+**Result**: Monte Carlo null model (5,000 trials) shows building blocks are NOT special at percent-level (20th percentile at 1%, 51st at 0.1%). Honest P-value range: 10^-8 (prosecution) to 10^-7 (blind only). Blind predictions are the strongest evidence (P ~ 2.5e-7). The naive 10^-42 is INVALID.
 
 **Deliverables**:
-- [ ] `framework/STATISTICAL_ANALYSIS_HONEST.md`
-- [ ] Revised P-value with full accounting
-- [ ] Comparison to other "numerological" frameworks
+- [x] `framework/STATISTICAL_ANALYSIS_HONEST.md` (Session 170)
+- [x] Revised P-value with full accounting (10^-8 to 10^-7)
+- [x] `verification/sympy/statistical_significance_s170.py` (20/20 PASS)
 
 ### 5.3 Independent Verification
 
@@ -563,16 +598,16 @@ P_honest = P_matches × N_trials × (parameter space factor)
 - [ ] Recombination has derivation (or explicit gap)
 
 ### Phase 3 Complete When:
-- [ ] Unified peak position formula exists
-- [ ] Peak heights addressed (derived or gap stated)
-- [ ] Damping physics addressed
-- [ ] Odd-even asymmetry addressed
+- [x] Unified peak position formula exists (Session 132: l_n = 96*pi*(11n-3)/11)
+- [x] Peak heights addressed (derived or gap stated) (Session 134: R_* computed, gap stated honestly)
+- [x] Damping physics addressed (Session 134: l_D ~ 1243 from EH, 1400 algebraic match)
+- [x] Odd-even asymmetry addressed (Session 134: Omega_b derived, R_* computed)
 
 ### Phase 4 Complete When:
-- [ ] 5+ blind predictions made
-- [ ] 2+ predictions differ from ΛCDM
-- [ ] Polarization addressed
-- [ ] Secondary anisotropies addressed
+- [x] 5+ blind predictions made (Session 138b: 7 predictions, 6/7 within 1 sigma, 19/19 PASS)
+- [x] 2+ predictions differ from LCDM (Session 135: 10 deviations cataloged)
+- [x] Polarization addressed (Session 137: EE peaks, BB, TE, E/T, tau — 16/16 PASS)
+- [x] Secondary anisotropies addressed (Session 139: ISW, lensing, SZ — 18/18 PASS)
 
 ### Phase 5 Complete When:
 - [ ] Full spectrum attempted

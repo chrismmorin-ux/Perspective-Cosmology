@@ -1,6 +1,6 @@
 # Cosmological Crystallization Sequence
 
-**Status**: ACTIVE
+**Status**: ARCHIVE
 **Created**: Session 97, 2026-01-27
 **Confidence**: [DERIVATION] with [CONJECTURE] elements
 
