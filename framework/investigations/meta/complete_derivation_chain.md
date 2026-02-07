@@ -3,7 +3,7 @@
 **Status**: CANONICAL
 **Created**: Session 109
 **Purpose**: Show the full logical chain from Layer 0 axioms to all derived physics
-**Last Updated**: 2026-01-30
+**Last Updated**: 2026-02-06 (S252 — CCP integration: n_d/n_c/F now DERIVED; Pipeline and generations added)
 
 ---
 
@@ -22,47 +22,51 @@ The framework begins with axioms about **perspectives** — abstract mathematica
 | T1 | Time has a direction | AXM_0105 |
 | T2 | Time = path through perspective transitions | AXM_0113 |
 | X1 | Crystallization: tilt decreases monotonically | AXM_0117 |
+| **CCP** | **Perfection = maximal consistency (completeness)** | **AXM_0120 (S251)** |
 
-**No physics imported at Layer 0** — just abstract structure.
+**No physics imported at Layer 0** — just abstract structure. CCP (S251) is the newest axiom: perspectives can only restrict (subtract), never extend, so V_Crystal must be maximally complex at the consistency boundary.
 
 ---
 
 ## The Derivation Tree
 
 ```
-LAYER 0: Perspective Axioms
+LAYER 0: Perspective Axioms + CCP (AXM_0120)
          |
          +--[C1,C2]--> Vector space with inner product
          |                    |
          |                    v
          |             HILBERT SPACE
          |                    |
-         +--[T1]-----------> Complex structure F = C
+         +--[T1 + CCP-4]---> Complex structure F = C [DERIVED]
          |                    |
          |                    v
-         +--[C1,C2,T1]--> COMPLEX HILBERT SPACE
+         +--[CCP-1,2,3]----> COMPLEX HILBERT SPACE + DIVISION ALGEBRAS
                                |
          +---------------------+----------------------+
          |                     |                      |
          v                     v                      v
     DIVISION ALGEBRAS    QUANTUM MECHANICS      CRYSTALLIZATION
-         |                     |                      |
-    +----|----+           +----|----+            +----|----+
-    |    |    |           |    |    |            |    |    |
-    v    v    v           v    v    v            v    v    v
-  n_d=4 n_c=11 F=C    Non-comm Uncert Born   SO(11) Time  Tilt
-    |    |              |       |     |      ->SO(10)      |
-    v    v              v       v     v         |          v
-  GAUGE SPACETIME    [x,p]=i  Delta  |<>|^2  Goldstone  eps*=a^2
-    |      |                                    |
-    v      v                                    v
-SM groups 3+1 dim                          COSMOLOGY
-    |                                          |
-    v                              +-----------+-----------+
-FERMIONS                           |           |           |
-    |                              v           v           v
-    v                           Dark        CMB        Hubble
-All couplings                   Matter    parameters   tension
+    (all DERIVED         |                      |
+     from CCP)           |                      |
+    +----|----+      +----|----+           +----|----+
+    |    |    |      |    |    |           |    |    |
+    v    v    v      v    v    v           v    v    v
+  n_d=4 n_c=11 F=C Non-comm Uncert Born SO(11) Time Tilt
+    |    |    |      |       |     |    ->SO(10)     |
+    v    v    v      v       v     v      |          v
+  GAUGE SPACETIME [x,p]=i Delta  |<>|^2 Goldstone eps*=a^2
+    |      |      |                       |
+    v      v      v                       v
+SM groups 3+1 dim GENERATIONS        COSMOLOGY
+(Pipeline:         =3 (S251)              |
+ 121->12)              |       +-----------+-----------+
+    |                  v       |           |           |
+    v               3 x 7     v           v           v
+FERMIONS          fermions  Dark        CMB        Hubble
+    |                       Matter    parameters   tension
+    v
+All couplings
 ```
 
 ---
@@ -72,27 +76,25 @@ All couplings                   Matter    parameters   tension
 ### From Axioms to Division Algebras
 
 ```
-C1 + C2: V_Crystal is vector space with inner product
+C1 + C2 + CCP (AXM_0120): V_Crystal is maximally consistent
     |
-    v (Axiom about perspective relationships)
-No zero divisors in perspective algebra
+    v (CCP-1: No zero divisors → division algebras only)
+Hurwitz + Frobenius → R, C, H, O
     |
-    v (Frobenius theorem - PURE MATH)
-F must be R, C, H, or O
+    v (CCP-4: Maximal algebraically complete field)
+    v (THM_0485: T1 → directed time → antisymmetric comparison)
+F = C [DERIVED — two independent routes]
     |
-    v (T1: Time direction requires complex phase)
-F = C
+    v (CCP-2,3: All imaginary dims, direct sum)
+n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 [DERIVED from CCP]
     |
-    v (Construction from division algebras)
-Tensor: C ⊗ H ⊗ O
-    |
-    v
-n_d = dim(H) = 4 (spacetime)
-n_c = 1 + 2 + 4 + 4 = 11 (crystal)
+    v (CCP maximality + Frobenius: max associative)
+n_d = dim(H) = 4 [DERIVED from CCP]
 ```
 
-### From Division Algebras to Gauge Groups
+### From Division Algebras to Gauge Groups (TWO routes)
 
+**Route 1 — Automorphism chain** (S46):
 ```
 F = C, H, O
     |
@@ -100,13 +102,27 @@ F = C, H, O
 Automorphism groups:
   Aut(C) = U(1)
   Aut(H) restricted = SU(2)
-  Aut(O) = G2 ⊃ SU(3)
+  Aut(O) + F=C → G2 stabilizer = SU(3)
     |
     v
 SM GAUGE GROUP: U(1) × SU(2) × SU(3)
 ```
 
-### From Division Algebras to Fermions
+**Route 2 — Perspective-Transformative Pipeline** (S251):
+```
+End(V_Crystal) = 121 dims
+    |
+    v (6 filtering criteria: relational, norm-preserving,
+       closed, automorphism-invariant, irreducible, stable)
+121 → 55 (so(11)) → 18 (u(1)+su(2)+g₂) → 12 (u(1)+su(2)+su(3))
+    |
+    v
+SM GAUGE ALGEBRA: u(1) ⊕ su(2) ⊕ su(3) = 12 dims
+```
+
+Both routes arrive at the same gauge group — strong convergence evidence.
+
+### From Division Algebras to Fermions + Generations
 
 ```
 C ⊗ H ⊗ O acting on spinors
@@ -119,6 +135,14 @@ Representation theory gives:
     |
     v
 STANDARD MODEL FERMION CONTENT
+
+Generation count (S251):
+  Hom(Im(H), Im(O)) = R^3 × R^7
+    |
+    v (G₂ → SU(3) breaking)
+  3 copies of (3 + 3̄ + 1) = 3 GENERATIONS
+  Content per generation = 7 = dim(Im(O))
+  Why not 2 or 4: Hurwitz forces Im dims = {0,1,3,7}
 ```
 
 ---
@@ -253,10 +277,10 @@ G_μν + Λg_μν = 8πG T_μν
 ### Fine Structure Constant
 
 ```
-n_d = 4, n_c = 11
+n_d = 4, n_c = 11  [DERIVED from CCP]
     |
     v
-α = 1/(n_d² + n_c²) = 1/137
+α = 1/(n_d² + n_c²) = 1/137  [CONJECTURE: interface = 1/α]
     |
     v (Lie algebra corrections)
 1/α = 137 + 4/111
@@ -424,11 +448,12 @@ ALL 6 QUARK MASSES FROM v + FRAMEWORK NUMBERS!
 
 | Item | Why it's derived |
 |------|------------------|
-| Complex numbers | From time direction (T1) |
+| Complex numbers | From time direction (T1) + CCP-4 (two routes) |
+| n_d = 4, n_c = 11 | From CCP (AXM_0120) — was [A-STRUCTURAL], now [DERIVED] |
 | |amplitude|² form | Forced by Gleason |
 | Discrete spectra | From compactness |
-| Gauge groups | From division algebra automorphisms |
-| 3 generations | From division algebra structure |
+| Gauge groups | From division algebra automorphisms + Pipeline (S251) |
+| 3 generations | From Im(H) ⊗ (7→3+3̄+1) under G₂→SU(3) (S251) |
 
 ---
 
@@ -452,6 +477,9 @@ ALL 6 QUARK MASSES FROM v + FRAMEWORK NUMBERS!
 
 | Gap | Status | Priority |
 |-----|--------|----------|
+| Interface = 1/α (Step 5) | [CONJECTURE] — critical gap | HIGH |
+| Mass hierarchy mechanism | SO(3) breaking in Im(H) — [CONJECTURE] | MEDIUM |
+| G₂→SU(3) dynamics | What selects direction in S⁶? | MEDIUM |
 | Quark mass hierarchy | Partial | MEDIUM |
 | Absolute neutrino mass | Unknown | LOW |
 | Higgs quartic coupling | Not derived | LOW |
@@ -462,27 +490,30 @@ ALL 6 QUARK MASSES FROM v + FRAMEWORK NUMBERS!
 ## The Big Picture
 
 ```
-19 LAYER 0 AXIOMS
+LAYER 0 AXIOMS + CCP (AXM_0120)
         |
         v
-DIVISION ALGEBRA STRUCTURE
-{R=1, C=2, H=4, O=8}, n_d=4, n_c=11
+DIVISION ALGEBRA STRUCTURE [DERIVED from CCP]
+{R=1, C=2, H=4, O=8}, n_d=4, n_c=11, F=C
         |
-        +--------+--------+--------+
-        |        |        |        |
-        v        v        v        v
-    QUANTUM    GAUGE   SPACETIME  COSMO
-    MECHANICS  PHYSICS  & GR      LOGY
-        |        |        |        |
-        v        v        v        v
-    Born     SM       Einstein  Dark
-    rule     groups   eqns      matter
-        |        |        |        |
+        +--------+--------+--------+--------+
+        |        |        |        |        |
+        v        v        v        v        v
+    QUANTUM    GAUGE   SPACETIME  COSMO   GENERA-
+    MECHANICS  PHYSICS  & GR      LOGY    TIONS=3
+        |        |        |        |        |
+        v        v        v        v        v
+    Born     SM       Einstein  Dark    3 x (3+3̄+1)
+    rule   groups†    eqns      matter  fermion
+        |        |        |        |    families
         +--------+--------+--------+
                  |
                  v
-        47 DERIVED CONSTANTS
+        63+ DERIVED CONSTANTS
         (0 free parameters beyond M_Pl)
+
+† SM gauge group: two routes converge
+  (automorphism chain + Pipeline 121→12)
 ```
 
 ---

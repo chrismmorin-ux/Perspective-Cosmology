@@ -5,7 +5,9 @@
 **Created**: 2026-01-27 (Session 81)
 **Updated**: 2026-01-27 (Session 90 — Quark mass ratios derived!)
 **Significance**: SIXTEEN fundamental constants from division algebras with ppm-level accuracy
-**Last Updated**: 2026-01-30
+**Last Updated**: 2026-02-06 (S252 — CCP note: n_d, n_c, F now DERIVED from AXM_0120)
+
+> **S252 NOTE**: All formulas in this document use n_d=4, n_c=11, F=C as inputs. These were formerly [A-STRUCTURAL] assumptions. As of S251, they are [DERIVED from CCP (AXM_0120)]: perfection = maximal consistency forces all three values. This STRENGTHENS every derivation chain in this document — the formulas are more forced than previously assessed.
 
 ---
 
@@ -67,8 +69,8 @@ All formulas use ZERO free parameters (except v uses M_Pl as fundamental scale).
 
 | Symbol | Definition | Value | Meaning |
 |--------|------------|-------|---------|
-| n_d | dim(H) | 4 | Defect dimension (largest associative) |
-| n_c | R+C+O | 11 | Crystal dimension |
+| n_d | dim(H) | 4 | Defect dimension (largest associative) [DERIVED from CCP] |
+| n_c | Im(C)+Im(H)+Im(O) | 11 | Crystal dimension [DERIVED from CCP] |
 | H+O | dim(H)+dim(O) | 12 | QCD sector dimension |
 | C+O | dim(C)+dim(O) | 10 | Electroweak-strong mixing |
 | Im(H) | | 3 | SU(2) generators |
@@ -741,20 +743,20 @@ All three constants encode different aspects of how the four division algebras (
 
 ## Part X: Derivation Chains
 
-### α Derivation Chain
+### α Derivation Chain (Updated S252)
 
 ```
-[AXIOM] T1: Time exists as directed sequences
+[AXIOM] AXM_0120 (CCP): Perfection = maximal consistency
     ↓
-[DERIVED] F = C (complex field required)
+[DERIVED from CCP] F = C (CCP-4 + THM_0485: two routes)
     ↓
 [DERIVED] Interface uses U(n), giving n² generators
     ↓
-[DERIVED] Associativity required for time
+[DERIVED from CCP] n_c = Im(C)+Im(H)+Im(O) = 11 (CCP-2,3)
     ↓
-[DERIVED] n_d ≤ 4 (Hurwitz/Frobenius)
+[DERIVED from CCP] n_d = dim(H) = 4 (CCP maximality + Frobenius)
     ↓
-[DERIVED] n_d = 4 = dim(H), n_c = 11 = 15 - 4
+[CONJECTURE] Interface generator count = 1/α
     ↓
 [DERIVED] 1/α = n_d² + n_c² + n_d/Φ_6(n_c) = 137.036...
 ```

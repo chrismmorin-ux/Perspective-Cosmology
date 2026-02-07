@@ -24,11 +24,20 @@ Every process entry carries one of three tags:
 
 This is a speculative framework. Most process mappings are [STANDARD-RELABELED] or [FRAMEWORK-CONSTRAINED]. Genuine [FRAMEWORK-DERIVED] entries are the minority. We document this honestly.
 
+## Index Files
+
+| File | Content |
+|------|---------|
+| `SUMMARY.md` | Master table: all 99 entries, one row each, with tag/quantities/script |
+| `TAG_INDEX.md` | Entries grouped by tag (DERIVED/CONSTRAINED/RELABELED) with cross-refs |
+
 ## Directory Structure
 
 ```
 crystallization_processes/
     README.md                    <- This file
+    SUMMARY.md                   <- Master entry table (S241)
+    TAG_INDEX.md                 <- Tag-grouped index (S241)
     PROCESS_TEMPLATE.md          <- Standardized entry format
     decays/
         weak_decays.md           <- Beta, muon, tau, pion, kaon decays
@@ -94,14 +103,16 @@ This directory answers: "How does process X decompose into crystallization steps
 
 | Subdirectory | Files | Entries | Phase |
 |-------------|-------|---------|-------|
-| data/ | 6 | — | Phase 0 (infrastructure) |
-| decays/ | 0 | — | Phase 1 (planned) |
-| scattering/ | 0 | — | Phase 2-4 (planned) |
-| bound_states/ | 0 | — | Phase 3-4 (planned) |
-| phase_transitions/ | 0 | — | Phase 3-5 (planned) |
-| astrophysical/ | 0 | — | Phase 6 (planned) |
-| cosmological/ | 0 | — | Phase 5-7 (planned) |
+| data/ | 6 | -- | Phase 0 (infrastructure) |
+| decays/ | 4 | 15 | Phases 1 + 7 (weak, EW boson, EM, nuclear decays) |
+| scattering/ | 4 | 17 | Phases 2 + 7 (EM, strong, weak, gravitational scattering) |
+| bound_states/ | 4 | 18 | Phases 3 + 7 (hadron formation, nuclear binding, quarkonia/glueballs, atomic structure) |
+| phase_transitions/ | 5 | 19 | Phases 4 + 7 (QCD, EWSB, BBN, recombination/reionization, baryogenesis) |
+| astrophysical/ | 4 | 17 | Phases 5 + 7 (stellar, compact objects, GWs, high-energy astrophysics) |
+| cosmological/ | 4 | 13 | Phase 6 (complete: inflation, structure, dark sector, CMB) |
 
 ---
 
-*Created: 2026-02-03 (S221)*
+**Tag distribution** (S241 meta-analysis): 3 FRAMEWORK-DERIVED (3.0%), 34 FRAMEWORK-CONSTRAINED (34.3%), 62 STANDARD-RELABELED (62.6%). See `SUMMARY.md` for full breakdown.
+
+*Updated: 2026-02-03 (S241 — Phase 8 meta-analysis: SUMMARY.md + TAG_INDEX.md created. 99 entries audited, 12 inconsistencies flagged, investigation priorities compiled.)*

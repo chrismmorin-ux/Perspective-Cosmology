@@ -33,11 +33,11 @@ The electromagnetic coupling constant alpha (approximately 1/137) measures the p
 
 ### Step 1: Crystal and defect dimensions [CANONICAL]
 
-By the division algebra structure (THM_0484) and prime attractor selection (AXM_0118):
-- Crystal: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 [D: canonical imaginary decomposition, CR-010]
-- Defect: n_d = 4 [D: THM_04A0 (associativity filter), THM_0482 (no zero divisors)]
+By the division algebra structure (THM_0484), prime attractor selection (AXM_0118), and Consistency-Completeness Principle (AXM_0120):
+- Crystal: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 [D: CCP (AXM_0120) + canonical imaginary decomposition, CR-010]
+- Defect: n_d = 4 [D: CCP (AXM_0120) + THM_04A0 (associativity filter), THM_0482 (no zero divisors)]
 
-These are the unique values selected by the framework axioms.
+These are the unique values forced by CCP: maximal consistent algebraic structure requires all four division algebras R,C,H,O; the defect uses the largest associative one (H, dim 4).
 
 ### Step 2: Interface symmetry group [CANONICAL]
 
@@ -154,7 +154,7 @@ alpha = P(any single mode) = 1/N_I (leading order)
 
 | Step | Result | Tag | Source |
 |------|--------|-----|--------|
-| 1 | n_c = 11, n_d = 4 | [CANONICAL] | AXM_0109, AXM_0118, THM_0484, THM_04A0 |
+| 1 | n_c = 11, n_d = 4 | [CANONICAL] | AXM_0109, AXM_0118, **AXM_0120 (CCP)**, THM_0484, THM_04A0 |
 | 2 | N_I = 137 | [CANONICAL] | DEF_02B3, THM_0485 |
 | 3 | V_pi is N_I-dim Hilbert space | [CANONICAL] | THM_0491 |
 | 4 | \|psi> = (1/sqrt(N_I)) Sum\|k> | [DERIVATION] | AXM_0110 (HS inner product) + AXM_0114 (max entropy) |
@@ -191,6 +191,7 @@ alpha = P(any single mode) = 1/N_I (leading order)
 | AXM_0109 | [A-AXIOM] | Crystal existence |
 | AXM_0114 | [A-AXIOM] | Generic tilt (no preferred direction) |
 | AXM_0118 | [A-AXIOM] | Prime attractor selection (n_c = 11) |
+| AXM_0120 | [A-AXIOM] | CCP: forces n_c=11, n_d=4, F=C (S251) |
 | THM_0482 | [D] | No zero divisors -> defect = H |
 | THM_0484 | [D] | Division algebra structure |
 | THM_0485 | [D] | Complex structure F = C |

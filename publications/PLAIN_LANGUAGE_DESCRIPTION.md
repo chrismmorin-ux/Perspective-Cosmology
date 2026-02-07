@@ -1,14 +1,29 @@
 # Perspective Cosmology — A Plain-Language Description
 
-**Current as of**: 2026-02-03 (Session ~S212)
-**Status**: External communication document
-**Audience**: General / non-specialist
+**Last Updated**: 2026-02-06 (Session S255)
+**Version**: 2.1
+**Purpose**: Non-specialist description of the framework.
+**Audience**: General public / non-physicists
+**Status**: CURRENT
+**Reading Time**: ~10 minutes
 
-**Source files used to build this description**:
-- `publications/THESIS.md` (v1.1, central thesis document)
-- `THEORY_STRUCTURE.md` (v2.0, complete logical structure)
-- `publications/HONEST_ASSESSMENT.md` (balanced evaluation)
-- `CLAUDE.md` (project guidelines and claims tiering)
+## Key References
+
+| File | Role |
+|------|------|
+| `publications/THESIS.md` | Central thesis document |
+| `publications/HONEST_ASSESSMENT.md` | Balanced self-evaluation |
+| `claims/README.md` | Claims tiering system |
+| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Statistical analysis |
+
+## Critical Framework Elements
+
+| Element | Status | Plain Language |
+|---------|--------|---------------|
+| Frobenius-Hurwitz theorem | THEOREM | Only four "number systems" exist |
+| Division algebras | MATH FACT | Dimensions 1, 2, 4, 8 |
+| Perspective axioms | AXIOM | Starting assumptions about observation |
+| QM derivation | CANONICAL | Quantum mechanics follows from the axioms |
 
 ---
 
@@ -20,7 +35,7 @@ Perspective Cosmology is an amateur, speculative theoretical framework — built
 
 The framework tries to show that if you start from the bare minimum requirements for *anything to be observed at all*, you get forced — step by step — into the exact physics we see: the Standard Model of particle physics, Einstein's general relativity, 3+1 spacetime dimensions, and even specific numerical values of constants like the fine structure constant.
 
-It is **not** established physics. It has not been peer-reviewed. The author openly estimates a 15-30% chance that it's genuinely capturing real physics rather than being an elaborate coincidence. But the results are unusual enough that the author considers them worth investigating.
+It is **not** established physics. It has not been peer-reviewed. The framework's own adversarial review estimates a 15-25% chance that it's genuinely capturing real physics rather than being an elaborate coincidence. But the results are unusual enough that the author considers them worth investigating.
 
 ---
 
@@ -30,13 +45,13 @@ The framework doesn't start with particles, fields, or spacetime. It starts with
 
 Four requirements:
 
-1. **Partiality** — An observer can't see everything. If you could access all of reality at once, there's no "you" separate from reality. There's just... everything. Observation requires a limited viewpoint.
+1. **Partiality** — An observer can't see everything. If you could access all of reality at once, there's no "you" separate from reality.
 
 2. **Non-triviality** — An observer must see *something*. A viewpoint that accesses nothing isn't a viewpoint at all.
 
-3. **Distinguishability** — Different things must actually look different. If all states are identical from your viewpoint, there's no information, no observation.
+3. **Distinguishability** — Different things must actually look different. If all states are identical from your viewpoint, there's no information.
 
-4. **Consistency** — Observations must compose without contradiction. If you observe A, then observe B, then observe A again, the results need to be compatible. You can't get contradictions.
+4. **Consistency** — Observations must compose without contradiction. If you observe A, then observe B, then observe A again, the results need to be compatible.
 
 That fourth requirement — consistency — turns out to be enormously constraining.
 
@@ -44,9 +59,9 @@ That fourth requirement — consistency — turns out to be enormously constrain
 
 ## The Mathematical Bottleneck: Division Algebras
 
-Consistency demands that the algebra governing transitions between observational states has no "zero divisors." In plain terms: no two non-zero observations can combine to give nothing. If you see something real, and I see something real, our combined observation can't cancel to zero.
+Consistency demands that the algebra governing transitions between observational states has no "zero divisors." In plain terms: no two non-zero observations can combine to give nothing.
 
-This is a well-known mathematical constraint. A French mathematician named Frobenius proved in 1877, and Hurwitz extended in 1898, that the *only* number systems satisfying this requirement (over the real numbers, with finite dimensions) are exactly four:
+A mathematician named Frobenius proved in 1877, and Hurwitz extended in 1898, that the *only* number systems satisfying this requirement (over the real numbers, with finite dimensions) are exactly four:
 
 | Number System | Dimension | Everyday Analogy |
 |---|---|---|
@@ -61,60 +76,35 @@ That's it. There are no others. This isn't a choice or an assumption — it's a 
 
 ## From Algebra to Spacetime
 
-The framework argues:
-
 **Why is spacetime 4-dimensional?** Because time evolution must be *associative* — meaning it doesn't matter how you group sequential events: (A then B) then C must equal A then (B then C). The largest division algebra that's associative is the quaternions, which have 4 dimensions. So spacetime has 4 dimensions (3 space + 1 time).
 
-The octonions (dimension 8) are *not* associative — they break that grouping rule. The framework interprets this as the reason the octonions describe *internal* symmetries (the forces) rather than spacetime.
+The octonions (dimension 8) are *not* associative. The framework interprets this as the reason the octonions describe *internal* symmetries (the forces) rather than spacetime.
 
 ---
 
 ## From Algebra to Forces
 
-The Standard Model of particle physics has three forces, described by the gauge group U(1) x SU(2) x SU(3). These correspond to electromagnetism, the weak nuclear force, and the strong nuclear force. Nobody knows *why* it's these three.
+The Standard Model of particle physics has three forces, described by the gauge group U(1) x SU(2) x SU(3). These correspond to electromagnetism, the weak nuclear force, and the strong nuclear force.
 
-The framework claims it's because each force is the *symmetry group* (automorphism group) of one of the division algebras:
+The framework claims each force comes from the *symmetry group* of one of the division algebras:
 
-- **Electromagnetism** (U(1)) comes from the symmetries of the **complex numbers**
-- **Weak force** (SU(2)) comes from the symmetries of the **quaternions**
-- **Strong force** (SU(3)) comes from the symmetries of the **octonions**
+- **Electromagnetism** (U(1)) from the symmetries of the **complex numbers**
+- **Weak force** (SU(2)) from the symmetries of the **quaternions**
+- **Strong force** (SU(3)) from the symmetries of the **octonions**
 
-The real numbers have no non-trivial symmetries, which is why there's no "fourth force" from them.
-
-This idea — division algebras generating the gauge groups — is not unique to this framework. Several professional physicists (notably Furey, Dixon, and others) have explored this connection. What's distinctive here is pushing it further to derive numerical constants.
+This connection between division algebras and gauge groups is explored by several professional physicists (notably Furey, Dixon, and others). What's distinctive here is pushing it further to derive numerical constants.
 
 ---
 
-## The Crystal and Perspectives
+## From Algebra to Quantum Mechanics
 
-The framework introduces two central structures:
+One of the framework's strongest results: quantum mechanics — the mathematical formalism governing the subatomic world — is **derived** from the perspective axioms. The key elements:
 
-**The Crystal**: All of reality viewed as a single, timeless, perfect mathematical object — like a crystalline structure where every dimension is perfectly orthogonal (perpendicular) to every other. Think of it as the "block universe" idea from relativity, but given specific algebraic structure. The Crystal's dimensions are identified with *prime numbers* — each prime is an irreducible, independent direction.
+- **Hilbert space** (the mathematical arena where quantum states live) emerges from the Crystal's inner product structure
+- **Unitary evolution** (the Schrodinger equation) follows from information conservation
+- **The Born rule** (probability = |amplitude|^2) follows from the symmetry of overlapping perspectives
 
-**Perspectives**: Observers are finite viewpoints into the Crystal. A perspective sees only part of the whole, can't reconstruct the whole from what it sees (the access map is non-invertible), and experiences *time* as a sequence of partial views. Time doesn't exist in the Crystal itself — it's an artifact of being a limited observer.
-
-**Crystallization**: The tendency of imperfect structure to become more perfect over time. When dimensions aren't perfectly orthogonal (they have "tilt" or overlap), there's a tendency for that overlap to decrease. This tendency *is* gravity, according to the framework. Gravity isn't a force pulling masses together — it's the mathematical tendency of composite (imperfect) structures to factorize back into primes (perfect orthogonality).
-
----
-
-## The Prime Number Connection
-
-One of the more unusual aspects: the framework identifies prime numbers with fundamental, irreducible dimensions, and composite numbers with imperfect, overlapping dimensions.
-
-- **Primes** = perfect, orthogonal directions in the Crystal
-- **Composites** = imperfect dimensions with residual overlap
-- **Gravity** = the process of prime-factorizing composite dimensions back to primes
-- **Black holes** = regions where factorization is complete (pure prime space exposed)
-- **Mass** = the "cost" of dimensional imperfection
-
-The framework further claims that specific primes show up in physics because they can be written as sums of squares of division algebra dimensions. For example:
-
-- 137 = 4^2 + 11^2 (the fine structure constant's integer part)
-- 73 = 3^2 + 8^2 (appears in lepton mass relationships)
-- 53 = 2^2 + 7^2 (appears in the strong coupling constant)
-- 13 = 2^2 + 3^2 (appears in neutrino mixing angles)
-
-All eight "framework primes" of this form have been found in physical constants, which the author considers significant.
+This derivation received the framework's highest grade (A) and is classified as CANONICAL — meaning it's rigorous enough to reference as established within the framework.
 
 ---
 
@@ -138,83 +128,53 @@ This is where the framework is most striking and most controversial. Using only 
 - Formula: cos(theta_W) = 171/194
 - Match to **3.75 parts per million**
 
-Beyond these headline results, the framework produces predictions for dozens of other quantities: neutrino mixing angles, quark mixing parameters, the Hubble constant (H_0 = 337/5 = 67.4, which matches the CMB measurement exactly to reported precision), cosmological density parameters, lepton mass ratios, and more.
+Beyond these headline results, the framework produces predictions for dozens of other quantities: the Hubble constant (H_0 = 337/5 = 67.4, which matches the CMB measurement exactly), cosmological density parameters, CMB observables, and more.
+
+In total: 12 predictions match to better than 10 parts per million, though 3 of these have significant caveats.
 
 ---
 
-## The Cosmological Picture
+## The Honest Concerns
 
-The framework extends to cosmology with a cyclic story:
+1. **It could be numerology.** A rigorous statistical test showed that any 7 small integers can match most physics constants to 1% by chance. The framework's building blocks are NOT special at percent-level precision. The sub-parts-per-million matches are much harder to dismiss, but percent-level matches are individually meaningless.
 
-1. **The Crystal exists** — timeless, perfect, all prime dimensions orthogonal
-2. **Nucleation** — "cracks" appear, creating imperfect (composite) dimensions. This is the Big Bang.
-3. **Expansion** — more composite structure forms, imperfection grows
-4. **Peak entropy** — maximum imperfection
-5. **Crystallization** — gravity slowly factorizes composites back to primes
-   - Black holes do this fast (complete factorization)
-   - Normal gravity does it slowly
-   - Heat death does it very slowly
-6. **Return to Crystal** — all composites eventually factorized back to primes
+2. **Post-hoc fitting.** Most of the impressive formulas were found *after* the measured values were known. It's very difficult to prove that a formula was *derived* from principles rather than *discovered* by searching. The framework calls this "the derivation vs. discovery problem."
 
-In this picture, the Hubble tension (the disagreement between different measurements of the universe's expansion rate) is *predicted*, not a problem to solve. The CMB measurement gives H_0 = 337/5 = 67.4, while local measurements give H_0 x 13/12 = 73.0, and the ratio 13/12 has a framework interpretation.
+3. **Amateur work.** The author is not a professional physicist. While this doesn't automatically invalidate the work, it means the derivation chains may have gaps.
 
----
+4. **~2 structural assumptions.** Earlier claims of "zero free parameters" have been corrected. The framework makes about 2 structural choices that aren't forced by the axioms alone (reduced from ~3 after the Completeness Principle derived F=C in S251).
 
-## Quantum Mechanics
+5. **Incomplete derivation chains.** Some key steps — particularly "Step 5" of the fine structure constant derivation — remain at the conjecture level.
 
-The framework claims to derive quantum mechanics from the perspective axioms:
+6. **~~Cosmological constant has wrong sign.~~** **RESOLVED (S230)**: This was a sign convention error in the framework documents. The correct GR relationship (Λ = -8πG·V) gives the right sign. The *magnitude* gap (~10^111) remains — this is the standard CC problem shared by all physics frameworks.
 
-- **Hilbert space** emerges because the Crystal has an inner product, and perspectives inherit it
-- **Unitary evolution** follows from information conservation during time steps
-- **The Schrodinger equation** follows from Stone's theorem applied to unitary evolution
-- **The Born rule** (probability = |amplitude|^2) follows from the symmetry of the overlap between perspectives
-
-The *form* of quantum mechanics is derived; the *value* of Planck's constant is not yet derived from the framework.
+7. **Internal probability estimate: 15-25%.** The framework's own adversarial analysis gives it less than one-in-four odds of being genuine physics.
 
 ---
 
-## Dark Matter Prediction
-
-The framework's most testable prediction: dark matter particles should have a mass of about **5.11 GeV** (roughly 5 times the proton mass). Two independent derivation paths give nearly the same number:
-
-- Path 1 (cosmological): m_DM = m_proton x (Omega_DM/Omega_baryon) ~ 5108 MeV
-- Path 2 (algebraic): m_DM/m_electron = 10^4, so m_DM ~ 5110 MeV
-
-Experiments like SuperCDMS, LZ, and DarkSide should be able to test this in the 2026-2027 timeframe. If dark matter is found at a different mass, the framework is falsified on this prediction.
-
----
-
-## What It Gets Right (Potentially)
+## What the Framework Gets Right (Potentially)
 
 - Derives the correct gauge groups of the Standard Model from pure algebra
 - Produces 3+1 spacetime dimensions from associativity
 - Gets 15 fermions per generation from division algebra representation theory
+- **Derives quantum mechanics from observation axioms** (strongest result)
 - Produces sub-parts-per-million matches for several fundamental constants using only integers
-- Provides a unified picture spanning particle physics, cosmology, CMB, and Big Bang nucleosynthesis from the same handful of numbers
+- Provides a unified picture spanning particle physics, cosmology, and CMB from the same handful of numbers
+- 9 "blind" predictions (made before checking measurements) — 8 of 9 within 1 sigma
 
 ---
 
-## What the Honest Concerns Are
+## Testable Predictions
 
-1. **It could be numerology.** With enough algebraic operations on ~30 numbers derived from {1, 2, 4, 8}, you can match many constants to ~1% by chance. The sub-ppm matches are much harder to dismiss, but the percent-level matches are individually weak.
+| Prediction | Value | When We'll Know |
+|-----------|-------|-----------------|
+| Dark matter particle mass | 5.11 GeV | SuperCDMS 2026-2027 |
+| No 95 GeV scalar particle | Absent | LHC Run 3 data |
+| Tensor-to-scalar ratio | r = 0.035 | CMB-S4 ~2028 |
+| Neutrino mass ordering | Normal, lightest = 0 | JUNO ~2027 |
+| Higgs coupling modification | 1.7% below Standard Model | FCC-ee (future) |
 
-2. **Post-hoc fitting.** The formulas were found *after* the measured values were known. It's very difficult to prove that a formula was *derived* from principles rather than *discovered* by searching and then justified after the fact. The framework is self-aware about this (calling it "the derivation vs. discovery problem").
-
-3. **Amateur work.** The author is not a professional physicist. While this doesn't automatically invalidate the work, it means the derivation chains may have gaps or errors that a trained theorist would catch.
-
-4. **~3 structural assumptions.** Earlier claims of "zero free parameters" have been internally corrected. The framework makes about 3 structural choices (like identifying the scalar field with the complex numbers) that aren't forced by the axioms alone.
-
-5. **The hardest derivation steps are incomplete.** The chain from axioms to specific constant values has gaps, particularly in "Step 5" of the fine structure constant derivation, which remains at the conjecture level.
-
-6. **Internal red team estimate: 15-30% probability of being genuine physics.** The framework's own adversarial analysis gives it less than one-in-three odds.
-
----
-
-## How It Differs from Other Approaches
-
-- **String theory** introduces extra dimensions and landscapes of solutions. This framework claims to *derive* dimensionality rather than assume it.
-- **Loop quantum gravity** quantizes spacetime geometry directly. This framework claims spacetime emerges from algebraic structure.
-- **Division algebra approaches** (Furey, Dixon, et al.) explore similar algebraic connections to the Standard Model. This framework pushes further into numerical predictions, which is both its distinction and its risk.
+If these predictions fail, the framework is wrong and we'll document why. If they succeed, it becomes much harder to dismiss as coincidence.
 
 ---
 
@@ -222,22 +182,21 @@ Experiments like SuperCDMS, LZ, and DarkSide should be able to test this in the 
 
 Perspective Cosmology is a speculative framework that says: the structure of physics is what you get when you ask "what's the minimum math needed for observation to exist?" It uses four number systems (the division algebras) as its only building blocks and claims to derive an impressively wide range of physics from them.
 
-It has produced some striking numerical coincidences — matching fundamental constants to parts-per-million using simple integer formulas — plus qualitative derivations of the Standard Model's structure. It also has clear falsification criteria, particularly a dark matter mass prediction testable in the near term.
+It has produced some striking numerical coincidences, a rigorous derivation of quantum mechanics, and qualitative derivations of the Standard Model's structure. It also has clear failures (CC magnitude gap, 14 falsified claims including 1 resolved) and clear falsification criteria.
 
-Whether this is a genuine insight into the structure of reality or an elaborate pattern-matching exercise remains genuinely unknown. The author maintains epistemic humility about this, documents failures alongside successes, and explicitly invites skeptical scrutiny. The work is maintained across ~200+ working sessions, ~500+ verification scripts, and detailed self-criticism — which, at minimum, reflects an unusual level of intellectual honesty for a speculative framework.
+Whether this is a genuine insight into the structure of reality or an elaborate pattern-matching exercise remains genuinely unknown. The author maintains epistemic humility about this, documents failures alongside successes, and explicitly invites skeptical scrutiny.
 
 ---
 
 ## Claims Summary Table
 
-As of 2026-02-03:
-
 | Tier | Count | Precision | Assessment |
 |------|-------|-----------|------------|
-| **1** | 12 | < 10 ppm | Individually significant |
+| **1** | 12 | < 10 ppm | Individually significant (9 robust, 3 caveats) |
 | **2** | 16 | 10-10000 ppm | Possibly significant |
 | **3** | ~41 | > 100 ppm | Individually weak, collectively notable |
 | **Falsified** | 14 | -- | Documented honestly |
+| **Blind** | 9 | 0.006-1.8% | 8/9 within 1 sigma (strongest evidence) |
 
 ---
 
@@ -249,6 +208,22 @@ As of 2026-02-03:
 | Honest self-critique | `publications/HONEST_ASSESSMENT.md` |
 | Anticipated objections | `publications/OBJECTIONS_AND_RESPONSES.md` |
 | Technical overview | `publications/TECHNICAL_SUMMARY.md` |
-| Complete theory structure | `THEORY_STRUCTURE.md` |
 | Tiered claims | `claims/README.md` |
-| Verification scripts | `verification/sympy/` (~514 scripts) |
+| Verification scripts | `verification/sympy/` (~548 scripts) |
+| Quick start guide | `publications/QUICKSTART.md` |
+
+---
+
+## Revision History
+
+| Version | Date | Session | Changes |
+|---------|------|---------|---------|
+| 1.0 | 2026-02-03 | S212 | Initial version |
+| 2.0 | 2026-02-03 | S227 | Full rewrite with template. Added QM derivation, Monte Carlo results, blind predictions, phase grades, testable predictions timeline, updated statistics (548 scripts, 14 falsified, 15-25% probability), CC wrong sign acknowledgment. |
+| 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Updated limitations and bottom line. |
+| 2.2 | 2026-02-06 | S255 | CCP propagation: assumption count ~3->~2. F=C now derived. |
+
+---
+
+*Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
+*Affiliation: Amateur researcher with AI assistance*

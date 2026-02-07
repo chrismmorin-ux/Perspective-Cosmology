@@ -47,7 +47,7 @@ We verify all 18 axioms for H_pi treated as a self-contained universe.
 Let pi be a perspective with:
 - U_pi = accessible content, dim(U_pi) = d_pi [A-AXIOM: AXM_0104, AXM_0113]
 - H_pi = U \ U_pi = hidden content, dim(H_pi) = h_pi = n_c - d_pi [D: from AXM_0100]
-- n_c = 11 [A-AXIOM: AXM_0100 + DEF_02B0]
+- n_c = 11 [D: CCP (AXM_0120) → n_c=11] *(was [A-AXIOM]; resolved S251)*
 
 ### Category A: Trivially Inherited (8 axioms)
 

@@ -23,7 +23,8 @@
 **C1 (Existence)**
 
 ```
-V_Crystal exists as an inner product space over field F (where F = R or C).
+V_Crystal exists as an inner product space over field F.
+F = C [DERIVED from AXM_0120: CCP-4 forces F = unique algebraically closed division field].
 ```
 
 ---
@@ -50,9 +51,12 @@ dim(V_Crystal) = n_c = 11  [D: from Frobenius-Hurwitz]
 
 The basis B_Crystal corresponds to points P via [DEF_02B1: Point-Basis Mapping].
 
-**Field choice**: F = C (complex numbers) is justified by:
-- Mathematical structure of the inner product space requires algebraic closure
-- See [THM_0485: Complex Structure] for the derivation from framework axioms
+**Field choice**: F = C (complex numbers) — **[DERIVED from AXM_0120 CCP]** (Session S251):
+- CCP-4 requires the field to be the maximal algebraically complete division algebra
+- Among commutative division algebras {R, C}, only C is algebraically closed (FTA)
+- Therefore F = C is FORCED, not chosen. Previous status [RETRODICTION] upgraded.
+- See [AXM_0120: Consistency-Completeness Principle] for full derivation
+- See [THM_0485: Complex Structure] for the earlier partial derivation from framework axioms
 
 ---
 

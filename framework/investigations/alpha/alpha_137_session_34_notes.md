@@ -20,7 +20,7 @@
 | Exponent = 55 | **DERIVED** | Grassmannian identity (proved) |
 | 55 = config space dim | **PROVED** | Gr(4,11) + SO(4) + SO(7) = 55 |
 | Base = 137 | **DERIVED** | dim(u(4)) + dim(u(11)) = 16 + 121 |
-| n_d = 4, n_c = 11 | IMPORT | From observation/M-theory |
+| n_d = 4, n_c = 11 | **DERIVED** | [D: CCP (AXM_0120)] *(was IMPORT; resolved S251)* |
 
 ### The Formulas
 
@@ -102,13 +102,9 @@ All calculations verified:
 
 ## Remaining Questions
 
-1. **Can n_d = 4 be derived from Layer 0?**
-   - Partial progress: If perspective transitions form a division algebra + associativity, then n_d <= 4
-   - Gap: Division algebra structure not yet derived
+1. ~~**Can n_d = 4 be derived from Layer 0?**~~ **RESOLVED (S251)**: CCP (AXM_0120) forces n_d=4 (largest associative division algebra, via THM_04A0 + THM_0482).
 
-2. **Can n_c = 11 be derived from Layer 0?**
-   - Not yet attempted
-   - Possible directions: maximality, stability, entropy
+2. ~~**Can n_c = 11 be derived from Layer 0?**~~ **RESOLVED (S251)**: CCP (AXM_0120) forces n_c=11 = Im(C)+Im(H)+Im(O) = 1+3+7 (maximal consistent imaginary structure).
 
 3. **Why is the interface resolution EXACTLY 1/alpha?**
    - We have: 137 = interface modes = dim(u(4)) + dim(u(11))

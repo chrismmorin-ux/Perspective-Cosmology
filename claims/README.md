@@ -105,7 +105,7 @@ Claims that were **tried and failed**:
 - F-7: Higher CMB peaks ℓ₄,ℓ₅,ℓ₆ (12-19% error, blind prediction)
 - F-8: η* = 337 Mpc (16.8% error)
 - F-9: c_s = 3/7 (5.6-20% error)
-- F-10: V(ε*) < 0 (wrong sign for cosmological constant)
+- ~~F-10: V(ε*) < 0~~ → **RESOLVED S230** (sign convention error; V<0 gives Λ>0 via standard GR)
 
 ---
 

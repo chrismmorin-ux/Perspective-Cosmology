@@ -503,15 +503,45 @@ The transition algebra 𝒯 contains all possible transitions, including "time-r
 | T0 | Algebraic Completeness | 𝒯 closed under composition, identity, inverse |
 | T1 | Crystal Timeless | No temporal structure in V_Crystal |
 
-**Total: 13 axioms**
+**Total: 13 axioms + 1 meta-axiom**
+
+**Meta-Axiom (Session S251)**
+| ID | Name | Statement |
+|----|------|-----------|
+| CCP | Consistency-Completeness (AXM_0120) | V_Crystal contains all consistent algebraic structure; no more, no less |
+
+CCP subsumes C5 (forces dim = 11), constrains C1 (forces F = C), and strengthens T0 (forces quaternionic transitions, n_d = 4). See `core/axioms/AXM_0120_completeness_principle.md`.
+
+### 20b. Primitive Reduction (Session S253, THM_04B2)
+
+THM_04B2 proves that the perspective axioms (P1-P4, Pi1-Pi2) and transition axioms (T0, T1) are all **derivable** from V_Crystal (C1-C4) + CCP. The framework's true independent axioms reduce to:
+
+| Independent Axioms | Count |
+|----|------|
+| C1 (Existence) | 1 |
+| C2 (Perfect Orthogonality) | 1 |
+| C3 (Completeness) | 1 |
+| C4 (Symmetry) | 1 |
+| CCP (Consistency-Completeness) | 1 |
+| **Total** | **5** |
+
+**How**: CCP forces Im(C) to exist in V_Crystal (it's the imaginary part of C, the first non-trivial normed division algebra). Im(C) breaks C4 symmetry, creating the decomposition V = V_pi + G_pi, which IS perspective. The cascade Im(C) -> Im(H) -> Im(O) forces n_c = 11, n_d = 4. Perspective axioms P1-P3 follow from THM_04AC (dim >= 2). P4 follows from F = C. Pi1-Pi2 follow from SO(11) action. T0 follows from CCP forcing quaternionic transitions. T1 is definitional (V_Crystal has no temporal structure by construction).
+
+**The logical chain**: CCP -> Im(C) -> symmetry breaking -> perspective -> transitions -> time -> physics.
+
+**Im(C) as seed**: The irreducible element Im(C) is both the FIRST consequence of CCP (the minimal non-real algebraic element) and the LAST remainder of the gap tower (THM_04B0, terminal dim 1). The cascade that builds V_Crystal from Im(C) (bottom-up) is the same structure that self-examination discovers (top-down). See `core/theorems/THM_04B2_perspective_from_seed.md`.
+
+**Note**: The perspective and transition axioms remain useful as working tools — they describe the derived structure clearly. But they are no longer logically independent.
 
 ### 21. Emergence Summary
 
 | Concept | Status | Emerges From | Complete? |
 |---------|--------|--------------|-----------|
 | V_Crystal | **PRIMITIVE** | — | ✓ |
-| Perspective | **PRIMITIVE** | — | ✓ |
-| B̃ (tilted basis) | Derived | P4 (perspective tilts Crystal dimensions) | ✓ |
+| CCP | **PRIMITIVE** | — | ✓ |
+| Im(C) | Derived | CCP-2 forces Im(C) in V_Crystal | ✓ |
+| Perspective | Derived (S253) | Im(C) breaks C4 symmetry (THM_04B2) | ✓ |
+| B̃ (tilted basis) | Derived | F=C structure misaligns projections | ✓ |
 | V_Observable | Derived | V_π = span(B̃) | ✓ |
 | P (points) | Derived | Dimension intersection structure | **GAP** |
 | Σ (connectivity) | Derived | Dimension sharing (given P) | ✓ |
@@ -527,18 +557,22 @@ See Section 24 for details on remaining gaps.
 
 | Parameter | Status | Notes |
 |-----------|--------|-------|
-| dim(V_Crystal) | FREE | Could be any n ∈ N or ∞ |
+| dim(V_Crystal) | **RESOLVED by AXM_0120** | CCP forces dim = 11 (S251) |
+| F (scalar field) | **RESOLVED by AXM_0120** | CCP forces F = C (S251) |
 | \|Π\| | FREE | Number of perspectives |
 | Specific ε_ij values | FREE | Tilt magnitudes |
-| n = dim(V_Observable) | FREE | How many dimensions accessible |
+| n = dim(V_Observable) | **CONSTRAINED by AXM_0120** | n_d = 4 from CCP + T0 (S251) |
+
+**Note (S251)**: The Consistency-Completeness Principle (AXM_0120) resolves three of the four free parameters above. See `core/axioms/AXM_0120_completeness_principle.md` for the full derivation. The principle states: V_Crystal must be maximally complex while remaining consistent, because perspectives can only restrict (never extend) the accessible structure. Combined with Hurwitz's theorem, this forces dim = 11, F = C, and transition dimension = 4.
 
 ### 23. What the Axioms DO Determine
 
 | Property | Determined By |
 |----------|---------------|
-| Structure requires perspective | C4 + P1 |
-| Perspectives have finite access | P3 |
-| Tilt is possible | P4 |
+| Im(C) exists | CCP-2 (completeness) |
+| Symmetry breaks / perspective exists | Im(C) + C4 (THM_04B2) |
+| Perspectives have finite access | CCP.1 (n=11 is finite) |
+| Tilt is possible | CCP.2 (F=C, complex structure) |
 | Points, Σ, Γ are emergent | Definitions from dimensions |
 | Content = tilt | Definition |
 | Transitions form complete algebra | T0 |

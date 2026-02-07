@@ -274,9 +274,9 @@ The interface between defect and crystal has tilt structure
   = 1 / (n_d² + n_c²)
 ```
 
-**Import** [A-IMPORT]:
-- n_d = 4 (observed spacetime dimensions)
-- n_c = 11 (M-theory total dimensions)
+**Dimensions** [D: CCP (AXM_0120)] *(was [A-IMPORT]; resolved S251)*:
+- n_d = 4 (largest associative division algebra, forced by CCP)
+- n_c = 11 (Im(C)+Im(H)+Im(O) = 1+3+7, forced by CCP)
 
 **Result**:
 ```
@@ -300,8 +300,8 @@ The interface between defect and crystal has tilt structure
 
 | Question | Status |
 |----------|--------|
-| Why n_d = 4? | [A-IMPORT] from observation |
-| Why n_c = 11? | [A-IMPORT] from M-theory |
+| Why n_d = 4? | [D: CCP (AXM_0120)] *(was [A-IMPORT]; resolved S251)* |
+| Why n_c = 11? | [D: CCP (AXM_0120)] *(was [A-IMPORT]; resolved S251)* |
 | Why EM specifically? | Not explained (vs weak, strong) |
 | Specific ε_ij values? | Not determined |
 
@@ -358,7 +358,7 @@ Defect (tilted dimensions)
 ### Confidence
 
 [CONJECTURE] — The connection is mathematically consistent but:
-- n_d = 4 and n_c = 11 are imported, not derived
+- ~~n_d = 4 and n_c = 11 are imported, not derived~~ **RESOLVED (S251)**: n_d=4 and n_c=11 now [D: CCP]
 - Why EM coupling specifically is not explained
 - Other couplings don't obviously fit the pattern
 
@@ -366,7 +366,7 @@ Defect (tilted dimensions)
 
 ## 12. Next Steps
 
-1. **Investigate whether n_d, n_c can be derived** from stability or consistency
+1. ~~**Investigate whether n_d, n_c can be derived**~~ **RESOLVED (S251)**: CCP (AXM_0120) forces n_d=4, n_c=11 from maximal consistent algebraic structure
 2. **Explore specific tilt values** for masses and mixing angles
 3. **Connect to weak/strong couplings** — different formula or same structure?
 4. **Formalize the interface structure** in Layer 0

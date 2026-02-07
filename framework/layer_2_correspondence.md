@@ -1,6 +1,12 @@
 # Layer 2: Correspondence Rules
 
 > **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. Many correspondence rules have been added or refined since (e.g., DEF_02B0-02B3, DEF_02C0-02C6). Canonical Layer 2 content is in `core/definitions/DEF_02B0+` and `framework/investigations/`. Use this file for historical reference only.
+>
+> **S253 NOTE (CCP + Pipeline + Generations)**: Three major developments (S251) reduce import count:
+> - **CCP (AXM_0120)**: Forces F=C, n_d=4, n_c=11 from a single meta-axiom. I-DIM-1 (F=C) is now fully [DERIVED].
+> - **Pipeline**: 121->55->18->12 = u(1)+su(2)+su(3). Second independent route to SM gauge group (alongside automorphism chain). I-STRUCT-1 now has TWO derivation paths.
+> - **Generation count = 3**: From Im(H) tensor (7->3+3-bar+1) under G2->SU(3). One [A-PHYSICAL] step remains.
+> See `core/axioms/AXM_0120_completeness_principle.md` and `framework/investigations/gauge/perspective_transformative_pipeline.md`.
 
 **Status**: HISTORICAL (was IMPORT)
 **Purpose**: Catalog EVERY identification between mathematical framework and physical reality
@@ -15,13 +21,16 @@ Layer 2 bridges the gap between:
 - **Layer 1**: Mathematical consequences (what follows from axioms)
 - **Layer 3**: Physical predictions (what the combined system implies)
 
-**CRITICAL INSIGHT FROM LAYERS 0-1**: The axioms constrain almost nothing numerically.
-- dim(V) is FREE (any finite dimension)
-- |Π| is FREE (any finite count)
-- Subspace decomposition is FREE (any partition)
-- Field choice (ℝ vs ℂ) is FREE
+**CRITICAL INSIGHT FROM LAYERS 0-1** *(PARTIALLY OUTDATED — see S253 note above)*:
 
-**Therefore**: Every specific numerical identification is an IMPORT, not a derivation.
+~~The axioms constrain almost nothing numerically.~~
+With CCP (AXM_0120, S251), the axioms now **force**:
+- ~~dim(V) is FREE~~ → dim(V_Crystal) = 11 [D: CCP]
+- |Π| is FREE (any finite count) — still unconstrained
+- ~~Subspace decomposition is FREE~~ → n_d=4 forced by associativity [D: CCP]
+- ~~Field choice (ℝ vs ℂ) is FREE~~ → F = C [D: CCP]
+
+**Updated**: Most dimensional identifications are now DERIVED, not imports. Remaining imports: |Π|, Lorentz signature, physical identifications.
 
 ---
 
@@ -56,6 +65,7 @@ Layer 2 bridges the gap between:
 | **I-STRUCT-2** | sin²θ_W(GUT) = 3/8 | Weinberg angle at unification | GUT | TESTABLE |
 | **I-STRUCT-3** | β-function running | Coupling evolution | RG theory | BORROWED |
 | **I-STRUCT-4** | Lorentz signature | (-,+,+,+) metric | SR | ESSENTIAL |
+| **I-STRUCT-5** | Emergent gauge coupling | Gauge couplings from HS metric on vacuum manifold | S215-S228 | ESSENTIAL |
 
 ### 2.4 Identification Imports
 
@@ -96,7 +106,9 @@ Layer 2 bridges the gap between:
 - Would need alternative explanation for interference
 - Framework survives but QM interpretation fails
 
-**Classification**: **DERIVED** (conditional on [A-STRUCTURAL: associativity]) — previously ESSENTIAL import, now follows from axioms given G-004.
+**Classification**: **DERIVED** — previously ESSENTIAL import. Two derivation paths:
+1. THM_0485 (conditional on [A-STRUCTURAL: associativity], Gap G-004)
+2. **CCP (AXM_0120, S251)**: Forces F=C directly as maximal consistent commutative division algebra with antisymmetry. No Gap G-004 dependency.
 
 ---
 
@@ -489,15 +501,17 @@ Several of the original "impossible to derive" items have been addressed:
 
 | Item | Original Status | Current Status | Reference |
 |------|----------------|----------------|-----------|
-| **F = C** | NOT DERIVED | **DERIVED** (conditional on G-004) | THM_0485, Session 133 |
-| **n_d = 4** | NOT DERIVED | **DERIVED** [A-DIV] | THM_0484, Frobenius |
-| **SM gauge group** | NOT DERIVED | **DERIVED** [A-DIV] | Session 46-52 |
+| **F = C** | NOT DERIVED | **DERIVED** (two paths: THM_0485 + CCP) | THM_0485 (S133), **AXM_0120 (S251)** |
+| **n_d = 4** | NOT DERIVED | **DERIVED** (two paths: [A-DIV] + CCP) | THM_0484, **AXM_0120 (S251)** |
+| **n_c = 11** | NOT DERIVED | **DERIVED** | **AXM_0120 (CCP, S251)** |
+| **SM gauge group** | NOT DERIVED | **DERIVED** (two routes) | Automorphism chain (S46-52) + **Pipeline (S251)** |
 | **15 fermions** | NOT DERIVED | **DERIVED** [A-DIV] | P-DIV-3 |
+| **3 generations** | NOT DERIVED | **DERIVED** (one [A-PHYSICAL] step) | Im(H) tensor decomposition **(S251)** |
 | **sin²θ_W = 1/4** | NOT DERIVED | **DERIVED** [A-DIV]+[A-COUPLING] | P-COUP-1 |
 | **n_space = 3** | NOT DERIVED | NOT DERIVED | Still open |
 | **\|Π\|** | NOT DERIVED | NOT DERIVED | Still open |
 
-**Remaining open question**: The division algebra assumption [A-DIV] is the key structural input. Is it derivable from Layer 0, or is it a disguised import? Gap G-004 (associativity) is the critical unresolved step.
+**Remaining open question**: CCP (AXM_0120, S251) resolves Gap G-004 by providing a direct route to division algebra structure without requiring the associativity assumption separately. The key remaining structural inputs are: [A-COUPLING] (gauge coupling scaling) and [A-PHYSICAL] identifications (interface = 1/alpha, generations = Im(H) directions).
 
 ### What Would Still Change the Picture
 
@@ -519,18 +533,19 @@ The derivation-vs-discovery question remains the central epistemic challenge (se
 4. **4 interpretive claims** connect math to physics
 5. **Key remaining gap**: [A-STRUCTURAL: associativity] (Gap G-004)
 
-### The Honest Conclusion (Updated)
+### The Honest Conclusion (Updated S253)
 
-The Perspective Framework has made significant progress since the original assessment. Given the division algebra assumption [A-DIV], it now **derives** (not just organizes) the SM gauge group, spacetime dimension, fermion count, and base field.
+The Perspective Framework has made major progress. The CCP (AXM_0120, S251) provides a single meta-axiom that **derives** F=C, n_d=4, n_c=11, and the SM gauge group (via Pipeline: 121->55->18->12) without requiring Gap G-004 (associativity) as a separate assumption.
 
-However, [A-DIV] itself rests on an unproven structural assumption (associativity, Gap G-004). Until this gap is closed, the framework status is: **Partial derivation, conditional on one key structural assumption.**
+The framework now **derives** (not just organizes): SM gauge group (two independent routes), spacetime dimension, crystal dimension, base field, fermion count per generation, generation count (one [A-PHYSICAL] step), and the Weinberg angle (given [A-COUPLING]).
 
-The framework becomes genuinely interesting if:
-- Gap G-004 (associativity) can be derived from Layer 0
-- Predictions differed from SM and were confirmed (e.g., 5.11 GeV dark matter)
-- The derivation-vs-discovery question is resolved (LLM Derivation Challenge)
+Remaining structural inputs:
+- [A-COUPLING]: gauge coupling scaling — cannot be derived
+- [A-PHYSICAL]: physical identifications (interface = 1/alpha, generations = Im(H) directions)
+- |Π|: perspective count — unconstrained
+- Lorentz signature — unexplained
 
-Current status: **Conditional derivation** (upgraded from "reorganization").
+Current status: **Substantial derivation from CCP** (upgraded from "conditional derivation").
 
 ---
 

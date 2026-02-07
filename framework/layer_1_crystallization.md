@@ -1,6 +1,8 @@
 # Layer 1: Crystallization Dynamics
 
 > **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. Since then: AXM_0117 promoted PROPOSED→CANONICAL (S178), AXM_0119 added (S181), THM_0494 (Born rule), THM_0498 (quartic discriminant), and the SO(11) breaking chain (THM_0487) have been significantly developed. Some content is superseded (e.g., isotropy scale 3693 GeV → 188 TeV). Canonical crystallization content is in `core/axioms/AXM_0117`, `core/theorems/THM_0487-0498`, and `framework/investigations/crystallization/`.
+>
+> **S253 NOTE (CCP integration)**: The Consistency-Completeness Principle (AXM_0120, S251) now **derives** the stable configurations {1,2,4,8} and the key dimensions n_d=4, n_c=11 from a single meta-axiom. CCP forces V_Crystal to contain all consistent algebraic structure (division algebras R,C,H,O); the transition algebra must be associative (giving n_d = dim(H) = 4); and the imaginary dimensions sum to n_c = 1+3+7 = 11. The stable configurations in Part II are no longer just "observed to be stable" — they are **forced** by CCP. See `core/axioms/AXM_0120_completeness_principle.md`.
 
 **Status**: HISTORICAL (was CORE FRAMEWORK)
 **Created**: 2026-01-27 (Session 77)

@@ -122,7 +122,14 @@
       "Bash(ping:*)",
       "mcp__playwright__browser_evaluate",
       "Bash(netstat:*)",
-      "Bash(start:*)"
+      "Bash(start:*)",
+      "Bash(.txt)",
+      "Bash(.pdf \")",
+      "Bash(cmd /c \"chcp 65001 >nul & set PYTHONIOENCODING=utf-8 & python verification/sympy/gaussian_norm_unification.py\")",
+      "Bash(PYTHONIOENCODING=utf-8 python:*)",
+      "WebFetch(domain:chatgpt.com)",
+      "Bash(git reset HEAD verification/sympy/__pycache__/ nul)",
+      "Bash(git reset:*)"
     ]
   }
 }

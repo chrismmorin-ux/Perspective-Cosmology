@@ -6,7 +6,7 @@
 **Created**: 2026-01-30
 **Source**: alpha_mechanism_exploration.md (formalization with proper labeling)
 **Adversarial review**: Session 141 — six findings documented; Option B downgraded to [CONJECTURE]
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-06 (S252 — CCP: n_d, n_c now DERIVED from AXM_0120)
 
 ---
 
@@ -14,8 +14,8 @@
 
 - [DEF_02B3: Interface Mode Count] — N_I = n_d² + n_c², s_I = 1/N_I
 - [DEF_02A3: Tilt Matrix] — ε at defect–crystal interface
-- [THM_0485: Complex Structure (F = C)] — U(n) symmetry at interface
-- [THM_0484] / [AXM_0109], [AXM_0118] — n_d = 4, n_c = 11
+- [THM_0485: Complex Structure (F = C)] — U(n) symmetry at interface (also independently derived from CCP-4)
+- [AXM_0120 (CCP)] — n_d = 4 [DERIVED], n_c = 11 [DERIVED] (S251; replaces [A-STRUCTURAL] tags on AXM_0118)
 - [A-IMPORT]: Identification of facet coupling with α = e²/(4πε₀ℏc) (Step 5 correspondence)
 
 ---

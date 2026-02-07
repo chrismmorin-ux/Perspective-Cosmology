@@ -49,7 +49,7 @@ This is NOT numerology because:
 ### Derivation Chain
 
 ```
-[A-AXIOM] n_c = 11 (crystal dimension from 1+2+4+4)
+[D: CCP (AXM_0120)] n_c = 11 (crystal dimension: Im(C)+Im(H)+Im(O) = 1+3+7) *(was [A-AXIOM]; resolved S251)*
     |
 [A-IMPORT] sin^2(theta_W) = 1/4 (tree-level)
     |
@@ -88,7 +88,7 @@ The ratio 10/21 represents:
 ### Derivation Chain
 
 ```
-[A-AXIOM] n_c = 11, Im_H = 3, Im_O = 7
+[D: CCP (AXM_0120)] n_c = 11, Im_H = 3, Im_O = 7 *(was [A-AXIOM]; resolved S251)*
     |
 [A-IMPORT] alpha = 1/137 (fine structure)
     |
@@ -125,7 +125,7 @@ Physical meaning:
 ### Derivation Chain
 
 ```
-[A-AXIOM] O = 8, n_d = 4, n_c = 11
+[D: CCP (AXM_0120)] O = 8, n_d = 4, n_c = 11 *(was [A-AXIOM]; resolved S251)*
     |
 [DERIVED] 137 = n_d^2 + n_c^2 (fine structure integer)
     |

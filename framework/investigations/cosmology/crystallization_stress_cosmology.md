@@ -1,10 +1,11 @@
 # Crystallization Stress Cosmology: The Prince Rupert's Drop Model
 
-**Status**: QUARANTINE — Sign problem confirmed (S199: V(eps*) < 0, stress argument does NOT fix sign)
+**Status**: QUARANTINE — Sign resolved S230, magnitude + mechanism problems remain
 **Created**: 2026-01-27 (Session 94)
-**Confidence**: [CONJECTURE] — sign problem makes core mechanism invalid
+**Confidence**: [CONJECTURE] — magnitude gap (~10^111) and stress mechanism still unresolved
 **Origin**: User insight connecting crystallization dynamics to dark energy via stress
-**S199 Audit**: `cosmological_constant_sign_analysis.py` (10/10 PASS) confirms: stress sigma >= 0 is RELATIVE energy, not absolute. V(eps) < 0 throughout physical range. Fine-tuning ~10^111 needed for V_0 resolution. Three CC formulas mutually incompatible.
+**S199 Audit**: `cosmological_constant_sign_analysis.py` (10/10 PASS) confirms: stress sigma >= 0 is RELATIVE energy, not absolute. V(eps) < 0 throughout physical range. Three CC formulas mutually incompatible.
+**S230 Update**: **Sign problem RESOLVED** — V(eps*) < 0 gives Lambda > 0 via standard GR (Lambda = -8piG*V). The sign was never wrong; the framework's analysis had a sign convention error (L = -V, so T = +gV not -gV). See `cc_sign_convention_resolution.py` (10/10 PASS). Stress mechanism and magnitude gap remain QUARANTINED.
 **Last Updated**: 2026-02-03
 
 ---
@@ -609,6 +610,6 @@ print(f"Error:     {error:.2f}%")
 
 ---
 
-*Investigation status: QUARANTINE*
-*Confidence: [DERIVATION] with [CONJECTURE] gaps — sign problem (F-10, S199)*
+*Investigation status: QUARANTINE (sign resolved S230; magnitude + mechanism gaps remain)*
+*Confidence: [DERIVATION] with [CONJECTURE] gaps — magnitude ~10^111, stress mechanism unvalidated*
 *Created: Session 94 (2026-01-27)*

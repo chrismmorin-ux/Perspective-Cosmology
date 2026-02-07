@@ -55,7 +55,7 @@ The Lie algebra u(n_c) has n_c² = 121 generators:
 **THEOREM**: EM channels = off-diagonal + U(1) = 111, with Cartan excluded.
 
 **AXIOMS**:
-- [A1] Crystal symmetry U(n_c) with n_c = 11
+- [A1→D: CCP] Crystal symmetry U(n_c) with n_c = 11 [D: AXM_0120 forces n_c=11; F=C gives U(n_c)]
 - [A2] Tilt T represents defect-crystal misalignment (element of u(n_c))
 - [A3] Coupling via commutator [T, G] and trace Tr(T)
 - [A4] Tilt is generic (random nucleation, no preferred basis)

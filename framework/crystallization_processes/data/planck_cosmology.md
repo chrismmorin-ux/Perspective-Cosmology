@@ -75,7 +75,7 @@ All measured values are [A-IMPORT]. Framework predictions noted where they exist
 
 | Prediction | Framework Value | Measured | Status |
 |-----------|----------------|----------|--------|
-| CC from V(epsilon*) | V(eps*) < 0 | V > 0 | **F-10: WRONG SIGN** |
+| ~~CC from V(epsilon*)~~ | V(eps*) < 0 | Lambda > 0 | ~~F-10~~ **RESOLVED S230**: Convention error. V<0 gives Lambda>0 via Lambda=-8piGV. Magnitude gap (~10^111) remains. |
 | eta* (conformal dist) | 337 Mpc | 280 Mpc | **FALSIFIED** (S198) |
 | c_s (sound speed) | 3/7 | 1/sqrt(3) | **FALSIFIED** (S198) |
 

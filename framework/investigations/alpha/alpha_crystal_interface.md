@@ -13,8 +13,8 @@
 
 | Import | Value | Source | Tag |
 |--------|-------|--------|-----|
-| n_perceived | 4 | Observation (spacetime dimensions) | [A-IMPORT] |
-| n_total | 11 | M-theory | [A-IMPORT] |
+| n_perceived | 4 | Division algebras (Frobenius) | [D: CCP → n_d=4] (was [A-IMPORT]; resolved S251 via AXM_0120) |
+| n_total | 11 | 1+3+7 imaginary dims | [D: CCP → n_c=11] (was [A-IMPORT]; resolved S251 via AXM_0120) |
 | α_measured | 1/137.035999 | QED measurements | [A-IMPORT] |
 | α(M_Z) | 1/127.9 | LEP measurements | [A-IMPORT] |
 | α(GUT) | ~1/42 | SM extrapolation | [A-IMPORT] |
@@ -231,9 +231,9 @@ This converts "numerological coincidence" into "geometric prediction."
 
 ### Must Derive
 
-1. **Why n_total = 11?**
-   - M-theory gives 11, but why does our framework require it?
-   - Is 11 forced by some consistency condition?
+1. ~~**Why n_total = 11?**~~ **RESOLVED (S251)**
+   - CCP (AXM_0120) forces n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11
+   - Maximal consistent algebraic structure requires all four division algebras
 
 2. **Why I = n1^2 + n2^2?**
    - What geometric calculation gives this form?
@@ -317,13 +317,13 @@ This is the **most accurate** formula with clear physical interpretation!
 ```
 α = 1/137 [D]
   ← 1/α = n_perceived² + n_total² [D: interface measure]
-      ← n² = dim(U(n)) [A-STRUCTURAL: generator counting]
+      ← n² = dim(U(n)) [D: CCP → F=C → U(n) structure]
       ← Sum not product [A-STRUCTURAL: orthogonality of structures]
-      ← n_perceived = 4 [I: observed spacetime dimensions]
-      ← n_total = 11 [I: M-theory total dimensions]
+      ← n_perceived = 4 [D: CCP (AXM_0120) → max associative div algebra = H]
+      ← n_total = 11 [D: CCP (AXM_0120) → Im(C)+Im(H)+Im(O) = 1+3+7]
 ```
 
-**U(n) generator counting** [A-STRUCTURAL]:
+**U(n) generator counting** [D: CCP → F=C → U(n)]:
 ```
 dim(U(n)) = n²  (generators of unitary group on n-dimensional Hilbert space)
 
@@ -354,13 +354,13 @@ Total interface DoF: 121 + 16 = 137
 
 | Aspect | Status | Tag |
 |--------|--------|-----|
-| Why n² | DERIVED (U(n) generators) | [A-STRUCTURAL] |
-| Why sum | DERIVED (orthogonal structures) | [A-STRUCTURAL] |
+| Why n² | DERIVED (U(n) generators from F=C) | [D: CCP → F=C → U(n)] |
+| Why sum | DERIVED (orthogonal structures) | [A-STRUCTURAL: from P1] |
 | Why U(n) not SU(n) | DERIVED (phase counting) | [D] |
-| Why 4 | IMPORTED | [I: observation] |
-| Why 11 | IMPORTED | [I: M-theory] |
+| Why 4 | **DERIVED** (max associative div algebra) | [D: CCP (AXM_0120)] |
+| Why 11 | **DERIVED** (Im(C)+Im(H)+Im(O)=1+3+7) | [D: CCP (AXM_0120)] |
 
-**Confidence**: [CONJECTURE] — argument is coherent but 4 and 11 are imports, not derived from axioms
+**Confidence**: [CONJECTURE] — argument is coherent. ~~4 and 11 are imports~~ **4 and 11 now [D: CCP (S251)]**. Remaining gap: interface = 1/α identification.
 
 ---
 
@@ -487,9 +487,8 @@ This is speculative but shows the direction.
 
 ### SHOULD DO (to make it interesting)
 
-4. **Derive 11 dimensions from axioms**
-   - Currently imported from M-theory
-   - Stability argument? Topological constraint?
+4. ~~**Derive 11 dimensions from axioms**~~ **RESOLVED (S251)**
+   - CCP (AXM_0120) forces n_c = 11 from division algebra structure
 
 5. **Predict other couplings**
    - α_W ≈ 1/30 ≈ 1/(5² + 2²)?

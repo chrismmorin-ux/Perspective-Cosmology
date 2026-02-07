@@ -1,11 +1,15 @@
 # Gauge Groups from Division Algebras
 
-**Status**: ARCHIVE
+**Status**: ARCHIVE (superseded by Pipeline, S251 — see note below)
 **Confidence**: [DERIVATION] - geometric argument with clear path, not fully rigorous
-**Dependencies**: core/17_complex_structure.md, layer_0_pure_axioms.md
+**Dependencies**: core/17_complex_structure.md, layer_0_pure_axioms.md, core/axioms/AXM_0120_completeness_principle.md
 **Verified**: `verification/sympy/octonion_su3_decomposition.py`, `verification/sympy/rank4_gauge_enumeration.py`, `verification/sympy/weinberg_angle_running.py`
 **Created**: 2026-01-26 (Session 46)
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-06 (S252 — CCP + Pipeline integration)
+
+> **S252 NOTE**: This document's derivation chain is now STRENGTHENED by two S251 results:
+> 1. **CCP (AXM_0120)**: n_c=11, n_d=4, F=C are now [DERIVED], not [A-STRUCTURAL]
+> 2. **Perspective-Transformative Pipeline** (`framework/investigations/gauge/perspective_transformative_pipeline.md`): Provides an independent, systematic derivation of U(1)×SU(2)×SU(3) via 6-criterion filtering of End(V_Crystal) = 121 dims → 12 dims. The Pipeline is cleaner (filtering, not pattern matching) and arrives at the same gauge group. Both approaches are valid and mutually reinforcing.
 
 ---
 
@@ -380,12 +384,13 @@ Total: 1 + 3 + 8 = 12
 
 ## Part VIII: Complete Derivation Chain (Session 48)
 
-### 8.1 Full Chain from T1 to Gauge Structure
+### 8.1 Full Chain from Axioms to Gauge Structure
 
 ```
-[AXIOM] T1: Time exists as directed sequences
+[AXIOM] AXM_0120 (CCP): Perfection = maximal consistency
     |
-    +---> [DERIVED] F = C (direction requires antisymmetry)
+    +---> [DERIVED from CCP] F = C (CCP-4: maximal algebraically complete)
+    |         |                   Also: THM_0485 (T1 → antisymmetry)
     |         |
     |         +---> [DERIVED] U(n) symmetry, not O(n)
     |         |
@@ -393,27 +398,25 @@ Total: 1 + 3 + 8 = 12
     |                   |
     |                   +---> [DERIVED] Aut = SU(3) (stabilizer in G2)
     |
-    +---> [DERIVED] Associativity required for time
-              |
-              +---> [THEOREM] Hurwitz: Only 4 normed division algebras
-              |         R (dim 1), C (dim 2), H (dim 4), O (dim 8)
-              |
-              +---> [DERIVED] Defect = H (max associative)
-              |         => n_d = 4
-              |
-              +---> [DERIVED] Crystal = R + C + O
-              |         => n_c = 11
-              |
-              +---> [DERIVED] Gauge groups from C, H, O:
-                        C -> U(1)  [depth 1, n=1, rank=1]
-                        H -> SU(2) [depth 2, n=2, rank=1]
-                        O -> SU(3) [depth 3, n=3, rank=2]
-                            |
-                            +---> [DERIVED] rank(G_SM) = 1+1+2 = 4 = n_d
-                            |
-                            +---> [DERIVED] dim(G_SM) = 1+3+8 = 12
-                                                      = n_d x (n_d-1)
-                                                      = H + O
+    +---> [DERIVED from CCP] n_c = Im(C)+Im(H)+Im(O) = 11 (CCP-2,3)
+    |
+    +---> [DERIVED from CCP + Frobenius] n_d = dim(H) = 4 (CCP maximality)
+    |
+    +---> [DERIVED] Gauge groups from C, H, O:
+              C -> U(1)  [depth 1, n=1, rank=1]
+              H -> SU(2) [depth 2, n=2, rank=1]
+              O -> SU(3) [depth 3, n=3, rank=2]
+                  |
+                  +---> [DERIVED] rank(G_SM) = 1+1+2 = 4 = n_d
+                  |
+                  +---> [DERIVED] dim(G_SM) = 1+3+8 = 12
+                                            = n_d x (n_d-1)
+                                            = H + O
+
+[ALTERNATIVE ROUTE — Pipeline (S251)]:
+    AXM_0120 → End(V_Crystal) = 121 dims
+    → 6 filtering criteria → 121→55→18→12
+    → u(1) ⊕ su(2) ⊕ su(3) = SM gauge algebra
 ```
 
 ### 8.2 Why Cayley-Dickson Depth = n in SU(n)
@@ -433,7 +436,7 @@ Total: 1 + 3 + 8 = 12
 
 ### 8.3 Summary
 
-**From T1 alone, we now derive**:
+**From CCP (AXM_0120) + T1, we now derive**:
 1. F = C (complex structure)
 2. n_d = 4, n_c = 11 (spacetime and internal dimensions)
 3. alpha = 1/137 (from U(n) formula)
@@ -447,9 +450,9 @@ Total: 1 + 3 + 8 = 12
 
 **Remaining for full completion**:
 - Fermion representations (why specific multiplets?)
-- Mass hierarchy
+- Mass hierarchy (SO(3) breaking mechanism in Im(H))
 - ~~Mixing angles~~ → Weinberg angle now predicted (see Part IX)
-- Generations
+- ~~Generations~~ → **3 generations DERIVED (S251)**: Hom(Im(H),Im(O)) decomposes as 3×(3+3̄+1) under G₂→SU(3). See `perspective_transformative_pipeline.md` Section 6.
 
 ---
 

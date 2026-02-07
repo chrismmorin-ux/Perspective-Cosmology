@@ -62,7 +62,7 @@ Why is the contribution per sector n^2, not n(n-1)/2 or other formula?
 
 **Chain**:
 - [A-AXIOM] V is an inner product space over field F
-- [A-STRUCTURAL] If F = C (complex), then Aut(B) subset of U(n)
+- [D: CCP (AXM_0120)] F = C (complex), therefore Aut(B) subset of U(n)
 - [THEOREM] dim(u(n)) = n^2
 
 **Why F = C?**
@@ -105,9 +105,9 @@ Why is the formula n1^2 + n2^2, not (n1 + n2)^2?
 
 **Derivation chain**:
 ```
-[A-AXIOM] U_defect = (P_d, ..., V_d, B_d) with dim(V_d) = n1
-[A-AXIOM] U_crystal = (P_c, ..., V_c, B_c) with dim(V_c) = n2
-[A-STRUCTURAL] V_d and V_c are separate (not embedded)
+[D: CCP] U_defect with dim(V_d) = n1 = 4 (from AXM_0120: max associative div algebra)
+[D: CCP] U_crystal with dim(V_c) = n2 = 11 (from AXM_0120: Im(C)+Im(H)+Im(O))
+[A-STRUCTURAL] V_d and V_c are separate (not embedded) — from P1 orthogonal decomposition
     Justification: crystal has no perspectives (A1 fails if embedded)
 [THEOREM] Complex field implies:
     - Aut(B_d) has n1^2 generators
@@ -169,9 +169,9 @@ Why n_defect = 4 and n_crystal = 11?
 ```
 [A-AXIOM] Universe U = (P, Sigma, Gamma, C, V, B)
     |
-[A-IMPORT] F = C (complex field) <- from alpha observation
+[D: CCP (AXM_0120)] F = C (complex field) <- derived from maximal consistent structure
     |
-[A-STRUCTURAL] Aut(B) subset of U(n)
+[D: CCP → F=C] Aut(B) subset of U(n)
     |
 [THEOREM] dim(u(n)) = n^2 generators
     |
@@ -183,7 +183,7 @@ Why n_defect = 4 and n_crystal = 11?
     |
 [THEOREM] Total generators = n1^2 + n2^2 (independent addition)
     |
-[A-IMPORT] n1 = 4, n2 = 11 <- not yet derived from Layer 0
+[D: CCP (AXM_0120)] n1 = 4, n2 = 11 <- derived from maximal consistent algebraic structure (S251)
     |
 [DERIVATION] 1/alpha = 4^2 + 11^2 = 137
     |
@@ -197,15 +197,15 @@ Why n_defect = 4 and n_crystal = 11?
 | Component | Previous | Current | Verification |
 |-----------|----------|---------|--------------|
 | Equal weighting | ASSUMED | DERIVED | Killing form |
-| n^2 structure | ASSUMED | DERIVED | F = C |
-| Independent addition | ASSUMED | DERIVED | Separate structures |
-| n1 = 4 | IMPORT | PARTIALLY DERIVED | Associativity requirement |
-| n2 = 11 | IMPORT | PARTIALLY DERIVED | 15 - 4 = 11 |
+| n^2 structure | ASSUMED | DERIVED | F = C [D: CCP] |
+| Independent addition | ASSUMED | DERIVED | Separate structures [A-STRUCTURAL: P1] |
+| n1 = 4 | IMPORT | **DERIVED** | [D: CCP] Max associative div algebra = H (S251) |
+| n2 = 11 | IMPORT | **DERIVED** | [D: CCP] Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (S251) |
 | Interface = 1/alpha | CONJECTURE | CONJECTURE | No derivation |
 
 **Key achievement**: The formula structure is now DERIVED.
-**Progress on dimensions**: n=4 follows from associativity IF transitions form division algebra.
-**Remaining gap**: Why exactly a division algebra?
+**Dimensions resolved (S251)**: n_d=4 and n_c=11 both follow from CCP (AXM_0120) — no gap.
+**Remaining gap**: Interface = 1/alpha identification [CONJECTURE].
 
 ---
 

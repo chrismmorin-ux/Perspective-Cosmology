@@ -186,24 +186,22 @@ Then n_defect = 4 becomes DERIVED from Layer 0 + Hurwitz.
 - Pro: Clean derivation
 - Con: Might be "smuggling in" the answer
 
-**OPTION 2: Keep as Import**
+**OPTION 2: Keep as Import** *(OUTDATED — see S251 resolution below)*
 
-Keep n_defect = 4 as [A-IMPORT] from observation.
+~~Keep n_defect = 4 as [A-IMPORT] from observation.~~
 
-Note the SUGGESTIVE connection to division algebras.
+~~Note the SUGGESTIVE connection to division algebras.~~
 
-- Pro: More honest about what's proven
-- Con: Misses the mathematical insight
+**S251/S254 UPDATE**: n_d = 4 is now [D: CCP (AXM_0120)]. CCP forces all four division algebras R,C,H,O; the defect uses the largest associative one (H, dim 4). The gap between "partially derived" and "fully derived" is closed by CCP. See also Section 10 (G-004 resolution via AXM_0119).
 
 ### Recommendation
 
-**Status: PARTIALLY DERIVED**
+**Status: ~~PARTIALLY DERIVED~~ DERIVED (S251)**
 
-Document both:
-- The strong argument (associativity from time)
-- The gap (division algebra structure)
-
-The connection is too beautiful to ignore but too incomplete to claim as fully derived.
+CCP (AXM_0120) provides the meta-axiom that forces n_d = 4:
+- CCP forces maximal consistent algebraic structure (all four division algebras)
+- Associativity filter (THM_04A0 + AXM_0119) → defect = H → n_d = 4
+- No zero divisors (THM_0482) independently confirmed
 
 ---
 

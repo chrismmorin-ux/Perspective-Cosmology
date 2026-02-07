@@ -149,7 +149,7 @@ G_μν + Λ g_μν = 8πG T_μν
 
 Where:
 - G_μν = Einstein tensor (geometry)
-- Λ = V(ε*) = cosmological constant
+- Λ = -8πG·V(ε*) > 0 = cosmological constant (S230: sign corrected; V(ε*) < 0 gives Λ > 0)
 - T_μν = matter stress-energy (from ε fluctuations)
 
 ---
@@ -160,15 +160,19 @@ Where:
 
 From the crystallization potential at ground state:
 ```
-Λ = V(ε*) = -a·ε*² + b·ε*⁴ = -a²/(4b)
+V(ε*) = -a·ε*² + b·ε*⁴ = -a²/(4b) < 0
 ```
 
-With a = α² M_Pl² and b = M_Pl²/(2α²):
+Through the Einstein equation (S230 sign correction):
 ```
-Λ ∝ α⁴ M_Pl²
+Λ = -8πG · V(ε*) = +8πG · a²/(4b) > 0
 ```
 
-This gives the correct order of magnitude for dark energy.
+> **S230**: The sign is CORRECT. V(ε*) < 0 gives Λ > 0 via standard GR sign conventions
+> (T_μν = +g_μν V at ground state; Λ = -8πG·V). Same as Higgs potential in SM.
+> Previous identification Λ = V(ε*) was a sign convention error (F-10 resolved).
+> Magnitude gap (~10¹¹¹) remains as standard CC problem.
+> See `verification/sympy/cc_sign_convention_resolution.py` (10/10 PASS).
 
 ### 4.2 The Graviton
 

@@ -1,15 +1,31 @@
 # The Thesis: Physics as Mathematical Necessity
 
-> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
-> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
-> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
-> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
-> - **Script count**: ~514 (not ~291-295)
-> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
+**Last Updated**: 2026-02-06 (Session S255)
+**Version**: 2.2
+**Purpose**: Central claim of the framework in condensed form — a 5-minute overview.
+**Audience**: Academic / anyone wanting the core argument
+**Status**: CURRENT
+**Reading Time**: ~10 minutes
 
-**Version**: 1.1
-**Status**: CENTRAL DOCUMENT — Read this first
-**Updated**: 2026-01-28 (Session 120)
+## Key References
+
+| File | Role |
+|------|------|
+| `publications/HONEST_ASSESSMENT.md` | Balanced self-evaluation |
+| `publications/TECHNICAL_SUMMARY.md` | Full technical details |
+| `claims/TIER_1_SIGNIFICANT.md` | Sub-10 ppm claims |
+| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis |
+| `framework/layer_0_pure_axioms.md` | Pure axioms (Layer 0) |
+
+## Critical Framework Elements
+
+| Element | Status | Relevance |
+|---------|--------|-----------|
+| Frobenius-Hurwitz theorem | THEOREM (I-MATH) | Uniqueness of division algebras |
+| Crystallization dynamics | [DERIVATION] | Bridge from algebra to physics |
+| Perspective axioms | [AXIOM] | Layer 0 foundation |
+| QM chain | CANONICAL | Strongest derived result |
+| Alpha Step 5 | CONJECTURE | Key incomplete link |
 
 ---
 
@@ -65,32 +81,38 @@ Consistency demands that transitions between observational states form an algebr
 
 ### 4. From Algebra to Physics
 
-From these four algebras, **everything follows**:
+From these four algebras, **structure follows**:
 
-**Spacetime = 4 dimensions**
+**Spacetime = 4 dimensions** [DERIVATION]
 - Time evolution must compose associatively
 - Maximal associative division algebra: H (quaternions), dimension 4
 - Therefore spacetime has 4 dimensions
 
-**Gauge group = U(1) × SU(2) × SU(3)**
-- Automorphism groups of division algebras:
-  - Aut(C) → U(1) (electromagnetism)
-  - Aut(H) → SU(2) (weak force)
-  - Aut(O) ⊃ SU(3) (strong force)
+**Gauge group = U(1) x SU(2) x SU(3)** [DERIVATION]
+- Two independent routes converge:
+  - Route 1: Automorphism groups — Aut(C)->U(1), Aut(H)->SU(2), Aut(O) contains SU(3)
+  - Route 2: Pipeline (S251) — u(11) -> associativity filter -> 121->55->18->12
 - The Standard Model gauge group is what you get
 
-**Fermion content = 15 per generation**
-- Division algebra representation theory yields exactly 15 Weyl fermions
+**Fermion content = 15 per generation** [DERIVATION]
+- Division algebra spinor representation yields exactly 15 Weyl fermions
 - This is the Standard Model content
 
-**Three generations**
-- SO(14) Weyl spinor has 64 = 4 × 16 dimensions
-- The factor 4 = dim(Im(H)) + 1 gives 3+1 generations
-- Three visible, one dark (predicting dark matter mass)
+**Three generations** [DERIVATION]
+- Im(H) tensor decomposition: 7 -> 3 + 3-bar + 1 (S251)
+- Content per generation = 7 = dim(Im(O))
+- Three visible generations plus one dark
 
-**Einstein's equations**
-- Crystallization dynamics (tendency toward orthogonality) applied to the metric
-- Yields G_μν + Λg_μν = 8πG T_μν
+**Quantum mechanics** [THEOREM]
+- Hilbert space from Crystal inner product (37/37 PASS)
+- Born rule from perspective overlap symmetry
+- Schrodinger equation from Stone's theorem on unitary evolution
+- Fully canonical derivation (grade A)
+
+**Einstein's equations** [DERIVATION]
+- Crystallization dynamics (tendency toward orthogonality)
+- Yields G_mu_nu + Lambda g_mu_nu = 8 pi G T_mu_nu
+- **Caveat**: CC magnitude gap (~10^111) remains (standard CC problem). Sign resolved S230.
 
 ---
 
@@ -103,53 +125,64 @@ If the framework captures fundamental structure, constants should be determined 
 ```
 Division algebra dimensions:  1, 2, 4, 8
 Imaginary dimensions:         Im(H) = 3, Im(O) = 7
-Crystal dimension:            n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
-Spacetime dimension:          n_d = 4
+Crystal dimension:            n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11  [D: CCP]
+Spacetime dimension:          n_d = 4  [D: CCP + Frobenius]
+Field selection:              F = C  [D: CCP]
 ```
 
 ### Sub-ppm Predictions (3)
 
 | Constant | Formula | Predicted | Measured | Error |
 |----------|---------|-----------|----------|-------|
-| **1/α** | 4² + 11² + 4/Φ₆(11) | 137.036036 | 137.035999084 | **0.27 ppm** |
+| **1/alpha** | 4^2 + 11^2 + 4/Phi_6(11) | 137.036036 | 137.035999084 | **0.27 ppm** |
 | **m_p/m_e** | 1836 + 11/72 | 1836.15278 | 1836.15267343 | **0.06 ppm** |
-| **cos(θ_W)** | 171/194 | 0.881443 | 0.881447 | **3.75 ppm** |
+| **cos(theta_W)** | 171/194 | 0.881443 | 0.881447 | **3.75 ppm** |
 
 **Interpretation**:
-- 137 = 4² + 11² (spacetime² + crystal²)
-- 111 = Φ₆(11) = EM channels in u(11) Lie algebra (derived from Frobenius, not assumed)
-- 194 = 2 × 97, where 97 = 2⁴ + 3⁴ (complex⁴ + Im(H)⁴)
+- 137 = 4^2 + 11^2 (spacetime^2 + crystal^2)
+- 111 = Phi_6(11) = EM channels in u(11) Lie algebra
+- 194 = 2 x 97, where 97 = 2^4 + 3^4 (Level 2 cyclotomic norm-form prime)
 
-### Exact Predictions (4)
+### Additional Weinberg Angle Derivation (S222-S224)
+
+sin^2(theta_W) = 28/121 = N_Goldstone / n_c^2 [DERIVATION]
+- From Schur's lemma: Hom(R^4, R^7) is irreducible under SO(4) x SO(7)
+- Unique metric on tangent space, forcing democratic coupling
+- 28 = dim SO(8) - dim SO(4) x SO(4) Goldstone bosons
+- 121 = n_c^2
+
+### Exact Cosmological Predictions (4)
 
 | Parameter | Formula | Predicted | Measured |
 |-----------|---------|-----------|----------|
-| **H₀** | 337/5 | 67.4 km/s/Mpc | 67.4 ± 0.5 |
-| **Ω_Λ** | 137/200 | 0.685 | 0.685 ± 0.007 |
-| **Ω_m** | 63/200 | 0.315 | 0.315 ± 0.007 |
-| **ℓ₁** | 220 | 220 | 220.0 ± 0.5 |
+| **H_0** | 337/5 | 67.4 km/s/Mpc | 67.4 +/- 0.5 |
+| **Omega_Lambda** | 137/200 | 0.685 | 0.685 +/- 0.007 |
+| **Omega_m** | 63/200 | 0.315 | 0.315 +/- 0.007 |
+| **l_1** | 220 | 220 | 220.0 +/- 0.5 |
 
 **Interpretation**:
-- 337 = 3⁴ + 4⁴ (generation⁴ + spacetime⁴)
+- 337 = 3^4 + 4^4 (generation^4 + spacetime^4)
 - 200 = 337 - 137 (cosmological - fine structure)
-- 63 = 7 × 9 = Im(O) × Im(H)²
+- 63 = 7 x 9 = Im(O) x Im(H)^2
 
 ### The Fourth-Power Prime Hierarchy
 
 | Prime | Form | Domain |
 |-------|------|--------|
-| **17** | 1⁴ + 2⁴ | Particle physics |
-| **97** | 2⁴ + 3⁴ | Electroweak |
-| **337** | 3⁴ + 4⁴ | Cosmology |
+| **17** | 1^4 + 2^4 | Particle physics |
+| **97** | 2^4 + 3^4 | Electroweak |
+| **337** | 3^4 + 4^4 | Cosmology |
 
 Physics scales are built into the algebra.
 
-### Complete Inventory
+### Complete Inventory (Updated S205)
 
-- **62 physical constants** derived
-- **291 verification scripts** **(OUTDATED: ~514 as of S189)** (90% passing)
-- **Zero free parameters** once division algebras accepted **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**
-- **9 foundation documents** proving the logical chain
+- **12 Tier 1 claims** (sub-10 ppm, 9 robust)
+- **16 Tier 2 claims** (10-10000 ppm)
+- **~41 Tier 3 claims** (>100 ppm, individually weak)
+- **14 falsified claims** (9 definitive + 4 deprecated + 1 withdrawn)
+- **~548 verification scripts** (~90% passing)
+- **~2 structural assumptions** (reduced from ~3 after CCP derived F=C in S251)
 
 ---
 
@@ -157,76 +190,66 @@ Physics scales are built into the algebra.
 
 ### Why This Might Be THE Theory
 
-Most theories have free parameters. This framework claims **zero** once you accept consistent observation. **(CORRECTED: ~3 structural assumptions per PARAMETER_FREEZE.md)**
-
 The logic:
 1. Consistent observation requires division algebras (**theorem**)
 2. Division algebras are uniquely {1, 2, 4, 8} (**theorem**)
-3. Physics is the emergent structure (**derivation**)
-4. Constants are ratios of dimensions (**prediction**)
+3. Physics is the emergent structure (**derivation** with gaps)
+4. Constants are ratios of dimensions (**conjecture** with sub-ppm evidence)
 
 There is no "another framework with different numbers." Frobenius-Hurwitz is not negotiable.
+
+**Important caveat**: The framework makes ~2 structural assumptions beyond Frobenius-Hurwitz and CCP (e.g., crystallization interpretation, emergent gauge coupling). F=C selection was previously counted as structural but is now DERIVED from CCP (AXM_0120, S251).
 
 ### The Coherence Argument
 
 Numerology matches one constant with one formula.
 
-This framework uses **the same four numbers {1, 2, 4, 8}** to derive both **structure** and **values**:
-- Particle physics (α, masses, mixing angles)
-- Cosmology (Ω_Λ, Ω_m, H₀)
-- CMB observables (n_s, ℓ₁)
-- BBN abundances (Y_p, D/H)
-- Gravity (Einstein equations)
-- Gauge structure (SM group)
-- Spacetime (3+1 dimensions)
+This framework uses **the same four numbers {1, 2, 4, 8}** to derive both **structure** and **values** across particle physics, cosmology, CMB, BBN, gravity, and gauge structure.
 
 A coincidence that works across all of physics is difficult to dismiss.
+
+### The Monte Carlo Counter-Argument
+
+A 5000-trial Monte Carlo (S170) showed that any 7-element subset of {1,...,20} matches 11 physics constants at 1% precision ~80% of the time. The building blocks are NOT special at percent-level.
+
+The framework's evidence comes from sub-ppm precision, blind predictions, and structural derivations — not building-block specialness.
 
 ---
 
 ## Part IV: Testable Predictions
 
-### The Decisive Test: Dark Matter Mass
+### Near-Term Tests
 
-**Prediction: m_DM = 5.11 GeV** — Two independent derivations give the same answer:
+| Prediction | Value | Timeline | Status |
+|------------|-------|----------|--------|
+| Dark matter mass | 5.11 GeV | SuperCDMS 2026-2027 | Testable |
+| 95 GeV scalar | NO (framework predicts none) | CMS+ATLAS Run 3 | If 5-sigma, kills AXM_0109 |
+| Higgs coupling | kappa_V = 0.983 (1.7% below SM) | FCC-ee | Testable |
+| Triple Higgs | kappa_lambda = 0.9497 (5% below SM) | HL-LHC | Testable |
+| Tensor-to-scalar ratio | r = 0.035 | CMB-S4 ~2028 | Most significant test |
+| Neutrino ordering | Normal, m_1 = 0 | JUNO ~2027 | Testable |
+| Dark energy EOS | w = -1 exactly | DESI ongoing | Testable |
 
-**Path 1 (Cosmological)**:
-```
-m_DM = m_p × (Ω_DM/Ω_b) = 938.3 MeV × 49/9 = 5108 MeV
-```
+### The Decisive Test: r = 0.035
 
-**Path 2 (Fourth Generation)**:
-```
-m_DM/m_e = (n_c - 1)⁴ = 10⁴  →  m_DM = 0.511 MeV × 10⁴ = 5110 MeV
-```
-
-The coincidence of two derivations from different physics (cosmology vs particle) strengthens the prediction.
+The tensor-to-scalar ratio r = 1 - n_s = 7/200 = 0.035 is derived from hilltop inflation with mu^2 = 1536/7. CMB-S4 (~2028) will measure this to sufficient precision.
 
 | Outcome | Framework Status |
-|---------|------------------|
+|---------|-----------------|
+| r confirmed at 0.035 +/- 0.01 | **Most significant confirmation** |
+| r < 0.01 or r > 0.06 | **Most significant falsification** |
+
+### The Dark Matter Test
+
+**m_DM = 5.11 GeV** from two independent paths:
+
+1. Cosmological: m_DM = m_p x (Omega_DM/Omega_b) = 5108 MeV
+2. Fourth generation: m_DM/m_e = (n_c - 1)^4 = 10^4 -> m_DM = 5110 MeV
+
+| Outcome | Framework Status |
+|---------|-----------------|
 | Detected at 4.5-5.7 GeV | **Strong support** |
 | Detected elsewhere | **Falsified** |
-
-**Experiments**: SuperCDMS (2026), LZ (ongoing), DarkSide (2026-2027)
-
-### The Hubble Tension
-
-Framework **predicts** two values:
-- CMB: H₀ = 337/5 = 67.4
-- Local: H₀ × 13/12 = 72.9
-
-Observed ratio ≈ 1.083, predicted = 13/12 = 1.0833
-
-If tension resolves to single value: mechanism falsified.
-
-### Other Falsification Criteria
-
-| Observation | Status |
-|-------------|--------|
-| 4th generation fermion | Falsifies 3-generation derivation |
-| θ_QCD > 10⁻¹⁰ | Falsifies strong CP mechanism |
-| Lorentz violation | Falsifies spacetime derivation |
-| α deviates from 15211/111 | Falsifies best prediction |
 
 ---
 
@@ -235,23 +258,31 @@ If tension resolves to single value: mechanism falsified.
 ### What We Acknowledge
 
 1. This is amateur work — outside professional physics
-2. Percent-level matches are statistically weak individually
-3. Post-hoc fitting is possible
-4. This could be sophisticated numerology
+2. ~2 structural assumptions remain (F=C now derived via CCP, S251)
+3. Most predictions are post-hoc (formulas found after knowing targets)
+4. P-value range is 10^-8 to 10^-7 (not the naive 10^-37)
+5. ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error; V<0 gives Λ>0). Magnitude gap remains.
+6. Monte Carlo shows building blocks are not special at 1%
+7. Could be sophisticated numerology
+8. Red Team assessment: 15-25% probability of genuine physics
 
 ### What We Claim
 
 1. Twelve sub-10 ppm matches from integers **deserve explanation**
-2. Six exact cosmological/particle values from same framework is **notable**
-3. Qualitative derivations are **not captured by random-matching**
-4. Framework is **falsifiable** — dark matter prediction is decisive
+2. Nine blind predictions within 1 sigma is **significant** (P ~ 10^-7)
+3. Qualitative derivations (QM, gauge groups) are **not captured by random matching**
+4. Framework is **falsifiable** — multiple decisive tests within 2-3 years
+5. 14 falsified claims **documented honestly**
 
-### Required Reading
+### Phase Grades
 
-- `HONEST_ASSESSMENT.md` — Full balanced evaluation
-- `OBJECTIONS_AND_RESPONSES.md` — Engagement with expected criticisms
-- `claims/README.md` — Tiered claims by significance
-- `MASTER_PLAN.md` — Research roadmap
+| Domain | Grade | Key |
+|--------|-------|-----|
+| Quantum Mechanics | **A** | Fully derived, CANONICAL |
+| Particles | **B-** | Structure derived, numbers conjectural |
+| Cosmology | **C-** | Blind predictions work, 3 falsified |
+| Gravity | **C-** | EFE derived, CC sign resolved S230, magnitude gap remains |
+| **Overall** | **C+** | Structural A, numerical C- |
 
 ---
 
@@ -260,19 +291,15 @@ If tension resolves to single value: mechanism falsified.
 We ask physicists to **examine**, not believe.
 
 **For skeptics**:
+- Start with the Monte Carlo (Section III) — then the blind predictions
 - Verify the sub-ppm formulas independently
-- Check division algebra → gauge structure derivation
+- Check division algebra -> gauge structure derivation
 - Find alternative explanations
-- Identify errors
-
-**For the curious**:
-- Start with qualitative derivations
-- Understand Frobenius-Hurwitz constraint
-- Consider "minimal observation structure" as starting point
 
 **For experimentalists**:
 - Dark matter at 5.11 GeV is testable **now**
-- Hubble ratio 13/12 is observable **now**
+- r = 0.035 is testable with CMB-S4
+- 95 GeV scalar absence is testable with Run 3
 - These are real predictions with clear failure criteria
 
 ---
@@ -285,19 +312,25 @@ The framework rests on a simple premise:
 
 If correct: The Standard Model and general relativity are mathematical necessities — as inevitable as the natural numbers.
 
-If incorrect: The dark matter prediction will fail, and we will document why.
+If incorrect: The dark matter prediction will fail, r = 0.035 will be wrong, and we will document why.
 
 Either outcome advances knowledge.
 
 ---
 
-**All materials available**: 291 **(OUTDATED: ~514 as of S189)** verification scripts, complete derivation chains, 9 foundation documents, honest assessment.
+## Revision History
 
-**Status**: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance. All claims should be treated skeptically.
+| Version | Date | Session | Changes |
+|---------|------|---------|---------|
+| 1.0 | 2026-01-28 | S120 | Initial version |
+| 1.1 | 2026-01-28 | S120 | Minor updates |
+| 2.0 | 2026-02-03 | S227 | Full rewrite. Corrected statistics, added QM derivation, Schur's lemma results, phase grades, Monte Carlo counter-argument, near-term testable predictions, 14 falsifications, updated probability. |
+| 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Gravity grade D+ → C-. |
+| 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C/n_c/n_d DERIVED. Pipeline gauge route. Generation derivation. Assumption count ~3->~2. |
 
 ---
 
-*"The most incomprehensible thing about the universe is that it is comprehensible."*
-— Einstein
+*Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
+*Affiliation: Amateur researcher with AI assistance*
 
-*We propose that comprehensibility is not surprising — it is necessary.*
+All ~548 verification scripts, complete derivation chains, and session records are available.

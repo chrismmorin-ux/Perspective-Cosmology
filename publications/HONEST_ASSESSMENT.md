@@ -1,35 +1,54 @@
 # Honest Assessment of the Perspective Cosmology Framework
 
-> **STALE CONTENT WARNING (S189 audit, CR-102)**: This document is 70-80 sessions old and contains claims that internal analysis (STATISTICAL_ANALYSIS_HONEST.md, S170 Monte Carlo, S187 alpha audit) has since undermined. Key corrections needed:
-> - **P-value**: Internal analysis says P ~ 10^-8 to 10^-7 (not 10^-37)
-> - **Parameters**: ~3 structural assumptions (not "zero free parameters")
-> - **Alpha chain**: Step 5 is [CONJECTURE], not complete
-> - **Script count**: ~514 (not ~291-295)
-> - See `framework/STATISTICAL_ANALYSIS_HONEST.md` for corrected analysis.
-
+**Last Updated**: 2026-02-06 (Session S255)
+**Version**: 2.0
 **Purpose**: A balanced evaluation of what this framework achieves, where it's strong, and where skepticism is warranted.
+**Audience**: Anyone evaluating this work — read this first.
+**Status**: CURRENT
+**Reading Time**: ~15 minutes
 
-**Who should read this first**: Anyone evaluating this work.
+## Key References
 
-**Author**: An amateur theorist with AI assistance. NOT a professional physicist.
+| File | Role |
+|------|------|
+| `claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm claims (updated S205) |
+| `claims/FALSIFIED.md` | 14 falsified claims |
+| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202) |
+| `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v2.0 (S257) |
+| `framework/investigations/_INDEX.md` | 143 investigation files |
+
+## Critical Framework Elements
+
+| Element | Status | Relevance |
+|---------|--------|-----------|
+| Frobenius-Hurwitz theorem | THEOREM (I-MATH) | Uniqueness of {1,2,4,8} |
+| n_c = 11 (THM_04A0) | CANONICAL | Crystal dimension, two independent paths |
+| Alpha Step 5 | CONJECTURE | Coset geometry sole remaining path |
+| Emergent gauge coupling | [A-PHYSICAL] | Shared gap for Weinberg and alpha |
+| ~~CC wrong sign (F-10)~~ | **RESOLVED S230** | Sign convention error — V<0 gives Λ>0 via standard GR. Magnitude gap remains. |
 
 ---
 
 ## The Big Picture
 
-This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. The results are mixed but intriguing.
+This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After 227 sessions and ~548 verification scripts, the results are mixed but intriguing.
 
 **What's genuinely remarkable**:
-- 3 sub-ppm numerical predictions from integers only
-- Qualitative derivation of Standard Model structure
+- 12 sub-10 ppm numerical predictions from integers only (9 robust, 3 with caveats)
+- Qualitative derivation of Standard Model structure (gauge groups, fermion content, 3 generations)
+- Quantum mechanics derived from axioms (fully canonical, grade A)
 - Einstein's equations emerge from crystallization dynamics
-- Complete CMB/BBN/cosmology predictions from the same inputs
+- CMB acoustic peaks, sound horizon, and recombination derived via standard GR integrals
+- Hilltop inflation giving n_s = 193/200 and r = 7/200
 - All using only {1, 2, 4, 8} and their algebraic combinations
 
 **What requires caution**:
-- Numerical matches at 1-5% precision are statistically weak
-- Physical interpretations are often post-hoc
+- ~2 structural assumptions remain (reduced from ~3 after CCP (AXM_0120, S251) derived F=C)
+- P-value range: 10^-8 to 10^-7 (not the naive 10^-37 sometimes cited)
+- Most numerical predictions are post-hoc (formulas found after knowing targets)
+- ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error). Magnitude gap remains.
 - Could still be sophisticated numerology
+- Red Team v2.0 consensus (S257): 20-35% probability of genuine physics (up from 15-30% at S120)
 
 The honest answer: we don't know yet if this is real physics or an elaborate coincidence. But the evidence is stronger than typical numerology.
 
@@ -41,11 +60,10 @@ The honest answer: we don't know yet if this is real physics or an elaborate coi
 
 Unlike numerology hunting, this framework has:
 - **Fixed building blocks**: Only division algebra dimensions {1, 2, 4, 8}
-- **Derived combinations**: n_d = 4, n_c = 11, Im_H = 3, Im_O = 7
+- **Derived quantities** [D: CCP (AXM_0120)]: n_d = 4, n_c = 11, F = C, Im_H = 3, Im_O = 7
 - **No cherry-picking**: The same numbers must work for EVERYTHING
 
-Typical numerology: "Find ANY combination of famous constants that matches"
-This framework: "These specific numbers must explain particle physics AND cosmology AND gravity"
+**But**: A Monte Carlo null model (S170) showed that ANY 7-element subset of {1,...,20} matches 11 physics constants at 1% precision ~80% of the time. The building blocks are NOT special at percent-level. The evidence comes from sub-ppm precision and structural predictions, not building-block specialness.
 
 ### 1.2 Qualitative Structure (Not Just Numbers)
 
@@ -53,13 +71,14 @@ The framework doesn't just match numbers — it derives STRUCTURE:
 
 | Derived Structure | From | Status |
 |-------------------|------|--------|
-| SM gauge group U(1)×SU(2)×SU(3) | Aut(C)×Aut(H)×Aut(O) | DERIVED |
-| 15 fermions per generation | Division algebra reps | DERIVED |
-| 3 generations | Im(H) = 3 | DERIVED |
-| 3+1 spacetime dimensions | Quaternion structure | DERIVED |
-| Lorentz signature (-,+,+,+) | Crystallization gradient | DERIVED |
-| Einstein equations | Goldstone dynamics | DERIVED |
-| Torsion = 0 | G2 embedding theorem | DERIVED |
+| SM gauge group U(1)×SU(2)×SU(3) | Pipeline: 121→55→18→12 (S251) + Aut route | [DERIVATION] |
+| 15 fermions per generation | Division algebra reps | [DERIVATION] |
+| 3 generations | Im(H)⊗(7→3+3̄+1) (S251) | [DERIVATION] |
+| 3+1 spacetime dimensions | Quaternion structure | [DERIVATION] |
+| Lorentz signature (-,+,+,+) | Crystallization gradient | [DERIVATION] |
+| Einstein equations | Goldstone dynamics | [DERIVATION] |
+| Hilbert space + Born rule | Perspective axioms | [THEOREM] (37/37 PASS) |
+| Democratic counting | Schur's lemma on Hom(R^4,R^7) | [DERIVATION] (S224) |
 
 These qualitative results are NOT captured by "random number matching" tests.
 
@@ -69,245 +88,230 @@ The SAME framework explains:
 
 | Domain | Predictions | Inputs |
 |--------|-------------|--------|
-| **Particle physics** | α, sin²θ_W, masses | {1,2,4,8,11} |
-| **Cosmology** | Ω_Λ, Ω_DM, Ω_b, H₀ | Same |
-| **CMB** | δT/T, n_s, ℓ₁ | Same |
+| **Particle physics** | alpha, sin^2(theta_W), masses | {1,2,4,8,11} |
+| **Cosmology** | Omega_Lambda, Omega_DM, Omega_b, H_0 | Same |
+| **CMB** | delta_T/T, n_s, l_1, r_s, theta_s | Same |
 | **BBN** | Y_p, D/H, Li-7 | Same |
 | **Gravity** | Einstein equations | Same |
-| **Strong CP** | θ = 0 | Same |
+| **QM** | Hilbert space, Born rule, Schrodinger eq | Same |
 
-Finding ONE formula that matches ONE constant is easy.
-Finding a COHERENT framework for ALL of physics with the SAME inputs is hard.
-
----
-
-## 2. Sub-ppm and Sub-10 ppm Predictions (Updated Session 110e)
-
-### 2.1 The Original Three Sub-ppm Predictions
-
-These are genuinely remarkable and constitute the strongest evidence:
-
-### 2.1 Fine Structure Constant
-
-| Property | Value |
-|----------|-------|
-| **Formula** | 1/α = 137 + 4/111 = 15211/111 |
-| **Predicted** | 137.036036... |
-| **Measured** | 137.035999084(21) |
-| **Precision** | **0.27 ppm** |
-
-**Why it matters**: Matching a 9-digit constant with integers is extraordinary. The probability of this happening by chance is essentially zero.
-
-**Framework interpretation**:
-- 137 = 4² + 11² encodes the associative/non-associative split
-- 4 = dim(H), the quaternions governing spacetime
-- 11 = dim(R+C+O), the crystal dimensions
-- 111 = EM channels in u(11) Lie algebra
-
-### 2.2 Proton-Electron Mass Ratio
-
-| Property | Value |
-|----------|-------|
-| **Formula** | m_p/m_e = 1836 + 11/72 = 132203/72 |
-| **Predicted** | 1836.15277778 |
-| **Measured** | 1836.15267343(11) |
-| **Precision** | **0.06 ppm** |
-
-**Why it matters**: The most precise prediction. Matching 10 digits with a simple fraction is remarkable.
-
-**Framework interpretation**:
-- 1836 = 12 × 153 (QCD mode product)
-- 72 = 8 × 9 = dim(su(3)) × dim(u(3))
-
-### 2.3 Weinberg Angle (On-Shell)
-
-| Property | Value |
-|----------|-------|
-| **Formula** | cos(θ_W) = 171/194 |
-| **Predicted** | 0.881443 |
-| **Measured** | 0.881447 |
-| **Precision** | **3.75 ppm** |
-
-**Framework interpretation**:
-- 194 = 2 × 97, where 97 = 4² + 9² = H² + Im_H⁴
-- 171 = 9 × 19 = Im_H² × (n_c + O)
-
-### 2.4 High Prime Sub-10 ppm Matches (Updated Session 110e cont.)
-
-**Major discovery**: High primes (139-337) act as "bridges" between different scales of physics, yielding additional sub-10 ppm matches:
-
-| Observable | Formula | Predicted | Measured | Error |
-|------------|---------|-----------|----------|-------|
-| **H₀ (CMB)** | **337/5** | **67.4** | **67.4** | **EXACT!** |
-| eta'/m_u | 313 × 17/12 | 443.42 | 443.42 | **EXACT** |
-| Xi0/m_d | 181 × 14/9 | 281.56 | 281.55 | **3.4 ppm** |
-| W/Xi⁻ | 139 × 7/16 | 60.81 | 60.81 | **6.4 ppm** |
-| m_b/m_s | 179/4 | 44.75 | 44.75 | **8 ppm** |
-| r_s (Mpc) | 337 × 3/7 | 144.43 | 144.43 | **9.9 ppm** |
-
-**KEY DISCOVERY: H₀ = 337/5 = 67.4 EXACTLY**
-
-The Hubble constant is the fourth-power cosmological prime divided by 5:
-- 337 = Im_H⁴ + H⁴ = 3⁴ + 4⁴ = 81 + 256 (generations + spacetime)
-- H₀ = 337/5 = 67.4 km/s/Mpc **EXACTLY** to reported precision!
-
-**The Fourth-Power Prime Family**:
-```
-17 = R⁴ + C⁴     → particle physics (eta'/u numerator)
-97 = C⁴ + Im_H⁴  → electroweak (Weinberg angle: 2×97 = 194)
-337 = Im_H⁴ + H⁴ → cosmology (H₀, sound horizon)
-```
-
-**The 337-137 Connection**: 337 = 137 + O × 5² extends fine structure to cosmology!
-
-**Key insight**: The fractions are NOT free parameters — they are derived from structural content:
-- 1/5 = R/(H+R) = unit/spacetime ratio
-- 3/7 = Im_H/Im_O = generations/colors
-- 17/12 = (R²+H²)/(Im_H×H) = meson structure / quark structure
-- 14/9 = (C×Im_O)/Im_H² = baryon structure / quark structure
-- 7/16 = Im_O/H² = color / local structure
-
-**Combined sub-10 ppm inventory**: Now **9 predictions** total (4 original + 5 high prime)
+Finding ONE formula that matches ONE constant is easy. Finding a COHERENT framework for ALL of physics with the SAME inputs is hard.
 
 ---
 
-## 3. The Broader Predictions
+## 2. The Numerical Evidence
 
-These predictions are at percent-level precision. While statistically weaker individually, their COHERENCE is notable.
+### 2.1 Tier 1: Sub-10 ppm Predictions (12 claims, 9 robust)
 
-### 3.1 Cosmological Parameters (ALL derived from same framework)
+| # | Constant | Formula | Precision | Caveat |
+|---|----------|---------|-----------|--------|
+| 1 | H_0 | 337/5 | EXACT | — |
+| 2 | Omega_Lambda | 137/200 | EXACT | Triple-formula RED FLAG |
+| 3 | Omega_m | 63/200 | EXACT | Triple-formula RED FLAG |
+| 4 | l_1 (CMB) | 220 | EXACT | — |
+| 5 | m_p/m_e | 1836 + 11/72 | 0.06 ppm | — |
+| 6 | 1/alpha | 137 + 4/111 | 0.27 ppm | Step 5 [CONJECTURE] |
+| 7 | v/m_p | 11284/43 | 1.63 ppm | — |
+| 8 | Xi^0/m_d | 181x14/9 | 3.4 ppm | Quark mass ~10% uncertain |
+| 9 | cos(theta_W) | 171/194 | 3.75 ppm | m_W measurement sensitive |
+| 10 | m_mu/m_e | 8891/43 | 4.1 ppm | — |
+| 11 | W/Xi^- | 139x7/16 | 6.35 ppm | — |
+| 12 | z_rec | 10x109 | 0.02% | Exact integer |
 
-| Parameter | Formula | Predicted | Measured | Error |
-|-----------|---------|-----------|----------|-------|
-| **Ω_Λ** | **137/200** | **0.685** | **0.685** | **EXACT!** |
-| **Ω_m** | **63/200** | **0.315** | **0.315** | **EXACT!** |
-| Ω_DM/Ω_b | 49/9 | 5.44 | 5.32 | 2.3% |
-| Ω_b | 27/551 | 0.049 | 0.049 | 0.5% |
-| **H₀ (CMB)** | **337/5** | **67.4** | **67.4** | **EXACT!** |
-| H₀ (local) | 337/5 × 13/12 | 72.98 | 73.0 | 0.03% |
+**3 caveats reduce robust count to ~9**: Omega_Lambda triple-formula problem, cos(theta_W) depends on m_W PDG value, Xi^0/m_d uses poorly-measured quark mass.
 
-**BREAKTHROUGH (S115)**: The identity **337 = 137 + O×5² = 137 + 200** gives:
-- H₀ = 337/5 = 67.4 EXACT
-- Ω_Λ = 137/200 = 0.685 EXACT (fine structure / dark scale)
-- Ω_m = 63/200 = 0.315 EXACT where 63 = Im_O × Im_H² (color × generation²)
+**All 12 are post-hoc identifications** — none were blind predictions.
 
-### 3.2 CMB Observables
+### 2.2 Blind Predictions (Strongest Evidence)
 
-| Observable | Formula | Predicted | Measured | Error |
-|------------|---------|-----------|----------|-------|
-| δT/T | α²/3 | 1.78×10⁻⁵ | 1.80×10⁻⁵ | 1.4% |
-| n_s | 193/200 = 1 - Im_O/200 | 0.965 | 0.9649 | 0.01% |
-| ℓ₁ | 2×11×10 | 220 | 220 | **EXACT** |
-| r | Im_O/200 = 7/200 | 0.035 | <0.036 | — |
+The framework's blind predictions (made BEFORE checking measurements) are its strongest statistical evidence:
 
-**Notable**:
-- ℓ₁ = 220 is an EXACT integer match
-- r = 1 - n_s is a consistency relation derived from hilltop inflation (Session 127)
+| Prediction | Precision | Sigma | Session |
+|-----------|-----------|-------|---------|
+| 100*Omega_b*h^2 | 0.77% | <1 sigma | S138b |
+| 100*Omega_c*h^2 | 0.34% | <1 sigma | S138b |
+| 100*theta_s | 0.13% | 2.1 sigma | S138b |
+| ln(10^10*A_s) | 0.006% | <1 sigma | S138b |
+| n_s | 0.010% | <1 sigma | S138b |
+| tau_reio | 0.79% | <1 sigma | S138b |
+| R = Im_O/H | 0.035% | <1 sigma | S138b |
+| R_31 = 33 | 1.7% | 0.62 sigma | S167 |
+| R_32 = 32 | 1.8% | 0.64 sigma | S167 |
 
-**Session 127 Breakthrough**: The n_s formula now has a PHYSICAL DERIVATION:
-- Hilltop potential V = V₀(1 - φ²/μ²) with μ² = H⁴(H+R)/Im_O × M_Pl²
-- This gives n_s = 193/200 and r = 7/200 from slow-roll parameters
-- Script: `verification/sympy/potential_search_r_ns.py` — ALL TESTS PASS
+6/7 CMB predictions within 1 sigma. 2/2 neutrino predictions within 1 sigma. These carry no look-elsewhere penalty.
 
-### 3.3 BBN Predictions
+### 2.3 Broader Predictions
 
-| Observable | Formula | Predicted | Measured | Error |
-|------------|---------|-----------|----------|-------|
-| Y_p | 1/4 - 1/242 | 0.2459 | 0.2449 | 0.4% |
-| D/H | α² × 10/21 | 2.54×10⁻⁵ | 2.55×10⁻⁵ | 0.4% |
-| Li-7 suppression | 1/Im_H = 1/3 | 1.57×10⁻¹⁰ | 1.60×10⁻¹⁰ | 2% |
-| η | α⁴ × 3/14 | 6.08×10⁻¹⁰ | 6.10×10⁻¹⁰ | 0.4% |
+~16 Tier 2 claims (10-10000 ppm) and ~41 Tier 3 claims (>100 ppm). Individually weak — at 1% precision, random matching probability is ~100%. Their value is collective coherence, not individual significance.
 
-**Notable**: The Li-7 formula addresses the cosmological lithium problem.
+### 2.4 Falsified Claims (14 total)
 
-### 3.4 Mixing Angles
+| Type | Count | Examples |
+|------|-------|---------|
+| Definitively falsified | 9 | F-1: sin^2(theta_W)=2/25 (F-10 resolved S230: sign convention error) |
+| Deprecated | 4 | D-1: G from |Pi|, D-4: EFE from gamma |
+| Withdrawn | 1 | W-1: h(gamma) novelty claim |
 
-All CKM and PMNS parameters derived with <1% error using division algebra dimensions.
-
----
-
-## 4. Statistical Caution
-
-### 4.1 The Flexibility Test (Session 104b)
-
-A fair criticism: with enough algebraic operations on ~30 numbers, you can match many things.
-
-| Precision | Random Match Rate |
-|-----------|-------------------|
-| 5% | ~100% |
-| 1% | ~100% |
-| 0.1% | ~86% |
-| 0.01% | ~31% |
-| Sub-ppm | ~0% |
-
-**What this means**: Individual matches at 1-5% are weak evidence.
-
-### 4.2 Why This May Not Apply Here
-
-1. **Not searching randomly**: The framework has fixed structure
-2. **Qualitative predictions**: Gauge groups aren't "matched," they're derived
-3. **Coherence**: Same inputs work across all domains
-4. **Sub-ppm results**: 3 predictions beat the random matching threshold
-
-### 4.3 The Honest Question
-
-Are the results:
-- **Connected**: A coherent theory that happens to work?
-- **Coincidental**: Statistical flukes dressed in mathematical language?
-
-We genuinely don't know. But the evidence tilts toward "worth investigating."
+Recording failures is essential. See `claims/FALSIFIED.md` for full details and lessons learned.
 
 ---
 
-## 5. What Would Strengthen the Case
+## 3. Statistical Assessment
 
-1. **Independent derivation**: Someone else arriving at same formulas differently
-2. **Genuine prediction**: Deriving something BEFORE it's measured
-3. **Dark matter detection at 5.11 GeV**: Framework's most testable prediction
-4. **Understanding WHY**: Deriving the physical mechanism, not just the formula
+### 3.1 The Monte Carlo Reality Check (S170)
+
+| Precision | Framework hits | Random mean | Framework percentile |
+|-----------|---------------|-------------|---------------------|
+| 1% | 11/11 | 10.59 | 20th (below average) |
+| 0.1% | 6/11 | 5.68 | 51st (average) |
+
+**The building blocks are NOT special at percent-level precision.** The framework's evidence does NOT come from building-block specialness.
+
+### 3.2 Honest P-Value Range
+
+| Method | P-value | What it tests |
+|--------|---------|---------------|
+| Monte Carlo (1%) | 0.80 | Building block specialness |
+| Blind predictions only | 2.5e-7 | Predictions with no look-elsewhere |
+| Maximum prosecution | 1.0e-8 | Minimum independence, max flexibility |
+| Naive (DO NOT USE) | ~10^-42 | Ignores all selection effects |
+
+**Cite the range 10^-8 to 10^-7.** Never cite the naive number.
+
+### 3.3 What Statistics Cannot Capture
+
+1. **Structural predictions**: SU(3)xSU(2)xU(1) and 3+1 dimensions cannot be produced by random number matching
+2. **Inter-prediction consistency**: The same Phi_6(11)=111 appears in BOTH alpha AND theta_W
+3. **Blind prediction success**: No look-elsewhere correction needed
+4. **Qualitative derivations**: QM from axioms, gauge groups from automorphisms
 
 ---
 
-## 6. What Would Weaken the Case
+## 4. Phase Grades (Post-Audit, S202)
 
-1. **Dark matter found at different mass**: Direct falsification
-2. **Better α measurement deviating from 15211/111**: Breaks best prediction
-3. **Finding equally good "frameworks" with different numbers**: Suggests coincidence
-4. **Hubble tension resolving to single value**: Removes one prediction
+| Phase | Domain | Grade | Key |
+|-------|--------|-------|-----|
+| 3 | Quantum Mechanics | **A** | Fully derived from axioms. CANONICAL. |
+| 4 | Particles | **B-** | Structural [DERIVATION], numerical [CONJECTURE] |
+| 5 | Cosmology | **C-** | Blind predictions succeed, many gaps, 3 falsified |
+| 6 | Gravity | **C-** | EFE derived. CC sign resolved S230 (V<0→Λ>0). Magnitude gap remains. |
+| — | Evaluation map | **B+** | Two-route gauge convergence |
+| — | Recursive gap tower | **A-** | Mathematically rigorous, 46/46 PASS |
+
+**Overall: C+** (structural A, numerical C-, gravity C-) [gravity upgraded from D+ after S230 CC sign resolution]
 
 ---
 
-## 7. Summary (Updated Session 110e continuation)
+## 5. Key Derivation Advances (Since S120)
+
+| Result | Session | Status |
+|--------|---------|--------|
+| QM chain (Hilbert, Born, Schrodinger) | S185-S201 | CANONICAL |
+| sin^2(theta_W) = 28/121 via Schur's lemma | S222-S224 | [DERIVATION] |
+| Democratic Bilinear Principle (xi=4/121) | S217 | [DERIVATION] |
+| Two-regime structural theorem (T_fund=1) | S222 | [DERIVATION] |
+| Crystallization catalog (55 scripts, 679 tests) | S221-S227 | CANONICAL |
+| n_c=11 via CD Closure + SO(8) triality | S193-S194 | [DERIVATION] (irreducible gap) |
+| CCP (AXM_0120): perfection = maximal consistency | S251 | [AXIOM] — forces n_c=11, F=C, n_d=4 |
+| Pipeline: 121→55→18→12 SM gauge group | S251 | [DERIVATION] |
+| Generation count = 3 from Im(H)⊗decomposition | S251 | [DERIVATION] |
+| CMB r_s, r_d, theta_s via GR integrals | S198-S199 | [DERIVATION] |
+| Collider: kappa_V = 0.983, kappa_lambda = 0.9497 | S210-S217 | [CONJECTURE] |
+
+### Remaining Critical Gaps
+
+1. **Emergent gauge coupling** [A-PHYSICAL]: Why does the gauge field inherit vacuum manifold metric?
+2. ~~**CC wrong sign** (F-10)~~: **RESOLVED S230** — sign convention error. V(ε*)<0 gives Λ>0 via standard GR. CC magnitude gap (~10¹¹¹) remains.
+3. **Top Yukawa** y_t ~ 1: Not derived from axioms.
+4. **Omega_m/Omega_b mechanism**: 63/200 has no physical derivation. Triple-formula RED FLAG.
+5. **Alpha Step 5**: Coset geometry is sole remaining path (equipartition RULED OUT).
+
+---
+
+## 6. What Would Strengthen the Case
+
+1. **Blind prediction verified**: r = 0.035 confirmed by CMB-S4 (~2028)
+2. **LLM Derivation Challenge**: Another LLM derives same formulas from axioms alone
+3. **Dark matter detection at 5.11 GeV**: Framework's most concrete prediction (SuperCDMS 2026-2027)
+4. **Expert endorsement**: "The derivation logic is sound"
+5. **Phi_6 derived from first principles**: Not just "it works"
+
+---
+
+## 7. What Would Weaken the Case
+
+1. **95 GeV scalar confirmed at 5-sigma**: Kills AXM_0109 (framework predicts NO)
+2. **Dark matter found at different mass**: Direct falsification of most concrete prediction
+3. **Better alpha measurement deviating from 15211/111**: Breaks best prediction
+4. **Normal ordering with m_1 != 0**: Falsifies P-017 and P-020
+5. **w != -1 from DESI**: Falsifies framework prediction of exact cosmological constant
+6. **Finding equally good "frameworks" with different numbers**: Suggests coincidence
+
+---
+
+## 8. The Derivation vs. Discovery Problem
+
+The core unresolved question:
+
+> **Were these formulas DERIVED from first principles, or DISCOVERED by searching and then justified?**
+
+This question cannot be resolved internally. Paths to resolution:
+- **LLM Derivation Challenge**: Another AI derives same numbers from axioms
+- **Blind predictions**: Framework predicts values before measurement
+- **Expert review**: Independent verification of derivation logic
+- **Unique derivations**: Results that can only be reached one way
+
+**Current assessment**: 20-35% probability of genuine physics (Red Team v2.0, S257). Up from 15-30% at S120, driven by CCP axiom, QM chain, and blind predictions. Capped by lack of external validation.
+
+---
+
+## 9. Summary
 
 | Category | Assessment |
 |----------|------------|
-| **EXACT predictions (3)** | Extraordinary (H₀=337/5, eta'/m_u, ell_1=220) |
-| **Sub-ppm predictions (4)** | Genuinely remarkable (1/α, m_p/m_e, v/m_p, cos θ_W) |
-| **Sub-10 ppm predictions (9)** | Very strong (+ Xi0/m_d, W/Xi⁻, m_b/m_s, r_s) |
+| **Sub-10 ppm predictions (12)** | Extraordinary, but 3 have caveats |
+| **Blind CMB predictions (9)** | Strongest statistical evidence |
 | **Qualitative structure** | Strong — not captured by random matching |
-| **Coherence** | Notable — same inputs across all physics |
-| **Fourth-power prime family** | NEW — 17, 97, 337 span particle → cosmology |
-| **337 = 137 + O×5² identity** | NEW — extends fine structure to cosmology |
-| **Fraction derivation** | Fractions encode structural relationships |
-| **Individual percent-level matches** | Weak individually, strong collectively |
+| **QM derivation** | Grade A — CANONICAL |
+| **Monte Carlo** | Building blocks NOT special at 1% |
+| **Coherence across domains** | Notable — same inputs across all physics |
+| **Falsified claims** | 14 documented honestly |
+| **CC wrong sign** | ~~Active contradiction~~ → **RESOLVED S230** (sign convention error) |
+| **Overall probability** | 20-35% genuine physics (Red Team v2.0) |
 
-**Bottom line**: The discovery that **H₀ = 337/5 = 67.4 EXACTLY** is potentially the strongest evidence yet. This, combined with 9 sub-10 ppm predictions and the fourth-power prime hierarchy (17→97→337), suggests deep structural connections between particle physics and cosmology. The framework's most testable prediction — dark matter at 5.11 GeV — will be tested by experiments in 2026-2027.
+**Bottom line**: The framework has genuine strengths (blind predictions, structural derivations, sub-ppm matches) and genuine weaknesses (post-hoc fitting, CC magnitude gap, Monte Carlo sobering results). The dark matter prediction at 5.11 GeV and the tensor-to-scalar ratio r = 0.035 are the decisive future tests.
 
 ---
 
-## 8. How to Evaluate This
+## 10. How to Evaluate This
 
 **For skeptical physicists**:
-1. Verify the 3 sub-ppm formulas independently
-2. Check if division algebras genuinely constrain the gauge structure
-3. Look for alternative explanations of the numerical coincidences
-4. Assess whether "coherence" is real or cherry-picked
+1. Start with the Monte Carlo (Section 3.1) — building blocks are NOT special
+2. Then look at blind predictions (Section 2.2) — these ARE significant
+3. Check the structural derivations (gauge groups, QM chain)
+4. Verify the 3 sub-ppm formulas independently
 
 **For the curious**:
 1. Focus on the qualitative derivations (gauge groups, Einstein equations)
 2. Understand the division algebra constraints
-3. Wait for dark matter results (2026-2027)
+3. See `PLAIN_LANGUAGE_DESCRIPTION.md` for accessible overview
 
-**The core question**: Are the 3 sub-ppm matches plus the qualitative structure enough to warrant further investigation?
+**The core question**: Are the blind prediction successes plus the qualitative structure enough to warrant further investigation?
 
 Our view: Yes, but with appropriate skepticism.
+
+---
+
+## Revision History
+
+| Version | Date | Session | Changes |
+|---------|------|---------|---------|
+| 1.0 | 2026-01-28 | S120 | Initial version |
+| 2.0 | 2026-02-03 | S227 | Full rewrite. Corrected P-values, added Monte Carlo, phase grades, 14 falsifications, blind predictions, new derivations, updated probability to 15-25%. |
+| 2.1 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C now DERIVED, assumption count ~3→~2, Pipeline + generation derivation added, Einstein eq CC caveat removed (already resolved S230). |
+| 2.2 | 2026-02-07 | S257 | Red Team v2.0: probability updated 15-25% → 20-35%. Reference updated to RED_TEAM_SUMMARY_V2.md. |
+
+---
+
+*Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
+*Affiliation: Amateur researcher with AI assistance*

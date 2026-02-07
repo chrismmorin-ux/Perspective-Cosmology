@@ -169,6 +169,122 @@ The mechanism would be **FALSIFIED** if:
 
 ---
 
+## Proposed Revision: Crystallization Norm Hypothesis (CNH)
+
+**Proposed**: Session 244 (discovery), Session 246 (formalization)
+**Status**: [CONJECTURE] with strong mathematical support — see `gaussian_norm_unification.py` (17/17 PASS), `cnh_deep_investigation.py` (22/22 PASS)
+**Effect**: If adopted, REPLACES the current AXM_0118 statement with a deeper principle
+
+### CNH Statement (Layer 0/1)
+
+**R2' (Crystallization Norm Hypothesis)**
+
+Crystallization dynamics (AXM_0117) operate through the norm form of C — the simplest non-trivial division algebra:
+
+```
+The Gaussian norm N: Z[i] → Z≥0 defined by N(a + bi) = a² + b²
+is the canonical crystallization measure.
+
+A configuration with integer multiplicity n is:
+  CRYSTALLIZATION-COMPATIBLE   if n is a Gaussian norm (n = a² + b², a,b ∈ Z)
+  CRYSTALLIZATION-INCOMPATIBLE if n is NOT a Gaussian norm
+
+Crystallization dynamics (gradient flow on F[ε]) drive:
+  incompatible → compatible  (FAVORED: releases crystallization energy)
+  compatible → incompatible  (SUPPRESSED: costs crystallization energy)
+```
+
+### Why C is canonical [THEOREM]
+
+C is the UNIQUE division algebra whose norm provides non-trivial discriminating power:
+
+| Algebra | Norm form | Norms among Z>0 | Discrimination |
+|---------|-----------|------------------|----------------|
+| R | N(a) = a² | Perfect squares only | Too restrictive (almost nothing is a norm) |
+| **C** | **N(a+bi) = a²+b²** | **Sums of two squares** | **Non-trivial partition of primes** |
+| H | N(a+bi+cj+dk) = a²+b²+c²+d² | ALL positive integers (Lagrange) | No discrimination |
+| O | Same as H (uses 4 of 8 components) | ALL positive integers | No discrimination |
+
+### Consequences
+
+**Consequence 1**: AXM_0118 (current statement) is DERIVED.
+
+The framework primes (p = a²+b² with a,b ∈ D_framework) are Gaussian norm primes [THEOREM]. By Fermat: a prime p is a Gaussian norm iff p = 2 or p ≡ 1 (mod 4). All 10 framework primes satisfy this. The CNH explains WHY sums of squares appear — it's the C-norm.
+
+**Consequence 2**: Framework dimension split is DERIVED.
+
+```
+Gaussian norms ∩ D_framework = {1, 2, 4, 8} = division algebra dimensions
+Non-norms ∩ D_framework     = {3, 7, 11}   = imaginary dims + n_c
+```
+
+This is forced by number theory: dim(A) = 2^k is always a norm (N((1+i)^k) = 2^k). Im(A) = 2^k-1 ≡ 3 (mod 4) for k≥2, hence inert when prime.
+
+**Consequence 3**: Li-7 suppression factor 1/3 is DERIVED [DERIVATION, S246].
+
+Define Crystallization Compatibility Factor for nucleus (A, Z, N):
+```
+CCF(X) = #{x ∈ {A, Z, N} : x is a Gaussian norm} / 3
+```
+
+Li-7 (A=7, Z=3, N=4): only N=4 is a norm → CCF = 1/3
+He-4 (A=4, Z=2, N=2): all three are norms → CCF = 1
+Suppression = CCF(Li-7)/CCF(He-4) = 1/3 ✓
+
+Alternative: via ideal counting a(n) = Σ_{d|n} χ₄(d):
+CPC(Li-7)/CPC(He-4) = (0+0+1)/(1+1+1) = 1/3 ✓
+
+**Consequence 4**: Bridge pattern in framework primes [DERIVATION, S246].
+
+Framework primes split into:
+- **Bridge primes** {13,53,73,113,137}: one norm + one non-norm component → encode cross-sector physics
+- **Pure-norm primes** {2,5,17}: both norm components (associative dims only) → encode within-sector physics
+
+### New predictions
+
+| Nucleus | CCF | Prediction | Testable? |
+|---------|-----|------------|-----------|
+| Li-6 | 0 | Maximally suppressed (all non-norms) | Qualitatively consistent with ~10^-14 |
+| B-11 | 1/3 | Same suppression as Li-7 | Would need BBN boron measurements |
+| He-3 | 2/3 | Mild suppression (1 non-norm) | Large observational uncertainties |
+| Be-9 | 1 | No suppression | Consistent (stable isotope) |
+
+### Open questions for CNH
+
+1. **CCF denominator**: Why 3? It's the number of nuclear quantum numbers {A,Z,N}. The coincidence 3 = Im(H) may be structural or accidental.
+2. **Quantitative meaning of CCF = 0**: Does CCF = 0 (Li-6, C-12) mean "forbidden" or "maximally suppressed"? Li-6 exists at ~10^-14, not zero.
+3. **Scale of suppression**: CCF gives the FACTOR but not the absolute RATE. The mechanism for how CNH modifies BBN reaction rates is not specified.
+4. **Norm vs non-norm in denominators**: The pattern (non-norm primes in denominators, norm primes in numerators) is observed in several formulas. Is this a consequence of the CNH, or a separate principle?
+
+### Adoption status
+
+**Status**: ACCEPTED as [CONJECTURE] (S249/S250)
+
+The CNH is accepted as a [CONJECTURE] with strong mathematical support but without independent prediction confirmation:
+
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| #1: Mathematical support | ✅ MET | 141/141 tests PASS (6 scripts, S244-S250) |
+| #2: Subsumes AXM_0118 | ✅ MET | All framework primes are Gaussian norm primes |
+| #3: Explains Li-7 | ✅ MET | Factor 1/3 derived via CCF |
+| #4: Independent prediction | ❌ BLOCKED | He-3/B-11/Li-6 observationally inaccessible; no alternate paths (S249) |
+| #5: CCF denominator | ✅ MET | Multiplicative vs additive independence forces 3 (S248) |
+
+**Why accepted as [CONJECTURE] rather than waiting**:
+- Criterion #4 has no viable path — all observational tests are blocked
+- S249 exhaustively searched alternate predictions (nuclear stability r=-0.15, magic numbers fail, CNO no pattern, particle QNs trivial)
+- Im(H) = 3 connection is an IRREDUCIBLE GAP requiring [I-PHYSICS] input
+- Mathematical exploration of extensions ongoing in parallel session (S250+)
+
+**Organizational insight (S250)**: The CNH classifies framework sectors:
+- Gravity (n_d=4): NORM sector
+- Color (N_c=3): NON-NORM sector
+- EW/EM (mixed): BRIDGE sector
+
+This is genuine organizational insight but NOT predictive power.
+
+---
+
 ## Cross-References
 
 - [framework/investigations/prime_attractor_selection_mechanism.md] — Full mechanism
@@ -178,3 +294,10 @@ The mechanism would be **FALSIFIED** if:
 - [core/theorems/THM_0487_so11_breaking_chain.md] — n_c = 11 derivation context
 - [core/theorems/THM_0488_denominator_unification.md] — Denominator polynomials
 - [verification/sympy/sum_of_squares_prime_catalog.py] — Complete catalog verification
+- [verification/sympy/gaussian_norm_unification.py] — CNH proof (17/17 PASS, S244)
+- [verification/sympy/cnh_deep_investigation.py] — CNH deep investigation (22/22 PASS, S246)
+- [verification/sympy/cnh_phase2_denominator.py] — CCF denominator (26/26 PASS, S248)
+- [verification/sympy/cnh_phase3_predictions.py] — Alternate prediction paths (28/28 PASS, S249)
+- [verification/sympy/cnh_imh_derivation.py] — Im(H) connection analysis (12/12 PASS, S249)
+- [verification/sympy/cnh_particle_physics.py] — Particle physics extension (16/16 PASS, S249)
+- [verification/sympy/cnh_catalog_classification.py] — Catalog norm classification (20/20 PASS, S250)

@@ -301,7 +301,7 @@ For ratio = 5:1, need f ≈ 0.3
 
 | Step | Assumption | Status |
 |------|------------|--------|
-| 1 | n_c = 11 | [A-IMPORT] from M-theory |
+| 1 | n_c = 11 | [D: CCP (AXM_0120) → n_c=11] *(was [A-IMPORT]; resolved S251)* |
 | 2 | Pairwise characterization | [A-STRUCTURAL] plausible |
 | 3 | N_int = n_d² + n_c² | [D] from generator counting |
 | 4 | Independence of pairs | [A-STRUCTURAL] from orthogonality |
@@ -428,9 +428,7 @@ See: `verification/sympy/dark_sections_pi_formula.py` (to be created)
    - Discrete: v_i ∈ {0, 1} (binary visible/hidden)
    - Which does the framework predict?
 
-4. **Can we derive n_d = 4 and n_c = 11 from axioms?**
-   - Currently imported
-   - Stability argument? Topological constraint?
+4. ~~**Can we derive n_d = 4 and n_c = 11 from axioms?**~~ **RESOLVED (S251)**: CCP (AXM_0120) forces n_c=11 (maximal consistent imaginary structure) and n_d=4 (largest associative division algebra). No longer imported.
 
 ---
 

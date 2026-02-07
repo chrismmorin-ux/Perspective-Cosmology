@@ -75,14 +75,14 @@ Alpha = 1 / (interface degrees of freedom)
 
 | Import | Value | Source | Tag |
 |--------|-------|--------|-----|
-| n_d (defect) | 4 | Observation (spacetime) | [A-IMPORT] |
-| n_c (crystal) | 11 | M-theory | [A-IMPORT] |
+| n_d (defect) | 4 | Division algebras (Frobenius) | [D: CCP → n_d=4] (was [A-IMPORT]; resolved S251 via AXM_0120) |
+| n_c (crystal) | 11 | 1+3+7 imaginary dims | [D: CCP → n_c=11] (was [A-IMPORT]; resolved S251 via AXM_0120) |
 | alpha_measured | 1/137.035999 | QED measurements | [A-IMPORT] |
 
 ### Confidence Assessment
 
 **[CONJECTURE]** - The connection is mathematically consistent and computationally verified, but:
-- n_d = 4 and n_c = 11 are imported, not derived
+- ~~n_d = 4 and n_c = 11 are imported, not derived~~ **RESOLVED (S251)**: Both derived from CCP (AXM_0120)
 - Why EM coupling specifically (not weak/strong) is unexplained
 - Other couplings don't obviously fit the same pattern
 
@@ -283,10 +283,10 @@ Complex Hermitian n x n matrix has n^2 parameters, giving the correct formula.
 The Layer 0 axiom C1 allows F = R or C. The alpha formula **requires F = C**:
 
 ```
-[A-STRUCTURAL] The field over V_Crystal must be C (not R) for alpha = 1/137
+[D: CCP (AXM_0120)] The field over V_Crystal must be C (not R) for alpha = 1/137
 ```
 
-This is not derived from first principles but is selected by matching observation.
+~~This is not derived from first principles but is selected by matching observation.~~ **RESOLVED (S251)**: F = C is derived from the Consistency-Completeness Principle (AXM_0120). CCP forces maximal consistent algebraic structure; among commutative division algebras, only C has antisymmetric structure needed for time direction. See `core/axioms/AXM_0120_completeness_principle.md`.
 
 ---
 
@@ -316,8 +316,12 @@ If defect and crystal shared a common embedding:
 
 The correct formula requires **orthogonal (additive)** structures:
 ```
-[A-STRUCTURAL] Defect and crystal contribute independent tilt parameters
+[DERIVED from CCP + Radon-Hurwitz (CONJ-A3, S258)]
+Defect and crystal contribute independent tilt parameters
 Total = sum, not product or combined
+Proof: complement dim 7 is odd -> rho(7)=1 < 4 -> no [4,7,7]-composition
+-> cross-terms vanish -> algebraic independence forced
+See: verification/sympy/conj_a3_algebraic_incompatibility.py (27/27 PASS)
 ```
 
 ### Variance Analogy
@@ -464,14 +468,14 @@ print("[OK] All verifications passed")
     |
 [DEFINITION] Tilt matrix: epsilon_ij = <pi(b_i), pi(b_j)> - delta_ij
     |
-[A-STRUCTURAL] Inner product symmetry: <u, v> = <v, u>*
+[D: CCP → F=C] Inner product sesquilinearity: <u, v> = <v, u>* (follows from F = C, derived via AXM_0120)
     |
 [THEOREM] epsilon is Hermitian: epsilon_ij = epsilon_ji*
     |
 [THEOREM] dim(Hermitian n x n) = n^2 (over R)
     |
-[A-IMPORT] n_d = 4 (observed spacetime dimensions)
-[A-IMPORT] n_c = 11 (M-theory total dimensions)
+[D: CCP] n_d = 4 (from AXM_0120: max associative division algebra = H, dim 4)
+[D: CCP] n_c = 11 (from AXM_0120: 1+3+7 imaginary dimensions of C+H+O)
     |
 [DERIVED] Interface DoF = n_d^2 + n_c^2 = 16 + 121 = 137
     |
@@ -482,13 +486,13 @@ print("[OK] All verifications passed")
 [VERIFIED] Error = 0.026% from measured alpha
 ```
 
-### Import Dependencies
+### Import Dependencies (Updated S253)
 
-| Import | Required For | Alternative |
-|--------|--------------|-------------|
-| n_d = 4 | Defect dimension | Could derive from stability? |
-| n_c = 11 | Crystal dimension | Could derive from M-theory axioms? |
-| F = C | Hermitian structure | Selected by observation |
+| Import | Required For | Status |
+|--------|--------------|--------|
+| n_d = 4 | Defect dimension | **[D: CCP]** — derived from AXM_0120 (max associative div algebra) |
+| n_c = 11 | Crystal dimension | **[D: CCP]** — derived from AXM_0120 (1+3+7 imaginary dims) |
+| F = C | Hermitian structure | **[D: CCP]** — derived from AXM_0120 (maximal commutative div algebra with antisymmetry) |
 
 ---
 
@@ -533,10 +537,10 @@ G_ij = delta_ij + epsilon_ij ~ exp(epsilon) for small epsilon
 
 ### Critical (Must Resolve)
 
-1. **Why n_d = 4, n_c = 11?**
-   - Currently imported from observation/M-theory
-   - Can they be derived from stability or consistency?
-   - What principle selects these specific dimensions?
+1. ~~**Why n_d = 4, n_c = 11?**~~ **RESOLVED (S251)**
+   - ~~Currently imported from observation/M-theory~~ Derived from CCP (AXM_0120)
+   - CCP forces maximal consistent algebraic structure → division algebras R,C,H,O
+   - n_d = dim(H) = 4 (max associative), n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11
 
 2. **Why EM coupling specifically?**
    - Why does this formula give electromagnetic coupling?
@@ -566,9 +570,9 @@ G_ij = delta_ij + epsilon_ij ~ exp(epsilon) for small epsilon
 
 ### Exploratory
 
-7. **Derive F = C requirement**
-   - Why must the field be complex?
-   - Is this related to phase structure in QM?
+7. ~~**Derive F = C requirement**~~ **RESOLVED (S251)**
+   - CCP (AXM_0120) forces F = C: maximal commutative division algebra with antisymmetric structure
+   - Also derived via THM_0485 (from time direction axiom T1)
 
 8. **Connection to asymptotic safety**
    - UV fixed points and dimensional flow

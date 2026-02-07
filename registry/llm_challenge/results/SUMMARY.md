@@ -1,7 +1,7 @@
 # LLM Derivation Challenge — Results Summary
 
 **Created**: Session 128
-**Last Updated**: Session 135 (Test 4 added 2026-01-30)
+**Last Updated**: Session 257 (V2 Test 1 added 2026-02-07)
 
 ---
 
@@ -13,6 +13,14 @@
 | 2 | ChatGPT GPT-4o | V1 | 3 | 4 | 25 | INTERESTING FAILURE |
 | 3 | Google Gemini | V1 | 4 | 11 | 137 | FULL SUCCESS |
 | 4 | ChatGPT GPT-4o | V1-tight | 4 | 11 | 137 | FULL SUCCESS |
+
+### V2 Challenge (S257, expanded scope with CCP)
+
+| Test | Model | Variant | Structural (Q1-5) | Algebraic (Q6-8) | Numerical (Q9) | Reps (Q10) | Outcome |
+|------|-------|---------|--------------------|-------------------|-----------------|------------|---------|
+| V2-1 | Claude (fresh) | V2-CCP | 5/5 PASS | 2 PASS + 1 PARTIAL | 3/3 PASS (guided) | 3/3 PASS | PARTIAL SUCCESS (15/18) |
+
+**V2 notes**: 10 questions (vs 3 in V1). CCP axiom included. Q8 partial: got U(1)xSO(3)xG_2 instead of full SM reduction. Q9 was guided (formula structures given). See `v2_test1_external.md` for details.
 
 **Per-test details**: See individual files in this directory.
 

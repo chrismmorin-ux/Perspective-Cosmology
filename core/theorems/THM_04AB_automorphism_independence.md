@@ -88,7 +88,7 @@ Moufang helper function; g_2 computation is independent and correct)
 8. Therefore W_C, W_H, W_O are mutually orthogonal:
    dim(V) >= 1 + 3 + 7 = 11.
 
-9. With minimality [A-STRUCTURAL]: n_c = 11. QED.
+9. With minimality [DERIVED from CCP (AXM_0120, S251)]: CCP-3 (no redundancy) forces the direct sum Im(C) ⊕ Im(H) ⊕ Im(O), giving n_c = 11. QED.
 
 ## Assumptions (Exhaustive)
 

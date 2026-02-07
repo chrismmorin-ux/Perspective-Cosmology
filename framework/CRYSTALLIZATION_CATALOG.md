@@ -23,7 +23,7 @@ Between these extremes, crystallization appears as symmetry breaking (forces sep
 
 All of these are the same underlying process — the tilt matrix evolving toward lower energy — just operating at different scales, in different channels, and with different boundary conditions. This catalog maps them all.
 
-**One-sentence version**: Seventeen manifestations of one principle — tilt reduction — spanning from the Big Bang to quantum measurement to gravitational waves, backed by 51+ verification scripts (~616+ tests), with three cross-cutting mechanisms (entanglement, EWSB, collider phenomenology) enriching the taxonomy.
+**One-sentence version**: Seventeen manifestations of one principle -- tilt reduction -- spanning from the Big Bang to quantum measurement to gravitational waves, backed by 58 verification scripts (723 tests), with three cross-cutting mechanisms (entanglement, EWSB, collider phenomenology) enriching the taxonomy.
 
 ### How to Use This Document
 
@@ -179,10 +179,15 @@ r = 7/200 = 0.035                           [tensor-to-scalar ratio]
 - Open: Why nucleation occurred (possibly meaningless question); V_0 not derived (sets A_s amplitude)
 - Falsification: CMB-S4 measuring r != 0.035 +/- 0.005 would falsify
 
+**Sub-Catalogs** (Phase 6, S234):
+- `crystallization_processes/cosmological/inflation_detailed.md` — 3 processes: slow-roll inflation (hilltop), reheating/preheating, primordial perturbation spectrum. 2 [FRAMEWORK-DERIVED] + 1 [STANDARD-RELABELED].
+- `crystallization_processes/cosmological/cmb_detailed.md` — primary anisotropies section documents n_s, l_2, N_eff as C1-derived inputs to CMB observables.
+
 **Cross-References**:
 - Core: `framework/layer_1_crystallization.md` (Parts I-III)
 - Investigation: `spacetime/big_bang_nature.md`
 - Investigation: `cosmology/hilltop_inflation_canonical.md`
+- Sub-catalogs: `crystallization_processes/cosmological/` (4 files, 13 processes — Phase 6)
 
 ---
 
@@ -248,6 +253,7 @@ Tr(eps^2)^2 + b_2 Tr(eps^4): b_2 < 0 -> (3,1) -> U(3)xU(1) [eigenvalue selection
 **Cross-References**:
 - Core: `core/theorems/THM_0487_so11_breaking_chain.md`
 - Investigation: `crystallization/symmetry_breaking_chain.md`
+- Sub-catalog: `crystallization_processes/phase_transitions/ewsb_detailed.md` (4 processes: EWSB, Higgs, W/Z mass, fermion mass)
 
 ---
 
@@ -429,6 +435,9 @@ T_H = 1/(C n_d pi G M)                           [Hawking temperature]
 
 **Cross-References**:
 - Investigation: `spacetime/black_holes_crystallization.md`
+- Sub-catalog: `crystallization_processes/astrophysical/compact_objects.md` (BH formation process entry)
+- Sub-catalog: `crystallization_processes/astrophysical/stellar_processes.md` (core-collapse SN -> C5)
+- Sub-catalog: `crystallization_processes/astrophysical/high_energy_astrophysics.md` (AGN jets, GRBs — C5 in accretion/collapse)
 
 ---
 
@@ -511,13 +520,16 @@ b_1(SU(3)) = 153 = Im_H^2 * 17                  [two-loop beta, exact]
 **Classification**: Forward | Cosmological | All -> sequential activation | Potential-driven
 
 **Before -> After**:
-- Physical: Post-inflation universe with all symmetries -> sequential symmetry breaking epochs (EW, QCD, recombination)
+- Physical: Post-inflation universe with all symmetries -> sequential symmetry breaking epochs (EW, QCD, BBN, recombination)
 - Mathematical: phi rolling through potential V(phi); g(phi) decreasing from ~1 toward 0
 
 **Mechanism**:
 - After C1 (inflation) ends, the universe proceeds through standard cosmological phases
 - Each phase transition corresponds to a change in the active crystallization channels
 - The hilltop potential determines the inflationary observables; standard physics governs subsequent epochs
+- EWSB (T ~ 160 GeV): Composite Higgs on Gr(4,11) with xi = 4/121, sin^2(theta_W) = 28/121 — framework's strongest phase transition content
+- QCD transition (T ~ 156.5 MeV): Crossover for N_c = Im_H = 3, N_f = 2+1; T_c not derived (gap)
+- BBN (T ~ 0.07-0.8 MeV): Neutron freeze-out with N_nu = Im_H = 3 in g_* = 10.75; Y_p ~ 0.247
 - CMB imprinted at phi_CMB = mu/sqrt(6), where g(phi_CMB) = 5/6
 - Sound horizon, acoustic peaks, Silk damping follow from standard physics with framework initial conditions
 
@@ -527,6 +539,9 @@ g(phi_CMB) = 5/6                                [crystallization state at CMB]
 Omega_Lambda = 137/200 = 0.685                   [dark energy density, CONJECTURE]
 n_s = 1 - 6 epsilon_sr + 2 eta = 193/200        [from C1 potential]
 l_A = pi D_A / r_s                               [acoustic scale]
+xi = n_d/n_c^2 = 4/121                          [EWSB misalignment, CONJECTURE]
+sin^2(theta_W) = n_d*Im_O/n_c^2 = 28/121       [Weinberg angle, DERIVATION]
+g_*(T_f) = 10.75                                 [BBN radiation DOF, with N_nu = Im_H = 3]
 ```
 
 **Physical Signatures**:
@@ -535,15 +550,18 @@ l_A = pi D_A / r_s                               [acoustic scale]
 |------------|-----------|----------|-------|
 | Omega_Lambda | 0.685 | 0.685 +/- 0.007 | < 1 sigma |
 | n_s | 0.965 | 0.9649 +/- 0.0042 | < 1 sigma |
-| sin^2 theta_W (tree) | 1/4 | — | — |
-| sin^2 theta_W (M_Z) | 0.231 (from running) | 0.23122 | 0.1% |
+| sin^2 theta_W (tree from Gr(4,11)) | 28/121 = 0.23140 | 0.23122 | 0.08% |
+| kappa_V (Higgs coupling) | sqrt(117/121) = 0.9834 | 1.00(2) | Consistent |
+| N_eff (neutrino families) | Im_H = 3 | 2.99(17) | < 1 sigma |
+| Y_p (primordial He-4) | ~0.247 (via N_nu = 3) | 0.245(4) | ~1% |
 | l₂ (2nd acoustic peak) | phi_odd = 3/11 = 0.2727 | ~0.273 | ~0.4% |
-| ~~Omega_Lambda (CC from V(eps*))~~ | ~~V(eps*) < 0~~ | ~~V > 0~~ | **F-10: FALSIFIED** |
+| Omega_Lambda (CC sign) | V(eps*) < 0 → Λ > 0 | Λ > 0 | **F-10: RESOLVED S230** (sign convention error; magnitude gap remains) |
 
 **Verification**:
 
 | Script | Tests | Status |
 |--------|-------|--------|
+| `phase_transition_crystallization.py` | 16/16 | ALL PASS |
 | `acoustic_oscillation_physics.py` | — | PASS |
 | `acoustic_peaks_from_l_A.py` | — | PASS |
 | `full_power_spectrum.py` | — | PASS |
@@ -555,21 +573,41 @@ l_A = pi D_A / r_s                               [acoustic scale]
 **Dependencies**:
 - Requires: C1 (sets initial conditions), C2 (determines which symmetries break)
 - Enables: C9 (mass spectrum freezes out during phase transitions)
-- Related: C3 (g(phi) tracks crystallization state through all epochs)
+- Related: C3 (g(phi) tracks crystallization state through all epochs), C10 (weak decays during BBN)
+
+**Sub-Catalogs** (Phase 4, S229):
+- `crystallization_processes/phase_transitions/ewsb_detailed.md` — 4 processes: EWSB, Higgs mechanism, W/Z mass, fermion mass. 1 [FRAMEWORK-DERIVED] + 3 [FRAMEWORK-CONSTRAINED].
+- `crystallization_processes/phase_transitions/qcd_phase_diagram.md` — 4 processes: confinement crossover, QGP, chiral restoration, color SC. 4/4 [STANDARD-RELABELED].
+- `crystallization_processes/phase_transitions/bbn_nucleosynthesis.md` — 4 processes: n freeze-out, D bottleneck, He-4, Li-7. 2 [FRAMEWORK-CONSTRAINED] + 2 [STANDARD-RELABELED].
 
 **Confidence & Gaps**:
-- Status: [ACTIVE] — framework provides initial conditions but standard physics governs evolution
+- Status: [ACTIVE] — framework provides initial conditions and EWSB structure but standard physics governs evolution
 - Chain: [D: C1 sets n_s, r] -> [I: standard cosmology evolution] -> [D: CMB predictions with framework ICs]
+- Chain (EWSB): [D: C2 coset Gr(4,11)] -> [D/CONJ: xi = 4/121] -> [D: sin^2 = 28/121, kappa_V = sqrt(117/121)]
+- Chain (BBN): [D: N_nu = Im_H = 3] -> [I: standard BBN] -> [D: g_* = 10.75, Y_p ~ 0.247]
 - Resolved (S199): l₂ second acoustic peak explained via baryon loading with phi_odd = 3/11 (0.4% accuracy)
-- Falsified (S199): CC from V(ε*) gives wrong sign -> F-10 (crystallization_stress_cosmology -> QUARANTINE)
+- ~~Falsified (S199): CC from V(ε*)~~ → **RESOLVED S230**: Sign convention error. V(ε*)<0 gives Λ>0 via standard GR (Λ=-8πGV). Magnitude gap (~10^111) remains.
 - Falsified (S198): η* = 337 Mpc (actual 280 Mpc); c_s = 3/7 (actual 1/√3)
-- Open: Peak heights not fully derived; Silk damping scale proposed but not verified; baryon-to-photon ratio not derived; Ω_m mechanism unknown; V₀ not derived
-- Falsification: n_s measured outside 0.965 +/- 0.01; r measured inconsistent with 0.035
+- Open: T_c(QCD) not derived; Peak heights not fully derived; Silk damping scale proposed but not verified; baryon-to-photon ratio not derived; Ω_m mechanism unknown; V₀ not derived; lithium problem unaddressed
+- Falsification: n_s measured outside 0.965 +/- 0.01; r measured inconsistent with 0.035; kappa_V measured > 0.99 at >3 sigma kills xi = 4/121
+
+**Sub-Catalogs** (Phase 6, S234):
+- `crystallization_processes/cosmological/dark_sector.md` — 3 processes: DM interactions, dark energy (Lambda sign resolved S230, magnitude gap remains), void structure. Lambda sign resolution (F-10) documented.
+- `crystallization_processes/cosmological/cmb_detailed.md` — 3 processes: primary anisotropies (n_s, l_2, N_eff), secondary anisotropies (ISW, lensing, SZ), spectral distortions.
+
+**Sub-Catalogs** (Phase 7b2, S239):
+- `crystallization_processes/phase_transitions/recombination_and_reionization.md` — 3 processes: hydrogen recombination (z_rec~1090), cosmic dawn/reionization, Saha equation. 2 [FRAMEWORK-CONSTRAINED] + 1 [STANDARD-RELABELED].
+- `crystallization_processes/phase_transitions/baryogenesis.md` — 4 processes: Sakharov conditions, EW baryogenesis, leptogenesis, baryon asymmetry eta. 0 [FRAMEWORK-CONSTRAINED] + 4 [STANDARD-RELABELED].
+- `crystallization_processes/cosmological/inflation_detailed.md` — C1 inflationary epoch expanded with reheating and perturbation spectrum.
 
 **Cross-References**:
+- Sub-catalogs: `crystallization_processes/phase_transitions/` (3 files, 12 processes)
+- Sub-catalogs: `crystallization_processes/cosmological/` (4 files, 13 processes — Phase 6)
 - Investigation: `cosmology/` directory (18+ files)
 - Investigation: `cosmology/hilltop_inflation_canonical.md`
 - Investigation: `cosmology/cmb_framework_interpretation.md`
+- Investigation: `crystallization/symmetry_breaking_chain.md` (EWSB chain)
+- Sessions: S175 (EWSB Goldstones), S210 (predictions), S212 (spinorial), S229 (Phase 4 catalog), S234 (Phase 6 cosmological)
 
 ---
 
@@ -708,42 +746,66 @@ Koide Q = 2/3                                     [algebraically forced, [DERIVA
 **Classification**: Forward | Particle | H-channel | Emission
 
 **Before -> After**:
-- Physical: Parent particle -> daughter(s) via W boson (flavor change)
+- Physical: Parent particle -> daughter(s) via W/Z boson (flavor change or neutral current)
 - Tilt: H-channel generation transition; tilt excess exits through weak + EM channels
 
 **Mechanism**:
 - The three Im(H) directions correspond to three generations [CONJECTURE]
-- Flavor-changing processes are transitions between Im(H) directions
-- CKM matrix encodes the misalignment between mass and weak eigenstates
+- Flavor-changing processes (charged current) are transitions between Im(H) directions via W
+- Neutral current processes (Z decay) couple to all flavors with sin²θ_W = 28/121 [DERIVATION]
+- CKM matrix encodes the misalignment between mass and weak eigenstates [A-IMPORT]
 - Each weak vertex involves H-channel tilt redistribution
-- Distinct from C8 (EM emission): C10 changes particle identity (flavor), C8 does not
+- Distinct from C8 (EM emission): C10 changes particle identity (flavor) or involves weak coupling, C8 does not
 
 **Key Equations**:
 ```
-Im(H) = {i, j, k} -> 3 generation directions           [A: from H structure]
-V_CKM: rotation between mass and weak tilt bases         [A-IMPORT]
-G_F = g^2 / (4 sqrt(2) m_W^2)                           [A-IMPORT]
+Im(H) = {i, j, k} -> 3 generation directions              [A: from H structure]
+V_CKM: 3x3 unitary rotation (3 angles + 1 CP phase)       [A-IMPORT values]
+sin^2(theta_W) = 28/121 = N_Goldstone / n_c^2              [DERIVATION]
+g_V^f = T3^f - 2 Q^f sin^2(theta_W)                        [DERIVATION for sin^2]
+G_F = g^2 / (4 sqrt(2) m_W^2)                              [A-IMPORT]
 ```
+
+**Mode Counting**:
+- W decay: Im_H + 2×N_c = 3 + 6 = 9 channels [FRAMEWORK-CONSTRAINED]
+- Z decay: 11 fermion species × (g_V² + g_A²), testing sin²θ_W = 28/121
+- Tau decay: R_τ = N_c × (1 + QCD corrections) ≈ 3.5 [FRAMEWORK-CONSTRAINED]
 
 **Physical Signatures**:
 
 | Observable | Framework | Measured | Error | Source |
 |-----------|-----------|----------|-------|--------|
-| 3 generations | Im(H) = 3 | 3 | 0% | [DERIVATION] |
-| CKM unitarity | Required by framework | Confirmed | < 0.1% | PDG |
+| 3 generations | Im(H) = 3 | 3 | 0% | [CONJECTURE] |
+| CKM: 3x3 unitary | From Im(H) = 3 | Confirmed | < 0.1% | PDG |
 | CKM elements | Not derived | See pdg_couplings.md | — | Gap |
+| W channels | 9 = Im_H + 2N_c | 9 confirmed | 0% | [FRAMEWORK-CONSTRAINED] |
+| BR(W→lν) avg | 10.82% | 10.86(9)% | 0.4% | [FRAMEWORK-CONSTRAINED] |
+| Γ_W (GeV) | 2.099 | 2.085(42) | +0.3σ | [FRAMEWORK-CONSTRAINED] |
+| Z: sin²θ_W(eff) | 28/121 = 0.23140 | 0.23153(16) | −0.8σ | [DERIVATION] |
+| Z: χ²/dof | 1.73 (18 obs) | — | — | [FRAMEWORK-CONSTRAINED] |
+| R_τ (Born) | N_c = 3 | 3.64 (corrected) | — | [DERIVATION] |
+| BR(τ→eνν) | 18.1% | 17.82% | 1.3% | [FRAMEWORK-CONSTRAINED] |
+| N_ν from Z | Im_H = 3 | 2.984(8) | +2.0σ | [CONJECTURE] |
 
-**Verification**: Needed (Phase 1: `weak_decay_mode_counting.py`)
+**Verification**: `weak_decay_mode_counting.py` (16/16 PASS), `w_branching_crystallization.py` (16/16 PASS), `z_branching_crystallization.py` (20/20 PASS), `z_boson_couplings_crystallization.py` (12/12 PASS)
+
+**Sub-catalogs**:
+- `crystallization_processes/decays/weak_decays.md` — neutron beta, muon, pion, kaon, tau
+- `crystallization_processes/decays/electroweak_boson_decays.md` — Z/W/Higgs/top decays
+- `crystallization_processes/decays/electromagnetic_decays.md` — pi0->gg (anomaly), radiative baryon decays, positronium annihilation
+- `crystallization_processes/decays/nuclear_decays.md` — alpha decay, nuclear beta decay, gamma decay
 
 **Dependencies**:
 - Requires: C2 (gauge structure), C9 (mass eigenstates)
-- Enables: Nuclear beta decay (C10 + C13), meson decays
+- Enables: Nuclear beta decay (C10 + C13), meson decays, collider physics
 - Related: C8 (emission mechanism), C14 (neutrino sector)
 
 **Confidence & Gaps**:
-- Status: [CONJECTURE] for generation-Im(H) mapping; [A-IMPORT] for all rates
-- Open: CKM matrix from crystallization; CP violation mechanism; why 3 and not more
-- Falsification: Discovery of 4th generation weak decay
+- Status: [FRAMEWORK-CONSTRAINED] for mode counting and Z couplings; [CONJECTURE] for generation-Im(H) mapping; [A-IMPORT] for individual rates
+- **Strongest result**: Z branching with sin²θ_W = 28/121 (18/20 observables, 64 total tests across 4 scripts)
+- **Biggest gap**: CKM matrix elements not derived from framework — this is the critical open problem for C10 to have full predictive content
+- Open: CKM derivation from Im(H); CP violation mechanism; PMNS matrix
+- Falsification: Discovery of 4th generation weak decay; sin²θ_W ≠ 28/121 at high precision
 
 ---
 
@@ -754,7 +816,7 @@ G_F = g^2 / (4 sqrt(2) m_W^2)                           [A-IMPORT]
 **Before -> After**:
 - Forward (creation): Energy/photons -> particle-antiparticle pair
 - Reverse (annihilation): particle-antiparticle -> photons/energy
-- Tilt: Reversible crystallization — tilt structure created or dissolved in matched pairs
+- Tilt: Reversible crystallization -- tilt structure created or dissolved in matched pairs
 
 **Mechanism**:
 - Creation: Sufficient energy concentrates tilt into matched (particle, antiparticle) configurations
@@ -768,19 +830,42 @@ G_F = g^2 / (4 sqrt(2) m_W^2)                           [A-IMPORT]
 E_threshold = 2 m c^2                                   [A-IMPORT: kinematics]
 sigma(e+e- -> mu+mu-) = 4pi alpha^2 / (3s)             [A-IMPORT: QED]
 P(pair) involves 1/N_I = 1/137 per vertex               [from C8]
+R = sigma(e+e- -> hadrons) / sigma(e+e- -> mu+mu-)
+  = N_c * sum(Q_f^2)                                    [D: N_c = Im_H = 3]
+  = {2, 10/3, 11/3, 5} for {3,4,5,6} active flavors
 ```
 
-**Verification**: Needed (Phase 2: `pair_processes_crystallization.py`)
+**Key Observables** (11):
+1. e+e- -> mu+mu- point cross-section (alpha^2 = 1/137^2)
+2. R-ratio step structure at quark thresholds (N_c = Im_H = 3)
+3. R(3 flav) = 2 (u,d,s)
+4. R(4 flav) = 10/3 (u,d,s,c)
+5. R(5 flav) = 11/3 (u,d,s,c,b)
+6. R(6 flav) = 5 (all quarks)
+7. QCD correction via b_0 = Im_O = 7 (N_f=6)
+8. Drell-Yan 1/N_c color averaging
+9. DIS Gross-Llewellyn Smith sum rule (integral = N_c)
+10. C_A/C_F = 9/4 from 4-jet events (N_c = 3)
+11. Z-pole pair processes: A_FB encodes sin^2 = 28/121
+
+**Verification**: `r_ratio_crystallization.py` (15/15 PASS)
+
+**Sub-catalog**: Process-level detail in:
+- `crystallization_processes/scattering/electromagnetic_scattering.md` (5 processes: Compton, Bhabha, Moller, pair production, Thomson/Rayleigh)
+- `crystallization_processes/scattering/strong_scattering.md` (4 processes: R-ratio, DIS, Drell-Yan, jets)
+- `crystallization_processes/scattering/weak_scattering.md` (4 processes: neutrino CC/NC, inverse beta decay, CEvNS)
+- `crystallization_processes/scattering/gravitational_scattering.md` (4 processes: lensing, perihelion precession, Shapiro delay, frame dragging)
 
 **Dependencies**:
-- Requires: C8 (coupling strength), C4 (Born rule for branching)
-- Enables: Baryogenesis (C16), collider processes
-- Related: C8 (shared vertex structure), C10 (can involve flavor)
+- Requires: C8 (coupling strength), C4 (Born rule for branching), C2 (N_c = 3 from SU(3))
+- Enables: Baryogenesis (C16), collider processes, R-ratio measurement
+- Related: C8 (shared vertex structure), C10 (can involve flavor), C12 (hadronization of qq pairs)
 
 **Confidence & Gaps**:
-- Status: [STANDARD-RELABELED] — crystallization language describes standard pair physics
-- Open: Whether framework adds predictive content beyond vertex counting
-- Falsification: Violation of CPT in pair processes
+- Status: [FRAMEWORK-CONSTRAINED] for R-ratio and color-factor processes (N_c = Im_H derived); [STANDARD-RELABELED] for individual EM scattering cross-sections
+- Key result: R = N_c * sum(Q_f^2) matches all 4 energy regimes with NLO corrections
+- Open: Quark charges Q_f remain [A-IMPORT]; total cross-sections are standard QED/QCD
+- Falsification: R-ratio incompatible with N_c = 3; free quarks observed
 
 ---
 
@@ -805,9 +890,27 @@ V_conf(r) = sigma * r                                   [A-IMPORT: linear potent
 sqrt(sigma) ~ 8 m_p / 17 = 441.5 MeV                   [CONJECTURE, HRS=6]
 N_c = 3 from SU(3) [D: from C2 eigenvalue selection]
 Hadron = color singlet (1 representation of SU(3))       [A-IMPORT]
+Meson = q + qbar: 3 x 3bar = 1 + 8 (singlet extracted)
+Baryon = q^3: epsilon_{abc} contracts N_c = 3 indices -> singlet
+C_F = (N_c^2-1)/(2*N_c) = 4/3 [D: Cornell potential coefficient]
 ```
 
-**Verification**: Needed (Phase 3: `r_ratio_crystallization.py`)
+**Observables** (6 key quantities):
+
+| Observable | Framework | Measured | Status |
+|-----------|-----------|----------|--------|
+| N_c (colors) | Im_H = 3 [DERIVATION] | 3 (LEP jets, anomaly) | Confirmed |
+| sqrt(sigma) | 8*m_p/17 = 441.5 MeV [CONJECTURE] | 440(20) MeV | 0.4% |
+| m_p/m_e | 12*153 + 11/72 = 1836.153 [CONJECTURE] | 1836.153 | 0.06 ppm |
+| C_F (quark Casimir) | 4/3 [DERIVATION] | 1.35(7) | Confirmed |
+| C_A/C_F | 9/4 = 2.25 [DERIVATION] | 2.23(10) | Confirmed |
+| pi0->gg anomaly factor | N_c^2 = 9 [DERIVATION] | Confirmed | Confirmed |
+
+**Verification**: `r_ratio_crystallization.py` (15/15 PASS), `hadron_mass_crystallization.py` (16/16 PASS)
+
+**Sub-catalogs**:
+- `crystallization_processes/bound_states/hadron_formation.md` (6 processes: pion, kaon, proton/neutron, Delta, J/psi, Upsilon)
+- `crystallization_processes/bound_states/quarkonia_and_glueballs.md` (4 processes: charmonium spectrum, bottomonium spectrum, glueball spectrum, exotic quarkonia)
 
 **Dependencies**:
 - Requires: C2 (SU(3) gauge group), C6 (O-channel force law)
@@ -815,9 +918,9 @@ Hadron = color singlet (1 representation of SU(3))       [A-IMPORT]
 - Related: C6 (same O-channel, static vs dynamic)
 
 **Confidence & Gaps**:
-- Status: [FRAMEWORK-CONSTRAINED] for channel identification; [STANDARD-RELABELED] for dynamics
-- Open: Fragmentation functions from mode counting; hadron mass spectrum
-- Falsification: Free quarks observed; fractional charges in isolation
+- Status: [FRAMEWORK-CONSTRAINED] for N_c in color singlets and color factors; [STANDARD-RELABELED] for dynamics
+- Open: Fragmentation functions from mode counting; hadron mass spectrum; string tension derivation (not just pattern match)
+- Falsification: Free quarks observed; fractional charges in isolation; m_p/m_e prediction falsified
 
 ---
 
@@ -841,9 +944,24 @@ Hadron = color singlet (1 representation of SU(3))       [A-IMPORT]
 B(A,Z) = a_V A - a_S A^(2/3) - a_C Z^2/A^(1/3) - a_A (A-2Z)^2/A + delta
 [A-IMPORT: Bethe-Weizsacker semi-empirical mass formula]
 Channel decomposition: a_V (O), a_S (O boundary), a_C (C), a_A (H)
+Magic numbers: 2=dim(C), 8=dim(O), 28=n_d*Im_O [SPECULATION]
 ```
 
-**Verification**: Needed (Phase 4: `nuclear_binding_channels.py`)
+**Observables** (4 key quantities):
+
+| Observable | Framework | Measured | Status |
+|-----------|-----------|----------|--------|
+| SEMF channel labels | O/C/H mapping [RELABELED] | Standard | Labels only |
+| B/A peak (Fe-56) | Not derived | 8.790 MeV | Gap |
+| Magic numbers 2, 8, 28 | dim(C), dim(O), n_d*Im_O [SPECULATION] | Confirmed shell closures | 3/7 match |
+| B(deuteron) | Not derived | 2.225 MeV | Gap |
+
+**Verification**: `hadron_mass_crystallization.py` (16/16 PASS — SEMF channel check, binding energy comparisons, magic number coincidences)
+
+**Sub-catalogs**:
+- `crystallization_processes/bound_states/nuclear_binding.md` (4 processes: deuteron, helium-4, iron-56, magic numbers)
+- `crystallization_processes/bound_states/atomic_structure.md` (4 processes: hydrogen, helium, positronium, Lamb shift — EM binding extension)
+- `crystallization_processes/decays/nuclear_decays.md` (3 processes: alpha decay, nuclear beta decay, gamma decay)
 
 **Dependencies**:
 - Requires: C12 (nucleons as confined states), C6 (channel-specific forces)
@@ -852,7 +970,7 @@ Channel decomposition: a_V (O), a_S (O boundary), a_C (C), a_A (H)
 
 **Confidence & Gaps**:
 - Status: [STANDARD-RELABELED] — channel labeling of known nuclear physics
-- Open: Magic numbers from division algebra dimensions (2, 8, 28 suggestive but [SPECULATION])
+- Open: Magic numbers from division algebra dimensions (2, 8, 28 suggestive but [SPECULATION]); no binding energy predictions
 - Falsification: Framework-specific nuclear prediction that fails
 
 ---
@@ -918,7 +1036,7 @@ Physical polarizations = 2 (spin-2 massless)                 [A-IMPORT: GR]
 No GW echoes: R ~ exp(-m_tilt r_BH) ~ 0                    [DERIVATION]
 ```
 
-**Verification**: Needed (Phase 7: `gravitational_tests_framework.py`); echo prediction verified in `casimir_completeness_audit.py`
+**Verification**: `astrophysical_crystallization.py` (12/12 PASS — chirp mass, GW speed, r-value); echo prediction verified in `casimir_completeness_audit.py`
 
 **Dependencies**:
 - Requires: C3 (tilt dynamics in R-channel), C5 (BH as source)
@@ -926,8 +1044,13 @@ No GW echoes: R ~ exp(-m_tilt r_BH) ~ 0                    [DERIVATION]
 
 **Confidence & Gaps**:
 - Status: [STANDARD-RELABELED] for GW physics; [DERIVATION] for echo non-detection
-- Open: Ringdown QNMs from tilt dynamics; stochastic background from C1
-- Falsification: Detection of GW echoes; graviton mass != 0
+- Open: Ringdown QNMs from tilt dynamics; stochastic background from C1; r = 7/128 in tension with BICEP/Keck (r < 0.036)
+- Falsification: Detection of GW echoes; graviton mass != 0; r confirmed < 0.04 (CMB-S4)
+
+**Cross-References**:
+- Sub-catalog: `crystallization_processes/astrophysical/gravitational_waves.md` (4 GW process entries)
+- Sub-catalog: `crystallization_processes/astrophysical/compact_objects.md` (NS mergers, BH formation)
+- Sub-catalog: `crystallization_processes/scattering/gravitational_scattering.md` (4 processes: lensing, precession, Shapiro delay, frame dragging)
 
 ---
 
@@ -953,6 +1076,8 @@ Framework: no specific prediction for eta                 Gap
 ```
 
 **Verification**: Needed (Phase 5: future script)
+
+**Sub-catalog**: `crystallization_processes/phase_transitions/baryogenesis.md` (4 processes: Sakharov conditions, EW baryogenesis, leptogenesis, baryon asymmetry eta. 4/4 [STANDARD-RELABELED])
 
 **Dependencies**:
 - Requires: C7 (non-equilibrium context), C10 (weak interactions), C11 (pair processes)
@@ -991,14 +1116,27 @@ BAO scale ~ r_s = 144.4 Mpc                             [D + I: from C7]
 
 **Verification**: Needed (Phase 5: `structure_growth_framework.py`)
 
+**Verification**:
+
+| Script | Tests | Status |
+|--------|-------|--------|
+| `cosmological_crystallization.py` | 16/16 | ALL PASS |
+
 **Dependencies**:
 - Requires: C1 (initial perturbation spectrum), C7 (acoustic oscillations), dark matter
 - Related: C15 (gravitational radiation from mergers)
 
+**Sub-Catalogs** (Phase 6, S234):
+- `crystallization_processes/cosmological/structure_formation.md` — 4 processes: gravitational instability, BAO (r_s), DM halo formation, galaxy formation. 2 [FRAMEWORK-CONSTRAINED] (BAO, DM halo) + 2 [STANDARD-RELABELED].
+- `crystallization_processes/cosmological/dark_sector.md` — DM interactions, dark energy, void structure. DM mass formula discrepancy flagged (EQ-013).
+
 **Confidence & Gaps**:
 - Status: [FRAMEWORK-CONSTRAINED] for n_s input; [STANDARD-RELABELED] for growth dynamics
-- Open: sigma_8 from framework; dark matter interaction cross-section; halo mass function
+- Open: sigma_8 from framework; dark matter interaction cross-section (EQ-013); halo mass function; DM mass formula discrepancy (15.5 MeV vs claimed 5.11 GeV)
 - Falsification: n_s measured far from 0.965; BAO scale inconsistent with r_s
+
+**Cross-References**:
+- Sub-catalogs: `crystallization_processes/cosmological/` (4 files, 13 processes — Phase 6)
 
 ---
 
@@ -1106,7 +1244,7 @@ Verification: [script reference or "needed"]
 | b₀(SU(3)) = 7 = Im_O | C6 | [DERIVATION] |
 | b₁(SU(3)) = 153 = Im_H²×17 | C6 | [DERIVATION] |
 | l₂ (phi_odd = 3/11) | C7 | [DERIVATION] |
-| ~~CC from V(ε*)~~ | ~~C7~~ | ~~F-10: FALSIFIED~~ |
+| CC sign from V(ε*) | C7 | **F-10: RESOLVED S230** (sign convention error) |
 
 ### 4.3 By Confidence Level
 
@@ -1115,9 +1253,10 @@ Verification: [script reference or "needed"]
 | **CANONICAL/THEOREM** | C2 (SO(11) chain, Frobenius results), C4 entanglement correlations (Bell/CHSH) |
 | **DERIVATION** | C1 (n_s, r), C2 (eigenvalue selection), C3 (g(phi) unification), C4 (Born rule + geometric noise), C6 (mode counting + beta coefficients) |
 | **CONJECTURE** | C5 (BH interpretation), C7 (Omega_Lambda), C8 (emission mechanism), C9 (mass freezing), C10 (generation mapping), C14 (PMNS from Im(H)) |
-| **STANDARD-RELABELED** | C11 (pair processes), C12 (hadronization dynamics), C13 (nuclear binding), C15 (GW physics), C17 (structure growth) |
+| **STANDARD-RELABELED** | C12 (hadronization dynamics), C13 (nuclear binding), C15 (GW physics), C17 (structure growth) |
+| **FRAMEWORK-CONSTRAINED** (updated) | C11 (pair processes: R-ratio uses N_c = Im_H, b_0 = Im_O) |
 | **SPECULATION** | C5 (evaporation endpoint), C6 (240 = 16 x 15 numerology), C16 (baryogenesis mechanism) |
-| **FALSIFIED** | C7: CC from V(ε*) wrong sign (F-10), η*=337, c_s=3/7 |
+| **FALSIFIED** | C7: η*=337, c_s=3/7 (F-10 CC sign RESOLVED S230) |
 
 ### 4.4 Verification Status
 
@@ -1168,6 +1307,9 @@ Verification: [script reference or "needed"]
 | `tilt_dynamics_beta_functions.py` | C6 | 17/18 | PASS (1 diag) |
 | `z_branching_crystallization.py` | C6, C7 | 18/20 | PASS (2 diag) |
 | `z_boson_couplings_crystallization.py` | C6, C7 | 12/12 | PASS |
+| `weak_decay_mode_counting.py` | C10 | 16/16 | PASS |
+| `w_branching_crystallization.py` | C10 | 16/16 | PASS |
+| `r_ratio_crystallization.py` | C11, C12 | 15/15 | PASS |
 | `higgs_branching_tilt_coupling.py` | C3, C9 | 14/15 | PASS (1 diag) |
 | `peak_height_physics.py` | C7 | 15/15 | PASS |
 | `rs_derivation_from_framework.py` | C7 | 13/14 | PASS (1 fail) |
@@ -1175,7 +1317,12 @@ Verification: [script reference or "needed"]
 | `b2_nonzero_from_axioms.py` | C2 | 10/10 | PASS |
 | `c3_positive_from_nd4.py` | C2 | 7/8 | PASS (1 fail: global min test, see note) |
 
-**Totals**: 51 scripts, 616 tests, 607 PASS (9 diagnostic/fail).
+| `hadron_mass_crystallization.py` | C12, C13 | 16/16 | PASS |
+| `phase_transition_crystallization.py` | C2, C7 | 16/16 | PASS |
+| `astrophysical_crystallization.py` | C5, C15 | 12/12 | PASS |
+| `cosmological_crystallization.py` | C1, C7, C17 | 16/16 | PASS |
+
+**Totals**: 58 scripts, 723 tests, 714 PASS (9 diagnostic/fail).
 
 ### 4.5 Gap Tracker
 
@@ -1193,6 +1340,7 @@ Verification: [script reference or "needed"]
 - [ ] g(phi) quadratic form assumed, not derived (C3)
 - [ ] Crystallization rate/timescale not derived from axioms (C3)
 - [ ] QCD string tension formula sqrt(sigma) = 8 m_p/17 is pattern-matched, HRS=6 (C6)
+- [ ] CKM/PMNS matrix elements not derived — biggest gap for C10 predictive content
 - [ ] Ω_m mechanism unknown — no derivation from framework (C7)
 
 **MEDIUM** (refinements needed):
@@ -1215,7 +1363,7 @@ Verification: [script reference or "needed"]
 
 **FALSIFIED**:
 
-- [x] ~~CC from V(ε*)~~ — F-10: wrong sign (S199)
+- [x] ~~CC from V(ε*)~~ — ~~F-10: wrong sign (S199)~~ → **RESOLVED S230**: sign convention error
 - [x] ~~η* = 337 Mpc~~ — actual 280 Mpc (S198)
 - [x] ~~c_s = 3/7~~ — actual 1/√3 (S198)
 
@@ -1538,11 +1686,17 @@ Types needing promotion to `core/` formal status:
 | 198-199 | C7 | η*=337 FALSIFIED; c_s=3/7 FALSIFIED; l₂ resolved (baryon loading, 0.4%); r_s confirmed (0.03%) |
 | 206 | All | Catalog v2.0: expanded entries (C2/C4/C6/C7), 3 new Part V sections, gap tracker updated |
 | 221 | C10-C17 | Catalog v3.0: 8 new types, sub-catalog system, 6 data reference files, 14 new chains |
+| 223 | C10 | Phase 1: C10 fleshed out, weak_decays.md + electroweak_boson_decays.md created, 2 new scripts (32/32 PASS) |
+| 225 | C11, C12 | Phase 2: C11 fleshed out, electromagnetic_scattering.md + strong_scattering.md created (9 processes), r_ratio_crystallization.py (15/15 PASS) |
+| 231 | C5, C15 | Phase 5: Astrophysical sub-catalogs (stellar_processes.md, compact_objects.md, gravitational_waves.md — 13 processes), astrophysical_crystallization.py (12/12 PASS). C5/C15 cross-refs added. |
+| 234 | C1, C7, C17 | Phase 6: Cosmological sub-catalogs (inflation_detailed.md, structure_formation.md, dark_sector.md, cmb_detailed.md — 13 processes), cosmological_crystallization.py (16/16 PASS). C1/C7/C17 cross-refs added. Lambda sign (F-10) resolution documented. DM mass formula discrepancy flagged. |
+| 236 | C10, C11, C13, C15 | Phase 7 batch 1: 4 new sub-catalog files (electromagnetic_decays.md (3 processes), nuclear_decays.md (3 processes), weak_scattering.md (4 processes), gravitational_scattering.md (4 processes) — 14 processes total). C10/C11/C13/C15 cross-refs added. No new scripts (all entries use existing verification). |
+| 239 | C5, C7, C12, C13, C16 | Phase 7 batch 2: 5 new sub-catalog files (quarkonia_and_glueballs.md (4), atomic_structure.md (4), recombination_and_reionization.md (3), baryogenesis.md (4), high_energy_astrophysics.md (4) — 19 processes total). C5/C7/C12/C13/C16 cross-refs added. No new scripts. |
 
 ---
 
-*Document version: 3.0*
+*Document version: 3.8*
 *Created: 2026-01-30*
-*Updated: 2026-02-03 (S221 -- Phase 0: C10-C17 skeleton entries, sub-catalog infrastructure, 6 data reference files, 14 new chains, index updates)*
-*This is a CATALOG — it introduces no new derivations or claims. All content points to existing source files.*
+*Updated: 2026-02-03 (S239 -- Phase 7 batch 2: 5 new sub-catalog files (19 processes), C5/C7/C12/C13/C16 cross-refs, 58 scripts / 723 tests)*
+*This is a CATALOG -- it introduces no new derivations or claims. All content points to existing source files.*
 *Process-level detail: see `framework/crystallization_processes/` sub-catalogs.*

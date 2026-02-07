@@ -268,7 +268,7 @@ The restriction to n = 4 and n = 8 corresponds to the two cyclotomic fields whos
 | Z[ζ₈] has class number 1 | [I-MATH] | PROVEN |
 | Quartan primes satisfy p ≡ 1 mod 16 | [I-MATH] | PROVEN |
 | Level 2 catalog (10 primes) | [DERIVATION] | Pure number theory, verified |
-| Selection of n = 4, 8 | [A-STRUCTURAL] | Choice tied to division algebras |
+| Selection of n = 4, 8 | [D] AXM_0120 (CCP) | RESOLVED S252: CCP forces D_fw = {R,C,H,O} → dims 4, 8 |
 | Physical significance of Level 2 | [CONJECTURE] | Pattern matching, no mechanism |
 
 ---

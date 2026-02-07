@@ -254,14 +254,14 @@ The SAME primes govern both gauge couplings AND quark Koide phases:
 | # | Step | Classification | Status | Notes |
 |---|------|---------------|--------|-------|
 | 1 | Hurwitz → R, C, H, O | [I-MATH] | SOUND | Standard theorem |
-| 2 | n_c = 11 | [D] + [A-STRUCTURAL] | Gap | Same as alpha Steps 12-13 |
+| 2 | n_c = 11 | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP-2,3 force n_c = 1+3+7 = 11 |
 | 3 | v = 246.22 GeV | [A-IMPORT] or [D] (0.034%) | SOUND | Higgs VEV — imported or derived via portal coupling |
 | 4 | y_t ~ 1 (top Yukawa near unity) | **[A-PHYSICAL]** | Reasonable | Only top has y_t ~ 1; physically motivated |
 | 5 | Correction = 1/n_c^2 | **[CONJECTURE]** | **Key gap** | Why 1/n_c^2 specifically? Four interpretations offered but none derived |
 | 6 | sqrt(2) = sqrt(dim(C)) from F=C | [D] THM_0485 | SOUND | Complex field structure |
 | 7 | m_t = (v/sqrt(2))(120/121) | [D] from Steps 3-6 | 145 ppm | Computational result |
 
-**Assumption count**: 1 [I-MATH], 1 [A-STRUCTURAL], 1 [A-IMPORT], 1 [A-PHYSICAL], 1 [CONJECTURE], 2 [D]
+**Assumption count**: 1 [I-MATH], 0 [A-STRUCTURAL] (RESOLVED S252), 1 [A-IMPORT], 1 [A-PHYSICAL], 1 [CONJECTURE], 3 [D]
 
 **Full Hierarchy — Sequential Ratios (each is separate conjecture)**:
 

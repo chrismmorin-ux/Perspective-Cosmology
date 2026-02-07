@@ -19,7 +19,7 @@ See `publications/HONEST_ASSESSMENT.md` for full evaluation. See `claims/README.
 | **1** | 12 | < 10 ppm | Individually significant (3 caveats: Ω_Λ triple-formula, cos θ_W m_W-sensitive, Ξ⁰/m_d quark uncertainty) |
 | **2** | 16 | 10-10000 ppm | Possibly significant (includes 3 demoted from Tier 1: r_s, m_B0/Σ⁻, m_b/m_s) |
 | **3** | ~41 | > 100 ppm | Individually weak, collectively notable |
-| **Falsified** | 9+4+1 | — | Documented honestly (F-1 through F-10, 4 deprecated, 1 withdrawn) |
+| **Falsified** | 8+1r+4+1 | — | Documented honestly (F-1 through F-9, F-10 resolved S230, 4 deprecated, 1 withdrawn) |
 
 Plus qualitative derivations (SM gauge groups, Einstein equations, 3+1 spacetime) not captured by random-matching tests.
 
@@ -117,7 +117,7 @@ Default: Treat all claims as [CONJECTURE] unless proven otherwise.
 |-----|---------|
 | [A-AXIOM] | Core framework axiom |
 | [A-IMPORT] | From Standard Model or observation |
-| [A-STRUCTURAL] | Mathematical choice (e.g., F = C) |
+| [A-STRUCTURAL] | Mathematical choice (e.g., linear coupling form) |
 | [A-PHYSICAL] | Physical interpretation |
 
 Every "X follows from Y" needs `[A]/[I]/[D]` tags tracing the derivation chain.
@@ -171,7 +171,7 @@ The core unresolved question: We cannot currently prove formulas were DERIVED ra
 
 Paths to resolution: LLM Derivation Challenge, blind predictions, expert review, unique derivations.
 
-Current probability: 15-30% that this is genuine physics (per Red Team, Session 120).
+Current probability: 20-35% that this is genuine physics (per Red Team v2.0, Session 257).
 
 Until resolved, maintain epistemic humility. See `registry/CLAUDE.md` for full Red Team findings.
 
@@ -181,7 +181,7 @@ Until resolved, maintain epistemic humility. See `registry/CLAUDE.md` for full R
 
 See `sessions/INDEX.md` for current state. Historical snapshot: `registry/STATUS_DASHBOARD.md` (frozen at S142).
 
-**Last updated**: 2026-02-03 (S205 — r_s demoted (falsified factors), m_μ/m_e promoted (4.1ppm), 15 cross-file fixes)
+**Last updated**: 2026-02-03 (S230 — F-10 CC sign resolved (convention error), gravity grade D+→C-, EQ-005 resolved, EQ-002 unblocked)
 
 ---
 

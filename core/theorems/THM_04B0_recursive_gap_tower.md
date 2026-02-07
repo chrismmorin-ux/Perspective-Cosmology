@@ -196,7 +196,7 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 | n_c = 11 | [D] Layer 1 | From division algebra dimensions |
 | n_d = 4 | [D] Layer 1 | From THM_04AD (Frobenius + maximality) |
 | Im(O) = 7, Im(H) = 3, Im(C) = 1 | [D] Layer 1 | From THM_0484 |
-| Rank-4 is "natural" | [A-STRUCTURAL] | Uses n_d; other ranks give different gap sequences |
+| Rank-4 is "natural" | [A-STRUCTURAL] (n_d=4 itself is [D] CCP, S252) | n_d=4 derived from CCP; but why cascade rank = n_d is still open |
 
 **Parts (a)-(c)**: Pure Layer 0. No physics, no imports. Any finite-dim inner product space of dim >= 2 produces a tower terminating at dim 1.
 

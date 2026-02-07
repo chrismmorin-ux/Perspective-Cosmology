@@ -33,7 +33,7 @@ These follow mathematically with no additional input.
 
 | Claim | Status | What's Missing |
 |-------|--------|----------------|
-| Complex field (F = C) | [DERIVATION] | "Time direction" argument is plausible but not forced |
+| Complex field (F = C) | [DERIVED] | ~~"Time direction" argument is plausible but not forced~~ **CCP (AXM_0120, S251) forces F=C** (maximal commutative division algebra with antisymmetry). Also THM_0485. |
 | Unitarity | [DERIVATION] | Requires "conservation" axiom (T2) not in Layer 0 |
 | Hermitian generator | [THEOREM] | Conditional on unitarity |
 | Born rule | [DERIVATION] | "Probability = overlap" is assumed, not derived |

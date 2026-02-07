@@ -78,6 +78,7 @@
 | `asymptotic_safety_connection.md` | gauge | ARCHIVE | 2 | NO | gauge/ |
 | `field_content_from_orthogonality.md` | gauge | ARCHIVE | 2 | NO | gauge/ |
 | `democratic_bilinear_principle.md` | gauge | ACTIVE | mixed | NO | gauge/ |
+| `perspective_transformative_pipeline.md` | gauge/generations | DERIVATION | 0+2 | YES | gauge/ |
 | `crystallization_rigorous.md` | crystallization | ARCHIVE | 1 | NO | crystallization/ |
 | `crystallization_ordering_from_SO11.md` | crystallization | CANONICAL | mixed | YES | crystallization/ |
 | `crystal_structure.md` | crystallization | ARCHIVE | 1 | NO | crystallization/ |
@@ -157,6 +158,7 @@
 | `evaluation_map_foundations.md` | meta | CANONICAL | 0-1 | YES | meta/ |
 | `perspective_as_rigorous_SAS.md` | meta | ACTIVE | 0-1 | NO | meta/ |
 | `cd_closure_irreducibility.md` | meta | CANONICAL | 1 | YES | meta/ |
+| `imc_irreducible_element.md` | meta | ACTIVE | 0-2 | NO | meta/ |
 
 ---
 

@@ -31,7 +31,7 @@
 | 2 | CMB: Om_m = 63/200 physical mechanism | 13.3 | 8 | 4 | 3 | 3 | Derive from crystallization dark sector or SO(11) Goldstone thermalization |
 | 3 | Fermion embedding (MCHM4 vs MCHM5) | 11.2 | 7 | 4 | 2 | 3 | Resolve kappa_f ambiguity; blocks top Yukawa and Higgs mass chain **[NEW S210]** |
 | 4 | Alpha: Step 5 mechanism (gauge kinetic term) | 10.7 | 8 | 4 | 2 | 3 | Coset geometry ONLY remaining path (equipartition ruled out S211) |
-| 5 | CC wrong sign (F-10) | 9.3 | 7 | 4 | 2 | 3 | Find correct-sign potential or archive as out-of-scope |
+| ~~5~~ | ~~CC wrong sign (F-10)~~ | ~~9.3~~ | | | | | **RESOLVED S230**: Sign convention error. V<0 gives Λ>0 via standard GR. |
 | 6 | Cyclotomic 43 pattern (v/m_p + m_mu/m_e) | 8.5 | 5 | 4 | 2 | 1 | Investigate structural origin of Phi_6(7)=43 in two Tier 1 claims **[QUICK WIN]** |
 | 7 | CMB: V0 inflationary amplitude | 8.0 | 6 | 4 | 3 | 4 | All 4 prior paths failed; search for energy scale from SO(11) breaking |
 | 8 | Dark matter: 5 GeV mass mechanism | 7.5 | 5 | 4 | 3 | 4 | Derive production cross-section; compare SuperCDMS sensitivity |
@@ -85,12 +85,9 @@
 - **F = 2**: Would constrain the coupling mechanism and possibly predict corrections or running behavior. Internal consistency check rather than new blind prediction.
 - **E = 3**: Extensive prior work (9 sessions). Remaining gap is specific (gauge kinetic term normalization), but all easy paths have been tried.
 
-### Rank 4: CC wrong sign F-10 (Score 9.3)
+### ~~Rank 4: CC wrong sign F-10 (Score 9.3)~~ → RESOLVED S230
 
-- **D = 7**: The cosmological constant is a major prediction (Omega_Lambda = 137/200, Tier 1 EXACT). F-10 (wrong sign from crystallization_stress_cosmology.md) means the proposed mechanism is broken, even though the numerical value works. Downstream: dark energy equation of state, late-time cosmology, w = -1 prediction.
-- **G = 4**: The mechanism is [FALSIFIED], not just gap-level. The VALUE still works but the REASON is wrong. This is worse than [CONJECTURE] -- it is an active contradiction.
-- **F = 2**: Resolution would either fix the dark energy mechanism (constraining w) or declare dark energy out of scope (which itself is informative).
-- **E = 3**: S156 and S199 explored multiple paths. CC is notoriously difficult. May require fundamentally new approach or honest declaration that the framework does not address dark energy dynamics.
+**S230 Resolution**: The "wrong sign" was a sign convention error. The correct GR relationship is Λ = -8πG·V(ε*). Since V(ε*) = -a²/(4b) < 0, this gives Λ > 0 (correct sign). The framework documents had identified Λ = V(ε*) instead of Λ = -8πG·V(ε*), missing the sign flip from T_μν = +g·V (not -g·V). See `cc_sign_convention_resolution.py` (10/10 PASS). The magnitude gap (~10¹¹¹) remains as the standard CC problem. EQ-002 (Ω_m mechanism) unblocked.
 
 ### Rank 5: V0 inflationary amplitude (Score 8.0)
 

@@ -20,20 +20,26 @@ Single source of truth for tracking framework state — claims, proofs, dependen
 | `derivations/INDEX.md` | Derived constants (split by domain) |
 | `physics_checklist/INDEX.md` | Physics coverage audit (split by phase) |
 
-## Red Team Findings (Session 120)
+## Red Team Findings
 
-A three-agent adversarial review identified these surviving criticisms:
+### v2.0 (Session 257, 2026-02-07) — `RED_TEAM_SUMMARY_V2.md`
 
-| Risk | Status | Mitigation |
-|------|--------|------------|
-| Post-hoc interpretation | ACKNOWLEDGED | `INTERPRETATION_AUDIT.md` |
-| Cannot distinguish derivation from discovery | CORE ISSUE | LLM Derivation Challenge |
-| Formula structure unpredictable | ACKNOWLEDGED | Need structure taxonomy |
-| Phi_6 cyclotomic not derived | HIGH PRIORITY | Research task |
-| n_c = 11 derivation weak | PARTIALLY RESOLVED | S193-194 (CD Closure + triality) |
-| Reproducibility not demonstrated | IN PROGRESS | LLM challenge + expert outreach |
+Updated 3-critic adversarial review across 135 sessions of development. Top surviving criticisms:
 
-**Probability estimates** (from critics): 15-30% genuine physics. Would improve with: blind prediction verified, complete dynamics calculation, LLM Challenge success.
+| # | Risk | Severity | Status vs S120 |
+|---|------|----------|----------------|
+| 1 | Derivation vs. discovery (numerical predictions) | CRITICAL | PARTIALLY MITIGATED |
+| 2 | No human expert validation | HIGH | PARTIALLY IMPROVED |
+| 3 | Sub-ppm fits post-hoc; blind predictions percent-level | HIGH | NEW |
+| 4 | Monte Carlo: building blocks not special | HIGH | NEW |
+| 5 | CCP axiom may be retrofitted | MEDIUM-HIGH | NEW |
+| 6 | Alpha Step 5 / emergent gauge coupling [A-PHYSICAL] | MEDIUM-HIGH | PARTIALLY RESOLVED |
+
+3 of 8 original S120 criticisms RESOLVED (n_c=11, F=C, CC sign). 3 partially mitigated. 2 unchanged.
+
+**Updated probability**: 20-35% genuine physics (up from 15-30%). LLM Challenge v1 (S128-135): 3/4 SUCCESS. V2 (S257): 15/18 PASS. Structural derivations confirmed reproducible; numerical formulas not independently discovered. Highest-ROI next action: v3 numerical discovery challenge + human expert review.
+
+### v1.0 (Session 120, 2026-01-28) — `RED_TEAM_SUMMARY.md` (historical)
 
 ## Frozen Files (Do NOT Read at Startup)
 

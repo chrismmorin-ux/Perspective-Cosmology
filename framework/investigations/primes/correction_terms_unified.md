@@ -295,8 +295,8 @@ Both α (0.27 ppm) and m_p/m_e (0.06 ppm) fit this pattern with sub-ppm accuracy
 | # | Step | Classification | Status | Notes |
 |---|------|---------------|--------|-------|
 | 1 | Hurwitz theorem → R, C, H, O | [I-MATH] | SOUND | Standard theorem (1898) |
-| 2 | n_d = 4 from maximality | [A-STRUCTURAL] | Gap | Same as alpha Step 12 |
-| 3 | n_c = Im(C)+Im(H)+Im(O) = 11 | [D] + [A-STRUCTURAL] | Gap | Total = 15 assumed (same as alpha Step 13) |
+| 2 | n_d = 4 from maximality | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP maximality + Frobenius → n_d = dim(H) = 4 |
+| 3 | n_c = Im(C)+Im(H)+Im(O) = 11 | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP-2,3 force all imaginary dims, direct sum |
 | 4 | SM gauge groups from DA | [D] THM_0487 | DERIVED | SO(11)→SO(4)×SO(7)→...→SU(3)×SU(2)×U(1) |
 | 5 | dim(SM gauge) = 1+3+8 = 12 | [D] | SOUND | From Step 4 |
 | 6 | 153 = Im(H)² + 12² = 9+144 | [D] | SOUND | Arithmetic identity |
@@ -313,7 +313,7 @@ Both α (0.27 ppm) and m_p/m_e (0.06 ppm) fit this pattern with sub-ppm accuracy
 |------|-------|-------|
 | [D] (derived) | 5 | Steps 3(partial), 5, 6, 9, 12 |
 | [I-MATH] | 1 | Step 1 (Hurwitz) |
-| [A-STRUCTURAL] | 2 | Steps 2, 3 (shared with alpha: maximality, total=15) |
+| [D] AXM_0120 (CCP) | 2 | Steps 2, 3 (RESOLVED S252: now derived from CCP) |
 | [A-PHYSICAL] | 2 | Steps 8, 10 (probe = bulk, QCD identification) |
 | [CONJECTURE] | 2 | Steps 7, 11 (product structure, tensor product) |
 

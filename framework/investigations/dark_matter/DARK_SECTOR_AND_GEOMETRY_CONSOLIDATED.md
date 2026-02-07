@@ -512,7 +512,7 @@ See: `framework/investigations/continuous_visibility_model.md`
 ### 9.4 |Pi| and Lambda
 
 ```
-[A-AXIOM] Crystal has n_c = 11 dimensions
+[D: CCP (AXM_0120)] Crystal has n_c = 11 dimensions *(was [A-AXIOM]; resolved S251)*
 [A-AXIOM] Perspectives characterized by pairwise tilts
     ↓
 [DERIVATION] C(n_c, 2) = 55 pairs

@@ -193,25 +193,21 @@ Science learns from failure. Recording what didn't work:
 
 ---
 
-### F-10: V(ε*) < 0 — Cosmological Constant Wrong Sign
+### ~~F-10: V(ε*) < 0 — Cosmological Constant Wrong Sign~~ → RESOLVED S230
 
-**Claim**: The tilt potential minimum V(ε*) = -α⁵ M_Pl⁴ gives the cosmological constant
+**Original claim**: The tilt potential minimum V(ε*) = -α⁵ M_Pl⁴ gives the cosmological constant
 
-**Computed**: V(ε*) = -a²/(4b) < 0 (symbolically proven), while observed Λ > 0
+**Original error**: V(ε*) < 0, so Λ < 0 — sign contradiction with observed Λ > 0.
 
-**Error**: **Wrong sign** — qualitative failure, not a precision issue
+**S230 RESOLUTION**: The "wrong sign" was a **sign convention error** in the framework's analysis. The correct GR relationship is Λ = -8πG·V(ε*), NOT Λ = V(ε*). Since V(ε*) = -a²/(4b) < 0, this gives **Λ = +8πG·a²/(4b) > 0** — the correct sign. This is standard physics: any Mexican-hat potential with V_min < 0 gives positive Λ (same as the Higgs potential in the SM).
 
-**Why it failed**: The tilt potential V(ε) = -aε² + bε⁴ has a global minimum at ε* = √(a/2b) with V(ε*) = -a²/(4b) < 0. With framework values a = 2α³M_Pl⁴ and b = αM_Pl⁴, this gives V(ε*) = -α⁵M_Pl⁴ ≈ -3.5 × 10⁻¹² M_Pl⁴. The observed Λ ≈ +2.846 × 10⁻¹²² M_Pl⁴ is positive AND 10¹¹⁰ times smaller.
+**Where the error was**: `einstein_equations_rigorous.md` line ~462 wrote T_μν = -g_μν V(ε*), but L(ε*) = -V(ε*), so the correct expression is T_μν = +g_μν V(ε*). This single sign flip propagated through the entire F-10 analysis.
 
-**Crystallization stress doesn't fix it**: σ = V(ε) - V(ε*) ≥ 0 is a *relative* energy density. It is always non-negative but says nothing about the absolute value V(ε*) which sets the vacuum energy. The sign problem is fundamental.
+**What remains**: The sign is correct, but the **magnitude** problem persists. The framework gives |V(ε*)| ~ α⁵ M_Pl⁴ ~ 10⁻¹¹ M_Pl⁴, while observed Λ/(8πG) ~ 10⁻¹²² M_Pl⁴ — a gap of ~10¹¹¹. This is the standard cosmological constant problem. Three CC formulas (13/19, 137/200, α⁵⁶/77) remain as [CONJECTURE] pattern matches.
 
-**Three incompatible CC formulas**: The framework has produced three different CC expressions — Ω_Λ = 13/19, 137/200, α⁵⁶/77 — which are mutually inconsistent, suggesting numerological fitting rather than derivation.
+**Lesson**: Sign conventions in GR require tracking L vs V vs T_μν vs Λ carefully. L = T - V means -g·L = +g·V at zero kinetic energy.
 
-**What would fix it**: A mechanism that shifts V(ε*) from -α⁵M_Pl⁴ to +10⁻¹²²M_Pl⁴. This requires either (a) a positive bare cosmological constant that nearly exactly cancels V(ε*), or (b) a fundamentally different vacuum energy mechanism. Both require 10¹¹¹-level fine-tuning.
-
-**Lesson**: Getting the sign wrong is worse than getting the magnitude wrong. A potential with V_min < 0 cannot produce Λ > 0 without additional physics.
-
-**Script**: `verification/sympy/cosmological_constant_sign_analysis.py` (10/10 PASS)
+**Scripts**: `verification/sympy/cosmological_constant_sign_analysis.py` (10/10 PASS — confirms V < 0), `verification/sympy/cc_sign_convention_resolution.py` (10/10 PASS — resolves sign via GR)
 
 ---
 

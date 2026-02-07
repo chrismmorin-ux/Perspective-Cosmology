@@ -419,13 +419,13 @@ Located in `verification/sympy/`:
 
 | Choice | Classification | Example |
 |--------|---------------|---------|
-| n_c = Im(C)+Im(H)+Im(O) (sum, not product) | [A-STRUCTURAL] | Why add, not multiply? |
+| n_c = Im(C)+Im(H)+Im(O) (sum, not product) | [D] AXM_0120 (CCP-3) | RESOLVED S252: CCP-3 (no redundancy) forces direct sum |
 | n_d = H (largest associative) | [D] from Frobenius + AXM_0119 | Derived |
 | H₀ = 337/5 (which dimensions, which operation) | [A-PHYSICAL] | Why these for Hubble? |
 | Ω_Λ = 137/200 = (n_d²+n_c²)/(2(n_c-1)²) | [A-PHYSICAL] | Identification with dark energy |
 | Each formula's specific form | [A-PHYSICAL] | Many possible expressions from {1,2,4,8} |
 
-**Honest count**: ~3 structural assumptions (how to combine dimensions) + 8+ physical identification assumptions (which formula → which constant). The "zero parameters" claim applies to the building blocks, not to the formula selection.
+**Honest count**: ~2 structural assumptions (how to combine dimensions; n_c sum resolved S252 by CCP-3) + 8+ physical identification assumptions (which formula → which constant). The "zero parameters" claim applies to the building blocks, not to the formula selection.
 
 > This is acknowledged in Part X.2 ("Why these combinations?") but should be foregrounded.
 

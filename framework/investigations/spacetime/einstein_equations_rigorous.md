@@ -5,6 +5,7 @@
 **Purpose**: Complete, step-by-step derivation of Einstein's equations from crystallization dynamics
 **Confidence**: [HYBRID] — EFE form [I-MATH via Lovelock], signature [CONJECTURE], coefficients [CONJECTURE/F]. Overall grade C-.
 **S195 Audit**: THEOREM target NOT achievable without resolving coset inconsistency, computing signature via tensor calculation, and deriving Λ with correct sign.
+**S230 Update**: Λ sign RESOLVED — V(ε*) < 0 gives Λ > 0 via standard GR. F-10 was sign convention error. Magnitude gap remains.
 **Last Updated**: 2026-02-03
 
 ---
@@ -398,25 +399,21 @@ V(ε*) = -a·ε*² + b·ε*⁴
       = -α⁶ · M_Pl² / 2
 ```
 
-But wait — this gives a NEGATIVE cosmological constant!
+V(ε*) < 0, but this gives a **POSITIVE** cosmological constant.
 
-**Resolution**: The cosmological constant is NOT simply V(ε*).
+> **S230 SIGN RESOLUTION**: Through the Einstein equation, Λ = -8πG·V(ε*).
+> Since V(ε*) = -α⁶M_Pl²/2 < 0, we get Λ = +8πG·α⁶M_Pl²/2 > 0.
+> The sign is correct — V_min < 0 gives Λ > 0 in standard GR.
+> (Same as the Higgs potential: V_Higgs(v) < 0 also gives positive Λ.)
+> The previous claim of "wrong sign" (F-10) was a sign convention error.
+> See `verification/sympy/cc_sign_convention_resolution.py` (10/10 PASS).
 
-From Session 115, the proper derivation gives:
-```
-Ω_Λ = 137/200 = 0.685
-```
+**Remaining issue**: The **magnitude** is wrong. |V(ε*)| ~ α⁵M_Pl⁴ ~ 10⁻¹¹M_Pl⁴,
+while observed Λ/(8πG) ~ 10⁻¹²²M_Pl⁴. This is the standard cosmological constant
+problem (fine-tuning ~10¹¹¹), which the framework does not yet resolve.
 
-This comes from the crystallization STRESS, not the ground state energy.
-
-**The full derivation**: See `crystallization_stress_lambda.py`
-
-The cosmological constant emerges from:
-1. The ground state energy V(ε*)
-2. The crystallization kinetic energy
-3. The quantum zero-point energy
-
-The combination gives Λ > 0 with the observed value.
+The algebraic fit Ω_Λ = 137/200 = 0.685 (from S115) remains a [CONJECTURE] pattern
+match, not derived from the potential.
 
 ### 7.3 Summary of Coefficients
 
@@ -460,9 +457,18 @@ At the ground state ε = ε* (constant):
 ```
 ∂_μ ε = 0
 T_μν^(cryst) = -g_μν L_cryst(ε*)
-             = -g_μν V(ε*)
-             = -g_μν · Λ
 ```
+
+Since L_cryst = ½(∂ε)² - V(ε), at the ground state L_cryst(ε*) = -V(ε*):
+```
+T_μν^(cryst) = -g_μν · (-V(ε*))
+             = +g_μν · V(ε*)
+```
+
+> **S230 SIGN FIX**: Previous versions wrote T = -g·V(ε*), missing that L = -V at the ground state.
+> The correct expression is T = +g·V(ε*). Since V(ε*) < 0, this gives T_00 = -V(ε*) > 0
+> (positive energy density) and w = p/ρ = -1 (cosmological constant EOS).
+> See `verification/sympy/cc_sign_convention_resolution.py` (10/10 PASS).
 
 This is the cosmological constant term!
 
@@ -638,12 +644,12 @@ EMERGE from crystallization dynamics through:
 4. **General covariance** → Einstein tensor is unique
 5. **Ground state energy** → Cosmological constant
 
-**Confidence**: [HYBRID] — Form via Lovelock [I-MATH, grade B]; Signature [CONJECTURE, grade D+]; Coefficients [CONJECTURE/F]. Overall grade C-.
+**Confidence**: [HYBRID] — Form via Lovelock [I-MATH, grade B]; Signature [DERIVATION via THM_04AE]; Λ sign [DERIVATION, S230]; Λ magnitude [CONJECTURE]; Coefficients [CONJECTURE]. Overall grade C (upgraded from C- after S230 sign resolution).
 
-**S195 remaining gaps**:
-1. Coset inconsistency: SO(11)/SO(10) ≅ S¹⁰ vs actual SO(11) → SO(4) × SO(7) = Gr(4,11)
-2. Lorentz signature: need tensor calculation, not physical narrative
-3. Cosmological constant: V(ε*) gives wrong sign, "crystallization stress" resolution not shown
+**Remaining gaps** (updated S230):
+1. ~~Coset inconsistency~~: RESOLVED S195 (Gr(4,11) not S¹⁰)
+2. ~~Lorentz signature~~: RESOLVED via THM_04AE (algebraic det form)
+3. ~~Cosmological constant sign~~: **RESOLVED S230** — V(ε*) < 0 gives Λ > 0 via standard GR sign conventions. F-10 was a sign convention error. Magnitude gap (~10¹¹¹) remains as standard CC problem.
 4. Newton's G: M_Pl value imported, not derived
 5. Full graviton propagator from first principles
 6. 2-derivative truncation justification

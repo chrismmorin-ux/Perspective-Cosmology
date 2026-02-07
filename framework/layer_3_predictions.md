@@ -1,6 +1,8 @@
 # Layer 3: Predictions
 
 > **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. The canonical predictions are in `predictions/BLIND_PREDICTIONS.md` and `claims/README.md` (tiered claims). Many predictions have been added, refined, or falsified since. Use this file for historical reference only.
+>
+> **S253 NOTE (CCP resolution)**: The Consistency-Completeness Principle (AXM_0120, S251) provides a direct route to n_d=4, n_c=11, F=C without requiring Gap G-004 (associativity) as a separate assumption. The [A-DIV] assumption is now subsumed by CCP. All Tier B predictions gain a second, cleaner derivation path through CCP. See `core/axioms/AXM_0120_completeness_principle.md`.
 
 **Status**: HISTORICAL (was active predictions)
 **Purpose**: Separate genuine predictions from pattern-matching and hopes
@@ -19,6 +21,7 @@ Sessions 51-52 audited the derivation chain. Session 54 partially resolved the d
 |------------|-----------|--------|
 | **[A-DIV]** (no-zero-divisors) | Transitions have no zero divisors | **RESOLVED (S54)** — derived from perspective definition |
 | **[A-DIV]** (invertibility) | Every non-zero transition has an inverse | OPEN — plausible but not proven |
+| **[A-DIV]** (full structure) | Division algebra structure of transitions | **SUBSUMED BY CCP (S251)** — AXM_0120 forces division algebras directly |
 | **[A-COUPLING]** | Gauge coupling squared scales with dim(Im(algebra)) | REQUIRED — cannot be derived |
 
 **Session 54 Resolution**: The "no zero divisors" property follows from what "perspective" means:
@@ -28,24 +31,27 @@ Sessions 51-52 audited the derivation chain. Session 54 partially resolved the d
 
 **See**: `framework/investigations/perspective_foundations_and_zero_divisors.md`
 
-### The Honest Derivation Chain
+### The Honest Derivation Chain (Updated S253)
 
 ```
-T1 (directed time) — AXIOM
+CCP (AXM_0120, S251) — META-AXIOM (perfection = maximal consistency)
     │
-    ├──► F = C (complex structure)         ← Derived from T1 ALONE
+    ├──► F = C (complex structure)         ← Derived from CCP (also from T1 via THM_0485)
+    ├──► Division algebras R,C,H,O forced  ← CCP subsumes [A-DIV]
+    ├──► n_d = 4 (max associative = H)     ← From CCP + Frobenius
+    ├──► n_c = 11 (Im(C)+Im(H)+Im(O))     ← From CCP + Hurwitz
     │
-    └──► + [A-DIV] (division algebra)      ← STRUCTURAL ASSUMPTION
+    ├──► SM gauge groups                   ← Two routes: automorphism chain + Pipeline (121->12)
+    ├──► Fermion count = 15                ← From div alg dimensions
+    ├──► All hypercharges                  ← From Im(H) = 3
+    ├──► Generation count = 3              ← From Im(H) tensor decomp [one A-PHYSICAL step]
+    │
+    └──► + [A-COUPLING]                    ← ADDITIONAL ASSUMPTION (still required)
             │
-            ├──► n_d = 4, n_c = 11         ← Via Frobenius theorem
-            ├──► SM gauge groups           ← From C, H, O structure
-            ├──► Fermion count = 15        ← From div alg dimensions
-            ├──► All hypercharges          ← From Im(H) = 3
-            │
-            └──► + [A-COUPLING]            ← ADDITIONAL ASSUMPTION
-                    │
-                    └──► sin²θ_W = 1/4     ← At ~200 TeV
+            └──► sin²θ_W = 1/4            ← At ~200 TeV
 ```
+
+**Note**: The original chain through T1 + [A-DIV] still works independently. CCP provides a second, cleaner path that subsumes [A-DIV] and resolves Gap G-004.
 
 ### What This Means for Claims
 
@@ -863,17 +869,19 @@ Therefore: No predicted variation
 
 ## 10. What Would Make Predictions Stronger
 
-### 10.1 Close the [A-DIV] Gap
+### 10.1 Close the [A-DIV] Gap — **SUBSTANTIALLY RESOLVED (S251)**
 
-The biggest open question: Can "no zero divisors" be derived from T1?
+~~The biggest open question: Can "no zero divisors" be derived from T1?~~
+
+CCP (AXM_0120, S251) subsumes [A-DIV] by forcing division algebra structure directly from maximal consistency. The gap is now between CCP and T1, not between [A-DIV] and T1.
 
 | Approach | Status | Prospects |
 |----------|--------|-----------|
 | Physical: "changes don't cancel" | Plausible | Needs formalization |
 | Mathematical: from invertibility | Partial | Gap remains |
-| Foundational: redefine T1 | Possible | Would change framework |
+| **CCP: maximal consistency** | **RESOLVED (S251)** | **Forces div algebras directly** |
 
-If [A-DIV] could be derived, ALL Tier B predictions become Tier A.
+With CCP, all Tier B predictions gain a cleaner derivation path.
 
 ### 10.2 Close the [A-COUPLING] Gap
 

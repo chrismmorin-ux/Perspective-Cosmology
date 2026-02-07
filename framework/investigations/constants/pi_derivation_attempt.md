@@ -115,7 +115,7 @@ Two perspectives are DIFFERENT if they have different tilt configurations.
   <- Tilt configs = edge-labelings of K_{n_c} [Step 2-3]
   <- 137 tilt values per edge [Step 3 - WEAK POINT]
   <- K_{n_c} has (n_c choose 2) = 55 edges [Step 1]
-  <- n_c = 11 [IMPORT from M-theory]
+  <- n_c = 11 [D: CCP (AXM_0120)] *(was IMPORT; resolved S251)*
 ```
 
 ---
@@ -136,7 +136,7 @@ Two perspectives are DIFFERENT if they have different tilt configurations.
 
 | Aspect | Status | Problem |
 |--------|--------|---------|
-| n_c = 11 | IMPORT | From M-theory, not Layer 0 |
+| n_c = 11 | **DERIVED** | [D: CCP (AXM_0120)] *(was IMPORT; resolved S251)* |
 | 137 tilt values per pair | WEAK | Why exactly 137? |
 | Tilt quantization | ASSUMED | Continuous tilts would give infinite |
 | Independence of pairs | ASSUMED | Why multiplicative, not other? |
@@ -270,7 +270,7 @@ This explains the asymmetry: n_c appears in the exponent (structure), while both
 | |Pi| = k^(n_c choose 2) structure | **DERIVED** | HIGH |
 | (n_c choose 2) = 55 (pair counting) | **DERIVED** | HIGH |
 | k = 137 (states per pair) | **PARTIAL** | MEDIUM |
-| n_c = 11 | **IMPORT** | N/A |
+| n_c = 11 | **DERIVED** | [D: CCP (AXM_0120)] *(was IMPORT; resolved S251)* |
 | Why 137 = interface DoF | **CONJECTURE** | LOW-MEDIUM |
 
 ### The Core Derivation (if 137 is accepted)
@@ -301,7 +301,7 @@ Crystal dimensions form complete graph K_{n_c}
 
 ### What's Missing for Full Derivation
 
-1. **Derive n_c = 11 from Layer 0** (currently imported from M-theory)
+1. ~~**Derive n_c = 11 from Layer 0**~~ **RESOLVED (S251)**: CCP (AXM_0120) forces n_c=11
 2. **Derive 137 states per pair from axioms** (currently uses alpha formula, which also uses imports)
 3. **Prove tilt quantization** (why discrete, not continuous)
 4. **Prove pair independence** (why product, not other combination)

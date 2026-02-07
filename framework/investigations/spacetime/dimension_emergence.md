@@ -169,8 +169,8 @@ From α = 1/(4² + 11²) = 1/137 hypothesis.
 
 | Claim | Assumption Type | Status |
 |-------|-----------------|--------|
-| n_perceived = 4 | [A-IMPORT] from observation | Empirical |
-| n_total = 11 | [A-IMPORT] from M-theory / pattern matching | Unverified |
+| n_perceived = 4 | [D: CCP (AXM_0120) → n_d=4] *(was [A-IMPORT]; resolved S251)* | Derived: largest associative div. algebra |
+| n_total = 11 | [D: CCP (AXM_0120) → n_c=11] *(was [A-IMPORT]; resolved S251)* | Derived: Im(C)+Im(H)+Im(O) = 1+3+7 |
 | 4 and 11 have deep origin | [SPECULATION] | Open question |
 
 ---
@@ -259,7 +259,7 @@ If all perspectives must have γ > 0 with at least one other (connectivity):
 | Why orthogonal? | Sequential breaking in complement | [DERIVATION] |
 | How does breaking work? | Boundary defines direction | [SPECULATION] |
 | Why 4 perceived? | Unknown | [OPEN] |
-| Why 11 total? | Unknown (imported from M-theory) | [IMPORT] |
+| Why 11 total? | [D: CCP → n_c=11] (was imported; resolved S251) | [DERIVED] |
 
 ---
 

@@ -237,7 +237,7 @@ The SO(11) symmetry breaking transition is **first order** at one loop. The quar
 ## Derivation Chain
 
 ```
-[AXIOM] Division algebras → n_c = 11, SO(11) symmetry
+[D: CCP (AXM_0120)] Division algebras → n_c = 11, SO(11) symmetry *(was [AXIOM]; n_c=11 resolved S251)*
     ↓ [D]
 [D] Landau expansion: F = c₁I₂ + c₂I₂² + c₃I₄ [I-MATH: Landau theory]
     ↓ [D]

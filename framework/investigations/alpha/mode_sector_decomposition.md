@@ -24,6 +24,8 @@ How do the N_I = 137 interface modes partition by gauge sector, and does each se
 
 The interface mode count N_I = n_d^2 + n_c^2 = 4^2 + 11^2 = 137 is derived from the Lie algebra dimension of U(n_d) x U(n_c) at the defect-crystal interface (DEF_02B3). The single-photon tilt picture (THM_04A2) identifies alpha = 1/N_I via Born-rule probability. This investigation asks: what do the individual modes *do*?
 
+**S253 NOTE**: n_d = 4 and n_c = 11 are now [DERIVED from CCP (AXM_0120)], not imports. CCP forces division algebra structure, giving n_d = dim(H) = 4 and n_c = Im(C)+Im(H)+Im(O) = 11. F = C is also [D: CCP], giving U(n) structure.
+
 ---
 
 ## Findings
