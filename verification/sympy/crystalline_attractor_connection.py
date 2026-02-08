@@ -79,7 +79,7 @@ HYPOTHESIS: Division algebras are crystalline attractors
 
 The recrystallization process (dimensional simplification toward
 orthogonality) naturally produces stable configurations at dimensions
-1, 2, 4, 8 — the division algebra dimensions.
+1, 2, 4, 8 -- the division algebra dimensions.
 
 Why powers of 2?
   - Binary structure of perspective (on/off, included/excluded)
@@ -194,7 +194,7 @@ If division algebras = crystalline attractors, then:
 5. WHY 4 DIMENSIONS OF SPACETIME?
    n_d = 4 = dim(H)
    Spacetime dimension = quaternionic attractor dimension
-   Not coincidence — same crystalline selection
+   Not coincidence -- same crystalline selection
 """)
 
 # =============================================================================

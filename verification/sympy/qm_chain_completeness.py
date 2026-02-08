@@ -742,7 +742,7 @@ if n_fail == 0:
     print("  uncertainty principle, superposition) is verified as following")
     print("  from framework axioms + identified imports.")
 else:
-    print(f"  {n_fail} TEST(S) FAILED — investigate before accepting chain")
+    print(f"  {n_fail} TEST(S) FAILED -- investigate before accepting chain")
 
 # Print all results summary
 print("\n--- All Test Results ---")

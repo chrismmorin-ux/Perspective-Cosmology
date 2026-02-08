@@ -33,7 +33,7 @@ CONTENT-TYPE: DERIVATION
 
 | Source | U(1) | SU(2) | SU(3) | Total |
 |--------|------|-------|-------|-------|
-| Im(division algebras) | Im(C) = 1 | Im(H) = 3 | Im(O) = **7** | 11 |
+| Im(division algebras) | Im_C = 1 | Im_H = 3 | Im_O = **7** | 11 |
 | SM gauge dimensions | 1 | 3 | **8** | 12 |
 
 The imaginary parts of division algebras give 11, but SM gauge group has 12 dimensions.
@@ -81,12 +81,12 @@ This is not a choice - it's a consequence of T1.
 
 **With complex structure imposed**:
 - We ask: "Which automorphisms preserve BOTH O multiplication AND the chosen C?"
-- Answer: The stabilizer of a point in Im(O) = S^6
+- Answer: The stabilizer of a point in Im_O = S^6
 - This stabilizer is SU(3)
 
 **Group theory verification**:
 ```
-G2 acts transitively on Im(O) ~ S^6
+G2 acts transitively on Im_O ~ S^6
 Stabilizer of one point is SU(3)
 G2/SU(3) = S^6
 
@@ -225,7 +225,7 @@ Both have dimension 12, so minimality alone doesn't select SM.
         Maximum dimension → H (4D)
         |
         v
-[DERIVED] Crystal = remaining = Im(C) + Im(H) + Im(O) (1+3+7 = 11D)
+[DERIVED] Crystal = remaining = Im_C + Im_H + Im_O (1+3+7 = 11D)
 ```
 
 **Status**: [DERIVED] from T1 + Hurwitz + associativity theorem
@@ -398,7 +398,7 @@ Total: 1 + 3 + 8 = 12
     |                   |
     |                   +---> [DERIVED] Aut = SU(3) (stabilizer in G2)
     |
-    +---> [DERIVED from CCP] n_c = Im(C)+Im(H)+Im(O) = 11 (CCP-2,3)
+    +---> [DERIVED from CCP] n_c = Im_C+Im_H+Im_O = 11 (CCP-2,3)
     |
     +---> [DERIVED from CCP + Frobenius] n_d = dim(H) = 4 (CCP maximality)
     |
@@ -450,9 +450,9 @@ Total: 1 + 3 + 8 = 12
 
 **Remaining for full completion**:
 - Fermion representations (why specific multiplets?)
-- Mass hierarchy (SO(3) breaking mechanism in Im(H))
+- Mass hierarchy (SO(3) breaking mechanism in Im_H)
 - ~~Mixing angles~~ → Weinberg angle now predicted (see Part IX)
-- ~~Generations~~ → **3 generations DERIVED (S251)**: Hom(Im(H),Im(O)) decomposes as 3×(3+3̄+1) under G₂→SU(3). See `perspective_transformative_pipeline.md` Section 6.
+- ~~Generations~~ → **3 generations DERIVED (S251)**: Hom(Im_H,Im_O) decomposes as 3×(3+3̄+1) under G₂→SU(3). See `perspective_transformative_pipeline.md` Section 6.
 
 ---
 
@@ -473,12 +473,12 @@ The gauge groups have distinct domain origins:
 ### 9.2 Weinberg Angle from Domain Geometry
 
 If gauge couplings scale with imaginary structure:
-- g² ∝ Im(H) = 3 (SU(2) coupling)
-- g'² ∝ Im(C) = 1 (U(1) coupling)
+- g² ∝ Im_H = 3 (SU(2) coupling)
+- g'² ∝ Im_C = 1 (U(1) coupling)
 
 Then:
 ```
-sin²θ_W = g'²/(g² + g'²) = Im(C)/(Im(H) + Im(C)) = 1/(3+1) = 1/4 = 0.250
+sin²θ_W = g'²/(g² + g'²) = Im_C/(Im_H + Im_C) = 1/(3+1) = 1/4 = 0.250
 ```
 
 **Framework prediction**: sin²θ_W = 1/4 = 0.250
@@ -547,8 +547,8 @@ The perspective framework predicts a value **closer** to observation at a **lowe
 | Killing form | FAILS | Doesn't match |
 
 **Key insight**: For C and H, Im(algebra) = dim(gauge Lie algebra)
-- Im(C) = 1 = dim(u(1))
-- Im(H) = 3 = dim(su(2))
+- Im_C = 1 = dim(u(1))
+- Im_H = 3 = dim(su(2))
 
 This is because Im(division algebra) IS the Lie algebra under commutator.
 So g² ∝ Im is equivalent to g² ∝ dim(Lie algebra).
@@ -566,7 +566,7 @@ The interface geometry argument is suggestive but not rigorous.
 
 | Claim | Confidence |
 |-------|------------|
-| sin²θ_W = 1/4 from Im(C)/Im(H) ratio | **[REQUIRES A-COUPLING]** |
+| sin²θ_W = 1/4 from Im_C/Im_H ratio | **[REQUIRES A-COUPLING]** |
 | Scaling g² ∝ Im(algebra) | **[ASSUMED]** - not derived |
 | Scale ~200 TeV where this holds | [VERIFIED] via SM running |
 | Physical interpretation | [CONJECTURE] |
@@ -638,13 +638,13 @@ Quaternion q = t + xi + yj + zk decomposes as:
 - Re(q) = t → time coordinate
 - Im(q) = (x,y,z) → spatial coordinates
 
-The time direction distinguishes Re(H) from Im(H).
-This induces an **orientation** on Im(H) = su(2) algebra.
+The time direction distinguishes Re(H) from Im_H.
+This induces an **orientation** on Im_H = su(2) algebra.
 
 ### 10.7 Parity Violation as Necessity
 
 **Parity (P)**: Spatial reflection
-- Reverses Im(H) → -Im(H)
+- Reverses Im_H → -Im_H
 - Keeps Re(H) (time) fixed
 - Exchanges left ↔ right spinors
 
@@ -713,7 +713,7 @@ If P violation follows from T1, what about CP?
 ### 11.1 The Problem Restated
 
 There are multiple su(2) algebras in play:
-1. **su(2)_gauge** = Im(H) with commutator bracket (from unit quaternions)
+1. **su(2)_gauge** = Im_H with commutator bracket (from unit quaternions)
 2. **su(2)_L** = (J + iK)/2 from Lorentz decomposition (left-handed spinors)
 3. **su(2)_R** = (J - iK)/2 from Lorentz decomposition (right-handed spinors)
 
@@ -731,7 +731,7 @@ There are TWO natural embeddings of H into M_2(C):
 - **phi_R**: The complex conjugate of phi_L
 
 Under phi_L:
-- Im(H) maps to i*{Pauli matrices} = su(2) generators
+- Im_H maps to i*{Pauli matrices} = su(2) generators
 - This su(2) acts on C^2 in the fundamental representation
 - This C^2 is the LEFT-HANDED Weyl spinor space
 
@@ -763,7 +763,7 @@ Since T1 fixes the orientation, the physics uses phi_L.
     +--> phi_R = conj(phi_L) reverses orientation
     |
     v
-[DERIVED] Im(H) maps to i*{Pauli matrices} = su(2)_gauge via phi_L
+[DERIVED] Im_H maps to i*{Pauli matrices} = su(2)_gauge via phi_L
     |
     v
 [DERIVED] This su(2)_gauge acts on C^2 via phi_L
@@ -790,7 +790,7 @@ Since T1 fixes the orientation, the physics uses phi_L.
 
 **In perspective framework**: They are THE SAME structure. The defect H provides both:
 - Spacetime (4D with Lorentz symmetry)
-- Weak gauge (SU(2) from Im(H))
+- Weak gauge (SU(2) from Im_H)
 
 T1 identifies them by selecting the phi_L embedding. There's only ONE su(2), not two separate ones that happen to coincide.
 

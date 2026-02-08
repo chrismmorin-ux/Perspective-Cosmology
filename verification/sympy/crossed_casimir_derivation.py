@@ -112,7 +112,7 @@ def test_commutator_coupling_m3():
     Sum is over orthonormal basis G of M_3(R).
 
     KEY RESULT: eta_1 = eta_2 = 6 for all non-scalar modes.
-    This is because the gl(3) Killing form gives K(M,M) = ±6||M||^2.
+    This is because the gl(3) Killing form gives K(M,M) = +/-6||M||^2.
     """
     results = {}
     for label, basis in [('V0', V0_basis), ('V1', V1_basis), ('V2', V2_basis)]:
@@ -255,18 +255,18 @@ def test_killing_form_sign():
 
 
 # =============================================================================
-# Test 6: Crossed Casimir = Killing sign × complementary Casimir
+# Test 6: Crossed Casimir = Killing sign * complementary Casimir
 # =============================================================================
 def test_crossed_casimir_decomposition():
     """The weight formula decomposes as:
-    w_l = sign_l × |w_l|
+    w_l = sign_l * |w_l|
     where:
       sign_l = sgn(-K(V_l)) = (-1)^(l+1)
       |w_l| = C_2(complementary irrep) = C_2(Im_H - l)
 
     This gives:
-      w_1 = (+1) × C_2(2) = +6
-      w_2 = (-1) × C_2(1) = -2
+      w_1 = (+1) * C_2(2) = +6
+      w_2 = (-1) * C_2(1) = -2
       w_0 = 1 (scalar baseline, separate mechanism)
     """
     # Killing form signs
@@ -346,7 +346,7 @@ def test_constraint_system():
 # =============================================================================
 def test_product_discriminant():
     """The product prod(w_l) = 1 * 6 * (-2) = -12 = -n_d * Im_H.
-    For the alternative {1, -4, 4}: prod = 1*(-4)*4 = -16 ≠ -12.
+    For the alternative {1, -4, 4}: prod = 1*(-4)*4 = -16 != -12.
 
     So prod(w) = -n_d * Im_H selects the crossed Casimir solution uniquely.
     """
@@ -381,9 +381,9 @@ def test_product_discriminant():
 def test_commutator_structure():
     """Verify the commutator landing rules:
     [V_0, anything] = 0
-    [V_1, V_1] ⊂ V_1  (Lie bracket of so(3))
-    [V_1, V_2] ⊂ V_2  (adjoint action)
-    [V_2, V_2] ⊂ V_1  (symmetric comm = antisymmetric)
+    [V_1, V_1] c V_1  (Lie bracket of so(3))
+    [V_1, V_2] c V_2  (adjoint action)
+    [V_2, V_2] c V_1  (symmetric comm = antisymmetric)
 
     Also verify: [V_1, V_2] has symmetric output, [V_2, V_2] has antisymmetric output.
     """
@@ -536,16 +536,16 @@ def test_derivation_chain():
     w_l = (-1)^(l+1) * C_2(Im_H - l)
 
     Components:
-    1. M_3(R) = 1+3+5 under SO(3) ← [MATHEMATICAL FACT]
-    2. The sign (-1)^(l+1) ← [DERIVATION]: from Killing form of gl(3)
-       (compact part negative, non-compact positive → -K gives the sign)
-    3. The magnitude C_2(Im_H-l) ← [CONJECTURE]: why complementary Casimir?
-    4. w_0 = 1 ← [DERIVATION]: trace/U(1) baseline (analogous to crystal sector)
-    5. Frobenius norm = 129 ← [CONJECTURE]: no first-principles derivation
-    6. Product = -12 ← [CONJECTURE]: selects unique solution but no derivation
+    1. M_3(R) = 1+3+5 under SO(3) <- [MATHEMATICAL FACT]
+    2. The sign (-1)^(l+1) <- [DERIVATION]: from Killing form of gl(3)
+       (compact part negative, non-compact positive -> -K gives the sign)
+    3. The magnitude C_2(Im_H-l) <- [CONJECTURE]: why complementary Casimir?
+    4. w_0 = 1 <- [DERIVATION]: trace/U(1) baseline (analogous to crystal sector)
+    5. Frobenius norm = 129 <- [CONJECTURE]: no first-principles derivation
+    6. Product = -12 <- [CONJECTURE]: selects unique solution but no derivation
 
     Gap: The magnitude |w_l| = C_2(complementary) lacks a first-principles mechanism.
-    The Casimir formula for V_1 coupling gives η(V_1→V_{l'}) = C_2(l')*(2l'+1)/6,
+    The Casimir formula for V_1 coupling gives eta(V_1->V_{l'}) = C_2(l')*(2l'+1)/6,
     but this gives the coupling TO l' (not from l'), and doesn't explain why the
     weight should be C_2 of the OTHER irrep rather than of the mode's own irrep.
     """
@@ -571,7 +571,7 @@ def test_derivation_chain():
 
 
 # =============================================================================
-# Test 13: Alternative constraint — Killing-weighted Casimir moment
+# Test 13: Alternative constraint -- Killing-weighted Casimir moment
 # =============================================================================
 def test_killing_casimir_moment():
     """Compute sum_l dim_l * w_l * C_2(l) for both solutions.
@@ -581,7 +581,7 @@ def test_killing_casimir_moment():
 
     The crossed Casimir solution gives -24 (negative correlation with Casimir),
     consistent with the Killing form sign mechanism:
-    higher Casimir (V_2, C_2=6) → negative weight (screening).
+    higher Casimir (V_2, C_2=6) -> negative weight (screening).
     """
     w_crossed = {0: 1, 1: 6, 2: -2}
     w_alt = {0: 1, 1: -4, 2: 4}
@@ -604,7 +604,7 @@ def test_killing_casimir_moment():
         'crossed_decomposition': f"-24 = -n_d*C*Im_H = -{n_d}*{C}*{Im_H}",
         'anti_correlation': (
             "Negative moment = weight anti-correlated with Casimir. "
-            "Higher Casimir (more complex mode) → more negative weight."
+            "Higher Casimir (more complex mode) -> more negative weight."
         ),
     }
 
@@ -615,7 +615,7 @@ def test_killing_casimir_moment():
 def main():
     print("=" * 70)
     print("CROSSED CASIMIR COUPLING DERIVATION ATTEMPT")
-    print("Session S240 — EQ-012 Final Gap")
+    print("Session S240 -- EQ-012 Final Gap")
     print("=" * 70)
     print()
 

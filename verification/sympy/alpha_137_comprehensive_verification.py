@@ -56,8 +56,8 @@ alpha_inv_observed = 137.035999
 error_percent = abs(alpha_inv_formula - alpha_inv_observed) / alpha_inv_observed * 100
 
 print(f"""
-Formula: 1/alpha = n_d² + n_c²
-              = {n_d}² + {n_c}²
+Formula: 1/alpha = n_d^2 + n_c^2
+              = {n_d}^2 + {n_c}^2
               = {n_d**2} + {n_c**2}
               = {alpha_inv_formula}
 
@@ -66,23 +66,23 @@ Observed: 1/alpha = {alpha_inv_observed}
 Error: {error_percent:.4f}%
 
 INTERPRETATION:
-  - {n_d}² = {n_d**2} = degrees of freedom in U({n_d}) [perceived structure]
-  - {n_c}² = {n_c**2} = degrees of freedom in U({n_c}) [crystal structure]
+  - {n_d}^2 = {n_d**2} = degrees of freedom in U({n_d}) [perceived structure]
+  - {n_c}^2 = {n_c**2} = degrees of freedom in U({n_c}) [crystal structure]
   - Sum = {alpha_inv_formula} = TOTAL interface degrees of freedom
 """)
 
 # ============================================================
-# PART 3: Why n² (Generator Counting)
+# PART 3: Why n^2 (Generator Counting)
 # ============================================================
 
 print("="*70)
-print("PART 3: WHY n² (LIE ALGEBRA GENERATORS)")
+print("PART 3: WHY n^2 (LIE ALGEBRA GENERATORS)")
 print("="*70)
 
 print(f"""
-The unitary group U(n) has Lie algebra u(n) with dimension n².
+The unitary group U(n) has Lie algebra u(n) with dimension n^2.
 
-These n² generators represent:
+These n^2 generators represent:
   - n diagonal generators (phases)
   - n(n-1)/2 symmetric off-diagonal (real mixing)
   - n(n-1)/2 antisymmetric off-diagonal (imaginary mixing)
@@ -129,7 +129,7 @@ THEOREM: dim(Gr(k,n)) + dim(SO(k)) + dim(SO(n-k)) = C(n,2)
 
 For k = {n_d}, n = {n_c}:
 
-  Gr({n_d}, {n_c}) = {n_d} × ({n_c} - {n_d}) = {n_d * (n_c - n_d)}
+  Gr({n_d}, {n_c}) = {n_d} * ({n_c} - {n_d}) = {n_d * (n_c - n_d)}
     [Which {n_d}-plane in {n_c}-space is perceived]
 
   SO({n_d}) = {n_d}({n_d}-1)/2 = {n_d * (n_d - 1) // 2}
@@ -171,11 +171,11 @@ Formula: |Pi| = (1/alpha)^C(n_c, 2)
              = {alpha_inv_formula}^{exponent}
 
 Calculation:
-  log₁₀(|Pi|) = {exponent} × log₁₀({alpha_inv_formula})
-             = {exponent} × {math.log10(alpha_inv_formula):.6f}
+  log_1_0(|Pi|) = {exponent} * log_1_0({alpha_inv_formula})
+             = {exponent} * {math.log10(alpha_inv_formula):.6f}
              = {log10_Pi:.2f}
 
-Observed: log₁₀(|Pi|) ≈ {log10_Pi_observed}
+Observed: log_1_0(|Pi|) ~ {log10_Pi_observed}
 
 Error: {abs(log10_Pi - log10_Pi_observed):.2f} orders of magnitude
        = {abs(log10_Pi - log10_Pi_observed) / log10_Pi_observed * 100:.1f}% in log scale
@@ -198,7 +198,7 @@ print(f"""
 137 AS THE PERSPECTIVE RESOLUTION LIMIT
 =======================================
 
-A perspective π sees {n_d} dimensions out of {n_c} total.
+A perspective pi sees {n_d} dimensions out of {n_c} total.
 The remaining {n_hidden} dimensions are HIDDEN ("dark").
 
 The hidden dimensions are NOT completely inaccessible:
@@ -206,8 +206,8 @@ The hidden dimensions are NOT completely inaccessible:
   - This intersection has limited resolution
 
 The interface between perceived and hidden has:
-  - {n_d}² = {n_d**2} modes from perceived structure
-  - {n_c}² = {n_c**2} modes from crystal structure
+  - {n_d}^2 = {n_d**2} modes from perceived structure
+  - {n_c}^2 = {n_c**2} modes from crystal structure
   - Total: {alpha_inv_formula} distinguishable interface states
 
 WHY 137 IS A LIMIT:
@@ -254,22 +254,22 @@ THE DARK AREA (Hidden Dimensions)
 Perceived: {n_d}-dimensional subspace of {n_c}-space
 Hidden:    {n_hidden}-dimensional orthogonal complement
 
-The hidden dimensions contribute to 1/alpha through n_c²:
-  n_c² = {n_c**2} includes:
+The hidden dimensions contribute to 1/alpha through n_c^2:
+  n_c^2 = {n_c**2} includes:
     - {n_d} perceived dimensions
     - {n_hidden} hidden dimensions
     - ALL their pairwise interactions
 
 Hidden-hidden interactions: C({n_hidden}, 2) = {n_hidden * (n_hidden - 1) // 2}
-Perceived-hidden interactions: {n_d} × {n_hidden} = {n_d * n_hidden}
+Perceived-hidden interactions: {n_d} * {n_hidden} = {n_d * n_hidden}
 Perceived-perceived interactions: C({n_d}, 2) = {n_d * (n_d - 1) // 2}
 
 The "dark" dimensions affect alpha even though we can't see them directly:
   - They're part of the crystal structure
   - They influence the interface resolution
-  - Their existence shows up in the 11² = 121 term
+  - Their existence shows up in the 11^2 = 121 term
 
-This is why 1/alpha = {n_d}² + {n_c}² = {alpha_inv_formula}, not just {n_d}²:
+This is why 1/alpha = {n_d}^2 + {n_c}^2 = {alpha_inv_formula}, not just {n_d}^2:
   The hidden structure contributes to the coupling!
 """)
 
@@ -286,24 +286,24 @@ LAYER 0 AXIOMS
     |
     |
 [C5] Crystal has n_c dimensions (parameter)
-[P4] Perspective introduces tilt ε_ij on pairs
+[P4] Perspective introduces tilt epsilon_ij on pairs
     |
     |
 MATHEMATICAL CONSEQUENCES
     |
-    +── Tilt matrix has C(n_c, 2) independent entries
+    +-- Tilt matrix has C(n_c, 2) independent entries
     |
-    +── C(n_c, 2) = Gr(n_d, n_c) + SO(n_d) + SO(n_c - n_d)  [PROVED]
+    +-- C(n_c, 2) = Gr(n_d, n_c) + SO(n_d) + SO(n_c - n_d)  [PROVED]
     |   (Configuration space dimension for perspective embedding)
     |
-    +── Interface has n_d² + n_c² = 137 modes  [FROM U(n) STRUCTURE]
+    +-- Interface has n_d^2 + n_c^2 = 137 modes  [FROM U(n) STRUCTURE]
         |
         |
 DERIVED FORMULAS
     |
-    +── alpha = 1/137 = 1/(interface modes)  [DERIVED]
+    +-- alpha = 1/137 = 1/(interface modes)  [DERIVED]
     |
-    +── |Pi| = 137^55 = (resolution)^(config space dim)  [DERIVED]
+    +-- |Pi| = 137^55 = (resolution)^(config space dim)  [DERIVED]
 
 STATUS:
   [DERIVED]  C(n_c, 2) = configuration space dimension
@@ -325,14 +325,14 @@ print("""
 |----------|---------|------------|----------|-------|""")
 
 checks = [
-    ("1/alpha", f"{n_d}² + {n_c}²", alpha_inv_formula, 137.036,
+    ("1/alpha", f"{n_d}^2 + {n_c}^2", alpha_inv_formula, 137.036,
      f"{abs(alpha_inv_formula - 137.036)/137.036*100:.3f}%"),
-    ("C(11,2)", f"11×10/2", 55, 55, "0%"),
+    ("C(11,2)", f"11*10/2", 55, 55, "0%"),
     ("Gr+SO+SO", f"28+6+21", 55, 55, "0%"),
-    ("log₁₀|Pi|", f"55×log₁₀(137)", f"{log10_Pi:.2f}", "~118",
+    ("log_1_0|Pi|", f"55*log_1_0(137)", f"{log10_Pi:.2f}", "~118",
      f"{abs(log10_Pi - 118)/118*100:.1f}%"),
-    ("dim(u(4))", "4²", 16, 16, "0%"),
-    ("dim(u(11))", "11²", 121, 121, "0%"),
+    ("dim(u(4))", "4^2", 16, 16, "0%"),
+    ("dim(u(11))", "11^2", 121, 121, "0%"),
 ]
 
 for name, formula, calc, obs, err in checks:
@@ -357,28 +357,28 @@ CORE INSIGHT:
       at the interface between perceived and hidden dimensions.
 
 It arises from:
-  - {n_d}² = {n_d**2} modes from perceived (spacetime) structure
-  - {n_c}² = {n_c**2} modes from crystal structure (including "dark" dimensions)
+  - {n_d}^2 = {n_d**2} modes from perceived (spacetime) structure
+  - {n_c}^2 = {n_c**2} modes from crystal structure (including "dark" dimensions)
   - Sum = {alpha_inv_formula} because structures are INDEPENDENT (orthogonal)
 
 The "dark" {n_hidden} dimensions:
   - Cannot be observed directly (orthogonal to perceived)
-  - DO affect the interface resolution (included in n_c²)
+  - DO affect the interface resolution (included in n_c^2)
   - Limit how finely we can distinguish tilts
 
 CONSEQUENCE:
   - Each of 55 configuration space coordinates has 137 distinguishable values
-  - Total perspectives: 137^55 ≈ 10^117.5
+  - Total perspectives: 137^55 ~ 10^117.5
   - This matches cosmological entropy bounds (10^118)
 
 WHAT'S DERIVED vs IMPORTED:
 
   DERIVED from Layer 0 + mathematics:
-    YES Formula structure: (n_d² + n_c²) for interface
+    YES Formula structure: (n_d^2 + n_c^2) for interface
     YES Exponent = C(n_c, 2) = configuration space dimension
     YES Grassmannian identity connecting different views
 
   IMPORTED from physics:
-    • n_d = 4 (observed spacetime dimensions)
-    • n_c = 11 (M-theory total dimensions)
+    * n_d = 4 (observed spacetime dimensions)
+    * n_c = 11 (M-theory total dimensions)
 """)

@@ -2,7 +2,13 @@
 
 **Version**: 2.0
 **Date**: 2026-01-27
-**Status**: Comprehensive scientific compilation (Session 85)
+**Status**: HISTORICAL (Session 85) — see notes below
+
+> **NOTE (S301)**: This document is from Session 85 (~215 sessions behind). For current state, see:
+> - `publications/HONEST_ASSESSMENT.md` (v2.3, S301) — balanced evaluation
+> - `publications/TECHNICAL_SUMMARY.md` (v2.3, S301) — full technical overview
+> - `framework/IRREDUCIBLE_ASSUMPTIONS.md` (S299) — canonical assumption inventory (6 IRA)
+> - Key changes since S85: CCP axiom (S251) derives n_c/n_d/F=C, 5 conjectures resolved (A1/A2/A3/B1/B3), IRA count 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm, ~662 verification scripts (99.8% pass), probability 20-35%
 
 ---
 
@@ -144,10 +150,16 @@ These follow rigorously from the postulates.
 
 **T4. Crystal Constraint Dimension** [DRV_0002]
 > From T3 and total dimension count:
-> n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+> n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 - Derivation: Total 15 dimensions, minus n_d = 4
 - Note: NOT M-theory import — derived from division algebras
+
+**T4b. Crystal Dimension Geometric Confirmation** [THM_04B6]
+> The G_2 moment map on Gr(4,11;R) has zero locus with codimension 11 = n_c. The Grassmannian decomposes as 28 = 17 (associative) + 11 (crystal). Symplectic reduction gives dim = 3 = Im_H = spatial dimensions. Third independent path to n_c = 11, via differential geometry.
+
+- Verification: `mu_zero_locus.py` (16/16 PASS), `h_schubert_state_counting.py` (8/8 PASS)
+- Status: THEOREM (S278)
 
 ### §2.2 Quantum Mechanical Structure
 
@@ -270,8 +282,8 @@ These follow rigorously from the postulates.
 
 | Component | Formula | Value |
 |-----------|---------|-------|
-| Main term | (H+O) × (Im(H)² + (H+O)²) | 12 × 153 = 1836 |
-| Correction | n_c/(O × Im(H)²) | 11/72 |
+| Main term | (H+O) × (Im_H² + (H+O)²) | 12 × 153 = 1836 |
+| Correction | n_c/(O × Im_H²) | 11/72 |
 
 - Measured: 1836.15267343
 - **Accuracy: 0.06 ppm**
@@ -295,11 +307,11 @@ These follow rigorously from the postulates.
 
 | Parameter | Formula | Predicted | Measured | Accuracy |
 |-----------|---------|-----------|----------|----------|
-| Q | dim(C)/Im(H) | 2/3 | 2/3 | **EXACT** |
+| Q | dim(C)/Im_H | 2/3 | 2/3 | **EXACT** |
 | θ | π × 73/99 | 2.3166 rad | 2.3165 rad | **0.006%** |
 | M | v/784 | 314.0 MeV | 313.8 MeV | **0.07%** |
 
-- Note: 73 = 3² + 8² = Im(H)² + dim(O)² (prime attractor)
+- Note: 73 = 3² + 8² = Im_H² + dim(O)² (prime attractor)
 - Verification: `koide_theta_prime_attractor.py`
 
 ### §3.5 Higgs VEV (Electroweak Scale)
@@ -315,21 +327,21 @@ These follow rigorously from the postulates.
 
 | Angle | Formula | Predicted | Measured | Accuracy |
 |-------|---------|-----------|----------|----------|
-| sin²θ₂₃ | (dim(C)×Im(H))/n_c | 6/11 = 0.545 | 0.546 | **0.10%** |
+| sin²θ₂₃ | (dim(C)×Im_H)/n_c | 6/11 = 0.545 | 0.546 | **0.10%** |
 | sin²θ₁₂ | dim(C)²/prime₁₃ | 4/13 = 0.308 | 0.307 | **0.23%** |
-| sin²θ₁₃ | dim(C)/(Im(O)×prime₁₃) | 2/91 = 0.022 | 0.02203 | **0.24%** |
+| sin²θ₁₃ | dim(C)/(Im_O×prime₁₃) | 2/91 = 0.022 | 0.02203 | **0.24%** |
 
-- Note: Prime 13 = 2² + 3² = dim(C)² + Im(H)² (framework prime)
+- Note: Prime 13 = 2² + 3² = dim(C)² + Im_H² (framework prime)
 - Verification: `prime_13_neutrino_verification.py`
 
 ### §3.7 Quark Mixing (CKM) — COMPLETE (Session 87)
 
 | Parameter | Formula | Predicted | Measured | Accuracy |
 |-----------|---------|-----------|----------|----------|
-| λ (Cabibbo) | Im(H)²/(5×dim(O)) | 9/40 = 0.225 | 0.2265 | **EXACT** |
-| |V_cb| | 2/Im(O)² | 2/49 = 0.0408 | 0.0408 | **~0%** |
+| λ (Cabibbo) | Im_H²/(5×dim(O)) | 9/40 = 0.225 | 0.2265 | **EXACT** |
+| |V_cb| | 2/Im_O² | 2/49 = 0.0408 | 0.0408 | **~0%** |
 | **|V_ub|** | 1/(137+n_c²+n_d) | **1/262 = 0.00382** | 0.00382 | **0.08%** |
-| **δ_CKM** | π×dim(O)/(Im(H)×Im(O)) | **π×8/21 = 1.197 rad** | 1.196 rad | **0.07%** |
+| **δ_CKM** | π×dim(O)/(Im_H×Im_O) | **π×8/21 = 1.197 rad** | 1.196 rad | **0.07%** |
 
 **Key Insight**: |V_ub| = 1/262 where **262 = 137 + 121 + 4** — connects to fine structure!
 
@@ -346,7 +358,7 @@ These follow rigorously from the postulates.
 |-----------|-------|--------|
 | Numerator | 25 = 5² | Prime 5 = dim(R)² + dim(C)² (fermion rep prime) |
 | Denominator | 212 = 4 × 53 | dim(C)² × prime₅₃ |
-| Prime 53 | 2² + 7² | EM-color prime (dim(C)² + Im(O)²) |
+| Prime 53 | 2² + 7² | EM-color prime (dim(C)² + Im_O²) |
 
 - Measured: 0.1179 ± 0.0009
 - **Accuracy: 0.02% (0.03 sigma)**
@@ -368,8 +380,8 @@ These follow rigorously from the postulates.
 
 | Component | Value | Origin |
 |-----------|-------|--------|
-| Prime 113 | 7² + 8² | Pure octonion prime: Im(O)² + dim(O)² |
-| 62 | 7 + 5×11 | Im(O) + 5×n_c |
+| Prime 113 | 7² + 8² | Pure octonion prime: Im_O² + dim(O)² |
+| 62 | 7 + 5×11 | Im_O + 5×n_c |
 
 - Measured: m_glueball ≈ 1710 MeV, m_p = 938.27 MeV → ratio = 1.8225
 - **Accuracy: 0.004%**
@@ -404,9 +416,9 @@ Primes that ARE division algebra dimensions (not sums of squares):
 | Prime | Role | Physical Manifestation |
 |-------|------|------------------------|
 | **2** | dim(C) | Complex numbers, U(1), EM |
-| **3** | Im(H) | Quaternion imaginaries, 3 generations, 3 colors |
-| **7** | Im(O) | Octonion imaginaries, internal structure |
-| **11** | n_c | Crystal dimensions (Im(C)+Im(H)+Im(O) = 1+3+7) |
+| **3** | Im_H | Quaternion imaginaries, 3 generations, 3 colors |
+| **7** | Im_O | Octonion imaginaries, internal structure |
+| **11** | n_c | Crystal dimensions (Im_C+Im_H+Im_O = 1+3+7) |
 
 ### §4.3 Additive-Framework Primes
 
@@ -595,7 +607,7 @@ Powers of 2 (2^0, 2^1, 2^2, 2^3) may be special because 2 is the first prime.
 | Glueball ratio | 113/62 | 0.004% |
 
 ### A.3 Exact Results (No Free Parameters)
-- Koide Q = 2/3 (EXACT from dim(C)/Im(H))
+- Koide Q = 2/3 (EXACT from dim(C)/Im_H)
 - CKM λ = 9/40 = 0.225 (EXACT match)
 - Chirality = Left-handed (EXACT from T1)
 - Gauge group = U(1) × SU(2) × SU(3) (EXACT from Aut(C×H×O))
@@ -643,7 +655,7 @@ All fundamental constants derive from division algebra dimensions:
 ```
 Division Algebra Dimensions:
   dim(R) = 1, dim(C) = 2, dim(H) = 4, dim(O) = 8
-  Im(H) = 3, Im(O) = 7
+  Im_H = 3, Im_O = 7
   n_d = dim(H) = 4 (defect/spacetime)
   n_c = dim(R) + dim(C) + dim(O) = 11 (crystal-side)
 
@@ -654,13 +666,13 @@ Framework Primes (a² + b² where a,b are dimensions):
 Universal Constants:
   1/α = n_d² + n_c² + n_d/Φ₆(n_c) = 137 + 4/111 = 15211/111
   α_s = 5²/(dim(C)² × 53) = 25/212
-  θ_Koide = π × 73/99 where 73 = Im(H)² + dim(O)²
+  θ_Koide = π × 73/99 where 73 = Im_H² + dim(O)²
 
 Mixing Angles:
   sin²θ₁₂ = dim(C)²/13 = 4/13
-  sin²θ₁₃ = dim(C)/(Im(O) × 13) = 2/91
-  sin²θ₂₃ = (dim(C) × Im(H))/n_c = 6/11
-  λ_CKM = Im(H)²/(5 × dim(O)) = 9/40
+  sin²θ₁₃ = dim(C)/(Im_O × 13) = 2/91
+  sin²θ₂₃ = (dim(C) × Im_H)/n_c = 6/11
+  λ_CKM = Im_H²/(5 × dim(O)) = 9/40
 ```
 
 ---

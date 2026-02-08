@@ -69,7 +69,7 @@ Levels 3 and 4 are equivalent for determining n_c. Level 2 is insufficient (allo
 Two logically independent principles both give n_c = 11:
 
 **Path A (CD Closure — algebraic)**:
-T = H → CD(H) = O is normed [I-MATH] → Crystal supports O [PRINCIPLE] → G_2 irreducibility → Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+T = H → CD(H) = O is normed [I-MATH] → Crystal supports O [PRINCIPLE] → G_2 irreducibility → Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 **Path B (Triality — geometric)**:
 T = H, n_d = 4 → cross-term dim = 4(n_c - 4) → require triality [PRINCIPLE] → 4(n_c - 4) = 28 = dim(so(8)) → n_c = 11
@@ -90,7 +90,7 @@ The number 28 appears as three independent quantities:
 2. **Lie algebra**: dim(so(8)) = 8 × 7/2 = 28
 3. **Goldstones**: SO(11) → SO(4) × SO(7) gives 55 − 27 = 28
 
-All three are manifestations of the same n_d × Im(O) = 4 × 7 factorization.
+All three are manifestations of the same n_d × Im_O = 4 × 7 factorization.
 
 ## Finding 5: All Natural Axiom Candidates Are Equivalent
 

@@ -296,7 +296,7 @@ print(f"Fractional break: {abs(r_corrected - (1 - n_s_corrected))/0.035:.4f}")
 print(f"\nFRAMEWORK PREDICTION: r = 1 - n_s is broken at ~5e-4 level")
 print(f"  This is a SPECIFIC testable prediction from the two-field system")
 print(f"  CMB-S4 sensitivity to r: sigma(r) ~ 0.001")
-print(f"  Measurability: MARGINAL — would need sigma(r) ~ 3e-4")
+print(f"  Measurability: MARGINAL -- would need sigma(r) ~ 3e-4")
 
 # ==============================================================================
 # DEVIATION 6: FRAMEWORK PARAMETER VALUES vs PLANCK BEST-FIT

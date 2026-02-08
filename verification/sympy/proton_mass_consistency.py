@@ -10,8 +10,8 @@ We have TWO independent derivations:
 2. Quark masses from v (Session 109, fermion hierarchy)
 
 KEY PHYSICS:
-- m_p ≈ 938.27 MeV
-- 2m_u + m_d ≈ 9 MeV (only ~1% from quark masses!)
+- m_p ~ 938.27 MeV
+- 2m_u + m_d ~ 9 MeV (only ~1% from quark masses!)
 - ~99% from QCD binding energy (gluon field)
 
 This script checks:
@@ -58,7 +58,7 @@ print("PATH 1: FROM m_p/m_e = 1836 + 11/72")
 print("=" * 70)
 
 # m_p/m_e formula
-mp_me_main = (H + O) * (Im_H**2 + (H + O)**2)  # = 12 × 153 = 1836
+mp_me_main = (H + O) * (Im_H**2 + (H + O)**2)  # = 12 * 153 = 1836
 mp_me_corr = Rational(n_c, O * Im_H**2)  # = 11/72
 mp_me = mp_me_main + mp_me_corr
 
@@ -146,9 +146,9 @@ print("-" * 40)
 
 # Lambda_QCD in framework?
 # Recall: m_glueball/m_p = 113/62 (from S83)
-# So m_glueball = 938 * 113/62 ≈ 1710 MeV
+# So m_glueball = 938 * 113/62 ~ 1710 MeV
 m_glueball = Rational(113, 62) * m_p_meas_MeV
-print(f"\nm_glueball = (113/62) × m_p = {float(m_glueball):.0f} MeV (from S83)")
+print(f"\nm_glueball = (113/62) * m_p = {float(m_glueball):.0f} MeV (from S83)")
 
 # Lambda_QCD ~ m_glueball / (some factor)
 # Standard: Lambda_QCD ~ 200-300 MeV
@@ -156,19 +156,19 @@ print(f"\nm_glueball = (113/62) × m_p = {float(m_glueball):.0f} MeV (from S83)"
 
 print("\nCandidate Lambda_QCD expressions:")
 
-# Option 1: Lambda_QCD = m_glueball / O = 1710/8 ≈ 214 MeV
+# Option 1: Lambda_QCD = m_glueball / O = 1710/8 ~ 214 MeV
 Lambda1 = m_glueball / O
 print(f"  Lambda_QCD = m_glueball/O = {float(Lambda1):.0f} MeV")
 
-# Option 2: Lambda_QCD = m_p / H = 938/4 ≈ 235 MeV
+# Option 2: Lambda_QCD = m_p / H = 938/4 ~ 235 MeV
 Lambda2 = m_p_meas_MeV / H
 print(f"  Lambda_QCD = m_p/H = {float(Lambda2):.0f} MeV")
 
-# Option 3: Lambda_QCD = m_p × (1/n_d) = 938/4 ≈ 235 MeV
+# Option 3: Lambda_QCD = m_p * (1/n_d) = 938/4 ~ 235 MeV
 Lambda3 = m_p_meas_MeV / n_d
 print(f"  Lambda_QCD = m_p/n_d = {float(Lambda3):.0f} MeV")
 
-# Option 4: Lambda_QCD = m_p / (H - 1) = 938/3 ≈ 313 MeV
+# Option 4: Lambda_QCD = m_p / (H - 1) = 938/3 ~ 313 MeV
 Lambda4 = m_p_meas_MeV / Im_H
 print(f"  Lambda_QCD = m_p/Im_H = {float(Lambda4):.0f} MeV")
 
@@ -188,25 +188,25 @@ print("PROTON MASS FORMULA CANDIDATES")
 print("=" * 70)
 
 # The proton mass is dominated by QCD binding, not quark masses
-# Standard: m_p ≈ c × Lambda_QCD³ × (some factors)
-# Or: m_p ≈ (QCD binding) + (quark masses)
+# Standard: m_p ~ c * Lambda_QCD^3 * (some factors)
+# Or: m_p ~ (QCD binding) + (quark masses)
 
 # From m_p/m_e = 1836 + 11/72:
-# The main term 1836 = 12 × 153 = (H+O) × (Im_H² + (H+O)²)
-# The correction 11/72 = n_c / (O × Im_H²)
+# The main term 1836 = 12 * 153 = (H+O) * (Im_H^2 + (H+O)^2)
+# The correction 11/72 = n_c / (O * Im_H^2)
 
 print("\nFROM m_p/m_e FORMULA:")
-print(f"  Main: 1836 = (H+O) × (Im_H² + (H+O)²)")
-print(f"       = {H+O} × ({Im_H**2} + {(H+O)**2})")
-print(f"       = {H+O} × {Im_H**2 + (H+O)**2}")
+print(f"  Main: 1836 = (H+O) * (Im_H^2 + (H+O)^2)")
+print(f"       = {H+O} * ({Im_H**2} + {(H+O)**2})")
+print(f"       = {H+O} * {Im_H**2 + (H+O)**2}")
 print(f"       = {(H+O) * (Im_H**2 + (H+O)**2)}")
 
 # What's 153?
-# 153 = 9 + 144 = 3² + 12²
+# 153 = 9 + 144 = 3^2 + 12^2
 # Also: 153 = 1 + 2 + 3 + ... + 17 = 17th triangular number!
-print(f"\n153 = Im_H² + (H+O)² = {Im_H**2} + {(H+O)**2}")
+print(f"\n153 = Im_H^2 + (H+O)^2 = {Im_H**2} + {(H+O)**2}")
 print(f"    = Also: 17th triangular number = 1+2+...+17")
-print(f"    = T_17 where 17 = 1 + H² = 1 + 16")
+print(f"    = T_17 where 17 = 1 + H^2 = 1 + 16")
 
 # What's 12?
 # 12 = H + O = 4 + 8 = gauge dimensions
@@ -218,15 +218,15 @@ print("PHYSICAL INTERPRETATION")
 print("-" * 40)
 print("""
 The proton mass arises from QCD dynamics. The formula
-  m_p/m_e = (H+O) × (Im_H² + (H+O)²) + n_c/(O×Im_H²)
+  m_p/m_e = (H+O) * (Im_H^2 + (H+O)^2) + n_c/(O*Im_H^2)
 
 Can be interpreted as:
   - (H+O) = 12: The QCD+electroweak gauge structure
-  - Im_H² = 9: SU(2) generator count squared (or generations squared)
-  - (H+O)² = 144: Full gauge automorphisms
+  - Im_H^2 = 9: SU(2) generator count squared (or generations squared)
+  - (H+O)^2 = 144: Full gauge automorphisms
   - 153 = 9 + 144: Total "mode count"
 
-The product 12 × 153 = 1836 counts gauge-mode interactions.
+The product 12 * 153 = 1836 counts gauge-mode interactions.
 """)
 
 # =============================================================================
@@ -245,15 +245,15 @@ print("=" * 70)
 
 # Let's express m_p directly in terms of v
 print("\nExpressing m_p in terms of v:")
-print(f"  m_e = v × {n_c} / 1525 × {Rational(11,185)} × {Rational(43,8891)}")
+print(f"  m_e = v * {n_c} / 1525 * {Rational(11,185)} * {Rational(43,8891)}")
 m_e_factor = Rational(n_c, 1525) * Rational(11, 185) * Rational(43, 8891)
-print(f"      = v × {m_e_factor}")
-print(f"      = v × {float(m_e_factor):.2e}")
+print(f"      = v * {m_e_factor}")
+print(f"      = v * {float(m_e_factor):.2e}")
 
-print(f"\n  m_p = m_e × (1836 + 11/72)")
-print(f"      = v × {m_e_factor} × {mp_me}")
+print(f"\n  m_p = m_e * (1836 + 11/72)")
+print(f"      = v * {m_e_factor} * {mp_me}")
 m_p_factor = m_e_factor * mp_me
-print(f"      = v × {float(m_p_factor):.6f}")
+print(f"      = v * {float(m_p_factor):.6f}")
 
 # Simplify
 m_p_from_v = v * m_p_factor
@@ -277,16 +277,16 @@ print(f"                   = {ratio:.1f}")
 
 # Is this a framework number?
 print(f"\nIs {ratio:.1f} a framework expression?")
-print(f"  12 × 8 = 96 (H+O)×O")
-print(f"  11 × 9 = 99 (n_c × Im_H²)")
-print(f"  100 = 4 × 25 = H × (C+Im_H)²")
+print(f"  12 * 8 = 96 (H+O)*O")
+print(f"  11 * 9 = 99 (n_c * Im_H^2)")
+print(f"  100 = 4 * 25 = H * (C+Im_H)^2")
 print(f"  103 = prime (not obviously framework)")
 
 # More interesting: what's the ratio squared?
-print(f"\nRatio² ≈ {ratio**2:.0f}")
-print(f"  100² = 10000")
-print(f"  99² = 9801")
-print(f"  (n_c × Im_H²)² = 99² = 9801")
+print(f"\nRatio^2 ~ {ratio**2:.0f}")
+print(f"  100^2 = 10000")
+print(f"  99^2 = 9801")
+print(f"  (n_c * Im_H^2)^2 = 99^2 = 9801")
 
 # =============================================================================
 # ALTERNATIVE: m_p IN TERMS OF Lambda_QCD
@@ -295,13 +295,13 @@ print("\n" + "=" * 70)
 print("m_p IN TERMS OF Lambda_QCD")
 print("=" * 70)
 
-# Standard QCD: m_p ~ N × Lambda_QCD where N is O(1) but model-dependent
+# Standard QCD: m_p ~ N * Lambda_QCD where N is O(1) but model-dependent
 # Using Lambda_QCD = m_p/H = 235 MeV:
-# m_p = H × Lambda_QCD = 4 × 235 = 940 MeV ✓
+# m_p = H * Lambda_QCD = 4 * 235 = 940 MeV [OK]
 
 print(f"\nIf Lambda_QCD = m_p/H:")
 print(f"  Lambda_QCD = {m_p_meas_MeV}/4 = {m_p_meas_MeV/4:.0f} MeV")
-print(f"  m_p = H × Lambda_QCD = 4 × {m_p_meas_MeV/4:.0f} = {m_p_meas_MeV:.0f} MeV ✓")
+print(f"  m_p = H * Lambda_QCD = 4 * {m_p_meas_MeV/4:.0f} = {m_p_meas_MeV:.0f} MeV [OK]")
 print(f"\nThis is a TAUTOLOGY unless we can derive Lambda_QCD independently!")
 
 # Can we get Lambda_QCD from v?
@@ -309,16 +309,16 @@ print("\n" + "-" * 40)
 print("Lambda_QCD FROM v?")
 print("-" * 40)
 
-# Lambda_QCD ~ v × exp(-2π/(b₀ × α_s))
-# But this requires knowing α_s...
+# Lambda_QCD ~ v * exp(-2pi/(b_0 * alpha_s))
+# But this requires knowing alpha_s...
 
 # Alternative: use the 49/9 dark matter ratio (S95)
-# m_DM = m_p × (49/9) = 5.11 GeV
-# Lambda_dark = m_p × (7/9) = 730 MeV
+# m_DM = m_p * (49/9) = 5.11 GeV
+# Lambda_dark = m_p * (7/9) = 730 MeV
 
 Lambda_dark = m_p_meas_MeV * Rational(7, 9)
 print(f"\nFrom dark sector (S95):")
-print(f"  Lambda_dark = m_p × (7/9) = {float(Lambda_dark):.0f} MeV")
+print(f"  Lambda_dark = m_p * (7/9) = {float(Lambda_dark):.0f} MeV")
 print(f"  Lambda_dark / Lambda_QCD = {float(Lambda_dark)}/{float(Lambda2):.0f} = {float(Lambda_dark)/float(Lambda2):.2f}")
 print(f"  = Im_O/Im_H = 7/3 = 2.33 (close to 2.35!)")
 
@@ -341,16 +341,16 @@ FINDINGS:
    - QCD binding energy ~930 MeV dominates
 
 3. POTENTIAL FRAMEWORK EXPRESSIONS:
-   - Lambda_QCD = m_p/H = m_p/4 ≈ 235 MeV (matches standard!)
-   - Lambda_QCD = m_glueball/O ≈ 214 MeV (also reasonable)
-   - Lambda_dark/Lambda_QCD ≈ Im_O/Im_H = 7/3 (from dark sector)
+   - Lambda_QCD = m_p/H = m_p/4 ~ 235 MeV (matches standard!)
+   - Lambda_QCD = m_glueball/O ~ 214 MeV (also reasonable)
+   - Lambda_dark/Lambda_QCD ~ Im_O/Im_H = 7/3 (from dark sector)
 
 4. KEY INSIGHT:
    The m_p/m_e = 1836 + 11/72 formula encodes QCD information
-   through the (H+O) × (Im_H² + (H+O)²) structure.
+   through the (H+O) * (Im_H^2 + (H+O)^2) structure.
 
    H+O = 12 = gauge dimensions
-   153 = 9 + 144 = generation² + gauge²
+   153 = 9 + 144 = generation^2 + gauge^2
 
 5. CROSS-CHECK RESULT:
    The electron mass from hierarchy gives m_p via ratio formula

@@ -146,7 +146,7 @@ print(f"\n  Sum of Q^2 for all 6 quarks = {sum_Q2} = {float(sum_Q2):.4f}")
 print(f"  sum(Q^2) x 9 = {sum_Q2 * 9} = 15 = 3 x 5")
 
 # With QCD corrections: R = R_0 x (1 + alpha_s/pi + ...)
-# Factor with QCD: (1 + alpha_s/pi) ≈ 1.0375
+# Factor with QCD: (1 + alpha_s/pi) ~ 1.0375
 R_QCD_factor = 1 + alpha_s_MZ / 3.14159
 print(f"\n  QCD correction factor: 1 + alpha_s/pi = {R_QCD_factor:.4f}")
 

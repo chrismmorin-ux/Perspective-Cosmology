@@ -42,10 +42,10 @@ This sub-catalog is **majority [STANDARD-RELABELED]**. The framework constrains 
 | V_ud | Not derived [A-IMPORT] | 0.97435(16) | — | PDG 2024 |
 | g_A | Not derived [A-IMPORT] | 1.2756(13) | — | PDG 2024 |
 
-**What framework adds**: H-channel identification of weak vertex; generation transition in Im(H) space
+**What framework adds**: H-channel identification of weak vertex; generation transition in Im_H space
 **What is imported**: G_F, V_ud, g_A, nucleon masses — ALL inputs for rate calculation
 **Verification**: `weak_decay_mode_counting.py` (16/16 PASS)
-**Confidence**: [STANDARD-RELABELED] for rate; [CONJECTURE] for Im(H) generation mapping
+**Confidence**: [STANDARD-RELABELED] for rate; [CONJECTURE] for Im_H generation mapping
 
 ---
 
@@ -145,12 +145,12 @@ This sub-catalog is **majority [STANDARD-RELABELED]**. The framework constrains 
 | K_L-K_S mass diff | Not predicted | 3.484(6) × 10⁻¹² MeV | — | PDG 2024 |
 | ε (CP violation) | Not predicted | 2.228(11) × 10⁻³ | — | PDG 2024 |
 
-**What framework adds**: Identification as generation-2→generation-1 H-channel transition. CKM suppression (V_us ≈ 0.225) reflects angle between Im(H) directions. CP violation in K system requires complex CKM phase.
+**What framework adds**: Identification as generation-2→generation-1 H-channel transition. CKM suppression (V_us ≈ 0.225) reflects angle between Im_H directions. CP violation in K system requires complex CKM phase.
 **What is imported**: CKM elements, meson decay constants, all rate inputs
 **Verification**: Needed (no framework-specific predictions to verify)
 **Confidence**: [STANDARD-RELABELED] — crystallization language adds no predictive content for kaon physics
 
-**Gap**: The framework claims CKM should emerge from Im(H) generation structure, but provides no mechanism to derive V_us ≈ 0.225 or the CP phase δ ≈ 65.5°. This is the single most important gap in C10.
+**Gap**: The framework claims CKM should emerge from Im_H generation structure, but provides no mechanism to derive V_us ≈ 0.225 or the CP phase δ ≈ 65.5°. This is the single most important gap in C10.
 
 ---
 

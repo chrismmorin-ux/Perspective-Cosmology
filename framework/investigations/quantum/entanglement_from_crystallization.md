@@ -105,7 +105,7 @@ Contextual hidden variable theories CAN violate Bell inequalities — this is we
 
 ### Finding 1: Bell Correlations Exactly Reproduced
 
-**Confidence**: [THEOREM] (follows from THM_0491 + THM_0494)
+**Confidence**: [DERIVATION] (follows from THM_0491 + THM_0494, both DERIVATION status; inherits their confidence level)
 
 The framework's Hilbert space structure plus Born rule gives the exact singlet correlation:
 
@@ -121,7 +121,7 @@ where a, b are the measurement angles for Alice and Bob respectively.
 
 ### Finding 2: CHSH Inequality Maximally Violated
 
-**Confidence**: [THEOREM]
+**Confidence**: [DERIVATION] (inherits DERIVATION from THM_0491/THM_0494)
 
 The CHSH parameter reaches the Tsirelson bound:
 
@@ -139,7 +139,7 @@ This proves: the crystallization constraint in V CANNOT be replaced by any local
 
 ### Finding 3: No-Signaling Holds
 
-**Confidence**: [THEOREM]
+**Confidence**: [DERIVATION] (inherits DERIVATION from THM_0491/THM_0494)
 
 Local marginal probabilities are independent of the remote measurement choice:
 
@@ -196,7 +196,7 @@ Individual perspective purity = 1/2 (maximally uncertain locally), but joint sta
 
 ### Finding 6: Higher-Dimensional Embedding Preserves Correlations
 
-**Confidence**: [THEOREM]
+**Confidence**: [DERIVATION] (inherits DERIVATION from THM_0491/THM_0494)
 
 Embedding the 4-dimensional entangled state (C^2 x C^2) into the full crystal space (C^(n_c) x C^(n_c) = C^121) preserves all correlations exactly. The projection from the full crystal space back to the spin subspace recovers the original state.
 

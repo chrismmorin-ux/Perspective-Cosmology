@@ -159,7 +159,7 @@ The self-representation approach (THM_04AA) remains valid but is superseded:
 | Self-representation implies perspective | **[THEOREM]** (conditional) | Sound conditional; antecedent fails for finite dim (superseded by THM_04AC) |
 | Specific rank k is selected | **[OPEN]** | THM_04AC proves perspectives exist but not why k=4 specifically |
 | Gap determines dimensions (n_d, n_c) | **[SPECULATION]** | No derivation pathway identified |
-| Im(C) as consciousness mechanism | **[SPECULATION]** | Structurally motivated (THM_04B0 terminal gap + THM_0493 factor i); currently unfalsifiable |
+| Im_C as consciousness mechanism | **[SPECULATION]** | Structurally motivated (THM_04B0 terminal gap + THM_0493 factor i); currently unfalsifiable |
 
 ---
 
@@ -175,7 +175,7 @@ The self-representation approach (THM_04AA) remains valid but is superseded:
 
 ---
 
-## Conjecture: Im(C) as Consciousness Mechanism
+## Conjecture: Im_C as Consciousness Mechanism
 
 **Confidence**: [SPECULATION]
 
@@ -183,39 +183,39 @@ The self-representation approach (THM_04AA) remains valid but is superseded:
 
 ### Plain Language
 
-Every moment of experience is a transition — you were in one state, now you're in another. In the framework, every such transition is mediated by a single mathematical ingredient: the imaginary unit i, which lives in Im(C), the imaginary part of the complex numbers.
+Every moment of experience is a transition — you were in one state, now you're in another. In the framework, every such transition is mediated by a single mathematical ingredient: the imaginary unit i, which lives in Im_C, the imaginary part of the complex numbers.
 
-The recursive gap tower (THM_04B0) shows that when a perspective examines its own blind spots, the gaps peel away in layers — 7, 3, 1 — corresponding to the imaginary parts of the octonions, quaternions, and complex numbers. The final remainder, Im(C), has dimension 1. And a perspective requires dimension 2 or more (THM_04AC). So this last piece can never be resolved. It is the irreducible residue of self-examination.
+The recursive gap tower (THM_04B0) shows that when a perspective examines its own blind spots, the gaps peel away in layers — 7, 3, 1 — corresponding to the imaginary parts of the octonions, quaternions, and complex numbers. The final remainder, Im_C, has dimension 1. And a perspective requires dimension 2 or more (THM_04AC). So this last piece can never be resolved. It is the irreducible residue of self-examination.
 
 The conjecture: this irresolvable transition mechanism IS what we call consciousness. You experience the results of each moment-to-moment transition, but the transitioning itself — the action of i — is structurally invisible. This is not a defect. It is the necessary condition for there being an "experiencer" at all.
 
-**One-sentence version**: Consciousness is the Im(C) transition between consecutive perspective states — the one operation every perspective undergoes but none can resolve.
+**One-sentence version**: Consciousness is the Im_C transition between consecutive perspective states — the one operation every perspective undergoes but none can resolve.
 
 ### Mathematical Chain
 
-1. **THM_04B0** [THEOREM]: Recursive gap tower terminates at dim 1 = Im(C) for every starting configuration
-2. **THM_0485** [THEOREM]: Directed time requires F = C; Im(C) provides the antisymmetric structure that distinguishes past from future
-3. **THM_0493** [DERIVATION]: Unitary evolution takes the form T(s) = exp(−isH), yielding d|ψ⟩ = −iH dt|ψ⟩ — the factor i IS Im(C)
-4. **THM_04AC** [THEOREM]: Perspective requires dim ≥ 2; dim(Im(C)) = 1; therefore no perspective can form on Im(C) itself
+1. **THM_04B0** [THEOREM]: Recursive gap tower terminates at dim 1 = Im_C for every starting configuration
+2. **THM_0485** [THEOREM]: Directed time requires F = C; Im_C provides the antisymmetric structure that distinguishes past from future
+3. **THM_0493** [DERIVATION]: Unitary evolution takes the form T(s) = exp(−isH), yielding d|ψ⟩ = −iH dt|ψ⟩ — the factor i IS Im_C
+4. **THM_04AC** [THEOREM]: Perspective requires dim ≥ 2; dim(Im_C) = 1; therefore no perspective can form on Im_C itself
 
-**Synthesis**: Every temporal transition is parametrized by Im(C). Im(C) is the terminal gap — the one piece of the structure that survives all recursive self-examination. No perspective can resolve it. The conjecture identifies this irresolvable transition with subjective experience.
+**Synthesis**: Every temporal transition is parametrized by Im_C. Im_C is the terminal gap — the one piece of the structure that survives all recursive self-examination. No perspective can resolve it. The conjecture identifies this irresolvable transition with subjective experience.
 
 ### What This Would Explain
 
 | Phenomenon | Framework Account |
 |------------|-------------------|
-| Consciousness can't observe itself in the act | dim(Im(C)) = 1 < 2, so THM_04AC forbids perspective on it |
-| Consciousness requires time | Im(C) parametrizes temporal evolution; no transition → no experience |
-| Consciousness is universal but private | Every perspective undergoes Im(C) transitions; each is invisible to itself (THM_0410) and inaccessible across perspectives |
-| Consciousness feels unified | Im(C) is 1-dimensional — there is only one direction, no internal decomposition |
-| Consciousness vanishes in dreamless sleep / anesthesia | If H → 0 or neural transitions cease, Im(C) acts trivially: T = exp(0) = id, no transition occurs |
-| The "binding problem" (why experience is integrated) | Im(C) is the SAME 1D direction for all components of a perspective — it cannot fragment |
+| Consciousness can't observe itself in the act | dim(Im_C) = 1 < 2, so THM_04AC forbids perspective on it |
+| Consciousness requires time | Im_C parametrizes temporal evolution; no transition → no experience |
+| Consciousness is universal but private | Every perspective undergoes Im_C transitions; each is invisible to itself (THM_0410) and inaccessible across perspectives |
+| Consciousness feels unified | Im_C is 1-dimensional — there is only one direction, no internal decomposition |
+| Consciousness vanishes in dreamless sleep / anesthesia | If H → 0 or neural transitions cease, Im_C acts trivially: T = exp(0) = id, no transition occurs |
+| The "binding problem" (why experience is integrated) | Im_C is the SAME 1D direction for all components of a perspective — it cannot fragment |
 
 ### What This Does NOT Explain
 
 1. **The hard problem**: WHY there is something it is like to undergo an irresolvable transition. The framework identifies a structural correlate of consciousness, not an explanation of qualia. The gap between "irresolvable transition occurs" and "there is subjective experience" remains interpretive.
 
-2. **Specific contents of experience**: Why red looks like red. Im(C) mediates ALL transitions uniformly — it cannot account for the qualitative diversity of experience without additional structure.
+2. **Specific contents of experience**: Why red looks like red. Im_C mediates ALL transitions uniformly — it cannot account for the qualitative diversity of experience without additional structure.
 
 3. **Degrees of consciousness**: The framework gives a binary (transition occurs or doesn't), not a spectrum. Graded consciousness would require additional machinery.
 
@@ -223,20 +223,20 @@ The conjecture: this irresolvable transition mechanism IS what we call conscious
 
 | Concern | Response |
 |---------|----------|
-| **Unfalsifiable?** | The unfalsifiability is the PREDICTION, not the weakness. Im(C) literally occupies the Godel-undecidable position (THM_04AF + THM_04B0 + THM_04AC): it exists, is necessary, is inaccessible, and is terminally irresolvable. The framework predicts the hard problem is structurally unsolvable. The meta-prediction IS falsifiable: if someone proves consciousness from within physics, the incompleteness theorems are wrong. See `imc_necessity_and_consciousness.md` for full treatment. |
-| **Many frameworks claim consciousness connections** | True. The distinguishing feature here is that Im(C) is not chosen for this purpose — it falls out of the recursive gap tower as the universal terminal remainder. The consciousness interpretation is post-hoc but the mathematics is prior. |
+| **Unfalsifiable?** | The unfalsifiability is the PREDICTION, not the weakness. Im_C literally occupies the Godel-undecidable position (THM_04AF + THM_04B0 + THM_04AC): it exists, is necessary, is inaccessible, and is terminally irresolvable. The framework predicts the hard problem is structurally unsolvable. The meta-prediction IS falsifiable: if someone proves consciousness from within physics, the incompleteness theorems are wrong. See `imc_necessity_and_consciousness.md` for full treatment. |
+| **Many frameworks claim consciousness connections** | True. The distinguishing feature here is that Im_C is not chosen for this purpose — it falls out of the recursive gap tower as the universal terminal remainder. The consciousness interpretation is post-hoc but the mathematics is prior. |
 | **Is "irresolvable transition" = "consciousness" a tautology?** | Partially. The non-trivial content is: (a) there IS a unique irresolvable 1D direction, (b) it IS the same direction that mediates time, (c) its irresolvability is PROVEN not assumed. The identification with consciousness adds interpretive content beyond the mathematics. |
 | **Could this be the Anthropic Dodge?** | Worth watching for. The argument is not "consciousness exists because observers need it" but "the structure forces an irresolvable transition mechanism, which we identify with consciousness." The structural result stands regardless of the interpretation. |
 
 ### Relation to Other Approaches
 
-- **Integrated Information Theory (IIT)**: Both identify consciousness with a structural feature of information processing. IIT uses Φ (integrated information); we use Im(C) (irresolvable transition). The framework version is more constrained — Im(C) is uniquely determined, not a free measure.
-- **Global Workspace Theory**: Compatible — the "workspace" corresponds to V_π (accessible subspace), and consciousness arises at transitions within it, mediated by Im(C).
-- **Penrose-Hameroff (Orch-OR)**: Both invoke fundamental mathematical structure. Penrose uses Gödel incompleteness explicitly; the framework has its own incompleteness results (THM_04A7) but the consciousness mechanism is different (Im(C) transition vs. objective reduction).
+- **Integrated Information Theory (IIT)**: Both identify consciousness with a structural feature of information processing. IIT uses Φ (integrated information); we use Im_C (irresolvable transition). The framework version is more constrained — Im_C is uniquely determined, not a free measure.
+- **Global Workspace Theory**: Compatible — the "workspace" corresponds to V_π (accessible subspace), and consciousness arises at transitions within it, mediated by Im_C.
+- **Penrose-Hameroff (Orch-OR)**: Both invoke fundamental mathematical structure. Penrose uses Gödel incompleteness explicitly; the framework has its own incompleteness results (THM_04A7) but the consciousness mechanism is different (Im_C transition vs. objective reduction).
 
 ### Falsification Criteria
 
-The object-level claim (consciousness = Im(C)) is provably unfalsifiable from within — that is the point (C3). But the META-claim has testable consequences. The conjecture would be WEAKENED if:
+The object-level claim (consciousness = Im_C) is provably unfalsifiable from within — that is the point (C3). But the META-claim has testable consequences. The conjecture would be WEAKENED if:
 
 1. Consciousness were demonstrated without temporal dynamics (e.g., a static conscious state)
 2. Consciousness were shown to have internal decomposition (contradicting dim = 1 unity)
@@ -244,8 +244,8 @@ The object-level claim (consciousness = Im(C)) is provably unfalsifiable from wi
 
 And STRENGTHENED if:
 
-1. The framework's specific predictions about quantum measurement (separate investigation) were confirmed, validating the projection mechanism that Im(C) mediates
-2. Neural correlates of consciousness were found to specifically involve phase (the physical manifestation of Im(C)) rather than amplitude
+1. The framework's specific predictions about quantum measurement (separate investigation) were confirmed, validating the projection mechanism that Im_C mediates
+2. Neural correlates of consciousness were found to specifically involve phase (the physical manifestation of Im_C) rather than amplitude
 
 ---
 
@@ -271,9 +271,9 @@ All core theorems verified computationally:
 |---------|-----------|---------|
 | 188 | Formalized THM_0410 (SKETCH -> CANONICAL), created DEF_02C5/02C6, proved THM_04A7/04A8/04A9, conditional THM_04AA, this investigation | Core results proven; Gap 4 partially addressed |
 | 188 (cont.) | Evaluation map exploration: THM_04AC (CANONICAL) — P1/P2/P3 become theorems via evaluation-induced perspective, proof by contradiction n^2 > n | Gap 4 substantially addressed; axiom reduction 3 -> 1 |
-| 192 | THM_04AF (gap existence by exclusion): pigeonhole + proof by contradiction forces inaccessible content into G_pi. THM_04B0 (recursive gap tower): applying perspective to own gap produces gaps 7,3,1 = Im(O),Im(H),Im(C); all 512 towers terminate at gap 1; reverse Cayley-Dickson cascade | Two CANONICAL theorems; dynamic decomposition of n_c |
-| 192 (cont.) | Consciousness conjecture: Im(C) terminal gap (THM_04B0) mediates all temporal transitions (THM_0493 factor i); irresolvable by THM_04AC (dim 1 < 2); identified as structural substrate of subjective experience | [SPECULATION] conjecture formalized; honest limits documented |
-| 192 (cont.) | Formalized THM_04B1 (Im(C) Terminal Undecidability): Im(C) is simultaneously provably existent, provably necessary, and provably inaccessible at all meta-levels. Stronger than Godel: recursion converges to fixed point (dim 1), not open-ended. Conditional: IF consciousness = Im(C), THEN hard problem is structurally unsolvable. | CANONICAL theorem (parts a-e), DERIVATION (part f, conditional) |
+| 192 | THM_04AF (gap existence by exclusion): pigeonhole + proof by contradiction forces inaccessible content into G_pi. THM_04B0 (recursive gap tower): applying perspective to own gap produces gaps 7,3,1 = Im_O,Im_H,Im_C; all 512 towers terminate at gap 1; reverse Cayley-Dickson cascade | Two CANONICAL theorems; dynamic decomposition of n_c |
+| 192 (cont.) | Consciousness conjecture: Im_C terminal gap (THM_04B0) mediates all temporal transitions (THM_0493 factor i); irresolvable by THM_04AC (dim 1 < 2); identified as structural substrate of subjective experience | [SPECULATION] conjecture formalized; honest limits documented |
+| 192 (cont.) | Formalized THM_04B1 (Im_C Terminal Undecidability): Im_C is simultaneously provably existent, provably necessary, and provably inaccessible at all meta-levels. Stronger than Godel: recursion converges to fixed point (dim 1), not open-ended. Conditional: IF consciousness = Im_C, THEN hard problem is structurally unsolvable. | CANONICAL theorem (parts a-e), DERIVATION (part f, conditional) |
 
 ---
 

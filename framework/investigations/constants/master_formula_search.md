@@ -21,13 +21,13 @@
 | Constant | Formula | Value | Main | Correction |
 |----------|---------|-------|------|------------|
 | 1/α | n_d² + n_c² + n_d/Φ_6(n_c) | 137.036 | 137 | +4/111 |
-| m_p/m_e | (H+O)(Im(H)² + (H+O)²) + n_c/(O·Im(H)²) | 1836.153 | 1836 | +11/72 |
+| m_p/m_e | (H+O)(Im_H² + (H+O)²) + n_c/(O·Im_H²) | 1836.153 | 1836 | +11/72 |
 | sin²θ_W | (1/4)(1 - (C+O)/Φ_6(H+O)) | 0.23120 | 1/4 | ×(123/133) |
-| m_μ/m_e | Im(H)²(n_d² + Im(O)) - (C+O)/Φ_6(Im(O)) | 206.767 | 207 | -10/43 |
-| m_τ/m_μ | n_d² + Im(H)²/n_c | 16.818 | 16 | +9/11 |
-| 1/α_s | O + (H+O)/(n_d² + Im(O) + C) | 8.48 | 8 | +12/25 |
-| |V_cb| | n_d/(C·Im(O)²) | 0.04082 | — | 2/49 |
-| v/M_Pl | α^O · √(n_d·n_c/Im(O)) | 2×10⁻¹⁷ | α⁸ | ×√(44/7) |
+| m_μ/m_e | Im_H²(n_d² + Im_O) - (C+O)/Φ_6(Im_O) | 206.767 | 207 | -10/43 |
+| m_τ/m_μ | n_d² + Im_H²/n_c | 16.818 | 16 | +9/11 |
+| 1/α_s | O + (H+O)/(n_d² + Im_O + C) | 8.48 | 8 | +12/25 |
+| |V_cb| | n_d/(C·Im_O²) | 0.04082 | — | 2/49 |
+| v/M_Pl | α^O · √(n_d·n_c/Im_O) | 2×10⁻¹⁷ | α⁸ | ×√(44/7) |
 
 ---
 
@@ -93,7 +93,7 @@ C+O   = 10        : appears 2 times
 |----------|--------------|-------|
 | α | n_c = 11 | 111 |
 | sin²θ_W | H+O = 12 | 133 |
-| m_μ/m_e | Im(O) = 7 | 43 |
+| m_μ/m_e | Im_O = 7 | 43 |
 
 **Pattern**: Arguments are the "large" dimensions (7, 11, 12) in each formula!
 
@@ -272,7 +272,7 @@ The interface has three "layers":
 
 ### Why Φ_6?
 
-**Key insight**: 6 = 2 × 3 = dim(C) × Im(H) = U(1) × SU(2) = **ELECTROWEAK STRUCTURE**
+**Key insight**: 6 = 2 × 3 = dim(C) × Im_H = U(1) × SU(2) = **ELECTROWEAK STRUCTURE**
 
 The cyclotomic polynomial Φ_6(x) = x² - x + 1 encodes hexagonal symmetry, which is the natural symmetry of the electroweak sector.
 

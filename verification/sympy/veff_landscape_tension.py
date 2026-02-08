@@ -6,20 +6,20 @@ KEY QUESTION: Does the crystallization condensate energy destroy the
 hilltop inflation picture?
 
 THE TENSION:
-When ε is integrated out (adiabatic approximation, valid since m_tilt >> H_inf),
+When epsilon is integrated out (adiabatic approximation, valid since m_tilt >> H_inf),
 the effective potential is:
 
-  V_eff(φ) = V_0 g(φ) - (a^2/(4b)) g(φ)^2
+  V_eff(phi) = V_0 g(phi) - (a^2/(4b)) g(phi)^2
 
-where g(φ) = 1 - φ^2/μ^2.
+where g(phi) = 1 - phi^2/mu^2.
 
-For hilltop (φ=0 is local maximum): need V_eff''(0) < 0
-This requires: V_0 > a^2/(2b) = 2α^4 M_Pl^4
+For hilltop (phi=0 is local maximum): need V_eff''(0) < 0
+This requires: V_0 > a^2/(2b) = 2alpha^4 M_Pl^4
 
-But CMB amplitude A_s constrains V_0 ~ 1.3×10^-9 M_Pl^4,
-while a^2/(2b) ~ 5.7×10^-9 M_Pl^4.
+But CMB amplitude A_s constrains V_0 ~ 1.3*10^-9 M_Pl^4,
+while a^2/(2b) ~ 5.7*10^-9 M_Pl^4.
 
-V_0 is ~4x too small --> φ=0 becomes local MINIMUM, not hilltop.
+V_0 is ~4x too small --> phi=0 becomes local MINIMUM, not hilltop.
 
 STATUS: INVESTIGATION
 Created: Session 133

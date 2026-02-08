@@ -241,19 +241,19 @@ If the total structure involves all division algebras:
 Total dimension: dim(R) + dim(C) + dim(H) + dim(O) = 1 + 2 + 4 + 8 = 15
 
 Defect uses: H → 4 dimensions
-Crystal has: Im(C) + Im(H) + Im(O) → 1 + 3 + 7 = 11 dimensions
+Crystal has: Im_C + Im_H + Im_O → 1 + 3 + 7 = 11 dimensions
 ```
 
-**Note**: The canonical decomposition (per CR-010) uses imaginary dimensions: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11. An alternative counting dim(R) + dim(C) + dim(O) = 1 + 2 + 8 = 11 gives the same total but with different algebraic meaning. The Im-decomposition is preferred.
+**Note**: The canonical decomposition (per CR-010) uses imaginary dimensions: n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11. An alternative counting dim(R) + dim(C) + dim(O) = 1 + 2 + 8 = 11 gives the same total but with different algebraic meaning. The Im-decomposition is preferred.
 
 **Theorem 17.5 (Crystal Dimension)**
 ```
-n_c = 11 = Im(C) + Im(H) + Im(O) = 1 + 3 + 7
+n_c = 11 = Im_C + Im_H + Im_O = 1 + 3 + 7
 
 Interpretation:
 - Defect: quaternionic H (associative, supports time)
 - Crystal: imaginary parts of C, H, O
-- The octonions (non-associative) contribute Im(O) = 7 to crystal
+- The octonions (non-associative) contribute Im_O = 7 to crystal
 ```
 
 ### 3.5 Verification of generator count 137
@@ -292,15 +292,15 @@ SU(2) is the double cover of SO(3), giving rise to spin-1/2 representations.
 
 The imaginary parts of division algebras have dimensions:
 ```
-Im(C): dim = 1
-Im(H): dim = 3
-Im(O): dim = 7 (or related to dim = 8)
+Im_C: dim = 1
+Im_H: dim = 3
+Im_O: dim = 7 (or related to dim = 8)
 ```
 
 The Standard Model has:
 ```
-U(1):  dim = 1  ← compare Im(C)
-SU(2): dim = 3  ← compare Im(H)
+U(1):  dim = 1  ← compare Im_C
+SU(2): dim = 3  ← compare Im_H
 SU(3): dim = 8  ← compare O
 ```
 
@@ -308,7 +308,7 @@ SU(3): dim = 8  ← compare O
 ```
 SM gauge structure ≈ imaginary parts of division algebras
 
-U(1) × SU(2) × SU(3) ↔ Im(C) × Im(H) × O
+U(1) × SU(2) × SU(3) ↔ Im_C × Im_H × O
 
 Status: CONJECTURE — structural parallel, not derivation
 ```
@@ -366,7 +366,7 @@ Status: CONJECTURE — structural parallel, not derivation
 
 1. **Is the gauge group connection exact?**
    - SU(3) × SU(2) × U(1) has dim = 12
-   - Im(O) + Im(H) + Im(C) = 7 + 3 + 1 = 11
+   - Im_O + Im_H + Im_C = 7 + 3 + 1 = 11
    - Off by 1 — why?
 
 2. **Why all four division algebras?**

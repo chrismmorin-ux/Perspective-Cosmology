@@ -274,7 +274,7 @@ print("""
    precision, so sub-10 ppm claims already exceeded input precision.
 
 2. Xi0/m_d = 181*14/9: The d-quark mass has ~10% uncertainty!
-   The "3.4 ppm" claim is MEANINGLESS — the actual experimental
+   The "3.4 ppm" claim is MEANINGLESS -- the actual experimental
    uncertainty is ~10% = 100,000 ppm. This claim should be
    FLAGGED or DEMOTED.
 

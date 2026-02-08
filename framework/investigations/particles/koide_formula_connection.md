@@ -4,6 +4,7 @@
 **Confidence**: [STRONG DERIVATION] — Q=2/3 derived; M and theta matched to <0.1%
 **Created**: 2026-01-27 (Session 58)
 **Updated**: 2026-01-27 (Session 73) — MAJOR BREAKTHROUGH
+**Verification**: `verification/sympy/koide_formula_investigation.py` + 12 related scripts (`koide_*.py`). Coverage: Q=2/3 [VERIFIED], theta=pi*73/99 [VERIFIED], M=314 MeV [PARTIAL]
 **Dependencies**: gauge_from_division_algebras.md, fermion_multiplets_from_division_algebras.md
 **Last Updated**: 2026-02-03
 
@@ -23,10 +24,10 @@ holds to **0.001% precision**.
 
 | Parameter | Value | Formula | Status |
 |-----------|-------|---------|--------|
-| **Q** | 2/3 | dim(C)/Im(H) | **DERIVED** (algebraic necessity) |
+| **Q** | 2/3 | dim(C)/Im_H | **DERIVED** (algebraic necessity) |
 | **A** | sqrt(2) | sqrt(dim(C)) | **DERIVED** (forced by Q=2/3) |
-| **theta** | 2.3165 rad | pi * (dim(O)^2 + Im(H)^2)/(Im(H)^2 * n_c) | MATCHED (0.006% error) |
-| **M** | 314 MeV | v / (n_d * Im(O))^2 | MATCHED (0.069% error) |
+| **theta** | 2.3165 rad | pi * (dim(O)^2 + Im_H^2)/(Im_H^2 * n_c) | MATCHED (0.006% error) |
+| **M** | 314 MeV | v / (n_d * Im_O)^2 | MATCHED (0.069% error) |
 
 ### The Key Derivation (Session 73)
 
@@ -44,9 +45,9 @@ This is **algebraically forced** — not a coincidence!
 ### Complete Framework Connection
 
 All four Koide parameters connect to division algebra dimensions:
-- **Q = 2/3**: Uses dim(C) = 2, Im(H) = 3
-- **theta**: Uses dim(O) = 8, Im(H) = 3, n_c = 11
-- **M**: Uses n_d = 4, Im(O) = 7, Higgs VEV v = 246 GeV
+- **Q = 2/3**: Uses dim(C) = 2, Im_H = 3
+- **theta**: Uses dim(O) = 8, Im_H = 3, n_c = 11
+- **M**: Uses n_d = 4, Im_O = 7, Higgs VEV v = 246 GeV
 
 **Verification scripts**: `koide_mass_from_projection.py`, `koide_scale_investigation.py`
 
@@ -135,17 +136,17 @@ The value 2/3 appears naturally from division algebra dimensions:
 
 | Expression | Value | Interpretation |
 |------------|-------|----------------|
-| dim(C)/Im(H) | 2/3 | Complex structure / generation space |
-| (Im(H) - Im(C))/Im(H) | 2/3 | Quaternionic minus complex, normalized |
+| dim(C)/Im_H | 2/3 | Complex structure / generation space |
+| (Im_H - Im_C)/Im_H | 2/3 | Quaternionic minus complex, normalized |
 | dim(H)/(dim(H) + dim(C)) | 2/3 | Quaternionic fraction of H+C |
-| 1 - Im(C)/Im(H) | 2/3 | Complement of C in H |
+| 1 - Im_C/Im_H | 2/3 | Complement of C in H |
 
 All these reduce to **2/3 = 2/3** because:
 - dim(C) = 2
-- Im(H) = 3
+- Im_H = 3
 - The ratio 2/3 appears in the C → H relationship
 
-### 3.2 The Z_3 Symmetry from Im(H)
+### 3.2 The Z_3 Symmetry from Im_H
 
 The quaternion imaginary units {i, j, k} form a Z_3 cyclic structure:
 - i × j = k
@@ -163,14 +164,14 @@ This matches the 120° spacing in the Koide parameterization exactly.
 The amplitude √2 in the geometric form equals:
 - √dim(C) = √2
 
-**Interpretation**: The amplitude measures the "size" of the complex structure F = C that's embedded into the generation space Im(H).
+**Interpretation**: The amplitude measures the "size" of the complex structure F = C that's embedded into the generation space Im_H.
 
 ### 3.4 Complete Structural Match
 
 | Koide Element | Value | Framework Interpretation |
 |---------------|-------|--------------------------|
-| Q = 2/3 | dim(C)/Im(H) | C embedding in H |
-| 3 generations | dim(Im(H)) | Quaternion imaginaries |
+| Q = 2/3 | dim(C)/Im_H | C embedding in H |
+| 3 generations | dim(Im_H) | Quaternion imaginaries |
 | 120° spacing | Z_3 structure | Cyclic {i,j,k} |
 | √2 amplitude | √dim(C) | Complex dimension |
 | Scale M | ~314 MeV | Related to electroweak? |
@@ -185,9 +186,9 @@ The amplitude √2 in the geometric form equals:
 **Conjecture**: The Koide formula arises from the structure of lepton masses as:
 
 ```
-Lepton generations ↔ Im(H) = {i, j, k}
-Complex structure F = C embeds into Im(H)
-The embedding has characteristic ratio dim(C)/Im(H) = 2/3
+Lepton generations ↔ Im_H = {i, j, k}
+Complex structure F = C embeds into Im_H
+The embedding has characteristic ratio dim(C)/Im_H = 2/3
 This ratio manifests as the Koide parameter Q
 ```
 
@@ -210,16 +211,16 @@ The phase θ = 2.317 rad = 132.7° determines the mass hierarchy.
 ```
 θ/π = 73/99
 
-73 = 8² + 3² = dim(O)² + dim(Im(H))²
-99 = 3² × 11 = Im(H)² × n_c
+73 = 8² + 3² = dim(O)² + dim(Im_H)²
+99 = 3² × 11 = Im_H² × n_c
 ```
 
-**Formula:** θ = π × (dim(O)² + dim(Im(H))²) / (Im(H)² × n_c)
+**Formula:** θ = π × (dim(O)² + dim(Im_H)²) / (Im_H² × n_c)
 
 | Component | Value | Meaning |
 |-----------|-------|---------|
 | dim(O)² | 64 | Octonion (color) structure squared |
-| dim(Im(H))² | 9 | Generation structure squared |
+| dim(Im_H)² | 9 | Generation structure squared |
 | n_c | 11 | Crystal dimensions |
 
 **Key insight**: 73 is PRIME!
@@ -250,7 +251,7 @@ By Fermat's theorem on sums of squares:
 ```
 
 And these are EXACTLY:
-- 3 = Im(H) — the generation structure (quaternion imaginary)
+- 3 = Im_H — the generation structure (quaternion imaginary)
 - 8 = dim(O) — the color structure (octonion dimension)
 
 **No other prime has this property!**
@@ -263,24 +264,24 @@ Checking all primes expressible as sums of division algebra dimension squares:
 |-------|---------------|-----------------|
 | 2 | 1² + 1² | dim(R), dim(R) |
 | 5 | 1² + 2² | dim(R), dim(C) |
-| 13 | 2² + 3² | dim(C), Im(H) |
+| 13 | 2² + 3² | dim(C), Im_H |
 | 17 | 1² + 4² | dim(R), dim(H) |
-| 53 | 2² + 7² | dim(C), Im(O) |
-| **73** | **3² + 8²** | **Im(H), dim(O)** ← UNIQUE |
-| 113 | 7² + 8² | Im(O), dim(O) |
+| 53 | 2² + 7² | dim(C), Im_O |
+| **73** | **3² + 8²** | **Im_H, dim(O)** ← UNIQUE |
+| 113 | 7² + 8² | Im_O, dim(O) |
 
-**Only 73 combines the generation space (Im(H)) with the full color structure (dim(O))!**
+**Only 73 combines the generation space (Im_H) with the full color structure (dim(O))!**
 
 ### 5.3 Gravitational Collapse in Flavor Space
 
 **Conjecture**: The Koide phase θ is selected by minimizing "crystallization energy" — gravitational collapse in flavor space toward the nearest prime attractor.
 
 **Physical picture**:
-1. The Higgs field must select a direction in Im(H) (quaternion imaginary space)
+1. The Higgs field must select a direction in Im_H (quaternion imaginary space)
 2. This direction determines θ, which sets the mass hierarchy
 3. The selection follows crystallization dynamics — tilt toward orthogonal (prime) directions
 4. The available prime attractors are determined by division algebra geometry
-5. 73 = dim(O)² + Im(H)² is the unique prime encoding BOTH color and generation
+5. 73 = dim(O)² + Im_H² is the unique prime encoding BOTH color and generation
 
 **Crystallization energy functional**:
 ```
@@ -321,7 +322,7 @@ E(θ + ε) = 0.00200014
 The Higgs doesn't pick an arbitrary direction — it "gravitationally collapses" toward the nearest prime orthogonal attractor. The prime 73 is selected because:
 
 1. **It's prime** — irreducible crystallization mode (stable)
-2. **It's 8² + 3²** — encodes both color (O) and generation (Im(H))
+2. **It's 8² + 3²** — encodes both color (O) and generation (Im_H)
 3. **It's UNIQUE** — no other prime has this property
 4. **The denominator 99 = 3² × 11** — pure framework dimensions
 
@@ -340,17 +341,17 @@ To upgrade from [CONJECTURE] to [DERIVATION], we need:
    - The Koide parameterization gives Q = (1 + A²/2)/3
 
 2. **Derive θ** from framework principles ✓ PARTIALLY DONE (Session 75)
-   - θ = π × 73/99 where 73 = dim(O)² + Im(H)²
+   - θ = π × 73/99 where 73 = dim(O)² + Im_H²
    - Selection via crystallization energy minimization
    - **Remaining**: Prove this is GLOBAL minimum, not just local
-   - **Remaining**: Derive the normalization 99 = Im(H)² × n_c rigorously
+   - **Remaining**: Derive the normalization 99 = Im_H² × n_c rigorously
 
 3. **Explain why quarks differ**
    - Derive their Q values from O structure
    - Or explain why Koide doesn't apply (different crystallization?)
 
 4. **Derive M** from electroweak connection
-   - M ≈ 314 MeV = v/(n_d × Im(O))² is suggestive
+   - M ≈ 314 MeV = v/(n_d × Im_O)² is suggestive
    - Need to derive WHY this formula holds
 
 ---
@@ -367,7 +368,7 @@ Various authors have tried:
 ### 6.2 Framework Advantage
 
 The perspective framework naturally provides:
-- The 3 from Im(H) generation structure
+- The 3 from Im_H generation structure
 - The 2 from complex structure F = C
 - The Z_3 cyclic symmetry from quaternion multiplication
 
@@ -379,13 +380,13 @@ This is more structural than ad hoc numerology attempts.
 
 ### Findings
 
-1. **Koide Q = 2/3 = dim(C)/Im(H)** — exact algebraic match to division algebras
-2. **Z_3 symmetry matches Im(H) = {i,j,k}** — structural, not accidental
+1. **Koide Q = 2/3 = dim(C)/Im_H** — exact algebraic match to division algebras
+2. **Z_3 symmetry matches Im_H = {i,j,k}** — structural, not accidental
 3. **Amplitude sqrt(2) = sqrt(dim(C))** — connects to complex structure
 4. **Quarks don't fit** — possibly due to O color structure
 5. **theta = pi * 73/99 with 0.006% error** — NOW EXPLAINED!
-   - 73 = dim(O)^2 + dim(Im(H))^2 = 64 + 9 (and 73 is PRIME!)
-   - 99 = Im(H)^2 * n_c = 9 * 11
+   - 73 = dim(O)^2 + dim(Im_H)^2 = 64 + 9 (and 73 is PRIME!)
+   - 99 = Im_H^2 * n_c = 9 * 11
 
 ### The Complete Picture
 
@@ -393,10 +394,10 @@ The Koide formula for leptons is now FULLY explained by division algebra structu
 
 | Element | Value | Formula |
 |---------|-------|---------|
-| Q | 2/3 | dim(C)/Im(H) |
+| Q | 2/3 | dim(C)/Im_H |
 | Symmetry | Z_3 | cyclic {i,j,k} |
 | Amplitude | sqrt(2) | sqrt(dim(C)) |
-| Phase theta | 2.3165 rad | pi * (O^2 + Im(H)^2)/(Im(H)^2 * n_c) |
+| Phase theta | 2.3165 rad | pi * (O^2 + Im_H^2)/(Im_H^2 * n_c) |
 | Scale M | 313.8 MeV | (still needs derivation) |
 
 ### Assessment
@@ -406,7 +407,7 @@ The Koide formula for leptons is now FULLY explained by division algebra structu
 **Numerology Risk**: VERY LOW
 - Q = 2/3 is DERIVED (algebraically forced by embedding geometry)
 - θ = π × 73/99 has a SELECTION MECHANISM (crystallization energy)
-- 73 is the UNIQUE prime encoding both generation (Im(H)) and color (dim(O))
+- 73 is the UNIQUE prime encoding both generation (Im_H) and color (dim(O))
 - The observed θ sits at a local minimum of crystallization energy
 
 **What's been achieved:**
@@ -417,7 +418,7 @@ The Koide formula for leptons is now FULLY explained by division algebra structu
 
 **What remains:**
 - Prove 73/99 is GLOBAL minimum (not just local)
-- Derive the normalization 99 = Im(H)² × n_c from first principles
+- Derive the normalization 99 = Im_H² × n_c from first principles
 - Explain the scale M from electroweak physics
 - Understand why quarks don't follow the pattern (different crystallization?)
 
@@ -438,7 +439,7 @@ All numerical values verified computationally.
 
 ## Cross-References
 
-- `fermion_multiplets_from_division_algebras.md` — Generation structure from Im(H)
+- `fermion_multiplets_from_division_algebras.md` — Generation structure from Im_H
 - `gauge_from_division_algebras.md` — Complex structure F = C
 - `mass_as_imperfection_cost.md` — Alternative mass hierarchy approach
 - `prime_crystallization_attractors.md` — Prime selection mechanism (Session 75)
@@ -457,7 +458,7 @@ The discovery that θ = π × 73/99 follows prime attractor selection has a rema
 | **Form** | p = a² + b² | p = a² + b² |
 | **Decomposition** | 8² + 3² = 64 + 9 | 4² + 11² = 16 + 121 |
 | **First dimension** | dim(O) = 8 | dim(H) = 4 |
-| **Second dimension** | Im(H) = 3 | n_c = 11 |
+| **Second dimension** | Im_H = 3 | n_c = 11 |
 | **Physical meaning** | color + generation | defect + crystal |
 | **Precision** | 0.006% | ~0.03% from 137 |
 
@@ -497,10 +498,10 @@ The framework PREDICTS that other constants should show similar prime structure.
 | 1 | Hurwitz → R, C, H, O | [I-MATH] | SOUND | Standard theorem (1898) |
 | 2 | Koide parameterization √m_g = √M(1+A cos(θ+2πg/3)) | [I-MATH] | SOUND | Standard reparameterization |
 | 3 | Q = (1+A²/2)/3, set Q=2/3 → A²=2=dim(C) | [D] | **DERIVED** | Algebraically forced — strongest step |
-| 4 | Z₃ symmetry from Im(H)={i,j,k} | [A-STRUCTURAL] | Reasonable | 3 generations ↔ Im(H) |
+| 4 | Z₃ symmetry from Im_H={i,j,k} | [A-STRUCTURAL] | Reasonable | 3 generations ↔ Im_H |
 | 5 | Prime attractor selection (AXM_0118) | [A-AXIOM] | Layer 1 axiom | Crystallization toward primes |
-| 6 | 73 = 8²+3² = dim(O)²+Im(H)² (unique decomposition) | [D] | SOUND | Fermat sum-of-squares; uniqueness verified |
-| 7 | 99 = Im(H)²×n_c = 9×11 | [D] | SOUND | Arithmetic identity |
+| 6 | 73 = 8²+3² = dim(O)²+Im_H² (unique decomposition) | [D] | SOUND | Fermat sum-of-squares; uniqueness verified |
+| 7 | 99 = Im_H²×n_c = 9×11 | [D] | SOUND | Arithmetic identity |
 | 8 | θ = π×73/99 (local minimum of crystallization energy) | **[CONJECTURE]** | 0.006% | Local minimum shown; global minimum NOT proven |
 | 9 | M = v/(n_d×Im_O)² = v/784 | **[CONJECTURE]** | 0.069% | No dynamics derivation for scale formula |
 | 10 | v = 246.22 GeV | [A-IMPORT] or [D] | SOUND | Imported or derived via portal coupling |
@@ -511,7 +512,7 @@ The framework PREDICTS that other constants should show similar prime structure.
 |------|-------|-------|
 | [D] (derived) | 3 | Steps 3, 6, 7 |
 | [I-MATH] | 2 | Steps 1, 2 |
-| [A-STRUCTURAL] | 1 | Step 4 (generations = Im(H)) |
+| [A-STRUCTURAL] | 1 | Step 4 (generations = Im_H) |
 | [A-AXIOM] | 1 | Step 5 (prime attractor, AXM_0118) |
 | [A-IMPORT] | 1 | Step 10 (v, if imported) |
 | [CONJECTURE] | 2 | Steps 8 (θ value), 9 (M scale) |
@@ -526,7 +527,7 @@ All 8 quark Koide parameters (4 A², 4 θ) are classified as **[CONJECTURE]**:
 
 ### Honest Assessment
 
-**What IS derived**: Q=2/3 is genuinely algebraically forced — this is the framework's best Koide result. A=√2 follows automatically. The prime 73 is provably the unique prime encoding both dim(O) and Im(H). The lepton Koide has structural depth beyond numerology.
+**What IS derived**: Q=2/3 is genuinely algebraically forced — this is the framework's best Koide result. A=√2 follows automatically. The prime 73 is provably the unique prime encoding both dim(O) and Im_H. The lepton Koide has structural depth beyond numerology.
 
 **What is NOT derived**: (1) θ = π×73/99 relies on crystallization energy minimization (AXM_0118), which is a Layer 1 axiom — it's assumed, not derived from Layer 0. The local minimum is shown but global minimum is not proven. (2) M = v/784 has no dynamics derivation. (3) All quark extensions are post-hoc pattern matching.
 

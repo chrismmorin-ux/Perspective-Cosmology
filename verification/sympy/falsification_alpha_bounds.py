@@ -8,7 +8,7 @@ KEY FINDING: The prediction 1/alpha = 15211/111 can be falsified by:
   3. Born rule failure at fundamental level
   4. Generic excitations shown non-democratic
 
-Quantitative: prediction is 137.036036036... vs measured 137.035999206(11).
+Quantitative: prediction is 137.036036036... vs measured 137.035999177(11).
 The 0.27 ppm gap could be closed by higher-order corrections or exposed as
 a genuine discrepancy by improved measurement.
 
@@ -31,7 +31,7 @@ Phi6 = n_c**2 - n_c + 1  # = 111
 # Prediction
 alpha_inv_pred = R(15211, 111)
 
-# CODATA 2022: 137.035999206(11)
+# CODATA 2022: 137.035999177(11)
 # Central value and uncertainty
 alpha_inv_central = R(137035999206, 10**9)
 alpha_inv_unc = R(11, 10**9)  # 0.011 in the last digits

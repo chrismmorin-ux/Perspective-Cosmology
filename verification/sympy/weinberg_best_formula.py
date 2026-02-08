@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-Weinberg Angle: Best Division Algebra Formula
-==============================================
+SUPERSEDED: This 123/532 formula was replaced by the 28/121 tree-level paradigm (S266+).
+Kept for historical reference. See weinberg_one_loop_coefficient.py for current approach.
+
+Weinberg Angle: Best Division Algebra Formula (HISTORICAL)
+==========================================================
 
 MAJOR FINDING:
   sin^2(theta_W) = (1/4) x (1 - 10/Phi_6(H+O))
@@ -14,7 +17,7 @@ Where:
   133 = Phi_6(12) = Phi_6(dim(H) + dim(O)) = 12^2 - 12 + 1
   10 = dim(C) + dim(O) = 2 + 8
 
-Status: VERIFICATION
+Status: SUPERSEDED (see weinberg_one_loop_coefficient.py)
 """
 
 from fractions import Fraction

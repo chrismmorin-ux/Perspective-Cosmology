@@ -14,8 +14,8 @@ Observables derived:
 
 Measured values (Planck 2018):
 - dT/T ~ 1.80 * 10^-5
-- n_s = 0.9649 ± 0.0042
-- ell_1 = 220.0 ± 0.5
+- n_s = 0.9649 +/- 0.0042
+- ell_1 = 220.0 +/- 0.5
 - r < 0.036 (upper limit)
 
 Status: PREDICTION
@@ -28,7 +28,7 @@ Physical interpretation:
 Depends on:
 - n_c = 11 [D: crystal dimension]
 - n_d = 4 [D: defect dimension from Frobenius]
-- α = 1/137 [D: fine structure from framework]
+- alpha = 1/137 [D: fine structure from framework]
 - Im_H = 3 [D: imaginary quaternion dimensions]
 
 Created: Session 98
@@ -68,10 +68,10 @@ alpha_precise = Rational(7297352569, 10**12)  # [A-IMPORT] CODATA 2022
 DELTA_T_MEASURED = Rational(18, 1000000)  # 1.8 * 10^-5
 
 # Spectral index
-N_S_MEASURED = Rational(9649, 10000)  # 0.9649 ± 0.0042
+N_S_MEASURED = Rational(9649, 10000)  # 0.9649 +/- 0.0042
 
 # First acoustic peak position
-ELL_1_MEASURED = 220  # 220.0 ± 0.5
+ELL_1_MEASURED = 220  # 220.0 +/- 0.5
 
 # Tensor-to-scalar ratio (upper limit)
 R_LIMIT = Rational(36, 1000)  # r < 0.036
@@ -127,12 +127,12 @@ def derive_first_peak():
 
 def derive_tensor_to_scalar():
     """
-    r = alpha^4 = (1/137)⁴ ~ 2.84 * 10^-9
+    r = alpha^4 = (1/137)^4 ~ 2.84 * 10^-9
 
     Physical interpretation:
     - Scalar fluctuations: dT/T ~ alpha^2/3 (portal coupling)
     - Tensor fluctuations: gravitational waves from boundary
-    - Ratio: r = (tensor)/(scalar) ~ (alpha^2)² = alpha^4
+    - Ratio: r = (tensor)/(scalar) ~ (alpha^2)^2 = alpha^4
 
     This predicts r is FAR below current detection limits.
     If detected at r ~ 0.01, would FALSIFY this prediction.

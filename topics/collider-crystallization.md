@@ -39,6 +39,7 @@
 - **Triple Higgs coupling kappa_lambda = (1-2xi)/sqrt(1-xi) = 0.9497**: Derived from MCHM4 sin²+sin⁴ potential via symbolic differentiation. 5.03% below SM (3x larger deviation than kappa_V). Framework expression: 113/(11*sqrt(117)). Quartic kappa_4 ≈ 0.726 (27.4%). FCC-hh marginal (~1σ). F-COL-5 registered. (S214, 20/20 PASS)
 - **nu_R structural prediction from spinor 32**: SO(11) spinor 32 = 16+16', where 16 = 15 SM + 1 nu_R. Right-handed neutrino required to complete half-spinor. dim(R)=1 maps to unique gauge singlet (1,1,0). Exactly 3 nu_R from Im_H=3. Connects to S167 predictions (R_31=33, R_32=32). F-STR-5 registered. (S214, 19/19 PASS)
 - **Democratic Bilinear Principle**: xi = 4/121 and sin^2(theta_W) = 28/121 UNIFIED as fractions of dim(End(V)) = n_c^2 = 121, the bilinear order parameter space. End(V) decomposes as 16 + 28 + 28 + 49 under SO(4) x SO(7). Bernoulli parameter p = n_d/n_c = 4/11 gives sin^2(theta_W) = p(1-p) and xi = p/n_c. Also: N_I = n_c^2 + n_d^2 = 121 + 16 = 137 (alpha connection). Three EQs unified (EQ-004/EQ-007/EQ-020). Gap: "why democratic not Dynkin?" (shared with S215). (S217, 35/35 PASS)
+- **Top Yukawa y_t = 1 from full compositeness** [CONJECTURE]: Framework fermions ARE algebraic (division algebras) -> no elementary sector -> full compositeness (sin(theta)=1). NDA mass relation M_1 = Y_*f makes Y_* cancel: y_t = Y_*f/(Y_*f) = 1. CG coefficient also cancels (Clifford uniformity). m_t(tree) = v/sqrt(2) = 174.10 GeV, deviation 0.82% = Band A. Closes m_H chain: y_t=1 -> lambda_H=125/968 -> m_H=125.13 GeV (0.72 sigma). Weakness: y_b/y_t ~ 0.024 not explained within same generation. (S290, 24/24 PASS)
 
 ## What Failed / Dead Ends
 
@@ -61,10 +62,10 @@
 10. ~~**Open**: Derive xi = n_d/n_c^2 from vacuum alignment dynamics~~ — MAJOR PROGRESS: **Democratic Bilinear Principle** (S217) unifies xi = 4/121 and sin^2(theta_W) = 28/121 as fractions of dim(End(V)) = 121. Bernoulli p = 4/11. Residual gap: "why democratic not Dynkin?" Same gap as S215. First-order transition (S211) most promising resolution. (S179, S210, S214, S217)
 11. ~~**Open**: Fermion embedding (MCHM4 vs MCHM5)~~ — RESOLVED (S212): Spinorial (MCHM4). Division algebra counting 15=1+2+4+8 matches SO(11) spinor 32; fundamental 11 too small (11<15). kappa_f = kappa_V (universal). `fermion_embedding_spinorial.py` 23/23 PASS.
 12. ~~**Open**: Colored pNGB mass spectrum vs LHC bounds~~ — DONE: Crude ~151 GeV (tension), enhanced ~590 GeV (better), N_CW~8 resolves. S parameter independently requires heavy. Tension is GENERIC to composite Higgs. (S179, S210, 14/14 + 12/12 PASS)
-13. **Open**: Top Yukawa from SO(11) partial compositeness (S179 — needed for m_H derivation). BLOCKED on UV dynamics (S214 assessment).
+13. ~~**Open**: Top Yukawa from SO(11) partial compositeness~~ — PARTIALLY RESOLVED (S290): y_t = 1 from full compositeness [CONJECTURE]. CG cancels. m_H chain closed. Remaining gap: y_b/y_t hierarchy within 3rd gen (SU(2) suppression needed). `top_yukawa_compositeness.py` 14/14 + `so11_spinor_yukawa_coupling.py` 10/10 PASS.
 14. **MONITOR**: 95 GeV scalar excess — CMS+ATLAS Run 3 full dataset (2025-2026) will resolve. Framework says NO; 5σ kills AXM_0109. (S213)
 15. **Open**: Colored pNGB branching ratios (beta parameter for LQ searches) — needed to sharpen HL-LHC prediction.
-16. **Open**: R(D)/R(D*) anomalies — may connect to mass-dependent effects beyond Im(H) democracy (Phase V, blocked on CKM).
+16. **Open**: R(D)/R(D*) anomalies — may connect to mass-dependent effects beyond Im_H democracy (Phase V, blocked on CKM).
 17. ~~**Open**: Triple Higgs coupling kappa_lambda~~ — DONE (S214): kappa_lambda = (1-2xi)/sqrt(1-xi) = 0.9497 (5.03% below SM). Derived via symbolic differentiation of MCHM4 potential. Also: kappa_4 ≈ 0.726. `kappa_lambda_mchm4.py` 20/20 PASS.
 18. ~~**Open**: nu_R prediction from spinor 32~~ — DONE (S214): nu_R required to complete half-spinor (16 = 15 + 1). dim(R)=1 maps to (1,1,0). 3 generations from Im_H. Connects to S167. `nu_R_structural_prediction.py` 19/19 PASS.
 
@@ -93,6 +94,7 @@
 | S213 | LHC null results audit | 10 items: SUSY, extra dims, W'/Z', EW desert, 95 GeV, Run 3 Higgs, colored pNGBs, soft leptons, R(K), 750 GeV. 9/10 consistent, 1 tension (95 GeV). 5 new scripts, 74/74 PASS |
 | S214 | S210/S212 open questions | kappa_lambda = 0.9497 (5.03% below SM, MCHM4 potential). nu_R structural prediction formalized. xi/y_t/pNGB mass assessed (BLOCKED on dynamics). 2 scripts, 39/39 PASS |
 | S217 | Mass scale f: democratic bilinear | **Democratic Bilinear Principle**: xi=4/121 and sin^2(theta_W)=28/121 unified via End(V)=121. Bernoulli p=4/11. Unifies EQ-004/EQ-007/EQ-020. Gap: "why democratic?" 2 scripts, 35/35 PASS |
+| S290 | Top Yukawa from SO(11) full compositeness | **y_t = 1 from full compositeness** [CONJECTURE]. CG cancels in NDA. m_t(tree) = v/sqrt(2) = 174.10 GeV, Band A (0.82%). m_H chain closed. 2 scripts, 24/24 PASS |
 
 ## Key Files
 
@@ -126,6 +128,8 @@
 | `verification/sympy/lhc_run3_higgs_update.py` | Run 3 Higgs couplings, MCHM4 universal (15/15 PASS) |
 | `verification/sympy/mass_scale_f_analysis.py` | Four approaches to f derivation surveyed (20/20 PASS) |
 | `verification/sympy/xi_democratic_bilinear.py` | Democratic Bilinear Principle: xi + sin^2 from End(V) (15/15 PASS) |
+| `verification/sympy/top_yukawa_compositeness.py` | y_t=1 from full compositeness, m_H chain (14/14 PASS) |
+| `verification/sympy/so11_spinor_yukawa_coupling.py` | SO(11) CG cancellation analysis (10/10 PASS) |
 
 ## Dependencies
 

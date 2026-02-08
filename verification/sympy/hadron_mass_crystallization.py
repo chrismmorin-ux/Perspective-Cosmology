@@ -4,7 +4,7 @@ Hadron Mass and Bound State Crystallization Verification
 
 KEY FINDING: Framework mass predictions center on m_p/m_e = 1836 + 11/72
 (0.06 ppm) and sqrt(sigma) = 8*m_p/17 (0.4%). Color singlet structure
-requires N_c = Im_H = 3 quarks per baryon — this is DERIVED, not assumed.
+requires N_c = Im_H = 3 quarks per baryon -- this is DERIVED, not assumed.
 
 Formulas verified:
   m_p/m_e = 12 * 153 + 11/72 = 1836.15278        [CONJECTURE, Tier 1]
@@ -266,7 +266,7 @@ for m in magic_numbers:
 
 print(f"\nMatches: {matches}/{len(magic_numbers)}")
 print(f"WARNING: {matches}/7 is not impressive. Small integers appear in many contexts.")
-print(f"STATUS: [SPECULATION] — no derivation mechanism exists.")
+print(f"STATUS: [SPECULATION] -- no derivation mechanism exists.")
 
 # ==============================================================================
 # PART 7: CONSTITUENT QUARK MODEL RATIOS

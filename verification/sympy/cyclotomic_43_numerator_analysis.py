@@ -143,7 +143,7 @@ def test_perfect_square_pattern():
 
 
 # =============================================================================
-# Test 3: Tautology check — is B_hidden = 9 algebraically trivial?
+# Test 3: Tautology check -- is B_hidden = 9 algebraically trivial?
 # =============================================================================
 def test_tautology_check():
     """If B_v = C*Im_H^2 = 18, B_mu = -(C+O) = -10, B_ms = R = 1,
@@ -206,7 +206,7 @@ def test_tautology_check():
 
 
 # =============================================================================
-# Test 4: Partition uniqueness — how many (a,b,c) with a+b+c=9
+# Test 4: Partition uniqueness -- how many (a,b,c) with a+b+c=9
 #          where a,b,c are "framework expressible" and |a|,|b|,|c| <= 25?
 # =============================================================================
 def test_partition_uniqueness():
@@ -328,7 +328,7 @@ def test_G2_connection():
     Is 14 = C*Im_O meaningful? G_2 acts on the 7-sphere S^6
     (unit imaginary octonions). The tangent bundle of S^6 has fiber R^6.
     The structure group is... SU(3) (not G_2).
-    G_2/SU(3) ≅ S^6, so dim(G_2) = dim(SU(3)) + dim(S^6) = 8 + 6 = 14.
+    G_2/SU(3) ~= S^6, so dim(G_2) = dim(SU(3)) + dim(S^6) = 8 + 6 = 14.
     And dim(S^6) = Im_O - 1 = 6, dim(SU(3)) = 8 = O.
     So 14 = O + (Im_O - 1) = O + Im_O - 1.
 
@@ -378,15 +378,15 @@ def test_statistical_significance():
     - Hidden sector: 3 formulas, B_i in [-20, 20].
       Sum B1+B2+B3 in [-60, 60]. P(sum = perfect square).
       Perfect squares in [-60,60]: 0,1,4,9,16,25,36,49. Count = 8.
-      Sum of 3 uniform[-20,20]: approx normal, mean 0, std ≈ 20.
-      P(sum = k) ≈ 1/121 for k near 0. P(sum in {0,1,4,9,16,25,36,49}) ≈ 8/121.
+      Sum of 3 uniform[-20,20]: approx normal, mean 0, std ~ 20.
+      P(sum = k) ~ 1/121 for k near 0. P(sum in {0,1,4,9,16,25,36,49}) ~ 8/121.
 
     - Spacetime sector: 1 formula. P(B = perfect square) = 5/41.
 
-    Joint: ≈ (5/41) * (8/121) * (5/41) ≈ 0.006 = 0.6%
+    Joint: ~ (5/41) * (8/121) * (5/41) ~ 0.006 = 0.6%
 
     But look-elsewhere: we'd also notice {squares}, {cubes}, {primes},
-    {Fibonacci}, etc. With ~5 "interesting" number sets, P ≈ 3%.
+    {Fibonacci}, etc. With ~5 "interesting" number sets, P ~ 3%.
     """
     # Count perfect squares in [-20, 20]
     sq_in_range = [n for n in range(-20, 21) if n >= 0 and int(math.sqrt(n))**2 == n]
@@ -413,17 +413,17 @@ def test_statistical_significance():
     # More refined: P(sector sums are CONSECUTIVE squares {n^2, (n+1)^2, (n+2)^2})
     # This is much tighter.
     # Consecutive square triples starting from 1^2: (1,4,9), (4,9,16), (9,16,25)...
-    # In [-20,20] × [-60,60] × [-20,20]:
+    # In [-20,20] * [-60,60] * [-20,20]:
     # (1,4,9): spacetime=1, crystal=4, hidden=9
     # (1,9,4): permutation
     # etc. But assignment to sectors is fixed by physics.
     # So only (1,4,9) with correct sector assignment matters.
-    # P(specific triple) ≈ p_joint ≈ 0.6% before look-elsewhere
+    # P(specific triple) ~ p_joint ~ 0.6% before look-elsewhere
 
     # But the CONSECUTIVE starting from 1 is even more specific
     n_consecutive_triples = 3  # (1,4,9), (4,9,16), (9,16,25) in range
     p_consecutive = n_consecutive_triples / (range_size * sum_range * range_size)
-    # This is tiny: 3 / (41 * 121 * 41) ≈ 1.5e-5
+    # This is tiny: 3 / (41 * 121 * 41) ~ 1.5e-5
 
     return {
         'p_any_squares': p_joint,
@@ -460,8 +460,8 @@ def test_division_algebra_identity():
 
     Check if O + 1 = Im_H^2 generalizes:
     R + 1 = 2 = C           = Im_C^2 + 1? No, Im_C^2 = 1, 1+1 = 2. Yes!
-    C + 1 = 3 = Im_H        ≠ Im_R^2 (= 0)
-    H + 1 = 5               ≠ Im_C^2 (= 1)
+    C + 1 = 3 = Im_H        != Im_R^2 (= 0)
+    H + 1 = 5               != Im_C^2 (= 1)
     O + 1 = 9 = Im_H^2      Yes!
 
     So the pattern K + 1 = Im(K')^2 holds for K=R (K'=C) and K=O (K'=H).
@@ -522,7 +522,7 @@ def test_conservation_interpretation():
 
     balanced = all(budgets[s] == spent[s] for s in budgets)
 
-    # Sensitivity: if any B changes by ±1, budget breaks
+    # Sensitivity: if any B changes by +/-1, budget breaks
     sensitive = True
     for name, f in FORMULAS.items():
         for delta in [-1, 1]:
@@ -546,7 +546,7 @@ def test_conservation_interpretation():
 def main():
     print("=" * 70)
     print("CYCLOTOMIC 43 NUMERATOR ANALYSIS")
-    print("Session S226 — Sum Rules and Sector Structure")
+    print("Session S226 -- Sum Rules and Sector Structure")
     print("=" * 70)
     print()
 
@@ -614,7 +614,7 @@ def main():
     print(f"  Ordered triples (B1, B2, B3) summing to 9: {count4}")
     print(f"  (18, -10, 1) is among them: {ok4}")
     if count4 > 100:
-        print(f"  WARNING: {count4} alternatives exist — partition is NOT unique")
+        print(f"  WARNING: {count4} alternatives exist -- partition is NOT unique")
     else:
         print(f"  Partition is moderately constrained ({count4} alternatives)")
     report("Target partition found", ok4)
@@ -684,7 +684,7 @@ def main():
     print(f"  Budgets: {r9['budgets']}")
     print(f"  Spent:   {r9['spent']}")
     print(f"  Balanced: {r9['balanced']}")
-    print(f"  Sensitive to any B ± 1: {r9['sensitive_to_B_changes']}")
+    print(f"  Sensitive to any B +/- 1: {r9['sensitive_to_B_changes']}")
     report("All sector budgets balanced and sensitive", ok9)
     print()
 

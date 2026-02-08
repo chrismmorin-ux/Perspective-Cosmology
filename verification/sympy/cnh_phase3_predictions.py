@@ -20,7 +20,7 @@ def is_gaussian_norm(n):
     """
     Check if n is a sum of two squares (Gaussian norm).
     By Fermat: n is a sum of two squares iff in prime factorization,
-    every prime p ≡ 3 (mod 4) appears to an even power.
+    every prime p == 3 (mod 4) appears to an even power.
     """
     if n <= 0:
         return n == 0
@@ -264,9 +264,9 @@ for name, num, den in mixing_angles:
     classification = f"{num_stat}/{den_stat}"
     print(f"{name:<25} | {num:>5} | {den:>5} | {classification}")
 
-# Check: sin²θ_C = 9/40 claimed above
-# Actually the Cabibbo angle θ_C ≈ 13.1°, sin²θ_C ≈ 0.051
-# 9/40 = 0.225 = sin²θ_12 (quark mixing), NOT sin²θ_C
+# Check: sin^2theta_C = 9/40 claimed above
+# Actually the Cabibbo angle theta_C ~ 13.1 deg, sin^2theta_C ~ 0.051
+# 9/40 = 0.225 = sin^2theta_12 (quark mixing), NOT sin^2theta_C
 # Let's verify what we actually mean
 print("\nNote on sin^2(theta_C):")
 print("  Cabibbo angle theta_C ~ 13.1 deg")
@@ -325,9 +325,9 @@ tests = [
     ("11 is NOT a norm", not is_gaussian_norm(11)),
     ("4 is a norm", is_gaussian_norm(4)),
     ("8 is a norm", is_gaussian_norm(8)),
-    ("28 is NOT a norm (7×4, odd power of 7)", not is_gaussian_norm(28)),
-    ("50 is a norm (2×25, no inert primes)", is_gaussian_norm(50)),
-    ("126 is NOT a norm (2×63=2×7×9)", not is_gaussian_norm(126)),
+    ("28 is NOT a norm (7*4, odd power of 7)", not is_gaussian_norm(28)),
+    ("50 is a norm (2*25, no inert primes)", is_gaussian_norm(50)),
+    ("126 is NOT a norm (2*63=2*7*9)", not is_gaussian_norm(126)),
 
     # Magic numbers
     ("Magic 2 is a norm", is_gaussian_norm(2)),
@@ -335,15 +335,15 @@ tests = [
     ("Magic 20 is a norm", is_gaussian_norm(20)),
     ("Magic 28 is NOT a norm", not is_gaussian_norm(28)),
     ("Magic 50 is a norm", is_gaussian_norm(50)),
-    ("Magic 82 is a norm", is_gaussian_norm(82)),  # 82 = 2×41, 41 ≡ 1 mod 4
+    ("Magic 82 is a norm", is_gaussian_norm(82)),  # 82 = 2*41, 41 == 1 mod 4
     ("Magic 126 is NOT a norm", not is_gaussian_norm(126)),
 
     # Mixing angles
     ("28 is NOT a norm", not is_gaussian_norm(28)),
-    ("121 is a norm (11²)", is_gaussian_norm(121)),
-    ("9 is a norm (3²)", is_gaussian_norm(9)),
-    ("40 is a norm (8×5)", is_gaussian_norm(40)),
-    ("63 is NOT a norm (7×9)", not is_gaussian_norm(63)),
+    ("121 is a norm (11^2)", is_gaussian_norm(121)),
+    ("9 is a norm (3^2)", is_gaussian_norm(9)),
+    ("40 is a norm (8*5)", is_gaussian_norm(40)),
+    ("63 is NOT a norm (7*9)", not is_gaussian_norm(63)),
     ("200 is a norm", is_gaussian_norm(200)),
 
     # Correlation check

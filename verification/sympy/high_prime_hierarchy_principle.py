@@ -275,7 +275,7 @@ TWO-SQUARE PRIMES (a^2 + b^2):
 | 97 | H^2 + Im_O^2 | Local + color |
 | 109 | Im_H^2 + n_c^2 | Generation + crystal |
 | 113 | Im_O^2 + O^2 | Full color |
-| 137 | Im_H^2 + 2*O^2 | FINE STRUCTURE α |
+| 137 | Im_H^2 + 2*O^2 | FINE STRUCTURE alpha |
 
 THREE-SQUARE PRIMES (a^2 + b^2 + c^2):
 | Prime | Form | Physical Role |
@@ -314,6 +314,6 @@ print("FINAL VERIFICATION")
 print("="*70)
 
 print("\nAll high primes 139-313 now have verified physical manifestations: PASS")
-print("Selection principle: Higher primes → larger scale observables: CONFIRMED")
+print("Selection principle: Higher primes -> larger scale observables: CONFIRMED")
 print("Color (Im_O, O) pervasiveness: CONFIRMED")
 print("Crystal (n_c) in cosmology: CONFIRMED")

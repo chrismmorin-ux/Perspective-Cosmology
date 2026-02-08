@@ -12,7 +12,7 @@ If the Crystal V supports all four normed division algebra structures
 (R, C, H, O) with their automorphism groups acting independently on
 orthogonal imaginary subspaces, then:
 
-  dim(V) >= dim(Im(C)) + dim(Im(H)) + dim(Im(O)) = 1 + 3 + 7 = 11
+  dim(V) >= dim(Im_C) + dim(Im_H) + dim(Im_O) = 1 + 3 + 7 = 11
 
 With minimality: n_c = 11.
 
@@ -40,18 +40,18 @@ imaginary parts to be orthogonal, requiring at least 11 dimensions.
 - [I-MATH]: Hurwitz theorem: normed division algebras over R are exactly
   R (dim 1), C (dim 2), H (dim 4), O (dim 8)
 - [I-MATH]: Aut(O) = G_2, dim(g_2) = 14
-- [I-MATH]: G_2 acts irreducibly on Im(O) = R^7
+- [I-MATH]: G_2 acts irreducibly on Im_O = R^7
 
 ### Key Lemma (Computationally Verified)
 
 **G_2 Irreducibility on R^7**: The Lie algebra g_2 of derivations of the
-octonions has dimension 14, and does NOT preserve Im(H) = span{e_1, e_2, e_3}
-inside Im(O) = R^7.
+octonions has dimension 14, and does NOT preserve Im_H = span{e_1, e_2, e_3}
+inside Im_O = R^7.
 
 Specifically:
 - Constraint matrix for derivation conditions: rank 7 out of 21 parameters
 - Nullspace dimension: 21 - 7 = 14 = dim(g_2)
-- Stabilizer of Im(H) in g_2: dimension 6
+- Stabilizer of Im_H in g_2: dimension 6
 - Codimension: 14 - 6 = 8 directions that break the quaternionic subspace
 
 **Verification**: `verification/sympy/g2_final.py` (4/5 PASS, 1 test bug in
@@ -61,9 +61,9 @@ Moufang helper function; g_2 computation is independent and correct)
 
 1. By [AXM_0115], V contains subspaces W_C, W_H, W_O supporting the
    imaginary parts of C, H, O respectively, with:
-   - dim(W_C) = 1 (Im(C) = R^1)
-   - dim(W_H) = 3 (Im(H) = R^3)
-   - dim(W_O) = 7 (Im(O) = R^7)
+   - dim(W_C) = 1 (Im_C = R^1)
+   - dim(W_H) = 3 (Im_H = R^3)
+   - dim(W_O) = 7 (Im_O = R^7)
 
 2. The automorphism groups Aut(C) = Z_2, Aut(H) = SO(3), Aut(O) = G_2
    act on W_C, W_H, W_O respectively.
@@ -88,7 +88,7 @@ Moufang helper function; g_2 computation is independent and correct)
 8. Therefore W_C, W_H, W_O are mutually orthogonal:
    dim(V) >= 1 + 3 + 7 = 11.
 
-9. With minimality [DERIVED from CCP (AXM_0120, S251)]: CCP-3 (no redundancy) forces the direct sum Im(C) ⊕ Im(H) ⊕ Im(O), giving n_c = 11. QED.
+9. With minimality [DERIVED from CCP (AXM_0120, S251)]: CCP-3 (no redundancy) forces the direct sum Im_C ⊕ Im_H ⊕ Im_O, giving n_c = 11. QED.
 
 ## Assumptions (Exhaustive)
 
@@ -107,7 +107,7 @@ Moufang helper function; g_2 computation is independent and correct)
    The only normed division algebras over R are R, C, H, O.
 
 3. **G_2 irreducibility** — [I-MATH, computationally verified]
-   G_2 = Aut(O) acts irreducibly on Im(O) = R^7.
+   G_2 = Aut(O) acts irreducibly on Im_O = R^7.
 
 4. **Independence requirement** — [A-PHYSICAL]
    The Crystal's algebraic structures act on separate subspaces.
@@ -150,9 +150,9 @@ See `verification/sympy/furey_hughes_crosscheck.py` (16/16 PASS).
 
 - **n_c = 4**: Only H-structure. Logically consistent but misses
   octonionic directions entirely. No gauge structure from G_2 breaking.
-- **n_c = 8**: Direct Im(O) only. Fails to separate quaternionic
+- **n_c = 8**: Direct Im_O only. Fails to separate quaternionic
   structure from octonionic.
-- **n_c = 10**: Without Im(C). Misses complex structure.
+- **n_c = 10**: Without Im_C. Misses complex structure.
 - **n_c = 15**: Non-minimal. Works but violates Occam's razor.
 
 All alternatives verified as suboptimal in

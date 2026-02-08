@@ -387,8 +387,8 @@ else:
     ax2.set_xlim(M_Z, 1e19)
 
     plt.tight_layout()
-    plt.savefig('verification/sympy/weinberg_running_plot.png', dpi=150)
-    print("Plot saved to: verification/sympy/weinberg_running_plot.png")
+    plt.savefig('weinberg_running_plot.png', dpi=150)
+    print("Plot saved to: weinberg_running_plot.png")
 
 # =============================================================================
 # Part 9: Final Assessment

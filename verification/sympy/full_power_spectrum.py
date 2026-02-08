@@ -7,7 +7,7 @@ that captures peak positions (all 7 within 3.1%), rough damping shape,
 and correct Sachs-Wolfe plateau level. Full Boltzmann codes needed for
 percent-level accuracy on peak heights.
 
-The framework does NOT replace Boltzmann physics — it constrains the
+The framework does NOT replace Boltzmann physics -- it constrains the
 6 LCDM parameters that feed into standard CMB calculations.
 
 Status: VERIFICATION
@@ -29,12 +29,12 @@ n_c = 11
 n_d = 4  # defect dimension
 
 # Cosmological parameters [DERIVED from framework]
-H_0 = 337 / 5            # = 67.4 km/s/Mpc (Planck: 67.36 ± 0.54)
-Omega_m = 63 / 200        # = 0.315 (Planck: 0.3153 ± 0.0073)
+H_0 = 337 / 5            # = 67.4 km/s/Mpc (Planck: 67.36 +/- 0.54)
+Omega_m = 63 / 200        # = 0.315 (Planck: 0.3153 +/- 0.0073)
 Omega_Lambda = 137 / 200  # = 0.685 (Planck: 0.6847)
 Omega_b = 567 / 11600     # = 0.04888 (Planck: 0.04930)
-n_s = 193 / 200           # = 0.965 (Planck: 0.9649 ± 0.0042)
-tau = 3 / 56              # = 0.05357 (Planck: 0.054 ± 0.007)
+n_s = 193 / 200           # = 0.965 (Planck: 0.9649 +/- 0.0042)
+tau = 3 / 56              # = 0.05357 (Planck: 0.054 +/- 0.007)
 r_tensor = 7 / 200        # = 0.035 (current bound: r < 0.036)
 
 # Derived quantities
@@ -200,7 +200,7 @@ def semi_analytic_Dl(ell, use_l_D=None):
 
     # 3. Acoustic oscillations
     # Phase includes the 3/11 shift: peaks at l_n = l_A*(n - 3/11)
-    # So phase = pi*(ell/l_A + 3/11) gives cos(phase)=±1 at peak positions
+    # So phase = pi*(ell/l_A + 3/11) gives cos(phase)=+/-1 at peak positions
     phase = math.pi * (ell / l_A + phi_shift)
     # Baryon loading enhances odd peaks (compression) vs even (rarefaction)
     baryon_shift = R_star * 0.75  # effective baryon enhancement

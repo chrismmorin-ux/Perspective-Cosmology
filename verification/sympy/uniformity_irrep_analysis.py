@@ -16,7 +16,7 @@ counts; mixing angles are mode fractions. Different physical quantities, not
 different regimes.
 
 Formula: P(k) = 1/N_I = 1/137 (uniform, from counting metric + max entropy)
-Measured: 1/alpha = 137.035999206 (CODATA 2022)
+Measured: 1/alpha = 137.035999177 (CODATA 2022)
 Status: INVESTIGATION
 
 Depends on:

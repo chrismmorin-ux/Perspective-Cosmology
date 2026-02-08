@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Framework Quantitative Scorecard — All numerical predictions compiled
+Framework Quantitative Scorecard -- All numerical predictions compiled
 
 KEY FINDING: 44 items DERIVED+CASCADE (35.8%), 77 PARTIAL, 1 IMPORTED, 1 OPEN
              Sub-percent predictions in multiple domains
@@ -31,7 +31,7 @@ M_Pl_GeV = float(R(122089, 10) * 10**15)  # 1.22089e19 GeV
 # ==============================================================================
 
 print("=" * 80)
-print("PERSPECTIVE FRAMEWORK — QUANTITATIVE SCORECARD")
+print("PERSPECTIVE FRAMEWORK -- QUANTITATIVE SCORECARD")
 print("=" * 80)
 print()
 
@@ -73,7 +73,7 @@ add("b_1 (U(1))", float(R(41,10)), float(R(41,10)), "", 0, "DERIVED", "THM_04A3"
 
 # --- FINE STRUCTURE CONSTANT ---
 alpha_inv_pred = float(alpha_inv)
-alpha_inv_meas = 137.035999206
+alpha_inv_meas = 137.035999177
 add("1/alpha (EM)", alpha_inv_pred, alpha_inv_meas, "", 0.27, "PARTIAL", "E1")
 
 # --- WEINBERG ANGLE ---

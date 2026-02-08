@@ -3,9 +3,9 @@
 Measurement Problem Resolution: Unified Verification
 
 KEY FINDING: The framework resolves all three aspects of the measurement problem:
-  1. Problem of outcomes: Wright-Fisher absorbing boundaries → definite results
+  1. Problem of outcomes: Wright-Fisher absorbing boundaries -> definite results
   2. Preferred basis: Interaction Hamiltonian eigenbasis selected by decoherence
-  3. Timing: Two-stage process (decoherence → crystallization)
+  3. Timing: Two-stage process (decoherence -> crystallization)
 
 The "and-or" problem (why ONE outcome, not a mixture) is resolved by
 crystallization dynamics that standard decoherence alone does not provide.
@@ -109,8 +109,8 @@ def test_pointer_basis_selection():
     """
     Show that different interaction Hamiltonians select different pointer bases.
 
-    H_int = sigma_z x sigma_z → pointer basis {|0>, |1>} (z-basis)
-    H_int = sigma_x x sigma_x → pointer basis {|+>, |->} (x-basis)
+    H_int = sigma_z x sigma_z -> pointer basis {|0>, |1>} (z-basis)
+    H_int = sigma_x x sigma_x -> pointer basis {|+>, |->} (x-basis)
 
     The pointer basis = eigenbasis of [H_int, rho_S x I].
     In the framework: the crystallization Hamiltonian determines which
@@ -143,7 +143,7 @@ def test_pointer_basis_selection():
     # System pointer basis: {|+>, |->} (x-eigenstates)
     evals_xx = H_xx.eigenvals()
 
-    # Verify both have the same eigenvalue structure (±1, each with multiplicity 2)
+    # Verify both have the same eigenvalue structure (+/-1, each with multiplicity 2)
     assert evals_zz == {1: 2, -1: 2}, f"H_zz eigenvalues wrong: {evals_zz}"
     assert evals_xx == {1: 2, -1: 2}, f"H_xx eigenvalues wrong: {evals_xx}"
 
@@ -179,7 +179,7 @@ def test_proper_mixture():
 
     This is the state BEFORE crystallization selects an outcome.
     """
-    theta = R(1, 3)  # Example: cos^2(theta) ≈ 0.89
+    theta = R(1, 3)  # Example: cos^2(theta) ~ 0.89
 
     # Populations from Born rule
     p0 = cos(pi * theta)**2
@@ -228,7 +228,7 @@ def test_wright_fisher_outcome_selection():
     - Decoherence gives diagonal rho (classical mixture)
     - Standard QM stops here: "system is in state k with probability p_k"
     - But WHAT SELECTS one outcome? Standard decoherence doesn't say.
-    - Framework: crystallization (Wright-Fisher) drives to p_k ∈ {0, 1}
+    - Framework: crystallization (Wright-Fisher) drives to p_k in {0, 1}
     - Result: exactly one p_k = 1, all others = 0 (definite outcome)
 
     Verify: Wright-Fisher properties that guarantee this.
@@ -267,7 +267,7 @@ def test_wright_fisher_outcome_selection():
     # Simplex constraint
     constraint = p1 + p2 + p3 - 1
 
-    # At exit: each p_k ∈ {0, 1}
+    # At exit: each p_k in {0, 1}
     # Only solutions with p1+p2+p3=1 are: (1,0,0), (0,1,0), (0,0,1)
     exit_states = []
     for vals in itertools.product([0, 1], repeat=n):
@@ -292,11 +292,11 @@ def test_born_rule_consistency():
     """
     The Born rule P(k) = |c_k|^2 is consistent at every stage of measurement:
 
-    Stage 0: Pure state |psi> = sum c_k |k>  →  P(k) = |c_k|^2 [from Gleason, S109]
-    Stage 1: After decoherence, rho_kk = |c_k|^2  →  P(k) = rho_kk [diagonal elements]
+    Stage 0: Pure state |psi> = sum c_k |k>  ->  P(k) = |c_k|^2 [from Gleason, S109]
+    Stage 1: After decoherence, rho_kk = |c_k|^2  ->  P(k) = rho_kk [diagonal elements]
     Stage 2: Wright-Fisher exit, P(exit at k) = p_k(0) = |c_k|^2 [from THM_0494]
 
-    All three give the SAME answer. This is not trivial — it means the framework's
+    All three give the SAME answer. This is not trivial -- it means the framework's
     measurement process is self-consistent.
     """
     theta = pi / 5  # Arbitrary angle for concreteness
@@ -348,7 +348,7 @@ def test_standard_decoherence_recovered():
     theory when we ignore the crystallization step.
 
     For system + environment with N environment qubits:
-    off-diagonal decay ~ (overlap)^N → 0 exponentially
+    off-diagonal decay ~ (overlap)^N -> 0 exponentially
 
     Framework interpretation: each interaction is a crystallization event
     that entangles system with one more environment degree of freedom.
@@ -378,7 +378,7 @@ def test_standard_decoherence_recovered():
     for i in range(len(off_diags) - 1):
         assert off_diags[i+1] < off_diags[i], "Off-diagonal should decrease"
 
-    # At N=50: off_diag ≈ 0.5 * 0.9^50 ≈ 0.003
+    # At N=50: off_diag ~ 0.5 * 0.9^50 ~ 0.003
     assert off_diags[-1] < 0.01, f"Should be effectively zero at N=50, got {off_diags[-1]}"
 
     # At N=1: partial decoherence
@@ -400,9 +400,9 @@ def test_complete_measurement_chain():
     Full measurement process for a concrete example:
 
     1. System in superposition: |psi> = cos(theta)|0> + sin(theta)|1>
-    2. Interaction with apparatus → entangled state
-    3. Trace out apparatus → diagonal rho
-    4. Crystallization dynamics → definite outcome
+    2. Interaction with apparatus -> entangled state
+    3. Trace out apparatus -> diagonal rho
+    4. Crystallization dynamics -> definite outcome
     5. Outcome probability = Born rule
 
     This is the complete chain that resolves the measurement problem.
@@ -428,7 +428,7 @@ def test_complete_measurement_chain():
     assert concurrence_val > 0, "Should be entangled"
     assert concurrence_val <= 1.0 + 1e-10, "Concurrence <= 1"
 
-    # Step 3: Trace out apparatus → diagonal rho
+    # Step 3: Trace out apparatus -> diagonal rho
     rho_diag = Matrix([[p0_initial, 0], [0, p1_initial]])
     assert simplify(rho_diag.trace() - 1) == 0
 
@@ -467,11 +467,11 @@ def test_and_or_problem_resolution():
     Standard QM says: "The system IS in state 0 OR state 1."
     But unitary evolution says: "The system is in state 0 AND state 1."
 
-    Decoherence alone does NOT resolve this — it produces the same density
+    Decoherence alone does NOT resolve this -- it produces the same density
     matrix whether we interpret it as "and" or "or."
 
     The framework resolves it: Wright-Fisher dynamics on the populations
-    DRIVES the mixture to a pure state. The "or" is not an interpretation —
+    DRIVES the mixture to a pure state. The "or" is not an interpretation --
     it is a dynamical outcome.
 
     Verify: The Wright-Fisher process distinguishes proper from improper mixtures.
@@ -482,12 +482,12 @@ def test_and_or_problem_resolution():
 
     # Framework distinction:
     # Improper: system is entangled with apparatus in V (crystal space)
-    # → Wright-Fisher dynamics acts on populations
-    # → Drives to pure state (one outcome)
+    # -> Wright-Fisher dynamics acts on populations
+    # -> Drives to pure state (one outcome)
 
     # Proper: system is definitely in one state, we just don't know which
-    # → No Wright-Fisher dynamics needed (already in pure state)
-    # → "Measurement" just reveals pre-existing state
+    # -> No Wright-Fisher dynamics needed (already in pure state)
+    # -> "Measurement" just reveals pre-existing state
 
     # The difference: for improper mixture, the joint state is PURE
     # (S_global = 0), while reduced state is MIXED (S_local > 0).
@@ -510,9 +510,9 @@ def test_and_or_problem_resolution():
     assert reduced_purity < 1, f"Reduced should be mixed, purity = {reduced_purity}"
 
     # The resolution:
-    # 1. Joint is pure → global state is deterministic (no randomness in V)
-    # 2. Reduced is mixed → local perspective sees randomness
-    # 3. Crystallization drives reduced state to pure → one definite outcome
+    # 1. Joint is pure -> global state is deterministic (no randomness in V)
+    # 2. Reduced is mixed -> local perspective sees randomness
+    # 3. Crystallization drives reduced state to pure -> one definite outcome
     # 4. Which outcome? P(k) = p_k(0) = |c_k|^2 (Born rule from THM_0494)
 
     # For a proper mixture (ignorance), the "joint state" doesn't exist as pure.
@@ -544,10 +544,10 @@ def test_einselection_from_crystallization():
     # Pointer basis: {|0>, |1>}
 
     # Test: |0> is stable under decoherence
-    # rho_0 = |0><0| → after interaction+trace → |0><0| (unchanged)
+    # rho_0 = |0><0| -> after interaction+trace -> |0><0| (unchanged)
     rho_0 = Matrix([[1, 0], [0, 0]])
 
-    # After CNOT-like interaction: |0>|ready> → |0>|0_A>
+    # After CNOT-like interaction: |0>|ready> -> |0>|0_A>
     # Trace out A: rho_0 still = |0><0|
     rho_0_after = Matrix([[1, 0], [0, 0]])
     assert rho_0 == rho_0_after, "Pointer state should be stable"
@@ -571,7 +571,7 @@ def test_einselection_from_crystallization():
     # Framework interpretation:
     # |0> and |1> are crystalline states (minimum tilt in z-direction)
     # |+> is a superposition = tilted state
-    # Interaction with apparatus crystallizes the tilt → pure pointer state
+    # Interaction with apparatus crystallizes the tilt -> pure pointer state
     # The pointer basis IS the crystal basis for this interaction
 
     return True
@@ -586,13 +586,13 @@ def test_three_born_rule_paths():
     The framework derives the Born rule through three independent paths:
 
     Path 1: Gleason's theorem (S109)
-      - Complex Hilbert space + dim >= 3 + probability axioms → |c_k|^2
+      - Complex Hilbert space + dim >= 3 + probability axioms -> |c_k|^2
 
     Path 2: Wright-Fisher dynamics (S134 + S169)
-      - Crystallization potential + unitary noise → martingale → |c_k|^2
+      - Crystallization potential + unitary noise -> martingale -> |c_k|^2
 
     Path 3: Fubini-Study geometry (S169)
-      - Natural metric on CP^{n-1} → unique diffusion → |c_k|^2
+      - Natural metric on CP^{n-1} -> unique diffusion -> |c_k|^2
 
     All three give the SAME result. This is strong evidence that the Born
     rule is a CONSEQUENCE of the framework, not an independent axiom.
@@ -608,8 +608,8 @@ def test_three_born_rule_paths():
     # For pure state, Tr(rho^2) = 1, so W = -a + b = const
     a_coeff, b_coeff = symbols('a b', positive=True)
     W_pure = -a_coeff * 1 + b_coeff * 1  # Tr(rho^2) = 1 for pure states
-    # dW/dp_k = 0 → zero drift
-    # This is independent of which pure state → drift = 0
+    # dW/dp_k = 0 -> zero drift
+    # This is independent of which pure state -> drift = 0
 
     # Path 3: Fubini-Study (requires complex projective space)
     # Metric on CP^{n-1}: ds^2 = dp^2/(4p(1-p)) + ...
@@ -628,7 +628,7 @@ def test_three_born_rule_paths():
     # Gleason uses probability axioms + Hilbert space geometry
     # Wright-Fisher uses crystallization dynamics + noise structure
     # Fubini-Study uses differential geometry of state space
-    # Yet they AGREE — this is a consistency check, not circular reasoning
+    # Yet they AGREE -- this is a consistency check, not circular reasoning
 
     # Count the independent derivations
     n_independent_paths = 3
@@ -706,7 +706,7 @@ def test_assumption_audit():
     # 4. Born rule: RESOLVED (three independent derivations)
 
     aspects_resolved = {
-        "outcomes": True,       # Wright-Fisher → definite
+        "outcomes": True,       # Wright-Fisher -> definite
         "preferred_basis": True, # Interaction H eigenstates
         "timing": True,         # Decoherence then crystallization
         "born_rule": True,      # Gleason + WF + Fubini-Study
@@ -746,7 +746,7 @@ def main():
     print("  3. Timing: Decoherence (entanglement) then crystallization")
     print()
     print("The 'and-or' problem (why ONE outcome from a mixture) is resolved")
-    print("by crystallization dynamics — not available in standard decoherence.")
+    print("by crystallization dynamics -- not available in standard decoherence.")
     print()
 
     all_pass = True

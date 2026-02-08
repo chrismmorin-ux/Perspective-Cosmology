@@ -9,7 +9,7 @@ This unifies two seemingly different approaches:
 1. Crystallization: m_DM/m_p = hidden_vectors/(n_c - C) = 49/9
 2. Confinement: m_dark_baryon/m_p = (N_dark/N_QCD) x (Lambda_7/Lambda_QCD)
 
-The key insight: 49/9 = (7/3)² = (7/3) x (7/3)
+The key insight: 49/9 = (7/3)^2 = (7/3) x (7/3)
 
 Where:
 - First factor (7/3): ratio of quarks in baryon (7 vs 3)
@@ -90,7 +90,7 @@ print(f"             = (7/3) x (Lambda_7/Lambda_QCD)")
 print()
 
 # For the two approaches to agree:
-# (7/3) x (Lambda_7/Lambda_QCD) = 49/9 = (7/3)²
+# (7/3) x (Lambda_7/Lambda_QCD) = 49/9 = (7/3)^2
 # Therefore: Lambda_7/Lambda_QCD = 7/3
 
 ratio_N = Rational(N_dark, N_QCD)
@@ -106,9 +106,9 @@ print(f"            = {ratio_crystallization} / {ratio_N}")
 print(f"            = {Lambda_ratio_derived}")
 print()
 
-# Verify: 49/9 = (7/3)²
+# Verify: 49/9 = (7/3)^2
 ratio_squared = ratio_N ** 2
-print(f"Verification: (7/3)² = {ratio_squared} = {float(ratio_squared):.4f}")
+print(f"Verification: (7/3)^2 = {ratio_squared} = {float(ratio_squared):.4f}")
 print(f"              49/9  = {ratio_crystallization} = {float(ratio_crystallization):.4f}")
 print(f"Match: {ratio_squared == ratio_crystallization}")
 print()
@@ -156,15 +156,15 @@ print()
 
 print("=== THE DEEP STRUCTURE ===")
 print()
-print("Why 49/9 = (7/3)²?")
+print("Why 49/9 = (7/3)^2?")
 print()
-print("  49 = 7² = N_dark²")
+print("  49 = 7^2 = N_dark^2")
 print("     = dim(SU(7)) + 1 = 48 + 1 (hidden gauge bosons)")
 print()
-print("  9 = 3² = N_QCD² (approximately)")
+print("  9 = 3^2 = N_QCD^2 (approximately)")
 print("    = n_c - C = 11 - 2 (non-EM crystal dimensions)")
 print()
-print("The equality 49/9 = (7/3)² encodes:")
+print("The equality 49/9 = (7/3)^2 encodes:")
 print("  - Factor 1 (7/3): baryon quark count ratio")
 print("  - Factor 2 (7/3): confinement scale ratio")
 print()
@@ -183,7 +183,7 @@ print("=== VERIFICATION TESTS ===")
 print()
 
 tests = [
-    ("49/9 = (7/3)²", ratio_crystallization == ratio_N**2),
+    ("49/9 = (7/3)^2", ratio_crystallization == ratio_N**2),
     ("Lambda ratio = 7/3", Lambda_ratio_derived == Rational(7, 3)),
     ("Dark baryon has 7 quarks", N_dark == 7),
     ("Hidden vectors = 49", hidden_vectors == 49),
@@ -221,7 +221,7 @@ print(f"  - Composition: SU(7) dark baryon (7 dark quarks)")
 print(f"  - Confinement: Lambda_7 = (7/3) x Lambda_QCD ~ {float(Lambda_7_MeV):.0f} MeV")
 print(f"  - Number density: n_DM = n_baryon (from Session 95)")
 print()
-print("The ratio 49/9 = (7/3)² means:")
+print("The ratio 49/9 = (7/3)^2 means:")
 print("  - The crystallization structure DETERMINES the confinement scale")
 print("  - SU(7) confines at Lambda_7 = (7/3) x Lambda_QCD ~ 580 MeV")
 print("  - The dark baryon mass follows from this")

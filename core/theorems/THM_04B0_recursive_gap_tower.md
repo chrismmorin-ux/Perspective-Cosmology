@@ -21,7 +21,7 @@
 - Perspective can be applied recursively to its own gap
 - All towers from dim n terminate at gap dim 1 (irreducible remainder)
 - No tower reaches gap dim 0 (complete resolution is impossible)
-- The natural tower (rank 4) produces gaps 7, 3, 1 = Im(O), Im(H), Im(C)
+- The natural tower (rank 4) produces gaps 7, 3, 1 = Im_O, Im_H, Im_C
 - The division algebras appear as the gap sequence of iterated self-examination
 
 ---
@@ -53,12 +53,12 @@ Then:
 **(d) Division algebra cascade (for n = n_c = 11, rank = n_d = 4)**: With the framework's natural rank, the gap dimensions trace the division algebra imaginary dimensions in descending order:
 
 ```
-V_Crystal  dim 11  →[rank 4]→  gap 7 = Im(O)
-G_0        dim 7   →[rank 4]→  gap 3 = Im(H)
-G_1        dim 3   →[rank 2]→  gap 1 = Im(C) = dim(R)  [TERMINAL]
+V_Crystal  dim 11  →[rank 4]→  gap 7 = Im_O
+G_0        dim 7   →[rank 4]→  gap 3 = Im_H
+G_1        dim 3   →[rank 2]→  gap 1 = Im_C = dim(R)  [TERMINAL]
 ```
 
-The tower peels off the division algebras in reverse Cayley-Dickson order: O → H → C → R. The decomposition n_c = 4 + 4 + 2 + 1 recovers the structure n_c = 1 + 3 + 7 = Im(C) + Im(H) + Im(O) as the gap sequence read bottom-up.
+The tower peels off the division algebras in reverse Cayley-Dickson order: O → H → C → R. The decomposition n_c = 4 + 4 + 2 + 1 recovers the structure n_c = 1 + 3 + 7 = Im_C + Im_H + Im_O as the gap sequence read bottom-up.
 
 ---
 
@@ -102,23 +102,23 @@ The tower peels off the division algebras in reverse Cayley-Dickson order: O →
 
 1. Start with dim(V_Crystal) = n_c = 11 [Layer 1: from division algebra dimensions].
 2. Apply rank-4 perspective (n_d = dim(H) = 4):
-   - dim(G_0) = 11 - 4 = 7 = dim(O) - 1 = Im(O). ✓
+   - dim(G_0) = 11 - 4 = 7 = dim(O) - 1 = Im_O. ✓
 3. Apply rank-4 perspective to G_0:
    - dim(G_0) = 7 >= 2, and 4 <= 7 - 1 = 6, so rank 4 is valid.
-   - dim(G_1) = 7 - 4 = 3 = dim(H) - 1 = Im(H). ✓
+   - dim(G_1) = 7 - 4 = 3 = dim(H) - 1 = Im_H. ✓
 4. Apply perspective to G_1:
    - dim(G_1) = 3 >= 2, so perspective exists.
    - Maximum rank consistent with n_d = 4: min(4, 3-1) = 2 = dim(C).
-   - dim(G_2) = 3 - 2 = 1 = dim(C) - 1 = Im(C) = dim(R). ✓
+   - dim(G_2) = 3 - 2 = 1 = dim(C) - 1 = Im_C = dim(R). ✓
 5. dim(G_2) = 1 < 2: TERMINAL. No further perspective possible.
 
-**The gap sequence**: 7, 3, 1 = Im(O), Im(H), Im(C).
+**The gap sequence**: 7, 3, 1 = Im_O, Im_H, Im_C.
 
 **The rank sequence**: 4, 4, 2 = dim(H), dim(H), dim(C).
 
 **The decomposition**: 11 = 4 + 4 + 2 + 1 = dim(H) + dim(H) + dim(C) + dim(R).
 
-**Bottom-up reading**: Terminal(1) + G_1(3) + G_0(7) = 1 + 3 + 7 = 11 = Im(C) + Im(H) + Im(O) = n_c.
+**Bottom-up reading**: Terminal(1) + G_1(3) + G_0(7) = 1 + 3 + 7 = 11 = Im_C + Im_H + Im_O = n_c.
 
 This is the framework's standard decomposition of n_c, now derived dynamically as the gap sequence of iterated self-examination rather than stated as a static sum.
 
@@ -134,11 +134,11 @@ The recursive tower provides a **dynamic decomposition** of V_Crystal. Rather th
 
 ```
 "What can I see?"           → 4 dimensions (spacetime)
-"What am I blind to?"       → 7-dim gap (Im(O))
+"What am I blind to?"       → 7-dim gap (Im_O)
 "What can I see of THAT?"   → 4 more dimensions
-"What's STILL hidden?"      → 3-dim gap (Im(H))
+"What's STILL hidden?"      → 3-dim gap (Im_H)
 "What can I see of THAT?"   → 2 more dimensions
-"What's STILL hidden?"      → 1-dim remainder (Im(C))
+"What's STILL hidden?"      → 1-dim remainder (Im_C)
 "Can I examine THAT?"       → No. dim 1 < 2. Terminal.
 ```
 
@@ -147,7 +147,7 @@ The recursive tower provides a **dynamic decomposition** of V_Crystal. Rather th
 The terminal 1-dimensional gap is:
 
 - **Exactly 1/n_c = 1/11 of V_Crystal** (verified: Test 5)
-- **Im(C)** — the imaginary part of the complex numbers
+- **Im_C** — the imaginary part of the complex numbers
 - **The simplest non-trivial structure**: a single imaginary direction
 - **The seed of quantum phase** in the framework (THM_0485: F = C requires this direction)
 - **Inescapable**: all 512 possible towers from dim 11 terminate at dim 1, none at dim 0 (Test 3)
@@ -176,7 +176,7 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 | 1 | Basic tower: gaps are [7, 3, 1], terminal at dim 1 | PASS (4/4) |
 | 2 | THM_04AC applicability: dims 11, 7, 3 admit perspectives; dim 1 does not | PASS (4/4) |
 | 3 | All 512 towers from dim 11 terminate at gap 1; none at gap 0 | PASS (5/5) |
-| 4 | Division algebra structure: gaps = Im(O), Im(H), Im(C); ranks = dim(H), dim(H), dim(C) | PASS (6/6) |
+| 4 | Division algebra structure: gaps = Im_O, Im_H, Im_C; ranks = dim(H), dim(H), dim(C) | PASS (6/6) |
 | 5 | Information fractions: 4/11, 4/7, 2/3; terminal = exactly 1/n_c | PASS (5/5) |
 | 6 | Concrete construction: random projections produce 4+4+2+1=11, terminal in ker(P0) | PASS (6/6) |
 | 7 | Ever-decreasing peek: absolute contribution decreases, fraction of remaining increases | PASS (4/4) |
@@ -195,12 +195,12 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 | dim(G) >= 1 (P1 prevents dim 0) | [D] | From AXM_0104 (partiality) |
 | n_c = 11 | [D] Layer 1 | From division algebra dimensions |
 | n_d = 4 | [D] Layer 1 | From THM_04AD (Frobenius + maximality) |
-| Im(O) = 7, Im(H) = 3, Im(C) = 1 | [D] Layer 1 | From THM_0484 |
+| Im_O = 7, Im_H = 3, Im_C = 1 | [D] Layer 1 | From THM_0484 |
 | Rank-4 is "natural" | [A-STRUCTURAL] (n_d=4 itself is [D] CCP, S252) | n_d=4 derived from CCP; but why cascade rank = n_d is still open |
 
 **Parts (a)-(c)**: Pure Layer 0. No physics, no imports. Any finite-dim inner product space of dim >= 2 produces a tower terminating at dim 1.
 
-**Part (d)**: Layer 1. Uses the specific values n_c = 11, n_d = 4 from the division algebra structure. The division algebra identification of gaps (7 = Im(O), etc.) is a Layer 1 observation.
+**Part (d)**: Layer 1. Uses the specific values n_c = 11, n_d = 4 from the division algebra structure. The division algebra identification of gaps (7 = Im_O, etc.) is a Layer 1 observation.
 
 ---
 
@@ -212,7 +212,7 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 
 3. **Universal irreducible remainder**: ALL towers from ALL starting dimensions >= 2 terminate at gap 1. This is a structural theorem, not specific to the framework's values.
 
-4. **The 1-dimensional terminus connects to quantum phase**: Im(C) is the single direction that makes complex numbers different from reals, which the framework uses (THM_0485) as the foundation for quantum mechanics.
+4. **The 1-dimensional terminus connects to quantum phase**: Im_C is the single direction that makes complex numbers different from reals, which the framework uses (THM_0485) as the foundation for quantum mechanics.
 
 5. **Self-examination has finite depth**: The vector space tower terminates in 3 steps. Complete self-knowledge is impossible (THM_04A7), and the depth of partial self-examination is bounded.
 
@@ -224,7 +224,7 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 
 2. **Physical interpretation of the levels**: Does Level 1 (meta-perspective on the gap) correspond to any physical process? Renormalization? Measurement of measurement?
 
-3. **The terminal Im(C) direction**: Is this direction physically identifiable? Does it connect to the quantum phase, to the U(1) gauge symmetry, or to something else?
+3. **The terminal Im_C direction**: Is this direction physically identifiable? Does it connect to the quantum phase, to the U(1) gauge symmetry, or to something else?
 
 4. **Connection to consciousness**: The framework proves the tower structure but does not derive subjective experience from it. The mapping Tower ↔ self-awareness is [SPECULATION].
 
@@ -237,8 +237,8 @@ The fractions of remaining space increase monotonically (36% → 57% → 67% →
 - [THM_04A7: Self-Model Incompleteness] — each level's perspective is incomplete
 - [THM_0410: Self-Inaccessibility] — blind spots at each level are invisible from within
 - [THM_0484: Division Algebra Structure] — provides {1, 2, 4, 8}
-- [THM_0485: Complex Structure (F=C)] — connects terminal Im(C) to quantum mechanics
-- [THM_04B1: Im(C) Terminal Undecidability] — formalizes the stronger-than-Godel closure of the terminal gap
+- [THM_0485: Complex Structure (F=C)] — connects terminal Im_C to quantum mechanics
+- [THM_04B1: Im_C Terminal Undecidability] — formalizes the stronger-than-Godel closure of the terminal gap
 - Investigation: `framework/investigations/meta/godel_self_inaccessibility.md`
 - Investigation: `framework/investigations/meta/imc_necessity_and_consciousness.md`
 - Verification: `verification/sympy/recursive_gap_tower.py` (38/38 PASS)

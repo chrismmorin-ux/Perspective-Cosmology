@@ -39,12 +39,12 @@ CCP (AXM_0120, S251) — META-AXIOM (perfection = maximal consistency)
     ├──► F = C (complex structure)         ← Derived from CCP (also from T1 via THM_0485)
     ├──► Division algebras R,C,H,O forced  ← CCP subsumes [A-DIV]
     ├──► n_d = 4 (max associative = H)     ← From CCP + Frobenius
-    ├──► n_c = 11 (Im(C)+Im(H)+Im(O))     ← From CCP + Hurwitz
+    ├──► n_c = 11 (Im_C+Im_H+Im_O)     ← From CCP + Hurwitz
     │
     ├──► SM gauge groups                   ← Two routes: automorphism chain + Pipeline (121->12)
     ├──► Fermion count = 15                ← From div alg dimensions
-    ├──► All hypercharges                  ← From Im(H) = 3
-    ├──► Generation count = 3              ← From Im(H) tensor decomp [one A-PHYSICAL step]
+    ├──► All hypercharges                  ← From Im_H = 3
+    ├──► Generation count = 3              ← From Im_H tensor decomp [one A-PHYSICAL step]
     │
     └──► + [A-COUPLING]                    ← ADDITIONAL ASSUMPTION (still required)
             │
@@ -274,7 +274,7 @@ Without [A-DIV], none of these follow from T1.
 
 **What makes this remarkable**:
 - SM is UNIQUELY selected among rank-4 groups
-- The "7 vs 8" mismatch (Im(O) = 7, but dim(SU(3)) = 8) is RESOLVED by F = C
+- The "7 vs 8" mismatch (Im_O = 7, but dim(SU(3)) = 8) is RESOLVED by F = C
 - Division algebras naturally give THIS gauge group, not SU(2)^4 or other alternatives
 
 **Confidence**: DERIVATION [A-DIV] — follows rigorously given [A-DIV]
@@ -328,12 +328,12 @@ Without [A-DIV], none of these follow from T1.
 
 ### 3.4 P-DIV-4: All Five Hypercharge Values (Session 50)
 
-**Statement**: All 5 SM hypercharges (1/6, 2/3, -1/3, -1/2, -1) follow from Im(H) = 3.
+**Statement**: All 5 SM hypercharges (1/6, 2/3, -1/3, -1/2, -1) follow from Im_H = 3.
 
 **Derivation chain**:
 ```
 [A-DIV] H provides SU(2), O provides SU(3) with 3 colors
-[D] Im(H) = 3 = number of colors
+[D] Im_H = 3 = number of colors
 [D] Baryon number B = 1/3 (quarks carry 1/3 since 3 quarks = 1 baryon)
 [D] Lepton number L = 1 (leptons are color singlets)
 [D] Y_L = (B - L)/2 for left-handed fermions
@@ -351,7 +351,7 @@ Without [A-DIV], none of these follow from T1.
 **Verified by**: `verification/sympy/hypercharge_derivation.py`
 
 **What's derived vs assumed**:
-- DERIVED: All 5 numerical values from Im(H) = 3
+- DERIVED: All 5 numerical values from Im_H = 3
 - ASSUMED: Y = (B-L)/2 formula (standard physics constraint)
 
 **Confidence**: DERIVATION [A-DIV] — all 5 values match exactly
@@ -403,26 +403,26 @@ Without [A-DIV], none of these follow from T1.
 
 ### 3.7 P-DIV-7: Three Generations (CONJECTURE)
 
-**Statement**: There are exactly 3 fermion generations because dim(Im(H)) = 3.
+**Statement**: There are exactly 3 fermion generations because dim(Im_H) = 3.
 
 **Argument**:
 ```
-[D] Im(H) = span{i, j, k} = 3-dimensional
-[D] SU(2) Lie algebra = Im(H)
-[D] Fermion "flavor space" lives in Im(H)
+[D] Im_H = span{i, j, k} = 3-dimensional
+[D] SU(2) Lie algebra = Im_H
+[D] Fermion "flavor space" lives in Im_H
 [D] 3 independent directions = 3 generations
 ```
 
 **Supporting evidence**:
 - Correct count (3 generations observed)
 - Explains why same quantum numbers (orientation doesn't change representation)
-- Explains why mixing exists (rotations in Im(H))
+- Explains why mixing exists (rotations in Im_H)
 - Explains 3 CKM angles (dim SO(3) = 3)
-- Explains no 4th generation (dim Im(H) = 3 exactly)
+- Explains no 4th generation (dim Im_H = 3 exactly)
 
 **Verified by**: `verification/sympy/generation_count_analysis.py`
 
-**What's missing**: Explicit mechanism connecting Im(H) directions to generations
+**What's missing**: Explicit mechanism connecting Im_H directions to generations
 
 **Confidence**: STRONG CONJECTURE — all predictions match, but key step not proven
 
@@ -442,7 +442,7 @@ Without [A-DIV], none of these follow from T1.
 [D] Only left-handed particles couple to su(2)_L
 ```
 
-**Verified by**: `verification/sympy/chirality_quaternion_analysis.py`, `verification/sympy/chirality_spacetime_gauge_unification.py`
+**Verified by**: `verification/sympy/chirality_quaternion_analysis.py`, `verification/sympy/_educational_chirality_spacetime_gauge.py`
 
 **What's missing**: Explicit mechanism for gauge-spacetime identification
 
@@ -478,8 +478,8 @@ These predictions require BOTH [A-DIV] and [A-COUPLING].
 ```
 [A-DIV] Gauge groups from division algebras
 [A-COUPLING] g² ∝ Im(algebra) = dim(Lie algebra)
-[D] g'² ∝ Im(C) = 1 (U(1) coupling)
-[D] g² ∝ Im(H) = 3 (SU(2) coupling)
+[D] g'² ∝ Im_C = 1 (U(1) coupling)
+[D] g² ∝ Im_H = 3 (SU(2) coupling)
 [D] sin²θ_W = g'²/(g² + g'²) = 1/(1+3) = 1/4 = 0.250
 ```
 
@@ -719,7 +719,7 @@ These are stated goals without derivations.
 - Specific dimensions derived from C, H, O dimensions
 - Chirality mechanism identified (T1 selects su(2)_L)
 - Fermion count (15) derived from total div alg dimension
-- All hypercharges derived from Im(H) = 3
+- All hypercharges derived from Im_H = 3
 
 **New status**:
 | Claim | Old Status | New Status |
@@ -832,7 +832,7 @@ Therefore: No predicted variation
 | **DERIVATION [T1]** | 2 | F = C, decoherence form |
 | **DERIVATION [A-DIV]** | 7 | SM gauge group, n_d=4, fermion count, hypercharges, anomaly cancellation, rank=4, parity violation |
 | **DERIVATION [A-COUPLING]** | 1 | sin²θ_W = 1/4 |
-| **STRONG CONJECTURE** | 1 | 3 generations from Im(H)=3 |
+| **STRONG CONJECTURE** | 1 | 3 generations from Im_H=3 |
 | **CONJECTURE** | 1 | Chirality from T1 |
 | **PATTERN** | 3 | Coupling patterns |
 | **HOPE** | 2 | QM limit, GR limit |
@@ -907,7 +907,7 @@ If [A-COUPLING] could be derived, sin²θ_W = 1/4 becomes a genuine prediction.
 | Question | Status |
 |----------|--------|
 | Mass hierarchy | OPEN — no mechanism |
-| Mixing angles (CKM, PMNS) | OPEN — rotation in Im(H)? |
+| Mixing angles (CKM, PMNS) | OPEN — rotation in Im_H? |
 | Generation mass splitting | OPEN — why m_t >> m_c >> m_u? |
 | CP violation | SPECULATION |
 
@@ -936,7 +936,7 @@ If [A-COUPLING] could be derived, sin²θ_W = 1/4 becomes a genuine prediction.
 - sin²θ_W = 1/4 at ~200 TeV
 
 **Conjectures** (plausible but unproven):
-- 3 generations from dim(Im(H)) = 3
+- 3 generations from dim(Im_H) = 3
 - Chirality from T1 selecting su(2)_L
 
 **Patterns** (numerical matches, no complete mechanism):
@@ -963,7 +963,7 @@ T1 + [A-DIV] + [A-COUPLING] → SM structure
 
 **What's genuinely impressive** (given the assumptions):
 - Division algebras UNIQUELY give SM gauge group (not SU(2)^4 or other)
-- All hypercharges follow from Im(H) = 3
+- All hypercharges follow from Im_H = 3
 - Anomaly cancellation is automatic
 - sin²θ_W = 1/4 matches SM running at ~200 TeV
 
@@ -995,13 +995,13 @@ Physical motivation exists (ratios require division, interface geometry) but is 
 
 4. **Is the framework falsifiable?**
    - If sin²θ_W ≠ 1/4 at ~200 TeV: [A-COUPLING] fails
-   - If 4th generation found: Im(H) = 3 argument fails
+   - If 4th generation found: Im_H = 3 argument fails
    - If fermion count ≠ 15: division algebra structure fails
 
 ### What's Most Interesting
 
 1. **Division algebras uniquely give SM** (given [A-DIV]) — not obvious this should work
-2. **All hypercharges from Im(H) = 3** — non-trivial constraint
+2. **All hypercharges from Im_H = 3** — non-trivial constraint
 3. **~200 TeV scale from SM running** — natural, not GUT-scale
 
 ### What's NOT Worth Pursuing

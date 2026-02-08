@@ -2,7 +2,7 @@
 """
 G_2 Irreducibility on R^7: The Key Argument
 
-SUPERSEDED by g2_final.py — this script uses an incorrect Fano plane
+SUPERSEDED by g2_final.py -- this script uses an incorrect Fano plane
 orientation that gives dim(g_2) = 6 instead of 14. See g2_final.py
 for the corrected version using Wikipedia/standard convention.
 

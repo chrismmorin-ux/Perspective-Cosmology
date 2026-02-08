@@ -35,13 +35,13 @@ print(f"""
 The crystal has symmetry group U({n_c}).
 
 Under U({n_c}), the EM channels transform as:
-  - Off-diagonal E_ij → U E_ij U^† (conjugation)
-  - U(1) phase → unchanged (center of group)
+  - Off-diagonal E_ij -> U E_ij U^+ (conjugation)
+  - U(1) phase -> unchanged (center of group)
 
 Key observation: U({n_c}) acts TRANSITIVELY on off-diagonal generators.
 
 This means: Given any two off-diagonal channels E_ij and E_kl,
-there exists U in U({n_c}) such that U E_ij U^† = E_kl.
+there exists U in U({n_c}) such that U E_ij U^+ = E_kl.
 
 Implication: No off-diagonal channel is "special."
 
@@ -104,7 +104,7 @@ Physical argument:
   The projection strength is 1/(number of channels it projects onto).
 
   So: contribution per channel = 1/Phi_6
-  Total from one mode = sum over channels = Phi_6 × (1/Phi_6) = 1
+  Total from one mode = sum over channels = Phi_6 * (1/Phi_6) = 1
 
   This is CONSISTENT but assumes equal distribution.
 """)
@@ -135,7 +135,7 @@ For a GENERIC tilt epsilon (no fine-tuning):
 
 If epsilon entries are O(delta) with no correlations:
 
-  Tr(...) ~ delta^2 × n_d × Tr(M) / n_c
+  Tr(...) ~ delta^2 * n_d * Tr(M) / n_c
 
 Now, Tr(M) counts EM channels weighted by their "size":
   - Each off-diagonal E_ij has trace 0 (traceless)
@@ -181,22 +181,22 @@ NORMALIZATION:
 
   If |g_a|^2 = c for all a in S_EM:
 
-  {Phi_6} × c = (total)
+  {Phi_6} * c = (total)
   c = (total) / {Phi_6}
 
 PHYSICAL INTERPRETATION OF "TOTAL":
   The defect has {n_d} modes. Each mode couples to the EM field.
   The TOTAL correction to 1/alpha is:
 
-  Delta = n_d × (coupling per mode)
-        = n_d × (sum over channels of |g_a|^2 per mode)
-        = n_d × (Phi_6 × c)
-        = n_d × (total per mode)
+  Delta = n_d * (coupling per mode)
+        = n_d * (sum over channels of |g_a|^2 per mode)
+        = n_d * (Phi_6 * c)
+        = n_d * (total per mode)
 
   We OBSERVE Delta = n_d / Phi_6 = {Fraction(n_d, Phi_6)}
 
   Therefore:
-    n_d × (total per mode) = n_d / Phi_6
+    n_d * (total per mode) = n_d / Phi_6
     (total per mode) = 1 / Phi_6
 
   And since there are Phi_6 channels with equal coupling:
@@ -246,7 +246,7 @@ ANSWER (The Correct Derivation):
 5. Summing over all n_d defect dimensions (but NOT over channels,
    because 1/alpha already counts the channel structure):
 
-   Delta = n_d × (1 / Phi_6) = n_d / Phi_6 = {Fraction(n_d, Phi_6)}
+   Delta = n_d * (1 / Phi_6) = n_d / Phi_6 = {Fraction(n_d, Phi_6)}
 
 6. Final result:
 
@@ -286,13 +286,13 @@ PROOF:
 
 (6) The contribution per (defect mode, channel) pair is:
 
-    (Total correction) / (n_d × Phi_6) = (n_d/Phi_6) / (n_d × Phi_6)
+    (Total correction) / (n_d * Phi_6) = (n_d/Phi_6) / (n_d * Phi_6)
                                         = 1 / Phi_6^2
 
     Actually, the structure is:
 
     Delta = sum over defect modes of (contribution per mode)
-          = n_d × (1/Phi_6)
+          = n_d * (1/Phi_6)
           = n_d / Phi_6
 
     So (contribution per mode) = 1/Phi_6.
@@ -310,7 +310,7 @@ print("-"*70)
 main = n_d**2 + n_c**2
 correction = Fraction(n_d, Phi_6)
 total = Fraction(main * Phi_6 + n_d, Phi_6)
-alpha_measured = 137.035999084
+alpha_measured = 137.035999177
 alpha_predicted = float(main + correction)
 error_ppm = abs(alpha_predicted - alpha_measured) / alpha_measured * 1e6
 
@@ -333,7 +333,7 @@ Step 5: Normalization gives coupling strength
         Contribution per mode = 1/Phi_6 = 1/{Phi_6}
 
 Step 6: Total correction
-        Delta = n_d × (1/Phi_6) = {correction}
+        Delta = n_d * (1/Phi_6) = {correction}
 
 Step 7: Final result
         1/alpha = {main} + {correction} = {total} = {alpha_predicted:.10f}
@@ -343,7 +343,7 @@ Step 7: Final result
 
 DERIVATION STATUS: COMPLETE (modulo genericity assumption)
 
-The only remaining assumption is "genericity" — that the defect is not
+The only remaining assumption is "genericity" -- that the defect is not
 fine-tuned to prefer specific EM channels. This is physically reasonable:
 fine-tuning would require explanation, while generic coupling is the default.
 """)
@@ -359,7 +359,7 @@ Q: Why is the defect "generic" (not fine-tuned)?
 
 A: This follows from the ORIGIN of the defect.
 
-   The defect (perspective) arises from nucleation — spontaneous symmetry
+   The defect (perspective) arises from nucleation -- spontaneous symmetry
    breaking from the crystal. Nucleation is a random process; there's no
    mechanism to fine-tune the defect orientation.
 

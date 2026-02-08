@@ -60,7 +60,7 @@
 11. F11 — Measurement problem (all 3 aspects resolved, Born rule 3 ways)
 12. G1 — Second law (THM_0451 CANONICAL)
 13. G2 — Arrow of time (THM_0451 + THM_0420)
-14. A1 — 3+1 spacetime (THM_0484 CANONICAL → n_d=4, Im(H)=3 space. gr_chain_consolidation.py 21/21)
+14. A1 — 3+1 spacetime (THM_0484 CANONICAL → n_d=4, Im_H=3 space. gr_chain_consolidation.py 21/21)
 15. A3 — Equivalence principle (automatic from induced metric geometry, no free coupling)
 16. A4 — Einstein field equations (Lovelock [I-MATH] + covariance → unique EH. einstein_from_crystallization.py 8/8)
 17. B1 — SU(3)xSU(2)xU(1) gauge group (G-004 resolved S181. sm_gauge_group_from_fc.py 25/25)
@@ -68,7 +68,7 @@
 19. B3 — Electroweak SU(2)xU(1) (SO(4) → U(2) from F=C. sm_gauge_group_from_fc.py 25/25)
 20. B7 — 12 gauge bosons (8+3+1=12=n_c+1, arithmetic from B1-B3)
 21. B10 — Why SU(3)xSU(2)xU(1)? (Same derivation as B1, breaking chain + F=C)
-22. C1 — Three generations (Im(H)=3, Frobenius uniqueness, structurally forced)
+22. C1 — Three generations (Im_H=3, Frobenius uniqueness, structurally forced)
 23. B4 — Asymptotic freedom (b_3=-7, b_2=-19/6, b_1=41/10, all EXACT from division algebras)
 
 **CASCADE items (follow from DERIVED/PARTIAL parents)**:
@@ -91,7 +91,7 @@
 17. I5 — Electron g-2 (from QED: Schwinger correction alpha/(2pi))
 18. H5 — Hubble expansion (from A4 EFE + Friedmann equations [I-MATH])
 19. H9 — Structure formation (from derived cosmological parameters + standard perturbation theory)
-20. H10 — N_eff = 3.044 (from DERIVED C1: Im(H)=3 neutrino species + thermal corrections [I-MATH])
+20. H10 — N_eff = 3.044 (from DERIVED C1: Im_H=3 neutrino species + thermal corrections [I-MATH])
 21. E8 — Running of couplings (from DERIVED B4: all 3 beta coefficients exact + RG equations [I-MATH])
 22. B5 — Confinement (from DERIVED B2 SU(3) + DERIVED B4 b_3=-7 < 0: asymptotic freedom -> strong coupling)
 23. C14 — Proton mass (from B2+B5: SU(3)+confinement -> QCD binding, ~95% of mass; lattice QCD computation)
@@ -163,7 +163,7 @@ Defect:   SO(4) → U(2) = SU(2)_L x U(1) [THEOREM]  →  Electroweak (B3 DERIVE
      |
 SM gauge group SU(3) x SU(2) x U(1), dim = 12 = n_c+1 (B1, B7, B10 DERIVED)
 
-Gaps: chirality (B9), [A-STRUCTURAL] Landau quartic
+Gaps: chirality (B9). Landau quartic: [A-STRUCTURAL] -> [D with imports] (CONJ-B1, S259)
 Scripts: sm_gauge_group_from_fc.py 25/25, quartic_energy_curvature.py 12/12
 ```
 
@@ -175,7 +175,7 @@ Scripts: sm_gauge_group_from_fc.py 25/25, quartic_energy_curvature.py 12/12
 |--------|-------|--------|--------|
 | `qm_chain_completeness.py` | 22/22 | ALL PASS | F1, F2, F3, F4, F8 (Hilbert space → superposition → no-cloning) |
 | `boltzmann_third_law_cascade.py` | 8/8 | ALL PASS | G3 (Boltzmann distribution), G5 (Third Law) |
-| `pauli_exclusion_generations.py` | 12/12 | ALL PASS | F7 (Pauli exclusion), C1 (3 generations from Im(H)) |
+| `pauli_exclusion_generations.py` | 12/12 | ALL PASS | F7 (Pauli exclusion), C1 (3 generations from Im_H) |
 | `gr_chain_consolidation.py` | 21/21 | ALL PASS | A1-A4 (GR chain: n_d=4 → 3+1D → covariance → Lovelock → EFE) |
 | `open_items_audit.py` | 15/15 | ALL PASS | E5 (Fermi constant), D9 (CKM/PMNS), H6 (flatness), D11 (neutrinos) |
 | `remaining_open_problems.py` | 14/14 | ALL PASS | H9 (structure formation), H13 (CC magnitude), H16 (DESI), H19 (coincidence), I1 (nuclear) |

@@ -1,7 +1,7 @@
 # LLM Derivation Challenge — Results Summary
 
 **Created**: Session 128
-**Last Updated**: Session 257 (V2 Test 1 added 2026-02-07)
+**Last Updated**: Session 260 (V3 Test 1 added 2026-02-07)
 
 ---
 
@@ -22,6 +22,16 @@
 
 **V2 notes**: 10 questions (vs 3 in V1). CCP axiom included. Q8 partial: got U(1)xSO(3)xG_2 instead of full SM reduction. Q9 was guided (formula structures given). See `v2_test1_external.md` for details.
 
+### V3 Challenge (S260, numerical formula DISCOVERY)
+
+| Test | Model | Variant | Q1 Alpha (forward) | Q1 Alpha (reverse) | Q2 Weinberg | Q3 Open | Outcome |
+|------|-------|---------|--------------------|---------------------|-------------|---------|---------|
+| V3-1 | GPT-4o (fresh) | V3-discovery | FAIL (0/13 candidates near 0.036) | PARTIAL (found 4/121 not 4/111) | FAIL (missed 28/121) | UNINFORMATIVE | INTERESTING FAILURE |
+
+**V3 notes**: Tests open-ended numerical discovery, not guided computation. Structural results given as established facts. Three-phase Q1 separates forward (Part A) from reverse (Part C). LLM swapped n_d/n_c labels despite prompt. Never computed n_c^2-n_c+1=111. Never tried 28/121 for Q2 despite both numbers in prompt. Attempted "axiom" hallucinated numerical match (claimed 137.036, actual 137.364). See `v3_test1_numerical_discovery.md` for details.
+
+**V3 key finding**: Numerical formulas are NOT discoverable by current LLMs from algebraic structure alone. However, the LLM also missed the "obvious" ratio 28/121, suggesting poor combinatorial search rather than formula non-naturalness.
+
 **Per-test details**: See individual files in this directory.
 
 ---
@@ -38,8 +48,8 @@ The LLM Challenge revealed two points where the axiom document permits different
 
 | Ambiguity | Framework Reading | GPT-4o Reading | Classification |
 |-----------|-------------------|----------------|----------------|
-| **1: n_d definition** | dim(H) = 4 (full algebra dimension) | dim(Im(H)) = 3 (imaginary part only) | INTERPRETIVE, strongly favoring 4 |
-| **2: n_c scope** | Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (all Hurwitz algebras) | Im(R)+Im(C)+Im(H) = 0+1+3 = 4 (Frobenius only) | INTERPRETIVE, strongly favoring 11 |
+| **1: n_d definition** | dim(H) = 4 (full algebra dimension) | dim(Im_H) = 3 (imaginary part only) | INTERPRETIVE, strongly favoring 4 |
+| **2: n_c scope** | Im_C+Im_H+Im_O = 1+3+7 = 11 (all Hurwitz algebras) | Im(R)+Im_C+Im_H = 0+1+3 = 4 (Frobenius only) | INTERPRETIVE, strongly favoring 11 |
 
 ### Consistency Scorecard
 
@@ -94,6 +104,35 @@ Would indicate:
 - Hidden flexibility in axioms
 - Multiple valid interpretations
 - Need tighter constraints
+
+---
+
+## V3 Implications (S260)
+
+### The Derivation vs Discovery Scorecard
+
+| Layer | V1/V2 Result | V3 Result | Assessment |
+|-------|-------------|-----------|------------|
+| **Structural** (n_d, n_c, D_fw) | CONFIRMED (deterministic) | N/A (given) | DERIVATION |
+| **Algebraic** (137, 28, 121) | CONFIRMED (arithmetic) | N/A (given) | DERIVATION |
+| **Numerical** (4/111, 28/121) | Not tested / guided | NOT DISCOVERED | **OPEN** |
+
+### Two Interpretations
+
+**Pessimistic (supports "discovery")**: Numerical formulas found by human search — trying combinations until one matched a known value. LLMs can't rediscover them because no algebraic path exists.
+
+**Optimistic (supports "derivation")**: Formulas require algebraic insight (cyclotomic polynomials, sector decomposition) beyond brute-force search. LLMs are poor at open-ended combinatorial exploration — they missed even the obvious 28/121.
+
+### V3 Does Not Resolve the Question
+
+The LLM's failure to find even 28/121 (the "easy" formula) means its failure on 4/111 (the "hard" formula) is less diagnostic than hoped. A better combinatorial searcher might find both. V3 is informative but not decisive.
+
+### Recommended Next Steps
+
+1. **V3 on more models** (Claude, Gemini) — check universality
+2. **V3.1**: Give more structure (sector decomposition analysis), test cyclotomic connection
+3. **V3.2**: Give formula 4/111, ask if algebraically natural (tests understanding)
+4. **Human expert review** — remains highest-ROI action for overall framework assessment
 
 ---
 

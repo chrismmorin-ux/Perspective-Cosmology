@@ -12,7 +12,7 @@
 
 This investigation proposes that there is only ONE fundamental process — **recrystallization** (dimensional simplification toward orthogonality) — and what we call "forces" are this same process operating under different localization conditions.
 
-**Core claim**: Gravity is not a force but the universal recrystallization process. EM, strong, and weak "forces" are recrystallization localized to specific dimensional subspaces (corresponding to division algebras C, H, O).
+**Core claim** [CONJECTURE]: Gravity is not a force but the universal recrystallization process. EM, strong, and weak "forces" are recrystallization localized to specific dimensional subspaces (corresponding to division algebras C, H, O).
 
 ---
 
@@ -81,7 +81,7 @@ But actually:
    Space contracted, taking you with it
 ```
 
-This is exactly how GR describes gravity — spacetime curvature, not force.
+This is exactly how GR describes gravity — spacetime curvature, not force. [A-PHYSICAL]
 
 ### 1.4 Why Gravity Only "Attracts"
 

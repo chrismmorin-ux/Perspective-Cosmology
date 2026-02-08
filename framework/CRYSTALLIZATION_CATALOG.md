@@ -692,7 +692,7 @@ vertex factor = sqrt(alpha) = 1/sqrt(N_I)        [QED correspondence]
 **Key Equations**:
 ```
 15 = R + C + H + O = 1 + 2 + 4 + 8             [fermions per generation]
-3 generations from Im(H) = {i, j, k}             [quaternionic structure]
+3 generations from Im_H = {i, j, k}             [quaternionic structure]
 m_tilt ~ 2 sqrt(2) alpha^(3/2) M_Pl ~ 2.1e16 GeV  [tilt field mass]
 m_tilt(phi) = m_tilt(0) sqrt(g(phi))              [mass evolves with crystallization]
 m_p/m_e = 12 * 153 + 11/72 = 1836 + 11/72        [main term [CONJECTURE] + correction [DERIVATION]]
@@ -729,7 +729,7 @@ Koide Q = 2/3                                     [algebraically forced, [DERIVA
 
 **Confidence & Gaps**:
 - Status: [CONJECTURE] for specific mass values (discovered post-hoc); [DERIVATION] for structural counting (15/gen, 3 gen, 4 forces) and correction terms (11/72 from Lie algebra channels)
-- Chain: [D: C2 gives gauge structure] -> [D: 15 = sum of div alg dims] -> [CONJECTURE: 3 generations from Im(H)] -> [CONJECTURE: specific mass formulas from number search, then justified]
+- Chain: [D: C2 gives gauge structure] -> [D: 15 = sum of div alg dims] -> [CONJECTURE: 3 generations from Im_H] -> [CONJECTURE: specific mass formulas from number search, then justified]
 - Phase 4 audit (S188-190): m_p/m_e main term [CONJECTURE], Higgs canonical path B+, top Yukawa reasonable, Koide Q=2/3 [DERIVATION], CKM/PMNS all [CONJECTURE], theta_QCD downgraded (wrong mechanism)
 - Open: Individual particle masses (main terms are post-hoc); mass hierarchy mechanism; CKM/PMNS mixing angles from crystallization; WHY y_t = 1 - 1/n_c²
 - Falsification: Discovery of a 4th generation; fermion count != 15
@@ -750,8 +750,8 @@ Koide Q = 2/3                                     [algebraically forced, [DERIVA
 - Tilt: H-channel generation transition; tilt excess exits through weak + EM channels
 
 **Mechanism**:
-- The three Im(H) directions correspond to three generations [CONJECTURE]
-- Flavor-changing processes (charged current) are transitions between Im(H) directions via W
+- The three Im_H directions correspond to three generations [CONJECTURE]
+- Flavor-changing processes (charged current) are transitions between Im_H directions via W
 - Neutral current processes (Z decay) couple to all flavors with sin²θ_W = 28/121 [DERIVATION]
 - CKM matrix encodes the misalignment between mass and weak eigenstates [A-IMPORT]
 - Each weak vertex involves H-channel tilt redistribution
@@ -759,7 +759,7 @@ Koide Q = 2/3                                     [algebraically forced, [DERIVA
 
 **Key Equations**:
 ```
-Im(H) = {i, j, k} -> 3 generation directions              [A: from H structure]
+Im_H = {i, j, k} -> 3 generation directions              [A: from H structure]
 V_CKM: 3x3 unitary rotation (3 angles + 1 CP phase)       [A-IMPORT values]
 sin^2(theta_W) = 28/121 = N_Goldstone / n_c^2              [DERIVATION]
 g_V^f = T3^f - 2 Q^f sin^2(theta_W)                        [DERIVATION for sin^2]
@@ -775,8 +775,8 @@ G_F = g^2 / (4 sqrt(2) m_W^2)                              [A-IMPORT]
 
 | Observable | Framework | Measured | Error | Source |
 |-----------|-----------|----------|-------|--------|
-| 3 generations | Im(H) = 3 | 3 | 0% | [CONJECTURE] |
-| CKM: 3x3 unitary | From Im(H) = 3 | Confirmed | < 0.1% | PDG |
+| 3 generations | Im_H = 3 | 3 | 0% | [CONJECTURE] |
+| CKM: 3x3 unitary | From Im_H = 3 | Confirmed | < 0.1% | PDG |
 | CKM elements | Not derived | See pdg_couplings.md | — | Gap |
 | W channels | 9 = Im_H + 2N_c | 9 confirmed | 0% | [FRAMEWORK-CONSTRAINED] |
 | BR(W→lν) avg | 10.82% | 10.86(9)% | 0.4% | [FRAMEWORK-CONSTRAINED] |
@@ -801,10 +801,10 @@ G_F = g^2 / (4 sqrt(2) m_W^2)                              [A-IMPORT]
 - Related: C8 (emission mechanism), C14 (neutrino sector)
 
 **Confidence & Gaps**:
-- Status: [FRAMEWORK-CONSTRAINED] for mode counting and Z couplings; [CONJECTURE] for generation-Im(H) mapping; [A-IMPORT] for individual rates
+- Status: [FRAMEWORK-CONSTRAINED] for mode counting and Z couplings; [CONJECTURE] for generation-Im_H mapping; [A-IMPORT] for individual rates
 - **Strongest result**: Z branching with sin²θ_W = 28/121 (18/20 observables, 64 total tests across 4 scripts)
 - **Biggest gap**: CKM matrix elements not derived from framework — this is the critical open problem for C10 to have full predictive content
-- Open: CKM derivation from Im(H); CP violation mechanism; PMNS matrix
+- Open: CKM derivation from Im_H; CP violation mechanism; PMNS matrix
 - Falsification: Discovery of 4th generation weak decay; sin²θ_W ≠ 28/121 at high precision
 
 ---
@@ -981,7 +981,7 @@ Magic numbers: 2=dim(C), 8=dim(O), 28=n_d*Im_O [SPECULATION]
 
 **Before -> After**:
 - Physical: Neutrino of flavor alpha -> detected as flavor beta (probability oscillates with distance)
-- Tilt: H-channel flavor precession between Im(H) generation directions
+- Tilt: H-channel flavor precession between Im_H generation directions
 
 **Mechanism**:
 - Neutrino mass eigenstates differ from flavor eigenstates (PMNS matrix)
@@ -995,20 +995,20 @@ Magic numbers: 2=dim(C), 8=dim(O), 28=n_d*Im_O [SPECULATION]
 ```
 P(nu_alpha -> nu_beta) = sum |U_ai|^2 |U_bi|^2 - 2 Re[...] cos(Delta m^2 L / 2E) + ...
 [A-IMPORT: standard oscillation formula]
-PMNS matrix U: rotation in Im(H) space                  [CONJECTURE]
-3 mass eigenstates from 3 Im(H) directions              [CONJECTURE]
+PMNS matrix U: rotation in Im_H space                  [CONJECTURE]
+3 mass eigenstates from 3 Im_H directions              [CONJECTURE]
 ```
 
 **Verification**: Needed (Phase 6: `neutrino_oscillation_h_channel.py`)
 
 **Dependencies**:
-- Requires: C9 (neutrino masses), C2 (generation structure from Im(H))
+- Requires: C9 (neutrino masses), C2 (generation structure from Im_H)
 - Related: C10 (both involve H-channel generation physics)
 
 **Confidence & Gaps**:
-- Status: [STANDARD-RELABELED] for oscillation physics; [CONJECTURE] for Im(H) mapping
+- Status: [STANDARD-RELABELED] for oscillation physics; [CONJECTURE] for Im_H mapping
 - Open: PMNS matrix from crystallization; mass hierarchy; Dirac vs Majorana nature
-- Falsification: Sterile neutrino oscillation (4th direction beyond Im(H))
+- Falsification: Sterile neutrino oscillation (4th direction beyond Im_H)
 
 ---
 
@@ -1252,7 +1252,7 @@ Verification: [script reference or "needed"]
 |-------|-------|
 | **CANONICAL/THEOREM** | C2 (SO(11) chain, Frobenius results), C4 entanglement correlations (Bell/CHSH) |
 | **DERIVATION** | C1 (n_s, r), C2 (eigenvalue selection), C3 (g(phi) unification), C4 (Born rule + geometric noise), C6 (mode counting + beta coefficients) |
-| **CONJECTURE** | C5 (BH interpretation), C7 (Omega_Lambda), C8 (emission mechanism), C9 (mass freezing), C10 (generation mapping), C14 (PMNS from Im(H)) |
+| **CONJECTURE** | C5 (BH interpretation), C7 (Omega_Lambda), C8 (emission mechanism), C9 (mass freezing), C10 (generation mapping), C14 (PMNS from Im_H) |
 | **STANDARD-RELABELED** | C12 (hadronization dynamics), C13 (nuclear binding), C15 (GW physics), C17 (structure growth) |
 | **FRAMEWORK-CONSTRAINED** (updated) | C11 (pair processes: R-ratio uses N_c = Im_H, b_0 = Im_O) |
 | **SPECULATION** | C5 (evaporation endpoint), C6 (240 = 16 x 15 numerology), C16 (baryogenesis mechanism) |

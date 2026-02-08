@@ -165,7 +165,7 @@ and {abs(z_star_HS - z_framework):.2f} from the framework conjecture z_* = 33^2 
 CONCLUSION: The framework parameters (Omega_b, Omega_m, H_0) predict z_* ~ {z_star_HS:.0f}
 through standard recombination physics, NOT z_* = 1089 exactly.
 
-The z_* = 33^2 = 1089 identification is NUMEROLOGICAL — the true framework
+The z_* = 33^2 = 1089 identification is NUMEROLOGICAL -- the true framework
 prediction through physics gives z_* closer to the measured value.
 
 This RESOLVES the 3.8-sigma tension: it was an artifact of the numerological

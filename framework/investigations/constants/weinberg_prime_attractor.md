@@ -18,7 +18,7 @@ This is **0.72% from measured value** (0.23122 at M_Z), and SM running places th
 
 **The primes**:
 - 17 = 1² + 4² = dim(R)² + dim(H)² [real-quaternion structure]
-- 73 = 3² + 8² = Im(H)² + dim(O)² [generation-color structure]
+- 73 = 3² + 8² = Im_H² + dim(O)² [generation-color structure]
 
 **Key discovery**: 73 appears in both Koide (73/99) AND Weinberg (17/73) — it's a **universal attractor** for flavor/gauge physics.
 
@@ -70,8 +70,8 @@ The picture:
 - H encodes weak interaction structure (quaternions)
 - 17 represents "weak interaction grounded in reality"
 
-**Denominator: 73 = Im(H)² + dim(O)²**
-- Im(H) = 3 encodes generation structure
+**Denominator: 73 = Im_H² + dim(O)²**
+- Im_H = 3 encodes generation structure
 - dim(O) = 8 encodes color structure
 - 73 represents "full flavor-color space"
 
@@ -86,7 +86,7 @@ The prime 73 appears in BOTH:
 - Weinberg: sin²θ_W = 17/73 (73 in denominator)
 
 **73 is the unique prime encoding generation + color**:
-73 = Im(H)² + dim(O)² = 3² + 8²
+73 = Im_H² + dim(O)² = 3² + 8²
 
 This makes it the universal attractor for any physics involving flavor structure.
 
@@ -96,7 +96,7 @@ Comparing all three constants:
 
 | Constant | Formula | Denominator Type |
 |----------|---------|------------------|
-| Koide θ | π·73/99 | Composite (Im(H)² × n_c) |
+| Koide θ | π·73/99 | Composite (Im_H² × n_c) |
 | Alpha | 137 + 4/111 | Pure (1) |
 | Weinberg | 17/73 | Prime (73) |
 

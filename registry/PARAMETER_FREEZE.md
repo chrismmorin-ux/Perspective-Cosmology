@@ -21,7 +21,7 @@ These parameters follow from the axioms via mathematical necessity.
 | Parameter | Value | Derivation | Frozen Since | Status |
 |-----------|-------|------------|--------------|--------|
 | n_d | 4 | Frobenius theorem + time direction axiom | S10 | LOCKED |
-| n_c | 11 | Crystal dimensions: Im(C)+Im(H)+Im(O) = 1+3+7 | S15 | LOCKED (value); decomposition TENTATIVE (see §Tentative #2) |
+| n_c | 11 | Crystal dimensions: Im_C+Im_H+Im_O = 1+3+7 | S15 | LOCKED (value); decomposition TENTATIVE (see §Tentative #2) |
 | F | C | Time direction requires minimal phase structure | S5 | LOCKED |
 | Aut(O) | G₂ | Mathematical fact | S1 | LOCKED |
 | Aut(H) | SU(2) | Mathematical fact | S1 | LOCKED |
@@ -93,7 +93,7 @@ These parameters are used but not yet derived from first principles:
 ### 2. n_c = 11 (not 15) — Decomposition Justification
 
 **Status**: VALUE LOCKED (11 works; 15 does not); DECOMPOSITION TENTATIVE
-**Canonical form**: Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (per DEF_02C1)
+**Canonical form**: Im_C+Im_H+Im_O = 1+3+7 = 11 (per DEF_02C1)
 **Historical form**: R+C+H+H = 1+2+4+4 = 11 (deprecated — see CR-065)
 **Problem**: Why imaginary parts? Why not full dimensions R+C+H+O = 1+2+4+8 = 15?
 **Required**: Rigorous derivation of why Im() rather than full dim()

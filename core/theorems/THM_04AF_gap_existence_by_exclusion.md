@@ -140,5 +140,5 @@ No [A-IMPORT] or [A-PHYSICAL] assumptions. Pure Layer 0 result.
 - [THM_04A9: Non-Paradoxical Gap] — provides exhaustiveness (no "elsewhere")
 - [THM_0410: Self-Inaccessibility] — the operational consequences of gap existence
 - [THM_04B0: Recursive Gap Tower] — applying this result recursively to the gap itself
-- [THM_04B1: Im(C) Terminal Undecidability] — the terminal gap is simultaneously existent, necessary, and absolutely inaccessible
+- [THM_04B1: Im_C Terminal Undecidability] — the terminal gap is simultaneously existent, necessary, and absolutely inaccessible
 - Investigation: `framework/investigations/meta/godel_self_inaccessibility.md`

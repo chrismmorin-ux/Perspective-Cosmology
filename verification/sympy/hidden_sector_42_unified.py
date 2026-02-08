@@ -391,9 +391,9 @@ This connects the Goldstone tower to the visible/hidden split.
 
 # The generation loop correction
 print(f"""
-Connection to Im_H³ = 27:
+Connection to Im_H^3 = 27:
 
-From Session 114: The correction 27/7448 in weak mixing = Im_H³/7448
+From Session 114: The correction 27/7448 in weak mixing = Im_H^3/7448
 
 If we add generation loop correction to 42/181:
   42/181  x  (1 - 27/7448) = 42/181  x  7421/7448
@@ -402,7 +402,7 @@ If we add generation loop correction to 42/181:
 
 This is even closer to measured 0.23122!
 
-27 = Im_H³ = generation³ appears as the loop correction factor.
+27 = Im_H^3 = generation^3 appears as the loop correction factor.
 """)
 
 # The meaning of "42"

@@ -27,10 +27,10 @@ More precisely:
 
 | Prime | Form | Structure 1 | Structure 2 | Physical Location | Why There? |
 |-------|------|-------------|-------------|-------------------|------------|
-| **13** | 2²+3² | dim(C) = EM | Im(H) = generations | PMNS matrix | Neutrino mixing = EM × generations |
-| **53** | 2²+7² | dim(C) = EM | Im(O) = color | α_s | Strong coupling = EM × color |
-| **73** | 3²+8² | Im(H) = generations | dim(O) = full color | Koide θ | Mass hierarchy = generations × color |
-| **113** | 7²+8² | Im(O) = color structure | dim(O) = full octonion | Glueball | Pure glue = pure octonion |
+| **13** | 2²+3² | dim(C) = EM | Im_H = generations | PMNS matrix | Neutrino mixing = EM × generations |
+| **53** | 2²+7² | dim(C) = EM | Im_O = color | α_s | Strong coupling = EM × color |
+| **73** | 3²+8² | Im_H = generations | dim(O) = full color | Koide θ | Mass hierarchy = generations × color |
+| **113** | 7²+8² | Im_O = color structure | dim(O) = full octonion | Glueball | Pure glue = pure octonion |
 | **137** | 4²+11² | dim(H) = spacetime | n_c = crystal | α | EM coupling = spacetime × crystal |
 
 **The pattern**: Each framework prime appears WHERE its two constituent structures physically meet!
@@ -40,15 +40,15 @@ More precisely:
 | Constant | Formula | Structures Involved | Precision |
 |----------|---------|---------------------|-----------|
 | 1/α | 137 + 4/111 | H² + n_c² + correction | 0.27 ppm |
-| m_p/m_e | 1836 + 11/72 | (H+O) × (Im(H)² + (H+O)²) | 0.06 ppm |
+| m_p/m_e | 1836 + 11/72 | (H+O) × (Im_H² + (H+O)²) | 0.06 ppm |
 | sin²θ_W | 123/532 | ¼(1 - (C+O)/Φ₆(H+O)) | 30 ppm |
-| m_μ/m_e | 207 - 10/43 | Im(H)² × 23 - (C+O)/Φ₆(7) | 4.1 ppm |
-| m_τ/m_μ | 16 + 9/11 | H² + Im(H)²/n_c | 70 ppm |
+| m_μ/m_e | 207 - 10/43 | Im_H² × 23 - (C+O)/Φ₆(7) | 4.1 ppm |
+| m_τ/m_μ | 16 + 9/11 | H² + Im_H²/n_c | 70 ppm |
 | α_s | 25/212 | 5²/(C² × 53) | 208 ppm |
-| θ_Koide | π×73/99 | π × (Im(H)² + O²)/(Im(H)² × n_c) | 60 ppm |
-| sin²θ₁₂ | 4/13 | C²/(C² + Im(H)²) | 0.23% |
-| sin²θ₁₃ | 2/91 | C/(Im(O) × 13) | 0.24% |
-| sin²θ₂₃ | 6/11 | (C × Im(H))/n_c | 0.10% |
+| θ_Koide | π×73/99 | π × (Im_H² + O²)/(Im_H² × n_c) | 60 ppm |
+| sin²θ₁₂ | 4/13 | C²/(C² + Im_H²) | 0.23% |
+| sin²θ₁₃ | 2/91 | C/(Im_O × 13) | 0.24% |
+| sin²θ₂₃ | 6/11 | (C × Im_H)/n_c | 0.10% |
 
 **ALL use only**: {1, 2, 3, 4, 7, 8, 11} and their combinations!
 
@@ -89,7 +89,7 @@ Constant = (integer combination of dims) + (correction from cyclotomic Φ₆)
 
 The main term uses dimensions directly. The correction term uses Φ₆(n) because:
 - Φ₆(x) = x² - x + 1 relates squares (main structure) to linear (correction)
-- Φ₆ appears at order 6 because 6 = 2 × 3 = dim(C) × Im(H) connects EM and generations
+- Φ₆ appears at order 6 because 6 = 2 × 3 = dim(C) × Im_H connects EM and generations
 
 ---
 

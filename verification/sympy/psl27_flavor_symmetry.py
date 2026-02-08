@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PSL(2,7) as Discrete Flavor Symmetry — Session 120
+PSL(2,7) as Discrete Flavor Symmetry -- Session 120
 
 KEY QUESTION: Can PSL(2,7) explain 3 generations?
 

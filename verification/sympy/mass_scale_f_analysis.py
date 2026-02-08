@@ -50,7 +50,7 @@ N_Higgs = n_d                     # = 4 = Higgs DOF
 # Physical constants
 v_EW = 246.22                     # [I] GeV
 M_Pl = 1.220890e19               # [I] Planck mass, GeV
-alpha_inv = 137.035999084         # [I] 1/alpha (CODATA 2018)
+alpha_inv = 137.035999177         # [I] 1/alpha (CODATA 2022)
 alpha_EM = 1 / alpha_inv
 m_t = 172.69                      # [I] top mass, GeV
 m_H = 125.25                      # [I] Higgs mass, GeV
@@ -451,7 +451,7 @@ print(f"       STATUS: OPEN (analogous to AXM_0117 crystallization tendency)")
 # ======================================================================
 
 print("\n" + "=" * 70)
-print("NEW PATH: Equipartition on End(R^n_c) — The 'Democratic Bilinear' Argument")
+print("NEW PATH: Equipartition on End(R^n_c) -- The 'Democratic Bilinear' Argument")
 print("=" * 70)
 
 print(f"""

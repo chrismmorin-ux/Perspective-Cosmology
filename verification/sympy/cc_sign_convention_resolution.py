@@ -20,7 +20,7 @@ Correct chain:
 This is standard physics: the Higgs potential minimum is also negative,
 and similarly corresponds to positive Lambda in GR.
 
-Status: INVESTIGATION — potential resolution of F-10
+Status: INVESTIGATION -- potential resolution of F-10
 Created: Session 230
 Dependencies: crystallization_ab_coefficients.py, cosmological_constant_sign_analysis.py
 """

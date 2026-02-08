@@ -13,8 +13,8 @@ Combining these:
   Omega_DM = (63/200) x (49/58) = 3087/11600 = 0.2661
 
 Measured (Planck 2018):
-  Omega_b = 0.0493 ± 0.0006
-  Omega_DM = 0.264 ± 0.003
+  Omega_b = 0.0493 +/- 0.0006
+  Omega_DM = 0.264 +/- 0.003
 
 Status: VERIFICATION
 Created: Session 116
@@ -98,9 +98,9 @@ print("3. COMPARISON WITH PLANCK 2018")
 print("="*70)
 
 # Planck 2018 values (TT,TE,EE+lowE+lensing)
-# Omega_b h^2 = 0.02237 ± 0.00015
-# Omega_c h^2 = 0.1200 ± 0.0012 (cold dark matter)
-# h = 0.6736 ± 0.0054
+# Omega_b h^2 = 0.02237 +/- 0.00015
+# Omega_c h^2 = 0.1200 +/- 0.0012 (cold dark matter)
+# h = 0.6736 +/- 0.0054
 
 h_planck = 0.6736
 omega_b_h2 = 0.02237

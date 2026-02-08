@@ -52,7 +52,7 @@ constants = {
 
 # Measured values for comparison
 measured = {
-    '1/alpha': 137.035999084,
+    '1/alpha': 137.035999177,
     'm_p/m_e': 1836.15267343,
     'sin2_thetaW': 0.23121,
     'm_mu/m_e': 206.7682830,
@@ -266,13 +266,13 @@ print("-" * 70)
 print("""
 FORM A (Additive with cyclotomic):
 
-  X = P(dims) ± Q(dims)/Phi_6(R(dims))
+  X = P(dims) +/- Q(dims)/Phi_6(R(dims))
 
   Used by: alpha, sin^2theta_W, m_mu/m_e
 
 FORM B (Additive with product):
 
-  X = P(dims) ± Q(dims)/(S(dims)*T(dims))
+  X = P(dims) +/- Q(dims)/(S(dims)*T(dims))
 
   Used by: m_p/m_e, m_tau/m_mu, |V_cb|
 

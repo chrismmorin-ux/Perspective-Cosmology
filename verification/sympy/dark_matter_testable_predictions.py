@@ -36,7 +36,7 @@ visible_fermions = 45         # SM fermions
 visible_scalar = 1            # Higgs
 
 # Cosmological ratios
-DM_baryon_ratio = Rational(49, 9)  # Ω_DM/Ω_b from framework
+DM_baryon_ratio = Rational(49, 9)  # Omega_DM/Omega_b from framework
 
 # Physical constants
 alpha = Rational(1, 137)           # Fine structure (leading order)
@@ -125,7 +125,7 @@ print(f"\nbeta_0(QCD) = {float(beta_QCD):.1f}")
 print(f"beta_0(SU(7)) ~ {float(beta_dark):.1f}")
 
 # Confinement scale ratio (rough estimate)
-# Lambda_dark/Lambda_QCD ~ exp(-2π/(beta_0,dark x alpha_dark)) / exp(-2π/(beta_0,QCD x alpha_QCD))
+# Lambda_dark/Lambda_QCD ~ exp(-2pi/(beta_0,dark x alpha_dark)) / exp(-2pi/(beta_0,QCD x alpha_QCD))
 # For similar UV couplings: ratio depends on beta_0 ratio
 ratio_beta = beta_QCD / beta_dark
 print(f"beta_QCD/beta_dark = {float(ratio_beta):.3f}")
@@ -140,8 +140,8 @@ print(f"  Lambda_dark ~ Lambda_QCD x {float(ratio_beta):.2f} ~ {Lambda_dark_esti
 # In natural units: sigma/m [cm^2/g] ~ (100 MeV)^2 / (Lambda^2 x m) with appropriate conversion
 
 # Geometric cross-section for dark nucleon
-# r_dark ~ 1/Lambda_dark, sigma ~ π r_dark^2
-# sigma/m ~ π/(Lambda_dark^2 x m_DM)
+# r_dark ~ 1/Lambda_dark, sigma ~ pi r_dark^2
+# sigma/m ~ pi/(Lambda_dark^2 x m_DM)
 
 # Convert to cm^2/g
 # 1 GeV^-2 ~ 0.389 mb = 3.89x10^-23 cm^2

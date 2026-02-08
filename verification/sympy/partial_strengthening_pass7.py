@@ -338,7 +338,7 @@ Step 4 [D]: F=C selects one chirality for weak doublets:
    - Complex structure J in su(2)_+ breaks SO(4) -> U(2) [B3 DERIVED]
    - J picks out left-handed Weyl spinors for SU(2)_L
    - Right-handed fermions are SU(2) singlets
-Step 5 [I-MATH]: Gauge covariance -> ONLY left-handed fermions couple to W±
+Step 5 [I-MATH]: Gauge covariance -> ONLY left-handed fermions couple to W+/-
 
 Result: Maximal parity violation is a CASCADE consequence of:
   - 3+1D spacetime (A1 DERIVED)

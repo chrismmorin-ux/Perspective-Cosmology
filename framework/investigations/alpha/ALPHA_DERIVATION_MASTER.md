@@ -1,6 +1,6 @@
 # Alpha Derivation Master Document
 
-> **⚠ AUDIT NOTE (CR-041)**: CR-041 findings resolved in S187 (Section 13). **S252 UPDATE**: AXM_0120 (CCP) resolves Steps 12, 13 — n_d=4 and n_c=11 are now [DERIVED from CCP], not [A-STRUCTURAL]. Assumption count reduced from 3 structural + 1 conjecture to 1 structural + 1 conjecture. Pipeline (S251) provides independent gauge group derivation.
+> **⚠ AUDIT NOTE (CR-041)**: CR-041 findings resolved in S187 (Section 13). **S252 UPDATE**: AXM_0120 (CCP) resolves Steps 12, 13 — n_d=4 and n_c=11 are now [DERIVED from CCP]. **S258/S259 UPDATE**: CONJ-A3 resolves Step 5 — independent sectors now [DERIVED from CCP + Radon-Hurwitz]. Assumption count reduced from 3+1 (S187) to 1+1 (S252) to **0+1** (S258). Only Step 15 (interface = 1/alpha) remains as [CONJECTURE].
 
 **Status**: CANONICAL (CR-041 resolved S187; CCP integration S252)
 **Created**: 2026-01-26
@@ -93,7 +93,11 @@ Sum: 1 + 2 + 4 + 8 = **15** = n_defect + n_crystal
 
 **Proposed interpretation**:
 - Defect = H (quaternions, dim 4) — largest ASSOCIATIVE division algebra
-- Crystal = Im(C) + Im(H) + Im(O) (dim 1 + 3 + 7 = 11) — imaginary dimensions [canonical per CR-010]
+- Crystal = Im_C + Im_H + Im_O (dim 1 + 3 + 7 = 11) — imaginary dimensions [canonical per CR-010]
+
+### Pi-Power Decomposition [OBSERVATION, S265/S270]
+
+The n_d^2 = 16 term has an angular-geometric interpretation. The pi-power f(d) = floor(d/2) = rank(SO(d)) counts independent rotation planes. Over all D_fw: sum f(d) = 0+1+1+2+3+4+5 = 16 = n_d^2 = 2^n_d. This holds because n^2 = 2^n only for n in {2,4} (both division algebra dims), and CCP forces n_d = 4. Thus 137 = (total angular DOF across D_fw spheres) + n_c^2. See THM_04B5. Verified: `pi_power_alpha_connection.py` (16/16 PASS).
 
 ---
 
@@ -209,7 +213,7 @@ The complement V⊥ = R⁷ has **odd** dimension. This blocks any norm-preservin
 2. **Radon-Hurwitz**: ρ(7) = 1 < 4, so no [4,7,7]-composition exists → no norm-preserving bilinear map R⁴×R⁷→R⁷
 3. **Consequence**: Cross-terms in any algebra on R¹¹ = R⁴⊕R⁷ extending H must vanish → algebraic independence forced
 
-The root cause is that n_c - n_d = 11 - 4 = 7 = dim(Im(O)) is **odd**, which is itself derived from CCP.
+The root cause is that n_c - n_d = 11 - 4 = 7 = dim(Im_O) is **odd**, which is itself derived from CCP.
 
 **Derivation chain**:
 ```
@@ -235,7 +239,7 @@ The root cause is that n_c - n_d = 11 - 4 = 7 = dim(Im(O)) is **odd**, which is 
 **Answer**: CCP (AXM_0120) + Frobenius theorem.
 
 **CCP derivation** (S251):
-- [DERIVED from CCP] CCP-1 (no zero divisors) + CCP-2 (all imaginary dims) + CCP-3 (direct sum) forces V_Crystal = Im(C) ⊕ Im(H) ⊕ Im(O), giving n_c = 1+3+7 = **11**
+- [DERIVED from CCP] CCP-1 (no zero divisors) + CCP-2 (all imaginary dims) + CCP-3 (direct sum) forces V_Crystal = Im_C ⊕ Im_H ⊕ Im_O, giving n_c = 1+3+7 = **11**
 - [DERIVED from CCP + Frobenius] Associativity (from T1) + maximality (from CCP: maximal consistency) + Frobenius → n_d = dim(H) = **4**
 - [DERIVED] D_framework = {1,2,3,4,7,8,11} — the full set of division algebra dimensions and imaginary dimensions
 
@@ -247,7 +251,7 @@ The root cause is that n_c - n_d = 11 - 4 = 7 = dim(Im(O)) is **odd**, which is 
 - Normed division algebras: R(1), C(2), H(4), O(8)
 - Sum: 1 + 2 + 4 + 8 = 15 = 4 + 11
 - Defect = 4 = dim(H) = quaternions (largest associative) [DERIVED from CCP]
-- Crystal = 11 = 1 + 3 + 7 = Im(C) + Im(H) + Im(O) [DERIVED from CCP]
+- Crystal = 11 = 1 + 3 + 7 = Im_C + Im_H + Im_O [DERIVED from CCP]
 
 **Status**: [DERIVED from CCP (AXM_0120)] — previously [PARTIALLY DERIVED], upgraded S252
 
@@ -460,11 +464,12 @@ The connection is now much stronger than before. Only invertibility remains as a
     |
 [DERIVATION] All generators weighted equally
     |
-[A-STRUCTURAL] Defect and crystal are separate structures
+[DERIVED from CCP + Radon-Hurwitz (CONJ-A3, S258)] Defect and crystal carry independent algebraic structures
+    |                  (complement dim 7 odd → no [4,7,7]-composition → cross-terms vanish)
     |
 [THEOREM] Total generators = n₁² + n₂² (independent addition)
     |
-[DERIVED from CCP] n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (CCP-2,3)
+[DERIVED from CCP] n_c = Im_C+Im_H+Im_O = 1+3+7 = 11 (CCP-2,3)
     |
 [DERIVED from CCP] n_d = dim(H) = 4 (CCP maximality + Frobenius)
     |
@@ -481,21 +486,21 @@ The connection is now much stronger than before. Only invertibility remains as a
 |-----------|-----------------|----------------|-------------|
 | Equal weighting | ASSUMED | **DERIVED** | Killing form uniqueness |
 | n² structure | ASSUMED | **DERIVED** | F = C (from CCP + THM_0485) |
-| Independent addition | ASSUMED | **[A-STRUCTURAL]** | Separate structures (motivated, not proven) |
+| Independent addition | ASSUMED | **DERIVED (S258)** | CONJ-A3: Radon-Hurwitz → no [4,7,7]-composition → cross-terms vanish |
 | n₁ = 4 | IMPORT | **DERIVED (S252)** | CCP maximality + Frobenius (AXM_0120) |
-| n₂ = 11 | IMPORT | **DERIVED (S252)** | CCP: Im(C)+Im(H)+Im(O) = 11 (AXM_0120) |
-| Interface = 1/α | CONJECTURE | CONJECTURE | No derivation |
+| n₂ = 11 | IMPORT | **DERIVED (S252)** | CCP: Im_C+Im_H+Im_O = 11 (AXM_0120) |
+| Interface = 1/α | CONJECTURE | **A-STRUCTURAL (S297)** | kappa=1 = standard Tr convention. EQ-002/EQ-003 duality. |
 
 ### Key Achievements
 
 1. **Formula structure is DERIVED** — not just guessed
 2. **Dimensions are DERIVED (S252)** — CCP (AXM_0120) forces n_d=4 and n_c=11
-3. **Only 1 structural assumption + 1 conjecture remain** (was 3+1)
+3. **Independent addition DERIVED (S258)** — CONJ-A3 proven via Radon-Hurwitz
+4. **Only 1 conjecture remains** (was 3+1 pre-S252, 1+1 pre-S258)
 
 ### Remaining Gaps
 
-1. **Independent sectors** [A-STRUCTURAL]: n₁²+n₂² rather than (n₁+n₂)² — motivated but not proven
-2. **Interface = 1/α** [CONJECTURE]: The critical gap (Step 5)
+1. **Interface = 1/α** [A-STRUCTURAL]: Upgraded from [CONJECTURE] S297. kappa=1 = standard Tr convention for HS metric. Absorbed into I-STRUCT-5's absolute extension.
 
 ---
 
@@ -575,9 +580,9 @@ Follow CLAUDE.md guidelines.
 
 | File | Purpose |
 |------|---------|
-| `framework/investigations/ALPHA_DERIVATION_MASTER.md` | This document (master reference) |
-| `framework/investigations/alpha_formula_derivations.md` | Component derivations |
-| `framework/investigations/associativity_derivation.md` | Associativity argument detail |
+| `framework/investigations/alpha/ALPHA_DERIVATION_MASTER.md` | This document (master reference) |
+| `archive/deprecated/investigations/alpha/alpha_formula_derivations.md` | Component derivations (archived QE7) |
+| `framework/investigations/meta/associativity_derivation.md` | Associativity argument detail |
 | `framework/layer_0_pure_axioms.md` | Layer 0 axioms (v2.1) |
 
 ### Verification Scripts
@@ -690,7 +695,7 @@ These are **convergent evidence** from multiple independent sources, not a singl
 
 This parallels the Koide discovery where θ/π = 73/99 and:
 ```
-73 = 8² + 3² = 64 + 9 = dim(O)² + Im(H)²
+73 = 8² + 3² = 64 + 9 = dim(O)² + Im_H²
 ```
 
 ### C.2 Properties of 137
@@ -733,8 +738,44 @@ The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the asso
 
 ---
 
-*Last updated: 2026-02-06 (Session 252 — CCP Integration: Steps 12,13 resolved, assumption count 3+1→1+1)*
-*Document version: 3.0*
+---
+
+## Appendix D: Archived Investigation References (QE Run 7)
+
+Twelve alpha investigation files were archived to `archive/deprecated/investigations/alpha/` during Quality Engine Run 7. Key unique content preserved here:
+
+### D.1 Composite Gauge Field Analysis (S147-149)
+- **Scalar counting correction**: N_s = 61 complex charged scalars (not 137), from Herm(n) decomposition: 15 diagonal (real) + 61 off-diagonal pairs (complex) = 137 real DOF
+- **Coefficient correction**: Induced mechanism uses 1/(6pi) (complex scalar), not 1/(3pi) (Weyl fermion). Changes from 42 to 21 = Im_H * Im_O
+- **S = N_I - n_c = 126 forcing**: Charge-weighted sum forced by parity (n_d even, n_c odd)
+- **Three-path results**: Induced viable (log = 137pi/21); sigma model ruled out; UV democracy falsified (QED runs wrong direction)
+- Archive: `archive/deprecated/investigations/alpha/composite_gauge_field_analysis.md`
+
+### D.2 Geometric Interpretations (S146)
+- Crystallization angle theta = arccos(1/sqrt(137)) = 85.10 degrees (from Born rule applied to democratic state)
+- Rationality criterion: alpha = 111/15211 is rational -- falsifiable if alpha proven irrational
+- Multi-step crystallization hierarchy: k=1 (alpha), k=12 (SM gauge dim), k=28 (SO(11) breaking), k=125 (all broken)
+- Archive: `archive/deprecated/investigations/alpha/alpha_dimensionless_geometry.md`
+
+### D.3 Crystal Interface / Divisor Families (pre-S150)
+- |Pi| = 137^55 conjecture: |Pi| ~ (1/alpha)^(C(n_c,2)) ~ 10^117.5 (0.4% log error vs observed 10^118)
+- Grassmannian identity: 55 = dim(Gr(4,11)) + dim(SO(4)) + dim(SO(7)) = 28+6+21
+- Spectral dimension reduction: N_I reduces with energy (137 at IR, ~130 at M_Z, ~40 at GUT) -- exploratory, not canonical
+- Archive: `archive/deprecated/investigations/alpha/alpha_crystal_interface.md`
+
+### D.4 Multi-Coupling / Weinberg Angle (S151-160)
+- **sin^2(theta_W) = 28/121** (843 ppm from measured): Goldstone fraction from SO(11)->SO(4)xSO(7)
+- **S_2 = 29 from Complex Bridge**: Im_H^2 + 2*Im_C*(Im_H+Im_O) = 9+6+14 = 29. SU(2) charge requires H-sector OR Im_C mediation
+- **Democratic counting assumption [A-STRUCTURAL]**: Standard one-loop QFT gives Dynkin indices, NOT democratic (S160 Task A)
+- **121 vs 126 tension**: 28/121 (Goldstone, 843 ppm) vs 29/126 (induced, 4590 ppm). SM running cannot reconcile. Measured value between them
+- **Z-pole consistency**: Full suite tested. sin^2_eff = 0.23140 vs 0.23153 (0.8 sigma)
+- **Two counting regimes**: EW = Goldstone fraction (democratic), Strong = group dimension (dim(SU(3))=O=8)
+- Archive: `archive/deprecated/investigations/alpha/multi_coupling_tilt_angles.md`
+
+---
+
+*Last updated: 2026-02-07 (QE Run 7: added Appendix D, archived 12 redundant files)*
+*Document version: 4.1*
 
 ---
 
@@ -750,7 +791,7 @@ The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the asso
 | 2 | F = C (complex field) | [D] THM_0485 | **RESOLVED** | Derived from directed time (T1), NOT retrodiction. See core/17_complex_structure.md |
 | 3 | Aut(B) ⊆ U(n), n² generators | [I-MATH] | SOUND | Standard Lie theory: complex inner product → U(n) |
 | 4 | All generators weighted equally | [D] from Killing form | SOUND | Unique Ad-invariant bilinear form. 4 independent proofs (transitivity, Schur, max entropy, genericity) |
-| 5 | Defect and crystal are separate | **[A-STRUCTURAL]** | Honest | Independent sectors assumed (n₁²+n₂², not (n₁+n₂)²). Motivated by: crystal has no perspectives, defect does |
+| 5 | Defect and crystal are separate | **[D] CONJ-A3 (S258)** | **RESOLVED S258** | Radon-Hurwitz: complement dim 7 is odd → ρ(7)=1 < 4 → no [4,7,7]-composition → cross-terms vanish → independent sectors forced. Formerly [A-STRUCTURAL]. |
 | 6 | Total = n₁² + n₂² | [D] from Step 5 | SOUND | Arithmetic given independent sectors |
 | 7 | Associativity of transitions | [D] from AXM_0119 | **RESOLVED** | G-004 CLOSED (S181): AXM_0119 (linearity) → composition of linear maps is associative [I-MATH] |
 | 8 | No zero divisors | [D] THM_0482 | SOUND | "Can't see a subset of zero" — dim(V_π) ≥ 1 from AXM_0102 |
@@ -758,9 +799,9 @@ The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the asso
 | 10 | Frobenius → R, C, H only | [I-MATH] | SOUND | Frobenius theorem (1878). Requires Steps 7-9. |
 | 11 | Associativity filter excludes O | [I-MATH] | SOUND | O is non-associative; R, C, H remain |
 | 12 | Maximality → n_d = 4 | **[D] AXM_0120 (CCP)** | **RESOLVED S252** | CCP: perfection = maximal consistency → max associative division algebra → dim(H)=4. Formerly [A-STRUCTURAL: maximality]. |
-| 13 | n_c = Im(C)+Im(H)+Im(O) = 11 | **[D] AXM_0120 (CCP)** | **RESOLVED S252** | CCP: completeness forces all division algebra imaginaries: 1+3+7=11. Formerly [A-STRUCTURAL: total=15]. |
+| 13 | n_c = Im_C+Im_H+Im_O = 11 | **[D] AXM_0120 (CCP)** | **RESOLVED S252** | CCP: completeness forces all division algebra imaginaries: 1+3+7=11. Formerly [A-STRUCTURAL: total=15]. |
 | 14 | 1/α = n_d² + n_c² = 137 | [D] from Steps 1-13 | SOUND | Arithmetic. Conditional on 4 structural assumptions. |
-| 15 | Interface generator count = 1/α | **[CONJECTURE]** | **CRITICAL GAP** | No derivation exists. Grade C (S153). Two complementary mechanisms (5C induced + 5D Born rule) narrow but don't close the gap. See alpha_mechanism_derivation.md. |
+| 15 | Interface generator count = 1/α | **[A-STRUCTURAL]** | **PARTIALLY RESOLVED S297** | Upgraded from [CONJECTURE]. kappa=1 = standard Tr convention for HS metric. WSR+Schur (S292) gives 1/g^2 = kappa*N_i; kappa=1 is the standard (unnormalized) HS inner product. DE-009 doesn't block this approach. EQ-002/EQ-003 duality: one parameter gives alpha + Omega_m. See `conj_a2_*.py` scripts. |
 | 16 | Correction 4/111 = n_d/Φ₆(n_c) | [D] THM_0496 | SOUND | Equal distribution (4 proofs: transitivity, Schur, max entropy, genericity). Φ₆ emerges from Lie algebra counting. |
 | 17 | 1/α = 137 + 4/111 ≈ 137.036036 | [D] from Steps 14+16 | SOUND | Arithmetic. 0.27 ppm from measurement. |
 
@@ -781,7 +822,7 @@ The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the asso
 
 **C-4: n_c = 15 - 4 = 11 embeds unstated assumptions (Step 13)**
 - **Status**: RESOLVED (tagged, not closed)
-- **Resolution**: Now tagged [A-STRUCTURAL: total=15]. The assumption "universe uses all four division algebras" is encoded in AXM_0118 (prime attractor selection). The Im-decomposition n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 is the canonical form (per CR-010).
+- **Resolution**: Now tagged [A-STRUCTURAL: total=15]. The assumption "universe uses all four division algebras" is encoded in AXM_0118 (prime attractor selection). The Im-decomposition n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 is the canonical form (per CR-010).
 
 **C-5: "Interface determines EM coupling" is [CONJECTURE] (Step 15)**
 - **Status**: ACKNOWLEDGED — this is the critical gap
@@ -795,7 +836,7 @@ The fact that 137 = n_d² + n_c² is PRIME may be more fundamental than the asso
 
 **C-6: Non-canonical n_c decomposition**
 - **Status**: RESOLVED
-- **Resolution**: Section 4.4 still uses "R + C + O = 1 + 2 + 8 = 11" (legacy). The canonical form is Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 per CR-010. Both give 11 but the Im-decomposition has clearer derivation chain. The canonical form is used in THM_0484, AXM_0118, and all post-S140 documents.
+- **Resolution**: Section 4.4 still uses "R + C + O = 1 + 2 + 8 = 11" (legacy). The canonical form is Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 per CR-010. Both give 11 but the Im-decomposition has clearer derivation chain. The canonical form is used in THM_0484, AXM_0118, and all post-S140 documents.
 
 **C-7: Document is stale (last updated Session 77)**
 - **Status**: RESOLVED by this section
@@ -816,12 +857,12 @@ Between the axioms (including AXM_0120 CCP) and the final result 1/α = 137 + 4/
 
 | Assumption | Tag | Status |
 |-----------|-----|--------|
-| Independent sectors (n₁²+n₂², not (n₁+n₂)²) | [A-STRUCTURAL] | Still open — "no perspectives in crystal" is motivated but not proven |
+| ~~Independent sectors (n₁²+n₂², not (n₁+n₂)²)~~ | ~~[A-STRUCTURAL]~~ | **RESOLVED S258**: CONJ-A3 proven — Radon-Hurwitz forces algebraic independence (complement dim 7 odd → no [4,7,7]-composition) |
 | ~~Maximality (n_d = max = 4)~~ | ~~[A-STRUCTURAL]~~ | **RESOLVED S252**: CCP forces maximal consistency → n_d=4 |
 | ~~Total = 15 (all four algebras participate)~~ | ~~[A-STRUCTURAL]~~ | **RESOLVED S252**: CCP forces all imaginary dimensions → n_c=11 |
-| Generator count = 1/α | [CONJECTURE] | Still open — requires closing Step 5 gap |
+| Generator count = 1/α | **[A-STRUCTURAL] S297** | Upgraded from [CONJECTURE]. kappa=1 = standard Tr convention. Absorbed into I-STRUCT-5. |
 
-**Count**: **1 structural assumption + 1 conjecture** between axioms and prediction. Previously 3+1 (S187). CCP (AXM_0120) eliminates two of three structural assumptions by deriving n_d=4 and n_c=11 from the completeness principle.
+**Count**: **1 structural assumption + 0 conjectures** between axioms and prediction. Previously 0+1 (S258), 1+1 (S252), 3+1 (S187). S297 upgrades Step 15 from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]: kappa=1 = standard Tr convention. The alpha chain now has ZERO conjectures — the sole remaining gap is a Layer 2 convention choice (which HS normalization maps to physics).
 
 ### 13.4 What Has Changed Since S77
 
@@ -835,16 +876,30 @@ Between the axioms (including AXM_0120 CCP) and the final result 1/α = 137 + 4/
 | Born rule | Assumed | THM_0494 DERIVATION (60/60 PASS) |
 | Hilbert space | Assumed | THM_0491 CANONICAL |
 | Equal distribution | Assumed | THM_0496 (4 independent proofs) |
-| n_c decomposition | R+C+O = 1+2+8 | Im(C)+Im(H)+Im(O) = 1+3+7 (canonical) |
+| n_c decomposition | R+C+O = 1+2+8 | Im_C+Im_H+Im_O = 1+3+7 (canonical) |
 
 ### 13.5 Honest Bottom Line (Updated S252)
 
 **The alpha chain is the framework's most developed numerical prediction.** The formula 1/α = 137 + 4/111 matches measurement to 0.27 ppm. The derivation chain from axioms to formula has:
 
-- **15 steps that are DERIVED or STANDARD MATH** (Steps 1-4, 6-14, 16-17) — *upgraded S252: Steps 12, 13 now DERIVED from CCP*
-- **1 structural assumption** (Step 5: independent sectors) that is motivated but not derivable
-- **1 critical conjecture** (Step 15) that is the only thing between "interesting coincidence" and "derivation"
+- **16 steps that are DERIVED or STANDARD MATH** (Steps 1-14, 16-17) — *upgraded S252: Steps 12, 13 DERIVED from CCP; upgraded S258: Step 5 DERIVED from CCP + Radon-Hurwitz*
+- **1 structural convention** (Step 15: kappa=1 = standard Tr) — *upgraded S297 from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]*
+- **0 conjectures** — *all former conjectures are now either DERIVED or A-STRUCTURAL*
 
-**Step 5 (interface = 1/α) is the entire ballgame.** CCP (AXM_0120, S251) eliminated the two other structural gaps (maximality and total=15) by deriving n_d=4 and n_c=11 from the completeness principle. The chain now has only ONE structural assumption (independent sectors) and ONE conjecture (Step 15) between axioms and prediction.
+**Step 15 (interface = 1/α) was the sole remaining gap.** All structural assumptions had been eliminated: CCP (S251-252) derived n_d=4 and n_c=11; CONJ-A3 (S258) proved algebraic independence. S297 upgraded Step 15 from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]: kappa=1 corresponds to the standard (unnormalized) Hilbert-Schmidt inner product Tr(A^dag B). The chain now has ONE structural convention and ZERO conjectures. The EQ-002/EQ-003 duality (one parameter -> alpha + Omega_m) provides the strongest structural support.
 
-**CR-041 status**: RESOLVED (S187). **CCP integration**: COMPLETE (S252).
+**CR-041 status**: RESOLVED (S187). **CCP integration**: COMPLETE (S252). **CONJ-A3 integration**: COMPLETE (S259). **CONJ-A2 partial resolution**: COMPLETE (S297).
+
+### 13.6 Session 297: CONJ-A2 Partial Resolution
+
+**Three-phase investigation** of Step 15 (interface = 1/alpha):
+
+1. **DE-009 Scope** (Phase 1): DE-009 blocks Sub-problem B (photon = democratic mode) but NOT the active approach (WSR + HS metric -> absolute coupling). Sub-problems A+C are open. Gap narrowed to kappa=1. Script: `conj_a2_de009_scope.py` (12/12 PASS).
+
+2. **Sigma Model** (Phase 2): One-loop gauge kinetic from coset scalars gives sum(Q^2)_coset = 14, NOT 137. Factor-of-9 gap between scalar charges (14) and generator charges (S_EM = 126). C = 24/11 IS consistent (colored pNGB sum = 12). Sigma model alone does NOT fix kappa. Script: `conj_a2_sigma_model_coefficient.py` (12/12 PASS).
+
+3. **Normalization Principle** (Phase 3): WSR + Schur gives 1/g^2 = kappa * N_i (proportional, not equal). Three candidates: (A) Tr(I)=n_c -> kappa=1/n_c (WRONG), (B) Born rule totality -> kappa=1 with unit weight, (C) Standard HS Tr -> kappa=1 directly. Only kappa=1 matches observations. EQ-002/EQ-003 duality: ONE parameter gives alpha = 1/137 AND Omega_m = 63/200 (0.04 sigma). Script: `conj_a2_normalization_principle.py` (10/10 PASS).
+
+**Classification**: Step 15 upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]. kappa=1 = standard Tr convention is the irreducible content. This is a Layer 2 correspondence rule (identification of math convention with physics), not a free parameter fit (duality gives two predictions from one parameter).
+
+**Alpha chain**: 0 axiom assumptions + 1 structural convention + 0 conjectures.

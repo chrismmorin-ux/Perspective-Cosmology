@@ -86,9 +86,9 @@ For every observable being investigated:
 
 | Session | Formula Attempted | Precision | Status | Notes |
 |---------|-------------------|-----------|--------|-------|
-| S82 | λ = 9/40 = Im(H)²/(5×dim(O)) | 0.01% | CURRENT | First formula found; "5" has no framework origin |
+| S82 | λ = 9/40 = Im_H²/(5×dim(O)) | 0.01% | CURRENT | First formula found; "5" has no framework origin |
 | S82 | λ = various simple DA fractions | >1% | REJECTED | ~20 alternatives tested (ckm_matrix_search.py) |
-| S83 | \|V_cb\| = 2/49 = C/Im(O)² | 2-4% | CURRENT | Inclusive/exclusive tension |
+| S83 | \|V_cb\| = 2/49 = C/Im_O² | 2-4% | CURRENT | Inclusive/exclusive tension |
 | S83 | \|V_cb\| = other DA ratios near 0.04 | >5% | REJECTED | ~15 alternatives tested |
 | S87 | \|V_ub\| = 1/262 = 1/(137+121+4) | ~0.1% | CURRENT | Systematic search (ckm_completion_search.py) |
 | S87 | \|V_ub\| = 1/(other DA combos) | >1% | REJECTED | ~30 alternatives tested |
@@ -123,7 +123,7 @@ From `ckm_adversarial_audit.py` (S162):
 
 | Session | Formula Attempted | Precision | Status | Notes |
 |---------|-------------------|-----------|--------|-------|
-| S82 | sin²θ₂₃ = 4/7 = H/Im(O) | 0.1% | CURRENT | Simple, clean ratio |
+| S82 | sin²θ₂₃ = 4/7 = H/Im_O | 0.1% | CURRENT | Simple, clean ratio |
 | S82 | sin²θ₁₂ = 10/33 = 10/(Im_H×n_c) | 0.01% | CURRENT | "10" has no clear origin |
 | S82 | sin²θ₁₃ = 1/44 = 1/(n_d×n_c) | 3.2% | CURRENT | Structural (key dims product) |
 | S88 | δ_PMNS = π×19/14 = π×(n_c+O)/(C×Im_O) | TBD | AT RISK | NuFIT 6.0 shifted values |

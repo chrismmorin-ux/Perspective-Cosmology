@@ -67,7 +67,7 @@ def test_rank1_induction():
 
     # This kernel decomposes under V = span(v_0) + v_0^perp as:
     # ker(ev_{v_0}) = Hom(v_0^perp, span(v_0)) + Hom(v_0^perp, v_0^perp)
-    # dim = (n-1)*1 + (n-1)^2 = (n-1)*n = n(n-1) = 110 ✓
+    # dim = (n-1)*1 + (n-1)^2 = (n-1)*n = n(n-1) = 110 [OK]
 
     # The decomposition V = span(v_0) + v_0^perp IS a rank-1 projection:
     P1 = make_rank1_projection(v0, n)
@@ -309,8 +309,8 @@ def test_kernel_forces_splitting():
     ker_dim = n * (n - k)
 
     # This kernel decomposes under V = W + W^perp as:
-    # ker(EV) ≅ Hom(W^perp, W) + Hom(W^perp, W^perp)
-    # dim = (n-k)*k + (n-k)^2 = (n-k)*n = n(n-k) ✓
+    # ker(EV) ~= Hom(W^perp, W) + Hom(W^perp, W^perp)
+    # dim = (n-k)*k + (n-k)^2 = (n-k)*n = n(n-k) [OK]
     hom_to_W = (n - k) * k
     hom_to_Wperp = (n - k) ** 2
     total = hom_to_W + hom_to_Wperp
@@ -340,7 +340,7 @@ def test_kernel_forces_splitting():
     print(f"    [{'PASS' if is_proj else 'FAIL'}] "
           f"W^2 = W (projection)")
     print(f"    [{'PASS' if is_selfadj else 'FAIL'}] "
-          f"W^† = W (self-adjoint)")
+          f"W^+ = W (self-adjoint)")
     print(f"    [{'PASS' if satisfies_P1 else 'FAIL'}] "
           f"P1: rank = {rank_W} < {n} (partial)")
     print(f"    [{'PASS' if satisfies_P2 else 'FAIL'}] "

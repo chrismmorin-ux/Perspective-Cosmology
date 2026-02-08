@@ -95,10 +95,13 @@ For fast lookup during derivation work:
 
 **Spectral functions**: The spectral function rho(s) = Im(Pi(s^2))/pi encodes the pole structure of vacuum 2-point correlators. Weinberg sum rules (S238) equate integrals of rho(s) to the sigma model metric (HS metric). This connects [I-QFT] dynamics to Group II geometry — IF spectral convergence holds (C3, Group X boundary).
 
+**Pi-power sums (THM_04B5)**: The pi-power f(d) = floor(d/2) = rank(SO(d)) counts independent rotation planes (U(1) subgroups) in SO(d). Over D_fw subsets, pi-power sums yield framework dimensions: DA dims -> 7 = Im(O), imaginary dims -> 4 = n_d, D_fw\{11} -> 11 = n_c, all D_fw -> 16 = 2^n_d = n_d^2. The Cayley-Dickson descent floor(Im(D_k)/2) = Im(D_{k-1}) connects these sums to the tower structure. The total pi-power sum equals n_d^2 = 2^n_d, linking angular geometry to the alpha denominator: 137 = (total angular DOF) + n_c^2.
+
 **Cross-references**:
 - `core/axioms/AXM_0110_orthogonality.md`
 - `core/axioms/AXM_0118_prime_attractor_selection.md` (CNH / Gaussian norm)
 - `framework/investigations/gauge/democratic_bilinear_principle.md` (HS metric -> Schur)
+- `core/theorems/THM_04B5_pi_power_sums.md` (pi-power sum theorems)
 
 ---
 
@@ -180,7 +183,7 @@ This is NOT a choice — it follows from the V = V_pi + V_pi-perp decomposition 
 |--------|---------|-----------|------------|
 | {id} (trivial) | R | 0 | Only real automorphism |
 | Z/2 (conjugation) | C | discrete | a+bi -> a-bi |
-| SO(3) ~ SU(2)/Z_2 | Im(H) | 3 | Rotations of imaginary quaternions |
+| SO(3) ~ SU(2)/Z_2 | Im_H | 3 | Rotations of imaginary quaternions |
 | G_2 | O | 14 | Exceptional; smallest exceptional Lie group |
 | SO(n_c) = SO(11) | V_crystal | 55 | Full rotation group of crystal |
 | SO(n_d) x SO(n_c) = SO(4)xSO(7) | V_pi + V_pi-perp | 6 + 21 = 27 | Isotropy group at Grassmannian base point |
@@ -190,7 +193,7 @@ This is NOT a choice — it follows from the V = V_pi + V_pi-perp decomposition 
 
 **Framework role**: The SM gauge group U(1) x SU(2) x SU(3) with dimension 1+3+8 = 12 emerges from the pipeline: SO(11) has Lie algebra dimension 55; filter to adjoint irreps that survive the breaking SO(11) -> SO(4) x SO(7); the result is 12 = dim(u(1) x su(2) x su(3)). [DERIVED from CCP via pipeline, S251]
 
-**Key fact**: G_2 is the automorphism group of O, not SO(7). This is because O is non-associative — the automorphism group must preserve the multiplication table, not just the norm. G_2 has dimension 14 = 2 x 7 (not 21 = dim(SO(7))). The "missing" 7 dimensions correspond to the 7 independent associator directions (Group VII).
+**Key fact**: G_2 is the automorphism group of O, not SO(7). This is because O is non-associative — the automorphism group must preserve the multiplication table, not just the norm. G_2 has dimension 14 = 2 x 7 (not 21 = dim(SO(7))). The "missing" 7 dimensions correspond to the 7 independent associator directions (Group VII). The G_2 moment map on Gr(4,11) has codimension 11 = n_c [THM_04B6], confirming the crystal dimension geometrically.
 
 **Representations**: Groups act on spaces (Group IV objects). The representation is the *pairing* of a Group V symmetry with a Group IV space:
 
@@ -202,7 +205,7 @@ This is NOT a choice — it follows from the V = V_pi + V_pi-perp decomposition 
 | SU(3) | Fundamental | C^3 | 3 | Quarks [Layer 2] |
 | SU(3) | Adjoint | su(3) | 8 | Gluons [Layer 2] |
 | SO(11) | Spinorial | S_32 = 16+16' | 32 | Fermion embedding (MCHM4, S212) |
-| G_2 | Fundamental | Im(O) = R^7 | 7 | Branches as 7 -> 3+3bar+1 under SU(3) |
+| G_2 | Fundamental | Im_O = R^7 | 7 | Branches as 7 -> 3+3bar+1 under SU(3) |
 
 Representations are not a separate group — they are the *interface* between Group V (who acts) and Group IV (what is acted on). Branching rules (Group VIII) describe how representations decompose when the group shrinks.
 
@@ -249,17 +252,17 @@ Representations are not a separate group — they are the *interface* between Gr
 |--------|---------|-------------------|------------|
 | [a,b] in R | R | 0 | Always zero (commutative + associative) |
 | [a,b] in C | C | 0 | Always zero (commutative + associative) |
-| [a,b] in H | H | 3 = dim(Im(H)) | Non-zero; spans Im(H); gives so(3) |
-| [a,b] in O | O | 7 = dim(Im(O)) | Non-zero; spans Im(O) |
+| [a,b] in H | H | 3 = dim(Im_H) | Non-zero; spans Im_H; gives so(3) |
+| [a,b] in O | O | 7 = dim(Im_O) | Non-zero; spans Im_O |
 | (a,b,c) in R,C,H | — | 0 | Always zero (associative) |
 | (a,b,c) in O | O | 7 | Non-zero; measures non-associativity |
 
 **Framework role**: This group is the *interaction detector*. If all commutators vanish, nothing interacts — physics is trivial. The dimension of the commutator output space directly controls the gauge content:
 
-- Im(H) has dim 3: gives SU(2) generators [Layer 2: weak isospin]
-- Im(O) has dim 7: gives the 7 non-associative directions (of which SU(3) = 8 generators act on 7+1)
+- Im_H has dim 3: gives SU(2) generators [Layer 2: weak isospin]
+- Im_O has dim 7: gives the 7 non-associative directions (of which SU(3) = 8 generators act on 7+1)
 
-**Key fact**: The difference between dim(SO(7)) = 21 and dim(G_2) = 14 is exactly 7 = dim(Im(O)). These 7 "missing" automorphisms are precisely the 7 independent associator directions. Non-associativity REMOVES symmetry — it does not add structure.
+**Key fact**: The difference between dim(SO(7)) = 21 and dim(G_2) = 14 is exactly 7 = dim(Im_O). These 7 "missing" automorphisms are precisely the 7 independent associator directions. Non-associativity REMOVES symmetry — it does not add structure.
 
 **Connection to [A-STRUCTURAL]**: The commutator + trace coupling structure (assumption B2 in the irreducible set) lives here. The question is whether the coupling form Tr([epsilon_i, epsilon_j]^2) is forced or chosen.
 
@@ -281,12 +284,12 @@ Representations are not a separate group — they are the *interface* between Gr
 | V = V_pi + V_pi-perp | V_crystal | R^4 + R^7 | Perspective (Group VI) |
 | SO(11) -> SO(4) x SO(7) | Symmetry group | Isotropy subgroup | Breaking pattern |
 | End(R^11) -> 16+28+28+49 | Endomorphism space | Hom blocks | V = R^4 + R^7 |
-| Im(C) + Im(H) + Im(O) | V_crystal | Algebraic sectors | CCP-2 + CCP-3 |
+| Im_C + Im_H + Im_O | V_crystal | Algebraic sectors | CCP-2 + CCP-3 |
 | 121 -> 55 -> 18 -> 12 | End(V) generators | Pipeline stages | Adjoint irrep filtering |
 | n_d^2 + n_c^2 = 137 | Generator count | Defect + crystal | [A-STRUCTURAL] independent sectors |
-| 7 -> 3 + 3-bar + 1 | Im(O) under SU(3) | Color decomposition | G_2 -> SU(3) branching |
+| 7 -> 3 + 3-bar + 1 | Im_O under SU(3) | Color decomposition | G_2 -> SU(3) branching |
 
-**Framework role**: This is the most consequential group for the remaining assumptions. The alpha derivation requires n_d^2 + n_c^2 (independent addition, not (n_d + n_c)^2 = 225). The generation count requires Im(H) tensor (7 -> 3 + 3-bar + 1). The pipeline requires successive decomposition of End(V).
+**Framework role**: This is the most consequential group for the remaining assumptions. The alpha derivation requires n_d^2 + n_c^2 (independent addition, not (n_d + n_c)^2 = 225). The generation count requires Im_H tensor (7 -> 3 + 3-bar + 1). The pipeline requires successive decomposition of End(V).
 
 **Branching rules (structured restriction maps)**: When a group G breaks to a subgroup H, each G-representation rho restricts to a direct sum of H-representations:
 
@@ -327,11 +330,11 @@ The **singlet criterion** (S222, [CONJECTURE]): 0 singlets in fundamental -> int
 | Sequence | Steps | What Changes | What's Preserved |
 |----------|-------|-------------|-----------------|
 | Cayley-Dickson | R -> C -> H -> O -> S | Dimension doubles; property lost | Norm (until S) |
-| CCP cascade | Im(C) -> Im(H) -> Im(O) | New algebraic directions added | Division property |
+| CCP cascade | Im_C -> Im_H -> Im_O | New algebraic directions added | Division property |
 | Pipeline | 121 -> 55 -> 18 -> 12 | Generators filtered | Adjoint irreducibility |
 | Gap tower | O(7) -> SU(3) -> SU(2) -> U(1) | Symmetry reduced | Algebraic closure at each level |
 | Breaking chain | SO(11) -> SO(4)xSO(7) -> ... | Symmetry broken | Subgroup structure |
-| Perspective seed | Im(C) -> perspective -> time -> physics | Complexity grows | CCP consistency |
+| Perspective seed | Im_C -> perspective -> time -> physics | Complexity grows | CCP consistency |
 
 **Framework role**: The Cayley-Dickson sequence is the generative backbone of the framework. CCP walks this chain to force dim = 11, F = C, n_d = 4. Each step trades algebraic virtue for dimensional richness:
 
@@ -348,7 +351,7 @@ The chain MUST STOP at O because sedenions (S) violate the division property (Gr
 **Cross-references**:
 - `core/axioms/AXM_0120_completeness_principle.md` (CCP walks Cayley-Dickson)
 - `core/theorems/THM_04B0_recursive_gap_tower.md` (gap tower)
-- `core/theorems/THM_04B2_perspective_from_seed.md` (Im(C) as seed)
+- `core/theorems/THM_04B2_perspective_from_seed.md` (Im_C as seed)
 - `framework/investigations/gauge/perspective_transformative_pipeline.md` (pipeline)
 
 ---
@@ -376,7 +379,7 @@ The chain MUST STOP at O because sedenions (S) violate the division property (Gr
 
 **Key fact**: Every impossibility theorem is simultaneously a UNIQUENESS theorem. "There are no normed division algebras beyond O" equivalently says "R, C, H, O are the COMPLETE list." The framework exploits impossibility as exhaustive classification.
 
-**Connection to [A-STRUCTURAL]**: The Mexican hat potential (assumption B1) is related to boundaries. The quartic is the leading-order invariant potential that has both an unstable maximum and a stable minimum. Could the boundary between stable and unstable dynamics (a bifurcation) force the quartic form? This is an open question.
+**Connection to quartic potential**: The Mexican hat potential (CONJ-B1, fully resolved S259+S285) is related to boundaries. The quartic is the leading-order invariant potential that has both an unstable maximum and a stable minimum. The bifurcation / boundary connection is now proven: degree 4 is the minimum for bounded SSB (necessity), Z₂ eliminates cubic via FFT on Hom(R^4,R^7) (S285), and Thom structural stability ensures the quartic is universal (cusp catastrophe unfolding). See CONJ-B1 section below.
 
 **Cross-references**:
 - `core/axioms/AXM_0120_completeness_principle.md` (CCP uses Hurwitz boundary)
@@ -406,8 +409,12 @@ Gr(4,11) = {pi in M_11(C) : pi^2 = pi, pi^dag = pi, rank(pi) = 4}
 | Isotropy group | V | SO(4) x SO(7) | 27 |
 | Full isometry group | V | SO(11) | 55 |
 | Goldstone modes | IV | Directions in tangent space | 28 |
+| G_2 moment map | II+V | mu: Gr(4,11) -> g_2* | 14 constraints (rank 11) |
+| mu^{-1}(0) locus | V+VI | G_2-balanced perspectives | 17 |
+| Codimension of mu^{-1}(0) | — | Crystal constraints on perspectives | 11 = n_c |
+| Symplectic reduction | II+V | mu^{-1}(0)/G_2 | 3 = Im_H |
 
-**Why it matters**: Gr(4,11) IS the space of all possible perspectives. Every point is a perspective. The tangent space at any point gives the Goldstone modes of symmetry breaking. The metric on this manifold (Group II) determines the gauge coupling (the [A-PHYSICAL] assumption A1). The entire Weinberg angle derivation takes place on this manifold.
+**Why it matters**: Gr(4,11) IS the space of all possible perspectives. The G_2 moment map decomposes it as 28 = 17 (associative) + 11 (crystal), with the codimension equaling n_c [THM_04B6]. Symplectic reduction gives dim = 3 = Im_H, providing a geometric derivation of spatial dimensions independent of the algebraic route. Every point is a perspective. The tangent space at any point gives the Goldstone modes of symmetry breaking. The metric on this manifold (Group II) determines the gauge coupling (the [A-PHYSICAL] assumption A1). The entire Weinberg angle derivation takes place on this manifold.
 
 ### Coset Space SO(11)/SO(4)xSO(7)
 
@@ -505,34 +512,39 @@ Each assumption below is stated as a precise conjecture. If the conjecture can b
 - Schur's lemma: HS metric on Hom(R^4,R^7) is the unique SO(4)xSO(7)-invariant metric -> democratic weighting [DERIVATION, S224]
 - Weinberg sum rules: IF spectral convergence holds, THEN 1/g^2(tree) = sigma model metric = democratic count [I-QFT + C3, S238]
 - Full compositeness: no elementary gauge fields in axiom set [DERIVED from AXM_0109-0117]
+- **Spectral convergence from finiteness**: C5 (|Pi| finite) + IRA-10 (perspectives = QM) -> finite Hilbert space -> spectral function is finite sum of delta functions -> all spectral integrals converge [DERIVATION, S292]
 
-**Precise conjecture (would resolve A1)**:
+**Precise conjecture (RESOLVED S292)**:
 
-> **CONJ-A1 (Spectral Convergence)**: For the SO(11)-invariant quartic potential (AXM_0117) spontaneously broken to SO(4)xSO(7), the spectral function rho(s) of the vacuum polarization tensor satisfies: (a) integral(rho(s) ds) < infinity, and (b) integral(s * rho(s) ds) < infinity.
+> **CONJ-A1 (Spectral Convergence)** [RESOLVED]: For the SO(11)-invariant quartic potential (AXM_0117) spontaneously broken to SO(4)xSO(7), the spectral function rho(s) of the vacuum polarization tensor satisfies: (a) integral(rho(s) ds) < infinity, and (b) integral(s * rho(s) ds) < infinity.
 
-If CONJ-A1 is true, then by standard Weinberg sum rule argument [I-QFT], the tree-level gauge coupling equals the sigma model metric, which equals the democratic count. The [A-PHYSICAL] assumption reduces to a provable theorem about a specific symmetry-breaking pattern.
+**Resolution (S292)**: CONJ-A1 CANNOT be proven from AXM_0117 (quartic potential) alone — the dim-2 condensate <eps^T eps> in the V-A OPE gives rho ~ 1/s, making WSR1 logarithmically divergent. However, CONJ-A1 IS proven from C5 (finiteness) + IRA-10 (perspectives = quantum states): the finite Hilbert space gives a discrete spectral function with compact support, making all integrals convergent. IRA-02 (democratic gauge coupling) is therefore REDUNDANT — it follows from IRA-06 + IRA-08 + IRA-10 + C5 + I-QFT + Schur's lemma (S224). IRA count: 9 -> 8.
 
-**Difficulty**: Requires non-perturbative QFT analysis of a specific confining/breaking pattern. All known examples of strong SSB satisfy these conditions, but no general proof exists.
+**Caveats**: Requires strong reading of IRA-10 (finite Hilbert space). Low-energy dominance uses SO(11) symmetry of UV spectrum (from axioms via IRA-06/08). Verification: `spectral_convergence_conj_a1.py` (24/24 PASS).
 
 ---
 
-### A2: Interface = 1/alpha [CONJECTURE]
+### A2: Interface = 1/alpha — PARTIALLY RESOLVED (S297)
 
 **Groups involved**: IV -> II -> (physics bridge)
 **The question**: Why does the generator count n_d^2 + n_c^2 = 137 equal 1/alpha?
 
+**Status**: **PARTIALLY RESOLVED S297** — upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]
+
 **What's proven**:
 - The number 137 is derived from axioms + CCP [DERIVED]
-- Two partial mechanisms: 5C (induced gauge kinetic from tilt scalars), 5D (Born rule branching fraction)
-- Together these determine log(Lambda/mu) = 137*pi/21 with no stray factors
+- WSR + Schur's lemma gives 1/g_i^2 = kappa * N_i for all gauge factors [DERIVED S292]
+- kappa = 1 corresponds to the standard (unnormalized) Hilbert-Schmidt inner product <A,B> = Tr(A^dag B) [STANDARD MATH]
+- DE-009 does NOT block the WSR/HS approach (only blocks Sub-problem B: photon ID) [S297, 12/12 PASS]
+- Sigma model: sum(Q^2)_coset = 14 (scalars), S_EM = 126 (generators). Factor 9 gap. C = 24/11 consistent [S297, 12/12 PASS]
+- EQ-002/EQ-003 duality: kappa = 1 gives BOTH alpha = 1/137 AND Omega_m = 63/200 [S297, 10/10 PASS]
+- Only kappa = 1 matches observation; alternatives (1/n_c, 1/4pi, 1/n_d, 2/pi) off by >10%
 
-**Precise conjecture (would resolve A2)**:
+**Classification**: kappa = 1 is [A-STRUCTURAL within I-STRUCT-5]: the standard Tr convention applied to the democratic bilinear principle. This is a Layer 2 identification (math convention -> physics), not a free parameter (duality gives two predictions from one parameter).
 
-> **CONJ-A2 (Gauge Kinetic Induction)**: The effective gauge kinetic term for the U(1) field on Gr(4,11) is induced at one loop from the N_I = n_d^2 + n_c^2 charged tilt scalars, yielding 1/alpha = N_I at the compositeness scale (before RG running).
+**Irreducible content**: "Use the standard (unnormalized) HS inner product, not the normalized Tr/n version."
 
-Equivalently: the U(1) gauge field has no tree-level kinetic term (it is fully composite), and the one-loop Coleman-Weinberg calculation with N_I charged scalars of unit charge produces 1/g^2 = N_I/(16 pi^2) * log(Lambda^2/mu^2), which at the matching scale gives alpha = 1/N_I.
-
-**Difficulty**: Requires (a) proving U(1) is fully induced (not elementary), (b) determining the matching scale, (c) showing that exactly N_I = 137 species contribute. Sub-problem (b) has an obstruction (DE-009, S153): the photon is not the democratic mode in the breaking pattern.
+**Verification**: `conj_a2_de009_scope.py` (12/12), `conj_a2_sigma_model_coefficient.py` (12/12), `conj_a2_normalization_principle.py` (10/10)
 
 ---
 
@@ -552,7 +564,7 @@ Equivalently: the U(1) gauge field has no tree-level kinetic term (it is fully c
   2. **Radon-Hurwitz**: rho(7) = 1 < 4 = dim(H). A [4,7,7]-composition requires 4 <= rho(7), which fails. Not even a [2,7,7] exists.
   3. **Norm extension**: Cross-term g: R^4 x R^7 -> R^7 with |g(a,v)| = |a||v| IS a [4,7,7]-composition, which doesn't exist. Therefore g = 0.
 
-**Root cause**: n_c - n_d = 11 - 4 = 7 = dim(Im(O)) is **odd**. Odd dimensions cannot carry complex structure, blocking all norm-preserving cross-multiplications. The oddness of 7 is itself derived from CCP (Im(O) = O minus its real part = 8-1 = 7).
+**Root cause**: n_c - n_d = 11 - 4 = 7 = dim(Im_O) is **odd**. Odd dimensions cannot carry complex structure, blocking all norm-preserving cross-multiplications. The oddness of 7 is itself derived from CCP (Im_O = O minus its real part = 8-1 = 7).
 
 **Derivation chain**:
 ```
@@ -575,49 +587,70 @@ CCP [A-AXIOM] -> n_c = 11, n_d = 4 [DERIVED]
 
 ---
 
-### B1: Mexican hat potential [A-STRUCTURAL]
+### B1: Mexican hat potential — FULLY RESOLVED (S259+S285)
 
-**Groups involved**: V -> X -> (dynamics beyond table)
+**Groups involved**: V -> X -> IV (tangent space geometry)
 **The question**: Is the quartic Landau form forced, or is it a choice?
 
-**What's proven**:
-- The quartic is the simplest SO(11)-invariant potential with unstable maximum + stable minimum
-- Coefficient signs are partially derived (c_3 > 0 from Schur-convexity, S207)
+**Status**: **FULLY RESOLVED** — [THEOREM with I-MATH: FFT for orthogonal groups]
 
-**Precise conjecture (would resolve B1)**:
+**What's proven (S259+S285)**:
+- **Z₂ symmetry [THEOREM, S285]**: The tilt epsilon lives in Hom(R^4, R^7) (tangent space of Gr(4,11)), NOT in Sym_0(R^11). By the First Fundamental Theorem (FFT) for orthogonal groups [I-MATH: Weyl, Procesi], SO(4)xSO(7) invariants on M(4,7) are generated by entries of epsilon^T * epsilon (a 4x4 symmetric matrix). Since epsilon^T * epsilon = (-epsilon)^T * (-epsilon), ALL invariant polynomials are even-degree in epsilon. No cubic term can exist. This resolves the Z_2 gap: it is NOT a symmetry of SO(11) (since -I not in SO(11) for n=11 odd), but it IS automatic from the rectangular matrix structure of the tangent space.
+- **Key insight**: The earlier script `conj_b1_invariant_ring.py` used the EMBEDDED representation in Sym_0(R^11) where Tr(epsilon^3) CAN be nonzero. The INTRINSIC representation Hom(R^4, R^7) has no cubic invariant — you can't even define epsilon^3 for a 4x7 matrix.
+- **Necessity [THEOREM, S259]**: Degree < 4 cannot produce bounded SSB. Degree 4 is the MINIMUM.
+- **Sufficiency [THEOREM, S132/S259]**: At quartic order, the (4,7) breaking pattern is uniquely selected (quartic ratio 37/308 < 49/264).
+- **Structural stability [I-MATH, S259]**: Quartic critical points are non-degenerate (Morse/Thom). Higher-order terms are qualitative perturbations only.
+- **QFT support [DERIVATION, S259]**: CCP -> n_d=4 -> 4D -> quartic marginal -> higher-order irrelevant.
 
-> **CONJ-B1 (Invariant Polynomial Truncation)**: The SO(11)-invariant potential on symmetric traceless matrices is a polynomial in the two fundamental invariants Tr(epsilon^2) and Tr(epsilon^4). At the CCP boundary (where the division algebra structure constrains the field space), the potential is EXACTLY quartic: V(epsilon) = a_2 * Tr(epsilon^2) + a_4 * Tr(epsilon^4) + b_4 * (Tr(epsilon^2))^2, with no higher-order terms. This follows because the field space at the CCP boundary has no characteristic scale to define a cutoff, making the quartic exact rather than effective.
+**Derivation chain**:
+```
+CCP [AXIOM] -> crystallization on Gr(4,11) [DERIVED]
+  -> tilt eps in Hom(R^4, R^7) [DERIVED from Grassmannian geometry]
+  -> SO(4)xSO(7) invariance [DERIVED]
+  -> FFT: invariants = f(eps^T eps) [I-MATH: Weyl, Procesi]
+  -> eps^T eps = (-eps)^T (-eps) [ARITHMETIC]
+  -> V(eps) even -> no cubic [THEOREM]
+  -> quartic is lowest non-trivial order [S259: THEOREM]
+```
 
-**Difficulty**: This requires understanding what "at the CCP boundary" means for dynamics. If crystallization is a fundamental process (not an effective description), the quartic could be exact. But this is speculative — most dynamical systems in physics are effective.
+**Former status**: [A-STRUCTURAL] (S256) -> [DERIVATION with imports] (S259) -> **[THEOREM with I-MATH]** (S285)
+
+**Verification**: `verification/sympy/conj_b1_z2_rectangular_matrix.py` (10/10 PASS), `verification/sympy/conj_b1_invariant_ring.py` (6/6 PASS), `verification/sympy/conj_b1_quartic_truncation.py` (20/20 PASS)
 
 ---
 
-### B3: Lower energy = preferred breaking — PARTIALLY RESOLVED (S258)
+### B3: Lower energy = preferred breaking — FULLY RESOLVED (S258+S259)
 
-**Groups involved**: IX -> VIII -> (dynamics beyond table)
+**Groups involved**: IX -> VIII -> V (simplicity)
 **The question**: Does the system go to the energy minimum, and why?
 
-**Status**: **REDUCED** — B3 weakened from [A-PHYSICAL] to [CONJECTURE with structural support]. Gradient flow convergence proven; remaining gap is the connection between quaternionic transitions and gradient flow.
+**Status**: **RESOLVED** — B3 fully eliminated. Gradient flow convergence proven (S258) + ergodic sampling proven via normal closure theorem (S259).
 
-**What's proven (S258)**:
-- Gradient flow of quartic V converges to a minimum [THEOREM, Lyapunov]
-- V is a Lyapunov function: dV/dt = -(dV/dr)² ≤ 0 [THEOREM]
-- Shape parameter σ bounded + monotone → convergence guaranteed [THEOREM]
-- Generic perspective on Gr(4,11) gives (4,7) breaking [THEOREM]
-- **Important subtlety**: Global V_min is at (5,6), NOT (4,7). But CCP forces n_d = 4, so (4,7) is the algebraically compatible minimum. B3 should be read as "algebraically compatible lower energy preferred."
+**What's proven (S258+S259)**:
+- Gradient flow of quartic V converges to a minimum [THEOREM, Lyapunov, S258]
+- V is a Lyapunov function: dV/dt = -(dV/dr)² ≤ 0 [THEOREM, S258]
+- Shape parameter σ bounded + monotone -> convergence guaranteed [THEOREM, S258]
+- Generic perspective on Gr(4,11) gives (4,7) breaking [THEOREM, S258]
+- **Ergodic sampling [THEOREM, S259]**: so(11) is simple (B_5). Center(SO(11)) = {I} (11 odd). Normal closure of SU(2) in SO(11) = SO(11). Therefore iterated quaternionic transitions from different perspectives generate the full SO(11) action, which is transitive on Gr(4,11).
+- **Important subtlety**: Global V_min is at (5,6), NOT (4,7). But CCP forces n_d = 4, so (4,7) is the algebraically compatible minimum.
+- **Combined mechanism**: Stochastic gradient descent on V over Gr(4,11). Ergodicity ensures all of Gr(4,11) is sampled; gradient flow pushes toward lower V; CCP constrains to (4,7).
 
-**Partially resolved conjecture**:
+**Resolved conjecture (derivation chain)**:
+```
+CCP [A-AXIOM] -> n_c=11, n_d=4 [DERIVED]
+-> transitions quaternionic (SU(2)) [DERIVED: Frobenius + CCP]
+-> so(11) simple [I-MATH: B_5 classification]
+-> center trivial [I-MATH: 11 odd, det(-I)=-1]
+-> normal closure of SU(2) in SO(11) = SO(11) [I-MATH: simplicity]
+-> ergodic on Gr(4,11) [DERIVED]
++ quartic V is Lyapunov function [THEOREM, S258]
+-> energy minimization [DERIVED]
+-> B3 ELIMINATED [THEOREM]
+```
 
-> **CONJ-B3 (Algebraic Dynamics)**: Time IS the transition algebra (T1). Transitions are quaternionic (CCP + T0). Iterated application of the transition algebra to any initial tilt configuration converges to the energy minimum.
+**Verification**: `verification/sympy/conj_b3_algebraic_dynamics.py` (12/12 PASS), `verification/sympy/conj_b3_ergodicity_proof.py` (10/10 groups PASS)
 
-**What remains**: The connection between quaternionic transitions and gradient flow. The residual assumption is:
-> [CONJECTURE] "Iterated quaternionic perspective changes sample tilt space in a way that preferentially visits lower-energy configurations" (ergodic sampling hypothesis)
-
-This is weaker than the original B3 ("lower energy preferred") because it identifies the specific mechanism (ergodic sampling of perspectives) rather than assuming energy minimization as a primitive.
-
-**Verification**: `verification/sympy/conj_b3_algebraic_dynamics.py` (12/12 PASS)
-
-**Former status**: [A-PHYSICAL] -> **[CONJECTURE with structural support]**
+**Former status**: [A-PHYSICAL] -> [CONJECTURE with structural support] (S258) -> **[DERIVED]** (S259)
 
 ---
 
@@ -660,3 +693,7 @@ How each group scores on the four selection criteria:
 - v1.0 (S256): Initial creation. 10 groups. Adopted from user's 11-group proposal with restructuring: merged old III+IV into new III (Irreducibles & Lattices), merged old X+XI into new X (Boundaries & Obstructions), promoted ratios/eigenstructures from groups to outputs, added new groups IV (Endomorphisms), VIII (Decompositions), IX (Construction Sequences).
 - v2.0 (S256): Refinement pass. Added: Quick Reference Card, Casimir/Dynkin/spectral objects to Group II, facets and Lie algebras to Group IV, representations sub-table in Group V, structured branching rules in Group VIII, Derived Structures section (Grassmannian, coset spaces, vacuum manifold, sigma model), Beyond the Table section (dynamics, quantum structures, number theory). Sharpened all 5 attack vectors into precise conjecture statements (CONJ-A1 through CONJ-B3). Verified coverage against 54 objects from alpha/Weinberg/pipeline/CCP derivation chains.
 - v2.1 (S258): **CONJ-A3 PROVEN** — algebraic incompatibility forces independent sectors via Radon-Hurwitz theorem (27/27 PASS). Step 5 [A-STRUCTURAL] -> [DERIVED]. **CONJ-B3 PARTIALLY RESOLVED** — gradient flow convergence proven, B3 reduced from [A-PHYSICAL] to [CONJECTURE with structural support] (12/12 PASS). Root cause of A3: complement dim 7 is odd -> no complex structure -> no norm-preserving cross-multiplication. Bonus: Hurwitz dims {1,2,4,8} = CNH Gaussian norms.
+- v2.2 (S259): **CONJ-B3 FULLY RESOLVED** — ergodic sampling proven via normal closure theorem. so(11) simple + center trivial -> normal closure of SU(2) = SO(11) -> iterated transitions generate full action on Gr(4,11). Combined with gradient flow convergence (S258), B3 fully eliminated: [A-PHYSICAL] -> [DERIVED]. Alpha derivation chain updated to 0+1 (CONJ-A3 integration). 10/10 test groups PASS.
+- v2.3 (S285): **CONJ-B1 FULLY RESOLVED** — Z₂ symmetry proven via First Fundamental Theorem (FFT) for orthogonal groups on rectangular matrices. Tilt in Hom(R^4,R^7) forces all invariants even-degree. Combined with S259 (necessity + sufficiency + Thom), quartic potential is [THEOREM with I-MATH]. IRA-03 eliminated. IRA count 10 -> 9. 10/10 PASS.
+- v2.4 (S292): **CONJ-A1 RESOLVED** — Spectral convergence proven from C5 (finiteness) + IRA-10 (perspectives = QM). Finite Hilbert space -> discrete spectral function -> all integrals converge. NEGATIVE: quartic potential alone insufficient (dim-2 condensate in V-A OPE). POSITIVE: finiteness provides UV completion. IRA-02 eliminated (redundant). IRA count 9 -> 8. 24/24 PASS.
+- v2.5 (S297): **CONJ-A2 PARTIALLY RESOLVED** — Step 15 (interface = 1/alpha) upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]. kappa=1 = standard Tr convention for HS metric. DE-009 doesn't block WSR/HS approach. Sigma model: sum(Q^2)=14 (not 137), factor-9 gap. EQ-002/EQ-003 duality: one parameter -> alpha + Omega_m. 34/34 PASS (3 scripts). Alpha chain: 0 axioms + 1 structural + 0 conjectures.

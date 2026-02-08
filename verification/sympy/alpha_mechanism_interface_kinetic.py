@@ -1,5 +1,5 @@
 """
-Verification: Alpha Mechanism — Interface Kinetic Term
+Verification: Alpha Mechanism -- Interface Kinetic Term
 Confidence: [DERIVATION] for N_I, democratic coefficient
 Source: alpha_mechanism_derivation.md, tilt_gradient_kinetic_term.md
 
@@ -21,7 +21,7 @@ n_c = 11
 N_I = n_d**2 + n_c**2
 
 print("=" * 60)
-print("VERIFICATION: Alpha Mechanism — Interface Kinetic Term")
+print("VERIFICATION: Alpha Mechanism -- Interface Kinetic Term")
 print("=" * 60)
 print()
 print("INPUTS [D: THM_0484, AXM_0118]:")

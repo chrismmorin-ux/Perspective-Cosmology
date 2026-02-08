@@ -27,7 +27,7 @@ Three INCOMPATIBLE decompositions of n_c = 11 appear across foundations:
 
 | Decomposition | Files Using It | Canonical? |
 |---------------|---------------|------------|
-| Im(C) + Im(H) + Im(O) = 1+3+7 = 11 | constants_from_dimensions.md, acoustic_oscillations.md, hilltop_inflation_canonical.md | **YES** (per CR-010) |
+| Im_C + Im_H + Im_O = 1+3+7 = 11 | constants_from_dimensions.md, acoustic_oscillations.md, hilltop_inflation_canonical.md | **YES** (per CR-010) |
 | R + C + O = 1+2+8 = 11 | THE_CHAIN.md:205, constants_from_dimensions.md:82 | NO |
 | R + C + H + H = 1+2+4+4 = 11 | einstein_equations_rigorous.md | NO |
 
@@ -119,7 +119,7 @@ Well-structured document correctly presenting Frobenius-Hurwitz theorem.
 - PSL(2,7) analysis is interesting but speculative
 - m_DM = 5.11 GeV depends on chain of conjectures
 
-**Pattern Assessment**: The generation structure argument (Im(H) = 3) is SOUND. Everything beyond that (dark generation, mass suppression, PSL(2,7)) is CONJECTURE masquerading as DERIVATION.
+**Pattern Assessment**: The generation structure argument (Im_H = 3) is SOUND. Everything beyond that (dark generation, mass suppression, PSL(2,7)) is CONJECTURE masquerading as DERIVATION.
 
 ---
 
@@ -246,7 +246,7 @@ Well-structured document correctly presenting Frobenius-Hurwitz theorem.
 
 **Verdict**: SOUND (Risk 3)
 
-Clean argument from Im(H) = 3 to 3 generations.
+Clean argument from Im_H = 3 to 3 generations.
 
 **Minor**: "Why Not 16?" section misidentifies the depth of the issue — SO(10) spinor is 16-dimensional and this deserves more careful treatment.
 
@@ -309,7 +309,7 @@ Time reversal symmetry argument is valid. Consistent with framework. Well-struct
 **Verdict**: NEEDS-RIGOR (Risk 4)
 
 **Issues**:
-- Uses canonical n_c = Im(C)+Im(H)+Im(O) = 1+3+7 (good)
+- Uses canonical n_c = Im_C+Im_H+Im_O = 1+3+7 (good)
 - BUT line 82 also mentions R+C+O = 1+2+8 = 11 (non-canonical)
 - "No free parameters" claim needs caveat about ~3 structural assumptions (per Red Team)
 - Multiple framework expressions for constants but uniqueness not established

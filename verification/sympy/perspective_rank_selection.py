@@ -239,7 +239,7 @@ def test_maximality_selection():
 
 
 # ==============================================================================
-# Test 4: The complete chain — evaluation map + algebra -> n_d = 4
+# Test 4: The complete chain -- evaluation map + algebra -> n_d = 4
 # ==============================================================================
 def test_complete_chain():
     print("\n" + "=" * 70)

@@ -4,7 +4,7 @@ Right-Handed Neutrino (nu_R) as Structural Prediction from SO(11) Spinor
 
 KEY FINDING: The SO(11) spinor 32 = 16 + 16' under SO(10), where
     16 = 15 SM fermions + 1 nu_R per generation.
-The right-handed neutrino is NOT optional — it is required to complete
+The right-handed neutrino is NOT optional -- it is required to complete
 the half-spinor. This is a STRUCTURAL prediction of the framework.
 
 Combined with S167 neutrino predictions:
@@ -46,11 +46,11 @@ print("RIGHT-HANDED NEUTRINO: STRUCTURAL PREDICTION FROM SO(11) SPINOR")
 print("=" * 70)
 
 # ==============================================================================
-# PART 1: SPINOR 32 DECOMPOSITION — nu_R IS MANDATORY
+# PART 1: SPINOR 32 DECOMPOSITION -- nu_R IS MANDATORY
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 1: Spinor 32 Decomposition — nu_R is Mandatory")
+print("PART 1: Spinor 32 Decomposition -- nu_R is Mandatory")
 print("=" * 70)
 
 # SM fermion counting per generation (Weyl spinors)
@@ -89,8 +89,8 @@ print(f"\nSO(10) half-spinor: 2^4 = {half_spinor}")
 print(f"SO(11) spinor: 2^5 = {spinor_SO11} = 2 x {half_spinor}")
 print(f"\n15 SM fermions CANNOT fill a 16-dimensional half-spinor.")
 print(f"The 16th component is (1,1,0) = nu_R. It is REQUIRED.")
-print(f"\nThis is not an optional extension — it is a structural necessity.")
-print(f"Without nu_R, the representation is incomplete (15 ≠ 2^n for any n).")
+print(f"\nThis is not an optional extension -- it is a structural necessity.")
+print(f"Without nu_R, the representation is incomplete (15 != 2^n for any n).")
 
 # ==============================================================================
 # PART 2: DIVISION ALGEBRA ORIGIN OF nu_R
@@ -116,7 +116,7 @@ The division algebra dimensions 1, 2, 4, 8 map to SM fermion multiplets:
   dim(R) = 1 = (1,1,0) = nu_R
     R provides the RIGHT-HANDED NEUTRINO
 
-The real numbers R — the simplest division algebra — correspond to the
+The real numbers R -- the simplest division algebra -- correspond to the
 simplest fermion: a complete gauge singlet (1,1,0).
 
 This is structurally elegant: the progression R -> C -> H -> O
@@ -337,10 +337,10 @@ print(f"""
 [CONJECTURE] m_1 = 0, normal ordering, Sum = 58.5 meV
 
 Confidence:
-  nu_R existence:     [DERIVATION] — required by spinor completeness
-  3 generations:      [DERIVATION] — from Im_H = 3
-  No 4th generation:  [DERIVATION] — Im_H fixed by Frobenius
-  Mass predictions:   [CONJECTURE] — from DA products, not dynamics
+  nu_R existence:     [DERIVATION] -- required by spinor completeness
+  3 generations:      [DERIVATION] -- from Im_H = 3
+  No 4th generation:  [DERIVATION] -- Im_H fixed by Frobenius
+  Mass predictions:   [CONJECTURE] -- from DA products, not dynamics
 """)
 
 # ==============================================================================

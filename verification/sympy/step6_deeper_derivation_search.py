@@ -14,7 +14,7 @@ exist. The entropic argument is circular (assumes democratic weighting).
 
 Conclusion: No complete derivation found, but the Fisher information path
 narrows the gap from "arbitrary physical assumption" to "evaluation map
-is a statistical model" — a potentially derivable statement.
+is a statistical model" -- a potentially derivable statement.
 
 Status: INVESTIGATION (negative result with partial progress)
 Created: Session 233
@@ -103,7 +103,7 @@ print()
 #   Tr_{coset}(g_Fisher) = 28/n_c
 # Canonical normalization: 1/g_2^2 = n_c * Tr_{SU2 subspace}(g_Fisher)
 # The SU(2)_L acts on all 28 coset directions (interface regime).
-# 1/g_2^2 = n_c * (28/n_c) = 28  ✓
+# 1/g_2^2 = n_c * (28/n_c) = 28  [OK]
 
 print("Numerical check:")
 print(f"  Fisher metric coefficient: 1/n_c = 1/{n_c}")
@@ -122,7 +122,7 @@ print()
 
 # THE GAP: This argument ASSUMES that the evaluation map produces a
 # probability distribution whose Fisher metric is the HS metric.
-# This is not automatic — it requires:
+# This is not automatic -- it requires:
 # (1) The evaluation map (AXM_0109) acts as a statistical model
 # (2) The natural measure on the model is the HS measure
 # (3) The gauge coupling is identified with the Fisher metric
@@ -137,7 +137,7 @@ print()
 # This is more specific but doesn't DERIVE the principle from axioms.
 # It replaces "gauge coupling inherits metric" with "gauge coupling
 # = Fisher information", which is arguably more natural but still needs
-# the evaluation map → statistical model step.
+# the evaluation map -> statistical model step.
 
 print("ASSESSMENT of Candidate 1:")
 print("  The Fisher information argument is the most natural reformulation.")
@@ -149,7 +149,7 @@ print("  The gap shifts to: 'why Fisher metric determines gauge coupling?'")
 print("  This is arguably more natural (Fisher metric IS the natural metric")
 print("  for statistical distinguishability), but not a derivation from axioms.")
 print()
-print("  STATUS: PARTIAL — narrows gap but doesn't close it.")
+print("  STATUS: PARTIAL -- narrows gap but doesn't close it.")
 print()
 
 # ==============================================================================
@@ -167,7 +167,7 @@ print("gauge coupling is determined by the geometry of Gr(4,11).")
 print()
 
 # In AdS/CFT: 1/g_i^2 = Vol(cycle_i) / (g_s * l_s^n)
-# The gauge coupling is NOT a free parameter — it's determined by
+# The gauge coupling is NOT a free parameter -- it's determined by
 # the geometry of the compact extra dimensions.
 #
 # In the framework:
@@ -220,7 +220,7 @@ print("  The analogy with AdS/CFT is suggestive but not rigorous.")
 print("  Would need: crystallization dynamics on End(V) => gauge coupling = metric")
 print("  This is essentially what I-STRUCT-5 states, so it's circular.")
 print()
-print("  STATUS: DEAD END — reformulation, not derivation.")
+print("  STATUS: DEAD END -- reformulation, not derivation.")
 print()
 
 # ==============================================================================
@@ -257,18 +257,18 @@ print()
 # => I-STRUCT-5
 #
 # But this conflates two different kinds of equilibrium:
-# - Crystallization equilibrium: tilt field reaches ε*
+# - Crystallization equilibrium: tilt field reaches epsilon*
 # - Metric equilibrium: gauge coupling reaches democratic value
 # These are not obviously the same thing.
 
 print("Argument chain:")
-print("  AXM_0117 → crystallization toward equilibrium")
-print("  equilibrium on Gr(4,11) → maximum entropy metric")
-print("  maximum entropy → democratic (uniform) distribution")
-print("  democratic distribution → 1/g^2 = N_i")
+print("  AXM_0117 -> crystallization toward equilibrium")
+print("  equilibrium on Gr(4,11) -> maximum entropy metric")
+print("  maximum entropy -> democratic (uniform) distribution")
+print("  democratic distribution -> 1/g^2 = N_i")
 print()
-print("The gap: crystallization equilibrium (tilt → eps*) is NOT the")
-print("same as gauge coupling equilibrium (1/g^2 → democratic).")
+print("The gap: crystallization equilibrium (tilt -> eps*) is NOT the")
+print("same as gauge coupling equilibrium (1/g^2 -> democratic).")
 print("The crystallization dynamics acts on the ORDER PARAMETER,")
 print("not on the gauge coupling itself.")
 print()
@@ -287,18 +287,18 @@ print()
 # So the argument becomes:
 # 1. Crystallization is a first-order phase transition [A-STRUCTURAL from AXM_0117]
 # 2. First-order transition produces random domains
-# 3. Average over domains → all coset directions equal
+# 3. Average over domains -> all coset directions equal
 # 4. Therefore: gauge coupling = democratic metric
 
 print("REFINED ENTROPIC ARGUMENT:")
 print("  1. Crystallization is first-order [from AXM_0117 + Mexican hat]")
-print("  2. First-order transition → random domain orientations")
-print("  3. Average over domains → uniform distribution on Gr(4,11)")
-print("  4. Uniform distribution → democratic metric → 1/g^2 = N_i")
+print("  2. First-order transition -> random domain orientations")
+print("  3. Average over domains -> uniform distribution on Gr(4,11)")
+print("  4. Uniform distribution -> democratic metric -> 1/g^2 = N_i")
 print()
 
 # Check: does this actually work?
-# In a first-order transition, the order parameter jumps from ε=0 to ε=ε*.
+# In a first-order transition, the order parameter jumps from epsilon=0 to epsilon=epsilon*.
 # The Goldstone manifold (coset) parametrizes the degenerate vacuum states.
 # Different spatial regions pick different vacuum orientations randomly.
 # The average over all domains gives a uniform distribution on the coset.
@@ -318,7 +318,7 @@ print()
 # but doesn't tell us that the GAUGE COUPLING comes from the sigma model.
 
 print("PROBLEM:")
-print("  Domain averaging → democratic SIGMA MODEL. ✓")
+print("  Domain averaging -> democratic SIGMA MODEL. [OK]")
 print("  But: gauge coupling could come from sigma model (democratic)")
 print("  OR from gauge propagator (Dynkin). The averaging argument")
 print("  doesn't distinguish between these.")
@@ -330,7 +330,7 @@ print("  Provides a physical REASON for democratic distribution")
 print("  (domain averaging in first-order transition).")
 print("  But doesn't resolve whether gauge coupling = sigma model metric")
 print("  or gauge coupling = propagator (Dynkin index).")
-print("  STATUS: PARTIAL — explains why democratic metric exists,")
+print("  STATUS: PARTIAL -- explains why democratic metric exists,")
 print("  not why gauge coupling adopts it.")
 print()
 
@@ -355,7 +355,7 @@ print()
 # The measured coupling is the combination of both.
 #
 # In the framework, there are NO elementary gauge fields:
-# All gauge fields emerge from crystallization (AXM_0109 → AXM_0117).
+# All gauge fields emerge from crystallization (AXM_0109 -> AXM_0117).
 # Therefore: 1/g_elementary^2 = 0 (no elementary component).
 # And: 1/g^2 = 1/g_composite^2 = sigma model metric = democratic.
 #
@@ -402,7 +402,7 @@ print()
 print("For the framework (Gr(4,11)):")
 print(f"  f^2 = 1/n_c = 1/{n_c} (HS metric normalization)")
 print(f"  1/g_2^2 = f^2 * dim(coset) = {N_coset}/{n_c} * {n_c} = {N_coset}")
-print(f"  After canonical normalization: 1/g_2^2 = {N_coset}  ✓")
+print(f"  After canonical normalization: 1/g_2^2 = {N_coset}  [OK]")
 print()
 
 # The key insight: if gauge fields are FULLY composite, then the
@@ -430,7 +430,7 @@ print("  4. After normalization: 1/g_2^2 = 28")
 print()
 print("  GAP in Step 2: Weinberg sum rules assume confining UV theory.")
 print("  Framework has crystallization dynamics, not explicit confinement.")
-print("  The gap is: 'crystallization dynamics → Weinberg-like sum rules'")
+print("  The gap is: 'crystallization dynamics -> Weinberg-like sum rules'")
 print("  This is NARROWER than the original I-STRUCT-5 gap.")
 print()
 
@@ -440,7 +440,7 @@ print("  reason for I-STRUCT-5: fully composite gauge fields obey")
 print("  Weinberg sum rules, forcing 1/g^2 = sigma model metric.")
 print("  The gap narrows from 'why democratic?' to 'why Weinberg sum rules")
 print("  apply to crystallization dynamics?'")
-print("  STATUS: PROMISING — the most physically motivated path.")
+print("  STATUS: PROMISING -- the most physically motivated path.")
 print("  Would be closed by showing crystallization dynamics satisfies")
 print("  the spectral representation needed for Weinberg sum rules.")
 print()
@@ -456,10 +456,10 @@ print()
 
 print("| # | Candidate | Status | Residual Gap |")
 print("|---|-----------|--------|--------------|")
-print("| 1 | Information geometry | PARTIAL | eval map → statistical model |")
+print("| 1 | Information geometry | PARTIAL | eval map -> statistical model |")
 print("| 2 | Holographic | DEAD END | needs dynamical mechanism |")
-print("| 3 | Entropic | PARTIAL | sigma model ≠ gauge coupling |")
-print("| 4 | Full compositeness | PROMISING | crystallization → Weinberg SRs |")
+print("| 3 | Entropic | PARTIAL | sigma model != gauge coupling |")
+print("| 4 | Full compositeness | PROMISING | crystallization -> Weinberg SRs |")
 print()
 
 print("Candidate 4 (full compositeness) subsumes Candidate 1:")
@@ -563,19 +563,19 @@ print("Four candidate mechanisms for deriving I-STRUCT-5:")
 print()
 print("1. INFORMATION GEOMETRY (Fisher metric)")
 print("   Gauge coupling = Fisher information on vacuum manifold")
-print("   Status: PARTIAL — reformulation, not derivation")
+print("   Status: PARTIAL -- reformulation, not derivation")
 print()
 print("2. HOLOGRAPHIC (bulk/boundary)")
 print("   Gauge coupling from internal geometry")
-print("   Status: DEAD END — needs dynamical mechanism the framework lacks")
+print("   Status: DEAD END -- needs dynamical mechanism the framework lacks")
 print()
 print("3. ENTROPIC (maximum entropy)")
 print("   Democratic counting from domain averaging")
-print("   Status: PARTIAL — explains sigma model metric, not gauge coupling")
+print("   Status: PARTIAL -- explains sigma model metric, not gauge coupling")
 print()
 print("4. FULL COMPOSITENESS (Weinberg sum rules)")
-print("   No elementary gauge fields → 1/g^2 = sigma model metric")
-print("   Status: PROMISING — narrows gap to 'crystallization → spectral SRs'")
+print("   No elementary gauge fields -> 1/g^2 = sigma model metric")
+print("   Status: PROMISING -- narrows gap to 'crystallization -> spectral SRs'")
 print()
 print("RECOMMENDATION: Adopt I-STRUCT-5 as stated (no derivation found).")
 print("Record Candidate 4 as the most promising path for future work.")

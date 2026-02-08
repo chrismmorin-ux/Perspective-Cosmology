@@ -10,9 +10,9 @@ Non-framework primes to investigate:
   19, 23, 29, 31, 37, 41, 43, 47, 59, 61, 67, 71, 79, 83, 89, 97, 101, 103, 107, 109...
 
 Where should these appear? The framework predicts:
-  - Framework primes → fundamental constants (α, θ_W, mixing angles)
-  - Structural primes → gauge structure (generations, colors)
-  - Non-framework primes → composite properties, higher-order corrections
+  - Framework primes -> fundamental constants (alpha, theta_W, mixing angles)
+  - Structural primes -> gauge structure (generations, colors)
+  - Non-framework primes -> composite properties, higher-order corrections
 
 CONFIDENCE: EXPLORATORY
 """
@@ -36,7 +36,7 @@ def is_prime(n):
     return True
 
 def sum_of_two_squares(n):
-    """Check if n = a² + b² for division algebra dims {1,2,3,4,7,8,11}"""
+    """Check if n = a^2 + b^2 for division algebra dims {1,2,3,4,7,8,11}"""
     dims = [1, 2, 3, 4, 7, 8, 11]
     for a in dims:
         for b in dims:
@@ -65,9 +65,9 @@ print("\n" + "=" * 70)
 print("PART 1: PRIME CLASSIFICATION")
 print("=" * 70)
 
-print("\nFramework primes (a² + b² for a,b in {1,2,3,4,7,8,11}):")
+print("\nFramework primes (a^2 + b^2 for a,b in {1,2,3,4,7,8,11}):")
 for p, (a, b) in framework_primes:
-    print(f"  {p} = {a}² + {b}²")
+    print(f"  {p} = {a}^2 + {b}^2")
 
 print("\nStructural primes (dimensions themselves):")
 for p in structural_primes:
@@ -265,7 +265,7 @@ print("=" * 70)
 
 print("""
 Prime 19 is interesting because:
-  - 19 = 3² + 3² + 1 (not sum of TWO squares from dims)
+  - 19 = 3^2 + 3^2 + 1 (not sum of TWO squares from dims)
   - 19 = 11 + 8 = n_c + O
   - 19 = 12 + 7 = (H+O) + Im(O)
   - First non-framework prime after structural primes
@@ -337,7 +337,7 @@ print("=" * 70)
 
 print("""
 Prime 29:
-  - 29 = 2² + 5² but 5 is not a division algebra dimension!
+  - 29 = 2^2 + 5^2 but 5 is not a division algebra dimension!
   - 29 = 11 + 11 + 7 = 2*n_c + Im(O)
   - 29 = 8 + 8 + 8 + 4 + 1 = 3*O + H + R
 """)

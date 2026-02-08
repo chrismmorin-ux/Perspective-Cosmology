@@ -92,11 +92,11 @@ print("""
 Hypothesis: Each denominator corresponds to a crystallization stage,
 and the offset from n_c^2 encodes the number of active degrees of freedom.
 
-  97  = n_c^2 - 24:  "Before Stage 1" — 24 = (n_c + 1)(n_c - 11) + ?
-  113 = n_c^2 - O:   "After Stage 1/Before Stage 2" — offset = -dim(O)
-  121 = n_c^2:       "Transition point" — zero offset
-  137 = n_c^2 + H^2: "After Stage 2/Before Stage 3" — offset = +dim(H)^2
-  153 = n_c^2 + 32:  "After Stage 3/Final state" — offset = +n_d(n_c - Im_H)
+  97  = n_c^2 - 24:  "Before Stage 1" -- 24 = (n_c + 1)(n_c - 11) + ?
+  113 = n_c^2 - O:   "After Stage 1/Before Stage 2" -- offset = -dim(O)
+  121 = n_c^2:       "Transition point" -- zero offset
+  137 = n_c^2 + H^2: "After Stage 2/Before Stage 3" -- offset = +dim(H)^2
+  153 = n_c^2 + 32:  "After Stage 3/Final state" -- offset = +n_d(n_c - Im_H)
 """)
 
 # Let's check if the offsets are related to Goldstone counts

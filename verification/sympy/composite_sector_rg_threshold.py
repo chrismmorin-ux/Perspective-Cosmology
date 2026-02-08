@@ -146,7 +146,7 @@ print()
 # The standard approach in CHM literature is to use the "Weinberg sum rules":
 # The net effect of integrating out a spin-1 resonance at mass m_rho is a
 # threshold correction:
-#   delta(1/alpha_i) ≈ (a_i / 12pi) * ln(m_rho^2 / f^2)
+#   delta(1/alpha_i) ~ (a_i / 12pi) * ln(m_rho^2 / f^2)
 # where a_i depends on the representation.
 #
 # I'll use a simplified but standard approach:
@@ -189,7 +189,7 @@ print()
 # For a Proca field (massive spin-1) in representation r:
 #   Contribution to b_i is POSITIVE (screening) because massive vectors
 #   don't have the anti-screening gauge contribution
-#   delta_b_i ≈ +1/3 * dim(r) for a real Proca multiplet
+#   delta_b_i ~ +1/3 * dim(r) for a real Proca multiplet
 #   (This is the scalar-like contribution of the longitudinal mode
 #    plus the vector contribution of transverse modes)
 #
@@ -219,8 +219,8 @@ print()
 # Delta_eps_2 - Delta_eps_3
 #   = [c_2/(2pi*N_2)] * ln(m_rho2/f) - [c_3/(2pi*N_3)] * ln(m_rho3/f)
 #
-# If c_2/N_2 ≈ c_3/N_3 (similar normalized contributions), then:
-# Delta_eps_2 - Delta_eps_3 ≈ (c/2piN) * [ln(m_rho2/f) - ln(m_rho3/f)]
+# If c_2/N_2 ~ c_3/N_3 (similar normalized contributions), then:
+# Delta_eps_2 - Delta_eps_3 ~ (c/2piN) * [ln(m_rho2/f) - ln(m_rho3/f)]
 #                            = (c/2piN) * ln(m_rho2/m_rho3)
 #
 # Since m_rho3 > m_rho2 (SU(3) heavier), ln(m_rho2/m_rho3) < 0
@@ -274,7 +274,7 @@ print()
 # delta_eps_2 - delta_eps_3 = deficit = 0.0036
 # [delta_b_2/(2pi*N_2)] * ln(m_2/M_Z) - [delta_b_3/(2pi*N_3)] * ln(m_3/M_Z) = 0.0036
 
-# Simplify: assume delta_b_2/N_2 ≈ delta_b_3/N_3 ≡ c (universal normalized coefficient)
+# Simplify: assume delta_b_2/N_2 ~ delta_b_3/N_3 == c (universal normalized coefficient)
 # Then: c/(2pi) * [ln(m_2/M_Z) - ln(m_3/M_Z)] = 0.0036
 # => c/(2pi) * ln(m_2/m_3) = 0.0036
 
@@ -285,7 +285,7 @@ print()
 # the effect is more subtle. In the language of form factors:
 # The spin-1 resonance modifies the vacuum polarization function Pi(q^2).
 # At one loop, a massive vector in representation r contributes to Pi:
-#   Pi_i(q^2) ≈ (g_rho^2 * T(r)) / (48*pi^2) * ln(Lambda^2/m_rho^2)
+#   Pi_i(q^2) ~ (g_rho^2 * T(r)) / (48*pi^2) * ln(Lambda^2/m_rho^2)
 # This is a POSITIVE contribution to 1/g_i^2 (screening).
 
 # So delta_b_i (from the massive vector) is POSITIVE.
@@ -465,7 +465,7 @@ print()
 # This gets transmitted to 1/alpha_i(M_Z) through SM running.
 #
 # For resonances ABOVE f (as expected for m_rho ~ g_rho * f ~ 4-8 TeV):
-#   delta(1/alpha_i(M_Z)) ≈ delta_b_i/(2pi) * ln(M/f)
+#   delta(1/alpha_i(M_Z)) ~ delta_b_i/(2pi) * ln(M/f)
 #   delta_eps_i = delta_b_i / (2pi * N_i) * ln(M_i/f)
 #
 # Now:
@@ -662,7 +662,7 @@ print()
 # The deficit 0.36% needs to come from the difference in these contributions.
 
 # ==============================================================================
-# SECTION 5: ALTERNATIVE — FINITE MATCHING AT f
+# SECTION 5: ALTERNATIVE -- FINITE MATCHING AT f
 # ==============================================================================
 
 print("=" * 72)
@@ -723,7 +723,7 @@ print(f"  with a small residual ~0.4-4% that generates the RG corrections.")
 print()
 
 # ==============================================================================
-# SECTION 6: SUMMARY — IS THE TENSION FATAL?
+# SECTION 6: SUMMARY -- IS THE TENSION FATAL?
 # ==============================================================================
 
 print("=" * 72)
@@ -739,12 +739,12 @@ print()
 print("  PATH A (Non-perturbative matching):")
 print("    Tree-level values are non-perturbative matching conditions at f.")
 print("    The 0.36% is a finite matching correction of order alpha_s/(4pi).")
-print("    Status: NATURAL — this is the expected size of one-loop corrections.")
+print("    Status: NATURAL -- this is the expected size of one-loop corrections.")
 print()
 print("  PATH B (Threshold spectrum):")
 print("    Specific composite sector spectrum (vectors + top partners + pNGBs)")
 print("    conspires to give equal percentage corrections.")
-print("    Status: REQUIRES CALCULATION — need specific UV completion.")
+print("    Status: REQUIRES CALCULATION -- need specific UV completion.")
 print("    Colored pNGBs and top partners alone make it worse; vectors needed.")
 print()
 print("  PATH C (Modified running):")
@@ -794,7 +794,7 @@ tests = [
     ("Top partners: delta_b_3/N_3 > delta_b_2/N_2 (makes deficit worse)",
      float(delta_b3_combined)/N_SU3 > float(delta_b2_combined)/N_SU2),
 
-    # Matching correction size — confirms non-perturbative matching needed
+    # Matching correction size -- confirms non-perturbative matching needed
     ("SU(3) matching at f requires large non-perturbative correction (>5%)",
      abs(frac_3) > 0.05),
 
@@ -843,7 +843,7 @@ print("SUMMARY")
 print("=" * 72)
 print()
 print(f"1. The RG deficit (eps_3 - eps_2 = {deficit*100:.2f}%) is quantitatively small.")
-print(f"2. alpha_s/(4pi) = {npc_correction*100:.2f}% exceeds the deficit — natural scale.")
+print(f"2. alpha_s/(4pi) = {npc_correction*100:.2f}% exceeds the deficit -- natural scale.")
 print(f"3. Top partners and colored pNGBs make the deficit WORSE, not better.")
 print(f"4. Resolution must come from vector resonances or non-perturbative matching.")
 print(f"5. The most natural interpretation: tree-level values are non-perturbative")

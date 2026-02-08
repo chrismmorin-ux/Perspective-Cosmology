@@ -5,7 +5,7 @@ Lambda_QCD from Framework: The QCD Scale
 
 QUESTION: Can we derive Lambda_QCD from framework numbers?
 
-We found: Lambda_QCD = m_p/H = m_p/4 ≈ 235 MeV (matches standard!)
+We found: Lambda_QCD = m_p/H = m_p/4 ~ 235 MeV (matches standard!)
 
 This script explores:
 1. Lambda_QCD expressions
@@ -123,7 +123,7 @@ m_glueball_pred = float(glueball_ratio) * m_p
 
 print(f"\nFrom Session 83:")
 print(f"  m_glueball / m_p = 113/62 = {float(glueball_ratio):.4f}")
-print(f"  m_glueball = {float(glueball_ratio):.4f} × {m_p:.2f} = {m_glueball_pred:.0f} MeV")
+print(f"  m_glueball = {float(glueball_ratio):.4f} * {m_p:.2f} = {m_glueball_pred:.0f} MeV")
 print(f"  Measured: ~{m_glueball} MeV")
 
 # Lambda from glueball
@@ -139,9 +139,9 @@ If Lambda_QCD = m_glueball / O:
   Error: {error_glueball:.1f}%
 
 Combining with glueball ratio:
-  m_glueball = m_p × (113/62)
-  Lambda_QCD = m_glueball / O = m_p × (113/62) / 8
-             = m_p × 113/496
+  m_glueball = m_p * (113/62)
+  Lambda_QCD = m_glueball / O = m_p * (113/62) / 8
+             = m_p * 113/496
              = {m_p * 113/496:.1f} MeV
 """)
 
@@ -163,25 +163,25 @@ Analyzing 113/62:
   This is a framework prime! (7^2 + 8^2 form)
 
   62 = ?
-  62 = 2 × 31
+  62 = 2 * 31
   62 = H + O + 50 = 4 + 8 + 50  (not clean)
   62 = n_c^2 - n_c - 48 = 121 - 11 - 48 = 62  CHECK
      = n_c(n_c-1) - 48 = 110 - 48 = 62
-  62 = (n_c-1) × (H + C) + C = 10 × 6 + 2 = 62  CHECK
-     = (Goldstone modes) × (spacetime + EM) + EM
+  62 = (n_c-1) * (H + C) + C = 10 * 6 + 2 = 62  CHECK
+     = (Goldstone modes) * (spacetime + EM) + EM
 
 Physical meaning:
   - Numerator (113): Im_O^2 + O = color structure squared + octonion
-  - Denominator (62): Related to Goldstone × gauge structure
+  - Denominator (62): Related to Goldstone * gauge structure
 """)
 
 # Alternative check
 print(f"\n62 breakdown:")
-print(f"  62 = 2 × 31 (prime factorization)")
-print(f"  62 = (n_c - 1) × (H + C) + C = 10 × 6 + 2 = {10*6+2}")
+print(f"  62 = 2 * 31 (prime factorization)")
+print(f"  62 = (n_c - 1) * (H + C) + C = 10 * 6 + 2 = {10*6+2}")
 print(f"  62 = n_c^2 - 49 = 121 - 49 = 72? No, that's 72")
-print(f"  62 = H × (n_c + Im_H + C) = 4 × (11+3+2) = 4 × 16 = 64 ≠ 62")
-print(f"  62 = C × 31, where 31 = n_c^2 - 90 = 121 - 90 = 31")
+print(f"  62 = H * (n_c + Im_H + C) = 4 * (11+3+2) = 4 * 16 = 64 != 62")
+print(f"  62 = C * 31, where 31 = n_c^2 - 90 = 121 - 90 = 31")
 print(f"  31 = 5^2 + 6^2/... = (C+Im_H)^2 + 6 = 25 + 6 = 31  CHECK!")
 
 # =============================================================================
@@ -191,14 +191,14 @@ print("\n" + "=" * 70)
 print("DARK SECTOR CONNECTION")
 print("=" * 70)
 
-# From S95: Lambda_dark = m_p × (7/9) = 730 MeV
+# From S95: Lambda_dark = m_p * (7/9) = 730 MeV
 Lambda_dark = m_p * 7 / 9
 ratio_dark_QCD = Lambda_dark / Lambda_from_mp
 
 print(f"""
 From Session 95 (Dark sector):
-  Lambda_dark = m_p × (Im_O / Im_H^2) = m_p × (7/9)
-              = {m_p:.2f} × 0.778 = {Lambda_dark:.1f} MeV
+  Lambda_dark = m_p * (Im_O / Im_H^2) = m_p * (7/9)
+              = {m_p:.2f} * 0.778 = {Lambda_dark:.1f} MeV
 
 Ratio of scales:
   Lambda_dark / Lambda_QCD = {Lambda_dark:.1f} / {Lambda_from_mp:.1f}
@@ -207,7 +207,7 @@ Ratio of scales:
 Framework candidate for ratio:
   Im_O / Im_H = 7/3 = {7/3:.3f}
   (Lambda_dark/m_p) / (Lambda_QCD/m_p) = (7/9) / (1/4)
-                                        = (7/9) × 4 = 28/9 = {28/9:.3f}
+                                        = (7/9) * 4 = 28/9 = {28/9:.3f}
 
 Hmm, ratio is {ratio_dark_QCD:.3f}, not 7/3 = 2.33...
 
@@ -229,7 +229,7 @@ print("=" * 70)
 print("""
 In standard QCD:
   Lambda_QCD arises from dimensional transmutation:
-  Lambda_QCD = mu × exp(-8*pi^2 / (b_0 × g^2(mu)))
+  Lambda_QCD = mu * exp(-8*pi^2 / (b_0 * g^2(mu)))
 
   where b_0 = 7 = Im_O (from Session 105!)
 
@@ -241,16 +241,16 @@ In framework:
   - Divided by spacetime dimensions (H = 4)
 
   The relationship:
-    m_p = Lambda_QCD × H
+    m_p = Lambda_QCD * H
 
-  means: proton mass = QCD scale × spacetime factor
+  means: proton mass = QCD scale * spacetime factor
 
 Alternative derivation:
-  If m_p = (2m_u + m_d) × 99 = quark_content × n_c × Im_H^2
-  Then Lambda_QCD = m_p / H = quark_content × n_c × Im_H^2 / H
-                            = quark_content × 11 × 9 / 4
-                            = quark_content × 99/4
-                            = quark_content × 24.75
+  If m_p = (2m_u + m_d) * 99 = quark_content * n_c * Im_H^2
+  Then Lambda_QCD = m_p / H = quark_content * n_c * Im_H^2 / H
+                            = quark_content * 11 * 9 / 4
+                            = quark_content * 99/4
+                            = quark_content * 24.75
 """)
 
 # =============================================================================
@@ -265,16 +265,16 @@ QCD QUANTITIES FROM FRAMEWORK:
 
 | Quantity | Formula | Value | Error |
 |----------|---------|-------|-------|
-| m_p | (2m_u+m_d) × n_c × Im_H^2 | 944 MeV | 0.6% |
+| m_p | (2m_u+m_d) * n_c * Im_H^2 | 944 MeV | 0.6% |
 | m_n | m_p + (m_d-m_u)/C | 945 MeV | 0.6% |
 | Lambda_QCD | m_p / H | {Lambda_from_mp:.0f} MeV | {error_mp:.0f}% |
-| m_glueball | m_p × (113/62) | {m_glueball_pred:.0f} MeV | ~0% |
-| Lambda_dark | m_p × Im_O/Im_H^2 | {Lambda_dark:.0f} MeV | — |
+| m_glueball | m_p * (113/62) | {m_glueball_pred:.0f} MeV | ~0% |
+| Lambda_dark | m_p * Im_O/Im_H^2 | {Lambda_dark:.0f} MeV | -- |
 
 KEY FRAMEWORK EXPRESSIONS:
-  99 = n_c × Im_H^2 (QCD amplification)
+  99 = n_c * Im_H^2 (QCD amplification)
   113 = Im_O^2 + O (glueball numerator)
-  62 = (n_c-1) × (H+C) + C (glueball denominator)
+  62 = (n_c-1) * (H+C) + C (glueball denominator)
   4 = H (Lambda_QCD divisor)
 """)
 
@@ -293,12 +293,12 @@ print(f"""
 From Session 83:
   alpha_s(M_Z) = 25/212 = {alpha_s_float:.5f}
 
-  212 = 4 × 53 = H × 53
+  212 = 4 * 53 = H * 53
   53 = 2^2 + 7^2 = C^2 + Im_O^2 (framework prime!)
 
-  So: alpha_s = 25 / (H × (C^2 + Im_O^2))
-             = (C + Im_H)^2 / (H × (C^2 + Im_O^2))
-             = 25 / (4 × 53)
+  So: alpha_s = 25 / (H * (C^2 + Im_O^2))
+             = (C + Im_H)^2 / (H * (C^2 + Im_O^2))
+             = 25 / (4 * 53)
 
 Check:
   1/alpha_s = 212/25 = 8.48
@@ -306,7 +306,7 @@ Check:
   At Lambda_QCD: alpha_s ~ 1 (by definition)
 
 Running from Lambda_QCD to M_Z:
-  alpha_s(M_Z) = alpha_s(Lambda) / (1 + b_0 × alpha_s(Lambda) × ln(M_Z/Lambda)/(2*pi))
+  alpha_s(M_Z) = alpha_s(Lambda) / (1 + b_0 * alpha_s(Lambda) * ln(M_Z/Lambda)/(2*pi))
 
   where b_0 = 7 = Im_O
 

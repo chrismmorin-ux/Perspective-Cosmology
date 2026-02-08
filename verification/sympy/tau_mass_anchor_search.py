@@ -113,11 +113,11 @@ POSSIBLE REFINEMENT:
   m_tau = v / (138 + x) where x is a small correction
 
   If x = alpha = 1/137, then:
-    m_tau = v / (138 + 1/137) = v / (138.0073...) ≈ 1.7838 GeV
+    m_tau = v / (138 + 1/137) = v / (138.0073...) ~ 1.7838 GeV
     Error: 0.39%
 
   If x = Im_O/n_c = 7/11:
-    m_tau = v / (138 + 7/11) = v / (138.636...) ≈ 1.7759 GeV
+    m_tau = v / (138 + 7/11) = v / (138.636...) ~ 1.7759 GeV
     Error: 0.056%!
 """)
 

@@ -120,13 +120,13 @@ The axiom contains two levels of assumption:
 | Component | Classification | Justification |
 |-----------|---------------|---------------|
 | Gradient flow structure | [A-AXIOM] | Autonomous dynamics for tilt field |
-| Mexican hat form (quartic) | **[A-STRUCTURAL]** | Simplest potential with unstable maximum + stable minimum. NOT derived from more primitive axioms. |
+| Mexican hat form (quartic) | ~~**[A-STRUCTURAL]**~~ **[D with imports]** | S259: CONJ-B1 partially resolved. Quartic forced by necessity (degree >= 4 minimum for bounded SSB) + CCP smoothness (no cubic) + Thom stability + QFT power counting (d=4 marginal). Gap: CCP -> continuous transition is interpretive. |
 | Coefficients a, b | **[CONJECTURE]** | Values undetermined at Layer 0. See `framework/investigations/gauge/tilt_energy_functional.md` for candidate values. |
 | eps = 0 is unstable | [D] from quartic form | Follows from a > 0 in Mexican hat |
 
-**Honest assessment**: The gradient flow is natural. The quartic form is the simplest Landau-type potential with the required symmetry-breaking structure, but other forms (sextic, logarithmic, Coleman-Weinberg) could also work. The framework assumes quartic as [A-STRUCTURAL].
+**Honest assessment**: The gradient flow is natural. ~~The quartic form is assumed as [A-STRUCTURAL].~~ **S259 update**: CONJ-B1 partially resolved -- quartic is forced by two independent routes: (a) algebraic necessity (degree >= 4 for bounded SSB) + CCP smoothness -> no cubic + Thom structural stability; (b) CCP -> n_d=4 -> 4D -> quartic marginal in QFT. Status upgraded from [A-STRUCTURAL] to [DERIVATION with imports]. Remaining gap: CCP -> continuous transition step is interpretive. See `conj_b1_quartic_truncation.py` (20/20 PASS), `conj_b1_invariant_ring.py` (6/6 PASS).
 
-**What would strengthen this**: Derive the quartic form from the tilt matrix structure (e.g., show that F must be a polynomial in Tr(eps^2) and the leading nontrivial case is quartic). S168 eigenvalue selection work and S172 democratic quartic derivation partially address this.
+**What would fully close the gap**: Make the CCP -> continuous transition argument rigorous. This would eliminate the last interpretive step in the quartic truncation derivation.
 
 ---
 
@@ -140,7 +140,7 @@ The axiom contains two levels of assumption:
 
 4. **Connection to coupled potential?** The full two-field system has W(eps, phi) = -a g(phi) |eps|^2 + b|eps|^4 where g(phi) = 1 - phi^2/mu^2. The equilibrium eps* evolves as crystallization proceeds. See crystallization_dynamics.md.
 
-5. **[NEW, S181] Why quartic specifically?** The Mexican hat form is [A-STRUCTURAL]. Could it be derived from tilt matrix symmetries? The potential must be invariant under the tilt matrix symmetry group and be a function of invariants (Tr(eps^2), Tr(eps^4), etc.). The quartic is the leading nontrivial Landau expansion. But higher-order terms are not excluded.
+5. **[NEW, S181; PARTIALLY RESOLVED S259] Why quartic specifically?** ~~The Mexican hat form is [A-STRUCTURAL].~~ **CONJ-B1 partially resolved (S259)**: Quartic is forced by two independent routes: (a) degree 4 is the minimum for bounded SSB + CCP smoothness forbids cubic + Thom structural stability; (b) CCP -> n_d=4 -> 4D -> quartic marginal in QFT. Status upgraded from [A-STRUCTURAL] to [DERIVATION with imports]. Remaining gap: CCP -> continuous transition step is interpretive. See `conj_b1_quartic_truncation.py` (20/20 PASS), `conj_b1_invariant_ring.py` (6/6 PASS).
 
 ---
 

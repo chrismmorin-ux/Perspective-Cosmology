@@ -49,7 +49,7 @@ Can the framework's dimensionless constant predictions be organized by derivatio
 | Constant | Formula | Value | Precision | Tier |
 |----------|---------|-------|-----------|------|
 | sin^2(theta_W) | n_d * Im_O / n_c^2 = 28/121 | 0.2314 | 843 ppm | 2 |
-| Koide Q | dim(C) / Im(H) = 2/3 | 0.6667 | EXACT | 1 |
+| Koide Q | dim(C) / Im_H = 2/3 | 0.6667 | EXACT | 1 |
 | Omega_Lambda | (C^2 + Im_H^2)/(n_c + O) = 13/19 | 0.6842 | 0.07% | 2 |
 | Omega_m | 6/19 | 0.3158 | 0.16% | 2 |
 
@@ -90,7 +90,7 @@ Can the framework's dimensionless constant predictions be organized by derivatio
 
 | Constant | Formula | Value | Precision | Tier |
 |----------|---------|-------|-----------|------|
-| n_gen (generations) | Im(H) = 3 | 3 | EXACT | 1 |
+| n_gen (generations) | Im_H = 3 | 3 | EXACT | 1 |
 | CMB l_1 (first peak) | 2 * n_c * (n_c - 1) = 220 | 220 | EXACT | 1 |
 
 ---

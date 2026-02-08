@@ -146,11 +146,11 @@ The desert spans v = 246 GeV to f = 1354 GeV (width: 1108 GeV, ratio: 5.5×).
 
 **History**: LHCb reported R(K) = BR(B→Kμμ)/BR(B→Kee) deviating from 1 at ~3σ (2014-2021). In December 2022, LHCb retracted the anomaly, attributing it to a systematic bias in electron reconstruction.
 
-**Framework position**: Lepton universality is expected from the democratic structure of Im(H) = {i,j,k}: the three imaginary quaternionic directions treat all three lepton generations equally. R(K) = 1 is a framework prediction [DERIVATION from quaternionic democracy].
+**Framework position**: Lepton universality is expected from the democratic structure of Im_H = {i,j,k}: the three imaginary quaternionic directions treat all three lepton generations equally. R(K) = 1 is a framework prediction [DERIVATION from quaternionic democracy].
 
 **Status**: Consistent. The retraction is a positive consistency check.
 
-**Note**: R(D) and R(D*) anomalies remain open (tau vs light leptons). These involve tau specifically and may connect to mass-dependent effects not captured by Im(H) democracy. This is Phase V (blocked on CKM derivation).
+**Note**: R(D) and R(D*) anomalies remain open (tau vs light leptons). These involve tau specifically and may connect to mass-dependent effects not captured by Im_H democracy. This is Phase V (blocked on CKM derivation).
 
 ---
 

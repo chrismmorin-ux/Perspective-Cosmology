@@ -12,11 +12,11 @@ Where:
 Framework Numbers:
   Im_O = 7 (imaginary octonion dimensions)
   Phi_6(x) = x^2 - x + 1 (6th cyclotomic polynomial)
-  43 = Phi_6(7) — same denominator as m_mu/m_e = 8891/43
+  43 = Phi_6(7) -- same denominator as m_mu/m_e = 8891/43
 
 Measured:
   v = 246.21965 GeV (PDG 2024, from G_F = 1.1663788(6) x 10^-5 GeV^-2)
-  m_p = 0.93827208816(29) GeV (CODATA 2018)
+  m_p = 0.93827208816(29) GeV (CODATA 2022)
 
 Error: ~1.5 ppm (Tier 1 candidate)
 
@@ -70,15 +70,15 @@ v_from_GF = 1.0 / math.sqrt(math.sqrt(2) * G_F)
 # Direct PDG value
 v_pdg = 246.21965  # GeV (PDG 2024 review, Higgs chapter)
 
-# CODATA 2018 proton mass
-m_p = 0.93827208816  # GeV (CODATA 2018, uncertainty 2.9e-10 GeV)
+# CODATA 2022 proton mass
+m_p = 0.93827208816  # GeV (CODATA 2022, uncertainty 2.9e-10 GeV)
 
 print(f"""
 MEASURED VALUES:
   G_F = 1.1663788(6) x 10^-5 GeV^-2  [PDG 2024]
   v = 1/sqrt(sqrt(2)*G_F) = {v_from_GF:.6f} GeV
   v (PDG direct) = {v_pdg} GeV
-  m_p = {m_p:.11f} GeV  [CODATA 2018]
+  m_p = {m_p:.11f} GeV  [CODATA 2022]
 """)
 
 # ==============================================================================

@@ -193,7 +193,7 @@ applies to:
 - Schwarzschild black holes
 - Kerr black holes
 - de Sitter cosmological horizon
-- Reissner-Nordström black holes
+- Reissner-Nordstrom black holes
 - ... any horizon in 4D spacetime
 """)
 

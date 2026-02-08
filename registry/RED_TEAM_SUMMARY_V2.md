@@ -106,7 +106,7 @@ The upward revision is driven by: CCP axiom deriving previously free parameters,
 
 **S257 update**: **RESOLVED.**
 - CCP (AXM_0120, S251) derives n_c = 11 from "perfection = maximal consistency"
-- Hurwitz theorem gives {R, C, H, O}; imaginary parts Im(C)+Im(H)+Im(O) = 1+3+7 = 11
+- Hurwitz theorem gives {R, C, H, O}; imaginary parts Im_C+Im_H+Im_O = 1+3+7 = 11
 - Direct sum forced by CCP-3 (minimality) — tensor product gives 21, too large
 - Two INDEPENDENT derivation paths: CCP route AND CD Closure + SO(8) triality (S193-194)
 - CD Closure gap proven IRREDUCIBLE by countermodel (99/100 PASS)
@@ -366,7 +366,7 @@ But three methodological concerns have WORSENED:
 | CNH Gaussian norm theorem | Structural but not predictive | **NEUTRAL** |
 | Crystallization catalog (99 entries) | Mostly relabeling | **NEUTRAL** |
 | Weinberg angle chain complete | Modulo [A-PHYSICAL] | **MILDLY POSITIVE** |
-| Generation count = 3 | From Im(H)⊗decomposition | **POSITIVE** |
+| Generation count = 3 | From Im_H⊗decomposition | **POSITIVE** |
 
 ---
 

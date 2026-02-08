@@ -39,16 +39,16 @@ V2 prompt with 5 axioms (C1-C4 + CCP), 5 mathematical facts (Hurwitz, Frobenius,
 | Q# | Question | Expected | Result | Grade |
 |----|----------|----------|--------|-------|
 | Q9a | Compute n_d^2 + n_c^2 + n_d/Phi_6(n_c) | 137 + 4/111 | 137 + 4/111 | **PASS** |
-| Q9b | Compute n_d * Im(O) | 28 | 28 | **PASS** |
+| Q9b | Compute n_d * Im_O | 28 | 28 | **PASS** |
 | Q9c | Compute n_d/Phi_6(n_c) as decimal | 0.036036... | 0.036036... | **PASS** |
 
 ### Part D: Representation Content (Q10)
 
 | Q# | Question | Expected | Result | Grade |
 |----|----------|----------|--------|-------|
-| Q10a | Branching of Im(O) under Im(H) | 7 -> 3 + 3-bar + 1 | 3 + 3-bar + 1 | **PASS** |
-| Q10b | Generation count from Im(H) tensor | 3 | 3 | **PASS** |
-| Q10c | Content per generation | 7 = dim(Im(O)) | 7 | **PASS** |
+| Q10a | Branching of Im_O under Im_H | 7 -> 3 + 3-bar + 1 | 3 + 3-bar + 1 | **PASS** |
+| Q10b | Generation count from Im_H tensor | 3 | 3 | **PASS** |
+| Q10c | Content per generation | 7 = dim(Im_O) | 7 | **PASS** |
 
 ---
 

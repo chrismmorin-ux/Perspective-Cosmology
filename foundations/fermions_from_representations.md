@@ -96,9 +96,9 @@ The quaternions H (dim 4) give:
 - SU(2) doublet structure
 - Left-right distinction (chirality)
 
-The split H = R ⊕ Im(H) gives:
+The split H = R ⊕ Im_H gives:
 - R: Singlet (right-handed)
-- Im(H): Triplet structure (but not SU(2) triplet)
+- Im_H: Triplet structure (but not SU(2) triplet)
 
 ### 3.3 Complex Numbers Role
 
@@ -280,7 +280,7 @@ Total: 3 × 15 = 45 Weyl fermions.
 ### 8.2 Why 3?
 
 See `generations_from_quaternions.md`:
-- 3 = dim(Im(H))
+- 3 = dim(Im_H)
 - Three imaginary quaternion directions
 - Each generation is a "copy" along one direction
 
@@ -288,7 +288,7 @@ See `generations_from_quaternions.md`:
 
 ```
 45 fermions = 3 generations × 15 fermions/generation
-            = dim(Im(H)) × dim(R⊕C⊕H⊕O)
+            = dim(Im_H) × dim(R⊕C⊕H⊕O)
             = 3 × 15
 ```
 

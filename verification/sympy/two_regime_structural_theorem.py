@@ -5,7 +5,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 Two-Regime Structural Theorem: T_fund = 1 and Singlet Criterion
 
 KEY FINDINGS:
-1. T_fund = 1 for BOTH SU(2) and SU(3) — forced by division algebra minimality
+1. T_fund = 1 for BOTH SU(2) and SU(3) -- forced by division algebra minimality
 2. H gives T=1 because dim(H) = 4 = 2*dim_C(fund SU(2)) [minimum real dimension]
 3. Im(O) gives T=1 because dim(Im(O)) = 7 = 1 + 2*dim_C(fund SU(3)) [1 singlet + minimum]
 4. SINGLET CRITERION: R^4 has 0 SU(2) singlets -> interface regime (N=28)
@@ -100,11 +100,11 @@ print(f"  T = (number of conjugate pairs) * 2 * T(fund SU(N)) = 1 * 2 * 1/2 = 1"
 print()
 
 # ==============================================================================
-# SECTION 2: MINIMALITY — WHY EXACTLY ONE PAIR
+# SECTION 2: MINIMALITY -- WHY EXACTLY ONE PAIR
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 2: MINIMALITY — WHY EXACTLY ONE CONJUGATE PAIR")
+print("SECTION 2: MINIMALITY -- WHY EXACTLY ONE CONJUGATE PAIR")
 print("=" * 72)
 print()
 
@@ -198,7 +198,7 @@ print(f"  dim=14: Would give 14 -> 1+3+3*+3+3*+1 = two pairs + 2 singlets. T=2")
 print()
 
 # ==============================================================================
-# SECTION 4: SINGLET CRITERION — INTERFACE vs INTERNAL REGIME
+# SECTION 4: SINGLET CRITERION -- INTERFACE vs INTERNAL REGIME
 # ==============================================================================
 
 print("=" * 72)
@@ -242,7 +242,7 @@ print(f"         -> One singlet in fund")
 print()
 print(f"  The SU(3) singlet exists because SU(3) is obtained by a SYMMETRY REDUCTION")
 print(f"  (choosing i in G2), which creates an invariant direction.")
-print(f"  SU(2) has no such reduction — SO(4) = SU(2)^2 is already factored.")
+print(f"  SU(2) has no such reduction -- SO(4) = SU(2)^2 is already factored.")
 print()
 
 # ==============================================================================
@@ -324,7 +324,7 @@ print(f"  -> Goldstone counting gives wrong answer for SU(3)")
 print()
 
 # ==============================================================================
-# SECTION 7: FORMULA — alpha_3/alpha_2 IN DIVISION ALGEBRA TERMS
+# SECTION 7: FORMULA -- alpha_3/alpha_2 IN DIVISION ALGEBRA TERMS
 # ==============================================================================
 
 print("=" * 72)

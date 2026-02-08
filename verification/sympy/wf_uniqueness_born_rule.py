@@ -3,9 +3,9 @@
 Wright-Fisher Uniqueness and Born Rule Robustness
 
 KEY FINDING: The Born rule P(k) = |c_k|^2 follows from THREE conditions:
-  (1) Zero drift (populations are martingales) — from AXM_0117
-  (2) Simplex preservation (probabilities sum to 1) — from THM_0493
-  (3) Absorbing faces (noise vanishes when any p_k = 0) — from AXM_0110 + structure
+  (1) Zero drift (populations are martingales) -- from AXM_0117
+  (2) Simplex preservation (probabilities sum to 1) -- from THM_0493
+  (3) Absorbing faces (noise vanishes when any p_k = 0) -- from AXM_0110 + structure
 
 Furthermore:
   - Wright-Fisher is the UNIQUE degree-2 exchangeable covariance satisfying (1)-(3)
@@ -37,7 +37,7 @@ import sys
 
 
 # ==============================================================================
-# PART 1: FACE INVARIANCE — WHY p_k = 0 KILLS THE NOISE
+# PART 1: FACE INVARIANCE -- WHY p_k = 0 KILLS THE NOISE
 # ==============================================================================
 
 def test_face_invariance_from_perturbation():
@@ -148,7 +148,7 @@ def test_degree2_uniqueness_clean():
 
 
 # ==============================================================================
-# PART 3: WITHOUT FACE INVARIANCE — THE ANOMALOUS TERM
+# PART 3: WITHOUT FACE INVARIANCE -- THE ANOMALOUS TERM
 # ==============================================================================
 
 def test_without_face_invariance():
@@ -273,7 +273,7 @@ def test_explicit_wf_matrices():
 
 
 # ==============================================================================
-# PART 5: BORN RULE ROBUSTNESS — NOISE AMPLITUDE INDEPENDENCE
+# PART 5: BORN RULE ROBUSTNESS -- NOISE AMPLITUDE INDEPENDENCE
 # ==============================================================================
 
 def test_born_rule_robustness_2state():
@@ -393,7 +393,7 @@ def test_anomalous_term_fails():
 
     But the p_k=0 face test is more fundamental:
       At p_k=0 with generic interior point on face: Sigma_{kk} = D*(s_2 - 1) != 0
-      This means p_k can become NEGATIVE — the simplex is not preserved.
+      This means p_k can become NEGATIVE -- the simplex is not preserved.
       Therefore D = 0 is required for a valid diffusion.
     """
     D = Symbol('D', real=True)
@@ -521,16 +521,16 @@ def test_complete_chain():
     """
     THE THREE-LAYER BORN RULE DERIVATION:
 
-    LAYER 1 — EXISTENCE (S169):
+    LAYER 1 -- EXISTENCE (S169):
       Hermitian perturbation + crystal symmetry -> WF noise.
       This shows how WF ARISES from the axioms.
 
-    LAYER 2 — UNIQUENESS (S173):
+    LAYER 2 -- UNIQUENESS (S173):
       Face invariance + exchangeability + simplex + degree 2
       -> WF is the UNIQUE covariance.
       This shows WF is the ONLY possibility at leading order.
 
-    LAYER 3 — ROBUSTNESS (S173):
+    LAYER 3 -- ROBUSTNESS (S173):
       Zero drift + simplex + absorbing faces
       -> Born rule P(k) = |c_k|^2.
       This holds for ANY noise amplitude, not just WF.
@@ -667,7 +667,7 @@ def main():
     print()
 
     # --- Part 3: Without face invariance ---
-    print("PART 3: Without Face Invariance — The Anomalous Term")
+    print("PART 3: Without Face Invariance -- The Anomalous Term")
     print("-" * 50)
     r3 = test_without_face_invariance()
     print(f"  General parameterization: 8 params (A, B, C, D, E, F, G, H)")

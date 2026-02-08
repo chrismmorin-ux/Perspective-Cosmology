@@ -19,7 +19,7 @@ By Hurwitz's theorem [I-MATH], the normed division algebras are R(1), C(2), H(4)
 
 ```
 Defect structure = H (quaternions, dim = 4)
-Crystal complement = Im(C) + Im(H) + Im(O) (dim = 1 + 3 + 7 = 11 = n_c)  [CANONICAL: per CR-010/AXM_0118]
+Crystal complement = Im_C + Im_H + Im_O (dim = 1 + 3 + 7 = 11 = n_c)  [CANONICAL: per CR-010/AXM_0118]
 ```
 
 This forces n_d = 4 and n_c = 11. [DERIVATION: n_d = 4 from Frobenius maximality; n_c = 11 from complement counting. "Spacetime dimensions" and "crystal dimensions" are Layer 2 identifications — see [A-PHYSICAL] in Implications.]
@@ -40,7 +40,7 @@ This forces n_d = 4 and n_c = 11. [DERIVATION: n_d = 4 from Frobenius maximality
 4. Hurwitz: normed division algebras = {R, C, H, O}
 5. Associative division algebras = {R, C, H} (O fails associativity)
 6. Maximum dimension for defect = dim(H) = 4
-7. Complement: crystal uses imaginary parts Im(C) + Im(H) + Im(O), dim = 1 + 3 + 7 = 11  [CANONICAL: per CR-010/AXM_0118]
+7. Complement: crystal uses imaginary parts Im_C + Im_H + Im_O, dim = 1 + 3 + 7 = 11  [CANONICAL: per CR-010/AXM_0118]
 
 **Gap**: Step 6 assumes maximal choice; formally need to show H is selected over R and C (argument: maximal dimension maximizes crystallization modes, per AXM_0117).
 

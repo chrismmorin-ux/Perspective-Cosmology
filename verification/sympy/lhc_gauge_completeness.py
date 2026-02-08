@@ -260,7 +260,7 @@ at m_rho ~ 4*pi*f/sqrt(N_c) ~ {4 * 3.14159 * 1354 / 1.732:.0f} GeV,
 but these are BROAD resonances with specific composite Higgs signatures,
 NOT the narrow W'/Z' searched for in standard analyses.
 
-Status: CONSISTENT — all LHC null results match framework expectation.
+Status: CONSISTENT -- all LHC null results match framework expectation.
 """)
 
 

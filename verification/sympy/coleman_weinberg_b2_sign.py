@@ -306,7 +306,7 @@ print(f"Gram matrix invertible: {abs(np.linalg.det(G)) > 1e-10}")
 def project_onto_invariants(T):
     """Project tensor T onto the S and D basis.
 
-    Returns (c_S, c_D) such that T ≈ c_S * S + c_D * D.
+    Returns (c_S, c_D) such that T ~ c_S * S + c_D * D.
     """
     rhs = np.array([np.sum(T * S_tensor), np.sum(T * D_tensor)])
     coeffs = G_inv @ rhs
@@ -374,7 +374,7 @@ for label, vals in [("S-component", beta_S_vals), ("D-component", beta_D_vals)]:
 
 
 # ==============================================================================
-# PART 6: THE CRITICAL QUESTION — IS b2 GENERATED FROM b1 ALONE?
+# PART 6: THE CRITICAL QUESTION -- IS b2 GENERATED FROM b1 ALONE?
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -432,7 +432,7 @@ print("=" * 70)
 # does it flow MORE negative (IR attractive) or toward zero (IR repulsive)?
 
 # beta_b2 = M^D_11 * (8b1)^2 + M^D_12 * (8b1)*b2 + M^D_22 * b2^2
-# At small b2: beta_b2 ≈ M^D_11 * (8b1)^2 + M^D_12 * (8b1)*b2
+# At small b2: beta_b2 ~ M^D_11 * (8b1)^2 + M^D_12 * (8b1)*b2
 
 # D-component coefficients
 D_M11 = beta_D_vals[0] / 64.0  # from (8, 0) point
@@ -452,7 +452,7 @@ print(f"S-component beta function: beta_{'{'}8b1{'}'} = {S_M11:.6f}*(8b1)^2 "
 
 # The ratio r = b2/(8*b1) has beta function:
 # beta_r = (beta_b2 - r * beta_{8b1}) / (8*b1)
-# At small r: beta_r ≈ (D_M11 - r*S_M11)*(8b1) + ...
+# At small r: beta_r ~ (D_M11 - r*S_M11)*(8b1) + ...
 
 # Fixed points of r:
 # beta_r = 0 gives a quadratic in r
@@ -460,17 +460,17 @@ print(f"S-component beta function: beta_{'{'}8b1{'}'} = {S_M11:.6f}*(8b1)^2 "
 # where x = 8*b1
 
 print(f"\nFixed-point analysis for r = b2/(8*b1):")
-print(f"  At r = 0: d(b2)/d(ln mu) ∝ {D_M11:.6f} * (8b1)^2")
+print(f"  At r = 0: d(b2)/d(ln mu) ~ {D_M11:.6f} * (8b1)^2")
 if abs(D_M11) < 1e-6:
     print(f"  => r = 0 is a FIXED LINE (b2 = 0 preserved)")
     # Linearize around r = 0:
-    # d(r)/d(ln mu) ≈ (D_M12 - S_M11) * r * (8b1)
+    # d(r)/d(ln mu) ~ (D_M12 - S_M11) * r * (8b1)
     eigenvalue_r0 = D_M12 - S_M11
     print(f"  Linear stability at r=0: eigenvalue = {eigenvalue_r0:.6f}")
     if eigenvalue_r0 > 0:
         print(f"  r = 0 is UV ATTRACTIVE (IR REPULSIVE)")
         print(f"  => b2 flows AWAY from zero in the IR")
-        print(f"  => ANY initial b2 ≠ 0 grows in magnitude!")
+        print(f"  => ANY initial b2 != 0 grows in magnitude!")
     else:
         print(f"  r = 0 is IR ATTRACTIVE")
         print(f"  => b2 flows TOWARD zero in the IR")
@@ -756,7 +756,7 @@ tests = [
 
     # Beta function structure
     ("Beta function is quadratic in couplings (verified by 3-point fit)",
-     True),  # Structural — verified by the computation method
+     True),  # Structural -- verified by the computation method
 
     # Cross-check: S*S should be proportional to S
     ("S*S contraction is proportional to S (O(D) preservation)",
@@ -790,7 +790,7 @@ COLEMAN-WEINBERG ANALYSIS FOR HERM(4) TILT POTENTIAL
 
 QUESTION: Does the one-loop CW potential determine sign(b2)?
 
-ANSWER: NO — the pure scalar CW is neutral on b2.
+ANSWER: NO -- the pure scalar CW is neutral on b2.
 
 DETAILS:
   1. [THEOREM] The coupling [Tr(eps^2)]^2 has O(16) symmetry.
@@ -808,13 +808,13 @@ DETAILS:
 
   4. [CONJECTURE] The sign of b2 comes from AXM_0117 (crystallization).
      This is NOT contradicted by perturbative analysis (which gives b2 = 0).
-     The CW result is CONSISTENT with AXM_0117 — it doesn't generate a
+     The CW result is CONSISTENT with AXM_0117 -- it doesn't generate a
      competing positive b2.
 
 IMPLICATION FOR THE FRAMEWORK:
   The SM gauge group derivation chain is:
     Division algebras -> n_d = 4 [THEOREM]
-    Crystallization -> b2 < 0     [CONJECTURE — not perturbatively contradicted]
+    Crystallization -> b2 < 0     [CONJECTURE -- not perturbatively contradicted]
     Herm(4) minimization -> SU(3) [THEOREM given b2 < 0]
 
   The CW calculation converts the status from "unknown" to "neutral":

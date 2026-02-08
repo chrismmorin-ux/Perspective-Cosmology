@@ -3,10 +3,10 @@
 Test: Do projection operators (perspectives) commute?
 
 KEY QUESTION: If projections don't commute, the framework naturally has
-non-commutativity — a key feature of quantum mechanics.
+non-commutativity -- a key feature of quantum mechanics.
 
 In QM: [A, B] != 0 means measuring A disturbs B
-In framework: [pi₁, pi₂] != 0 would mean perspectives don't commute
+In framework: [pi_1, pi_2] != 0 would mean perspectives don't commute
 
 Created: Session 108
 """
@@ -18,7 +18,7 @@ import numpy as np
 def projection_onto_line(theta):
     """
     2D projection matrix onto line at angle theta from x-axis.
-    P = |u><u| where u = (cos θ, sin θ)
+    P = |u><u| where u = (cos theta, sin theta)
     """
     c, s = cos(theta), sin(theta)
     return Matrix([
@@ -80,15 +80,15 @@ def test_2d_projections():
     P1P2 = P1 * P2
     P2P1 = P2 * P1
 
-    print("\nP1 · P2:")
+    print("\nP1 * P2:")
     print(simplify(P1P2))
 
-    print("\nP2 · P1:")
+    print("\nP2 * P1:")
     print(simplify(P2P1))
 
     # Commutator
     commutator = simplify(P1P2 - P2P1)
-    print("\n[P1, P2] = P1·P2 - P2·P1:")
+    print("\n[P1, P2] = P1*P2 - P2*P1:")
     print(commutator)
 
     # Check if it's zero
@@ -101,7 +101,7 @@ def test_2d_projections():
 
     # Compute norm of commutator
     comm_norm_sq = sum(x**2 for x in commutator)
-    print(f"\n||[P1, P2]||² = {simplify(comm_norm_sq)}")
+    print(f"\n||[P1, P2]||^2 = {simplify(comm_norm_sq)}")
     print(f"Simplified: {simplify(trigsimp(comm_norm_sq))}")
 
     return commutator
@@ -136,15 +136,15 @@ def test_3d_projections():
     P1P2 = P1 * P2
     P2P1 = P2 * P1
 
-    print("\nP1 · P2:")
+    print("\nP1 * P2:")
     print(P1P2)
 
-    print("\nP2 · P1:")
+    print("\nP2 * P1:")
     print(P2P1)
 
     # Commutator
     commutator = P1P2 - P2P1
-    print("\n[P1, P2] = P1·P2 - P2·P1:")
+    print("\n[P1, P2] = P1*P2 - P2*P1:")
     print(commutator)
 
     is_zero = commutator.equals(zeros(3, 3))
@@ -167,7 +167,7 @@ def test_tilted_projections():
         [0, 0, 0]
     ])
 
-    # P2: projection onto plane perpendicular to (sin θ cos φ, sin θ sin φ, cos θ)
+    # P2: projection onto plane perpendicular to (sin theta cos phi, sin theta sin phi, cos theta)
     n = [sin(theta)*cos(phi), sin(theta)*sin(phi), cos(theta)]
     P2 = projection_onto_plane_3d(n)
 
@@ -215,7 +215,7 @@ HOWEVER, there's a subtlety:
 
 What the framework provides:
 - Perspectives pi are projection operators
-- Different perspectives don't commute (pi₁pi₂ != pi₂pi₁)
+- Different perspectives don't commute (pi_1pi_2 != pi_2pi_1)
 - This is COMPATIBLE with QM non-commutativity
 
 What's still missing:

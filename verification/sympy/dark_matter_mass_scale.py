@@ -191,7 +191,7 @@ m_dark_baryon_naive = 3 * Lambda_SU7_naive
 print(f"Dark baryon (3 x Lambda): {m_dark_baryon_naive:.2f} GeV")
 
 # More sophisticated: scaling with Casimir
-# C_2(fundamental) for SU(N) = (N²-1)/(2N)
+# C_2(fundamental) for SU(N) = (N^2-1)/(2N)
 C2_SU3 = (9-1)/(2*3)  # = 4/3
 C2_SU7 = (49-1)/(2*7)  # = 24/7
 
@@ -205,9 +205,9 @@ print(f"Casimir scaling: Lambda_SU(7) ~ {Lambda_SU7_Casimir:.3f} GeV")
 print("\n--- Approach 7: Framework Prime Structure ---")
 
 # Key numbers:
-# 137 = n_d² + n_c² (visible sector prime)
+# 137 = n_d^2 + n_c^2 (visible sector prime)
 # 79 = hidden channels
-# 49 = 7² = hidden vectors
+# 49 = 7^2 = hidden vectors
 
 # What if m_DM/m_e involves 79 or 49?
 m_DM_from_79 = 79 * m_e_GeV

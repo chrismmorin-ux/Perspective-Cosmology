@@ -126,12 +126,12 @@ t8 = J.T == -J
 
 # --- Part 3: Stabilizer of J in so(4) ---
 
-# T9: [su(2)_-, J] = 0 — the anti-self-dual subalgebra COMMUTES with J
+# T9: [su(2)_-, J] = 0 -- the anti-self-dual subalgebra COMMUTES with J
 t9 = (comm(em1, J) == zeros(4, 4) and
       comm(em2, J) == zeros(4, 4) and
       comm(em3, J) == zeros(4, 4))
 
-# T10: [ep2, J] != 0 and [ep3, J] != 0 — self-dual generators (besides J) are BROKEN
+# T10: [ep2, J] != 0 and [ep3, J] != 0 -- self-dual generators (besides J) are BROKEN
 # [ep2, ep1] = -2*eps_{213}*ep3 = +2*ep3, so [ep2, J] = [ep2,-ep1] = -2*ep3
 # [ep3, ep1] = -2*eps_{312}*ep2 = -2*ep2, so [ep3, J] = [ep3,-ep1] = +2*ep2
 comm_ep2_J = comm(ep2, J)

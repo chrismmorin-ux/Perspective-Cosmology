@@ -3,6 +3,7 @@
 **Status**: ARCHIVE
 **Confidence**: [SPECULATION] — numerical patterns identified but not derived
 **Created**: 2026-01-27 (Session 57)
+**Verification**: `verification/sympy/mass_imperfection_analysis.py` (partial -- covers lepton depth ratios)
 **Dependencies**: imperfect_dimensions_and_recrystallization.md, mass_hierarchy_investigation.md
 **Last Updated**: 2026-02-03
 
@@ -14,7 +15,7 @@ This investigation explores whether particle masses can be understood as the "en
 
 **Core Hypothesis**: Mass = imperfection energy cost
 
-**Key Finding**: The lepton generation depth ratio d_e/d_mu = 2.889 is remarkably close to 3 - 1/8 = 23/8 = 2.875 (0.5% error). This formula combines dim(Im(H)) = 3 and dim(O) = 8.
+**Key Finding**: The lepton generation depth ratio d_e/d_mu = 2.889 is remarkably close to 3 - 1/8 = 23/8 = 2.875 (0.5% error). This formula combines dim(Im_H) = 3 and dim(O) = 8.
 
 **Status**: Interesting numerical coincidence but no derivation. Could be numerology.
 
@@ -81,7 +82,7 @@ For leptons:
 - Error = **0.5%**
 
 The formula 3 - 1/8 combines:
-- dim(Im(H)) = 3 (quaternion imaginary dimensions)
+- dim(Im_H) = 3 (quaternion imaginary dimensions)
 - dim(O) = 8 (octonion total dimensions)
 
 ### 3.2 Possible Interpretation
@@ -92,7 +93,7 @@ If generation depths follow:
 - Gen 1 (e): d = 3 - 1/8 = 23/8 (not 2 or 3!)
 
 Why 23/8 instead of 3?
-- The base is dim(Im(H)) = 3
+- The base is dim(Im_H) = 3
 - The -1/8 correction might come from octonion structure
 - When H embeds in O, there's interference from the remaining 8-4=4 dimensions
 
@@ -119,7 +120,7 @@ Simple fractions within 1% of observed ratio 2.889:
 | **26/9** | 2.889 | **0.005%** | No obvious meaning (26=2×13) |
 | 49/17 | 2.882 | 0.23% | No obvious meaning |
 | 29/10 | 2.900 | 0.38% | No obvious meaning |
-| **23/8** | 2.875 | **0.49%** | **3 - 1/dim(O) = (Im(H)×O-1)/O** |
+| **23/8** | 2.875 | **0.49%** | **3 - 1/dim(O) = (Im_H×O-1)/O** |
 
 **Critical observation**: 26/9 fits BETTER than 23/8 but has no structural meaning!
 
@@ -150,7 +151,7 @@ The three fermion sectors couple differently to the Higgs:
 - Down-type quarks: couple to H~ (conjugate)
 - Leptons: couple to H~
 
-If H and H~ point in different directions in Im(H) space, they would have different depth profiles.
+If H and H~ point in different directions in Im_H space, they would have different depth profiles.
 
 ### 4.2 Observed Sector Relationships
 
@@ -211,7 +212,7 @@ This is an extraordinary empirical coincidence with no known derivation.
 
 Where does 2/3 come from?
 - 2/3 = 1 - 1/3
-- 1/3 = Im(C)/Im(H) = 1/3
+- 1/3 = Im_C/Im_H = 1/3
 
 **Speculation**: The 2/3 might encode the ratio of imaginary dimensions between complex and quaternion algebras.
 
@@ -245,7 +246,7 @@ Currently we have NONE of these.
 
 3. **Why are quark depth ratios so different from leptons?**
 
-4. **Can the Koide formula be derived?** If 2/3 comes from Im(C)/Im(H), what's the mechanism?
+4. **Can the Koide formula be derived?** If 2/3 comes from Im_C/Im_H, what's the mechanism?
 
 5. **Does the top quark's ~1 Yukawa coupling have significance?** Top is "at the surface" with maximal H coupling.
 

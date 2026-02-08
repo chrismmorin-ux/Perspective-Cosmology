@@ -205,7 +205,7 @@ Standard baryon physics with framework Omega_b would correct this.
 
 ### What this achieves
 The framework provides a single formula l_n = 96*pi*(11n-3)/11 that:
-1. Matches ALL 7 observed CMB peaks to within 3.1%
+1. Matches ALL 7 observed CMB peaks to within 3.1% [CONJECTURE]
 2. Uses zero free parameters
 3. Has a traceable derivation chain from division algebras
 4. Is compatible with standard CMB physics (doesn't replace it)

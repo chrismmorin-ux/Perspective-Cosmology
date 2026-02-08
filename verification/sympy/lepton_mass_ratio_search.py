@@ -272,7 +272,7 @@ print(f"\n16 + 9/11 = {float(val):.4f}, error = {abs(float(val) - m_tau_over_m_m
 val = n_d**2 + Im_H**2/n_c
 print(f"n_d^2 + Im(H)^2/n_c = 16 + 9/11 = {float(val):.4f}")
 
-# So m_tau/m_mu = n_d^2 + Im(H)^2/n_c = 185/11 ≈ 16.818
+# So m_tau/m_mu = n_d^2 + Im(H)^2/n_c = 185/11 ~ 16.818
 # And m_tau/m_e = m_mu/m_e * m_tau/m_mu
 # = (2688/13) * (185/11) = 497280/143 = 3477.48
 

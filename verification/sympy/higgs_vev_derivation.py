@@ -33,7 +33,7 @@ m_Z = 91.188  # GeV
 m_H = 125.25  # GeV
 
 # Fine structure constant
-alpha = 1/137.035999084
+alpha = 1/137.035999177
 
 print(f"\nPlanck mass: M_Pl = {M_Pl:.4e} GeV")
 print(f"Higgs VEV: v = {v:.2f} GeV")
@@ -252,7 +252,7 @@ print("PART 8: Dimensional Analysis")
 print("=" * 70)
 
 print("""
-The Planck mass M_Pl = sqrt(ℏc/G) is the ONLY intrinsic energy scale.
+The Planck mass M_Pl = sqrt(hbarc/G) is the ONLY intrinsic energy scale.
 
 For v to emerge from the framework, we need:
   v = M_Pl * (dimensionless factor)
@@ -281,7 +281,7 @@ Why 8?
 - 8 = 2^3 (three doublings: R -> C -> H -> O)
 - 8 appears in crystallization (O mediates strong force)
 
-Hypothesis: v = M_Pl * alpha^{dim(O)} * (correction)
+Hypothesis: v = M_Pl * alpha^dim(O) * (correction)
 """)
 
 # Test this hypothesis with a correction factor
@@ -343,14 +343,14 @@ KEY FINDINGS:
    Error: {abs(M_Pl * alpha**8 * 4/np.pi - v)/v * 100:.2f}%
 
 4. Alternative reading:
-   v = M_Pl * alpha^{dim(O)} * (4/pi)
+   v = M_Pl * alpha^dim(O) * (4/pi)
 
    The 4 in numerator = n_d = dim(H) (spacetime dimensions)
    The pi in denominator = ???
 
 INTERPRETATION ATTEMPT:
 - M_Pl sets the fundamental scale
-- alpha^8 = alpha^{dim(O)} represents the octonionic suppression
+- alpha^8 = alpha^dim(O) represents the octonionic suppression
 - 4/pi could represent spacetime-to-curvature conversion
 
 STATUS: [CONJECTURE] - The formula v = M_Pl * alpha^8 * (4/pi) matches to ~1.5%

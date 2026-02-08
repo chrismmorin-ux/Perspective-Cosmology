@@ -151,11 +151,11 @@ print(f"  Count: 2+2+6+6 + 2+2+6+6 = {count}")
 assert count == 32
 
 # ==============================================================================
-# PART 4: FERMION COUNTING — HALF-SPINOR = ONE GENERATION
+# PART 4: FERMION COUNTING -- HALF-SPINOR = ONE GENERATION
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 4: Fermion Counting — Half-Spinor = One Generation")
+print("PART 4: Fermion Counting -- Half-Spinor = One Generation")
 print("=" * 70)
 
 print("""
@@ -253,7 +253,7 @@ print(f"  Furey (2018): O acts on one generation via Cl(6) chain")
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 6: Spinor vs Fundamental — Why Spinor Wins")
+print("PART 6: Spinor vs Fundamental -- Why Spinor Wins")
 print("=" * 70)
 
 print(f"""
@@ -333,7 +333,7 @@ print(f"  = {float(kappa_f_spin_exact):.8f}")
 dev_spin = (1 - float(kappa_f_spin_exact)) * 100
 print(f"  Deviation from SM: {dev_spin:.4f}%")
 
-# MCHM5 prediction (fundamental) — for comparison
+# MCHM5 prediction (fundamental) -- for comparison
 kappa_f_fund = (1 - 2*xi) / sqrt(1 - xi)
 kappa_f_fund_exact = Rational(113, 121) / sqrt(Rational(117, 121))
 print(f"\nFUNDAMENTAL (MCHM5): kappa_f = (1-2*xi)/sqrt(1-xi)")
@@ -426,7 +426,7 @@ print("""
 [D] kappa_f = sqrt(1 - xi) = sqrt(117/121)  [MCHM4-type]
     kappa_f = kappa_V  (universal coupling modification)
 
-Confidence: [DERIVATION] — the representation matching is exact,
+Confidence: [DERIVATION] -- the representation matching is exact,
             the coupling formula is standard composite Higgs result.
             Remaining gap: xi = n_d/n_c^2 is [CONJECTURE].
 """)

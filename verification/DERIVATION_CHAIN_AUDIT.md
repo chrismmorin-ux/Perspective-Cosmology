@@ -57,8 +57,8 @@ T1 (directed time)
                     H → SU(2)
                     O + F=C → SU(3)
                     │
-                    ├──► sin²θ_W = Im(C)/Im(H) = 1/4
-                    └──► Hypercharges from B = 1/Im(H)
+                    ├──► sin²θ_W = Im_C/Im_H = 1/4
+                    └──► Hypercharges from B = 1/Im_H
 ```
 
 ---
@@ -291,7 +291,7 @@ The transition algebra 𝒯 is closed under:
 
 ---
 
-### Step 9: sin²θ_W = Im(C)/(Im(C) + Im(H)) = 1/4
+### Step 9: sin²θ_W = Im_C/(Im_C + Im_H) = 1/4
 
 | Aspect | Assessment |
 |--------|------------|
@@ -300,8 +300,8 @@ The transition algebra 𝒯 is closed under:
 | **Justification** | Session 65: Cannot derive from T1 alone, but strongly motivated by isotropy |
 
 **The claim**:
-- g² ∝ Im(H) = 3
-- g'² ∝ Im(C) = 1
+- g² ∝ Im_H = 3
+- g'² ∝ Im_C = 1
 - sin²θ_W = g'²/(g² + g'²) = 1/4
 
 **Session 52 Investigation** (`verification/sympy/coupling_scaling_analysis.py`):
@@ -348,11 +348,11 @@ The sin²θ_W = 1/4 prediction at ~200 TeV remains a testable falsification crit
 
 ---
 
-### Step 10: Hypercharge from B = 1/Im(H) = 1/3
+### Step 10: Hypercharge from B = 1/Im_H = 1/3
 
 | Aspect | Assessment |
 |--------|------------|
-| **Claim** | Baryon number B = 1/Im(H) = 1/3, then Y = (B-L)/2 gives all hypercharges |
+| **Claim** | Baryon number B = 1/Im_H = 1/3, then Y = (B-L)/2 gives all hypercharges |
 | **Rating** | **DERIVED** (Session 57 update) |
 | **Justification** | B = 1/3 is UNIQUELY determined by anomaly cancellation given N_colors = 3 |
 

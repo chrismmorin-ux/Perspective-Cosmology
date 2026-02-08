@@ -9,12 +9,12 @@ Formulas:
 - Omega_m = 63/200 (matter)
 
 Prime Structure Discovered:
-- 200 = O × (R+H)² = 8 × 25
-- 137 = H² + n_c² = 16 + 121 (fine structure numerator)
-- 63 = O² - 1 = Im_O × Im_H² = 7 × 9
+- 200 = O * (R+H)^2 = 8 * 25
+- 137 = H^2 + n_c^2 = 16 + 121 (fine structure numerator)
+- 63 = O^2 - 1 = Im_O * Im_H^2 = 7 * 9
 
 Unifying Identity:
-- 200 = H² + n_c² + (O² - 1) = 137 + 63
+- 200 = H^2 + n_c^2 + (O^2 - 1) = 137 + 63
 
 Status: VERIFICATION
 Created: Session 126
@@ -56,53 +56,53 @@ def main():
 
     tests = []
 
-    # Test 1: 200 = O × (R+H)²
+    # Test 1: 200 = O * (R+H)^2
     val_200_formula = O * (R + H)**2
     test1 = val_200_formula == 200
-    tests.append(("200 = O × (R+H)² = 8 × 25", test1))
+    tests.append(("200 = O * (R+H)^2 = 8 * 25", test1))
     print(f"\n1. Denominator 200:")
-    print(f"   O × (R+H)² = {O} × {(R+H)**2} = {val_200_formula}")
+    print(f"   O * (R+H)^2 = {O} * {(R+H)**2} = {val_200_formula}")
 
-    # Test 2: 200 = 8 × 5²
+    # Test 2: 200 = 8 * 5^2
     val_200_v2 = O * 5**2
     test2 = val_200_v2 == 200
-    tests.append(("200 = O × 5² = 8 × 25", test2))
-    print(f"   O × 5² = {O} × 25 = {val_200_v2}")
+    tests.append(("200 = O * 5^2 = 8 * 25", test2))
+    print(f"   O * 5^2 = {O} * 25 = {val_200_v2}")
 
-    # Test 3: 137 = H² + n_c²
+    # Test 3: 137 = H^2 + n_c^2
     val_137_formula = H**2 + n_c**2
     test3 = val_137_formula == 137
-    tests.append(("137 = H² + n_c² = 16 + 121", test3))
+    tests.append(("137 = H^2 + n_c^2 = 16 + 121", test3))
     print(f"\n2. Dark Energy Numerator 137:")
-    print(f"   H² + n_c² = {H**2} + {n_c**2} = {val_137_formula}")
+    print(f"   H^2 + n_c^2 = {H**2} + {n_c**2} = {val_137_formula}")
 
-    # Test 4: 63 = Im_O × Im_H²
+    # Test 4: 63 = Im_O * Im_H^2
     val_63_formula = Im_O * Im_H**2
     test4 = val_63_formula == 63
-    tests.append(("63 = Im_O × Im_H² = 7 × 9", test4))
+    tests.append(("63 = Im_O * Im_H^2 = 7 * 9", test4))
     print(f"\n3. Matter Numerator 63:")
-    print(f"   Im_O × Im_H² = {Im_O} × {Im_H**2} = {val_63_formula}")
+    print(f"   Im_O * Im_H^2 = {Im_O} * {Im_H**2} = {val_63_formula}")
 
-    # Test 5: 63 = O² - 1
+    # Test 5: 63 = O^2 - 1
     val_63_v2 = O**2 - 1
     test5 = val_63_v2 == 63
-    tests.append(("63 = O² - 1 = 64 - 1", test5))
-    print(f"   O² - 1 = {O**2} - 1 = {val_63_v2}")
+    tests.append(("63 = O^2 - 1 = 64 - 1", test5))
+    print(f"   O^2 - 1 = {O**2} - 1 = {val_63_v2}")
 
-    # Test 6: 63 = (O-1)(O+1) = 7 × 9
+    # Test 6: 63 = (O-1)(O+1) = 7 * 9
     val_63_v3 = (O - 1) * (O + 1)
     test6 = val_63_v3 == 63
-    tests.append(("63 = (O-1)(O+1) = 7 × 9", test6))
-    print(f"   (O-1)(O+1) = {O-1} × {O+1} = {val_63_v3}")
+    tests.append(("63 = (O-1)(O+1) = 7 * 9", test6))
+    print(f"   (O-1)(O+1) = {O-1} * {O+1} = {val_63_v3}")
 
     # Test 7: O - 1 = Im_O
     test7 = (O - 1) == Im_O
     tests.append(("O - 1 = Im_O (7 = 7)", test7))
     print(f"   Note: O - 1 = {O-1} = Im_O (verified)")
 
-    # Test 8: O + 1 = Im_H² (9 = 9)
+    # Test 8: O + 1 = Im_H^2 (9 = 9)
     test8 = (O + 1) == Im_H**2
-    tests.append(("O + 1 = Im_H² (9 = 9)", test8))
+    tests.append(("O + 1 = Im_H^2 (9 = 9)", test8))
     print(f"   Note: O + 1 = {O+1} = Im_H^2 (verified)")
 
     # Test 9: Unifying identity 137 + 63 = 200
@@ -112,13 +112,13 @@ def main():
     print(f"\n4. Unifying Identity:")
     print(f"   137 + 63 = {sum_check}")
 
-    # Test 10: H² + n_c² + (O² - 1) = O × (R+H)²
+    # Test 10: H^2 + n_c^2 + (O^2 - 1) = O * (R+H)^2
     lhs = H**2 + n_c**2 + (O**2 - 1)
     rhs = O * (R + H)**2
     test10 = lhs == rhs == 200
-    tests.append(("H² + n_c² + (O² - 1) = O × (R+H)²", test10))
-    print(f"   H² + n_c² + (O² - 1) = {H**2} + {n_c**2} + {O**2 - 1} = {lhs}")
-    print(f"   O × (R+H)² = {O} × {(R+H)**2} = {rhs}")
+    tests.append(("H^2 + n_c^2 + (O^2 - 1) = O * (R+H)^2", test10))
+    print(f"   H^2 + n_c^2 + (O^2 - 1) = {H**2} + {n_c**2} + {O**2 - 1} = {lhs}")
+    print(f"   O * (R+H)^2 = {O} * {(R+H)**2} = {rhs}")
 
     # Test 11: Comparison with measurements
     pred_lambda = float(Omega_Lambda)

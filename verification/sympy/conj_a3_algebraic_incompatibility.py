@@ -374,7 +374,7 @@ def test_counterfactual():
 
 
 # ============================================================
-# Part 9: Why 7 is Odd — Structural Necessity
+# Part 9: Why 7 is Odd -- Structural Necessity
 # ============================================================
 
 def test_why_7_is_odd():

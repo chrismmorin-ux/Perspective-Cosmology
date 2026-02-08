@@ -14,7 +14,7 @@
 The Higgs vacuum expectation value (electroweak scale) can be expressed as:
 
 ```
-v = M_Pl × α^8 × √(n_d × n_c / Im(O))
+v = M_Pl × α^8 × √(n_d × n_c / Im_O)
   = M_Pl × α^8 × √(44/7)
   = 246.14 GeV
 ```
@@ -25,7 +25,7 @@ v = M_Pl × α^8 × √(n_d × n_c / Im(O))
 This formula uses ONLY:
 - M_Pl (Planck mass — the fundamental gravitational scale)
 - α (fine structure constant — already derived to 0.27 ppm)
-- Division algebra dimensions (n_d = 4, n_c = 11, Im(O) = 7)
+- Division algebra dimensions (n_d = 4, n_c = 11, Im_O = 7)
 
 ---
 
@@ -58,7 +58,7 @@ The suppression factor α^8 ≈ 10^-17 arises from the electromagnetic coupling 
 ### 2.1 Statement
 
 ```
-v = M_Pl × α^dim(O) × √(n_d × n_c / Im(O))
+v = M_Pl × α^dim(O) × √(n_d × n_c / Im_O)
 ```
 
 where:
@@ -66,8 +66,8 @@ where:
 - α = 1/137.036... (fine structure constant)
 - dim(O) = 8 (octonion dimension)
 - n_d = 4 = dim(H) (defect/spacetime dimensions)
-- n_c = 11 = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (crystal dimensions: canonical Im-form per CR-010)
-- Im(O) = 7 (imaginary octonion directions)
+- n_c = 11 = Im_C + Im_H + Im_O = 1 + 3 + 7 (crystal dimensions: canonical Im-form per CR-010)
+- Im_O = 7 (imaginary octonion directions)
 
 ### 2.2 Numerical Verification
 
@@ -115,21 +115,21 @@ where:
 
 ### 3.2 Why √(44/7)?
 
-The geometric factor √(n_d × n_c / Im(O)) = √(44/7) involves:
+The geometric factor √(n_d × n_c / Im_O) = √(44/7) involves:
 
 ```
 44 = n_d × n_c = 4 × 11
    = (defect dimensions) × (crystal dimensions)
    = the complete defect-crystal interface
 
-7 = Im(O)
+7 = Im_O
   = imaginary octonion directions
   = generators of color SU(3)
 ```
 
 The ratio 44/7 represents the **interface coupling** between:
 - The observable structure (n_d × n_c = 44 degrees of freedom)
-- The color structure (Im(O) = 7 color generators)
+- The color structure (Im_O = 7 color generators)
 
 ### 3.3 The Complete Picture
 
@@ -161,7 +161,7 @@ Substituting the v formula:
 
 ### 4.2 Koide Scale
 
-The Koide mass scale M = v / 784 = v / (n_d × Im(O))²
+The Koide mass scale M = v / 784 = v / (n_d × Im_O)²
 
 Substituting:
 ```
@@ -180,7 +180,7 @@ The v formula uses the **same** n_d = 4 and n_c = 11!
 This suggests a unified picture:
 ```
 α determined by: n_d² + n_c² = 137
-v determined by: α^{dim(O)} × √(n_d × n_c / Im(O))
+v determined by: α^{dim(O)} × √(n_d × n_c / Im_O)
 ```
 
 ---
@@ -198,7 +198,7 @@ where:
 - α ≈ 1/137 is determined by n_d² + n_c² (already derived)
 - 8 = dim(O) (mathematical necessity)
 - 44 = n_d × n_c (framework dimensions)
-- 7 = Im(O) (mathematical necessity)
+- 7 = Im_O (mathematical necessity)
 ```
 
 **No free parameters.** The hierarchy emerges from division algebra structure.
@@ -230,7 +230,7 @@ This derivation would be falsified if:
 ### The Formula
 
 ```
-v = M_Pl × α^{dim(O)} × √(n_d × n_c / Im(O))
+v = M_Pl × α^{dim(O)} × √(n_d × n_c / Im_O)
   = M_Pl × α^8 × √(44/7)
   = 246.14 GeV (0.034% error)
 ```
@@ -247,11 +247,11 @@ The electroweak scale is not a free parameter — it emerges from:
 ```
 Division Algebras (R, C, H, O)
     ↓
-n_d = 4, n_c = 11, Im(O) = 7
+n_d = 4, n_c = 11, Im_O = 7
     ↓
 α = 1/(n_d² + n_c² + correction) = 1/137.036
     ↓
-v = M_Pl × α^8 × √(n_d × n_c / Im(O)) = 246 GeV
+v = M_Pl × α^8 × √(n_d × n_c / Im_O) = 246 GeV
     ↓
 μ_isotropy = 15 × v = 3693 GeV
     ↓

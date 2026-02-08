@@ -78,7 +78,7 @@ Step 5. The universal gauge self-coupling factor:
 11/3 = n_c / Im_H
 ```
 
-This is exact: the numerator 11 IS n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (canonical decomposition, CR-010), and the denominator 3 IS Im_H.
+This is exact: the numerator 11 IS n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 (canonical decomposition, CR-010), and the denominator 3 IS Im_H.
 
 Step 6. The universal matter coupling factor:
 ```

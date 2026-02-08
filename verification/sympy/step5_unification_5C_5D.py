@@ -145,7 +145,7 @@ print("SECTION 4: S149 scale coincidence")
 print("=" * 60)
 
 # Physical values
-m_e = mp.mpf('0.51099895000')   # MeV, CODATA 2018
+m_e = mp.mpf('0.51099895000')   # MeV, CODATA 2022
 v_EW = mp.mpf('246.21965')       # GeV, electroweak VEV
 v_EW_MeV = v_EW * 1000           # Convert to MeV
 
@@ -247,7 +247,7 @@ print("=" * 60)
 # This means: N_I - n_c = C * Im_H^2 * Im_O
 # Substituting: 4^2 + 11^2 - 11 = 2 * 9 * 7
 # 16 + 121 - 11 = 126
-# 126 = 126 ✓
+# 126 = 126 [OK]
 
 # This is a non-trivial ALGEBRAIC identity linking:
 # - Interface mode count (N_I)

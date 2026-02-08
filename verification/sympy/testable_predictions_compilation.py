@@ -424,14 +424,14 @@ particle_predictions = []
 
 # 5.1 Fine structure constant
 alpha_pred = float(1/alpha_inv)
-alpha_obs = 1/137.035999206
+alpha_obs = 1/137.035999177
 alpha_err = abs(alpha_pred - alpha_obs) / alpha_obs * 1e6  # ppm
 
 particle_predictions.append({
     'name': '1/alpha (fine structure)',
     'formula': '137 + 4/111',
     'predicted': float(alpha_inv),
-    'observed': 137.035999206,
+    'observed': 137.035999177,
     'error_ppm': alpha_err,
     'status': 'CONFIRMED'
 })

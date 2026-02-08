@@ -30,13 +30,13 @@ The **primary framework primes** are the primes expressible as p = a² + b² whe
 
 | Prime | Sum of squares | Division algebra content |
 |-------|---------------|------------------------|
-| 2 | 1² + 1² | R² + Im(C)² |
+| 2 | 1² + 1² | R² + Im_C² |
 | 5 | 1² + 2² | R² + C² |
-| 13 | 2² + 3² | C² + Im(H)² |
+| 13 | 2² + 3² | C² + Im_H² |
 | 17 | 1² + 4² | R² + H² |
-| 53 | 2² + 7² | C² + Im(O)² |
-| 73 | 3² + 8² | Im(H)² + O² |
-| 113 | 7² + 8² | Im(O)² + O² |
+| 53 | 2² + 7² | C² + Im_O² |
+| 73 | 3² + 8² | Im_H² + O² |
+| 113 | 7² + 8² | Im_O² + O² |
 | 137 | 4² + 11² | H² + n_c² |
 
 ### Crystallization stage assignment
@@ -55,12 +55,12 @@ Primes p = a⁴ + b⁴ = N_{Q(ζ₈)/Q}(a + bζ₈) where a, b ∈ D_framework (
 |-------|------------------|-------------------|----------|
 | 2 | 1⁴ + 1⁴ | R + R | Pure associative |
 | 17 | 1⁴ + 2⁴ | R + C | Pure associative (also Level 1) |
-| 97 | 2⁴ + 3⁴ | C + Im(H) | Pure associative |
+| 97 | 2⁴ + 3⁴ | C + Im_H | Pure associative |
 | 257 | 1⁴ + 4⁴ | R + H | Pure associative (Fermat F₃) |
-| 337 | 3⁴ + 4⁴ | Im(H) + H | Pure associative |
-| 2417 | 2⁴ + 7⁴ | C + Im(O) | Assoc-nonassoc bridge |
-| 2657 | 4⁴ + 7⁴ | H + Im(O) | Assoc-nonassoc bridge |
-| 4177 | 3⁴ + 8⁴ | Im(H) + O | Assoc-nonassoc bridge |
+| 337 | 3⁴ + 4⁴ | Im_H + H | Pure associative |
+| 2417 | 2⁴ + 7⁴ | C + Im_O | Assoc-nonassoc bridge |
+| 2657 | 4⁴ + 7⁴ | H + Im_O | Assoc-nonassoc bridge |
+| 4177 | 3⁴ + 8⁴ | Im_H + O | Assoc-nonassoc bridge |
 | 14657 | 2⁴ + 11⁴ | C + n_c | Crystal bridge |
 | 14897 | 4⁴ + 11⁴ | H + n_c | Crystal bridge |
 
@@ -75,10 +75,10 @@ See `foundations/prime_theory/05b_fourth_power_norm_forms.md` for full analysis.
 
 Primes previously classified via derived sum-of-squares representations:
 
-- 37 = 1² + 6² (6 = C × Im(H))
-- 97 = 4² + 9² (9 = Im(H)²) — NOW understood as Level 2 primary: 97 = 2⁴ + 3⁴
+- 37 = 1² + 6² (6 = C × Im_H)
+- 97 = 4² + 9² (9 = Im_H²) — NOW understood as Level 2 primary: 97 = 2⁴ + 3⁴
 - 193 = 7² + 12² (12 = n_c + 1)
-- 337 = 9² + 16² (9 = Im(H)², 16 = H²) — NOW understood as Level 2 primary: 337 = 3⁴ + 4⁴
+- 337 = 9² + 16² (9 = Im_H², 16 = H²) — NOW understood as Level 2 primary: 337 = 3⁴ + 4⁴
 
 ---
 

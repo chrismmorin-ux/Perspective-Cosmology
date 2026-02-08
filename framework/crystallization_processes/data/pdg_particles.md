@@ -121,7 +121,7 @@ Framework predictions are noted where they exist, with references to verificatio
 | Count | Value | Framework | Status |
 |-------|-------|-----------|--------|
 | Fermions per generation | 15 | R+C+H+O = 1+2+4+8 | [DERIVATION] |
-| Number of generations | 3 | Im(H) = 3 | [CONJECTURE] |
+| Number of generations | 3 | Im_H = 3 | [CONJECTURE] |
 | Total fermion types | 45 | 15 x 3 | [D] |
 | Gauge bosons (massless) | 12 | SU(3)xSU(2)xU(1): 8+3+1 | [DERIVATION] |
 | Total fundamental forces | 4 | R+C+H+O channels | [THEOREM] |

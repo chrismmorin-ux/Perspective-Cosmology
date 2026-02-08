@@ -9,7 +9,7 @@ From Session 30:
   - Max vectors (symmetric): 61
   - Max fermions (antisymmetric): 61
 
-Total comparison channels: 137 (= 4² + 11² = 1/α)
+Total comparison channels: 137 (= 4^2 + 11^2 = 1/alpha)
 
 Session: 2026-01-26-31
 """
@@ -52,14 +52,14 @@ def count_sm():
     vectors = photon + w_bosons + z_boson + gluons  # = 12
 
     # Fermions (Weyl fermions)
-    # Per generation: (uL, dL, uR, dR) × 3 colors + (eL, νL, eR) = 12 + 3 = 15 Weyl
-    # Actually: quarks (3 colors × 2 chiralities × 2 flavors) + leptons (2 chiralities × 2 flavors for one lepton pair)
+    # Per generation: (uL, dL, uR, dR) * 3 colors + (eL, nuL, eR) = 12 + 3 = 15 Weyl
+    # Actually: quarks (3 colors * 2 chiralities * 2 flavors) + leptons (2 chiralities * 2 flavors for one lepton pair)
     # Let's count Weyl fermions properly:
     # Quarks per gen: uL, uR, dL, dR each in 3 colors = 12 Weyl
-    # Leptons per gen: eL, eR, νL (νR not in SM) = 3 Weyl (if no νR)
-    # But modern SM often includes νR for masses: 4 Weyl
-    # Standard: 15 Weyl per generation (without νR) or 16 with νR
-    # 3 generations × 15 = 45 Weyl fermions (without νR)
+    # Leptons per gen: eL, eR, nuL (nuR not in SM) = 3 Weyl (if no nuR)
+    # But modern SM often includes nuR for masses: 4 Weyl
+    # Standard: 15 Weyl per generation (without nuR) or 16 with nuR
+    # 3 generations * 15 = 45 Weyl fermions (without nuR)
 
     # Using standard counting (Weyl fermions):
     weyl_per_gen = 15  # Without right-handed neutrinos
@@ -77,14 +77,14 @@ def count_mssm():
     # MSSM doubles the SM fields + adds two Higgs doublets
 
     # Scalars: squarks + sleptons + 2 Higgs doublets
-    # Squarks: 6 flavors × 3 colors × 2 chiralities = 36
+    # Squarks: 6 flavors * 3 colors * 2 chiralities = 36
     squarks = 6 * 3 * 2  # = 36
-    # Sleptons: 3 charged + 3 sneutrinos × 2 chiralities (except sneutrino has 1)
-    # Actually: (selectron_L, selectron_R, sneutrino) × 3 gen = 3 × 3 = 9
-    # No, wait: sleptons per gen: ẽL, ẽR, ν̃ = 3 complex = 6 real
+    # Sleptons: 3 charged + 3 sneutrinos * 2 chiralities (except sneutrino has 1)
+    # Actually: (selectron_L, selectron_R, sneutrino) * 3 gen = 3 * 3 = 9
+    # No, wait: sleptons per gen: eL, eR, nu = 3 complex = 6 real
     # Let's count complex scalar DoF:
-    sleptons = 3 * 3  # 3 sleptons per gen × 3 gen = 9 (complex)
-    # But ẽL, ẽR are separate, sneutrino: 2 + 1 = 3 per gen
+    sleptons = 3 * 3  # 3 sleptons per gen * 3 gen = 9 (complex)
+    # But eL, eR are separate, sneutrino: 2 + 1 = 3 per gen
     sleptons = 3 * 3  # = 9 complex scalars
     # Higgs: Hu, Hd (2 Higgs doublets = 4 complex = 8 real DoF)
     # After EWSB: 2 CP-even, 1 CP-odd, 2 charged = 5 physical Higgs
@@ -92,16 +92,16 @@ def count_mssm():
 
     # Actually let me count MSSM scalars more carefully
     # Complex scalars:
-    # - Q̃ (squark doublet): 3 gen × 2 × 3 colors = 18
-    # - ũ_R: 3 gen × 3 colors = 9
-    # - d̃_R: 3 gen × 3 colors = 9
-    # - L̃ (slepton doublet): 3 gen × 2 = 6
-    # - ẽ_R: 3 gen × 1 = 3
+    # - Q (squark doublet): 3 gen * 2 * 3 colors = 18
+    # - u_R: 3 gen * 3 colors = 9
+    # - d_R: 3 gen * 3 colors = 9
+    # - L (slepton doublet): 3 gen * 2 = 6
+    # - e_R: 3 gen * 1 = 3
     # - Hu: 2
     # - Hd: 2
     # Total complex: 18 + 9 + 9 + 6 + 3 + 2 + 2 = 49 complex scalars
     # After EWSB, counting physical particles:
-    # Squarks: 2 stops + 2 sbottoms + 4 other squark masses × chirality mix... complicated
+    # Squarks: 2 stops + 2 sbottoms + 4 other squark masses * chirality mix... complicated
     # Let's use the simple count: ~49 scalar fields in MSSM
     scalars = 49  # Before EWSB, complex scalars as fields
 
@@ -114,7 +114,7 @@ def count_mssm():
     # Gauginos: bino (1), wino (3), gluinos (8) = 12
     gauginos = 1 + 3 + 8  # = 12 Majorana = 12 Weyl
     # Higgsinos: 2 Weyl (from 2 Higgs doublets)
-    higgsinos = 4  # 2 doublets × 2 components
+    higgsinos = 4  # 2 doublets * 2 components
     fermions = sm_fermions + gauginos + higgsinos  # = 45 + 12 + 4 = 61 Weyl
 
     return scalars, vectors, fermions
@@ -128,7 +128,7 @@ def count_so10():
     # SO(10) is a simple group that unifies SM
 
     # Vectors: SO(10) has 45 generators
-    vectors = 45  # dim(SO(10)) = 10×9/2 = 45
+    vectors = 45  # dim(SO(10)) = 10*9/2 = 45
 
     # Fermions: Each family in 16 representation (spinor)
     # 16 = 1 + 5 + 10 under SU(5)
@@ -169,7 +169,7 @@ def count_e6():
 # =============================================================================
 
 def count_left_right():
-    """SU(3)×SU(2)L×SU(2)R×U(1) model."""
+    """SU(3)*SU(2)L*SU(2)R*U(1) model."""
     # Vectors
     gluons = 8
     wl = 3  # SU(2)L
@@ -179,7 +179,7 @@ def count_left_right():
 
     # Fermions: SM + right-handed neutrinos (automatic)
     # Same structure as SM but doubled SU(2) for R
-    fermions = 16 * 3  # = 48 (with νR)
+    fermions = 16 * 3  # = 48 (with nuR)
 
     # Scalars: bi-doublet + triplets for breaking
     scalars = 4 + 3 + 3  # Minimal: 10
@@ -288,7 +288,7 @@ Important caveats:
    count differs. Our bound might apply to pre-EWSB or post-EWSB differently.
 
 2. VECTORS: At GUT scale, gauge groups are larger. At low E, they break to SM.
-   The bound might apply at low E (where α = 1/137 is measured).
+   The bound might apply at low E (where alpha = 1/137 is measured).
 
 3. FERMIONS: Weyl vs Dirac counting matters. We use Weyl. With Dirac, divide by 2.
 
@@ -300,7 +300,7 @@ Important caveats:
 INTERPRETATIONS:
 
 A) The bounds apply at LOW ENERGY only:
-   - At low E, we measure α = 1/137
+   - At low E, we measure alpha = 1/137
    - At GUT, dimensions change, bounds change
    - MSSM at low E has ~5 physical Higgs scalars (within bound!)
 
@@ -309,6 +309,6 @@ B) Virtual vs real particles:
    - SUSY partners are heavy, not accessible at 137-scale
 
 C) We're counting differently:
-   - "Comparison channels" ≠ field degrees of freedom
+   - "Comparison channels" != field degrees of freedom
    - Need clearer definition of what counts
 """)

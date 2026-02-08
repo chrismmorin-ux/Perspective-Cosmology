@@ -272,7 +272,7 @@ def test_sum_constraint():
 
 
 # =============================================================================
-# Test 7: Derived quantity — sum(dim_l * w_l^2)
+# Test 7: Derived quantity -- sum(dim_l * w_l^2)
 # =============================================================================
 def test_weight_norm():
     """Compute sum(dim_l * w_l^2) = "Frobenius norm squared" of weight matrix.
@@ -376,7 +376,7 @@ def test_interference():
     antisym_in_lie_algebra = True
 
     # Symmetric traceless part is NOT in the Lie algebra
-    # u(n) consists of anti-Hermitian matrices; symmetric ≠ anti-Hermitian
+    # u(n) consists of anti-Hermitian matrices; symmetric != anti-Hermitian
     sym_not_in_lie_algebra = True
 
     # Total is positive
@@ -476,7 +476,7 @@ def test_crystal_vs_hidden():
 
 
 # =============================================================================
-# Test 11: Cross-sector observation — integer part difference
+# Test 11: Cross-sector observation -- integer part difference
 # =============================================================================
 def test_integer_part_observation():
     """A(v/m_p) - A(m_mu/m_e) = 262 - 207 = 55 = C(n_c, 2).
@@ -678,7 +678,7 @@ def test_crossed_casimir():
 def main():
     print("=" * 70)
     print("HIDDEN SECTOR B-VALUE DECOMPOSITION VIA SO(3) IRREPS")
-    print("Session S235 — EQ-012 Remaining Gap")
+    print("Session S235 -- EQ-012 Remaining Gap")
     print("=" * 70)
     print()
 

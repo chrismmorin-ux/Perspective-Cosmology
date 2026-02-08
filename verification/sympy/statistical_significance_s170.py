@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Honest Statistical Significance Analysis — Phase 5.2 (Updated S170)
+Honest Statistical Significance Analysis -- Phase 5.2 (Updated S170)
 
 KEY FINDING: Monte Carlo null model shows framework building blocks {1,2,3,4,7,8,11}
 are a strong outlier (>99th percentile) for matching physics constants, but the
@@ -10,7 +10,7 @@ SUPERSEDES: honest_statistical_significance.py (S143, stale)
 
 Updates vs S143:
 - Complete inventory through S168 (25 additional sessions)
-- Monte Carlo null model (CRITICAL ADDITION — tests building block specialness)
+- Monte Carlo null model (CRITICAL ADDITION -- tests building block specialness)
 - Separate BLIND vs DERIVED vs SEARCHED categories
 - Updated trial factors and independence analysis
 - Multiple Bayesian priors
@@ -138,7 +138,7 @@ Dependency chains (prosecution removes dependents):
   - l_A -> all 7 peak positions (1-2 independent, not 7)
   - 1/alpha_2 follows from sin^2(theta_W) * 1/alpha (NOT independent)
   - beta coefficients = re-expression of known QCD in framework language
-    (NOT predictions, but STRUCTURAL IDENTITIES — count separately)
+    (NOT predictions, but STRUCTURAL IDENTITIES -- count separately)
   - SU(3) eigenvalue selection: structural, overlaps with sin^2(theta_W)
   - Blind CMB predictions: some correlate with each other via shared params
     Truly independent: Omega_b*h^2, theta_s, n_s, tau (4 independent of ~7)

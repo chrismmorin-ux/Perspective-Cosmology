@@ -323,7 +323,7 @@ Option 4: Investigate MULTI-PHASE inflation
   - Phase transition from one regime to another
 
 RECOMMENDED PATH:
-Start with Option 1 — try to DERIVE mu^2 from the crystallization
+Start with Option 1 -- try to DERIVE mu^2 from the crystallization
 Lagrangian rather than searching for framework expressions.
 """)
 

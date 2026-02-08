@@ -51,7 +51,7 @@ Comparison:
 
 # This is within 0.07% !
 error_z = abs(z_star_formula - z_star_measured) / z_star_measured * 100
-print(f"ERROR: {error_z:.3f}% — SUB-PERCENT MATCH!")
+print(f"ERROR: {error_z:.3f}% -- SUB-PERCENT MATCH!")
 
 # ==============================================================================
 # VERIFICATION 2: n_s = 193/200 = 0.965
@@ -86,7 +86,7 @@ Comparison:
 """)
 
 error_ns = abs(n_s_value - n_s_measured) / n_s_measured * 100
-print(f"ERROR: {error_ns:.4f}% — WITHIN MEASUREMENT UNCERTAINTY!")
+print(f"ERROR: {error_ns:.4f}% -- WITHIN MEASUREMENT UNCERTAINTY!")
 
 # ==============================================================================
 # DERIVATION CHAIN FOR z_*
@@ -271,12 +271,12 @@ EXACT PREDICTIONS FROM PRIMORDIAL EXPLORATION:
 1. z_* = (Im_H x n_c)^2 = 33^2 = 1089
    Measured: 1089.80 +/- 0.29
    Prediction: 1089
-   Error: 0.07% — EXCELLENT!
+   Error: 0.07% -- EXCELLENT!
 
 2. n_s = (200 - Im_O)/200 = 193/200 = 0.965
    Measured: 0.9649 +/- 0.0042
    Prediction: 0.9650
-   Error: 0.01% — WITHIN ERROR BARS!
+   Error: 0.01% -- WITHIN ERROR BARS!
 
 3. N = n_c x (R + H) = 11 x 5 = 55 e-folds
    Measured: 50-60 (range)

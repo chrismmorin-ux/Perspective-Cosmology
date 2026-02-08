@@ -1,9 +1,9 @@
 # Democratic Bilinear Principle
 
-**Status**: CANONICAL (principle adopted S233; derivation complete modulo one [CONJECTURE: spectral convergence])
+**Status**: CANONICAL (principle adopted S233; derivation COMPLETE — spectral convergence resolved S292)
 **Layer**: 1-2 (mathematical structure + physical interpretation)
 **Topic**: gauge, collider
-**Last Updated**: 2026-02-03 (S238)
+**Last Updated**: 2026-02-07 (S292)
 
 ---
 
@@ -48,8 +48,8 @@ Both are unified through the **Bernoulli parameter** p = n_d / n_c = 4/11:
 
 **Identifier**: I-STRUCT-5
 **Layer**: 2 (correspondence rule)
-**Classification**: [DERIVATION + I-QFT + C3] (narrowed from [A-PHYSICAL] in S238)
-**Status**: ADOPTED (S233), CONDITIONALLY DERIVED (S238) — gap reduced to spectral convergence [CONJECTURE]
+**Classification**: [DERIVATION + I-QFT] (fully derived S292; spectral convergence from C5 + IRA-10)
+**Status**: ADOPTED (S233), CONDITIONALLY DERIVED (S238), **FULLY DERIVED (S292)** — spectral convergence proven from finiteness axiom
 **Falsifiable**: Yes (see below)
 
 ### Statement
@@ -98,10 +98,10 @@ This principle replaces the SM treatment of gauge couplings as independent free 
 | 5 | Democratic metric from Schur's lemma | [DERIVATION] (S224) |
 | 6a | Full compositeness (no elementary gauge fields) | [DERIVATION] from axiom set (S238) |
 | 6b | WSR force 1/g² = sigma model metric | [I-QFT] standard QFT theorem (S238) |
-| 6c | Spectral convergence of crystallization dynamics | **[CONJECTURE]** — sole remaining gap (S238) |
+| 6c | Spectral convergence of crystallization dynamics | **[DERIVED]** from C5 + IRA-10 (S292). Quartic alone insufficient (dim-2 condensate). Finiteness -> finite spectrum -> WSR converge. |
 | 7 | sin²θ_W = 28/121 | [D] from Steps 1-6 + singlet criterion |
 
-**The gap is one mathematical conjecture (C3).** Steps 1-5 are derived. Step 6 decomposed (S238): full compositeness is derived from axioms (6a), WSR theorem is standard QFT (6b), only spectral convergence (6c) remains [CONJECTURE]. C3 is satisfied by all known examples of spontaneous symmetry breaking.
+**No remaining gap.** Steps 1-5 are derived. Step 6 fully decomposed: full compositeness from axioms (6a), WSR theorem standard QFT (6b), spectral convergence proven from C5 + IRA-10 (6c, S292). The quartic potential alone was insufficient (dim-2 condensate in V-A OPE gives rho ~ 1/s), but the finiteness axiom provides the UV completion guaranteeing convergence.
 
 ## Key Identity
 
@@ -128,11 +128,11 @@ The democratic principle applies differently to the two SM gauge groups:
 
 **Root cause**: The singlet asymmetry traces to associativity vs non-associativity:
 - H (associative) → SO(4) = SU(2)² is canonical, no direction chosen, no singlets
-- O (non-associative) → G₂→SU(3) requires choosing i ∈ Im(O), creating one invariant direction
+- O (non-associative) → G₂→SU(3) requires choosing i ∈ Im_O, creating one invariant direction
 
 **T_fund = 1 theorem** [DERIVATION, S222]: Both gauge groups have T(fund)=1 because division algebra dimensions are MINIMAL for hosting one conjugate pair of the gauge fundamental:
 - dim(H) = 4 = 2×dim_ℂ(fund SU(2)), zero excess dimensions
-- dim(Im(O)) = 7 = 1 + 2×dim_ℂ(fund SU(3)), zero excess dimensions
+- dim(Im_O) = 7 = 1 + 2×dim_ℂ(fund SU(3)), zero excess dimensions
 - Non-division-algebra dimensions give T≠1 (verified computationally)
 
 ## Resolution: Schur's Lemma on Irreducible Tangent Space (S224)
@@ -261,6 +261,7 @@ THEN: 1/α₂(tree) = 28, 1/α₃(tree) = 8, sin²θ_W = 28/121, α₃/α₂ = 7
 | `verification/sympy/composite_sector_rg_threshold.py` | 15/15 | PASS |
 | `verification/sympy/step6_deeper_derivation_search.py` | 12/12 | PASS |
 | `verification/sympy/weinberg_sum_rules_crystallization.py` | 21/21 | PASS |
+| `verification/sympy/spectral_convergence_conj_a1.py` | 24/24 | PASS |
 
 ## Sessions
 
@@ -273,3 +274,4 @@ THEN: 1/α₂(tree) = 28, 1/α₃(tree) = 8, sin²θ_W = 28/121, α₃/α₂ = 7
 | S228 | **Step 6 irreducible + RG quantified**: Three mechanisms (28/7/21), democratic/Dynkin = n_d = 4, C_L = Im_O×Im_H = 21 (new). Step 6 cannot be derived from AXM_0109/0110/0117. RG: Λ₂/Λ₃=15:1, pNGBs worsen, BSM deficit 0.36%. κ=1 subordinate. 32/32 PASS. |
 | S233 | **I-STRUCT-5 adopted** + RG threshold analysis + deeper derivation search. Step 6 formalized as Layer 2 principle I-STRUCT-5. Composite sector: top partners and pNGBs make deficit WORSE; non-perturbative matching is natural (0.36% ~ α_s/(4π)). Four derivation candidates: full compositeness (Weinberg SRs) most promising. EQ-007/004/020/022 RESOLVED. 2 new scripts, 27/27 PASS. |
 | S238 | **WSR from crystallization dynamics**: Conditional theorem [DERIVATION + I-QFT + C3]. Full compositeness from axiom set (no elementary gauge fields) + WSR theorem + Schur's lemma → I-STRUCT-5. Gap narrowed from [A-PHYSICAL] to [CONJECTURE: spectral convergence C3]. WSR explain perturbative/non-perturbative distinction (Dynkin→democratic reshuffling factor = n_d = 4). 1 script, 21/21 PASS. |
+| S292 | **CONJ-A1 RESOLVED via finiteness**: NEGATIVE: quartic potential alone insufficient (dim-2 condensate <eps^T eps> in V-A OPE, rho ~ 1/s, WSR1 log-divergent). Corrects S238 WSR1 assessment. POSITIVE: C5 (finiteness) + IRA-10 -> finite Hilbert space -> discrete spectral function -> all WSR converge. IRA-02 eliminated (redundant). IRA count 9->8. 1 script, 24/24 PASS. |

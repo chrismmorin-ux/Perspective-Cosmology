@@ -35,7 +35,7 @@ Perspective Cosmology is an amateur, speculative theoretical framework — built
 
 The framework tries to show that if you start from the bare minimum requirements for *anything to be observed at all*, you get forced — step by step — into the exact physics we see: the Standard Model of particle physics, Einstein's general relativity, 3+1 spacetime dimensions, and even specific numerical values of constants like the fine structure constant.
 
-It is **not** established physics. It has not been peer-reviewed. The framework's own adversarial review estimates a 15-25% chance that it's genuinely capturing real physics rather than being an elaborate coincidence. But the results are unusual enough that the author considers them worth investigating.
+It is **not** established physics. It has not been peer-reviewed. The framework's own adversarial review estimates a 20-35% chance that it's genuinely capturing real physics rather than being an elaborate coincidence (Red Team v2.0, S257). But the results are unusual enough that the author considers them worth investigating.
 
 ---
 
@@ -148,7 +148,7 @@ In total: 12 predictions match to better than 10 parts per million, though 3 of 
 
 6. **~~Cosmological constant has wrong sign.~~** **RESOLVED (S230)**: This was a sign convention error in the framework documents. The correct GR relationship (Λ = -8πG·V) gives the right sign. The *magnitude* gap (~10^111) remains — this is the standard CC problem shared by all physics frameworks.
 
-7. **Internal probability estimate: 15-25%.** The framework's own adversarial analysis gives it less than one-in-four odds of being genuine physics.
+7. **Internal probability estimate: 20-35%.** The framework's own adversarial analysis (Red Team v2.0, S257) gives it roughly one-in-four odds of being genuine physics.
 
 ---
 
@@ -222,6 +222,7 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 | 2.0 | 2026-02-03 | S227 | Full rewrite with template. Added QM derivation, Monte Carlo results, blind predictions, phase grades, testable predictions timeline, updated statistics (548 scripts, 14 falsified, 15-25% probability), CC wrong sign acknowledgment. |
 | 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Updated limitations and bottom line. |
 | 2.2 | 2026-02-06 | S255 | CCP propagation: assumption count ~3->~2. F=C now derived. |
+| 2.3 | 2026-02-07 | S301 | Probability 15-25% -> 20-35% (Red Team v2.0, S257). Script count 548 -> 662+. IRA count -> 6 (S299). |
 
 ---
 

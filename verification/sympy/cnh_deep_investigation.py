@@ -13,7 +13,7 @@ KEY FINDINGS:
 4. Pure-associative primes {2,5,17} encode within-sector physics;
    bridge primes {13,53,73,113,137} encode cross-sector physics
 5. EQ-002: Om_m = 63/200 = (non-norm)/(norm)
-6. EQ-012: 43 is inert in Z[i] — non-crystalline
+6. EQ-012: 43 is inert in Z[i] -- non-crystalline
 
 Formula: CCF(X) = #{x in {A,Z,N} : is_gaussian_norm(x)} / 3
 Measured: Li-7/H observed = BBN_predicted / 3 (the lithium problem)
@@ -523,7 +523,7 @@ print(f"    Framework primes: all split or ramified")
 print(f"    Structural primes (3,7,11): all inert")
 
 # ==============================================================================
-# PART 7: DENOMINATOR PATTERN — NORM vs NON-NORM
+# PART 7: DENOMINATOR PATTERN -- NORM vs NON-NORM
 # ==============================================================================
 
 print()

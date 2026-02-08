@@ -14,7 +14,7 @@ Total scalar content from Stage 1: 1 Higgs doublet + 24 colored pNGBs
 
 Status: DERIVATION (from AXM_0109)
 Depends on:
-- [AXIOM] AXM_0109: Crystal existence — tilt matrix is real
+- [AXIOM] AXM_0109: Crystal existence -- tilt matrix is real
 - [DERIVATION] SO(11)/[SO(4) x SO(7)] coset structure (S175)
 - [DERIVATION] SU(3) singlet extraction: 4 out of 28 DOF (S175, S195)
 

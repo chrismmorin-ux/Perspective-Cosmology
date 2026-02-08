@@ -23,13 +23,13 @@ print("=" * 70)
 print("GRAVITATIONAL COUPLING FROM DIVISION ALGEBRAS")
 print("=" * 70)
 
-# Physical constants (CODATA 2018)
+# Physical constants (CODATA 2022)
 hbar = 1.054571817e-34  # J*s
 c = 299792458  # m/s
 G = 6.67430e-11  # m^3/(kg*s^2)
 m_p = 1.67262192369e-27  # kg (proton mass)
 m_e = 9.1093837015e-31  # kg (electron mass)
-alpha_measured = 1 / 137.035999084
+alpha_measured = 1 / 137.035999177
 
 # Planck mass
 M_Pl = math.sqrt(hbar * c / G)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Blind Predictions — CMB Phase 4.1
+Blind Predictions -- CMB Phase 4.1
 
 PURPOSE: Compute cosmological observables from framework parameters BEFORE
 comparing to measurements. This script derives predictions only.
@@ -23,7 +23,7 @@ Observables computed:
   6. BAO distance ratio D_V(z=0.51)/r_d
   7. Dimensionless age H_0 * t_0
 
-Status: BLIND PREDICTION — values computed before measurement lookup
+Status: BLIND PREDICTION -- values computed before measurement lookup
 Created: Session 138
 """
 
@@ -435,7 +435,7 @@ print("Measurements will be looked up AFTER locking these predictions.")
 print()
 
 # ==============================================================================
-# VERIFICATION TESTS (structure only — no measurement comparison yet)
+# VERIFICATION TESTS (structure only -- no measurement comparison yet)
 # ==============================================================================
 print("=" * 70)
 print("STRUCTURAL VERIFICATION TESTS")
@@ -582,8 +582,8 @@ for key in meas:
 print(f"Within 1 sigma: {within_1}/7")
 print(f"Within 2 sigma: {within_2}/7")
 print(f"Within 3 sigma: {within_3}/7")
-print(f"Best match: R (shift parameter) — 0.2 sigma")
-print(f"Tightest test: 100*theta_s — 2.1 sigma (0.062% error, reflects H_0 = 67.4 vs 67.36)")
+print(f"Best match: R (shift parameter) -- 0.2 sigma")
+print(f"Tightest test: 100*theta_s -- 2.1 sigma (0.062% error, reflects H_0 = 67.4 vs 67.36)")
 print()
 print("HONEST ASSESSMENT:")
 print("All 7 predictions are LCDM-derived from framework cosmological parameters.")

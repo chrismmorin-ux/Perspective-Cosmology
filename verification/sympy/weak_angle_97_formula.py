@@ -3,7 +3,7 @@
 Weak Angle Formula with Prime 97
 
 NOTE: This is NOT the TIER_1 Weinberg angle formula. The TIER_1 claim
-uses cos(theta_W) = 171/194 — see weinberg_171_194_derivation.py.
+uses cos(theta_W) = 171/194 -- see weinberg_171_194_derivation.py.
 This script explores the STRUCTURAL formula 97/126 from fourth-power primes.
 
 KEY FINDING: cos^2(theta_W) = 97/126 = 97/(97+29)

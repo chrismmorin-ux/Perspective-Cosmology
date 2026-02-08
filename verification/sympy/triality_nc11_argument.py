@@ -357,7 +357,7 @@ tests.append(("dim(so(8)) = 28", so8_28 == 28))
 tests.append(("All three are the same 28", gold_28 == cross_28 == so8_28))
 
 # ==============================================================================
-# Part 9: Summary — what we've learned
+# Part 9: Summary -- what we've learned
 # ==============================================================================
 
 print("\nPart 9: Summary")

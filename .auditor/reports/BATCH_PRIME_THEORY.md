@@ -217,7 +217,7 @@ Well-structured compilation of 20 open questions organized by:
 2. **Cosmological connections are post-hoc pattern-matching**:
    - l_1 = 2417/11 = 219.73 vs measured 220: Why divide by 11? Because 2417/11 is close to 220. There is no derivation showing the first acoustic peak should equal a bridge prime divided by n_c.
    - H_0 = 4177/62 = 67.37 vs measured 67.4: Why divide by 62? Because 4177/62 is close to 67.4. The "meaning" of 62 = O^2 - C is assigned after the fact.
-   - r_s = 337 × 3/7 = 144.43: This uses the consecutive prime 337 with Im(H)/Im(O). Why these specific operations?
+   - r_s = 337 × 3/7 = 144.43: This uses the consecutive prime 337 with Im_H/Im_O. Why these specific operations?
 
 3. **Dimension-Observable Correspondence** (lines 59-70): The table assigning Im_H = 3 to "expansion," n_c = 11 to "oscillation," etc., is pattern-matching. There is no derivation chain from axioms to this correspondence. The [A]/[I]/[D] tags are absent.
 

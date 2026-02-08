@@ -303,8 +303,8 @@ alpha_s_hadronic = 1  # alpha_s ~ 1 at hadronic scale (non-perturbative)
 coupling_ratio = alpha_s_hadronic / float(alpha_em_0)
 total_ratio = float(mode_ratio) * coupling_ratio
 print(f"\n  Coupling ratio at hadronic scale: alpha_s / alpha ~ {coupling_ratio:.0f}")
-print(f"  Combined DOF × coupling ratio: {float(mode_ratio)} × {coupling_ratio:.0f} = {total_ratio:.0f}")
-print(f"  For reference: O × Im_O = 8 × 7 = {O_dim * Im_O} = 56")
+print(f"  Combined DOF * coupling ratio: {float(mode_ratio)} * {coupling_ratio:.0f} = {total_ratio:.0f}")
+print(f"  For reference: O * Im_O = 8 * 7 = {O_dim * Im_O} = 56")
 print(f"  (The combined ratio ~548 >> 56; the coupling ratio dominates)")
 
 # ==============================================================================
@@ -312,7 +312,7 @@ print(f"  (The combined ratio ~548 >> 56; the coupling ratio dominates)")
 # ==============================================================================
 
 print("\n" + "=" * 72)
-print("PART 6: LUSCHER TERM — UNIVERSAL STRING CORRECTION")
+print("PART 6: LUSCHER TERM -- UNIVERSAL STRING CORRECTION")
 print("=" * 72)
 
 print(f"""
@@ -320,7 +320,7 @@ The quark-antiquark potential at large separation has the Luscher correction:
 
   V(r) = sigma * r - pi * (D-2) / (24 * r) + O(1/r^2)
 
-This is UNIVERSAL — follows from the bosonic string picture of the flux tube,
+This is UNIVERSAL -- follows from the bosonic string picture of the flux tube,
 with D-2 = 2 transverse oscillation modes.
 
 In the framework:
@@ -352,7 +352,7 @@ Framework interpretation:
   fluctuation energy of the O-channel (QCD) string.
 
   The string oscillates in C = 2 transverse directions.
-  The normalization involves O * Im_H = 24 — the product of the octonionic
+  The normalization involves O * Im_H = 24 -- the product of the octonionic
   and quaternionic imaginary dimensions.
 
   This is a STRUCTURAL result: V(r) = sigma*r - pi*dim(C)/(dim(O)*Im_H * r)
@@ -362,11 +362,11 @@ Framework interpretation:
 """)
 
 # ==============================================================================
-# PART 7: BETA FUNCTION — 153 CONNECTION
+# PART 7: BETA FUNCTION -- 153 CONNECTION
 # ==============================================================================
 
 print("=" * 72)
-print("PART 7: THE 153 CONNECTION — QCD BETA AND PROTON MASS")
+print("PART 7: THE 153 CONNECTION -- QCD BETA AND PROTON MASS")
 print("=" * 72)
 
 print(f"\nThe number 153 appears in two seemingly unrelated places:")
@@ -420,7 +420,7 @@ DERIVED/VERIFIED PREDICTIONS:
 
 2. b_3(N_f=6) = 7 = Im_O [D: exact]
    One-loop QCD beta coefficient = imaginary octonion dimension
-   Confidence: [DERIVATION] — follows from N_c=3=Im_H, N_f=6
+   Confidence: [DERIVATION] -- follows from N_c=3=Im_H, N_f=6
 
 3. 33 = n_c * Im_H [D: exact]
    Pure glue one-loop numerator = crystal dim * quaternion im dim
@@ -429,11 +429,11 @@ DERIVED/VERIFIED PREDICTIONS:
 
 4. 153 = Im_H^2 * 17 = (n_c-2)(n_c+6) [D: exact]
    Two-loop pure glue numerator = same number in m_p/m_e
-   Confidence: [DERIVATION] — verified algebraic identity
+   Confidence: [DERIVATION] -- verified algebraic identity
 
 5. Luscher coefficient = pi*C/(O*Im_H) = pi/12 [D: exact]
    Universal string correction in framework quantities
-   Confidence: [DERIVATION] — from D-2 = C and 24 = O*Im_H
+   Confidence: [DERIVATION] -- from D-2 = C and 24 = O*Im_H
 
 NEW CONJECTURES:
 
@@ -458,7 +458,7 @@ WHAT IS IMPORTED (not derived):
 # ==============================================================================
 
 print("=" * 72)
-print("PART 9: O-CHANNEL CONFINEMENT — WHAT WE CAN AND CANNOT DERIVE")
+print("PART 9: O-CHANNEL CONFINEMENT -- WHAT WE CAN AND CANNOT DERIVE")
 print("=" * 72)
 
 print(f"""

@@ -206,7 +206,7 @@ test("R-channel DOF = n_d^2 = 16",
 # Test 9: Primordial r (tensor/scalar ratio) from C1
 # r = Im_O / (8 * n_d^2) = 7/128 = 0.0547
 # BICEP/Keck 2021: r < 0.036 (95% CL)
-# This is in TENSION — potential falsification
+# This is in TENSION -- potential falsification
 # We verify the formula and flag the tension
 # ------------------------------------------------------------------------------
 

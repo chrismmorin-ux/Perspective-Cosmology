@@ -2,7 +2,7 @@
 """
 G_2 Irreducibility on R^7 (v2 - corrected Fano plane)
 
-SUPERSEDED by g2_final.py — this script still uses incorrect Fano plane
+SUPERSEDED by g2_final.py -- this script still uses incorrect Fano plane
 orientation that gives dim(g_2) = 6 instead of 14. The "Baez" triples
 here have wrong cyclic order on two lines. See g2_final.py for the
 corrected version.

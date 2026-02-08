@@ -139,11 +139,11 @@ print(f"  (Using framework sin^2 theta_W = 28/121, not LEP effective)")
 
 
 # ==============================================================================
-# PART 2: COLEMAN-WEINBERG POTENTIAL — GAUGE CONTRIBUTION
+# PART 2: COLEMAN-WEINBERG POTENTIAL -- GAUGE CONTRIBUTION
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 2: Coleman-Weinberg Potential — Gauge Contribution")
+print("PART 2: Coleman-Weinberg Potential -- Gauge Contribution")
 print("=" * 70)
 
 print("""
@@ -304,10 +304,10 @@ Higgs mass:
   Simplifying at the minimum:
   m_H^2 = 8 * beta_CW * f^2 * xi * (1 - xi)
 
-  For small xi: m_H^2 ≈ 8 * beta_CW * v^2  [since f^2 * xi = v^2]
+  For small xi: m_H^2 ~ 8 * beta_CW * v^2  [since f^2 * xi = v^2]
 
 Also: m_H^2 = 8 * beta_CW * v^2 * (1 - xi) / 1
-            ≈ 4 * alpha_CW * f^2 * (1 - xi)
+            ~ 4 * alpha_CW * f^2 * (1 - xi)
 
 The Higgs quartic coupling:
   lambda_H = m_H^2 / (2*v^2) = 4 * beta_CW * (1 - xi)
@@ -316,8 +316,8 @@ The Higgs quartic coupling:
 # Measured Higgs quartic
 lambda_H_meas = float(m_H_meas)**2 / (2 * float(v_EW)**2)
 print(f"Measured Higgs quartic: lambda_H = m_H^2/(2v^2) = {lambda_H_meas:.6f}")
-print(f"  lambda_H ≈ {lambda_H_meas:.4f}")
-print(f"  1/lambda_H ≈ {1/lambda_H_meas:.2f}")
+print(f"  lambda_H ~ {lambda_H_meas:.4f}")
+print(f"  1/lambda_H ~ {1/lambda_H_meas:.2f}")
 
 # Check: is 1/lambda_H close to any framework number?
 print(f"\nFramework number check for 1/lambda_H = {1/lambda_H_meas:.4f}:")
@@ -554,11 +554,11 @@ print(f"  = 2*lambda*28*137/(121*pi) = {2*lambda_H_meas*28*137/(121*np.pi):.4f}"
 
 
 # ==============================================================================
-# PART 9: COMPOSITE HIGGS PREDICTION — xi SCAN
+# PART 9: COMPOSITE HIGGS PREDICTION -- xi SCAN
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 9: Precision Scan — m_H vs (xi, c_beta)")
+print("PART 9: Precision Scan -- m_H vs (xi, c_beta)")
 print("=" * 70)
 
 print("""
@@ -723,7 +723,7 @@ tests = [
     ("m_Z from framework couplings within 5% of measured (tree-level)",
      abs(m_Z_pred - float(m_Z)) / float(m_Z) < 0.05),
 
-    ("Higgs quartic lambda_H ≈ 0.13 (measured)",
+    ("Higgs quartic lambda_H ~ 0.13 (measured)",
      abs(lambda_H_meas - 0.129) < 0.01),
 
     ("lambda_H close to 1/O = 0.125 (3.4%)",

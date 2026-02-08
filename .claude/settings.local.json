@@ -129,7 +129,26 @@
       "Bash(PYTHONIOENCODING=utf-8 python:*)",
       "WebFetch(domain:chatgpt.com)",
       "Bash(git reset HEAD verification/sympy/__pycache__/ nul)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "WebFetch(domain:math.ucr.edu)",
+      "Bash(powershell -Command:*)",
+      "Bash(xargs -I {} sh -c 'echo \"\"=== {} ===\"\" && head -10 \"\"{}\"\"')",
+      "Bash(del:*)",
+      "Bash(powershell:*)",
+      "WebFetch(domain:intlpress.com)",
+      "Bash(for:*)",
+      "Bash(do python -c \" import sys try: with open\\(''$file'', ''r'', encoding=''utf-8''\\) as f: content = f.read\\(\\) # Check for Unicode that would fail on cp1252 if any\\(ord\\(c\\) > 127 and c not in ''\\\\r\\\\n\\\\t'' for c in content\\): print\\(''$file''\\) except: pass \")",
+      "WebFetch(domain:ncatlab.org)",
+      "WebFetch(domain:math.stanford.edu)",
+      "Bash(echo:*)",
+      "WebFetch(domain:ocu-omu.repo.nii.ac.jp)",
+      "WebFetch(domain:myweb.rz.uni-augsburg.de)",
+      "WebFetch(domain:yelmaazouz.org)",
+      "WebFetch(domain:metaphor.ethz.ch)",
+      "WebFetch(domain:www.ams.org)",
+      "mcp__sympy-mcp__create_matrix",
+      "WebFetch(domain:web2.ph.utexas.edu)",
+      "WebFetch(domain:www.damtp.cam.ac.uk)"
     ]
   }
 }

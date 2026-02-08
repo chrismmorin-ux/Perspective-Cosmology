@@ -271,20 +271,20 @@ print(f"  Status: Consistent with universality within uncertainties")
 print()
 
 # ==============================================================================
-# PART 6: W vs Z COMPARISON — ROLE OF sin^2(theta_W)
+# PART 6: W vs Z COMPARISON -- ROLE OF sin^2(theta_W)
 # ==============================================================================
 
-print("PART 6: W vs Z — ROLE OF sin^2(theta_W)")
+print("PART 6: W vs Z -- ROLE OF sin^2(theta_W)")
 print("-" * 72)
 print()
 
-print(f"W boson: Charged current — couples with UNIVERSAL strength g")
+print(f"W boson: Charged current -- couples with UNIVERSAL strength g")
 print(f"  sin^2(theta_W) does NOT enter W couplings at tree level")
 print(f"  Branching ratios determined purely by MODE COUNTING")
 print(f"  Framework content: Im_H (generation count) + N_c (color count)")
 print()
 
-print(f"Z boson: Neutral current — g_V depends on sin^2(theta_W)")
+print(f"Z boson: Neutral current -- g_V depends on sin^2(theta_W)")
 print(f"  sin^2(theta_W) = 28/121 directly affects each fermion's coupling")
 print(f"  Branching ratios test the SPECIFIC VALUE 28/121")
 print(f"  Framework content: sin^2 value + mode counting")
@@ -320,7 +320,7 @@ print(f"         = {3 * Im_H}")
 print()
 
 # Interesting: N_c = Im_H = 3, so total channels = 3 * Im_H = 9
-# But this is somewhat accidental — N_c and Im_H have different origins
+# But this is somewhat accidental -- N_c and Im_H have different origins
 print(f"Note: N_c = Im_H = 3 is a COINCIDENCE in the framework")
 print(f"  Im_H = 3: imaginary quaternion dimensions [structural]")
 print(f"  N_c = 3: eigenvalue selection in SU(N) gauge [derived differently]")

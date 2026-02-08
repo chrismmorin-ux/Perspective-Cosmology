@@ -28,9 +28,9 @@ Error: 0.34%
 Status: INVESTIGATION
 Created: Session 224
 Depends on:
-  - two_regime_structural_theorem.py (S222) — singlet criterion, T_fund=1
-  - xi_democratic_bilinear.py (S217) — End(V) decomposition, Bernoulli unification
-  - coset_geometry_three_paths.py (S215) — HS metric dead end identified
+  - two_regime_structural_theorem.py (S222) -- singlet criterion, T_fund=1
+  - xi_democratic_bilinear.py (S217) -- End(V) decomposition, Bernoulli unification
+  - coset_geometry_three_paths.py (S215) -- HS metric dead end identified
 """
 
 from sympy import *
@@ -201,7 +201,7 @@ print()
 # But if V is IRREDUCIBLE (as our tangent spaces are), there is only
 # ONE component. Schur's lemma says the bilinear form has only ONE
 # scale factor. There are no "different representations to weight
-# differently" — the entire space is one indivisible unit.
+# differently" -- the entire space is one indivisible unit.
 #
 # Concretely: Under SU(2)_L (subgroup of SO(4)), the 28-dim tangent
 # space DOES decompose reducibly into doublets, triplets, etc.
@@ -609,7 +609,7 @@ print("  The HS metric on End(V) (from AXM_0110) restricts to the tangent")
 print("  space of the vacuum manifold Gr(4,11). This tangent space is an")
 print("  IRREDUCIBLE representation of the isotropy group SO(4)xSO(7).")
 print("  By Schur's lemma, the restricted metric is the unique invariant")
-print("  bilinear form — treating all 28 directions equally (democratic).")
+print("  bilinear form -- treating all 28 directions equally (democratic).")
 print("  Dynkin weighting is excluded because the space is irreducible:")
 print("  there is only one component, so only one scale factor exists.")
 print()

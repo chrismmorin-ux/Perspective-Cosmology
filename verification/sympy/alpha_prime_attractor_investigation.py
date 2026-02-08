@@ -3,16 +3,16 @@
 Alpha Prime Attractor Investigation
 ====================================
 
-Question: Can we enhance the 1/α = 137 prediction using prime attractor concepts?
+Question: Can we enhance the 1/alpha = 137 prediction using prime attractor concepts?
 
-The Koide breakthrough showed θ = π × 73/99 where 73 = 8² + 3² is the unique
+The Koide breakthrough showed theta = pi * 73/99 where 73 = 8^2 + 3^2 is the unique
 prime encoding dim(O) + Im(H).
 
 Can we show 137 is similarly special?
 
 Key facts:
 - 137 is PRIME
-- 137 = 4² + 11² (by Fermat's theorem, primes ≡ 1 mod 4 are sums of two squares)
+- 137 = 4^2 + 11^2 (by Fermat's theorem, primes == 1 mod 4 are sums of two squares)
 - 4 = dim(H) (largest associative division algebra)
 - 11 = dim(R) + dim(C) + dim(O) = 1 + 2 + 8 (non-associative part)
 
@@ -40,7 +40,7 @@ print("PART 1: PRIMALITY AND SUM-OF-SQUARES ANALYSIS")
 print("=" * 70)
 
 def is_sum_of_two_squares(n: int) -> Optional[Tuple[int, int]]:
-    """Check if n = a² + b² and return (a, b) if so, else None."""
+    """Check if n = a^2 + b^2 and return (a, b) if so, else None."""
     for a in range(int(math.sqrt(n)) + 1):
         b_sq = n - a*a
         b = int(math.sqrt(b_sq))
@@ -51,7 +51,7 @@ def is_sum_of_two_squares(n: int) -> Optional[Tuple[int, int]]:
 # Check 137
 print(f"\n137 is prime: {isprime(137)}")
 sos = is_sum_of_two_squares(137)
-print(f"137 = {sos[0]}² + {sos[1]}² = {sos[0]**2} + {sos[1]**2}" if sos else "Not a sum of two squares")
+print(f"137 = {sos[0]}^2 + {sos[1]}^2 = {sos[0]**2} + {sos[1]**2}" if sos else "Not a sum of two squares")
 
 # Division algebra dimensions
 div_alg = {
@@ -76,7 +76,7 @@ n_c = div_alg['R'] + div_alg['C'] + div_alg['O']  # 1 + 2 + 8 = 11
 print(f"\nThe alpha split:")
 print(f"  n_d = dim(H) = {n_d} (largest associative)")
 print(f"  n_c = dim(R) + dim(C) + dim(O) = {n_c} (remainder)")
-print(f"  n_d² + n_c² = {n_d}² + {n_c}² = {n_d**2} + {n_c**2} = {n_d**2 + n_c**2}")
+print(f"  n_d^2 + n_c^2 = {n_d}^2 + {n_c}^2 = {n_d**2} + {n_c**2} = {n_d**2 + n_c**2}")
 
 # =============================================================================
 # PART 2: What other primes encode division algebra structure?
@@ -90,7 +90,7 @@ print("=" * 70)
 dims = [1, 2, 4, 8]
 im_dims = [0, 1, 3, 7]  # Imaginary parts: Im(R)=0, Im(C)=1, Im(H)=3, Im(O)=7
 
-print("\nPrimes of form a² + b² where a, b are division algebra dimensions:")
+print("\nPrimes of form a^2 + b^2 where a, b are division algebra dimensions:")
 print("-" * 60)
 
 found_primes = []
@@ -100,9 +100,9 @@ for i, a in enumerate(dims):
             n = a*a + b*b
             if isprime(n):
                 found_primes.append((n, a, b))
-                print(f"  {n} = {a}² + {b}² (dim({list(div_alg.keys())[i]})² + dim({list(div_alg.keys())[j]})²)")
+                print(f"  {n} = {a}^2 + {b}^2 (dim({list(div_alg.keys())[i]})^2 + dim({list(div_alg.keys())[j]})^2)")
 
-print(f"\nPrimes of form a² + b² where a, b are imaginary dimensions:")
+print(f"\nPrimes of form a^2 + b^2 where a, b are imaginary dimensions:")
 print("-" * 60)
 
 for i, a in enumerate(im_dims):
@@ -111,10 +111,10 @@ for i, a in enumerate(im_dims):
             n = a*a + b*b
             if isprime(n):
                 names = ['R', 'C', 'H', 'O']
-                print(f"  {n} = {a}² + {b}² (Im({names[i]})² + Im({names[j]})²)")
+                print(f"  {n} = {a}^2 + {b}^2 (Im({names[i]})^2 + Im({names[j]})^2)")
 
-# Check mixed: dim × Im
-print(f"\nPrimes of form dim(X)² + Im(Y)² (mixed):")
+# Check mixed: dim * Im
+print(f"\nPrimes of form dim(X)^2 + Im(Y)^2 (mixed):")
 print("-" * 60)
 
 names = ['R', 'C', 'H', 'O']
@@ -128,7 +128,7 @@ for i, d in enumerate(dims):
 for p, d, im, nd, ni in sorted(set(mixed_primes)):
     matches = [(d2, im2, nd2, ni2) for (p2, d2, im2, nd2, ni2) in mixed_primes if p2 == p]
     for d, im, nd, ni in matches:
-        print(f"  {p} = {d}² + {im}² = dim({nd})² + Im({ni})²")
+        print(f"  {p} = {d}^2 + {im}^2 = dim({nd})^2 + Im({ni})^2")
 
 # =============================================================================
 # PART 3: What makes 137 unique?
@@ -138,14 +138,14 @@ print("\n" + "=" * 70)
 print("PART 3: UNIQUENESS OF 137")
 print("=" * 70)
 
-# 137 = 4² + 11² where:
+# 137 = 4^2 + 11^2 where:
 # - 4 = dim(H) = largest associative
 # - 11 = 1 + 2 + 8 = total of remaining division algebras
 
 print("""
 The structure of 137:
 
-137 = 4² + 11² where:
+137 = 4^2 + 11^2 where:
   - 4 = dim(H) = largest ASSOCIATIVE division algebra
   - 11 = dim(R) + dim(C) + dim(O) = 1 + 2 + 8
 
@@ -159,30 +159,30 @@ Crystal (hidden structure) = R + C + O = includes non-associative octonions
 print("Checking other meaningful splits:")
 print("-" * 60)
 
-# Split 1: H vs rest (the α split)
+# Split 1: H vs rest (the alpha split)
 split1 = (4, 1+2+8)  # (4, 11)
 val1 = split1[0]**2 + split1[1]**2
-print(f"  H vs (R+C+O): {split1[0]}² + {split1[1]}² = {val1}, prime: {isprime(val1)}")
+print(f"  H vs (R+C+O): {split1[0]}^2 + {split1[1]}^2 = {val1}, prime: {isprime(val1)}")
 
 # Split 2: (R+C) vs (H+O) - real/complex vs non-commutative
 split2 = (1+2, 4+8)  # (3, 12)
 val2 = split2[0]**2 + split2[1]**2
-print(f"  (R+C) vs (H+O): {split2[0]}² + {split2[1]}² = {val2}, prime: {isprime(val2)}")
+print(f"  (R+C) vs (H+O): {split2[0]}^2 + {split2[1]}^2 = {val2}, prime: {isprime(val2)}")
 
 # Split 3: (R+C+H) vs O - associative vs O only
 split3 = (1+2+4, 8)  # (7, 8)
 val3 = split3[0]**2 + split3[1]**2
-print(f"  (R+C+H) vs O: {split3[0]}² + {split3[1]}² = {val3}, prime: {isprime(val3)}")
+print(f"  (R+C+H) vs O: {split3[0]}^2 + {split3[1]}^2 = {val3}, prime: {isprime(val3)}")
 
 # Split 4: R vs (C+H+O)
 split4 = (1, 2+4+8)  # (1, 14)
 val4 = split4[0]**2 + split4[1]**2
-print(f"  R vs (C+H+O): {split4[0]}² + {split4[1]}² = {val4}, prime: {isprime(val4)}")
+print(f"  R vs (C+H+O): {split4[0]}^2 + {split4[1]}^2 = {val4}, prime: {isprime(val4)}")
 
 # Split 5: C vs (R+H+O)
 split5 = (2, 1+4+8)  # (2, 13)
 val5 = split5[0]**2 + split5[1]**2
-print(f"  C vs (R+H+O): {split5[0]}² + {split5[1]}² = {val5}, prime: {isprime(val5)}")
+print(f"  C vs (R+H+O): {split5[0]}^2 + {split5[1]}^2 = {val5}, prime: {isprime(val5)}")
 
 # Split 6: O vs (R+C+H)
 split6 = (8, 1+2+4)  # (8, 7) same as split3
@@ -190,8 +190,8 @@ print(f"  O vs (R+C+H): Same as above (113)")
 
 print("""
 RESULT:
-  - 137 (H vs rest) - PRIME ✓
-  - 153 (commutative vs non-commutative) - NOT PRIME (153 = 9×17)
+  - 137 (H vs rest) - PRIME [OK]
+  - 153 (commutative vs non-commutative) - NOT PRIME (153 = 9*17)
   - 113 (associative vs O) - PRIME but doesn't match observation
   - 197 (R vs rest) - PRIME but doesn't match observation
   - 173 (C vs rest) - PRIME but doesn't match observation
@@ -214,8 +214,8 @@ discrepancy = alpha_measured - alpha_formula
 pct_error = 100 * discrepancy / alpha_measured
 
 print(f"""
-Measured:  1/α = {alpha_measured}
-Formula:   1/α = {alpha_formula}
+Measured:  1/alpha = {alpha_measured}
+Formula:   1/alpha = {alpha_formula}
 Discrepancy: {discrepancy:.3f}
 Percentage: {pct_error:.4f}%
 """)
@@ -254,16 +254,16 @@ n_c_eff = 11 + delta_solution
 alpha_check = n_d_eff**2 + n_c_eff**2
 
 print(f"""
-If dimensions have small imperfection δ (incomplete crystallization):
+If dimensions have small imperfection delta (incomplete crystallization):
 
-  n_d_eff = 4 + δ
-  n_c_eff = 11 + δ
+  n_d_eff = 4 + delta
+  n_c_eff = 11 + delta
 
-  1/α = (4+δ)² + (11+δ)² = 137.036
+  1/alpha = (4+delta)^2 + (11+delta)^2 = 137.036
 
-Solution: δ = {delta_solution:.6f}
+Solution: delta = {delta_solution:.6f}
 
-Verification: ({n_d_eff:.6f})² + ({n_c_eff:.6f})² = {alpha_check:.6f}
+Verification: ({n_d_eff:.6f})^2 + ({n_c_eff:.6f})^2 = {alpha_check:.6f}
 
 Interpretation:
   The universe is {100*delta_solution/4:.3f}% away from perfect crystallization.
@@ -299,16 +299,16 @@ print("PART 5: PRIME ATTRACTOR SELECTION MECHANISM")
 print("=" * 70)
 
 print("""
-HYPOTHESIS: The prime attractor mechanism that selected Koide's θ = π×73/99
-            also selects 1/α → 137.
+HYPOTHESIS: The prime attractor mechanism that selected Koide's theta = pi*73/99
+            also selects 1/alpha -> 137.
 
 For Koide:
-  - θ is selected to minimize |θ/π - p/q|² + complexity(p,q)
-  - The winning prime is 73 = 8² + 3² = dim(O)² + Im(H)²
+  - theta is selected to minimize |theta/pi - p/q|^2 + complexity(p,q)
+  - The winning prime is 73 = 8^2 + 3^2 = dim(O)^2 + Im(H)^2
 
-For α:
+For alpha:
   - The coupling is selected to minimize some "crystallization energy"
-  - The winning prime is 137 = 4² + 11² = dim(H)² + (dim(R)+dim(C)+dim(O))²
+  - The winning prime is 137 = 4^2 + 11^2 = dim(H)^2 + (dim(R)+dim(C)+dim(O))^2
 """)
 
 # What primes are "nearby" 137 and could compete?
@@ -324,10 +324,10 @@ for p in nearby_primes:
         # Check if this has division algebra meaning
         div_meaning = ""
         if (a, b) == (4, 11):
-            div_meaning = "← dim(H)² + (R+C+O)² -- EXACT MATCH"
+            div_meaning = "<- dim(H)^2 + (R+C+O)^2 -- EXACT MATCH"
         elif a in dims and b in dims:
             div_meaning = f"(dims match: {a}, {b})"
-        print(f"  {p} = {a}² + {b}² {div_meaning}")
+        print(f"  {p} = {a}^2 + {b}^2 {div_meaning}")
     else:
         print(f"  {p} - not a sum of two squares")
 
@@ -345,12 +345,12 @@ COMBINING PRIME ATTRACTOR + CRYSTALLIZATION INCOMPLETENESS:
 1. PRIME ATTRACTOR: 137 is selected as the unique prime encoding
    the associative (H) / non-associative (R+C+O) split.
 
-   This gives: 1/α_0 = 137 (the "target" value)
+   This gives: 1/alpha_0 = 137 (the "target" value)
 
 2. CRYSTALLIZATION CORRECTION: The universe is not fully crystallized.
    This adds a small positive correction.
 
-   This gives: 1/α = 137 + ε_crystal
+   This gives: 1/alpha = 137 + epsilon_crystal
 
 3. THE CORRECTED PREDICTION:
 """)
@@ -366,22 +366,22 @@ log_ratio = np.log(M_Planck / m_e)
 print(f"  ln(M_Planck/m_e) = ln({M_Planck:.2e}/{m_e:.6f}) = {log_ratio:.2f}")
 
 # The 0.036 correction
-# Could this be related to running of α?
-# In QED: 1/α(M_Z) ≈ 127.9, but we want low-energy limit
+# Could this be related to running of alpha?
+# In QED: 1/alpha(M_Z) ~ 127.9, but we want low-energy limit
 
-# Alternative: the correction is (n_d + n_c)/(n_d² + n_c²) × some factor
+# Alternative: the correction is (n_d + n_c)/(n_d^2 + n_c^2) * some factor
 correction_ratio = (4 + 11) / (137)
-print(f"\n  (n_d + n_c)/(n_d² + n_c²) = 15/137 = {correction_ratio:.5f}")
-print(f"  15/137 × 137 = 15 (doesn't explain 0.036)")
+print(f"\n  (n_d + n_c)/(n_d^2 + n_c^2) = 15/137 = {correction_ratio:.5f}")
+print(f"  15/137 * 137 = 15 (doesn't explain 0.036)")
 
 # Better model: quantum correction
-# α_QED running: Δ(1/α) ≈ (2/3π) × ln(E²/m_e²) × (number of light fermions)
+# alpha_QED running: Delta(1/alpha) ~ (2/3pi) * ln(E^2/m_e^2) * (number of light fermions)
 # At low energy, this is approximately zero
 
 # The 0.036 might be related to the "residual tilt" in the defect
 print(f"\n  Residual tilt hypothesis:")
 print(f"    The defect (n_d = 4) has residual orthogonality failure")
-print(f"    ε_tilt = {discrepancy:.3f} / 137 = {discrepancy/137:.5f}")
+print(f"    epsilon_tilt = {discrepancy:.3f} / 137 = {discrepancy/137:.5f}")
 print(f"    This is {discrepancy/137 * 100:.3f}% of the total")
 
 # =============================================================================
@@ -403,13 +403,13 @@ if isprime(137):
 else:
     print("[FAIL] 137 is not prime")
 
-# Test 2: 137 = 4² + 11²
+# Test 2: 137 = 4^2 + 11^2
 tests_total += 1
 if 4**2 + 11**2 == 137:
     tests_passed += 1
-    print("[PASS] 137 = 4² + 11² = 16 + 121")
+    print("[PASS] 137 = 4^2 + 11^2 = 16 + 121")
 else:
-    print("[FAIL] 137 ≠ 4² + 11²")
+    print("[FAIL] 137 != 4^2 + 11^2")
 
 # Test 3: 4 = dim(H)
 tests_total += 1
@@ -417,7 +417,7 @@ if div_alg['H'] == 4:
     tests_passed += 1
     print("[PASS] 4 = dim(H) (quaternions)")
 else:
-    print("[FAIL] dim(H) ≠ 4")
+    print("[FAIL] dim(H) != 4")
 
 # Test 4: 11 = dim(R) + dim(C) + dim(O)
 tests_total += 1
@@ -425,7 +425,7 @@ if div_alg['R'] + div_alg['C'] + div_alg['O'] == 11:
     tests_passed += 1
     print("[PASS] 11 = dim(R) + dim(C) + dim(O) = 1 + 2 + 8")
 else:
-    print("[FAIL] dim(R) + dim(C) + dim(O) ≠ 11")
+    print("[FAIL] dim(R) + dim(C) + dim(O) != 11")
 
 # Test 5: Uniqueness - 137 is the only prime from the H vs rest split
 tests_total += 1
@@ -461,8 +461,8 @@ print("""
    OBSERVABLE (associative)     vs    HIDDEN (includes non-associative)
         H (dim = 4)                      R + C + O (dim = 11)
 
-   Just as 73 encodes dim(O)² + Im(H)² for Koide,
-   137 encodes dim(H)² + (dim(R)+dim(C)+dim(O))² for α.
+   Just as 73 encodes dim(O)^2 + Im(H)^2 for Koide,
+   137 encodes dim(H)^2 + (dim(R)+dim(C)+dim(O))^2 for alpha.
 
 2. PHYSICAL INTERPRETATION:
 
@@ -472,7 +472,7 @@ print("""
    - The crystal (hidden structure) contains R, C, AND O
      The non-associative O is "hidden" because it can't support time
 
-   - The electromagnetic coupling 1/α counts the interface modes
+   - The electromagnetic coupling 1/alpha counts the interface modes
      between these two structures
 
 3. THE 0.026% DISCREPANCY:
@@ -483,22 +483,22 @@ print("""
    - OR some quantum/running correction at low energy
 
    The crystallization model predicts:
-     δ ≈ 0.0012 (0.03% imperfection in each dimension)
+     delta ~ 0.0012 (0.03% imperfection in each dimension)
 
 4. COMPARISON WITH KOIDE:
 
    | Formula | Value | Prime | Encodes |
    |---------|-------|-------|---------|
-   | Koide θ | 73/99 × π | 73 = 8² + 3² | dim(O)² + Im(H)² |
-   | α | 137 | 137 = 4² + 11² | dim(H)² + (R+C+O)² |
+   | Koide theta | 73/99 * pi | 73 = 8^2 + 3^2 | dim(O)^2 + Im(H)^2 |
+   | alpha | 137 | 137 = 4^2 + 11^2 | dim(H)^2 + (R+C+O)^2 |
 
    Both select PRIMES that encode division algebra structure!
 
 5. STATUS UPGRADE:
 
-   Previous: 1/α = n_d² + n_c² [CONJECTURE about n_d, n_c values]
+   Previous: 1/alpha = n_d^2 + n_c^2 [CONJECTURE about n_d, n_c values]
 
-   Enhanced: 1/α = 137 is SELECTED as the unique prime encoding
+   Enhanced: 1/alpha = 137 is SELECTED as the unique prime encoding
             the associative/non-associative split of division algebras
 
    This is stronger because:

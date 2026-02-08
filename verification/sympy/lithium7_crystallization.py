@@ -101,8 +101,8 @@ print("CRYSTALLIZATION PREDICTION")
 print("=" * 60)
 print(f"Suppression factor: 1/Im_H = 1/{Im_H} = {float(suppression_factor):.4f}")
 print()
-print(f"Li7/H_predicted = Li7/H_BBN × (1/Im_H)")
-print(f"                = {float(Li7_BBN_central):.2e} × {float(suppression_factor):.4f}")
+print(f"Li7/H_predicted = Li7/H_BBN * (1/Im_H)")
+print(f"                = {float(Li7_BBN_central):.2e} * {float(suppression_factor):.4f}")
 print(f"                = {float(Li7_predicted):.3e}")
 print()
 print(f"Observed:  {float(Li7_obs_central):.3e}")
@@ -231,7 +231,7 @@ print("=" * 60)
 print(f"""
 LITHIUM-7 PROBLEM: SOLVED BY CRYSTALLIZATION
 
-Formula: Li7/H = Li7/H_BBN × (1/Im_H)
+Formula: Li7/H = Li7/H_BBN * (1/Im_H)
          Li7/H = Li7/H_BBN / 3
 
 Predicted: {float(Li7_predicted):.3e}

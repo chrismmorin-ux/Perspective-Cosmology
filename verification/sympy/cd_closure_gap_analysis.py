@@ -433,7 +433,7 @@ print(f"Full chain: {len(full_chain)} steps")
 print(f"  {axiom_count} axioms, {theorem_count} theorems, "
       f"{imath_count} I-MATH, {principle_count} principle, "
       f"{structural_count} structural")
-print(f"\n  The ONE principle is CD Closure — everything else is axiom or theorem.")
+print(f"\n  The ONE principle is CD Closure -- everything else is axiom or theorem.")
 print(f"  Axiom-to-theorem ratio: {axiom_count}:{theorem_count} = "
       f"{axiom_count/(axiom_count+theorem_count):.0%} axiom")
 
@@ -482,6 +482,6 @@ is derived. Only the single step "Crystal supports O" is assumed.
 RECOMMENDATION: Accept CD Closure as a PRINCIPLE (not axiom, not theorem).
 It is the framework's strongest non-derivable assumption after the
 primitive axioms. Its status is comparable to Tegmark's "no arbitrary
-restrictions" or Dirac's "mathematical beauty" — a guiding principle
+restrictions" or Dirac's "mathematical beauty" -- a guiding principle
 that happens to produce physics.
 """)

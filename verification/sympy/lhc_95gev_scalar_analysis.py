@@ -97,7 +97,7 @@ Possible sources of a singlet at 95 GeV:
 # ==============================================================================
 
 print("=" * 70)
-print("PART 2: Coset Analysis — Any Room for 95 GeV Scalar?")
+print("PART 2: Coset Analysis -- Any Room for 95 GeV Scalar?")
 print("=" * 70)
 
 # Check if SO(11)/[SO(4) x SO(7)] could have an additional singlet
@@ -109,7 +109,7 @@ print("=" * 70)
 # Under SU(2)_L: 2-dim reps only (fundamental of SU(2))
 # Under SU(3)_c: 1 (singlet) and 3 (fundamental)
 
-# The (1,1) — a complete SU(2) and SU(3) singlet — would require:
+# The (1,1) -- a complete SU(2) and SU(3) singlet -- would require:
 # A direction in the coset that is invariant under both SU(2)_L and SU(3)_c
 
 # Count (1,1) singlets in the decomposition:
@@ -255,7 +255,7 @@ INTERPRETATION:
 # ==============================================================================
 
 print("=" * 70)
-print("PART 6: Impact Assessment — What If 95 GeV Scalar Is Real?")
+print("PART 6: Impact Assessment -- What If 95 GeV Scalar Is Real?")
 print("=" * 70)
 
 print(f"""

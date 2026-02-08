@@ -164,7 +164,7 @@ for d1 in [(n_c, 'n_c'), (Im_O, 'Im_O'), (H+O, 'H+O'), (Im_H+Im_O, 'Im_H+Im_O')]
                 print(f"  pi*{d1[1]}/{d2[1]} = pi*{d1[0]}/{d2[0]} = {pred:.4f} rad  (error: {error:.1f}%)")
 
 # Pattern 3: pi + or 2pi - something
-print("\n3. pi ± small correction:")
+print("\n3. pi +/- small correction:")
 for d1 in [R, C, H, O, n_c, Im_H, Im_O, H+O]:
     for d2 in [n_c, Im_H*Im_O, n_d*n_c, Phi6(11), Phi6(7)]:
         # pi + d1/d2
@@ -244,8 +244,8 @@ Interpretation:
 - delta_CKM: CP violation from octonion in product of imaginary dimensions
 - delta_PMNS: CP violation from crystal/octonion ratio
 
-Predicted: delta_PMNS = {delta_pmns_pred:.4f} rad = 1.375pi = 247.5°
-T2K value: delta_PMNS = 1.36pi ~ 244.8°
+Predicted: delta_PMNS = {delta_pmns_pred:.4f} rad = 1.375pi = 247.5 deg
+T2K value: delta_PMNS = 1.36pi ~ 244.8 deg
 
 Error: {abs(delta_pmns_pred - delta_pmns_central)/delta_pmns_central * 100:.1f}%
 """)
@@ -259,7 +259,7 @@ Structure:
 - C+O = 10 (electroweak-strong dimension)
 - Im_O = 7
 
-Predicted: {delta_alt:.4f} rad = 1.429pi = 257.1°
+Predicted: {delta_alt:.4f} rad = 1.429pi = 257.1 deg
 
 Error: {abs(delta_alt - delta_pmns_central)/delta_pmns_central * 100:.1f}%
 """)

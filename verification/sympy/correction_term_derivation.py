@@ -53,7 +53,7 @@ main_term = n_d**2 + n_c**2
 correction = Fraction(n_d, Phi_6(n_c))
 predicted_alpha_inv = main_term + float(correction)
 
-alpha_measured = 137.035999084
+alpha_measured = 137.035999177
 error_ppm = abs(predicted_alpha_inv - alpha_measured) / alpha_measured * 1e6
 
 print(f"\nCurrent formula:")

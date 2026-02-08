@@ -116,7 +116,7 @@ def test_area_law():
       = k * log(n_c) / (k * (n_P-k))
       = log(n_c) / (n_P - k)
 
-    This is NOT a constant — it depends on k.
+    This is NOT a constant -- it depends on k.
     So the crystal doesn't have a simple area law with constant
     coefficient.
 
@@ -325,7 +325,7 @@ def test_holographic_bound():
     Converting to physical units requires additional correspondence
     rules (Layer 2).
 
-    STATUS: [SPECULATION] — the connection between crystal G_N
+    STATUS: [SPECULATION] -- the connection between crystal G_N
     and physical G_N is not established.
     """
     sigma_max = 2 * math.log(n_c) / n_P
@@ -356,7 +356,7 @@ def test_finite_corrections():
     the framework's FINITE crystal (n_c = n_P = 11)?
 
     1. ENTROPY CAP: S <= min(k, n_P-k) * log(n_c)
-       (no infinite entropy — crystal is finite)
+       (no infinite entropy -- crystal is finite)
 
     2. PAGE CORRECTIONS: S_typical < S_max by O(n_c^(2k-n_P))
        (small for k << n_P/2, significant for k ~ n_P/2)
@@ -370,7 +370,7 @@ def test_finite_corrections():
     4. DISCRETE SPECTRUM: entropy values are discrete
        (eigenvalues of finite-dim density matrices)
 
-    Corrections are O(k/n_P) — small for k << n_P, large for k ~ n_P/2.
+    Corrections are O(k/n_P) -- small for k << n_P, large for k ~ n_P/2.
     At k=1: relative correction = -1/n_P = -1/11 ~ -9%
     At k=5: relative correction = -5/11 ~ -45%
     """

@@ -407,10 +407,10 @@ print(f"  Or equivalently: |x^11 - 1| / |x - 1| evaluated appropriately")
 print()
 
 alpha_inv_exact = R(137) + R(4, 111)
-alpha_inv_meas = R(137035999206, 10**9)  # CODATA: 137.035999206(11)
+alpha_inv_meas = R(137035999206, 10**9)  # CODATA: 137.035999177(11)
 err_ppm = abs(float(alpha_inv_exact - alpha_inv_meas)) / float(alpha_inv_meas) * 1e6
 print(f"  1/alpha = 137 + 4/111 = {alpha_inv_exact} = {float(alpha_inv_exact):.9f}")
-print(f"  CODATA:  137.035999206(11)")
+print(f"  CODATA:  137.035999177(11)")
 print(f"  Error: {err_ppm:.2f} ppm")
 print()
 

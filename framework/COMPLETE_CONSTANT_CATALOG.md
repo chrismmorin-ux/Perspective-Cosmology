@@ -14,8 +14,8 @@
 | C | 2 | Complex numbers |
 | H | 4 | Quaternions |
 | O | 8 | Octonions |
-| Im(H) | 3 | Imaginary quaternions = SU(2) |
-| Im(O) | 7 | Imaginary octonions |
+| Im_H | 3 | Imaginary quaternions = SU(2) |
+| Im_O | 7 | Imaginary octonions |
 | n_d | 4 | Defect dimension = H |
 | n_c | 11 | Crystal dimension = R+C+O |
 | H+O | 12 | QCD sector |
@@ -34,7 +34,7 @@ Key evaluations:
 
 | # | Constant | Formula | Predicted | Measured | Error |
 |---|----------|---------|-----------|----------|-------|
-| 1 | m_p/m_e | (H+O)(Im(H)² + (H+O)²) + n_c/(O×Im(H)²) | 1836.15278 | 1836.15267 | **0.06 ppm** |
+| 1 | m_p/m_e | (H+O)(Im_H² + (H+O)²) + n_c/(O×Im_H²) | 1836.15278 | 1836.15267 | **0.06 ppm** |
 | 2 | 1/α | n_d² + n_c² + n_d/Φ_6(n_c) | 137.036036 | 137.035999 | **0.27 ppm** |
 
 ---
@@ -43,7 +43,7 @@ Key evaluations:
 
 | # | Constant | Formula | Predicted | Measured | Error |
 |---|----------|---------|-----------|----------|-------|
-| 3 | m_μ/m_e | Im(H)²(n_d² + Im(O)) - (C+O)/Φ_6(Im(O)) | 206.7674 | 206.7683 | **4.1 ppm** |
+| 3 | m_μ/m_e | Im_H²(n_d² + Im_O) - (C+O)/Φ_6(Im_O) | 206.7674 | 206.7683 | **4.1 ppm** |
 | 4 | Koide θ | π × 73/99 × (1 + 1/Φ_6(H+O)²) | 0.22222... | 0.22222... | **14.7 ppm** |
 | 5 | sin²θ_W | (1/4)(1 - (C+O)/Φ_6(H+O)) | 0.23120 | 0.23121 | **30 ppm** |
 
@@ -53,10 +53,10 @@ Key evaluations:
 
 | # | Constant | Formula | Predicted | Measured | Error |
 |---|----------|---------|-----------|----------|-------|
-| 6 | m_τ/m_μ | n_d² + Im(H)²/n_c | 16.818 | 16.817 | **70 ppm** |
+| 6 | m_τ/m_μ | n_d² + Im_H²/n_c | 16.818 | 16.817 | **70 ppm** |
 | 7 | sin²θ_23 | 1/2 + 1/(2×n_c) | 0.5455 | 0.546 | **100 ppm** |
-| 8 | α_s | 1/(O + (H+O)/(n_d² + Im(O) + C)) | 0.1179 | 0.1179 | **208 ppm** |
-| 9 | |V_cb| | n_d/(C×Im(O)²) = 2/49 | 0.04082 | 0.0408 | **~0** |
+| 8 | α_s | 1/(O + (H+O)/(n_d² + Im_O + C)) | 0.1179 | 0.1179 | **208 ppm** |
+| 9 | |V_cb| | n_d/(C×Im_O²) = 2/49 | 0.04082 | 0.0408 | **~0** |
 
 ---
 
@@ -64,7 +64,7 @@ Key evaluations:
 
 | # | Constant | Formula | Predicted | Measured | Error |
 |---|----------|---------|-----------|----------|-------|
-| 10 | |V_us| | (1/4)(1 - n_d/Φ_6(Im(O))) | 0.2267 | 0.2245 | **1.0%** |
+| 10 | |V_us| | (1/4)(1 - n_d/Φ_6(Im_O)) | 0.2267 | 0.2245 | **1.0%** |
 | 11 | sin²θ_12 | (1/3)(1 - 1/n_c) | 0.3030 | 0.307 | **1.3%** |
 | 12 | m_c/m_s | H+O - 2/n_c | 11.818 | 11.8 | **0.2%** |
 | 13 | m_t/m_b | n_d × n_c - 3 | 41 | 40.8 | **0.5%** |
@@ -72,8 +72,8 @@ Key evaluations:
 | 27 | **m_s/m_u** | **Φ_6(Im_O) = Φ_6(7) = 43** | **43** | 43.9 | **2.1%** |
 | 28 | **m_u/m_d** | **(n_c+O+R)/Φ_6(7) = 20/43** | **0.465** | 0.46 | **1.1%** |
 | 14 | |V_td| | 1/n_c² | 0.00826 | 0.008 | **3.3%** |
-| 15 | sin²θ_13 | 1/Φ_6(Im(O)) | 0.0233 | 0.022 | **5.7%** |
-| 16 | v (Higgs VEV) | M_Pl × α^O × √(n_d×n_c/Im(O)) | 246.14 GeV | 246.22 GeV | **0.034%** |
+| 15 | sin²θ_13 | 1/Φ_6(Im_O) | 0.0233 | 0.022 | **5.7%** |
+| 16 | v (Higgs VEV) | M_Pl × α^O × √(n_d×n_c/Im_O) | 246.14 GeV | 246.22 GeV | **0.034%** |
 
 ---
 
@@ -103,7 +103,7 @@ Key evaluations:
 ### The Hexagonal Connection
 
 **Why Φ_6?**
-- 6 = 2 × 3 = dim(C) × Im(H) = U(1) × SU(2) = **Electroweak**
+- 6 = 2 × 3 = dim(C) × Im_H = U(1) × SU(2) = **Electroweak**
 - Φ_6 encodes hexagonal symmetry of the crystallization interface
 - QCD quantities use products (G2 symmetry) instead
 

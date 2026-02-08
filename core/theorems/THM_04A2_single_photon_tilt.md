@@ -34,7 +34,7 @@ The electromagnetic coupling constant alpha (approximately 1/137) measures the p
 ### Step 1: Crystal and defect dimensions [CANONICAL]
 
 By the division algebra structure (THM_0484), prime attractor selection (AXM_0118), and Consistency-Completeness Principle (AXM_0120):
-- Crystal: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 [D: CCP (AXM_0120) + canonical imaginary decomposition, CR-010]
+- Crystal: n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 [D: CCP (AXM_0120) + canonical imaginary decomposition, CR-010]
 - Defect: n_d = 4 [D: CCP (AXM_0120) + THM_04A0 (associativity filter), THM_0482 (no zero divisors)]
 
 These are the unique values forced by CCP: maximal consistent algebraic structure requires all four division algebras R,C,H,O; the defect uses the largest associative one (H, dim 4).

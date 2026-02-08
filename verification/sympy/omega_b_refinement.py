@@ -3,7 +3,7 @@
 Omega_b Refinement: Finding a Better Baryon Density Formula
 
 PROBLEM: Current prediction Omega_b = 1/19 = 0.0526 has 6.7% error
-         Measured: Omega_b = 0.0493 ± 0.0006
+         Measured: Omega_b = 0.0493 +/- 0.0006
 
 This is the ONLY prediction with >5% error. Need refinement.
 
@@ -181,12 +181,12 @@ print("="*70)
 
 # Check the best ones for physical meaning
 best_candidates = [
-    (27, 551, "27/551 = (Im_H^3)/(19*29) — from cosmic budget"),
-    (1, 20, "1/20 = 1/(H*5) — spacetime * pentagon"),
-    (3, 61, "3/61 — needs interpretation"),
-    (2, 41, "2/41 = C/41 — needs interpretation"),
-    (5, 101, "5/101 — needs interpretation"),
-    (1, 21, "1/21 = 1/(Im_H * Im_O) — generations * color"),
+    (27, 551, "27/551 = (Im_H^3)/(19*29) -- from cosmic budget"),
+    (1, 20, "1/20 = 1/(H*5) -- spacetime * pentagon"),
+    (3, 61, "3/61 -- needs interpretation"),
+    (2, 41, "2/41 = C/41 -- needs interpretation"),
+    (5, 101, "5/101 -- needs interpretation"),
+    (1, 21, "1/21 = 1/(Im_H * Im_O) -- generations * color"),
 ]
 
 print("\nPhysically motivated candidates:\n")

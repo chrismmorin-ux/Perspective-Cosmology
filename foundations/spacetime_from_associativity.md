@@ -85,7 +85,7 @@ The octonions are **not associative**: (xy)z ≠ x(yz) for some x, y, z ∈ O.
 
 The framework proposes that spacetime IS the quaternion structure:
 - 1 time dimension (R component)
-- 3 space dimensions (Im(H) = i, j, k components)
+- 3 space dimensions (Im_H = i, j, k components)
 
 Total: 1 + 3 = **4 dimensions**
 
@@ -173,8 +173,18 @@ The framework has:
 Total dimension: 1 + 2 + 4 + 8 = 15 (or combinations)
 
 Spacetime (n_d = 4):  H
-Internal (n_c = 11):  Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+Internal (n_c = 11):  Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 ```
+
+### 5.4 Symplectic Reduction Confirmation (S278)
+
+The number of spatial dimensions receives an independent geometric confirmation via symplectic reduction on Gr(4,11;R). The G_2 = Aut(O) moment map has zero locus mu^{-1}(0) of dimension 17, with G_2 orbits of dimension 14. The Marsden-Weinstein quotient gives:
+
+```
+dim(mu^{-1}(0) / G_2) = 17 - 14 = 3 = Im_H
+```
+
+This provides a second, geometric derivation of the number of spatial dimensions, independent of the algebraic argument (Im_H = dim(H) - 1 = 3) in Parts I-V above. Both yield 3, via entirely different mathematical mechanisms: quaternion imaginary dimension vs. symplectic reduction of the perspective manifold. [THEOREM, THM_04B6]
 
 ---
 
@@ -251,10 +261,10 @@ Quaternions are connected to spinors:
 | Transition composition is associative | [A-AXIOM] AXM_0119 | AXIOM | Session 181: added as explicit axiom (G-004 resolution) |
 | Associativity → excludes O | [D] | THEOREM | O is non-associative [I-MATH]; associativity forces F ∈ {R, C, H} |
 | n_d = dim(H) = 4 | [D] from THM_0484 + THM_04A0 | THEOREM | Maximal associative division algebra |
-| H = R ⊕ Im(H) | [I-MATH] | THEOREM | Standard quaternion decomposition |
+| H = R ⊕ Im_H | [I-MATH] | THEOREM | Standard quaternion decomposition |
 | R-component = time | [A-PHYSICAL] | CONJECTURE | Motivated: R is the ordered subfield, and time is ordered. But the identification is a Layer 2 correspondence rule, not derived from axioms. |
-| Im(H) = space | [A-PHYSICAL] | CONJECTURE | Follows from R = time only by exclusion. |
-| 3+1 split (1 time + 3 space) | [D] from above | CONJECTURE | Derived IF the R = time identification holds. The split itself is [I-MATH] (dim R = 1, dim Im(H) = 3). The PHYSICAL identification is [A-PHYSICAL]. |
+| Im_H = space | [A-PHYSICAL] | CONJECTURE | Follows from R = time only by exclusion. |
+| 3+1 split (1 time + 3 space) | [D] from above | CONJECTURE | Derived IF the R = time identification holds. The split itself is [I-MATH] (dim R = 1, dim Im_H = 3). The PHYSICAL identification is [A-PHYSICAL]. |
 | Lorentz signature (−,+,+,+) | [A-IMPORT] I-STRUCT-4 | CONJECTURE | Listed in `layer_2_correspondence.md` as ESSENTIAL import from SR. The quaternion argument (i²=j²=k²=−1 suggests "negative" spatial directions) is suggestive but does NOT constitute a derivation of the metric signature. |
 | SO(1,3) Lorentz group | [A-IMPORT] | CONJECTURE | Requires both the 3+1 identification AND the signature. |
 | Spin-1/2 from unit quaternions | [I-MATH] + [A-PHYSICAL] | DERIVATION | Unit quaternions ≅ SU(2) ≅ Spin(3) is [I-MATH]. Physical identification requires [A-PHYSICAL]. |
@@ -263,7 +273,7 @@ Quaternions are connected to spinors:
 
 **What IS derived (Layer 1)**:
 - n_d = 4: This is a genuine theorem. Associativity (AXM_0119) + division algebra classification (Frobenius) → F = H → dim = 4. No physics imports needed.
-- The 1+3 algebraic decomposition: H = R ⊕ Im(H) is standard mathematics.
+- The 1+3 algebraic decomposition: H = R ⊕ Im_H is standard mathematics.
 - Exclusion of octonions from the transition algebra.
 
 **What is NOT derived (Layer 2 correspondence)**:
@@ -272,7 +282,7 @@ Quaternions are connected to spinors:
 - The Lorentz group. SO(1,3) requires both the 3+1 split and the signature — both involve Layer 2 identifications.
 
 **What the document overstates**:
-- Section 3.2 claims quaternions "naturally give" Lorentz signature. More honestly: the algebraic distinction between R and Im(H) is *consistent with* Lorentz signature but does not determine it. The claim should be [CONJECTURE].
+- Section 3.2 claims quaternions "naturally give" Lorentz signature. More honestly: the algebraic distinction between R and Im_H is *consistent with* Lorentz signature but does not determine it. The claim should be [CONJECTURE].
 - Section 6.2 claims the Lorentz group emerges. This requires the full Layer 2 identification chain, not just H.
 - Section 1.3 claims "non-associative time would mean causality breaks down." This is plausible but not proven — alternative logics or non-associative physics may be consistent. The argument motivates AXM_0119 but does not derive it.
 
@@ -284,7 +294,7 @@ The plan stated: "Best achievable: CONJECTURE" for Lorentz signature. This is co
 AXM_0119 (associativity) [AXIOM]
   + Frobenius theorem [I-MATH]
     → F = H, n_d = 4 [THEOREM]
-      + H = R ⊕ Im(H) [I-MATH]
+      + H = R ⊕ Im_H [I-MATH]
         + R = time [A-PHYSICAL, CONJECTURE]
           → 3+1 split [CONJECTURE]
             + signature [A-IMPORT]

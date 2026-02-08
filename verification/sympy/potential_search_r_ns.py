@@ -276,7 +276,7 @@ epsilon = -eta/5 = 2/895 = {float(Rational(2,895)):.6f}
 r = 16epsilon = 32/895 = {float(Rational(32,895)):.6f}
 n_s = 1 - r = 863/895 = {float(Rational(863,895)):.6f}
 
-Measured n_s = 0.9649 ± 0.0042
+Measured n_s = 0.9649 +/- 0.0042
 Difference: {abs(float(Rational(863,895)) - 0.9649)*100:.2f}%
 """)
 
@@ -289,7 +289,7 @@ epsilon = 1/450 = {float(Rational(1,450)):.6f}
 r = 16/450 = 8/225 = {float(Rational(8,225)):.6f}
 n_s = 1 - 8/225 = 217/225 = {float(Rational(217,225)):.6f}
 
-Measured n_s = 0.9649 ± 0.0042
+Measured n_s = 0.9649 +/- 0.0042
 Difference: {abs(float(Rational(217,225)) - 0.9649)*100:.2f}%
 """)
 
@@ -440,7 +440,7 @@ REMAINING QUESTIONS:
 2. Does the e-fold number N ~ 55 emerge correctly?
 3. What is V0? (Related to amplitude A_s)
 
-STATUS: MAJOR PROGRESS — potential FOUND, but derivation chain incomplete.
+STATUS: MAJOR PROGRESS -- potential FOUND, but derivation chain incomplete.
 """)
 
 if all_pass:

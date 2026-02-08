@@ -51,7 +51,7 @@ print()
 # Under SO(4) x SO(7) subset of U(11):
 #
 # M = ( A  B  )    A: 4x4 Hermitian (16 real)
-#     ( B† D  )    D: 7x7 Hermitian (49 real)
+#     ( B+ D  )    D: 7x7 Hermitian (49 real)
 #                  B: 4x7 complex (56 real)
 #
 # SO(4) ~= SU(2)_L x SU(2)_R, with 4 = (2,2)

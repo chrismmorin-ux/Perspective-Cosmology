@@ -101,7 +101,7 @@ These should be status SKETCH, not CANONICAL, until proofs are provided.
 | AXM_0117 | Notes mention gravity, forces, black holes, stars, planets |
 | AXM_0118 | Extensive physics content (Koide, Weinberg, PMNS, CKM) |
 | DEF_02A3 | "Connection to Physics" lists gravity, gauge fields, black holes |
-| DEF_02B1 | "Physical Interpretation" assigns roles to Im(C), Im(H), Im(O) |
+| DEF_02B1 | "Physical Interpretation" assigns roles to Im_C, Im_H, Im_O |
 
 Per `core/CLAUDE.md`: Layer 0 files must have NO physics concepts.
 

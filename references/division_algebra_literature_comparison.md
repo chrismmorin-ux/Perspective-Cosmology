@@ -236,7 +236,7 @@ The literature struggles with three generations:
 - **Baez**: Notes triality of Spin(8) may underlie generations
 - **Others**: S₃ family symmetry from sedenion automorphisms
 
-**Our approach**: 3 = dim(Im(H)) = quaternionic imaginary directions
+**Our approach**: 3 = dim(Im_H) = quaternionic imaginary directions
 
 This matches Furey's observation that generations appear in structures derived from H, but we provide the physical interpretation (each imaginary quaternion direction supports one generation).
 
@@ -348,7 +348,7 @@ Our novel contributions to emphasize:
 
 1. **Formalize invertibility argument** — Close the last Frobenius gap
 2. **Compare to Kosmoplex preprint** — Check if their Weinberg angle approach overlaps
-3. **Investigate Cl(8) for generations** — Furey's recent work may inform our Im(H) = 3 conjecture
+3. **Investigate Cl(8) for generations** — Furey's recent work may inform our Im_H = 3 conjecture
 4. **Read Castro on gravity** — May inform recrystallization formalization
 
 ---
@@ -361,7 +361,7 @@ Our novel contributions to emphasize:
 | Gauge groups | DERIVED | Surveyed | DERIVED | DERIVED | **DERIVED** |
 | Why div algebras? | Assumed | Assumed | Assumed | Assumed | **PARTIALLY DERIVED (S54)** |
 | Coupling constants | — | — | — | — | **sin²θ_W = 1/4 ([A-COUPLING])** |
-| Three generations | Some progress | Noted | Extended | — | **dim(Im(H)) = 3 [CONJECTURE]** |
+| Three generations | Some progress | Noted | Extended | — | **dim(Im_H) = 3 [CONJECTURE]** |
 | Dynamics | Gap | Gap | Gap | Gap | **Nucleation/recrystallization (S55)** |
 | Gravity | Not included | Not included | Not included | Unified | **= Recrystallization (S55)** |
 

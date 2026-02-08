@@ -23,7 +23,7 @@ These are the ONLY finite-dimensional division algebras over the reals (Frobeniu
 
 Define two derived quantities:
 - **n_d = 4** (dimension of H, the largest associative division algebra)
-- **n_c = 11** = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (imaginary dimensions of division algebras)
+- **n_c = 11** = Im_C + Im_H + Im_O = 1 + 3 + 7 (imaginary dimensions of division algebras)
 
 ---
 

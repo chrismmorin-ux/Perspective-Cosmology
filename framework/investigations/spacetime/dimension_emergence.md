@@ -170,7 +170,7 @@ From α = 1/(4² + 11²) = 1/137 hypothesis.
 | Claim | Assumption Type | Status |
 |-------|-----------------|--------|
 | n_perceived = 4 | [D: CCP (AXM_0120) → n_d=4] *(was [A-IMPORT]; resolved S251)* | Derived: largest associative div. algebra |
-| n_total = 11 | [D: CCP (AXM_0120) → n_c=11] *(was [A-IMPORT]; resolved S251)* | Derived: Im(C)+Im(H)+Im(O) = 1+3+7 |
+| n_total = 11 | [D: CCP (AXM_0120) → n_c=11] *(was [A-IMPORT]; resolved S251)* | Derived: Im_C+Im_H+Im_O = 1+3+7 |
 | 4 and 11 have deep origin | [SPECULATION] | Open question |
 
 ---

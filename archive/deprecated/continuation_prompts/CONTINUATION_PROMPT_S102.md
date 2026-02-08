@@ -7,7 +7,7 @@ Session 101 closed three major gaps:
 | Gap | Status | Method |
 |-----|--------|--------|
 | **ε* = α²** | DERIVED | Portal coupling (two vertices → α²) |
-| **3+1 split** | DERIVED | Quaternion structure (10 = 1 + Im(H) + C×Im(H)) |
+| **3+1 split** | DERIVED | Quaternion structure (10 = 1 + Im_H + C×Im_H) |
 | **Lagrangian** | CONSTRUCTED | L = kinetic + Mexican hat |
 
 The crystallization Lagrangian is:

@@ -345,7 +345,7 @@ print("  octonion sector, leading to confinement at long distances.")
 print()
 
 # ==============================================================================
-# SECTION 6: QUANTITATIVE TEST — CAN WE PREDICT RATIOS?
+# SECTION 6: QUANTITATIVE TEST -- CAN WE PREDICT RATIOS?
 # ==============================================================================
 
 print("=" * 72)
@@ -442,7 +442,7 @@ print()
 # = (theta_EM / theta_weak)^2 for small angles
 
 # If theta_EM/theta_weak = Im_C/Im_H = 1/3:
-# sin^2(theta_W) = 1/9 = 0.111 (measured: 0.231) — too small by 2x
+# sin^2(theta_W) = 1/9 = 0.111 (measured: 0.231) -- too small by 2x
 
 # If theta_EM/theta_weak = sqrt(alpha_EM/alpha_2):
 # This is tautological.
@@ -518,7 +518,7 @@ tests = [
 
     # Crystallization ordering = complexity ordering
     ("Commutativity: C > H > O (more algebraic constraints = easier crystallization)",
-     True),  # Structural claim — C is comm+assoc, H is non-comm+assoc, O is non-comm+non-assoc
+     True),  # Structural claim -- C is comm+assoc, H is non-comm+assoc, O is non-comm+non-assoc
 ]
 
 all_pass = True
@@ -559,6 +559,6 @@ print("5. CONJECTURE: Different sectors crystallize at different scales")
 print("   (C first, O last), matching the SO(11) breaking chain.")
 print("   Each coupling's 'natural scale' is its crystallization scale.")
 print()
-print("STATUS: [CONJECTURE] — physically compelling ordering,")
+print("STATUS: [CONJECTURE] -- physically compelling ordering,")
 print("but quantitative predictions need work. The EM case is precise;")
 print("the strong and weak cases are approximate.")

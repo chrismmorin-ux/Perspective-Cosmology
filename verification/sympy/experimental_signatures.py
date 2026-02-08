@@ -47,7 +47,7 @@ print("""
    Prediction: alpha^{-1} = n_d^2 + n_c^2 = 4^2 + 11^2 = 137
 
    Enhanced: alpha^{-1} = 137 + 4/111 = 137.036036...
-   Measured:  alpha^{-1} = 137.035999206(11)
+   Measured:  alpha^{-1} = 137.035999177(11)
 
    Error: 0.27 ppm (SUB-PPM MATCH!)
 

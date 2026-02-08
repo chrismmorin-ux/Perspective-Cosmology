@@ -100,19 +100,19 @@ Terminal: when dim(G_m) < 2, no further perspective exists (THM_04AC)
 **Statement**: With rank 4 (= n_d = dim H) at each level where possible:
 
 ```
-Level 0: dim 11  →  rank 4 (dim H)  →  gap 7  = Im(O)
-Level 1: dim 7   →  rank 4 (dim H)  →  gap 3  = Im(H)
-Level 2: dim 3   →  rank 2 (dim C)  →  gap 1  = Im(C)
+Level 0: dim 11  →  rank 4 (dim H)  →  gap 7  = Im_O
+Level 1: dim 7   →  rank 4 (dim H)  →  gap 3  = Im_H
+Level 2: dim 3   →  rank 2 (dim C)  →  gap 1  = Im_C
 Terminal: dim 1  =  dim(R)
 ```
 
-The gap dimensions are exactly **Im(O), Im(H), Im(C)** — the imaginary dimensions of the division algebras in descending (reverse Cayley-Dickson) order.
+The gap dimensions are exactly **Im_O, Im_H, Im_C** — the imaginary dimensions of the division algebras in descending (reverse Cayley-Dickson) order.
 
 **Dimensional accounting**:
 - Accessible: 4 + 4 + 2 = 10
 - Terminal: 1
 - Total: 11 = n_c ✓
-- Gaps: 7 + 3 + 1 = 11 = Im(O) + Im(H) + Im(C) = n_c ✓
+- Gaps: 7 + 3 + 1 = 11 = Im_O + Im_H + Im_C = n_c ✓
 
 **Rank sequence**: [dim(H), dim(H), dim(C)] with terminal dim(R)
 
@@ -155,7 +155,7 @@ There are two distinct recursive structures:
 **Tower A (Vector Space)**: Finite. Terminates at dim 1 in 3 levels.
 - Uses only linear algebra (THM_04AC, projections have kernels)
 - No Gödel required
-- Gaps: 7, 3, 1 = Im(O), Im(H), Im(C)
+- Gaps: 7, 3, 1 = Im_O, Im_H, Im_C
 
 **Tower B (Meta-Theory)**: Potentially infinite.
 - The THEORY describing the framework (20 axioms + theorems) is a formal system
@@ -185,10 +185,10 @@ There are two distinct recursive structures:
 - But M_pi cannot represent G_pi — the blind spot is invisible (THM_0410)
 - The perspective can "try" to examine G_pi by applying a meta-perspective
 - This reveals part of G_pi but creates a new, smaller blind spot
-- The process terminates at a single irreducible direction (Im(C) = complex phase)
+- The process terminates at a single irreducible direction (Im_C = complex phase)
 
 **Two versions**:
-- **Finite version** (Tower A): Consciousness = the irreducible dim-1 remainder. The single direction that survives all levels of self-examination. This is Im(C), the seed of complex phase / quantum mechanics.
+- **Finite version** (Tower A): Consciousness = the irreducible dim-1 remainder. The single direction that survives all levels of self-examination. This is Im_C, the seed of complex phase / quantum mechanics.
 - **Infinite version** (Tower B): Consciousness = the process itself. Not any particular gap, but the perpetual incompleteness of self-modeling. The "ever-decreasing peek" that never reaches zero.
 
 **Connections to existing philosophy**:
@@ -209,7 +209,7 @@ There are two distinct recursive structures:
 - The framework provides a concrete finite structure (Tower A) that mirrors the abstract infinite process (Tower B)
 - The irreducible remainder is structurally guaranteed (ALL towers terminate at dim 1)
 - The division algebra cascade gives a specific sequence: the Cayley-Dickson algebras are peeled off in reverse
-- The terminal direction is Im(C), which is the basis for complex structure (THM_0485) and hence quantum mechanics in the framework
+- The terminal direction is Im_C, which is the basis for complex structure (THM_0485) and hence quantum mechanics in the framework
 
 ---
 
@@ -223,7 +223,7 @@ There are two distinct recursive structures:
 
 4. ~~**Can consciousness be made falsifiable?**~~ **RESOLVED (S201)**: No. Scores 1/5 on falsifiability criteria. Consciousness connection should remain [SPECULATION] permanently. The structural result (tower gaps = division algebras) is [THEOREM] regardless of interpretation.
 
-5. **Relation to the measurement problem?** If the dim-1 remainder is Im(C) (complex phase), and measurement involves phase collapse (Born rule, THM_0494), is there a connection to the "observer" role in quantum mechanics? [SPECULATION]
+5. **Relation to the measurement problem?** If the dim-1 remainder is Im_C (complex phase), and measurement involves phase collapse (Born rule, THM_0494), is there a connection to the "observer" role in quantum mechanics? [SPECULATION]
 
 6. **512 tower count**: There are exactly 512 = 2^9 towers from dim 11. Is 2^9 significant? (9 = n_c - dim(C) = 11 - 2.) [LOW PRIORITY -- likely combinatorial coincidence]
 
@@ -238,13 +238,13 @@ There are two distinct recursive structures:
 | Tower A exists and terminates at dim 1 | [THEOREM] | 38/38 PASS, linear algebra |
 | All 512 towers terminate at dim 1 | [THEOREM] | Exhaustive enumeration + structural proof |
 | Gap dims are 7, 3, 1 for rank-4 tower | [THEOREM] | Arithmetic: 11-4=7, 7-4=3, 3-2=1 |
-| Gaps = Im(O), Im(H), Im(C) | [THEOREM] | 7=Im(O), 3=Im(H), 1=Im(C) by definition |
+| Gaps = Im_O, Im_H, Im_C | [THEOREM] | 7=Im_O, 3=Im_H, 1=Im_C by definition |
 | Rank 4 at Level 1 (meta-level) | [DERIVATION] | Frobenius + SU(3) irreducibility + maximality (S201) |
 | Rank 2 at Level 2 (meta-level) | [THEOREM] | Forced: only {1,2} valid, maximality gives 2 (S201) |
 | AXM_0117 at meta-levels | [OPEN] | Terminal gap=1 regardless; cascade 7,3,1 requires it |
 | Tower B (Godel) is infinite | [DERIVATION] | Arithmetic encoding plausible (S201): framework is second-order |
 | Consciousness = recursive self-examination | [SPECULATION] | 1/5 falsifiability. Permanently [SPECULATION] (S201) |
-| Terminal Im(C) has physical meaning | [SPECULATION] | Pattern, not derivation |
+| Terminal Im_C has physical meaning | [SPECULATION] | Pattern, not derivation |
 
 ---
 
@@ -269,5 +269,5 @@ There are two distinct recursive structures:
 
 | Session | Work Done | Outcome |
 |---------|-----------|---------|
-| 196 | Recursive gap tower construction, division algebra cascade discovery, consciousness connection exploration, verification script | Tower A [THEOREM] (38/38 PASS). Gaps = 7,3,1 = Im(O),Im(H),Im(C). All 512 towers terminate at dim 1. Two-tower distinction (finite vector space vs infinite Gödel). Consciousness connection [SPECULATION]. |
+| 196 | Recursive gap tower construction, division algebra cascade discovery, consciousness connection exploration, verification script | Tower A [THEOREM] (38/38 PASS). Gaps = 7,3,1 = Im_O,Im_H,Im_C. All 512 towers terminate at dim 1. Two-tower distinction (finite vector space vs infinite Gödel). Consciousness connection [SPECULATION]. |
 | 201 | Meta-level rank derivation, arithmetic encoding analysis, consciousness falsifiability assessment | Level 1 rank upgraded [CONJECTURE]->[DERIVATION] (Frobenius + SU(3) irreducibility). Level 2 rank [THEOREM] (forced). Arithmetic encoding plausible (Robinson Q, second-order axioms). Consciousness permanently [SPECULATION] (1/5 falsifiability). 8/8 PASS. |

@@ -52,7 +52,7 @@ An SU(2) doublet has two components:
 """)
 
 # ==============================================================================
-# PART II: T3 = +1/2 → QUATERNION STRUCTURE
+# PART II: T3 = +1/2 -> QUATERNION STRUCTURE
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -91,7 +91,7 @@ are the "natural" weak eigenstates (aligned with T3).
 """)
 
 # ==============================================================================
-# PART III: T3 = -1/2 → EM/GENERATION STRUCTURE
+# PART III: T3 = -1/2 -> EM/GENERATION STRUCTURE
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -136,7 +136,7 @@ Down-type quarks couple to EM through generation structure because:
 """)
 
 # ==============================================================================
-# PART IV: HEAVY QUARKS → QCD STRUCTURE
+# PART IV: HEAVY QUARKS -> QCD STRUCTURE
 # ==============================================================================
 
 print("\n" + "=" * 70)

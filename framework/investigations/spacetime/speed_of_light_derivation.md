@@ -51,9 +51,9 @@ The transition algebra is a finite-dimensional associative division algebra (THM
 
 The quaternion inner product `<q1, q2> = Re(q1* q2)` is isotropic: `|1|^2 = |i|^2 = |j|^2 = |k|^2 = 1`. The metric on H inherited from V_Crystal is `g_H = diag(1, 1, 1, 1)`.
 
-### Step 3: H = R + Im(H) = 1 time + 3 space [D: algebraic]
+### Step 3: H = R + Im_H = 1 time + 3 space [D: algebraic]
 
-The quaternion algebra distinguishes R from Im(H) by the sign of the square: `1^2 = +1` while `i^2 = j^2 = k^2 = -1`. This is algebraic structure, not an assumption. It gives 1 + 3 = 4 dimensions.
+The quaternion algebra distinguishes R from Im_H by the sign of the square: `1^2 = +1` while `i^2 = j^2 = k^2 = -1`. This is algebraic structure, not an assumption. It gives 1 + 3 = 4 dimensions.
 
 ### Step 4: Crystallization gradient identifies R with time [A-PHYSICAL]
 
@@ -133,15 +133,15 @@ The order parameter magnitude eps itself relaxes diffusively, without a finite p
 
 ## 3D Observation and Huygens' Principle
 
-The observer's 3 spatial dimensions come from Im(H) = 3. This gives a bonus result: **Huygens' principle holds in 3 spatial dimensions**.
+The observer's 3 spatial dimensions come from Im_H = 3. This gives a bonus result: **Huygens' principle holds in 3 spatial dimensions**.
 
-Huygens' principle (sharp propagation only on the light cone, no afterglow) holds if and only if the number of spatial dimensions is odd and >= 3. Since Im(H) = 3 is odd, signals propagate as sharp wavefronts at exactly ct.
+Huygens' principle (sharp propagation only on the light cone, no afterglow) holds if and only if the number of spatial dimensions is odd and >= 3. Since Im_H = 3 is odd, signals propagate as sharp wavefronts at exactly ct.
 
 | d_space | Source | Huygens? | Signal character |
 |---------|--------|----------|-----------------|
-| 1 | Im(C) | No | Signal + tail |
-| 3 | Im(H) | **Yes** | Sharp wavefront |
-| 7 | Im(O) | Yes | Sharp wavefront |
+| 1 | Im_C | No | Signal + tail |
+| 3 | Im_H | **Yes** | Sharp wavefront |
+| 7 | Im_O | Yes | Sharp wavefront |
 
 This means c is a CLEAN causal boundary in our 3+1 spacetime — a flash at the origin arrives at exactly t = r/c, not smeared out over time.
 

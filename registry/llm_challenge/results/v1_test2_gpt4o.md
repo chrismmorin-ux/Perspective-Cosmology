@@ -143,7 +143,7 @@ the imaginary directions correspond to independent "tilt axes".
 
 Therefore:
 
-n_d = dim(Im(H)) = 3
+n_d = dim(Im_H) = 3
 
 Any attempt to increase beyond 3 imaginary dimensions forces octonions (dimension 8), which are non-associative and violate T0.
 
@@ -246,7 +246,7 @@ Just say the word.
 **Key theorems cited**: Frobenius Theorem (1878)
 
 **Errors or gaps**:
-1. **n_d interpretation**: GPT-4o took n_d = dim(Im(H)) = 3, arguing the real direction is the scalar identity and only imaginary directions are "tilt axes." The framework intends n_d = dim(H) = 4 (the full division algebra dimension). This is an ambiguity in the prompt -- "accessible dimension" could reasonably mean either.
+1. **n_d interpretation**: GPT-4o took n_d = dim(Im_H) = 3, arguing the real direction is the scalar identity and only imaginary directions are "tilt axes." The framework intends n_d = dim(H) = 4 (the full division algebra dimension). This is an ambiguity in the prompt -- "accessible dimension" could reasonably mean either.
 2. **n_c scope**: GPT-4o summed imaginary dimensions of associative algebras only (R, C, H -> 0+1+3 = 4), excluding O because O is non-associative. The framework intends all normed division algebras (including O -> 0+1+3+7 = 11). Again, defensible -- why would a non-associative algebra contribute to "hidden" structure if associativity is required?
 3. **Attempted to eliminate R and C**: Made an additional argument (not in the axioms) that R fails P4 and C is "insufficient" for multiple perspectives. This wasn't necessary and isn't clearly correct, but didn't affect the final n_d since it still picked H as maximal.
 

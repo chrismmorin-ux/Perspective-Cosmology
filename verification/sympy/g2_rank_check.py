@@ -2,7 +2,7 @@
 """
 G_2 dimension via constraint matrix rank.
 
-SUPERSEDED by g2_final.py — this script uses incorrect Fano plane
+SUPERSEDED by g2_final.py -- this script uses incorrect Fano plane
 orientation (same as g2_irreducibility_v2.py) giving dim(g_2) = 6.
 See g2_final.py for the corrected version.
 

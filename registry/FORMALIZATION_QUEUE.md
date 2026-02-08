@@ -65,9 +65,32 @@ Scripts 1-3 form a coherent chain (potential → slow-roll → n_s). Script 4 lo
 
 **Status**: DEFERRED (next CMB/cosmology session)
 
+### Glueball mass gap conjecture: m_0++ = n_d * sqrt(sigma)
+
+**Added**: Session S268, 2026-02-07
+**Type**: finding
+**Target**: `framework/investigations/gauge/yang_mills_mass_gap.md` (already created), potentially promote to catalog entry
+**Priority**: LOW
+
+**What**: The lightest 0++ glueball mass (= Yang-Mills mass gap) satisfies m_0++/sqrt(sigma) ~ n_d = 4. Prediction: 1766 MeV vs lattice 1730 +/- 80 MeV (2.1%, within uncertainty). HRS = 5.
+
+**Why/How** (reasoning sketch):
+The glueball is a color-singlet excitation of the confined (crystallized O-channel) vacuum. It lives in n_d = 4 spacetime dimensions. The conjecture m_0++ = n_d * sqrt(sigma) says the mass gap equals spacetime dimension times the confinement scale. S274 structural derivation: base mass = n_d = 2 * dim_C (transverse DOF of 2 gluons). Excitation costs {3/2, 2, 3} identified as {J(J+1)/n_d, dim_C*L, Im_H*(n_g-2)}. The spin cost has a uniqueness theorem: holds only for n_d=4. Two new predictions (1-+, 2-+) match lattice. HRS reduced from 6 to 4. Verified in glueball_structural_derivation.py (39/39 PASS).
+
+**Status**: DEFERRED (S277 exotic cost DERIVED, HRS 4->2. All 3 excitation costs now [DERIVATION]. Promote to catalog when 1-+ lattice confirms at <2% precision. Base mass m_0++ = n_d * sqrt(sigma) remains [CONJECTURE].)
+
 ---
 
 ## Completed / Discarded
+
+### Pi-power sum theorems: promote to core theorem — DONE (S270, 2026-02-07)
+THM_04B5 created. MPT Group II updated with pi-power sums paragraph. 58/58 PASS.
+
+### Triple identity n_d^2 = 2^n_d and alpha connection — DONE (S270, 2026-02-07)
+ALPHA_DERIVATION_MASTER.md Section 2 updated with pi-power decomposition paragraph.
+
+### CCP truncation necessity argument — DONE (S270, 2026-02-07)
+AXM_0120 updated with "Pi-Power Truncation Consistency Check" section.
 
 ### F = C audit: restructure 17 so F = C is from time only — DONE (2026-01-30)
 Restructured `core/17_complex_structure.md`: Part I is sole justification for F = C; §2.4 and Thm 17.3 now state "given F = C, generator count = 137" and point to alpha chain Step 5 for 1/α identification.

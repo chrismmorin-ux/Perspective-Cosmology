@@ -121,7 +121,7 @@ for name, data in run2_mu.items():
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 2: MCHM4 vs MCHM5 — Resolved by Spinorial Embedding")
+print("PART 2: MCHM4 vs MCHM5 -- Resolved by Spinorial Embedding")
 print("=" * 70)
 
 kf_MCHM4 = kappa_V_f
@@ -213,7 +213,7 @@ It cannot be tested at Run 3 but becomes accessible at HL-LHC and decisive at FC
 # ==============================================================================
 
 print("=" * 70)
-print("PART 4: Global Fit — Framework vs SM vs Free-kappa")
+print("PART 4: Global Fit -- Framework vs SM vs Free-kappa")
 print("=" * 70)
 
 # Compute chi^2 for framework (all kappa = sqrt(117/121))
@@ -243,7 +243,7 @@ print(f"""
 INTERPRETATION:
   With current data, SM and framework fits are INDISTINGUISHABLE.
   This is EXPECTED: the 1.67% deviation is below measurement precision.
-  The framework is NOT being confirmed — it's simply not yet testable
+  The framework is NOT being confirmed -- it's simply not yet testable
   in coupling measurements.
 
   The framework will start to be testable when:
@@ -284,9 +284,9 @@ FRAMEWORK PREDICTIONS FOR FULL RUN 3 (~300 fb^-1 per experiment):
    Run 3 di-Higgs: only upper limit expected (~3-5x SM)
    -> Not testable at Run 3
 
-5. Rare decays (H -> Zγ, H -> μμ):
+5. Rare decays (H -> Zgamma, H -> mumu):
    All modified by same factor {mu_universal:.4f}
-   Current: H -> Zγ at 2.2 +/- 0.7 (tentative excess)
+   Current: H -> Zgamma at 2.2 +/- 0.7 (tentative excess)
    Framework: mu_Zgamma = {mu_universal:.4f}
    -> Framework predicts this excess goes DOWN with more data
 """)

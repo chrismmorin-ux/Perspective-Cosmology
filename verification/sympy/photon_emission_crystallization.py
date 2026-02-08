@@ -11,7 +11,7 @@ we ask "what is the probability that a generic crystallization step routes throu
 the EM channel?"
 
 Formula: alpha = 1 / (N_I + n_d/Phi_6(n_c)) = 1 / (137 + 4/111)
-Measured: alpha = 1/137.035999206 (CODATA 2022)
+Measured: alpha = 1/137.035999177 (CODATA 2022)
 Error: 0.27 ppm
 
 Depends on:
@@ -114,7 +114,7 @@ print(f"1/alpha = {N_I} + {n_d}/{Phi6} = {inv_alpha} = {float(inv_alpha):.10f}")
 print(f"alpha = {alpha_full} = {float(alpha_full):.12f}")
 
 # Measured value
-alpha_measured_inv = Rational(137035999206, 10**9)  # 1/alpha from CODATA
+alpha_measured_inv = Rational(137035999177, 10**9)  # 1/alpha from CODATA
 print(f"\nMeasured 1/alpha = {float(alpha_measured_inv):.9f}")
 print(f"Framework 1/alpha = {float(inv_alpha):.9f}")
 error_ppm = abs(float(inv_alpha - alpha_measured_inv) / float(alpha_measured_inv)) * 1e6

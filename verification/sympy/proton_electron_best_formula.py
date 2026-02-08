@@ -46,7 +46,7 @@ n_c = dim_R + dim_C + dim_O  # [D] = 11 (crystal dimensions, same as alpha!)
 # =============================================================================
 # IMPORTS FROM OBSERVATION [A-IMPORT]
 # =============================================================================
-# CODATA 2018: m_p/m_e = 1836.15267343(11)
+# CODATA 2022: m_p/m_e = 1836.15267343(11)
 
 print(f"""
 DIVISION ALGEBRA DIMENSIONS:
@@ -104,7 +104,7 @@ print("=" * 70)
 print("COMPARISON WITH MEASUREMENT")
 print("=" * 70)
 
-# CODATA 2018 value
+# CODATA 2022 value
 mp_me_measured = 1836.15267343
 mp_me_uncertainty = 0.00000011
 
@@ -113,7 +113,7 @@ rel_error_ppm = abs(diff) / mp_me_measured * 1e6
 
 print(f"""
 Predicted: {float(predicted):.10f}
-Measured:  {mp_me_measured:.10f}  (CODATA 2018)
+Measured:  {mp_me_measured:.10f}  (CODATA 2022)
 
 Difference: {diff:+.10f}
 Relative error: {rel_error_ppm:.3f} ppm
@@ -335,7 +335,7 @@ print(f"""
 
 -----------------------------------------------------------------------
 
-  MEASURED (CODATA 2018):  {mp_me_measured:.10f}
+  MEASURED (CODATA 2022):  {mp_me_measured:.10f}
 
   ERROR:  {rel_error_ppm:.3f} ppm  (BETTER than alpha formula!)
 

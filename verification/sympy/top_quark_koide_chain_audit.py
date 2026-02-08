@@ -479,7 +479,7 @@ print(f"""
 
   QUARK HIERARCHY (6 masses from m_t):
     Top 145 ppm, bottom 2.4%, charm 1.1%, strange 5.7%
-    All ratios are [CONJECTURE] — discovered post-hoc
+    All ratios are [CONJECTURE] -- discovered post-hoc
 
   QUARK KOIDE (8 parameters):
     A^2: 4 values, 0.004-0.52% accuracy
@@ -488,7 +488,7 @@ print(f"""
 
   THREE-PRIME STRUCTURE:
     37, 53, 97 form algebraic family (gaps H^2, n_d*n_c)
-    Same primes in gauge couplings — suggestive but not derived
+    Same primes in gauge couplings -- suggestive but not derived
 
   HONEST ASSESSMENT:
 
@@ -496,7 +496,7 @@ print(f"""
     - y_t = 120/121 is clean, uses only n_c, 145 ppm accuracy
     - Lepton A^2 = 2 is genuinely DERIVED (algebraically forced)
     - Three-prime structure unifies couplings with masses
-    - 8 quark Koide parameters all sub-percent — collective significance
+    - 8 quark Koide parameters all sub-percent -- collective significance
 
     WEAKNESSES:
     - 10+ independent conjectures in full chain

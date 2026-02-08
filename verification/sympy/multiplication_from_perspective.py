@@ -6,7 +6,7 @@ dimension e_p, then COMBINING perspectives might give PRODUCTS.
 
 The common sense reading:
 - "Seeing dimension p" = accessing factor p
-- "Seeing dimensions p and q" = accessing factors p and q = p×q (if coprime)
+- "Seeing dimensions p and q" = accessing factors p and q = p*q (if coprime)
 - Iterating = powers
 
 Author: Claude (investigation)

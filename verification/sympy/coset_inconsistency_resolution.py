@@ -225,7 +225,7 @@ IN THE Gr(4,11) PICTURE (CORRECT):
   ALL 28 modes are Goldstone modes (flat potential).
   The potential V(eps) depends on the MAGNITUDE of the order parameter,
   which is OUTSIDE the coset. Within the coset, all directions are
-  equivalent — there is NO radial/angular distinction.
+  equivalent -- there is NO radial/angular distinction.
 
   The crystallization "direction" on Gr(4,11) is not a single radial
   mode but involves the 4 principal angles of the Grassmannian.

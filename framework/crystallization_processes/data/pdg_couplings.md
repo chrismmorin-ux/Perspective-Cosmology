@@ -48,7 +48,7 @@ All measured values are [A-IMPORT]. Framework predictions noted where they exist
 | J (Jarlskog) | 3.08(+13/-12) x 10^-5 | Not derived | Gap |
 | delta_CKM | 65.5(+2.6/-2.5) deg | Not derived | Gap |
 
-**Framework note**: CKM structure should emerge from Im(H) = 3 generation mixing through H-channel. Currently all elements are [CONJECTURE] — this is a major gap.
+**Framework note**: CKM structure should emerge from Im_H = 3 generation mixing through H-channel. Currently all elements are [CONJECTURE] — this is a major gap.
 
 ## PMNS Matrix (Neutrino Mixing)
 

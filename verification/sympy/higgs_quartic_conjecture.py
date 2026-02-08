@@ -21,7 +21,7 @@ Interpretation (pNGB composite Higgs):
 
 Status: CONJECTURE (HRS=3, emerged from search of ~20 formulas)
 Falsifiable: m_H measurement within +/- 0.12 GeV
-Look-elsewhere: ~20 formulas tested, best selected — adjust p-value
+Look-elsewhere: ~20 formulas tested, best selected -- adjust p-value
 
 Depends on:
 - [D] n_c = 11, n_d = 4 from division algebras
@@ -179,7 +179,7 @@ PHYSICAL MOTIVATION:
 WHAT WOULD FALSIFY THIS:
   1. If m_H measurement shifts to > 125.4 GeV or < 125.0 GeV (>2 sigma)
   2. If colored pNGBs at ~150 GeV are ruled out by LHC
-     (crude estimate — actual mass may be higher with additional contributions)
+     (crude estimate -- actual mass may be higher with additional contributions)
   3. If the top Yukawa cannot be derived from the framework to be y_t ~ 1
 
 WHAT WOULD STRENGTHEN THIS:
@@ -210,7 +210,7 @@ Physical interpretation (speculative):
 
 The Higgs quartic is the fraction of ungauged modes
 divided by the octonionic crystal normalization.
-This is [SPECULATION] — no derivation exists.
+This is [SPECULATION] -- no derivation exists.
 """)
 
 # ==============================================================================

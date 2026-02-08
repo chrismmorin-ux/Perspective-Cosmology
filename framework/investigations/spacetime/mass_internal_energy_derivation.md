@@ -10,13 +10,13 @@
 
 Why do some particles have mass and others don't? In this framework, the answer comes from how energy distributes across the 11 dimensions of the Crystal.
 
-The Crystal has 11 dimensions, but an observer only experiences 4 of them (1 time + 3 space, corresponding to the quaternion algebra H). The remaining 7 dimensions (corresponding to Im(O), the imaginary octonions) are "internal" -- the observer can't move through them, but energy can live there.
+The Crystal has 11 dimensions, but an observer only experiences 4 of them (1 time + 3 space, corresponding to the quaternion algebra H). The remaining 7 dimensions (corresponding to Im_O, the imaginary octonions) are "internal" -- the observer can't move through them, but energy can live there.
 
 A photon is a ripple that propagates entirely within the observer's 4 spacetime dimensions. It has no energy stored in the internal dimensions, so it has no rest mass, and it travels at the maximum speed c. An electron, by contrast, has energy locked in the internal dimensions. That internal energy is what we call "rest mass." Because some of the electron's total energy budget is tied up internally, less is available for spatial propagation, so it always moves slower than c.
 
 The relativistic energy relation E^2 = p^2c^2 + m^2c^4 becomes a Pythagorean decomposition: p^2c^2 is the spacetime piece (energy of propagation through the 4 observable dimensions) and m^2c^4 is the internal piece (energy stored in the 7 hidden dimensions). The two add in quadrature because the spacetime and internal subspaces are orthogonal within the Crystal.
 
-**One-sentence version**: Rest mass is crystallization energy stored in the Im(O) = 7 internal dimensions that the observer cannot access as spatial motion.
+**One-sentence version**: Rest mass is crystallization energy stored in the Im_O = 7 internal dimensions that the observer cannot access as spatial motion.
 
 ---
 
@@ -35,7 +35,7 @@ Can the origin of rest mass be understood as energy stored in the Crystal's inte
 | Massive = energy in BOTH sectors | [DERIVATION] | Dispersion relation decomposition |
 | E^2 = p^2c^2 + m^2c^4 as Pythagorean split | [DERIVATION] | Orthogonality of subspaces |
 | Why v < c for massive particles | [DERIVATION] | Internal energy reduces propagation speed |
-| Weinberg angle spacetime/internal decomposition | [DERIVATION] | 28 = 21 + 7 = Im(H)*Im(O) + Im(O) |
+| Weinberg angle spacetime/internal decomposition | [DERIVATION] | 28 = 21 + 7 = Im_H*Im_O + Im_O |
 
 ---
 
@@ -43,7 +43,7 @@ Can the origin of rest mass be understood as energy stored in the Crystal's inte
 
 ### Step 1: Crystal is 11D with SO(11) symmetry [THEOREM: THM_0484]
 
-The Crystal has dimension n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11. Its symmetry group before crystallization is SO(11) (from the inner product structure on V_Crystal).
+The Crystal has dimension n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11. Its symmetry group before crystallization is SO(11) (from the inner product structure on V_Crystal).
 
 ### Step 2: SO(11) -> SO(4) x SO(7) [DERIVATION: THM_0487]
 
@@ -51,14 +51,14 @@ Crystallization breaks SO(11) -> SO(n_d) x SO(n_c - n_d) = SO(4) x SO(7). This i
 
 ### Step 3: Defect space = H = spacetime [THEOREM + A-PHYSICAL]
 
-The transition algebra is a division algebra (THM_0484). Frobenius theorem [I-MATH] restricts to {R, C, H}. F = C (THM_0485) gives defect space T = H with dim = 4. The quaternion structure gives 1 + 3 = Re(H) + Im(H) = time + space [A-PHYSICAL: gradient flow = time direction, from AXM_0117].
+The transition algebra is a division algebra (THM_0484). Frobenius theorem [I-MATH] restricts to {R, C, H}. F = C (THM_0485) gives defect space T = H with dim = 4. The quaternion structure gives 1 + 3 = Re(H) + Im_H = time + space [A-PHYSICAL: gradient flow = time direction, from AXM_0117].
 
 ### Step 4: 11 = 4 (spacetime) + 7 (internal) partition [THEOREM]
 
 This is a direct consequence of Steps 1-3:
 - n_d = dim(H) = 4 (spacetime dimensions accessible to observer)
-- n_c - n_d = Im(O) = 7 (internal dimensions not accessible as spatial motion)
-- n_c = n_d + Im(O) = 4 + 7 = 11 (complete Crystal)
+- n_c - n_d = Im_O = 7 (internal dimensions not accessible as spatial motion)
+- n_c = n_d + Im_O = 4 + 7 = 11 (complete Crystal)
 
 ### Step 5: Goldstone modes propagate at c = 1 in spacetime [DERIVATION: S183]
 
@@ -115,27 +115,27 @@ The particle is "slower" because some of its energy budget is committed to the i
 The hierarchy relation v/M_Pl = alpha^8 * sqrt(44/7) contains:
 
 ```
-44/7 = n_d * n_c / Im(O) = n_d / (Im(O)/n_c) = n_d / hidden_fraction
+44/7 = n_d * n_c / Im_O = n_d / (Im_O/n_c) = n_d / hidden_fraction
 ```
 
 This is the ratio of the defect dimension to the probability of being in the hidden sector. It encodes the spacetime-internal projection: 44/7 = 4 / (7/11).
 
-The spatial-only version is 33/7 = Im(H) * n_c / Im(O), and 44/7 vs 33/7 differ by exactly one time dimension (ratio 4/3 = n_d/Im(H)).
+The spatial-only version is 33/7 = Im_H * n_c / Im_O, and 44/7 vs 33/7 differ by exactly one time dimension (ratio 4/3 = n_d/Im_H).
 
 **Gap G-NEW-3**: The hierarchy relation v/M_Pl = alpha^8 * sqrt(44/7) itself is [CONJECTURE]. This step only shows that IF the hierarchy formula holds, THEN 44/7 has a projection interpretation.
 
 ### Step 12: Weinberg angle 28/121 decomposes into spacetime + internal [DERIVATION]
 
-The Weinberg angle sin^2(theta_W) = n_d * Im(O) / n_c^2 = 28/121 decomposes:
+The Weinberg angle sin^2(theta_W) = n_d * Im_O / n_c^2 = 28/121 decomposes:
 
 ```
-28 = n_d * Im(O)     = (1 + Im(H)) * Im(O)  = Im(O) + Im(H)*Im(O)
+28 = n_d * Im_O     = (1 + Im_H) * Im_O  = Im_O + Im_H*Im_O
    = 7 + 21           = temporal + spatial contribution
 ```
 
-- 21/121 = Im(H) * Im(O) / n_c^2: spatial-only mixing (3 spatial dims coupling to 7 internal)
-- 7/121 = Im(O) / n_c^2: temporal contribution (time direction coupling to internal)
-- Difference: 28 - 21 = 7 = Im(O)
+- 21/121 = Im_H * Im_O / n_c^2: spatial-only mixing (3 spatial dims coupling to 7 internal)
+- 7/121 = Im_O / n_c^2: temporal contribution (time direction coupling to internal)
+- Difference: 28 - 21 = 7 = Im_O
 
 This means the Weinberg angle measures the fraction of Crystal dimensions that mix spacetime with internal degrees of freedom.
 
@@ -147,7 +147,7 @@ This means the Weinberg angle measures the fraction of Crystal dimensions that m
 
 | Property | Spacetime Energy (SO(4)) | Internal Energy (SO(7)) |
 |----------|--------------------------|------------------------|
-| Dimensions | n_d = 4 (1 time + 3 space) | Im(O) = 7 |
+| Dimensions | n_d = 4 (1 time + 3 space) | Im_O = 7 |
 | Physical meaning | Propagation, momentum | Rest mass, gauge charge |
 | Massless particle | 100% here | 0% here |
 | Massive at rest | 0% here | 100% here |
@@ -190,7 +190,7 @@ All imports are standard mathematics or established physics results.
 
 ## Falsification Criteria
 
-1. **If the 4+7 partition is wrong**: If n_d != 4 or Im(O) != 7 (requires Frobenius or F=C to fail).
+1. **If the 4+7 partition is wrong**: If n_d != 4 or Im_O != 7 (requires Frobenius or F=C to fail).
 
 2. **If massless particles have internal components**: Would break the identification massless = spacetime-only. Could be tested if photons showed any coupling to internal dimensions (e.g., anomalous dispersion in vacuum).
 

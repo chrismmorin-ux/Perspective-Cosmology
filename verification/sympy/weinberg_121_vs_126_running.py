@@ -214,7 +214,7 @@ print(f"  mu(28/121) / mu(29/126) = {mu_121/mu_126:.4f}")
 # ==============================================================================
 
 print("\n" + "=" * 72)
-print("PART D: DIRECTION ANALYSIS — RUNNING UP vs DOWN")
+print("PART D: DIRECTION ANALYSIS -- RUNNING UP vs DOWN")
 print("=" * 72)
 
 sw2_at_comp = sw2_at_scales[Lambda_comp]
@@ -224,7 +224,7 @@ print(f"  sin^2(theta_W)(28/121):              {target_121:.6f}")
 print(f"  sin^2(theta_W)(29/126):              {target_126:.6f}")
 
 print(f"\n  DIRECTION: sin^2 INCREASES going up in energy (toward GUT value 3/8 = 0.375)")
-print(f"  At Lambda = 405 TeV: sin^2 = {sw2_at_comp:.4f} — FAR from both framework values")
+print(f"  At Lambda = 405 TeV: sin^2 = {sw2_at_comp:.4f} -- FAR from both framework values")
 print(f"  Both 28/121 and 29/126 are LOW-ENERGY values near M_Z")
 
 is_29_126_below_MZ = mu_126 < M_Z_val
@@ -233,7 +233,7 @@ print(f"\n  29/126 = 0.2302 < 0.2312 (measured) => scale BELOW M_Z: {is_29_126_b
 print(f"  28/121 = 0.2314 > 0.2312 (measured) => scale ABOVE M_Z: {is_28_121_above_MZ}")
 
 # ==============================================================================
-# PART E: REVERSE TEST — STARTING FROM FRAMEWORK VALUES AT 405 TEV
+# PART E: REVERSE TEST -- STARTING FROM FRAMEWORK VALUES AT 405 TEV
 # ==============================================================================
 
 print("\n" + "=" * 72)
@@ -345,11 +345,11 @@ mu_cos = find_scale(float(sw2_from_cos))
 print(f"\n  1-(171/194)^2 matches sin^2(theta_W) at mu = {mu_cos:.2f} GeV")
 
 # ==============================================================================
-# PART H: KEY FINDING — MEASURED VALUE BETWEEN THE TWO FORMULAS
+# PART H: KEY FINDING -- MEASURED VALUE BETWEEN THE TWO FORMULAS
 # ==============================================================================
 
 print("\n" + "=" * 72)
-print("PART H: KEY FINDING — MEASURED VALUE SITS BETWEEN THE FORMULAS")
+print("PART H: KEY FINDING -- MEASURED VALUE SITS BETWEEN THE FORMULAS")
 print("=" * 72)
 
 is_between = float(sw2_126) < sw2_meas < float(sw2_121)
@@ -381,7 +381,7 @@ if is_between:
 # ==============================================================================
 
 print("\n" + "=" * 72)
-print("PART I: WEIGHTED AVERAGE — CAN A SINGLE FRACTION FIT?")
+print("PART I: WEIGHTED AVERAGE -- CAN A SINGLE FRACTION FIT?")
 print("=" * 72)
 
 # If sin^2 = (28a + 29b)/(121a + 126b) for integers a, b:
@@ -495,7 +495,7 @@ tests = [
 
     # cos(theta_W) = 171/194 is ON-SHELL (M_W/M_Z), not MS-bar sin^2
     # On-shell sin^2 = 1 - M_W^2/M_Z^2 ~ 0.2229
-    # MS-bar sin^2(M_Z) = 0.2312 — DIFFERENT quantity
+    # MS-bar sin^2(M_Z) = 0.2312 -- DIFFERENT quantity
     ("cos(theta_W)=171/194 matches ON-SHELL M_W/M_Z, not MS-bar sin^2",
      abs(float(R(171,194)) - 80.377/91.1876) < 0.001),
 
@@ -526,7 +526,7 @@ print("""
 FINDING 1: SM running CANNOT reconcile 29/126 at 405 TeV with 28/121 at M_Z.
   sin^2(theta_W) at 405 TeV = {:.4f} (SM running from M_Z)
   This is FAR from both 28/121 = 0.2314 and 29/126 = 0.2302.
-  Running goes in the WRONG direction — sin^2 INCREASES with energy.
+  Running goes in the WRONG direction -- sin^2 INCREASES with energy.
 
 FINDING 2: Both formulas are LOW-ENERGY predictions, near M_Z.
   28/121 = 0.2314 matches at mu = {:.1f} GeV (just above M_Z)

@@ -239,8 +239,8 @@ TOTAL: 27/551 + 147/551 + 377/551 = 551/551 = 1 (EXACT)
 3. **Stress** = F(ε_interior) - F(ε_boundary) = stored energy
 
 **Why Λ = α^56/77**:
-- 56 = dim(O)×Im(O) = "crystallization depth" (cooling history)
-- 77 = n_c×Im(O) = channels the stress is distributed across
+- 56 = dim(O)×Im_O = "crystallization depth" (cooling history)
+- 77 = n_c×Im_O = channels the stress is distributed across
 - Each octonionic layer suppresses stress by factor of α
 - Total: α^56/77 ~ 10^-122
 
@@ -260,7 +260,7 @@ TOTAL: 27/551 + 147/551 + 377/551 = 551/551 = 1 (EXACT)
 **Thread**: dark_sector / cosmology
 **Score**: 4 (VERIFIED)
 **Sessions since capture**: 9 (S94 → S103)
-**Insight**: Dark energy (Λ ~ 10^-122) is crystallization pressure from hidden O-sector dimensions. Formula: Λ = α^56/77 where 56 = dim(O)×Im(O) (octonionic depth) and 77 = n_c×Im(O) (crystal-color channels). The O-sector dimensions are "dark" because we can't access them directly (P1: partiality), but we feel their crystallization pressure through gravity (unconstrained channel).
+**Insight**: Dark energy (Λ ~ 10^-122) is crystallization pressure from hidden O-sector dimensions. Formula: Λ = α^56/77 where 56 = dim(O)×Im_O (octonionic depth) and 77 = n_c×Im_O (crystal-color channels). The O-sector dimensions are "dark" because we can't access them directly (P1: partiality), but we feel their crystallization pressure through gravity (unconstrained channel).
 
 **Key realization**: User asked about "dark dimensions influencing observed physics" — this is EXACTLY what Λ does. The cosmological constant is the gravitational signature of recrystallization in dimensions we cannot observe.
 

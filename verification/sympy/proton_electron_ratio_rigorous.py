@@ -10,7 +10,7 @@ Formula: m_p/m_e = dim_SM_gauge x (Im_H^2 + dim_SM_gauge^2) + n_c/(O x Im_H^2)
        = 12 x 153 + 11/72
        = 1836.152778
 
-Measured: 1836.15267343(11) (CODATA 2018)
+Measured: 1836.15267343(11) (CODATA 2022)
 Error: 0.057 ppm
 
 This script establishes the complete derivation chain from T1 to m_p/m_e.
@@ -237,7 +237,7 @@ print("=" * 75)
 predicted = main_term + correction
 predicted_float = float(predicted)
 
-# CODATA 2018 value
+# CODATA 2022 value
 measured = 1836.15267343
 measured_unc = 0.00000011
 
@@ -255,7 +255,7 @@ COMPLETE FORMULA:
           = {predicted}
           = {predicted_float:.10f}
 
-MEASURED (CODATA 2018):
+MEASURED (CODATA 2022):
   m_p/m_e = {measured:.11f} +/- {measured_unc}
 
 COMPARISON:

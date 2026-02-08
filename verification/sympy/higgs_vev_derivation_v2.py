@@ -19,7 +19,7 @@ print("=" * 70)
 # Constants
 M_Pl = 1.220890e19  # GeV
 v = 246.22  # GeV
-alpha = 1/137.035999084
+alpha = 1/137.035999177
 
 # Division algebra dimensions
 R, C, H, O = 1, 2, 4, 8

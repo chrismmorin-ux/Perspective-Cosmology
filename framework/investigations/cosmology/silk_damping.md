@@ -15,7 +15,7 @@ The damping scale tells us the smallest features that survived in the CMB. Below
 
 The framework derives all the cosmological parameters that determine the damping scale: the baryon density (which sets how many electrons the photons scatter off), the matter density (which controls the expansion rate), and the recombination redshift (which sets how long the damping operates). The standard physics of photon diffusion then gives l_D ~ 1400.
 
-Intriguingly, 1400 = C * Im_O * (n_c-1)^2 = 2 * 7 * 100 in framework notation, but this is an algebraic match with no physics derivation.
+Intriguingly, 1400 = C * Im_O * (n_c-1)^2 = 2 * 7 * 100 in framework notation [SPECULATION], but this is an algebraic match with no physics derivation.
 
 **One-sentence version**: The framework derives the cosmological parameters controlling Silk damping, and the measured damping scale l_D ~ 1400 happens to equal several clean framework expressions, though without a physics derivation.
 
@@ -61,11 +61,11 @@ where f(R) = [R^2 + 16(1+R)/15] / (1+R)^2 accounts for baryon loading.
 
 | Parameter | Expression | Value | Role |
 |-----------|------------|-------|------|
-| omega_b | 0.02221 | [D] | Sets electron density n_e |
-| omega_m | 0.1431 | [D] | Sets expansion rate H(z) |
-| z_* | 1089 | [D] | Sets total diffusion time |
-| eta_* | 337 Mpc | [D] | Conformal time (enters integral) |
-| R_* | 0.619 | [D+I] | Baryon correction factor |
+| omega_b | 0.02221 | [D: from framework Omega_b] | Sets electron density n_e |
+| omega_m | 0.1431 | [D: from framework Omega_m [A-PHYSICAL]] | Sets expansion rate H(z) |
+| z_* | 1089 | [D: from division algebra, (Im_H * n_c)^2] | Sets total diffusion time |
+| eta_* | 337 Mpc | [CONJECTURE: identified with Im_H^4 + H^4] | Conformal time (enters integral) |
+| R_* | 0.619 | [D+I: D from framework; I from T_CMB] | Baryon correction factor |
 
 ### Imports (Not from Framework)
 
@@ -116,8 +116,8 @@ The damping tail is one of the most precisely measured features of the CMB.
 
 | Expression | Decomposition | Value | Error |
 |------------|---------------|-------|-------|
-| C * Im_O * (n_c-1)^2 | 2 * 7 * 100 | **1400** | **0%** |
-| (H+R)^2 * O * Im_O | 25 * 56 | **1400** | **0%** |
+| C * Im_O * (n_c-1)^2 | 2 * 7 * 100 | **1400** | **matches measured central value** |
+| (H+R)^2 * O * Im_O | 25 * 56 | **1400** | **matches measured central value** |
 | H^2 * n_c * O | 16 * 11 * 8 | 1408 | 0.6% |
 | n_c * (n_c+C) * (n_c-1) | 11 * 13 * 10 | 1430 | 2.1% |
 

@@ -68,7 +68,7 @@ The quaternions have automorphism group SO(3), the 3D rotation group.
 
 **Proof sketch**:
 - Any automorphism must fix R ⊂ H
-- The imaginary quaternions Im(H) = span{i, j, k} form a 3D space
+- The imaginary quaternions Im_H = span{i, j, k} form a 3D space
 - Automorphisms permute {i, j, k} while preserving the multiplication rules
 - These permutations form SO(3)
 
@@ -159,7 +159,7 @@ This is **not input** — it emerges from division algebra representation theory
 
 ### 4.3 Three Generations
 
-The imaginary quaternions Im(H) have dimension **3**.
+The imaginary quaternions Im_H have dimension **3**.
 
 This appears as the number of generations:
 - 3 families of quarks and leptons
@@ -244,7 +244,7 @@ The connection between division algebras and SM gauge groups has been explored b
 | Three gauge groups | Three division algebras (beyond R) |
 | Specific groups U(1), SU(2), SU(3) | Automorphism groups of C, H, O |
 | 15 fermions per generation | Division algebra representations |
-| 3 generations | dim(Im(H)) = 3 |
+| 3 generations | dim(Im_H) = 3 |
 | Chirality | Quaternion embedding selects handedness |
 
 ### 6.2 Not Yet Explained (Open)

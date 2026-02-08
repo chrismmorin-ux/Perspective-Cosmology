@@ -39,7 +39,7 @@ It rules out continuous limits at the foundational level.
 
 ## Unification Note (Session 132)
 
-**⚠ AXIOM STATUS QUESTION (Session 140 audit):** If finiteness follows from crystal structure, this should be a theorem (THM), not an axiom (AXM). Either: (a) remove derivation claim and keep as independent axiom, or (b) reclassify as theorem. This affects the logical foundation — see audit Issue 1.5.
+**RESOLVED (Session 182 audit):** The S140 question "should this be a theorem?" is answered below -- AXM_0100 remains an AXIOM because it is Layer 0 (logically prior to the division algebra chain). See Assumption Classification section.
 
 Via [DEF_02B0: Universe-Crystal Correspondence]:
 ```

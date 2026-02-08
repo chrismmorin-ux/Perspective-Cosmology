@@ -3,8 +3,8 @@ CKM Matrix Completion Search
 ============================
 
 Session 87: Complete the CKM matrix by finding formulas for:
-1. |V_ub| = 0.00382 ± 0.00024 (smallest CKM element)
-2. delta_CKM = 1.196 ± 0.045 rad (CP violation phase, ~68.5 deg)
+1. |V_ub| = 0.00382 +/- 0.00024 (smallest CKM element)
+2. delta_CKM = 1.196 +/- 0.045 rad (CP violation phase, ~68.5 deg)
 
 Key patterns already found:
 - lambda = 9/40 = Im(H)^2/(5xdim(O)) - EXACT
@@ -49,8 +49,8 @@ all_primes = sorted(set(framework_primes + non_fw_primes))
 # ==============================================================================
 # IMPORTS FROM OBSERVATION [A-IMPORT]
 # ==============================================================================
-V_ub_exp = 0.00382  # [A-IMPORT] ± 0.00024 (PDG)
-delta_ckm_exp = 1.196  # [A-IMPORT] ± 0.045 rad (about 68.5 degrees)
+V_ub_exp = 0.00382  # [A-IMPORT] +/- 0.00024 (PDG)
+delta_ckm_exp = 1.196  # [A-IMPORT] +/- 0.045 rad (about 68.5 degrees)
 
 print("=" * 70)
 print("CKM MATRIX COMPLETION SEARCH")
@@ -192,7 +192,7 @@ print("\n" + "=" * 70)
 print("PART 2: delta_CKM = 1.196 rad (68.5 deg)")
 print("=" * 70)
 
-# The Koide phase is θ = pi x 73/99 x (1 + 1/17689)
+# The Koide phase is theta = pi x 73/99 x (1 + 1/17689)
 # Perhaps CKM phase also involves pi x (prime pattern)?
 
 print(f"\ndelta_CKM = {delta_ckm_exp} rad = {math.degrees(delta_ckm_exp):.1f} deg")

@@ -5,8 +5,8 @@ Running Couplings: Beta Function Coefficient Identities
 KEY FINDING: SM beta function coefficients match framework expressions EXACTLY
 
 b_3 = 7 = Im_O (imaginary octonions)
-b_2 = 19/6 = (n_c + O)/(C × Im_H)
-b_1 = 41/10 = (H_sum + H)/(C × 5)
+b_2 = 19/6 = (n_c + O)/(C * Im_H)
+b_1 = 41/10 = (H_sum + H)/(C * 5)
 
 Formula: SM beta coefficients = division algebra dimension expressions
 Status: VERIFICATION
@@ -71,10 +71,10 @@ b_1_SM = R(41, 10)  # absolute value
 # b_3 = Im_O = 7
 b_3_framework = Im_O
 
-# b_2 = (n_c + O) / (C × Im_H) = (11 + 8) / (2 × 3) = 19/6
+# b_2 = (n_c + O) / (C * Im_H) = (11 + 8) / (2 * 3) = 19/6
 b_2_framework = R(n_c + O_dim, C_dim * Im_H)
 
-# b_1 = (H_sum + H) / (C × 5) = (37 + 4) / (2 × 5) = 41/10
+# b_1 = (H_sum + H) / (C * 5) = (37 + 4) / (2 * 5) = 41/10
 b_1_framework = R(H_sum + H_dim, C_dim * 5)
 
 # =============================================================================
@@ -93,7 +93,7 @@ def main():
     # Test 1: SU(3) beta coefficient
     # -------------------------------------------------------------------------
     print("=== SU(3) QCD ===")
-    print(f"Standard formula: b_3 = (11×3 - 2×6)/3 = {b_3_SM}")
+    print(f"Standard formula: b_3 = (11*3 - 2*6)/3 = {b_3_SM}")
     print(f"Framework: Im_O = {Im_O}")
     test1 = b_3_SM == b_3_framework
     print(f"Match: {test1}")
@@ -104,11 +104,11 @@ def main():
     # Test 2: SU(2) beta coefficient
     # -------------------------------------------------------------------------
     print("=== SU(2) Weak ===")
-    print(f"Standard formula: b_2 = 22/3 - 4×3/3 - 1/6 = {b_2_SM}")
-    print(f"Framework: (n_c + O)/(C × Im_H) = ({n_c} + {O_dim})/({C_dim} × {Im_H}) = {b_2_framework}")
+    print(f"Standard formula: b_2 = 22/3 - 4*3/3 - 1/6 = {b_2_SM}")
+    print(f"Framework: (n_c + O)/(C * Im_H) = ({n_c} + {O_dim})/({C_dim} * {Im_H}) = {b_2_framework}")
     test2 = b_2_SM == b_2_framework
     print(f"Match: {test2}")
-    tests.append(("b_2 = (n_c+O)/(C×Im_H) identity", test2))
+    tests.append(("b_2 = (n_c+O)/(C*Im_H) identity", test2))
     print()
 
     # -------------------------------------------------------------------------
@@ -116,10 +116,10 @@ def main():
     # -------------------------------------------------------------------------
     print("=== U(1) Hypercharge ===")
     print(f"Standard formula: |b_1| = 41/10 = {b_1_SM}")
-    print(f"Framework: (H_sum + H)/(C × 5) = ({H_sum} + {H_dim})/({C_dim} × 5) = {b_1_framework}")
+    print(f"Framework: (H_sum + H)/(C * 5) = ({H_sum} + {H_dim})/({C_dim} * 5) = {b_1_framework}")
     test3 = b_1_SM == b_1_framework
     print(f"Match: {test3}")
-    tests.append(("b_1 = (H_sum+H)/(C×5) identity", test3))
+    tests.append(("b_1 = (H_sum+H)/(C*5) identity", test3))
     print()
 
     # -------------------------------------------------------------------------
@@ -204,8 +204,8 @@ def main():
         print("  in terms of division algebra dimensions:")
         print()
         print("  b_3 = 7 = Im(O)        [QCD coefficient = imaginary octonions]")
-        print("  b_2 = 19/6             [(n_c+O)/(C×Im_H) = internal/electroweak]")
-        print("  b_1 = 41/10            [(H_sum+H)/(C×5) = bootstrap/structure]")
+        print("  b_2 = 19/6             [(n_c+O)/(C*Im_H) = internal/electroweak]")
+        print("  b_1 = 41/10            [(H_sum+H)/(C*5) = bootstrap/structure]")
         print()
         print("  This suggests the running is constrained by crystallization,")
         print("  even though the logarithmic FORM comes from QFT loops.")

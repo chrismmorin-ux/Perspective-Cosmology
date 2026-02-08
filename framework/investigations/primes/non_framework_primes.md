@@ -1,6 +1,6 @@
 # Investigation: Non-Framework Primes in Physics
 
-**Status**: ARCHIVE — MAJOR DISCOVERY
+**Status**: CANONICAL
 **Created**: 2026-01-27 (Session 84)
 **Confidence**: [STRONG PATTERN] — Multiple high-precision matches
 **Verification**: `verification/sympy/non_framework_prime_search.py`
@@ -37,8 +37,8 @@ This confirms the framework's prediction about prime distribution in physics.
 | Prime | Role |
 |-------|------|
 | 2 | dim(C) |
-| 3 | Im(H), generations |
-| 7 | Im(O), octonion |
+| 3 | Im_H, generations |
+| 7 | Im_O, octonion |
 | 11 | n_c = R+C+O |
 
 ### Additive-Framework Primes (Sums of dimensions)
@@ -46,7 +46,7 @@ This confirms the framework's prediction about prime distribution in physics.
 |-------|---------------|---------------|
 | **19** | n_c + O = 11 + 8 | m_tau/m_s |
 | **23** | n_c + 3×H = 11 + 12 | m_mu/m_e, QCD beta |
-| **29** | 2×n_c + Im(O) = 22 + 7 | Meson ratios |
+| **29** | 2×n_c + Im_O = 22 + 7 | Meson ratios |
 | **31** | n_d² + n_c + n_d = 16+11+4 | m_t/m_b |
 
 ### Non-Framework Primes (Composite structures)
@@ -87,7 +87,7 @@ m_t / m_b = 41.330 ≈ 4×31/3 = 41.333 (error: 0.01%)
 
 Framework interpretation:
   31 = n_d² + n_c + n_d = 16 + 11 + 4
-  4/3 = dim(H) / Im(H)
+  4/3 = dim(H) / Im_H
 
 The top/bottom mass ratio encodes spacetime structure.
 ```
@@ -99,8 +99,8 @@ m_K / m_s = 5.2856 ≈ 37/7 = 5.2857 (error: 0.00%!)
 
 Framework interpretation:
   37 = 1² + 6² but 6 is NOT a dimension
-  37 = n_c + 2×Im(H) + H×Im(O) ???
-  7 = Im(O)
+  37 = n_c + 2×Im_H + H×Im_O ???
+  7 = Im_O
 
 Strange sector governed by non-framework prime 37.
 ```
@@ -142,7 +142,7 @@ m_t / m_J/ψ = 55.785 ≈ 11×71/14 = 55.786 (error: 0.00%!)
 Framework interpretation:
   11 = n_c (crystal dimension)
   71 = prime
-  14 = 2×7 = 2×Im(O)
+  14 = 2×7 = 2×Im_O
 
 Top quark mass encodes crystal × prime / octonion structure.
 
@@ -157,7 +157,7 @@ m_W / m_eta = 146.710 ≈ 13×79/7 = 146.714 (error: 0.00%!)
 Framework interpretation:
   13 = framework prime (2² + 3²)
   79 = non-framework prime
-  7 = Im(O)
+  7 = Im_O
 
 Electroweak-meson ratio mixes framework and non-framework primes.
 ```
@@ -169,7 +169,7 @@ m_H / m_p = 133.490 ≈ 3×89/2 = 133.5 (error: 0.01%)
 
 Framework interpretation:
   89 = non-framework prime
-  3/2 = Im(H)/dim(C)
+  3/2 = Im_H/dim(C)
 
 Higgs-proton ratio encodes generation over complex structure.
 ```
@@ -264,9 +264,9 @@ This pattern would be FALSIFIED if:
 | Prime | Type | Best Physical Match | Error |
 |-------|------|---------------------|-------|
 | 2 | Framework/Structural | dim(C) | exact |
-| 3 | Structural | Im(H), generations | exact |
+| 3 | Structural | Im_H, generations | exact |
 | 5 | Framework | α_s = 5²/(4×53) | 0.02% |
-| 7 | Structural | Im(O) | exact |
+| 7 | Structural | Im_O | exact |
 | 11 | Structural | n_c | exact |
 | 13 | Framework | sin²θ₁₂ = 4/13 | 0.23% |
 | 17 | Framework | m_τ/m_μ | 1.1% |

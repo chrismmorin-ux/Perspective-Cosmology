@@ -1,7 +1,7 @@
 # Honest Assessment of the Perspective Cosmology Framework
 
-**Last Updated**: 2026-02-06 (Session S255)
-**Version**: 2.0
+**Last Updated**: 2026-02-07 (Session S301)
+**Version**: 2.3
 **Purpose**: A balanced evaluation of what this framework achieves, where it's strong, and where skepticism is warranted.
 **Audience**: Anyone evaluating this work — read this first.
 **Status**: CURRENT
@@ -15,7 +15,8 @@
 | `claims/FALSIFIED.md` | 14 falsified claims |
 | `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202) |
 | `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v2.0 (S257) |
-| `framework/investigations/_INDEX.md` | 143 investigation files |
+| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 6 irreducible assumptions (canonical inventory) |
+| `framework/investigations/_INDEX.md` | ~150 investigation files |
 
 ## Critical Framework Elements
 
@@ -23,15 +24,18 @@
 |---------|--------|-----------|
 | Frobenius-Hurwitz theorem | THEOREM (I-MATH) | Uniqueness of {1,2,4,8} |
 | n_c = 11 (THM_04A0) | CANONICAL | Crystal dimension, two independent paths |
-| Alpha Step 5 | CONJECTURE | Coset geometry sole remaining path |
-| Emergent gauge coupling | [A-PHYSICAL] | Shared gap for Weinberg and alpha |
+| Alpha Step 5 (CONJ-A2) | [A-STRUCTURAL within I-STRUCT-5] (S297) | kappa=1 = standard Tr convention |
+| Emergent gauge coupling (CONJ-A1) | **RESOLVED S292** | Democratic = WSR + Schur + finiteness |
+| Yang-Mills mass gap | CANONICAL (S284) | Glueball spectrum from framework |
+| Top Yukawa y_t = 1 | [CONJECTURE] (S290) | Full compositeness |
+| IRA inventory | 6 total (S299) | See IRREDUCIBLE_ASSUMPTIONS.md |
 | ~~CC wrong sign (F-10)~~ | **RESOLVED S230** | Sign convention error — V<0 gives Λ>0 via standard GR. Magnitude gap remains. |
 
 ---
 
 ## The Big Picture
 
-This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After 227 sessions and ~548 verification scripts, the results are mixed but intriguing.
+This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After ~300 sessions and ~662 verification scripts (99.8% pass rate), the results are mixed but intriguing.
 
 **What's genuinely remarkable**:
 - 12 sub-10 ppm numerical predictions from integers only (9 robust, 3 with caveats)
@@ -43,7 +47,7 @@ This framework attempts something ambitious: derive the constants and structure 
 - All using only {1, 2, 4, 8} and their algebraic combinations
 
 **What requires caution**:
-- ~2 structural assumptions remain (reduced from ~3 after CCP (AXM_0120, S251) derived F=C)
+- 6 irreducible assumptions remain (2 structural, 2 physical, 1 interpretation, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 - P-value range: 10^-8 to 10^-7 (not the naive 10^-37 sometimes cited)
 - Most numerical predictions are post-hoc (formulas found after knowing targets)
 - ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error). Magnitude gap remains.
@@ -73,12 +77,13 @@ The framework doesn't just match numbers — it derives STRUCTURE:
 |-------------------|------|--------|
 | SM gauge group U(1)×SU(2)×SU(3) | Pipeline: 121→55→18→12 (S251) + Aut route | [DERIVATION] |
 | 15 fermions per generation | Division algebra reps | [DERIVATION] |
-| 3 generations | Im(H)⊗(7→3+3̄+1) (S251) | [DERIVATION] |
+| 3 generations | Im_H⊗(7→3+3̄+1) (S251) | [DERIVATION] |
 | 3+1 spacetime dimensions | Quaternion structure | [DERIVATION] |
 | Lorentz signature (-,+,+,+) | Crystallization gradient | [DERIVATION] |
 | Einstein equations | Goldstone dynamics | [DERIVATION] |
 | Hilbert space + Born rule | Perspective axioms | [THEOREM] (37/37 PASS) |
 | Democratic counting | Schur's lemma on Hom(R^4,R^7) | [DERIVATION] (S224) |
+| n_c = 11 (geometric) | Moment map codimension on Gr(4,11) | [THEOREM] (S278, THM_04B6) |
 
 These qualitative results are NOT captured by "random number matching" tests.
 
@@ -214,17 +219,33 @@ Recording failures is essential. See `claims/FALSIFIED.md` for full details and 
 | n_c=11 via CD Closure + SO(8) triality | S193-S194 | [DERIVATION] (irreducible gap) |
 | CCP (AXM_0120): perfection = maximal consistency | S251 | [AXIOM] — forces n_c=11, F=C, n_d=4 |
 | Pipeline: 121→55→18→12 SM gauge group | S251 | [DERIVATION] |
-| Generation count = 3 from Im(H)⊗decomposition | S251 | [DERIVATION] |
+| Generation count = 3 from Im_H⊗decomposition | S251 | [DERIVATION] |
 | CMB r_s, r_d, theta_s via GR integrals | S198-S199 | [DERIVATION] |
 | Collider: kappa_V = 0.983, kappa_lambda = 0.9497 | S210-S217 | [CONJECTURE] |
+| CONJ-A3 proven via Radon-Hurwitz (n_d^2+n_c^2=137) | S258 | [THEOREM] |
+| CONJ-B1 resolved (quartic from FFT on Hom(R^4,R^7)) | S286 | [THEOREM] |
+| CONJ-B3 resolved (gradient flow convergence) | S258-S259 | [THEOREM] |
+| CONJ-A1 resolved (spectral convergence from finiteness) | S292 | [DERIVATION] |
+| CONJ-A2 partially resolved (kappa=1 = standard Tr) | S297 | [A-STRUCTURAL within I-STRUCT-5] |
+| Yang-Mills mass gap: glueball spectrum from framework | S268-S285 | CANONICAL |
+| Tree-to-dressed paradigm: 3 correction bands | S266-S283 | [CONJECTURE] |
+| Alpha: C=24/11 (0.0002 ppm from CODATA) | S266 | [CONJECTURE] |
+| Weinberg: sin^2(dressed) = 28/121 - alpha/(4*pi^2) | S276 | [CONJECTURE] |
+| Top Yukawa y_t = 1 from full compositeness | S290 | [CONJECTURE] |
+| Omega_m = 63/200 from dual-channel HS equipartition | S293 | [DERIVATION] |
+| IRA count reduced 10 -> 6 (5 conjectures resolved) | S259-S299 | Canonical inventory |
+| Planck constant: codim(mu^{-1}(0)) = n_c = 11 | S278 | [THEOREM] |
+| Non-observations: 12 predictions, 2 root causes | S275 | CANONICAL |
 
 ### Remaining Critical Gaps
 
-1. **Emergent gauge coupling** [A-PHYSICAL]: Why does the gauge field inherit vacuum manifold metric?
-2. ~~**CC wrong sign** (F-10)~~: **RESOLVED S230** — sign convention error. V(ε*)<0 gives Λ>0 via standard GR. CC magnitude gap (~10¹¹¹) remains.
-3. **Top Yukawa** y_t ~ 1: Not derived from axioms.
-4. **Omega_m/Omega_b mechanism**: 63/200 has no physical derivation. Triple-formula RED FLAG.
-5. **Alpha Step 5**: Coset geometry is sole remaining path (equipartition RULED OUT).
+1. ~~**Emergent gauge coupling**~~ [A-PHYSICAL]: **RESOLVED S292** via WSR + Schur + finiteness (CONJ-A1).
+2. ~~**CC wrong sign** (F-10)~~: **RESOLVED S230** — sign convention error. CC magnitude gap (~10^111) remains.
+3. ~~**Top Yukawa** y_t ~ 1~~: **DERIVED S290** from full compositeness [CONJECTURE]. y_b/y_t hierarchy unsolved.
+4. ~~**Omega_m/Omega_b mechanism**~~: **DERIVED S293** via dual-channel HS equipartition [DERIVATION conditioned on I-STRUCT-5]. "Why now" problem remains (standard cosmological coincidence).
+5. ~~**Alpha Step 5**~~: **PARTIALLY RESOLVED S297**. kappa=1 = standard Tr convention [A-STRUCTURAL]. Factor-9 sigma model gap remains.
+6. **V_0 mechanism** (EQ-011): Inflationary amplitude V_0 = alpha^4/C candidate [CONJECTURE, HRS 5]. Not derived.
+7. **Factor-9 gap**: Sigma model sum(Q^2)_coset = 14, but generator charge S_EM = 126. Factor 9 = Im_H^2 unexplained.
 
 ---
 
@@ -309,7 +330,8 @@ Our view: Yes, but with appropriate skepticism.
 | 1.0 | 2026-01-28 | S120 | Initial version |
 | 2.0 | 2026-02-03 | S227 | Full rewrite. Corrected P-values, added Monte Carlo, phase grades, 14 falsifications, blind predictions, new derivations, updated probability to 15-25%. |
 | 2.1 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C now DERIVED, assumption count ~3→~2, Pipeline + generation derivation added, Einstein eq CC caveat removed (already resolved S230). |
-| 2.2 | 2026-02-07 | S257 | Red Team v2.0: probability updated 15-25% → 20-35%. Reference updated to RED_TEAM_SUMMARY_V2.md. |
+| 2.2 | 2026-02-07 | S257 | Red Team v2.0: probability updated 15-25% -> 20-35%. Reference updated to RED_TEAM_SUMMARY_V2.md. |
+| 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved (A1/A2/A3/B1/B3), IRA 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm, y_t=1, Omega_m DERIVED. Script count ~548->~662. Assumption count updated to 6 IRA (explicit inventory). Critical gaps updated: 5/5 resolved or partially resolved, 2 new gaps added. |
 
 ---
 

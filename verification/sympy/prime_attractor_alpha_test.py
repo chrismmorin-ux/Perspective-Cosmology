@@ -16,7 +16,7 @@ Hypothesis: 137 = n_d^2 + n_c^2 where:
 from sympy import *
 
 # Physical constants
-alpha_observed = Float('0.0072973525693', 12)  # fine structure constant (CODATA 2018)
+alpha_observed = Float('0.0072973525693', 12)  # fine structure constant (CODATA 2022)
 alpha_inv_observed = 1 / alpha_observed  # ~ 137.036
 
 # Division algebra dimensions
@@ -330,7 +330,7 @@ with corrections giving the observed value.
 """)
 
 # Check running of alpha
-alpha_at_zero = 1/Float('137.035999084', 12)  # known high-precision value
+alpha_at_zero = 1/Float('137.035999177', 12)  # known high-precision value
 print(f"High precision 1/alpha(0) = {1/alpha_at_zero:.9f}")
 print(f"Distance from 137: {(1/alpha_at_zero - 137):.9f}")
 print(f"As fraction of 137: {(1/alpha_at_zero - 137)/137 * 100:.4f}%")
@@ -358,7 +358,7 @@ Both constants are selected by gravitational collapse toward
 prime attractors that encode relevant algebraic structures
 as sums of squares.
 
-The primes are NOT random — they're determined by division
+The primes are NOT random -- they're determined by division
 algebra geometry and crystallization physics.
 """)
 
@@ -409,7 +409,7 @@ PARALLEL WITH KOIDE:
 Both are primes encoding sums of squares of fundamental dimensions!
 
 IMPLICATION:
-Fundamental constants are NOT arbitrary — they're selected by
+Fundamental constants are NOT arbitrary -- they're selected by
 crystallization dynamics to align with prime attractors that
 encode relevant algebraic structures.
 

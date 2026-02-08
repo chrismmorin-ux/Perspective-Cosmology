@@ -29,7 +29,7 @@ print("=" * 70)
 # of an N-dimensional Crystal
 
 # For any two perspectives with same access dimension n:
-# V_Crystal = Core ⊕ Lost ⊕ Gained ⊕ Persistent-Hidden
+# V_Crystal = Core (+) Lost (+) Gained (+) Persistent-Hidden
 #
 # dim(Core) + dim(Lost) = n = dim(V_pi1)
 # dim(Core) + dim(Gained) = n = dim(V_pi2)
@@ -244,7 +244,7 @@ print("=" * 70)
 
 def analyze_hidden_fraction():
     """
-    Verify the 79/137 ≈ 1/sqrt(3) finding and explore geometric interpretation.
+    Verify the 79/137 ~ 1/sqrt(3) finding and explore geometric interpretation.
     """
 
     print("\nHidden fraction analysis:")
@@ -306,7 +306,7 @@ def analyze_cosmological_constant():
     log_Pi = 55 * np.log10(137)
 
     # Observed cosmological constant (in Planck units)
-    # Lambda_obs ≈ 10^{-122} in some conventions, 10^{-118} in others
+    # Lambda_obs ~ 10^{-122} in some conventions, 10^{-118} in others
     log_Lambda_obs = -118  # Order of magnitude
 
     # If Lambda ~ 1/|Pi|
@@ -361,7 +361,7 @@ def calculate_stability_index():
     print()
 
     # Define self-reference capacity by symmetry type
-    # Symmetric: can have gamma(i,i) ≠ 0 => self_ref = 1 (full capacity)
+    # Symmetric: can have gamma(i,i) != 0 => self_ref = 1 (full capacity)
     # Antisymmetric: gamma(i,i) = 0 => self_ref = 0 (no capacity)
     # Mixed (vector): intermediate
 

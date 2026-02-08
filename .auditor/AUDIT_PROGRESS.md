@@ -161,7 +161,7 @@
 
 3. **THM_0489 (Goldstone-Denominator)**: Step 5 polynomial is arithmetically wrong (evaluates to 168, not 194). Correct form is 2(n_c²-2n_c-2). (CR-031, HIGH)
 
-4. **THM_04A0**: Uses non-canonical n_c decomposition (R+C+O=1+2+8 vs canonical Im(C)+Im(H)+Im(O)=1+3+7). Material contradiction with CR-010. (CR-030, HIGH)
+4. **THM_04A0**: Uses non-canonical n_c decomposition (R+C+O=1+2+8 vs canonical Im_C+Im_H+Im_O=1+3+7). Material contradiction with CR-010. (CR-030, HIGH)
 
 5. **Layer violations in 5 theorems**: Physics terminology (SM gauge groups, Schrödinger equation, alpha, dark matter mass) appears in Layer 1 files without [LAYER 2/3] markers. (CR-034, MEDIUM)
 
@@ -214,7 +214,7 @@ All 17 cited verification scripts exist in `verification/sympy/`. Scripts verify
 | einstein_from_crystallization.md | NEEDS-RIGOR | 4 | 135 | Claims COMPLETE but G-004 unresolved |
 | fermions_from_representations.md | NEEDS-RIGOR | 5 | 135 | Counting SOUND; representation conjecture |
 | gauge_symmetry_from_tilt_topology.md | NEEDS-RIGOR | 4 | 135 | Schematic breaking chain; depends on GAP-TT-1 |
-| generations_from_quaternions.md | SOUND | 3 | 135 | Clean Im(H)=3 argument |
+| generations_from_quaternions.md | SOUND | 3 | 135 | Clean Im_H=3 argument |
 | META_COSMOLOGY.md | SOUND | 3 | 135 | Properly tagged [SPECULATION] |
 | observation_consistency.md | NEEDS-RIGOR | 5 | 135 | Category error risk; first link in chain |
 | spacetime_from_associativity.md | SOUND | 3 | 135 | Clean associativity argument |

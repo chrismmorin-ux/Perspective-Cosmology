@@ -95,7 +95,7 @@ def test_ghz_states():
     FRAMEWORK NOTE:
     GHZ states represent a crystallization constraint that spans
     ALL participating crystal points simultaneously. The constraint
-    is "all-or-nothing" — all points share the same binary choice.
+    is "all-or-nothing" -- all points share the same binary choice.
     This corresponds to a GLOBAL crystallization event across
     multiple points.
     """
@@ -153,7 +153,7 @@ def test_w_states():
     W states represent a crystallization constraint where exactly
     ONE crystal point is in the excited state, but the identity
     of that point is uncertain. This is a "distributed excitation"
-    across crystal points — like a phonon in the crystal.
+    across crystal points -- like a phonon in the crystal.
 
     This connects to the framework's particle concept (DEF_0267):
     a particle IS a coherent excitation of the crystal structure.
@@ -239,7 +239,7 @@ def test_crystal_topology():
 
 
 # ==============================================================================
-# TEST 4: Entanglement distribution — monogamy across crystal
+# TEST 4: Entanglement distribution -- monogamy across crystal
 # ==============================================================================
 
 def test_entanglement_distribution():
@@ -261,7 +261,7 @@ def test_entanglement_distribution():
     FRAMEWORK PREDICTION [CONJECTURE]:
     The crystal's SO(11) symmetry suggests that the "natural"
     multipartite state is one with EQUAL entanglement between
-    all pairs — a democratic distribution.
+    all pairs -- a democratic distribution.
 
     For 11 points with equal pairwise entanglement:
     Each point participates in 10 pairs.
@@ -284,7 +284,7 @@ def test_entanglement_distribution():
     total_C_squared = total_pairs * Rational(1, n_neighbors)  # 55/10 = 5.5
 
     # Compare: 5 maximally entangled pairs give total C^2 = 5
-    # Democratic gives 5.5 — slightly MORE total entanglement
+    # Democratic gives 5.5 -- slightly MORE total entanglement
     # (but distributed more evenly)
     max_pair_total = max_pairs * 1  # 5 pairs * C^2 = 1 each
     democratic_exceeds = float(total_C_squared) > max_pair_total
@@ -324,7 +324,7 @@ def test_slocc_classes():
       - GHZ: global constraint (fragile)
 
     The crystallization dynamics (AXM_0117) doesn't prefer one
-    class over another in general — it prefers minimum TILT,
+    class over another in general -- it prefers minimum TILT,
     which depends on the specific interaction.
     """
     # 3-qubit SLOCC classes

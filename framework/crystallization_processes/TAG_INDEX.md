@@ -294,12 +294,12 @@ and non-crystallizable sectors (electroweak mixing, EM coupling, dark matter).
 | Sector | Framework Quantity | Gaussian Norm? | CNH Status | Physical Character |
 |--------|-------------------|----------------|------------|-------------------|
 | Gravity | n_d = 4 = dim(H) | YES (norm) | Crystallizable | Geometric, long-range |
-| Color | N_c = 3 = Im(H) | NO (inert) | Non-crystallizable | Confined, short-range |
+| Color | N_c = 3 = Im_H | NO (inert) | Non-crystallizable | Confined, short-range |
 | EM/EW | alpha, sin²θ_W | Mixed (bridge) | Interface | Mediates both sectors |
 
 This is the strongest CNH correlation in the catalog: gravity and color map onto
 norm and non-norm respectively, with no overlap. The two sectors of H (the quaternions)
-— dim(H) = 4 and Im(H) = 3 — govern the two fundamental non-abelian interactions
+— dim(H) = 4 and Im_H = 3 — govern the two fundamental non-abelian interactions
 with opposite crystallization properties.
 
 ### EWSB as Norm-Crystallization

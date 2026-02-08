@@ -205,8 +205,8 @@ print(f"  3 = Im_H (generations)")
 print(f"  7 = Im_O (colors)")
 print(f"  10 = n_c - 1 (crystal defect)")
 print(f"  15 = H + n_c (quaternion + crystal)")
-print(f"  21 = Im_H × Im_O (QCD channels)")
-print(f"  242 = 2 × n_c² (crystal squared)")
+print(f"  21 = Im_H * Im_O (QCD channels)")
+print(f"  242 = 2 * n_c^2 (crystal squared)")
 
 # ==============================================================================
 # VERIFICATION TESTS
@@ -238,4 +238,4 @@ for name, passed in tests:
 
 print(f"\nOVERALL: {'ALL PASS' if all_pass else 'PARTIAL'}")
 print(f"\nTotal BBN observables: 3")
-print(f"All derived with ZERO free parameters from {'{C, H, O, n_c, α}'}")
+print(f"All derived with ZERO free parameters from {'{C, H, O, n_c, alpha}'}")

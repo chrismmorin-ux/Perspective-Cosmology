@@ -3,7 +3,7 @@
 Recursive Gap Tower: Perspective applied to its own incompleteness gap
 
 KEY FINDING: Applying perspective recursively to the gap G_pi produces
-a tower whose gap dimensions are 7, 3, 1 = Im(O), Im(H), Im(C) —
+a tower whose gap dimensions are 7, 3, 1 = Im(O), Im(H), Im(C) --
 the imaginary dimensions of the division algebras in descending order.
 
 The tower terminates at dim 1 (irreducible remainder), where THM_04AC
@@ -508,7 +508,7 @@ def test_6_concrete_construction():
 
 
 # ==============================================================================
-# TEST 7: The "ever-decreasing peek" — what each level can see of V_Crystal
+# TEST 7: The "ever-decreasing peek" -- what each level can see of V_Crystal
 # ==============================================================================
 
 def test_7_decreasing_peek():
@@ -577,7 +577,7 @@ def test_7_decreasing_peek():
 
 
 # ==============================================================================
-# TEST 8: Godel applicability check — does the framework encode arithmetic?
+# TEST 8: Godel applicability check -- does the framework encode arithmetic?
 # ==============================================================================
 
 def test_8_godel_applicability():
@@ -599,7 +599,7 @@ def test_8_godel_applicability():
     (G2) Arithmetic expressibility: The framework uses R^n (n=11).
          R contains N, which encodes Peano arithmetic.
          BUT: The framework's AXIOMS (P1-P3, C1-C5) don't explicitly
-         encode arithmetic — they describe projections on vector spaces.
+         encode arithmetic -- they describe projections on vector spaces.
 
          Key question: Can the perspective axioms EXPRESS arithmetic?
          - V_Crystal over R: yes, R encodes arithmetic
@@ -607,7 +607,7 @@ def test_8_godel_applicability():
          - The THEORY of the framework (as formalized) may or may not
            reach the Godel threshold
 
-         STATUS: UNCLEAR — depends on formalization details.
+         STATUS: UNCLEAR -- depends on formalization details.
 
     (G3) Recursive axiomatizability: The axiom set is finite (20 axioms).
          SATISFIED.

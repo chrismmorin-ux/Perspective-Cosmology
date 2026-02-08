@@ -160,7 +160,7 @@ This says: QCD amplifies quark masses by a factor encoding:
 
 INTERPRETATION:
   The proton is a bound state where QCD "spreads" quark mass
-  across all crystal×generation channels.
+  across all crystal*generation channels.
 """)
 
 # =============================================================================

@@ -193,7 +193,7 @@ ns_planck_err = 0.0042  # 1-sigma
 print(f"""
 Comparison to observation:
   Framework: n_s = {float(ns_framework):.6f}
-  Planck 2018: n_s = {ns_planck} ± {ns_planck_err}
+  Planck 2018: n_s = {ns_planck} +/- {ns_planck_err}
 
   Difference: {abs(float(ns_framework) - ns_planck):.6f} (within 1-sigma) [OK]
 """)

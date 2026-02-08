@@ -228,12 +228,12 @@ Interesting candidates near 41.33:
   4 x 31/3 = 41.333...: error = {abs(4*31/3 - mt_mb)/mt_mb*100:.3f}%
     Note: 31 appears in non-framework prime catalog!
 
-  (H+O)² / n_d + n_d/3 = 144/4 + 4/3 = 36 + 1.33 = 37.33: error = {abs(37.33 - mt_mb)/mt_mb*100:.3f}%
+  (H+O)^2 / n_d + n_d/3 = 144/4 + 4/3 = 36 + 1.33 = 37.33: error = {abs(37.33 - mt_mb)/mt_mb*100:.3f}%
 
-  n_c² / Im(H) = 121/3 = 40.33...: error = {abs(121/3 - mt_mb)/mt_mb*100:.3f}%
+  n_c^2 / Im(H) = 121/3 = 40.33...: error = {abs(121/3 - mt_mb)/mt_mb*100:.3f}%
 
-  (n_c² + Im(H))/Im(H) = 124/3 = 41.33...: error = {abs(124/3 - mt_mb)/mt_mb*100:.3f}%
-    KEY: This is (n_c² + Im(H)) / Im(H) = (121 + 3) / 3 = 124/3!
+  (n_c^2 + Im(H))/Im(H) = 124/3 = 41.33...: error = {abs(124/3 - mt_mb)/mt_mb*100:.3f}%
+    KEY: This is (n_c^2 + Im(H)) / Im(H) = (121 + 3) / 3 = 124/3!
 """)
 
 # =============================================================================
@@ -252,11 +252,11 @@ Interesting candidates near 13.64:
 
   H + O - Im(H)/n_c = 12 - 3/11 = 12 - 0.27 = 11.73: error = {abs(12 - 3/11 - mc_ms)/mc_ms*100:.3f}%
 
-  H + O + Im(H)²/n_c = 12 + 9/11 = 12.82: error = {abs(12 + 9/11 - mc_ms)/mc_ms*100:.3f}%
+  H + O + Im(H)^2/n_c = 12 + 9/11 = 12.82: error = {abs(12 + 9/11 - mc_ms)/mc_ms*100:.3f}%
 
   n_c + n_d - Im(H)/n_c = 15 - 3/11 = 14.73: error = {abs(15 - 3/11 - mc_ms)/mc_ms*100:.3f}%
 
-  (H+O) + 2 - Im(H)²/Phi_6(Im(O)) = 14 - 9/43 = 13.79: error = {abs(14 - 9/43 - mc_ms)/mc_ms*100:.3f}%
+  (H+O) + 2 - Im(H)^2/Phi_6(Im(O)) = 14 - 9/43 = 13.79: error = {abs(14 - 9/43 - mc_ms)/mc_ms*100:.3f}%
 
   41/3 = 13.67: error = {abs(41/3 - mc_ms)/mc_ms*100:.3f}%
     Note: 41 is prime (appears in m_t/m_b)
@@ -285,15 +285,15 @@ Interesting candidates near 19.89:
   20: error = {abs(20 - ms_md)/ms_md*100:.3f}%
     Note: 20 = n_d x 5 = 4 x 5
 
-  n_d² + n_d - 1/Im(H) = 20 - 1/3 = 19.67: error = {abs(20 - 1/3 - ms_md)/ms_md*100:.3f}%
+  n_d^2 + n_d - 1/Im(H) = 20 - 1/3 = 19.67: error = {abs(20 - 1/3 - ms_md)/ms_md*100:.3f}%
 
-  n_d² + n_d - 1/n_c = 20 - 1/11 = 19.91: error = {abs(20 - 1/11 - ms_md)/ms_md*100:.3f}%
+  n_d^2 + n_d - 1/n_c = 20 - 1/11 = 19.91: error = {abs(20 - 1/11 - ms_md)/ms_md*100:.3f}%
     THIS IS EXCELLENT! Only 0.1% error!
 
-  (n_c² - n_c)/dim(O) = 110/8 = 13.75: error = {abs(110/8 - ms_md)/ms_md*100:.3f}%
+  (n_c^2 - n_c)/dim(O) = 110/8 = 13.75: error = {abs(110/8 - ms_md)/ms_md*100:.3f}%
 
   219/11 = 19.91: error = {abs(219/11 - ms_md)/ms_md*100:.3f}%
-    Note: 219 = 3 x 73 = Im(H) x (O² + Im(H)²)!
+    Note: 219 = 3 x 73 = Im(H) x (O^2 + Im(H)^2)!
 """)
 
 # =============================================================================
@@ -310,7 +310,7 @@ print(f"\nm_b/m_c = {mb_mc:.6f}")
 print(f"""
 Interesting candidates near 3.28:
 
-  Im(H) + Im(H)²/n_c = 3 + 9/11 = 3.82: error = {abs(3 + 9/11 - mb_mc)/mb_mc*100:.3f}%
+  Im(H) + Im(H)^2/n_c = 3 + 9/11 = 3.82: error = {abs(3 + 9/11 - mb_mc)/mb_mc*100:.3f}%
 
   Im(H) + 1/Im(H) = 3 + 1/3 = 3.33: error = {abs(3 + 1/3 - mb_mc)/mb_mc*100:.3f}%
 
@@ -320,7 +320,7 @@ Interesting candidates near 3.28:
     Note: 10 = C + O
 
   23/7 = 3.29: error = {abs(23/7 - mb_mc)/mb_mc*100:.3f}%
-    Note: 23 = n_d² + Im(O), 7 = Im(O)
+    Note: 23 = n_d^2 + Im(O), 7 = Im(O)
     THIS IS EXCELLENT! Only 0.24% error!
 """)
 
@@ -336,24 +336,24 @@ print("=" * 70)
 print(f"""
 | Ratio | Formula | Predicted | Measured | Error |
 |-------|---------|-----------|----------|-------|
-| m_t/m_b | (n_c² + Im(H))/Im(H) = 124/3 | 41.333 | {mt_mb:.3f} | {abs(124/3 - mt_mb)/mt_mb*100:.2f}% |
-| m_s/m_d | n_d² + n_d - 1/n_c = 219/11 | 19.909 | {ms_md:.3f} | {abs(219/11 - ms_md)/ms_md*100:.2f}% |
-| m_b/m_c | (n_d² + Im(O))/Im(O) = 23/7 | 3.286 | {mb_mc:.3f} | {abs(23/7 - mb_mc)/mb_mc*100:.2f}% |
+| m_t/m_b | (n_c^2 + Im(H))/Im(H) = 124/3 | 41.333 | {mt_mb:.3f} | {abs(124/3 - mt_mb)/mt_mb*100:.2f}% |
+| m_s/m_d | n_d^2 + n_d - 1/n_c = 219/11 | 19.909 | {ms_md:.3f} | {abs(219/11 - ms_md)/ms_md*100:.2f}% |
+| m_b/m_c | (n_d^2 + Im(O))/Im(O) = 23/7 | 3.286 | {mb_mc:.3f} | {abs(23/7 - mb_mc)/mb_mc*100:.2f}% |
 | m_c/m_s | 150/n_c = 150/11 | 13.636 | {mc_ms:.3f} | {abs(150/11 - mc_ms)/mc_ms*100:.2f}% |
 
 KEY OBSERVATIONS:
 
 1. m_s/m_d uses the same structure as m_tau/m_mu!
-   - m_tau/m_mu = n_d² + Im(H)²/n_c = 16 + 9/11 = 185/11
-   - m_s/m_d = n_d² + n_d - 1/n_c = 20 - 1/11 = 219/11
+   - m_tau/m_mu = n_d^2 + Im(H)^2/n_c = 16 + 9/11 = 185/11
+   - m_s/m_d = n_d^2 + n_d - 1/n_c = 20 - 1/11 = 219/11
    SAME DENOMINATOR n_c = 11!
 
-2. m_b/m_c = 23/7 uses n_d² + Im(O) = 23 and Im(O) = 7
+2. m_b/m_c = 23/7 uses n_d^2 + Im(O) = 23 and Im(O) = 7
    - 23 appears in alpha_s formula!
-   - This is (defect² + colors) / colors
+   - This is (defect^2 + colors) / colors
 
-3. m_t/m_b = 124/3 uses n_c² + Im(H) = 124 and Im(H) = 3
-   - 124 = crystal² + generations
+3. m_t/m_b = 124/3 uses n_c^2 + Im(H) = 124 and Im(H) = 3
+   - 124 = crystal^2 + generations
 
 4. All ratios have SIMPLE division algebra structure!
    Unlike leptons (which need Phi_6 corrections), quarks use simpler formulas.

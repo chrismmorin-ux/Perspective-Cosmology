@@ -139,7 +139,7 @@ test("Lovelock theorem applicable (D = 4)",
      "4D + 2-derivative + gen. covariance -> EFE uniquely [I-MATH]")
 
 # Test 6: Lorentz group from determinant form
-# SL(2,C)/Z_2 = SO+(1,3) — the restricted Lorentz group
+# SL(2,C)/Z_2 = SO+(1,3) -- the restricted Lorentz group
 # dim(SL(2,C)) = 2*(2^2-1) = 6 = dim(SO(1,3))
 dim_SL2C = 2 * (2**2 - 1)
 dim_SO13 = n_d * (n_d - 1) // 2
@@ -159,7 +159,7 @@ print("PART 2: Classical GR Predictions from EFE")
 print("=" * 70)
 
 # ------------------------------------------------------------------------------
-# #29: Gravitational Lensing — Solar deflection angle
+# #29: Gravitational Lensing -- Solar deflection angle
 # theta = 4 r_g / b  for impact parameter b
 # Solar limb: b = R_sun -> theta = 4 r_g / R_sun
 # Expected: 1.7512" (Eddington 1919, confirmed by modern VLBI)
@@ -176,7 +176,7 @@ test("#29 Grav. lensing: solar deflection = 1.751\"",
      f"4 r_g/R_sun = {theta_arcsec_float:.4f}\" (expected 1.7512\")")
 
 # ------------------------------------------------------------------------------
-# #30: Perihelion Precession — Mercury
+# #30: Perihelion Precession -- Mercury
 # dphi = 6 pi r_g / (a (1-e^2)) per orbit [radians]
 # Multiply by orbits_per_century for arcsec/century
 # Expected: 42.98 arcsec/century
@@ -225,7 +225,7 @@ test("#31 Shapiro: 23 ppm precision test of GR",
      f"Cassini constrains deviations to {precision_ppm:.0f} ppm level")
 
 # ------------------------------------------------------------------------------
-# #32: Frame Dragging — Lense-Thirring
+# #32: Frame Dragging -- Lense-Thirring
 # Omega_LT = 2GJ/(c^2 r^3) from Kerr metric off-diagonal terms
 # GP-B geodetic precession: GR = 6606.1, meas = 6601.8 +/- 18.3 mas/yr
 # GP-B frame dragging: GR = 39.2, meas = 37.2 +/- 7.2 mas/yr
@@ -265,7 +265,7 @@ test("#32d Off-diagonal metric DOF from n_d^2",
      f"n_d^2 = {metric_components}: includes {off_diag_DOF} off-diagonal DOF for frame dragging")
 
 # ------------------------------------------------------------------------------
-# #79: Binary Inspiral — Hulse-Taylor
+# #79: Binary Inspiral -- Hulse-Taylor
 # P_GW = (32/5) (G^4/c^5) m1^2 m2^2 (m1+m2) / a^5  (Peters formula)
 # Hulse-Taylor PSR B1913+16: Pdot_obs / Pdot_GR = 0.9983 +/- 0.0016
 # Double Pulsar J0737-3039: 0.999 (within 0.1% of GR)
@@ -293,7 +293,7 @@ test("#79c Double Pulsar: 0.1% GR test",
      f"Framework (=GR): 1.0000, J0737-3039: {float(DP_ratio):.4f} (0.1% test)")
 
 # Quadrupole formula structural: spin-2 radiation requires
-# at minimum quadrupole (l=2) coupling — no dipole GW radiation
+# at minimum quadrupole (l=2) coupling -- no dipole GW radiation
 # This follows from the gauge invariance of linearized EFE
 test("#79d No dipole GW radiation (spin-2 gauge inv.)",
      propagating == 2,

@@ -185,7 +185,7 @@ correction = Rational(n_d, em_channels)
 alpha_inverse_predicted = base_137 + correction
 
 # Measured value (CODATA 2022)
-alpha_inverse_measured = Rational(137035999206, 10**9)
+alpha_inverse_measured = Rational(137035999177, 10**9)
 
 error_ppm = abs(float(alpha_inverse_predicted - alpha_inverse_measured) /
                 float(alpha_inverse_measured)) * 1e6

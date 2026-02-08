@@ -50,11 +50,11 @@ error = abs(mu_predicted - mu_running) / mu_running * 100
 print(f"""
 THE DERIVATION:
 
-  mu_isotropy = sum of division algebra dimensions × Higgs VEV
+  mu_isotropy = sum of division algebra dimensions * Higgs VEV
 
-  mu = (dim(R) + dim(C) + dim(H) + dim(O)) × v
-     = ({dim_R} + {dim_C} + {dim_H} + {dim_O}) × {v} GeV
-     = {sum_dims} × {v} GeV
+  mu = (dim(R) + dim(C) + dim(H) + dim(O)) * v
+     = ({dim_R} + {dim_C} + {dim_H} + {dim_O}) * {v} GeV
+     = {sum_dims} * {v} GeV
      = {mu_predicted:.1f} GeV
      = {mu_predicted/1000:.2f} TeV
 
@@ -89,7 +89,7 @@ INTERPRETATION 1: Total Gauge Capacity
   Below this scale, recrystallization is channeled into subspaces.
   Above this scale, all channels contribute "democratically."
 
-  mu = (total gauge dimensions) × (electroweak scale)
+  mu = (total gauge dimensions) * (electroweak scale)
 
 INTERPRETATION 2: Binary Structure
 
@@ -128,7 +128,7 @@ print(f"""
 STARTING POINT (Framework geometry):
   sin^2(theta_W) = dim(C)/dim(O) = {dim_C}/{dim_O} = 1/4 = 0.25
 
-  at scale mu = sum(dims) × v = 15 × 246 GeV = {mu_predicted:.0f} GeV
+  at scale mu = sum(dims) * v = 15 * 246 GeV = {mu_predicted:.0f} GeV
 
 STANDARD MODEL RUNNING:
   From {mu_predicted:.0f} GeV down to M_Z = {M_Z} GeV:
@@ -163,7 +163,7 @@ print("=" * 70)
 # At 91.2 GeV: sin^2 = 0.23122
 
 # The running is approximately linear in log(mu), so:
-delta_sin2_per_decade = (0.25 - 0.231) / np.log10(3680/91.2)  # ≈ 0.012 per decade
+delta_sin2_per_decade = (0.25 - 0.231) / np.log10(3680/91.2)  # ~ 0.012 per decade
 
 # If we start from predicted 3693 GeV:
 log_ratio = np.log10(mu_predicted / M_Z)
@@ -187,7 +187,7 @@ print("THE REMAINING QUESTION: WHY v?")
 print("=" * 70)
 
 print("""
-The formula mu = 15 × v uses the Higgs VEV (v = 246 GeV).
+The formula mu = 15 * v uses the Higgs VEV (v = 246 GeV).
 
 IN STANDARD PHYSICS:
   v is a free parameter (set by Higgs potential minimum)
@@ -199,7 +199,7 @@ IN THE FRAMEWORK:
   Possible approaches:
 
   1. v might relate to Planck scale:
-     v ~ M_Planck × (some ratio of dimensions)
+     v ~ M_Planck * (some ratio of dimensions)
 
   2. v might be self-consistently determined:
      The scale where electroweak symmetry breaks might be
@@ -212,7 +212,7 @@ IN THE FRAMEWORK:
 CURRENT STATUS:
   - We use v as INPUT (from measurement)
   - Framework predicts sin^2(theta_W) RATIO
-  - Isotropy scale = 15 × v follows from structure
+  - Isotropy scale = 15 * v follows from structure
   - Running gives measured value at M_Z
 """)
 
@@ -233,11 +233,11 @@ DERIVATION:
      [Isotropy in division algebra structure]
 
   2. This holds at the "isotropy scale":
-     mu = (1 + 2 + 4 + 8) × v = 15 × 246 GeV = 3693 GeV
-     [Sum over all division algebra dimensions × Higgs VEV]
+     mu = (1 + 2 + 4 + 8) * v = 15 * 246 GeV = 3693 GeV
+     [Sum over all division algebra dimensions * Higgs VEV]
 
   3. SM running from 3693 GeV to M_Z:
-     sin^2(theta_W): 0.25 → 0.231
+     sin^2(theta_W): 0.25 -> 0.231
      [Standard quantum corrections]
 
 RESULT:
@@ -253,12 +253,12 @@ INPUTS USED:
 
 WHAT THE FRAMEWORK PREDICTS:
   - The RATIO sin^2(theta_W) = 1/4 at tree level
-  - The SCALE where this holds: 15 × v
+  - The SCALE where this holds: 15 * v
   - Combined with SM running: the measured value
 
 CONFIDENCE: DERIVATION (for ratio) + CONJECTURE (for scale formula)
   - 1/4 from geometry: well-motivated
-  - 15 × v formula: numerically exact but needs theoretical justification
+  - 15 * v formula: numerically exact but needs theoretical justification
 """)
 
 print("\n" + "=" * 70)

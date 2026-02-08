@@ -14,15 +14,15 @@
 We have discovered that **ALL mixing angles** (both PMNS neutrino and CKM quark) follow division algebra ratios with remarkable precision.
 
 **PMNS (Neutrino) Matrix:**
-- sin²θ_23 = 4/7 = dim(H)/Im(O) — **0.1% error**
+- sin²θ_23 = 4/7 = dim(H)/Im_O — **0.1% error**
 - sin²θ_12 = 10/33 = 10/(3×n_c) — **0.01% error**
 - sin²θ_13 ~ 1/44 = 1/(n_d×n_c) — 3.2% error
 
 **CKM (Quark) Matrix:**
-- λ (Cabibbo) = 9/40 = Im(H)²/(5×dim(O)) — **0.01% error** (PDG 2024: λ = 0.22497)
-- |V_cb| = 2/49 = 2/Im(O)² — **2-4% error** (inclusive/exclusive tension)
+- λ (Cabibbo) = 9/40 = Im_H²/(5×dim(O)) — **0.01% error** (PDG 2024: λ = 0.22497)
+- |V_cb| = 2/49 = 2/Im_O² — **2-4% error** (inclusive/exclusive tension)
 - |V_ub| = 1/262 = 1/(137 + n_c² + n_d) — **~0.1% error** (PDG 2024: stable)
-- δ_CKM = π×8/21 = π×dim(O)/(Im(H)×Im(O)) — **3.9% error** (within 0.8σ; PDG 2024 central value shifted)
+- δ_CKM = π×8/21 = π×dim(O)/(Im_H×Im_O) — **3.9% error** (within 0.8σ; PDG 2024 central value shifted)
 
 ---
 
@@ -36,9 +36,9 @@ Predicted: 4/7 = 0.5714
 Error: 0.1% — WITHIN experimental uncertainty!
 
 Framework interpretation:
-  4/7 = dim(H)/Im(O) = quaternion/imaginary octonion
+  4/7 = dim(H)/Im_O = quaternion/imaginary octonion
 
-This connects weak structure (H) to color structure (Im(O)).
+This connects weak structure (H) to color structure (Im_O).
 ```
 
 ### 1.2 Solar Angle: sin²θ_12 = 10/33
@@ -49,9 +49,9 @@ Predicted: 10/33 = 0.30303
 Error: 0.01% — EXCELLENT match
 
 Framework interpretation:
-  10/33 = 10/(3 × n_c) = 10/(Im(H) × n_c)
+  10/33 = 10/(3 × n_c) = 10/(Im_H × n_c)
 
-This involves generation structure (Im(H) = 3) and crystal (n_c = 11).
+This involves generation structure (Im_H = 3) and crystal (n_c = 11).
 ```
 
 ### 1.3 Reactor Angle: sin²θ_13 ~ 1/44
@@ -79,7 +79,7 @@ Predicted: 9/40 = 0.22500
 Error: 0.01%
 
 Framework interpretation:
-  9/40 = Im(H)²/(5 × dim(O)) = 9/40
+  9/40 = Im_H²/(5 × dim(O)) = 9/40
 
 This encodes generation structure squared over octonion scale.
 Note: Previous comparison used λ = 0.22500 (older fit), giving "exact" match.
@@ -99,7 +99,7 @@ Predicted: 2/49 = 0.04082
 Error: 2.6% (vs exclusive), 3.3% (vs inclusive), 4.0% (vs global fit)
 
 Framework interpretation:
-  2/49 = 2/Im(O)² = C/Im(O)²
+  2/49 = 2/Im_O² = C/Im_O²
 
 Note: The "~0%" error in the S87 version compared to a rounded 0.0408
 from an older average. With PDG 2024 data, the error is 2-4% depending
@@ -139,7 +139,7 @@ Significance: Formula is 0.8σ from PDG 2024 central value — still
 CONSISTENT with measurement, but the sub-percent match was illusory.
 
 Framework interpretation:
-  δ = π × dim(O)/(Im(H) × Im(O))
+  δ = π × dim(O)/(Im_H × Im_O)
     = π × 8/(3 × 7)
     = π × octonion/(generations × colors)
 
@@ -159,19 +159,19 @@ Interesting observation: δ_CKM ≈ θ_Koide/2
 
 | Angle | Measured (source) | Ratio | Interpretation | Error |
 |-------|-------------------|-------|----------------|-------|
-| sin²θ₂₃ | 0.572 ± 0.018 (NuFIT 5.2) | 4/7 | dim(H)/Im(O) | 0.1% |
+| sin²θ₂₃ | 0.572 ± 0.018 (NuFIT 5.2) | 4/7 | dim(H)/Im_O | 0.1% |
 | sin²θ₁₂ | 0.303 ± 0.012 (NuFIT 5.2) | 10/33 | 10/(3×n_c) | 0.01% |
 | sin²θ₁₃ | 0.02220 ± 0.00056 (NuFIT 5.2) | 1/44 | 1/(n_d×n_c) | 3.2% |
-| λ_CKM | 0.22497 ± 0.00070 (PDG 2024) | 9/40 | Im(H)²/(5×dim(O)) | 0.01% |
-| \|V_cb\| | 0.0398-0.0422 (PDG 2024) | 2/49 | 2/Im(O)² | 2-4% |
+| λ_CKM | 0.22497 ± 0.00070 (PDG 2024) | 9/40 | Im_H²/(5×dim(O)) | 0.01% |
+| \|V_cb\| | 0.0398-0.0422 (PDG 2024) | 2/49 | 2/Im_O² | 2-4% |
 | \|V_ub\| | 0.00382 ± 0.00024 (PDG 2024) | 1/262 | 1/(137+n_c²+n_d) | ~0.1% |
-| δ_CKM | 1.152 ± 0.056 rad (PDG 2024) | π×8/21 | π×O/(Im(H)×Im(O)) | 3.9% |
+| δ_CKM | 1.152 ± 0.056 rad (PDG 2024) | π×8/21 | π×O/(Im_H×Im_O) | 3.9% |
 
 ### 3.2 Structural Observations
 
 1. **All PMNS angles use n_c = 11** (crystal structure)
-2. **All CKM magnitudes use Im(O) = 7** (octonion imaginary)
-3. **Both matrices use Im(H) = 3** (generation structure)
+2. **All CKM magnitudes use Im_O = 7** (octonion imaginary)
+3. **Both matrices use Im_H = 3** (generation structure)
 4. **Smallest angles are suppressed by products** (1/44 for neutrino, 1/262 for quark)
 5. **CKM phase involves π** (like Koide θ = π×73/99)
 6. **|V_ub| connects to α** via 137 + n_c² + n_d = 262
@@ -180,15 +180,15 @@ Interesting observation: δ_CKM ≈ θ_Koide/2
 
 ```
 NEUTRINO MIXING (PMNS):
-  Largest:  sin²θ_23 ~ dim(H)/Im(O) ~ 4/7 ~ 0.57
+  Largest:  sin²θ_23 ~ dim(H)/Im_O ~ 4/7 ~ 0.57
   Middle:   sin²θ_12 ~ 10/(3×n_c) ~ 10/33 ~ 0.30
   Smallest: sin²θ_13 ~ 1/(n_d×n_c) ~ 1/44 ~ 0.02
 
 QUARK MIXING (CKM) — NOW COMPLETE:
-  Largest:  λ ~ Im(H)²/(5×dim(O)) ~ 9/40 ~ 0.225
-  Middle:   |V_cb| ~ 2/Im(O)² ~ 2/49 ~ 0.041
+  Largest:  λ ~ Im_H²/(5×dim(O)) ~ 9/40 ~ 0.225
+  Middle:   |V_cb| ~ 2/Im_O² ~ 2/49 ~ 0.041
   Smallest: |V_ub| ~ 1/(137+n_c²+n_d) ~ 1/262 ~ 0.0038
-  Phase:    δ ~ π×O/(Im(H)×Im(O)) ~ π×8/21 ~ 1.20 rad
+  Phase:    δ ~ π×O/(Im_H×Im_O) ~ π×8/21 ~ 1.20 rad
 ```
 
 ---
@@ -231,7 +231,7 @@ Pattern: All electroweak mixing involves n_c = 11, n_d = 4, and division algebra
 | Quantity | Measured (PDG 2024 / NuFIT) | Framework Formula | Error |
 |----------|----------------------------|-------------------|-------|
 | \|V_ub\| | 0.00382 ± 0.00024 | 1/262 = 1/(137+n_c²+n_d) | **~0.1%** |
-| δ_CKM | 1.152 ± 0.056 rad | π×8/21 = π×O/(Im(H)×Im(O)) | **3.9%** (0.8σ) |
+| δ_CKM | 1.152 ± 0.056 rad | π×8/21 = π×O/(Im_H×Im_O) | **3.9%** (0.8σ) |
 | δ_PMNS | ~3.44 rad (NuFIT 6.0 NO) | π×19/14 = π×(n_c+O)/(C×Im_O) | **TBD** (NuFIT 6.0 shifted) |
 
 **Note on δ_PMNS**: NuFIT 6.0 (Sep 2024) finds δ_CP consistent with CP conservation
@@ -322,7 +322,7 @@ This connects quark flavor mixing to the electromagnetic coupling!
 
 ### 7.2 Key Insight: CP Violation from Division Algebras
 
-The CP violation phase δ = π × dim(O)/(Im(H) × Im(O)) = π × 8/21 suggests that:
+The CP violation phase δ = π × dim(O)/(Im_H × Im_O) = π × 8/21 suggests that:
 - CP violation emerges from the ratio of full octonion to imaginary decomposition
 - The π factor (like in Koide θ) indicates angular/phase nature
 - 21 = 3 × 7 = generations × colors — mixing involves both
@@ -469,9 +469,9 @@ a genuine theorem-level result regardless of whether R₃₁ = 33 holds.
 | # | Step | Classification | Notes |
 |---|------|---------------|-------|
 | 1 | DA dimensions (R,C,H,O) | [I-MATH] | Hurwitz theorem |
-| 2 | Im(H) = 3 | [D] | From H=4 |
+| 2 | Im_H = 3 | [D] | From H=4 |
 | 3 | dim(O) = 8 | [D] | From Hurwitz |
-| 4 | 9/40 = Im(H)²/(5×dim(O)) | **[CONJECTURE]** | Why this combination? Discovered by search (S82) |
+| 4 | 9/40 = Im_H²/(5×dim(O)) | **[CONJECTURE]** | Why this combination? Discovered by search (S82) |
 | 5 | "5" in denominator | **[CONJECTURE]** | No framework derivation for factor of 5 |
 **HRS**: 4 (HIGH). Formula discovered numerically, interpretation post-hoc.
 
@@ -479,8 +479,8 @@ a genuine theorem-level result regardless of whether R₃₁ = 33 holds.
 
 | # | Step | Classification | Notes |
 |---|------|---------------|-------|
-| 1 | Im(O) = 7 | [D] | From O=8 |
-| 2 | 2/49 = C/Im(O)² | **[CONJECTURE]** | Discovered by search (S83) |
+| 1 | Im_O = 7 | [D] | From O=8 |
+| 2 | 2/49 = C/Im_O² | **[CONJECTURE]** | Discovered by search (S83) |
 **HRS**: 4 (HIGH). Error 2-4% due to inclusive/exclusive tension.
 
 **|V_ub| = 1/262**:
@@ -497,7 +497,7 @@ a genuine theorem-level result regardless of whether R₃₁ = 33 holds.
 
 | # | Step | Classification | Notes |
 |---|------|---------------|-------|
-| 1 | dim(O) = 8, Im(H)×Im(O) = 21 | [D] | From division algebras |
+| 1 | dim(O) = 8, Im_H×Im_O = 21 | [D] | From division algebras |
 | 2 | δ = π×8/21 | **[CONJECTURE]** | Discovered by search (S87) |
 | 3 | Error degraded: 0.07% → 3.9% | [A-IMPORT] | PDG 2024 central value shift |
 **HRS**: 4 (HIGH). Error degradation is concerning. At 0.8σ still consistent, but trend matters.
@@ -506,10 +506,10 @@ a genuine theorem-level result regardless of whether R₃₁ = 33 holds.
 
 | Parameter | Formula | Classification | HRS | Notes |
 |-----------|---------|---------------|-----|-------|
-| sin²θ₂₃ = 4/7 | dim(H)/Im(O) | [CONJECTURE] | 2 | Simple ratio, 0.1% |
-| sin²θ₁₂ = 10/33 | 10/(Im(H)×n_c) | [CONJECTURE] | 4 | "10" has no clear origin |
+| sin²θ₂₃ = 4/7 | dim(H)/Im_O | [CONJECTURE] | 2 | Simple ratio, 0.1% |
+| sin²θ₁₂ = 10/33 | 10/(Im_H×n_c) | [CONJECTURE] | 4 | "10" has no clear origin |
 | sin²θ₁₃ ~ 1/44 | 1/(n_d×n_c) | [CONJECTURE] | 4 | 3.2% error; structural (product of key dims) |
-| R₃₁ = 33 | Im(H)×n_c | [CONJECTURE] | 2 | Semi-blind (predicted S167, confirmed by NuFIT) |
+| R₃₁ = 33 | Im_H×n_c | [CONJECTURE] | 2 | Semi-blind (predicted S167, confirmed by NuFIT) |
 | δ_PMNS = π×19/14 | π×(n_c+O)/(C×Im_O) | [CONJECTURE] | 4 | NuFIT 6.0 shifted — needs revisiting |
 
 ### Assumption Counts (Aggregate)

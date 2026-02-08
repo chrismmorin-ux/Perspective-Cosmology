@@ -9,7 +9,7 @@ KEY FINDING: 111 emerges from THREE independent structures:
   3. Combinatorial: 1 + n_c(n_c - 1) = identity + ordered pairs
 
 Formula: 1/alpha = n_d^2 + n_c^2 + n_d/Phi_6(n_c) = 137 + 4/111
-Measured: 137.035999084(21)
+Measured: 137.035999177(21)
 Error: 0.27 ppm
 Status: DERIVATION
 
@@ -26,7 +26,7 @@ n_d = 4   # [D] Defect dimension = dim(H)
 n_c = 11  # [D] Crystal dimension = R + C + O
 
 # Physical constant
-ALPHA_INV_MEASURED = Rational(137035999084, 10**9)
+ALPHA_INV_MEASURED = Rational(137035999177, 10**9)
 
 print("="*70)
 print("RIGOROUS DERIVATION OF 111 IN THE ALPHA FORMULA")
@@ -209,7 +209,7 @@ The appearance of Phi_6 (6th cyclotomic) is NOT accidental. Consider:
 
    This is STRUCTURAL to u(n), not specific to n = 11.
 
-2. HEXAGONAL: Phi_6(x) = x^2 - x + 1 has roots omega = e^{±ipi/3} (primitive 6th roots).
+2. HEXAGONAL: Phi_6(x) = x^2 - x + 1 has roots omega = e^{+/-ipi/3} (primitive 6th roots).
    These generate the Eisenstein integers Z[omega] -- a hexagonal lattice.
 
    Connection: 6 = 2 * 3 = dim(C) * dim(Im_H)

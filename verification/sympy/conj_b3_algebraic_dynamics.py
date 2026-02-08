@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CONJ-B3: Algebraic Dynamics — Does Quaternionic Transition Converge?
+CONJ-B3: Algebraic Dynamics -- Does Quaternionic Transition Converge?
 
 KEY QUESTION: Is "lower energy = preferred" (assumption B3) derivable
 from the transition algebra (T0 + T1)?
@@ -10,7 +10,7 @@ on R^11. The quartic potential V(eps) has a minimum at the (4,7) breaking
 pattern. We test whether quaternionic transition iteration converges to
 this minimum.
 
-RESULT: PARTIAL — gradient flow converges (standard), but the connection
+RESULT: PARTIAL -- gradient flow converges (standard), but the connection
 between quaternionic transitions and gradient flow requires one physical
 identification (ergodic sampling -> statistical dominance of lower-energy
 transitions). B3 reduces from [A-PHYSICAL] to a weaker claim.
@@ -357,7 +357,7 @@ def test_lyapunov():
 
 
 # ============================================================
-# Part 6: Assessment — What's Proven, What Remains
+# Part 6: Assessment -- What's Proven, What Remains
 # ============================================================
 
 def assess_b3():

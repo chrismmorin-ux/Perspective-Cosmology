@@ -460,8 +460,8 @@ The 10 Goldstone modes MUST split as 1+3+6:
 | Component | Value | Origin |
 |-----------|-------|--------|
 | **Time** | 1 | Aligned with crystallization gradient |
-| **Space** | 3 = Im(H) | Imaginary quaternions, perpendicular to gradient |
-| **Internal** | 6 = C x Im(H) | Gauge/generation degrees of freedom |
+| **Space** | 3 = Im_H | Imaginary quaternions, perpendicular to gradient |
+| **Internal** | 6 = C x Im_H | Gauge/generation degrees of freedom |
 | **Total** | 10 = n_c - 1 | Goldstone modes from SO(11) -> SO(10) |
 
 **Key insights**:
@@ -555,7 +555,7 @@ The Lorentzian signature (-,+,+,+) emerges from the crystallization structure:
 
 1. **Crystallization gradient** defines a distinguished direction (radial in coset space)
 2. **Time** is the Goldstone mode aligned with this gradient
-3. **Space** are the 3 modes perpendicular to gradient (from Im(H))
+3. **Space** are the 3 modes perpendicular to gradient (from Im_H)
 4. **Asymmetry**: Radial modes couple to the Mexican hat potential; angular modes are free
 
 The relative minus sign comes from:

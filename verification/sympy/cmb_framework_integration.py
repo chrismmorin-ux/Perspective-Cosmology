@@ -50,7 +50,7 @@ H0_framework = R(337, dims['R'] + dims['H'])  # 337/5
 H0_measured = R(6736, 100)  # 67.36 (Planck 2018)
 
 # Omega_b*h^2 = 567/11600 * (337/500)^2 -- from Omega_b = Omega_m * 9/58
-# Framework: Omega_m ≈ 0.315, Omega_b/Omega_m = 9/58
+# Framework: Omega_m ~ 0.315, Omega_b/Omega_m = 9/58
 baryon_fraction = R(Im_H**2, Im_O**2 + Im_H**2)  # 9/58
 
 # n_s = 193/200 [DERIVED from hilltop]
@@ -193,7 +193,7 @@ l_A_planck = R(301, 1)
 peaks_measured = {1: 220, 2: 540, 3: 810, 4: 1120, 5: 1440, 6: 1680, 7: 1950}
 
 # Framework: l_n ~ n * l_A with phase shifts
-# Simple model: l_n ≈ n * 302 - 82 (driving correction)
+# Simple model: l_n ~ n * 302 - 82 (driving correction)
 # More precise: from full power spectrum analysis (S142)
 
 peak_tests = []
@@ -394,7 +394,7 @@ print(f"SUMMARY: {n_pass}/{n_pass + n_fail} tests passed, {n_fail} failed")
 if n_fail == 0:
     print("ALL TESTS PASS")
 else:
-    print(f"{n_fail} FAILURES — investigate")
+    print(f"{n_fail} FAILURES -- investigate")
 print(f"{'=' * 70}")
 
 print()

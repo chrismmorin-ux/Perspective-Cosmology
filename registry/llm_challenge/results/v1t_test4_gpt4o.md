@@ -161,9 +161,9 @@ n_c is the sum of the imaginary dimensions of all normed division algebras, incl
 So we sum:
 
 Im(R) = 0
-Im(C) = 1
-Im(H) = 3
-Im(O) = 7
+Im_C = 1
+Im_H = 3
+Im_O = 7
 
 n_c = 0 + 1 + 3 + 7 = 11
 
@@ -292,7 +292,7 @@ or test whether alternative "time" axioms would change n_d.
 
 | Quantity | V1-Original (Test 2) | V1-Tightened (Test 4) | Fixed? |
 |----------|----------------------|----------------------|--------|
-| n_d | 3 (Im(H) only) | 4 (full dim(H)) | YES |
+| n_d | 3 (Im_H only) | 4 (full dim(H)) | YES |
 | n_c | 4 (Frobenius only) | 11 (all Hurwitz) | YES |
 | Combination | 3^2 + 4^2 = 25 | 4^2 + 11^2 = 137 | YES |
 

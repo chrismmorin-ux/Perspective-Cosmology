@@ -77,7 +77,7 @@ print()
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 1: S151 WEINBERG ANGLE — sin^2 theta_W = 28/121")
+print("SECTION 1: S151 WEINBERG ANGLE -- sin^2 theta_W = 28/121")
 print("=" * 72)
 print()
 
@@ -159,7 +159,7 @@ print()
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 4: INDUCED WEINBERG ANGLE — S_2 = 29")
+print("SECTION 4: INDUCED WEINBERG ANGLE -- S_2 = 29")
 print("=" * 72)
 print()
 
@@ -176,7 +176,7 @@ print(f"  S_Y = {S_EM - S2_test} = 126 - 29 = 97")
 print()
 
 # ==============================================================================
-# SECTION 5: CONSISTENCY CHECK — 1/alpha_2 = sin^2 theta_W x 1/alpha_EM
+# SECTION 5: CONSISTENCY CHECK -- 1/alpha_2 = sin^2 theta_W x 1/alpha_EM
 # ==============================================================================
 
 print("=" * 72)
@@ -204,11 +204,11 @@ for name, pred, meas, formula in s151_predictions:
 print()
 
 # ==============================================================================
-# SECTION 6: COMPARISON TABLE — S151 vs INDUCED vs MEASURED
+# SECTION 6: COMPARISON TABLE -- S151 vs INDUCED vs MEASURED
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 6: COMPARISON — S151 vs INDUCED vs MEASURED")
+print("SECTION 6: COMPARISON -- S151 vs INDUCED vs MEASURED")
 print("=" * 72)
 print()
 

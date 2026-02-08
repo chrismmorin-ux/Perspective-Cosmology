@@ -205,7 +205,7 @@ print(f"  27 -> 1 + 3 + 3bar + 6 + 6bar + 8")
 # ==============================================================================
 
 print(f"\n{'='*70}")
-print("PART 4: Channel Counting — Transition Channels at Each Stage")
+print("PART 4: Channel Counting -- Transition Channels at Each Stage")
 print(f"{'='*70}")
 
 print("""
@@ -339,7 +339,7 @@ for k in range(1, 25):
         known = f" <-- notable: {val}"
 
     if val < 300 or known:
-        print(f"  Phi_{k:>2}(11) = {val:>6}{known}")
+        print(f"  Phi_{k:>2}(11) = {int(val):>6}{known}")
 
 # ==============================================================================
 # PART 7: Key finding - denominators as polynomial evaluations
@@ -381,7 +381,7 @@ for name, poly in polys.items():
     elif val == 72:
         known = " = m_p/m_e correction!"
     if known or val < 250:
-        print(f"  {name:>20} at n=11: {val:>6}{known}")
+        print(f"  {name:>20} at n=11: {int(val):>6}{known}")
 
 print(f"""
 KEY FINDINGS:

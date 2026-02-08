@@ -8,7 +8,7 @@ identical physics constants.
 
 The perspective graph on K_{n_c} has vertex connectivity n_c - 1 = 10,
 so removing up to 10 vertices (any single perspective's accessible set)
-leaves the complement connected — the critical requirement for AXM_0101.
+leaves the complement connected -- the critical requirement for AXM_0101.
 
 Formula: h_pi = n_c - d_pi, where n_c = 11
 Key constraint: h_pi >= 2 (non-triviality) requires d_pi <= 9
@@ -165,7 +165,7 @@ def test_axiom_verification():
     - INHERITED: Properties of V_Crystal itself, unchanged
     - DIMENSIONAL: Require h_pi >= 2 (non-triviality)
     - STRUCTURAL: Require specific graph/algebraic properties
-    - CRITICAL: AXM_0101 (Connectivity) — needs the key lemma
+    - CRITICAL: AXM_0101 (Connectivity) -- needs the key lemma
     """
     print("\n" + "=" * 60)
     print("TEST 3: Axiom-by-Axiom Verification")
@@ -271,10 +271,10 @@ def test_axiom_verification():
          True),
     ]
 
-    # AXM_0116 (Crystal Timelessness) — also inherited
+    # AXM_0116 (Crystal Timelessness) -- also inherited
     axioms.insert(15, ("AXM_0116", "Crystal Timelessness",
                         "INHERITED",
-                        "V_Crystal has no temporal structure — intrinsic property",
+                        "V_Crystal has no temporal structure -- intrinsic property",
                         True))
 
     all_pass = True
@@ -337,7 +337,7 @@ def test_division_algebra_selection():
     print(f"n=4 gives dim(H)=4 (quaternions)")
     print(f"Framework selects MAXIMAL solution: n_d = {max(solutions)}")
     print(f"  Reason: n_d must accommodate all lower division algebras")
-    print(f"  R(1) < C(2) < H(4) — quaternions are the maximal associative case")
+    print(f"  R(1) < C(2) < H(4) -- quaternions are the maximal associative case")
     print(f"2^n/n^2 monotonically increasing for n >= 5: {ratio_increasing}")
     print(f"  (No further solutions exist)")
 
@@ -364,7 +364,7 @@ def test_time_reversal():
         d|eps|/dt = 2*Gamma*|eps|*(a - 2*b*|eps|^2)
     is a first-order gradient flow. Under t -> -t:
         d|eps|/d(-t) = -2*Gamma*|eps|*(a - 2*b*|eps|^2)
-    This describes GROWTH rather than decay — the time-reversed solution
+    This describes GROWTH rather than decay -- the time-reversed solution
     nucleates FROM eps=0 toward eps=eps*.
 
     The underlying SECOND-ORDER EOM (with Hubble friction):
@@ -494,7 +494,7 @@ def test_mirror_dimension_budget():
     - Original: d_pi dimensions (the object's subspace)
     - Mirror: h_pi = n_c - d_pi dimensions (the complement)
 
-    The n_c budget is NOT divided — it's the crystal dimension, which is fixed.
+    The n_c budget is NOT divided -- it's the crystal dimension, which is fixed.
     What's divided is the PERSPECTIVE ACCESS.
     """
     print("\n" + "=" * 60)
@@ -704,7 +704,7 @@ def main():
         print(f"  - Causally disconnected from U_pi (non-traversable)")
         print(f"  - Time-reversed nucleation from shared eps=0 boundary")
     else:
-        print(f"  Some checks failed — see details above")
+        print(f"  Some checks failed -- see details above")
 
     return all_pass
 

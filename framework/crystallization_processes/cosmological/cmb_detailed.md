@@ -52,7 +52,7 @@ This sub-catalog has **significant framework content** for primary anisotropies 
 **What framework adds**:
 1. **n_s = 193/200**: Genuine framework prediction from hilltop potential (0.024 sigma from Planck). Sets the tilt of the primordial power spectrum.
 2. **l_2 via phi_odd = 3/11**: The second acoustic peak position is explained through baryon loading with the odd-peak suppression factor phi_odd = Im_H/n_c = 3/11. Resolved in S199 to 0.4% accuracy.
-3. **N_eff = 3**: From Im(H) = 3. The number of light neutrino species affects the damping tail and peak positions. Consistent with Planck to 0.06 sigma.
+3. **N_eff = 3**: From Im_H = 3. The number of light neutrino species affects the damping tail and peak positions. Consistent with Planck to 0.06 sigma.
 4. **Omega_Lambda = 137/200, Omega_m = 63/200**: [CONJECTURE] — these affect the angular diameter distance to the LSS and hence peak positions. Both within 0.04 sigma of Planck, but no derivation mechanism (EQ-002).
 
 **What is imported**: l_A (acoustic scale) [A-IMPORT], angular diameter distance [A-IMPORT], standard perturbation theory [A-IMPORT], Sachs-Wolfe formula [A-IMPORT], peak height physics [A-IMPORT/GAP]

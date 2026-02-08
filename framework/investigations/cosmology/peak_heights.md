@@ -1,9 +1,11 @@
 # CMB Peak Height Ratios from Framework Parameters
 
-**Status**: DERIVATION (partial)
+**Status**: ARCHIVE (P-008 falsified higher peak extension; R_* derivation retained)
 **Created**: Session 134
 **Confidence**: [DERIVATION] for R_*; [CONJECTURE] for framework ratio candidates
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-07
+
+**P-008 Note**: The extension of framework ratio patterns to peaks l_4, l_5, l_6 was FALSIFIED in Session 124 (12-19% errors). See FALSIFICATION_REGISTRY.md. The R_* = D_l2/D_l1 derivation for the first three peaks is retained as [CONJECTURE].
 
 ---
 
@@ -15,7 +17,7 @@ The first peak is the tallest. The second peak is shorter — only about 44% as 
 
 Here's why: in the early universe, sound waves bounced back and forth in the plasma. Odd-numbered peaks correspond to "compression" phases (matter falling into gravity wells), while even-numbered peaks correspond to "rarefaction" phases (matter bouncing back out). Baryons add extra weight to the plasma, which enhances the compressions but not the rarefactions — making odd peaks taller than even peaks.
 
-The ratio of the second peak to the first peak — about 0.44 — encodes the baryon density. Our framework derives the baryon density (Omega_b = 567/11600) from division algebra structure, which then determines this ratio through standard plasma physics.
+The ratio of the second peak to the first peak — about 0.44 — encodes the baryon density. Our framework derives the baryon density (Omega_b = 567/11600) from division algebra structure [DERIVATION], which then determines this ratio through standard plasma physics.
 
 **One-sentence version**: The framework derives the cosmological parameters (especially baryon density) that determine CMB peak height ratios through standard Boltzmann physics, with several candidate algebraic expressions matching the measured D_l2/D_l1 ~ 0.44 to within 3%.
 
@@ -46,8 +48,8 @@ R_* = (3/4) * (rho_b / rho_gamma) |_{z=z_*}
 
 | Quantity | Expression | Value | Source |
 |----------|------------|-------|--------|
-| Omega_b | Omega_m * 9/58 | 567/11600 = 0.04888 | [D: division algebra] |
-| h | H_0/100 = 337/500 | 0.674 | [D: division algebra] |
+| Omega_b | Omega_m * 9/58 | 567/11600 = 0.04888 | [D: from Omega_m [A-PHYSICAL] and baryon fraction 9/58 [D]] |
+| h | H_0/100 = 337/500 | 0.674 | [D: H_0 from division algebra structure] |
 | omega_b | Omega_b * h^2 | 0.02221 | [D] |
 | omega_gamma | 2.469e-5 * (T/2.7255)^4 | 2.469e-5 | [I: T_CMB import] |
 | z_* | (Im_H * n_c)^2 = 33^2 | 1089 | [D: division algebra] |

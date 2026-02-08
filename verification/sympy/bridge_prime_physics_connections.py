@@ -142,7 +142,7 @@ COMPARISON:
 |---------|-------|-------------|
 | 1836 + 11/72 | {float(mp_me_current):.8f} | {error_current:.2f} |
 | 14657/8 | {14657/8:.8f} | {error_bridge:.2f} |
-| Measured | {mp_me_measured:.8f} | — |
+| Measured | {mp_me_measured:.8f} | -- |
 
 The current formula (1836 + 11/72) is MUCH better!
 But 14657/8 is interesting as an approximation from bridge primes.

@@ -9,9 +9,9 @@ structure of QED Feynman diagrams.
 
 Formula: alpha = P(EM channel per crystallization step) = 1/N_I (leading)
          1/alpha = N_I + n_d/Phi_6(n_c) (full)
-Measured: 137.035999084 (CODATA 2018)
+Measured: 137.035999177 (CODATA 2022)
 Error: 0.27 ppm
-Status: DERIVATION — connecting Born rule to QED vertex factor
+Status: DERIVATION -- connecting Born rule to QED vertex factor
 
 Depends on:
 - DEF_02B3: N_I = n_d^2 + n_c^2 = 137
@@ -48,7 +48,7 @@ alpha_inv_exact = Rational(15211, 111)  # = N_I + n_d/Phi_6
 alpha_exact = Rational(111, 15211)
 
 # CODATA measurement
-alpha_inv_measured = Rational(137035999084, 10**9)
+alpha_inv_measured = Rational(137035999177, 10**9)
 
 # ==============================================================================
 # PART 1: BORN RULE ON DEMOCRATIC EXCITATION

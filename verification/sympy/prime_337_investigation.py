@@ -4,7 +4,7 @@ Prime 337 Deep Investigation
 
 KEY FINDING: 337 = 3^4 + 4^4 = Im_H^4 + H^4 appears in the sound horizon!
 
-r_s = 337 × 3/7 = 144.43 Mpc (0.001% match to measured value)
+r_s = 337 * 3/7 = 144.43 Mpc (0.001% match to measured value)
 
 Questions to answer:
 1. Why Im_H^4 + H^4 specifically?
@@ -151,7 +151,7 @@ r_s_predicted = 337 * 3 / 7
 
 print(f"""
 SOUND HORIZON FORMULA:
-  r_s = 337 × 3/7 = 337 × Im_H/Im_O
+  r_s = 337 * 3/7 = 337 * Im_H/Im_O
       = {r_s_predicted:.4f} Mpc
 
 MEASURED:
@@ -189,35 +189,35 @@ print(f"""
 PRIME RELATIONSHIPS:
 
 337 and 17:
-  337 = 20 × 17 - 3 = 20 × (R^2+H^2) - Im_H
-  337 - 17 = 320 = 64 × 5 = H^3 × 5
+  337 = 20 * 17 - 3 = 20 * (R^2+H^2) - Im_H
+  337 - 17 = 320 = 64 * 5 = H^3 * 5
 
 337 and 97:
-  337 = 97 + 240 = 97 + 15×16 = 97 + (n_c+H) × H^2
-  337 - 97 = 240 = C × n_c × H + H^2 × Im_H × C
+  337 = 97 + 240 = 97 + 15*16 = 97 + (n_c+H) * H^2
+  337 - 97 = 240 = C * n_c * H + H^2 * Im_H * C
   97 = C^4 + Im_H^4 (also a fourth-power prime!)
 
 337 and 137:
-  337 - 137 = 200 = 8 × 25 = O × 5^2
-  337 = 137 + 200 = fine_structure + O × 5^2
+  337 - 137 = 200 = 8 * 25 = O * 5^2
+  337 = 137 + 200 = fine_structure + O * 5^2
 
 337 and 179:
-  337 - 179 = 158 = 2 × 79 = C × hidden_channels
-  337 = 179 + 2×79 = universal + 2×hidden
+  337 - 179 = 158 = 2 * 79 = C * hidden_channels
+  337 = 179 + 2*79 = universal + 2*hidden
 
 337 and 181:
-  337 - 181 = 156 = 12 × 13 = (Im_H×H) × (C^2+Im_H^2)
+  337 - 181 = 156 = 12 * 13 = (Im_H*H) * (C^2+Im_H^2)
 
 BEAUTIFUL IDENTITY:
-  337 = 137 + 200 = (H^2 + n_c^2) + (O × 25)
-      = fine_structure + octonion × 5^2
+  337 = 137 + 200 = (H^2 + n_c^2) + (O * 25)
+      = fine_structure + octonion * 5^2
 
 The prime 337 extends the fine structure constant (137) by
 adding an octonion-weighted contribution!
 """)
 
 # Verify
-print(f"Verification: 137 + 8×25 = {137 + 8*25} = 337? {137 + 8*25 == 337}")
+print(f"Verification: 137 + 8*25 = {137 + 8*25} = 337? {137 + 8*25 == 337}")
 
 # ============================================================================
 # OTHER PHYSICAL QUANTITIES INVOLVING 337
@@ -251,7 +251,7 @@ quantities = [
     ("alpha_s(M_Z)", 0.118),
 ]
 
-print("Searching for 337 × n/d matches...")
+print("Searching for 337 * n/d matches...")
 print("-"*60)
 
 for name, value in quantities:
@@ -275,7 +275,7 @@ for name, value in quantities:
                             if d == x*y and x <= y: d_meaning = f"{xn}*{yn}" if xn != yn else f"{xn}^2"
 
                     print(f"  {name} = {value}")
-                    print(f"    337 × {n}/{d} = {pred:.6f} (error: {error*100:.4f}%)")
+                    print(f"    337 * {n}/{d} = {pred:.6f} (error: {error*100:.4f}%)")
                     if n_meaning or d_meaning:
                         print(f"    {n} = {n_meaning}, {d} = {d_meaning}")
                     print()
@@ -364,7 +364,7 @@ print("="*70)
 print("""
 WHY DOES 337 = Im_H^4 + H^4 APPEAR IN THE SOUND HORIZON?
 
-HYPOTHESIS: The sound horizon formula r_s = 337 × Im_H/Im_O encodes:
+HYPOTHESIS: The sound horizon formula r_s = 337 * Im_H/Im_O encodes:
 
 1. THE PRIME 337:
    - Im_H^4 = generation^4: Sound couples to particle generations (baryons, leptons)
@@ -380,11 +380,11 @@ HYPOTHESIS: The sound horizon formula r_s = 337 × Im_H/Im_O encodes:
    This is the "generation-to-color" ratio that governs baryon-photon coupling.
 
 3. THE COMPLETE FORMULA:
-   r_s = (Im_H^4 + H^4) × (Im_H/Im_O) × [length unit]
-       = (generation-spacetime structure) × (matter-color ratio) × scale
+   r_s = (Im_H^4 + H^4) * (Im_H/Im_O) * [length unit]
+       = (generation-spacetime structure) * (matter-color ratio) * scale
 
 SIGNIFICANCE:
-The sound horizon — a KEY cosmological observable that determines:
+The sound horizon -- a KEY cosmological observable that determines:
   - CMB acoustic peak positions
   - BAO scale (standard ruler)
   - Hubble constant inference
@@ -411,10 +411,10 @@ tests = [
     ("337 = Im_H^4 + H^4", Im_H**4 + H**4 == 337),
     ("17 = R^4 + C^4", R**4 + C**4 == 17),
     ("97 = C^4 + Im_H^4", C**4 + Im_H**4 == 97),
-    ("r_s = 337 × 3/7 matches (< 0.01%)", abs(337*3/7 - 144.43)/144.43 < 0.0001),
-    ("337 - 137 = 200 = 8 × 25", 337 - 137 == 8 * 25),
-    ("337 - 97 = 240 = 16 × 15", 337 - 97 == 16 * 15),
-    ("97 - 17 = 80 = 16 × 5", 97 - 17 == 16 * 5),
+    ("r_s = 337 * 3/7 matches (< 0.01%)", abs(337*3/7 - 144.43)/144.43 < 0.0001),
+    ("337 - 137 = 200 = 8 * 25", 337 - 137 == 8 * 25),
+    ("337 - 97 = 240 = 16 * 15", 337 - 97 == 16 * 15),
+    ("97 - 17 = 80 = 16 * 5", 97 - 17 == 16 * 5),
 ]
 
 all_pass = True

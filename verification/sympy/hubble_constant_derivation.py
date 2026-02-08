@@ -53,7 +53,7 @@ alpha = 1 / alpha_inv
 
 # Cosmological parameters (from framework derivations)
 Lambda_exp = Integer(56)  # [D] exponent: Lambda = alpha^56/77 (crystallization stress)
-Lambda_denom = Integer(77)  # [D] = n_c * Im_O (crystal × color structure)
+Lambda_denom = Integer(77)  # [D] = n_c * Im_O (crystal * color structure)
 Omega_Lambda_num = Integer(13)  # [D] = C^2 + Im_H^2 (electroweak structure)
 Omega_Lambda_denom = Integer(19)  # [D] = n_c + O (total structure)
 

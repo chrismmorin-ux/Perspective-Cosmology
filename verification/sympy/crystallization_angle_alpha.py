@@ -11,7 +11,7 @@ Formula: alpha = 1/N_I = cos^2(arccos(1/sqrt(N_I))) = 1/N_I
          e = 1/sqrt(N_I) = crystallization amplitude (overlap)
          alpha = e^2 = crystallization probability (Born rule)
 
-Status: INVESTIGATION — geometric interpretation of alpha
+Status: INVESTIGATION -- geometric interpretation of alpha
 Depends on:
 - N_I = n_d^2 + n_c^2 = 137 [DERIVED]
 - Born rule from crystallization [DERIVED, Session 134]
@@ -89,7 +89,7 @@ print(f"  sin^2(delta) = 1/{N_I} = alpha (same result)")
 print()
 
 # ==============================================================================
-# SECTION 2: WHY DIMENSIONLESS — THREE EQUIVALENT PICTURES
+# SECTION 2: WHY DIMENSIONLESS -- THREE EQUIVALENT PICTURES
 # ==============================================================================
 
 print("=" * 70)

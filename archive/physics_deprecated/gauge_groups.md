@@ -90,7 +90,7 @@ This is the group U(1):
 [A-HURWITZ] C is a normed division algebra of dim 2
 [D] Unit elements |z|² = 1 form a compact group
 [D] This group is U(1) = S¹
-[D] dim(U(1)) = dim(Im(C)) = 1 ✓
+[D] dim(U(1)) = dim(Im_C) = 1 ✓
 ```
 
 ### 2.2 Quaternions → SU(2)
@@ -111,7 +111,7 @@ This is isomorphic to SU(2):
 [A-HURWITZ] H is a normed division algebra of dim 4
 [D] Unit quaternions |q|² = 1 form S³
 [D] S³ ≅ SU(2) as Lie groups
-[D] dim(SU(2)) = dim(Im(H)) = 3 ✓
+[D] dim(SU(2)) = dim(Im_H) = 3 ✓
 ```
 
 **Theorem G.2 (Quaternion-SU(2) Isomorphism)**
@@ -134,9 +134,9 @@ Instead, we use the **automorphism structure** with **complex structure selectio
 
 **The Problem**:
 ```
-O = R ⊕ Im(O)
+O = R ⊕ Im_O
 dim(O) = 8
-dim(Im(O)) = 7
+dim(Im_O) = 7
 
 Full automorphism group: Aut(O) = G₂
 dim(G₂) = 14
@@ -155,7 +155,7 @@ When complex structure (F = C) is imposed on O:
 4. The automorphisms of O that preserve this decomposition form SU(3)
 
 Proof:
-- G₂ acts transitively on Im(O) ≅ S⁶
+- G₂ acts transitively on Im_O ≅ S⁶
 - The stabilizer of one point (e₁) is SU(3)
 - Dimension check: dim(G₂) - dim(S⁶) = 14 - 6 = 8 = dim(SU(3)) ✓
 - G₂/SU(3) = S⁶ (fibration)
@@ -171,7 +171,7 @@ Proof:
 [D] dim(SU(3)) = 8
 ```
 
-**Why is this not arbitrary?** The choice of direction in Im(O) corresponds to the choice of *which* complex structure we're using. But F = C is **forced** by T1, so we must make such a choice. The resulting symmetry group is always SU(3), regardless of which specific direction is chosen.
+**Why is this not arbitrary?** The choice of direction in Im_O corresponds to the choice of *which* complex structure we're using. But F = C is **forced** by T1, so we must make such a choice. The resulting symmetry group is always SU(3), regardless of which specific direction is chosen.
 
 ---
 
@@ -181,8 +181,8 @@ Proof:
 
 | Source | Dimension | Explanation |
 |--------|-----------|-------------|
-| Im(C) | 1 | Single imaginary unit i |
-| Im(H) | 3 | Three imaginary units i,j,k |
+| Im_C | 1 | Single imaginary unit i |
+| Im_H | 3 | Three imaginary units i,j,k |
 | Stabilizer in G₂ | 8 | G₂ (dim 14) → fix one direction → SU(3) (dim 8) |
 
 ### 3.2 The Key Observation
@@ -206,10 +206,10 @@ The extra dimension comes from the complex structure selection!
 
 **Theorem G.4 (The 7→8 Resolution)**
 ```
-Im(O) has 7 dimensions, but SU(3) has 8 dimensions because:
+Im_O has 7 dimensions, but SU(3) has 8 dimensions because:
 
 1. G₂ (full automorphism group) has dim = 14
-2. Selecting a complex structure = fixing a direction in Im(O)
+2. Selecting a complex structure = fixing a direction in Im_O
 3. Fixing a direction reduces G₂ → SU(3)
 4. The "lost" 6 dimensions (S⁶) are quotient space
 5. But SU(3) itself has 8 dimensions, not 7
@@ -348,7 +348,7 @@ With complex structure (F = C):
 ```
 Given F = C:
 1. Any complex structure on O must fix an embedding C ↪ O
-2. This embedding picks out a direction in Im(O)
+2. This embedding picks out a direction in Im_O
 3. The remaining 6 real dimensions form C³
 4. Automorphisms preserving this = SU(3)
 
@@ -400,7 +400,7 @@ assert dim_G2 - dim_S6 == dim_SU3  # 14 - 6 = 8 ✓
 ```
 SU(3) ⊂ G₂:
 - G₂ is automorphism group of O
-- SU(3) is stabilizer of a point in S⁶ ≅ Im(O)/scaling
+- SU(3) is stabilizer of a point in S⁶ ≅ Im_O/scaling
 - This is a well-known fibration: S⁶ → G₂ → SU(3)
 
 SU(2) ≅ S³:

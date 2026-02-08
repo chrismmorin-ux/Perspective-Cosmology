@@ -193,7 +193,7 @@ See `sessions/INDEX.md` for current state. Historical snapshot: `registry/STATUS
 | Per-session files | 10KB | Focus on key findings only |
 | Topic files | 10KB | Split by sub-topic |
 | Investigation files | 30KB | Split by subtopic |
-| Verification scripts | 20KB (25KB if ≥3 functions + main()) | Split by function |
+| Verification scripts | 30KB (soft limit; most are 20-30KB) | Split only if >35KB |
 | Registry files | 15KB | Split by domain |
 
 Archive locations: Old sessions to `archive/sessions/`, deprecated content to `archive/deprecated/`.

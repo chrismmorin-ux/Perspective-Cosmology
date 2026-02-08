@@ -2,14 +2,14 @@
 """
 Weinberg Angle Deep Investigation: sin^2(theta_W) = 28/121 = n_d * Im_O / n_c^2
 
-KEY FINDING: [TO BE DETERMINED — this is an adversarial investigation]
+KEY FINDING: [TO BE DETERMINED -- this is an adversarial investigation]
 
 Formula: sin^2(theta_W) = n_d * Im_O / n_c^2 = 4*7/121 = 28/121
 Measured (MS-bar, M_Z): 0.23121 +/- 0.00004
 Framework: 28/121 = 0.231404...
 Error: 0.08%
 
-Status: INVESTIGATION — scrutinizing a Session 151 finding
+Status: INVESTIGATION -- scrutinizing a Session 151 finding
 
 CRITICAL NOTE: This formula was IDENTIFIED (searched for), not predicted blind.
 The number 0.23121 was known before the formula was found.
@@ -45,11 +45,11 @@ Rr = 1  # R (real numbers, avoid shadowing)
 sin2_W_measured = R(23121, 100000)  # 0.23121 +/- 0.00004
 
 # ==============================================================================
-# SECTION 1: NUMEROLOGY CHECK — SEARCH SPACE ANALYSIS
+# SECTION 1: NUMEROLOGY CHECK -- SEARCH SPACE ANALYSIS
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 1: NUMEROLOGY CHECK — HOW SPECIAL IS 28/121?")
+print("SECTION 1: NUMEROLOGY CHECK -- HOW SPECIAL IS 28/121?")
 print("=" * 72)
 print()
 
@@ -232,7 +232,7 @@ print()
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 4: RG RUNNING — AT WHAT SCALE DOES 28/121 HOLD?")
+print("SECTION 4: RG RUNNING -- AT WHAT SCALE DOES 28/121 HOLD?")
 print("=" * 72)
 print()
 
@@ -356,11 +356,11 @@ print(f"Scale where sin^2 = 3/8 (SU(5) GUT): mu = {gut_scale:.2e} GeV")
 print()
 
 # ==============================================================================
-# SECTION 5: DERIVATION — GOLDSTONE BOSON CONNECTION
+# SECTION 5: DERIVATION -- GOLDSTONE BOSON CONNECTION
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 5: WHY 28? — GOLDSTONE BOSONS FROM SO(11) BREAKING")
+print("SECTION 5: WHY 28? -- GOLDSTONE BOSONS FROM SO(11) BREAKING")
 print("=" * 72)
 print()
 
@@ -402,7 +402,7 @@ print()
 
 print("DERIVATION ASSESSMENT:")
 print("  PROVEN: n_d=4, n_c=11, SO(11)->SO(4)xSO(7) forced, N_Gold=28  [THEOREM]")
-print("  UNPROVEN: sin^2(theta_W) = N_Gold/n_c^2  [CONJECTURE — Step 5 gap]")
+print("  UNPROVEN: sin^2(theta_W) = N_Gold/n_c^2  [CONJECTURE -- Step 5 gap]")
 print()
 
 # ==============================================================================
@@ -539,13 +539,13 @@ print()
 print("STRENGTHS:")
 print("  1. Clean algebraic form using only n_d, Im_O, n_c")
 print("  2. x(1-x) decomposition with x = n_d/n_c; identity n_d + Im_O = n_c")
-print("  3. 28 = N_Goldstone(SO(11)->SO(4)xSO(7)) — group-theoretic origin")
+print("  3. 28 = N_Goldstone(SO(11)->SO(4)xSO(7)) -- group-theoretic origin")
 print("  4. Scheme difference matches measured to ~2.4%")
 print("  5. UNIQUE among framework ratios at 843 ppm")
 print()
 
 print("WEAKNESSES:")
-print("  1. IDENTIFIED, not predicted blind — numerology risk")
+print("  1. IDENTIFIED, not predicted blind -- numerology risk")
 print("  2. 843 ppm precision (not sub-800 as S151 implied)")
 print("  3. No derivation of WHY sin^2 = N_Gold/n_c^2 (Step 5 gap)")
 print("  4. Matches at M_Z scale (IR relation, not UV tree-level)")

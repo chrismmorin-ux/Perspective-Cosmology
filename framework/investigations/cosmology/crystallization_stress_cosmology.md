@@ -233,7 +233,7 @@ This is the "natural" vacuum energy — order 1 in Planck units.
 
 **Step 2: Suppression from Crystallization**
 
-The octonionic structure provides 56 = dim(O) × Im(O) crystallization layers.
+The octonionic structure provides 56 = dim(O) × Im_O crystallization layers.
 
 **Axiom D4 (Layer Suppression)**
 
@@ -252,7 +252,7 @@ After 56 layers:
 
 **Step 3: Distribution Across Channels**
 
-The remaining stress is distributed across 77 = n_c × Im(O) interaction channels.
+The remaining stress is distributed across 77 = n_c × Im_O interaction channels.
 
 **Axiom D5 (Equal Distribution)**
 
@@ -265,7 +265,7 @@ By symmetry (u(n_c) acts transitively), stress distributes equally:
 **Theorem 3.3 (Cosmological Constant)**
 
 ```
-Λ/M_Pl⁴ = α^(dim(O)·Im(O)) / (n_c · Im(O))
+Λ/M_Pl⁴ = α^(dim(O)·Im_O) / (n_c · Im_O)
         = α^56 / 77
         ≈ 2.82 × 10⁻¹²²
 ```
@@ -311,7 +311,7 @@ By symmetry (u(n_c) acts transitively), stress distributes equally:
 3. **Pattern matching**: Other framework formulas use powers of α:
    - v/M_Pl = α^8 × √(44/7) (8 = dim(O))
    - α_G = α^16 × ... (16 = 2×dim(O))
-   - Λ uses α^56 = α^(7×8) (dim(O) × Im(O))
+   - Λ uses α^56 = α^(7×8) (dim(O) × Im_O)
 
 **Gaps**:
 - Why exactly α (not some other coupling)?
@@ -319,18 +319,18 @@ By symmetry (u(n_c) acts transitively), stress distributes equally:
 
 ### 4.2 Examining Axiom D5 (Equal Distribution)
 
-**The Claim**: Stress distributes equally across 77 = n_c × Im(O) channels.
+**The Claim**: Stress distributes equally across 77 = n_c × Im_O channels.
 
 **Supporting Arguments**:
 
 1. **Symmetry**: The gauge group u(n_c) acts transitively on the generators. No channel is preferred.
 
-2. **Pattern matching**: Other framework formulas use n_c × Im(O):
+2. **Pattern matching**: Other framework formulas use n_c × Im_O:
    - Same structure appears in α correction (111 = EM channels uses similar structure)
    - Proton mass correction uses 72 = dim(su(3)) × dim(u(3))
 
 **Gaps**:
-- Why n_c × Im(O) specifically (not n_c × dim(O) = 88, etc.)?
+- Why n_c × Im_O specifically (not n_c × dim(O) = 88, etc.)?
 - Is equal distribution exact or approximate?
 
 ### 4.3 The Crystallization Rate Question
@@ -414,7 +414,7 @@ Both Λ and α involve octonionic structure:
 | α | 1/(137 + 4/111) | 137 = n_d² + n_c² |
 | α_G | α^16 × ... | 16 = 2 × dim(O) |
 | v/M_Pl | α^8 × √(44/7) | 8 = dim(O) |
-| Λ | α^56/77 | 56 = dim(O) × Im(O) |
+| Λ | α^56/77 | 56 = dim(O) × Im_O |
 
 **Pattern**: Powers of α involving dim(O) = 8 govern hierarchies:
 - α^8 : electroweak hierarchy

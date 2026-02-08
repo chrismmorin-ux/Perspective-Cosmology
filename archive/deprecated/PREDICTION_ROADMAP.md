@@ -67,7 +67,7 @@ This roadmap charts the path from current state to physicist-ready predictions.
 | F = C → U(n) not O(n) | "Complex structure gives unitary symmetry" | Mathematical fact ✓ |
 | Associativity → H for defect | "Time requires path independence = associativity" | Is this proven or plausible? |
 | Division algebras → gauge groups | "C→U(1), H→SU(2), O+F=C→SU(3)" | Verify mechanism |
-| Im(C)/Im(H) → sin²θ_W | "Coupling ratio from imaginary dimensions" | What justifies this? |
+| Im_C/Im_H → sin²θ_W | "Coupling ratio from imaginary dimensions" | What justifies this? |
 
 **Deliverable**: Honest assessment with each step marked PROVEN / ARGUED / ASSUMED
 
@@ -159,7 +159,7 @@ verification/sympy/
 
 **Goal**: Derive why 3 generations, not 2 or 4
 
-**Current conjecture**: 3 = dim(Im(H))
+**Current conjecture**: 3 = dim(Im_H)
 
 **Task**: Make this rigorous or find alternative
 

@@ -49,7 +49,9 @@ Equivalently: n_c = R + C + H + O - 4 = 15 - 4 = 11 (removing the real axis coun
 
 The crystal potential V_Crystal respects SO(n_c) = SO(11) rotational symmetry [D: from AXM_0112].
 
-**Confidence**: [THEOREM] — n_c = 11 is derived from division algebra dimensions.
+n_c = 11 also appears geometrically as codim(mu^{-1}(0)) = 11 in Gr(4,11;R), where mu is the G_2 moment map [THM_04B6, S278].
+
+**Confidence**: [THEOREM] — n_c = 11 is derived from division algebra dimensions (algebraic) and confirmed by moment map codimension (geometric).
 
 **Verification**: `verification/sympy/nc_11_rigorous_derivation.py` — 9/9 PASS
 
@@ -398,7 +400,7 @@ STANDARD MODEL STRUCTURE + PRIME HIERARCHY + UNIFIED DENOMINATORS
 2. [A-AXIOM] Nucleation required (AXM_0114)
 3. [A-AXIOM] Finite access bounds tilt (AXM_0113)
 4. [I-MATH] G₂ = Aut(O), SU(3) = Stab_{G₂}(C)
-5. [A-PHYSICAL] c₃ > 0 (eigenvalue anisotropy penalized)
+5. ~~[A-PHYSICAL]~~ [D] c₃ > 0 (eigenvalue anisotropy penalized; Schur-convexity + THM_0484 consistency, S196)
 
 ---
 
@@ -408,7 +410,7 @@ STANDARD MODEL STRUCTURE + PRIME HIERARCHY + UNIFIED DENOMINATORS
 The breaking represents division algebra structure becoming active. Non-framework dimensions (like 5, 6, 9, 10) have no algebraic meaning — they cannot support the automorphism groups needed for gauge structure.
 
 **"The (3,8) split is also valid — why not that?"**
-Three arguments favor (4,7): maximum mixed coupling, spacetime = 4D identification, and fourth-order energy selection. The energy argument requires c₃ > 0, which is physically motivated (penalizes anisotropy) but not axiomatically derived.
+Three arguments favor (4,7): maximum mixed coupling, spacetime = 4D identification, and fourth-order energy selection. The energy argument requires c₃ > 0, which is derived from Schur-convexity + THM_0484 consistency (S196, non-circular). The energetic selection principle itself is now fully derived (CONJ-B3, S258+S259: gradient flow + ergodic sampling).
 
 **"Are the denominator polynomials just numerology?"**
 The polynomials are algebraic identities — they are provably true. The question is whether having ALL denominators be n_c-polynomials is meaningful or coincidental. The interlocking relationships (111 - 99 = 12, 194 - 153 = 41 Goldstones) suggest structure rather than coincidence.

@@ -210,31 +210,31 @@ def analyze_framework_properties():
         {
             "property": "Composition (closure)",
             "status": "DERIVED",
-            "source": "AXM_0115(a) — algebraic completeness",
+            "source": "AXM_0115(a) -- algebraic completeness",
             "proven": True
         },
         {
             "property": "Identity element",
             "status": "DERIVED",
-            "source": "AXM_0115(b) — identity transition",
+            "source": "AXM_0115(b) -- identity transition",
             "proven": True
         },
         {
             "property": "No zero divisors",
             "status": "DERIVED",
-            "source": "THM_0482 — from AXM_0102 (perspectives have positive content)",
+            "source": "THM_0482 -- from AXM_0102 (perspectives have positive content)",
             "proven": True
         },
         {
             "property": "Invertibility",
             "status": "DERIVED",
-            "source": "THM_0483 — from AXM_0115(c) (algebraic completeness)",
+            "source": "THM_0483 -- from AXM_0115(c) (algebraic completeness)",
             "proven": True
         },
         {
             "property": "Finite dimension",
             "status": "AXIOM",
-            "source": "AXM_0113 — finite access",
+            "source": "AXM_0113 -- finite access",
             "proven": True
         },
         {
@@ -246,7 +246,7 @@ def analyze_framework_properties():
         {
             "property": "Alternativity",
             "status": "NOT INVESTIGATED",
-            "source": "Never attempted — weaker than associativity",
+            "source": "Never attempted -- weaker than associativity",
             "proven": False
         },
         {
@@ -298,24 +298,24 @@ def analyze_proof_strategies():
                 "AXM_0115 does NOT explicitly state associativity",
                 "A set with composition, identity, and inverses but no associativity is a LOOP, not a group",
                 "With no zero divisors: it's a division loop",
-                "VERDICT: AXM_0115 alone does NOT give associativity — it gives a loop, not a group"
+                "VERDICT: AXM_0115 alone does NOT give associativity -- it gives a loop, not a group"
             ],
-            "verdict": "FAILS — group structure is not stated in the axiom"
+            "verdict": "FAILS -- group structure is not stated in the axiom"
         },
         {
             "name": "Strategy B: From projection composition",
             "idea": "Transitions are projections between subspaces. Composition of linear maps IS associative.",
             "analysis": [
                 "IF transitions are LINEAR MAPS on a vector space, composition is associative by standard math",
-                "This follows from: (f ∘ g) ∘ h and f ∘ (g ∘ h) agree on every input x",
-                "  ((f ∘ g) ∘ h)(x) = (f ∘ g)(h(x)) = f(g(h(x)))",
-                "  (f ∘ (g ∘ h))(x) = f((g ∘ h)(x)) = f(g(h(x)))",
+                "This follows from: (f o g) o h and f o (g o h) agree on every input x",
+                "  ((f o g) o h)(x) = (f o g)(h(x)) = f(g(h(x)))",
+                "  (f o (g o h))(x) = f((g o h)(x)) = f(g(h(x)))",
                 "KEY QUESTION: Are transitions between perspectives EXACTLY linear maps?",
                 "If V_Crystal is a vector space and transitions are linear maps V -> V, YES",
                 "But: transitions might be more general (nonlinear, quotient maps, etc.)",
                 "VERDICT: This works IF transitions can be identified with linear maps on a vector space"
             ],
-            "verdict": "POTENTIALLY SUCCEEDS — requires transitions to be linear maps"
+            "verdict": "POTENTIALLY SUCCEEDS -- requires transitions to be linear maps"
         },
         {
             "name": "Strategy C: Finite-dim + no zero divisors + invertibility as sufficient",
@@ -326,9 +326,9 @@ def analyze_proof_strategies():
                 "By Bott-Milnor-Kervaire: dimension must be 1,2,4, or 8",
                 "Within dimension 8: octonions exist as a non-associative example",
                 "Within dimension 4: infinitely many non-associative division algebras exist!",
-                "VERDICT: FAILS — these conditions are insufficient for associativity"
+                "VERDICT: FAILS -- these conditions are insufficient for associativity"
             ],
-            "verdict": "FAILS — octonions are a counterexample"
+            "verdict": "FAILS -- octonions are a counterexample"
         }
     ]
 
@@ -363,17 +363,17 @@ def analyze_linear_map_argument():
        - AXM_0109: Crystal exists
        - AXM_0113: Finite dimension
 
-    2. A perspective π is a subspace V_π ⊂ V_Crystal [DEF_0210]
+    2. A perspective pi is a subspace V_pi c V_Crystal [DEF_0210]
 
-    3. A transition T: π₁ → π₂ maps the view of π₁ to the view of π₂
+    3. A transition T: pi_1 -> pi_2 maps the view of pi_1 to the view of pi_2
 
     4. KEY STEP: If T is implemented as a LINEAR MAP on V_Crystal,
        then composition of transitions = composition of linear maps
 
     5. Composition of linear maps is ALWAYS associative:
-       (f ∘ g) ∘ h = f ∘ (g ∘ h)  (proven: both sides give f(g(h(x))) on any x)
+       (f o g) o h = f o (g o h)  (proven: both sides give f(g(h(x))) on any x)
 
-    6. Therefore: (T₁ ∘ T₂) ∘ T₃ = T₁ ∘ (T₂ ∘ T₃)
+    6. Therefore: (T_1 o T_2) o T_3 = T_1 o (T_2 o T_3)
 
     WHAT THIS REQUIRES:
     - Transitions must be linear maps (not just abstract functions)
@@ -427,7 +427,7 @@ def analyze_resolution_paths():
         {
             "path": "PATH 1: Prove transitions are linear maps",
             "strength": "STRONGEST",
-            "mechanism": "If T ⊂ End(V_Crystal), associativity is automatic",
+            "mechanism": "If T c End(V_Crystal), associativity is automatic",
             "requires": "Explicit statement that transitions are R-linear",
             "status": "Implicit in framework but not stated. Clarifying this would CLOSE G-004.",
             "honest_assessment": "This is essentially asking: 'Is the transition algebra a subalgebra of End(V)?'"
@@ -438,12 +438,12 @@ def analyze_resolution_paths():
             "mechanism": "New axiom: T is associative",
             "requires": "New axiom [A-STRUCTURAL]",
             "status": "Honest acknowledgment. Cost: axiom count 19 -> 20.",
-            "honest_assessment": "Clean but adds an assumption. Combined with rest → Frobenius → R,C,H."
+            "honest_assessment": "Clean but adds an assumption. Combined with rest -> Frobenius -> R,C,H."
         },
         {
             "path": "PATH 3: Add alternativity as AXM_0119 (weaker than associativity)",
             "strength": "WEAKER ALTERNATIVE",
-            "mechanism": "New axiom: T is alternative. Then Zorn → R,C,H,O.",
+            "mechanism": "New axiom: T is alternative. Then Zorn -> R,C,H,O.",
             "requires": "New axiom [A-STRUCTURAL], but WEAKER than associativity",
             "status": "Novel option. Would mean the defect could be O (dim 8) too.",
             "honest_assessment": "More general but loses the clean dim=4 result unless associativity of DEFECT is argued separately."
@@ -451,7 +451,7 @@ def analyze_resolution_paths():
         {
             "path": "PATH 4: Add multiplicative norm as AXM_0119",
             "strength": "METRIC ARGUMENT",
-            "mechanism": "||T₁ ∘ T₂|| = ||T₁|| · ||T₂||. Then Hurwitz → R,C,H,O.",
+            "mechanism": "||T_1 o T_2|| = ||T_1|| * ||T_2||. Then Hurwitz -> R,C,H,O.",
             "requires": "Norm on transitions that is multiplicative",
             "status": "Could be motivated: transitions 'preserve size'. But strong condition.",
             "honest_assessment": "Physically motivated (energy conservation?) but introduces metric structure."
@@ -459,7 +459,7 @@ def analyze_resolution_paths():
         {
             "path": "PATH 5: Accept Bott-Milnor-Kervaire only (no new axiom)",
             "strength": "WEAKEST BUT HONEST",
-            "mechanism": "Dim ∈ {1,2,4,8} from division algebra alone.",
+            "mechanism": "Dim in {1,2,4,8} from division algebra alone.",
             "requires": "Nothing new. Already derived.",
             "status": "Gets dimension restriction but NOT unique R,C,H,O selection.",
             "honest_assessment": "Most honest. But framework needs R,C,H,O specifically, not just dimensions."
@@ -476,7 +476,7 @@ def analyze_resolution_paths():
 
 
 # ==============================================================================
-# PART 7: Impact analysis — what changes under each resolution
+# PART 7: Impact analysis -- what changes under each resolution
 # ==============================================================================
 
 def impact_analysis():
@@ -489,27 +489,27 @@ def impact_analysis():
 
     print("""
     IF ASSOCIATIVITY IS PROVEN (Paths 1 or 2):
-    ├── THM_0484: UNCONDITIONAL THEOREM (R, C, H by Frobenius)
-    ├── THM_04A0: THEOREM (defect = H, n_d = 4)
-    ├── THM_0485: UNCHANGED (F=C from directed time)
-    ├── AXM_0118: UNCHANGED (n_c = 11 from Im-decomposition)
-    ├── All predictions: UNCHANGED (same formulas)
-    └── Framework status: ONE FEWER GAP (~30% of claims upgraded)
+    +-- THM_0484: UNCONDITIONAL THEOREM (R, C, H by Frobenius)
+    +-- THM_04A0: THEOREM (defect = H, n_d = 4)
+    +-- THM_0485: UNCHANGED (F=C from directed time)
+    +-- AXM_0118: UNCHANGED (n_c = 11 from Im-decomposition)
+    +-- All predictions: UNCHANGED (same formulas)
+    +-- Framework status: ONE FEWER GAP (~30% of claims upgraded)
 
     IF ALTERNATIVITY IS ASSUMED INSTEAD (Path 3):
-    ├── THM_0484: MODIFIED — Zorn gives R, C, H, O (not just R, C, H)
-    ├── THM_04A0: NEEDS REVISION — defect could be O (dim 8)
-    │   ├── Would need SEPARATE argument for why defect is H not O
-    │   └── THM_0495 path independence argument becomes relevant here:
-    │       "defect transitions must be associative, but crystal need not be"
-    ├── n_c calculation: CHANGES if defect = O
-    └── This is a VALID alternative but creates MORE work, not less
+    +-- THM_0484: MODIFIED -- Zorn gives R, C, H, O (not just R, C, H)
+    +-- THM_04A0: NEEDS REVISION -- defect could be O (dim 8)
+    |   +-- Would need SEPARATE argument for why defect is H not O
+    |   +-- THM_0495 path independence argument becomes relevant here:
+    |       "defect transitions must be associative, but crystal need not be"
+    +-- n_c calculation: CHANGES if defect = O
+    +-- This is a VALID alternative but creates MORE work, not less
 
     IF ONLY BMK (Path 5):
-    ├── THM_0484: WEAKENED — only dim restriction, not unique algebras
-    ├── Cannot claim R, C, H, O are the SPECIFIC algebras involved
-    ├── Framework still works if we accept the identification as [A-STRUCTURAL]
-    └── Most honest but loses mathematical specificity
+    +-- THM_0484: WEAKENED -- only dim restriction, not unique algebras
+    +-- Cannot claim R, C, H, O are the SPECIFIC algebras involved
+    +-- Framework still works if we accept the identification as [A-STRUCTURAL]
+    +-- Most honest but loses mathematical specificity
     """)
 
     # Count affected theorems
@@ -522,7 +522,7 @@ def impact_analysis():
         "THM_0493 (unitary evolution)",
         "THM_0494 (Born rule)",
         "AXM_0118 (n_c=11)",
-        "THM_0496 (equal distribution → alpha)",
+        "THM_0496 (equal distribution -> alpha)",
         "THM_04A2 (single photon tilt)",
     ]
 
@@ -591,17 +591,17 @@ def main():
 
     The transition algebra T operates on a vector space V_Crystal.
     If transitions are R-linear maps (which is implicit in the
-    vector space framework), then T ⊂ End(V_Crystal), and
+    vector space framework), then T c End(V_Crystal), and
     associativity follows from composition of linear maps.
 
     This requires CLARIFYING (not adding) an implicit assumption:
     "Transitions act as R-linear maps on V_Crystal."
 
     If this clarification is accepted:
-    → G-004 is CLOSED
-    → THM_0484 becomes unconditional THEOREM
-    → ~30% of claims are upgraded
-    → Axiom count stays at 19
+    -> G-004 is CLOSED
+    -> THM_0484 becomes unconditional THEOREM
+    -> ~30% of claims are upgraded
+    -> Axiom count stays at 19
 
     HOWEVER: This is only honest if transitions truly ARE linear maps
     in the framework's formalism. If they are more general functions,

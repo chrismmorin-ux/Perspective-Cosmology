@@ -35,6 +35,8 @@ From Session 30 verification:
 
 ### 3.1 Dimension Counting
 
+[A-IMPORT: String/M-theory dimension counts from literature]
+
 | Theory | Total D | Visible | Compactified |
 |--------|---------|---------|--------------|
 | M-theory | 11 | 4 | 7 |

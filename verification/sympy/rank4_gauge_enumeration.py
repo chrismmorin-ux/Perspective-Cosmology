@@ -63,7 +63,7 @@ simple_algebras = {
     "C3=sp(6)": {"rank": 3, "dim": 21},
     "C4=sp(8)": {"rank": 4, "dim": 36},
 
-    # D_n series (so(2n)), n ≥ 2
+    # D_n series (so(2n)), n >= 2
     "D2=so(4)": {"rank": 2, "dim": 6},  # D2 = A1 x A1 = su(2) x su(2)
     "D3=so(6)": {"rank": 3, "dim": 15}, # Same as A3 = su(4)
     "D4=so(8)": {"rank": 4, "dim": 28},
@@ -339,7 +339,7 @@ print("=" * 70)
 print("""
 Verification of dimension formulas:
 
-A_n = su(n+1): dim = (n+1)² - 1 = n² + 2n = n(n+2)
+A_n = su(n+1): dim = (n+1)^2 - 1 = n^2 + 2n = n(n+2)
   A1: 1(3) = 3   [OK] (su(2))
   A2: 2(4) = 8   [OK] (su(3))
   A3: 3(5) = 15  [OK] (su(4))

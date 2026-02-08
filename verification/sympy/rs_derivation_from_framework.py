@@ -4,7 +4,7 @@ Sound Horizon r_s and Acoustic Scale l_A Derived from Framework Parameters
 
 KEY QUESTION: Can we derive r_s, D_A, l_A, and peak positions from framework
 parameters using standard cosmological integrals? If so, the framework
-"derives" CMB peaks — not from algebraic numerology but from GR + framework inputs.
+"derives" CMB peaks -- not from algebraic numerology but from GR + framework inputs.
 
 This script computes the COMPLETE chain:
   Framework params -> H(a) -> integrals -> r_s, D_A -> theta_s -> l_A -> peaks

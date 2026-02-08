@@ -41,7 +41,7 @@ n_c = Im_C + Im_H + Im_O        # = 11
 dim_SM_gauge = 1 + 3 + 8        # = 12
 
 # Measured value
-mp_me_measured = 1836.15267343   # CODATA 2018
+mp_me_measured = 1836.15267343   # CODATA 2022
 mp_me_unc = 0.00000011
 
 # ==============================================================================
@@ -201,7 +201,7 @@ alpha_correction_den = n_c**2 - n_c + 1  # = 111 = Phi_6(n_c)
 alpha_correction = Fraction(alpha_correction_num, alpha_correction_den)
 
 alpha_predicted = alpha_main + alpha_correction
-alpha_measured = 137.035999084
+alpha_measured = 137.035999177
 alpha_error_ppm = abs(float(alpha_predicted) - alpha_measured) / alpha_measured * 1e6
 
 # Proton correction
@@ -274,7 +274,7 @@ nc_is_best = (error_ppm < alt_error_nd and error_ppm < alt_error_ImO
               and error_ppm < alt_error_O and error_ppm < alt_error_111)
 
 # The structural argument: alpha probes interface (n_d), proton probes bulk (n_c)
-# This is [A-PHYSICAL] — not derived from dynamics
+# This is [A-PHYSICAL] -- not derived from dynamics
 numerator_tests = [
     ("n_c = 11 gives best accuracy among alternatives", nc_is_best),
     ("Alt n_d = 4/72 is 23x worse", alt_error_nd > 20 * error_ppm),

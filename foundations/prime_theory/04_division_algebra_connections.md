@@ -42,7 +42,7 @@ All dimensions appearing in division algebra structure.
 
 ### Consecutive Subset: {1, 2, 3, 4}
 
-This is {dim(R), dim(C), Im(H), dim(H)} - the ASSOCIATIVE dimensions plus Im(H).
+This is {dim(R), dim(C), Im_H, dim(H)} - the ASSOCIATIVE dimensions plus Im_H.
 
 ---
 
@@ -61,16 +61,16 @@ This is {dim(R), dim(C), Im(H), dim(H)} - the ASSOCIATIVE dimensions plus Im(H).
 | 1 | 7 | 2402 | No | |
 | 1 | 8 | 4097 | No | 17 × 241 |
 | 2 | 2 | 32 | No | |
-| 2 | 3 | 97 | Yes | dim(C) + Im(H) |
+| 2 | 3 | 97 | Yes | dim(C) + Im_H |
 | 2 | 4 | 272 | No | |
-| 2 | 7 | 2417 | Yes | dim(C) + Im(O) |
+| 2 | 7 | 2417 | Yes | dim(C) + Im_O |
 | 2 | 8 | 4112 | No | |
 | 3 | 3 | 162 | No | |
-| 3 | 4 | 337 | Yes | Im(H) + dim(H) |
+| 3 | 4 | 337 | Yes | Im_H + dim(H) |
 | 3 | 7 | 2482 | No | |
-| 3 | 8 | 4177 | Yes | Im(H) + dim(O) |
+| 3 | 8 | 4177 | Yes | Im_H + dim(O) |
 | 4 | 4 | 512 | No | |
-| 4 | 7 | 2657 | Yes | dim(H) + Im(O) |
+| 4 | 7 | 2657 | Yes | dim(H) + Im_O |
 | 4 | 8 | 4352 | No | |
 | 7 | 7 | 4802 | No | |
 | 7 | 8 | 6497 | No | 73 × 89 |
@@ -88,8 +88,8 @@ This is {dim(R), dim(C), Im(H), dim(H)} - the ASSOCIATIVE dimensions plus Im(H).
 | n | n^4 + (n+1)^4 | Dim Interpretation |
 |---|---------------|-------------------|
 | 1 | 17 | dim(R)^4 + dim(C)^4 |
-| 2 | 97 | dim(C)^4 + Im(H)^4 |
-| 3 | 337 | Im(H)^4 + dim(H)^4 |
+| 2 | 97 | dim(C)^4 + Im_H^4 |
+| 3 | 337 | Im_H^4 + dim(H)^4 |
 
 All three are prime! This uses exactly {1, 2, 3, 4}.
 
@@ -213,11 +213,11 @@ Three primes connect associative dimensions {1,2,3,4} to non-associative dimensi
 
 | Prime | Formula | Interpretation |
 |-------|---------|----------------|
-| 2417 | 2^4 + 7^4 | dim(C) + Im(O) |
-| 2657 | 4^4 + 7^4 | dim(H) + Im(O) |
-| 4177 | 3^4 + 8^4 | Im(H) + dim(O) |
+| 2417 | 2^4 + 7^4 | dim(C) + Im_O |
+| 2657 | 4^4 + 7^4 | dim(H) + Im_O |
+| 4177 | 3^4 + 8^4 | Im_H + dim(O) |
 
-All three bridge primes involve Im(O) = 7 or dim(O) = 8.
+All three bridge primes involve Im_O = 7 or dim(O) = 8.
 
 The "pure octonionic" combination 7^4 + 8^4 = 6497 = 73 × 89 remains composite.
 

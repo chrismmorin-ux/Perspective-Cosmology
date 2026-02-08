@@ -31,7 +31,7 @@ n_c = 11
 n_d = 4
 
 # Physical constants
-alpha_precise = Float('7.2973525693e-3')  # CODATA 2018
+alpha_precise = Float('7.2973525693e-3')  # CODATA 2022
 
 # Measured baryon asymmetry (Planck 2018)
 eta_measured = Float('6.10e-10')

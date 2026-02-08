@@ -12,7 +12,7 @@ This is necessarily partial: dim(End(V)) = n^2 > n = dim(V) for n >= 2.
 
 We explore:
 1. Properties of the evaluation map
-2. Its kernel (the "Gödel set" — operators invisible from v_0)
+2. Its kernel (the "Godel set" -- operators invisible from v_0)
 3. How different positions give different views
 4. Connection to framework perspectives (projection operators)
 5. The "double partiality" when combining evaluation + projection
@@ -152,13 +152,13 @@ def test_different_positions():
     # These overlap but are not equal
 
     # Check: is there an operator in ker0 but not in ker1?
-    # An operator T with T(e_1) = 0 but T(e_2) ≠ 0
+    # An operator T with T(e_1) = 0 but T(e_2) != 0
     # Example: T that maps e_2 to e_1 and kills everything else
     T_test = zeros(n, n)
     T_test[0, 1] = 1  # maps e_2 -> e_1
 
     Tv0 = T_test * v0  # = T(e_1) = 0
-    Tv1 = T_test * v1  # = T(e_2) = e_1 ≠ 0
+    Tv1 = T_test * v1  # = T(e_2) = e_1 != 0
 
     in_ker0 = Tv0.equals(zeros(n, 1))
     not_in_ker1 = not Tv1.equals(zeros(n, 1))
@@ -173,7 +173,7 @@ def test_different_positions():
     print(f"  e_1 cannot see T, but e_2 CAN see T")
 
     # Intersection of kernels
-    # ker(ev_{e_1}) ∩ ker(ev_{e_2}) = matrices with columns 1 AND 2 = 0
+    # ker(ev_{e_1}) n ker(ev_{e_2}) = matrices with columns 1 AND 2 = 0
     # dim = n*(n-2) = 4*2 = 8
     # Combined, two positions see: 2n of n^2 = 8/16 = 50%
     combined_dim = 2 * n
@@ -239,7 +239,7 @@ def test_projection_evaluation():
 
 
 # ==============================================================================
-# Test 4: Double partiality — evaluation + projection
+# Test 4: Double partiality -- evaluation + projection
 # ==============================================================================
 def test_double_partiality():
     print("\n" + "=" * 70)
@@ -300,7 +300,7 @@ def test_double_partiality():
 
 
 # ==============================================================================
-# Test 5: The automatic perspective — no axiom needed
+# Test 5: The automatic perspective -- no axiom needed
 # ==============================================================================
 def test_automatic_perspective():
     print("\n" + "=" * 70)
@@ -392,7 +392,7 @@ def test_c4_symmetry():
     print(f"  Different content? {found_difference}")
 
     print(f"\n  IMPLICATION:")
-    print(f"    C4 doesn't prevent evaluation-map perspectives —")
+    print(f"    C4 doesn't prevent evaluation-map perspectives --")
     print(f"    it ensures they're all EQUALLY partial.")
     print(f"    Every position is equally blind, just blind to different things.")
     print(f"    Symmetry doesn't eliminate partiality; it democratizes it.")
@@ -423,7 +423,7 @@ def main():
         print("  2. Different positions have different blind spots")
         print("  3. Some projections are indistinguishable from certain positions")
         print("  4. Position + perspective = doubly partial view")
-        print("  5. This requires NO new axiom — just n >= 2")
+        print("  5. This requires NO new axiom -- just n >= 2")
         print("  6. C4 symmetry makes all positions equally partial")
     else:
         print("\nSOME TESTS FAILED")

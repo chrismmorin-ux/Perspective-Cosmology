@@ -58,7 +58,7 @@ These are the ONLY three primes of the form a^4 + b^4 where a, b are
 CONSECUTIVE division algebra dimensions!
 
 Chain: R(1) -> C(2) -> Im_H(3) -> H(4)
-       └─17─┘  └──97──┘   └──337──┘
+       +-17-+  +--97--+   +--337--+
 
 Each step involves adjacent dimensions in the division algebra hierarchy.
 """)
@@ -131,7 +131,7 @@ The three fourth-power primes govern different PHYSICAL SCALES:
 | Prime | Algebras | Physical Scale | Example |
 |-------|----------|----------------|---------|
 | 17 | R, C | Fundamental | eta'/u mass ratio |
-| 97 | C, Im_H | Electroweak | cos(theta_W) = 171/(2×97) |
+| 97 | C, Im_H | Electroweak | cos(theta_W) = 171/(2*97) |
 | 337 | Im_H, H | Cosmological | H_0 = 337/5 km/s/Mpc |
 
 WHY THIS HIERARCHY?
@@ -195,9 +195,9 @@ print(f"""
 OTHER APPEARANCES OF 5:
 
 - 337/5 = H_0 (Hubble constant)
-- 200 = 8 × 25 = O × 5^2 (in Omega_Lambda = 137/200)
-- 97 - 17 = 80 = 16 × 5 = H^2 × 5
-- 337 - 97 = 240 = 16 × 15 = H^2 × 3 × 5
+- 200 = 8 * 25 = O * 5^2 (in Omega_Lambda = 137/200)
+- 97 - 17 = 80 = 16 * 5 = H^2 * 5
+- 337 - 97 = 240 = 16 * 15 = H^2 * 3 * 5
 
 The factor 5 appears repeatedly in the relationships between primes!
 """)
@@ -214,15 +214,15 @@ print(f"""
 BEAUTIFUL IDENTITY:
 
 337 = 137 + 200
-    = (H^2 + n_c^2) + (O × 5^2)
+    = (H^2 + n_c^2) + (O * 5^2)
     = fine_structure_main + octonion_contribution
 
 This means:
 - 137 is the "visible" contribution (tilt symmetry dimension)
-- 200 is the "hidden" contribution (octonion × 25)
+- 200 is the "hidden" contribution (octonion * 25)
 - 337 combines both for the cosmological prime
 
-The gap 200 = 8 × 25:
+The gap 200 = 8 * 25:
 - 8 = dim(O) (octonion)
 - 25 = 5^2 (squared accessible dimensions)
 
@@ -243,7 +243,7 @@ All involve {137, 200, 337} which form a coherent triplet:
 # Verify
 print(f"\nVerification:")
 print(f"  337 - 137 = {337 - 137} = 200? {337 - 137 == 200}")
-print(f"  200 = 8 × 25? {8 * 25 == 200}")
+print(f"  200 = 8 * 25? {8 * 25 == 200}")
 print(f"  8 = dim(O)? {O == 8}")
 print(f"  137 = H^2 + n_c^2 = 16 + 121 = {H**2 + n_c**2}? {H**2 + n_c**2 == 137}")
 
@@ -301,7 +301,7 @@ tests = [
     ("97 = C^4 + Im_H^4 is prime", isprime(p_97) and p_97 == 97),
     ("337 = Im_H^4 + H^4 is prime", isprime(p_337) and p_337 == 337),
     ("H and Im_O NOT consecutive (4 vs 7)", Im_O - H == 3),  # Gap of 3, not 1
-    ("337 - 137 = 200 = O × 5^2", 337 - 137 == O * 25),
+    ("337 - 137 = 200 = O * 5^2", 337 - 137 == O * 25),
     ("H_0 = 337/5 matches measurement", error_ppm < 100),
     ("5 = R + H", R + H == 5),
 ]
@@ -319,7 +319,7 @@ DERIVATION SUMMARY:
 337 is NECESSARY for cosmology because:
 
 1. IT'S THE UNIQUE COSMOLOGICAL PRIME
-   - Third and final prime in chain 17 → 97 → 337
+   - Third and final prime in chain 17 -> 97 -> 337
    - Uses Im_H^4 + H^4 (generation + spacetime)
    - Chain ends at H=4 (next dim Im_O=7 not consecutive)
 

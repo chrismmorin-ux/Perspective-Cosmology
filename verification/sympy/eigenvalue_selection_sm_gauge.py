@@ -41,10 +41,10 @@ n_d = 4
 n_c = 11
 
 # ==============================================================================
-# PART 1: NON-TRACELESS CASE — U(4) on Herm(4)
+# PART 1: NON-TRACELESS CASE -- U(4) on Herm(4)
 # ==============================================================================
 print("=" * 70)
-print("PART 1: Non-Traceless Case — U(n_d) on Herm(n_d)")
+print("PART 1: Non-Traceless Case -- U(n_d) on Herm(n_d)")
 print("=" * 70)
 
 # Potential: W = -a * Tr(eps^2) + b1 * (Tr(eps^2))^2 + b2 * Tr(eps^4)
@@ -117,10 +117,10 @@ print(f"              = U(3) x U(1) ~ SU(3) x U(1)^2")
 print(f"              SU(3) IS THE SM COLOR GROUP")
 
 # ==============================================================================
-# PART 2: TRACELESS CASE — SU(4) adjoint Higgs
+# PART 2: TRACELESS CASE -- SU(4) adjoint Higgs
 # ==============================================================================
 print("\n" + "=" * 70)
-print("PART 2: Traceless Case — SU(n_d) Adjoint Scalar")
+print("PART 2: Traceless Case -- SU(n_d) Adjoint Scalar")
 print("=" * 70)
 
 # For traceless eps (in su(n)), Tr(eps) = 0.
@@ -211,7 +211,7 @@ if gamma_sq_C:
 # PART 3: ENERGY COMPARISON (Traceless Case)
 # ==============================================================================
 print("\n" + "=" * 70)
-print("PART 3: Energy Comparison — Which Pattern Wins?")
+print("PART 3: Energy Comparison -- Which Pattern Wins?")
 print("=" * 70)
 
 # Compute energies analytically
@@ -373,7 +373,7 @@ print(f"  Total: 1 + 3 + 6 + 6 = 16 = n_d^2  [OK]")
 # PART 6: HESSIAN FOR TRACELESS SU(3)xU(1) PATTERN
 # ==============================================================================
 print("\n" + "=" * 70)
-print("PART 6: Traceless Case Hessian — Pattern A: (3a, -a, -a, -a)")
+print("PART 6: Traceless Case Hessian -- Pattern A: (3a, -a, -a, -a)")
 print("=" * 70)
 
 # VEV: lam = (3alpha, -alpha, -alpha, -alpha), alpha^2 = a/(2*(12b1+7b2))
@@ -438,13 +438,13 @@ print(f"\n  Symbolic traceless Hessian eigenvalues:")
 # Substitute al^2 at the minimum
 H_A_sym = H_A_simplified.subs(al**2, al_sq)
 
-# Direction 1: VEV direction (3, -1, -1, -1) — traceless, radial
+# Direction 1: VEV direction (3, -1, -1, -1) -- traceless, radial
 v_rad = Matrix([3, -1, -1, -1])
 Hv_rad = simplify(H_A_sym * v_rad)
 eig_rad = simplify(v_rad.dot(Hv_rad) / v_rad.dot(v_rad))
 print(f"    Radial (3,-1,-1,-1): m^2 = {eig_rad}")
 
-# Direction 2: Perpendicular (0, -1, 1, 0) — traceless
+# Direction 2: Perpendicular (0, -1, 1, 0) -- traceless
 v_perp = Matrix([0, -1, 1, 0])
 Hv_perp = simplify(H_A_sym * v_perp)
 eig_perp = simplify(v_perp.dot(Hv_perp) / v_perp.dot(v_perp))
@@ -513,7 +513,7 @@ print(f"  Physical range for SU(3)xU(1): -12*b1/7 < b2 < 0")
 # PART 8: CONCENTRATION INDEX AND AXM_0117
 # ==============================================================================
 print("\n" + "=" * 70)
-print("PART 8: Framework Connection — Crystallization and b2 < 0")
+print("PART 8: Framework Connection -- Crystallization and b2 < 0")
 print("=" * 70)
 
 # The concentration index: C = Tr(eps^4) / (Tr(eps^2))^2
@@ -541,7 +541,7 @@ print(f"""
 FRAMEWORK ARGUMENT for b2 < 0:
 
 AXM_0117 (Crystallization Tendency): The system evolves toward states
-with MORE crystalline order — that is, more symmetry breaking.
+with MORE crystalline order -- that is, more symmetry breaking.
 
 In the tilt potential:
   - Tr(eps^4) at fixed Tr(eps^2) measures CONCENTRATION of tilt
@@ -834,7 +834,7 @@ APPLICATION to the Perspective Framework (n_d = 4):
     Herm(4) potential minimization [D] -> SU(3) x U(1)
     SU(3) = SM color gauge group [I: Standard Model]
 
-CONFIDENCE: [DERIVATION] — the mathematics is rigorous.
+CONFIDENCE: [DERIVATION] -- the mathematics is rigorous.
 The single conjecture is sign(b2) < 0 from AXM_0117.
 
 FALSIFICATION: If n_d != 4 or b2 > 0, the SM gauge group would not emerge.

@@ -174,7 +174,7 @@ AXM_0118 uses n_c = 11 as a "framework dimension" but derivation is not in axiom
 
 #### Implementation Notes
 - Found existing derivation script: `verification/sympy/nc_11_rigorous_derivation.py`
-- Derivation: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+- Derivation: n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 - Added new "Derivation of n_c = 11" section to AXM_0118
 - Tagged as [D: from Frobenius-Hurwitz + imaginary decomposition]
 - Updated Requires section to reference [I-MATH: Frobenius-Hurwitz]
@@ -498,7 +498,7 @@ Step 3 claims "path independence → associativity" but:
 
 **Issue B: n_c Decomposition Inconsistency**
 THM_0484 Consequences says: crystal uses R + C + O → 1 + 2 + 8 = 11
-AXM_0118 derivation (CR-003) says: n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+AXM_0118 derivation (CR-003) says: n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 Same number, completely different decompositions. Which is canonical?
 
@@ -518,7 +518,7 @@ Same number, completely different decompositions. Which is canonical?
 
 #### Validation
 - [x] Associativity acknowledged as [A-STRUCTURAL] assumption with Gap Note G-004
-- [x] n_c decomposition: canonical = Im(C)+Im(H)+Im(O) = 1+3+7 = 11; alternative noted
+- [x] n_c decomposition: canonical = Im_C+Im_H+Im_O = 1+3+7 = 11; alternative noted
 - [x] Layer separation: physics interpretations removed from Consequences, pointed to Layer 2
 
 #### Implementation Notes (Session 133)
@@ -813,15 +813,15 @@ Additionally, there may be a third value: the traditional GUT-level 3/8 predicti
 
 #### Problem
 Three incompatible decompositions of n_c = 11 appear across foundation documents:
-- Im(C)+Im(H)+Im(O) = 1+3+7 = 11 (CANONICAL per CR-010)
+- Im_C+Im_H+Im_O = 1+3+7 = 11 (CANONICAL per CR-010)
 - R+C+O = 1+2+8 = 11 (THE_CHAIN.md:205, constants_from_dimensions.md:82)
 - R+C+H+H = 1+2+4+4 = 11 (einstein_equations_rigorous.md)
 
 #### Proposed Change
-Replace all non-canonical decompositions with Im(C)+Im(H)+Im(O) = 1+3+7, or explicitly note the alternative as non-canonical.
+Replace all non-canonical decompositions with Im_C+Im_H+Im_O = 1+3+7, or explicitly note the alternative as non-canonical.
 
 #### Files Affected
-- `foundations/THE_CHAIN.md` — Line 205: change "1+2+8 = 11" to "Im(C)+Im(H)+Im(O) = 1+3+7 = 11"
+- `foundations/THE_CHAIN.md` — Line 205: change "1+2+8 = 11" to "Im_C+Im_H+Im_O = 1+3+7 = 11"
 - `foundations/einstein_equations_rigorous.md` — Fix n_c = 1+2+4+4 to canonical
 - `foundations/constants_from_dimensions.md` — Line 82: add note that R+C+O is non-canonical
 
@@ -1024,8 +1024,8 @@ Any weakness here propagates to the entire framework.
 
 **Status**: PENDING → **IMPLEMENTED**
 
-- `foundations/THE_CHAIN.md` — Line 222: Changed "1+2+8 = 11" to "Im(C)+Im(H)+Im(O) = 1+3+7 = 11"
-- `foundations/einstein_equations_rigorous.md` — Line 67: Changed "1+2+4+4 = 11" to "Im(C)+Im(H)+Im(O) = 1+3+7 = 11"
+- `foundations/THE_CHAIN.md` — Line 222: Changed "1+2+8 = 11" to "Im_C+Im_H+Im_O = 1+3+7 = 11"
+- `foundations/einstein_equations_rigorous.md` — Line 67: Changed "1+2+4+4 = 11" to "Im_C+Im_H+Im_O = 1+3+7 = 11"
 - `foundations/constants_from_dimensions.md` — Line 82: Added note that R+C+O=1+2+8 is non-canonical
 
 ### CR-018: Update big_bang_nature.md — Session 135
@@ -1303,16 +1303,16 @@ And line 41 repeats:
 > Complement: crystal uses remaining algebras R + C + O, dim = 1 + 2 + 8 = 11
 
 The canonical decomposition established by CR-010 (Session 133) is:
-> n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+> n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 These are materially different decompositions:
 - R + C + O = 1 + 2 + 8 (full algebras, including real parts)
-- Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (imaginary parts only)
+- Im_C + Im_H + Im_O = 1 + 3 + 7 (imaginary parts only)
 
 THM_04A0 uses the non-canonical form without justification or acknowledgment.
 
 #### Proposed Change
-1. Replace R + C + O = 1 + 2 + 8 with canonical Im(C) + Im(H) + Im(O) = 1 + 3 + 7
+1. Replace R + C + O = 1 + 2 + 8 with canonical Im_C + Im_H + Im_O = 1 + 3 + 7
 2. Or: explicitly justify why this theorem requires the alternative decomposition (with cross-reference to CR-010 noting the discrepancy)
 3. If the decomposition is materially different from canonical, add a reconciliation note
 
@@ -1328,7 +1328,7 @@ THM_04A0 uses the non-canonical form without justification or acknowledgment.
 - [x] Cross-reference to AXM_0118 canonical form
 
 #### Implementation Notes (Maintainer Session)
-- Line 21: Changed "R + C + O (dim = 1 + 2 + 8 = 11)" to "Im(C) + Im(H) + Im(O) (dim = 1 + 3 + 7 = 11) [CANONICAL: per CR-010/AXM_0118]"
+- Line 21: Changed "R + C + O (dim = 1 + 2 + 8 = 11)" to "Im_C + Im_H + Im_O (dim = 1 + 3 + 7 = 11) [CANONICAL: per CR-010/AXM_0118]"
 - Line 41: Same change to proof step 7
 - Validation checkboxes: all checked
 
@@ -1913,7 +1913,7 @@ The most critical step — WHY does the number of interface generators equal 1/�
 
 Line 93: "Crystal = R + C + O (dim 1 + 2 + 8 = 11)"
 
-This uses the non-canonical decomposition (CR-010 canonical is Im(C) + Im(H) + Im(O) = 1 + 3 + 7).
+This uses the non-canonical decomposition (CR-010 canonical is Im_C + Im_H + Im_O = 1 + 3 + 7).
 
 ---
 
@@ -1998,10 +1998,10 @@ Replace with correct decomposition: 337 = 9² + 16² = (Im_H²)² + n_d² = Im_H
 **Source**: Round 1 Catch-Up Audit, cross-file finding CF-1
 
 #### Problem
-THM_04A2 (line 37) uses "n_c = 1 + 2 + 4 + 4 = 11 [D: dim(R) + dim(C) + dim(H) + dim_R(H)]". THM_04A3 (line 81) uses the same. CR-010 (Session 133) designated the imaginary decomposition n_c = 1 + 3 + 7 = 11 (Im(C) + Im(H) + Im(O)) as canonical. The "1+2+4+4" form uses dim_R(H) = 4 = dim(H), making it dim(R)+dim(C)+2×dim(H) which has no clear algebraic justification.
+THM_04A2 (line 37) uses "n_c = 1 + 2 + 4 + 4 = 11 [D: dim(R) + dim(C) + dim(H) + dim_R(H)]". THM_04A3 (line 81) uses the same. CR-010 (Session 133) designated the imaginary decomposition n_c = 1 + 3 + 7 = 11 (Im_C + Im_H + Im_O) as canonical. The "1+2+4+4" form uses dim_R(H) = 4 = dim(H), making it dim(R)+dim(C)+2×dim(H) which has no clear algebraic justification.
 
 #### Proposed Change
-1. THM_04A2 Step 1: Replace "n_c = 1 + 2 + 4 + 4" with canonical "n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11" per CR-010
+1. THM_04A2 Step 1: Replace "n_c = 1 + 2 + 4 + 4" with canonical "n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11" per CR-010
 2. THM_04A3 Step 5: Replace "n_c = 1 + 2 + 4 + 4" with canonical form
 3. Both: If the non-canonical form is needed for the specific argument, keep it but add a note explaining why and referencing the canonical form
 
@@ -2757,7 +2757,7 @@ The primary alpha verification script `verification/sympy/alpha_enhanced_predict
 **Source**: Phase 4 script audit — consistency check
 
 #### Problem
-11 verification scripts (revised count from detailed grep) use `n_c = R + C + H + H = 1 + 2 + 4 + 4` instead of the canonical decomposition per AXM_0118/DEF_02C1 (`Im(C) + Im(H) + Im(O) = 1 + 3 + 7`) or the accepted shorthand `R + C + O = 1 + 2 + 8`. The 1+2+4+4 form uses dim(H)=4 twice and omits O entirely — a conceptual mismatch even though the arithmetic is correct (all = 11).
+11 verification scripts (revised count from detailed grep) use `n_c = R + C + H + H = 1 + 2 + 4 + 4` instead of the canonical decomposition per AXM_0118/DEF_02C1 (`Im_C + Im_H + Im_O = 1 + 3 + 7`) or the accepted shorthand `R + C + O = 1 + 2 + 8`. The 1+2+4+4 form uses dim(H)=4 twice and omits O entirely — a conceptual mismatch even though the arithmetic is correct (all = 11).
 
 Affected scripts (11):
 - algebraic_structure_patterns.py
@@ -2773,7 +2773,7 @@ Affected scripts (11):
 - tilt_dynamics_beta_functions.py
 
 #### Proposed Change
-Update the n_c definition comment in all 11 scripts from `n_c = R + C + H + H = 1+2+4+4` to `n_c = 11  # [D] Crystal dim: Im(C)+Im(H)+Im(O) = 1+3+7` (or the accepted shorthand `R+C+O = 1+2+8`). The variable VALUE (11) stays the same; only the comment/decomposition changes.
+Update the n_c definition comment in all 11 scripts from `n_c = R + C + H + H = 1+2+4+4` to `n_c = 11  # [D] Crystal dim: Im_C+Im_H+Im_O = 1+3+7` (or the accepted shorthand `R+C+O = 1+2+8`). The variable VALUE (11) stays the same; only the comment/decomposition changes.
 
 #### Files Affected
 - 11 scripts in verification/sympy/ (grep for `1+2+4+4` or `R+C+H+H`)
@@ -2874,12 +2874,12 @@ This is informational — no immediate fix required. However:
 **Source**: Phase 5 methodology audit
 
 #### Problem
-1. Line 24: `n_c = 11 | Division algebra sum: R+C+H+H = 1+2+4+4` uses non-canonical decomposition. Per DEF_02C1, canonical is `Im(C)+Im(H)+Im(O) = 1+3+7`.
+1. Line 24: `n_c = 11 | Division algebra sum: R+C+H+H = 1+2+4+4` uses non-canonical decomposition. Per DEF_02C1, canonical is `Im_C+Im_H+Im_O = 1+3+7`.
 2. Line 88: "Weinberg angle (133 = Phi_6(12))" — 133 is Phi_6(12), but the TIER_1 Weinberg formula is cos(theta_W) = 171/194, which doesn't use 133. This is a stale reference to an older formula.
 3. n_c appears in both "Derived from axioms" (LOCKED) and "Known Tentative Parameters" (weakly justified). Contradictory classification.
 
 #### Proposed Change
-- Line 24: Change `R+C+H+H = 1+2+4+4` to `Im(C)+Im(H)+Im(O) = 1+3+7` (or shorthand `R+C+O = 1+2+8`)
+- Line 24: Change `R+C+H+H = 1+2+4+4` to `Im_C+Im_H+Im_O = 1+3+7` (or shorthand `R+C+O = 1+2+8`)
 - Line 88: Update Weinberg reference to match current TIER_1 formula (171/194)
 - Clarify n_c status: "LOCKED value, TENTATIVE decomposition"
 
@@ -3521,7 +3521,7 @@ This is the highest-risk foundation document (risk 7/10):
 3. Missing verification script: `cosmological_parameters_exact.py` referenced but does not exist
 4. 8+ unmarked [A-PHYSICAL] assumptions (EM channel identification, component interpretations)
 5. "No free parameters" claim is problematic — structural choices (which dimension maps to which observable, which power) are hidden parameters
-6. n_c = Im(C) + Im(H) + Im(O) = 11: the choice to ADD imaginary dimensions is [A-STRUCTURAL], not tagged
+6. n_c = Im_C + Im_H + Im_O = 11: the choice to ADD imaginary dimensions is [A-STRUCTURAL], not tagged
 
 #### Proposed Change
 1. Replace "EXACT" with "consistent with measurement" for cosmological constants
@@ -3588,7 +3588,7 @@ Fixed false "largest k" theorem in 3 prime theory files. Corrected to: n^k+(n+1)
 #### Proposed Change
 Create verification scripts for:
 - fermions: 15 = dim(R+C+H+O), anomaly cancellation check
-- generations: dim(Im(H)) = 3, mass ratio formulas if claimed
+- generations: dim(Im_H) = 3, mass ratio formulas if claimed
 
 Or: add notes acknowledging the claims are qualitative and don't require numerical verification.
 

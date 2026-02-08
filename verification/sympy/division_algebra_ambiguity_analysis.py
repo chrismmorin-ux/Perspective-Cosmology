@@ -126,8 +126,8 @@ def test_denominator_polynomials():
       n_c(n_c - 2)  = product form
       2(n_c - 1)^2  = square form
 
-    For n_c = 11: these give 111, 99, 200 — all appear in framework formulas.
-    For n_c = 4:  these give 13, 8, 18  — none match known denominators.
+    For n_c = 11: these give 111, 99, 200 -- all appear in framework formulas.
+    For n_c = 4:  these give 13, 8, 18  -- none match known denominators.
     """
     print("\n" + "=" * 70)
     print("TEST SUITE 3: Denominator Polynomials")
@@ -422,7 +422,7 @@ leaking target values.
     print(f"\n[{'PASS' if framework_perfect else 'FAIL'}] Framework (4,11) passes all 5 tests")
     print(f"[{'PASS' if alternatives_fail else 'FAIL'}] Alternative interpretations fail majority of tests")
     print(f"[INFO] Uniqueness under partition+primality+Frobenius: {len([s for s in [(1,14),(2,13),(4,11)] if True])} solutions")
-    print(f"       (4,11) is the MAXIMUM-dimension Frobenius solution — preferred by 'maximum n_d' axiom.")
+    print(f"       (4,11) is the MAXIMUM-dimension Frobenius solution -- preferred by 'maximum n_d' axiom.")
     print(f"\nOverall verification: {'PASS' if all_pass else 'FAIL'}")
     return all_pass
 

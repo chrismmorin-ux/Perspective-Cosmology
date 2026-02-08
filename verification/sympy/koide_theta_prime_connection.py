@@ -197,9 +197,9 @@ MOST PROMISING: theta/pi = 73/99 where:
   - 99 = 3^2 * 11 = Im(H)^2 * n_c
 
 This connects the Koide phase to:
-  - Octonion dimension (8) — color structure
-  - Quaternion imaginary dimension (3) — generations
-  - Crystal dimensions (11) — internal space
+  - Octonion dimension (8) -- color structure
+  - Quaternion imaginary dimension (3) -- generations
+  - Crystal dimensions (11) -- internal space
 
 The formula combines BOTH the mass-giving structure (H, generations)
 AND the color structure (O) that makes quarks different from leptons!

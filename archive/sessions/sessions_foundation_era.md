@@ -79,7 +79,7 @@ WHY does each constant select its specific dimensions? Need to derive selection 
 - Mixings probe sector overlap → {C+O, H+O} with ratios
 
 **Hexagonal Symmetry Explained:**
-- 6 = 2 × 3 = dim(C) × Im(H) = U(1) × SU(2) = ELECTROWEAK
+- 6 = 2 × 3 = dim(C) × Im_H = U(1) × SU(2) = ELECTROWEAK
 - Φ_6 encodes hexagonal symmetry of EW sector
 - QCD uses products (G2 symmetry) instead
 
@@ -286,7 +286,7 @@ The framework had grown to 51 investigation files with ~700+ claims scattered ac
 Enhanced the Koide scale formula from 0.064% error to 0.1 ppm:
 
 ```
-v/M = (n_d x Im(O))^2 + dim(R)/dim(C)
+v/M = (n_d x Im_O)^2 + dim(R)/dim(C)
     = 28^2 + 1/2
     = 784 + 1/2
     = 1569/2
@@ -342,7 +342,7 @@ Found all three missing framework primes with excellent precision:
 
 Both predictions are **WITHIN experimental uncertainty**!
 
-**Physical interpretation**: 13 combines dim(C)² (EM structure) with Im(H)² (generation structure). Neutrino mixing is EXACTLY where EM meets generations — the W/Z bosons mediate between different generations.
+**Physical interpretation**: 13 combines dim(C)² (EM structure) with Im_H² (generation structure). Neutrino mixing is EXACTLY where EM meets generations — the W/Z bosons mediate between different generations.
 
 #### Prime 53 = 2² + 7² (EM + Color)
 
@@ -356,7 +356,7 @@ Both predictions are **WITHIN experimental uncertainty**!
 |-----------|----------|-------|-------|
 | 0.117925 | 0.1179 | **0.02%** | **0.03** |
 
-**Physical interpretation**: 53 combines dim(C)² (EM) with Im(O)² (color). The strong coupling is WHERE EM meets QCD — exactly where we'd expect the EM-color prime!
+**Physical interpretation**: 53 combines dim(C)² (EM) with Im_O² (color). The strong coupling is WHERE EM meets QCD — exactly where we'd expect the EM-color prime!
 
 #### Prime 113 = 7² + 8² (Pure Octonion)
 
@@ -450,7 +450,7 @@ Extended the alpha formula method to two more fundamental constants:
 #### 1. Proton/Electron Mass Ratio (NEW — 0.06 ppm!)
 
 ```
-m_p/m_e = (H+O) × (Im(H)² + (H+O)²) + n_c/(O × Im(H)²)
+m_p/m_e = (H+O) × (Im_H² + (H+O)²) + n_c/(O × Im_H²)
         = 12 × 153 + 11/72
         = 1836 + 11/72
         = 132203/72
@@ -462,7 +462,7 @@ m_p/m_e = (H+O) × (Im(H)² + (H+O)²) + n_c/(O × Im(H)²)
 
 Key structure:
 - Main term: 1836 = 12 × 153 (PRODUCT structure, unlike α's SUM)
-- Correction: 11/72 = n_c/(O × Im(H)²)
+- Correction: 11/72 = n_c/(O × Im_H²)
 - Uses same n_c = 11 as alpha formula!
 
 #### 2. Weinberg Angle (NEW — 30 ppm!)
@@ -576,7 +576,7 @@ All formulas use ZERO free parameters!
 Derived the Higgs VEV from Planck scale and division algebra dimensions:
 
 ```
-v = M_Pl × α^8 × √(n_d × n_c / Im(O))
+v = M_Pl × α^8 × √(n_d × n_c / Im_O)
   = M_Pl × α^{dim(O)} × √(44/7)
   = 246.14 GeV (measured: 246.22 GeV)
   = 0.034% error
@@ -590,7 +590,7 @@ v = M_Pl × α^8 × √(n_d × n_c / Im(O))
 | α^8 | ~8 × 10^-18 | EM coupling to octonion power |
 | 8 | dim(O) | Octonion dimension |
 | 44 | n_d × n_c = 4 × 11 | Defect-crystal product |
-| 7 | Im(O) | Imaginary octonion directions |
+| 7 | Im_O | Imaginary octonion directions |
 
 ### The Hierarchy Explained
 
@@ -648,7 +648,7 @@ sin²θ_W = 17/73 = 0.23288
 
 where:
   17 = 1² + 4² = dim(R)² + dim(H)²  [weak-reality]
-  73 = 3² + 8² = Im(H)² + dim(O)²   [flavor-color]
+  73 = 3² + 8² = Im_H² + dim(O)²   [flavor-color]
 
 Measured: 0.23122 (MS-bar at M_Z)
 Error: 0.72%
@@ -676,7 +676,7 @@ The prime attractor value is set at **electroweak symmetry breaking**!
 - Koide θ = π·73/99 (73 in numerator)
 - Weinberg sin²θ_W = 17/73 (73 in denominator)
 
-73 = Im(H)² + dim(O)² = generation² + color²
+73 = Im_H² + dim(O)² = generation² + color²
 → Universal attractor for flavor/gauge physics
 
 ### Denominator Rule Emerging
@@ -731,7 +731,7 @@ All three constants now follow prime attractor selection:
 
 | Angle | Measured | Prediction | Error |
 |-------|----------|------------|-------|
-| sin2_23 | 0.572 | 4/7 = dim(H)/Im(O) | **0.1%** |
+| sin2_23 | 0.572 | 4/7 = dim(H)/Im_O | **0.1%** |
 | sin2_12 | 0.303 | 10/33 = 10/(3*n_c) | **0.01%** |
 | sin2_13 | 0.0220 | 1/44 = 1/(n_d*n_c) | 3.2% |
 
@@ -739,14 +739,14 @@ All three constants now follow prime attractor selection:
 
 | Angle | Measured | Prediction | Error |
 |-------|----------|------------|-------|
-| lambda | 0.225 | 9/40 = Im(H)^2/(5*dim(O)) | **EXACT** |
+| lambda | 0.225 | 9/40 = Im_H^2/(5*dim(O)) | **EXACT** |
 | |V_cb| | 0.042 | 3/71 | **0.1%** |
 
 ### Key Pattern
 
 - All PMNS angles use n_c = 11 (crystal structure)
 - All CKM angles use dim(O) = 8 (octonion structure)
-- Both use Im(H) = 3 (generation structure)
+- Both use Im_H = 3 (generation structure)
 
 ### Files Created
 
@@ -794,7 +794,7 @@ Derived enhanced alpha formula with sub-ppm accuracy using ONLY division algebra
 
 | Constant | Prime | Formula | Encodes |
 |----------|-------|---------|---------|
-| Koide theta | 73 = 8^2 + 3^2 | pi * 73/99 | dim(O)^2 + Im(H)^2 |
+| Koide theta | 73 = 8^2 + 3^2 | pi * 73/99 | dim(O)^2 + Im_H^2 |
 | **alpha** | **137 = 4^2 + 11^2** | **137 + 4/111** | **dim(H)^2 + (R+C+O)^2** |
 
 Both select primes encoding division algebra structure!
@@ -826,7 +826,7 @@ Both select primes encoding division algebra structure!
 
 ### Key Discovery
 
-Prime crystallization attractors map to **irreducible representation dimensions of gauge groups emerging from division algebras**. The primes {2, 3, 7} correspond directly to {dim(C), Im(H), Im(O)}.
+Prime crystallization attractors map to **irreducible representation dimensions of gauge groups emerging from division algebras**. The primes {2, 3, 7} correspond directly to {dim(C), Im_H, Im_O}.
 
 ### Critical Follow-up Insight
 
@@ -874,7 +874,7 @@ This implies:
 - `verification/sympy/prime_5_search.py` — NEW (PASS)
 
 ### Next Steps
-- Search for prime 13 = 2² + 3² (involves dim(C) and Im(H))
+- Search for prime 13 = 2² + 3² (involves dim(C) and Im_H)
 - Verify if loop corrections bring m_tau/m_mu closer to 17
 - Investigate why V_us = 1/(2sqrt(5))
 
@@ -895,7 +895,7 @@ Both fundamental constants follow the SAME selection pattern:
 | Form | p = a² + b² | p = a² + b² |
 | Decomposition | 8² + 3² | 4² + 11² |
 | First dimension | dim(O) = 8 | dim(H) = 4 |
-| Second dimension | Im(H) = 3 | n_c = 11 |
+| Second dimension | Im_H = 3 | n_c = 11 |
 | Physical meaning | color + generation | defect + crystal |
 | Precision | 0.006% | ~0.03% from 137 |
 
@@ -1062,13 +1062,13 @@ When crystallization must select a direction in algebraic space:
 The Koide phase θ = π × 73/99 is selected by **gravitational collapse in flavor space** toward the prime attractor 73.
 
 **Why 73 is unique**:
-- 73 = 8² + 3² = dim(O)² + Im(H)²
+- 73 = 8² + 3² = dim(O)² + Im_H²
 - 73 is PRIME (irreducible crystallization mode)
 - This is the ONLY way to write 73 as a sum of two squares
 - No other prime encodes BOTH color (dim O = 8) AND generation (Im H = 3)
 
 **Selection mechanism**:
-- Higgs field must select direction in Im(H)
+- Higgs field must select direction in Im_H
 - This is "crystallization in flavor space"
 - The direction minimizes crystallization energy
 - θ_observed sits at a local minimum
@@ -1093,7 +1093,7 @@ The Koide phase θ = π × 73/99 is selected by **gravitational collapse in flav
 
 ### Remaining Questions
 1. Prove 73/99 is GLOBAL minimum, not just local
-2. Derive normalization 99 = Im(H)² × n_c rigorously
+2. Derive normalization 99 = Im_H² × n_c rigorously
 3. Why don't quarks follow this pattern?
 
 ### Next Steps
@@ -1178,13 +1178,13 @@ Electrons aren't more stable than muons — they crystallize more often.
 2. **Matched all four Koide parameters to division algebras**:
    | Parameter | Value | Formula | Error |
    |-----------|-------|---------|-------|
-   | Q | 2/3 | dim(C)/Im(H) | DERIVED |
+   | Q | 2/3 | dim(C)/Im_H | DERIVED |
    | A | sqrt(2) | sqrt(dim(C)) | DERIVED |
-   | theta | 2.3165 rad | pi * (O^2 + Im(H)^2)/(Im(H)^2 * n_c) | 0.006% |
-   | M | 314 MeV | v / (n_d * Im(O))^2 | 0.069% |
+   | theta | 2.3165 rad | pi * (O^2 + Im_H^2)/(Im_H^2 * n_c) | 0.006% |
+   | M | 314 MeV | v / (n_d * Im_O)^2 | 0.069% |
 
 3. **Key findings for M = v/784**:
-   - 784 = (n_d * Im(O))^2 = (4 * 7)^2 = 28^2
+   - 784 = (n_d * Im_O)^2 = (4 * 7)^2 = 28^2
    - Connects Koide scale to Higgs VEV and spacetime-octonion geometry
 
 ### Verification Scripts Created
@@ -1217,12 +1217,12 @@ This is the first time all four Koide parameters have been connected to a unifie
 ### Work Done
 
 1. **Identified the mathematical structure**:
-   - Multiple su(2) algebras: gauge (from Im(H)), spacetime su(2)_L, spacetime su(2)_R
+   - Multiple su(2) algebras: gauge (from Im_H), spacetime su(2)_L, spacetime su(2)_R
    - The question: WHY does gauge SU(2) = su(2)_L specifically?
 
 2. **Developed the resolution**:
    - H tensor_R C = M_2(C) provides two embeddings: phi_L and phi_R
-   - phi_L maps Im(H) to i*{Pauli matrices} = su(2) acting on C^2
+   - phi_L maps Im_H to i*{Pauli matrices} = su(2) acting on C^2
    - phi_R = conjugate of phi_L (acts on opposite chirality)
    - T1 (time direction) SELECTS phi_L by orientation
 
@@ -1759,9 +1759,9 @@ This is a **major result** for the framework:
 ### Work Done
 
 1. **Isotropy Analysis**: Verified that all division algebras have isotropic imaginary parts
-   - Im(C): Z_2 acts transitively on S^0
-   - Im(H): SO(3) acts transitively on S^2
-   - Im(O): G_2 acts transitively on S^6
+   - Im_C: Z_2 acts transitively on S^0
+   - Im_H: SO(3) acts transitively on S^2
+   - Im_O: G_2 acts transitively on S^6
    - No preferred direction among generators
 
 2. **Transition Rate Approach**: Explored defining coupling as total transition rate
@@ -2149,10 +2149,10 @@ Session 58 found the 23/8 pattern was undermined by numerology (26/9 fits better
 
    | Element | Koide | Framework |
    |---------|-------|-----------|
-   | Q = 2/3 | Exact result | = dim(C)/Im(H) = 2/3 |
-   | Z_3 symmetry | 120° spacing | = cyclic {i,j,k} in Im(H) |
+   | Q = 2/3 | Exact result | = dim(C)/Im_H = 2/3 |
+   | Z_3 symmetry | 120° spacing | = cyclic {i,j,k} in Im_H |
    | Amplitude √2 | In geometric form | = √dim(C) |
-   | 3 generations | 3 terms | = dim(Im(H)) |
+   | 3 generations | 3 terms | = dim(Im_H) |
 
 3. **Geometric Parameterization:**
    ```
@@ -2170,7 +2170,7 @@ Session 58 found the 23/8 pattern was undermined by numerology (26/9 fits better
 
 ### Key Insight
 
-The Koide formula's 2/3 = dim(C)/Im(H) reflects the embedding of the complex structure (F = C, from T1) into the quaternionic generation space (Im(H) = {i,j,k}).
+The Koide formula's 2/3 = dim(C)/Im_H reflects the embedding of the complex structure (F = C, from T1) into the quaternionic generation space (Im_H = {i,j,k}).
 
 **This is NOT numerology because:**
 - 2/3 is the ONLY value that satisfies Koide (no better-fitting alternatives)
@@ -2390,8 +2390,8 @@ Chose "bridge path" — investigate whether mass IS imperfection, potentially co
 
 2. **Found Interesting Pattern**
    - 23/8 = 2.875 matches leptons with 0.5% error
-   - 23/8 = 3 - 1/8 = (Im(H)×O - 1)/O
-   - Structurally meaningful (combines Im(H) = 3 and dim(O) = 8)
+   - 23/8 = 3 - 1/8 = (Im_H×O - 1)/O
+   - Structurally meaningful (combines Im_H = 3 and dim(O) = 8)
 
 3. **THEN Found the Numerology Trap**
    - 26/9 = 2.889 matches with 0.005% error (100× better!)
@@ -2414,7 +2414,7 @@ The Koide formula holds to 0.001%:
 ```
 
 This might be a better target for framework explanation than the 23/8 pattern:
-- 2/3 could relate to Im(C)/Im(H) = 1/3 or other div alg ratios
+- 2/3 could relate to Im_C/Im_H = 1/3 or other div alg ratios
 - The precision (0.001%) is remarkable
 
 ### Decisions Made
@@ -2577,7 +2577,7 @@ Session 55 made a significant discovery (imperfect dimensions and recrystallizat
 - Formalize semi-orthogonality mathematically (Avenue 1)
 - Investigate mass hierarchy (Avenue 2)
 - Model n_imperfect(E) for α running test (Avenue 1)
-- Prove 3 generations from Im(H) (Avenue 2 connection)
+- Prove 3 generations from Im_H (Avenue 2 connection)
 
 ---
 
@@ -2870,8 +2870,8 @@ GUT (early): n_imperfect ~ 6.5 → 1/α = 42
 | Killing form | FAILS |
 
 **Key insight**: Im(algebra) = dim(Lie algebra) for C and H!
-- Im(C) = 1 = dim(u(1))
-- Im(H) = 3 = dim(su(2))
+- Im_C = 1 = dim(u(1))
+- Im_H = 3 = dim(su(2))
 
 So the claim g^2 proportional to Im is equivalent to g^2 proportional to dim(Lie algebra).
 
@@ -2916,7 +2916,7 @@ So the claim g^2 proportional to Im is equivalent to g^2 proportional to dim(Lie
    |------|------|-------|
    | 1 | Division algebra structure | Not derived from T1 |
    | 2 | Coupling scaling g² ∝ Im | Asserted, not derived |
-   | 3 | B = 1/Im(H) = 1/3 | Assumed |
+   | 3 | B = 1/Im_H = 1/3 | Assumed |
 
 4. **Ran 8 Priority Verification Scripts**:
    - All scripts PASS their calculations
@@ -2951,14 +2951,14 @@ So the claim g^2 proportional to Im is equivalent to g^2 proportional to dim(Lie
 ## Session 2026-01-26-50 - ALL HYPERCHARGES DERIVED
 
 **Focus**: Derive SM hypercharge values from division algebra structure
-**Outcome**: MAJOR SUCCESS - All 5 hypercharges derived from Im(H) = 3
+**Outcome**: MAJOR SUCCESS - All 5 hypercharges derived from Im_H = 3
 
 ### Work Done
 
 1. **Analyzed Hypercharge Structure**:
    - Target values: 1/6, 2/3, -1/3, -1/2, -1
    - All are multiples of 1/6
-   - Denominator 6 = 2 × Im(H) = 2 × 3
+   - Denominator 6 = 2 × Im_H = 2 × 3
 
 2. **Found Key Formula**:
    - Conserved number = 1/(color multiplicity)
@@ -2988,14 +2988,14 @@ So the claim g^2 proportional to Im is equivalent to g^2 proportional to dim(Lie
 
 ### Key Insight
 
-**The fundamental insight**: B = 1/Im(H) = 1/3
+**The fundamental insight**: B = 1/Im_H = 1/3
 
 This single equation, combined with L = 1 (no color dilution) and charge conservation, determines ALL hypercharges.
 
 ### Derivation Chain
 
 ```
-T1 (time) → F = C → Division algebras → Im(H) = 3
+T1 (time) → F = C → Division algebras → Im_H = 3
                   → N_colors = 3 (from O)
                   → B = 1/3, L = 1
                   → Y = (B-L)/2, Y_R = Y_L + T3
@@ -3037,17 +3037,17 @@ T1 (time) → F = C → Division algebras → Im(H) = 3
 
 1. **Established SU(2) = Unit Quaternions**:
    - Verified quaternion-Pauli matrix isomorphism
-   - su(2) = Im(H) = span{i, j, k}
-   - dim(Im(H)) = 3 is exact
+   - su(2) = Im_H = span{i, j, k}
+   - dim(Im_H) = 3 is exact
 
-2. **Dual Role of Im(H)**:
+2. **Dual Role of Im_H**:
    - Physical space: 3 spatial dimensions
    - Flavor space: 3 generators of SU(2)_L
    - These are the SAME mathematical structure
 
 3. **Generation Argument**:
    - Fermions couple to SU(2)_L
-   - Coupling lives in 3D space Im(H)
+   - Coupling lives in 3D space Im_H
    - 3 independent directions = 3 generations
    - Cannot have 4th gen without 4th spatial dimension
 
@@ -3062,7 +3062,7 @@ T1 (time) → F = C → Division algebras → Im(H) = 3
 
 ### Key Insight
 
-Generation = direction in Im(H) = internal flavor space
+Generation = direction in Im_H = internal flavor space
 
 CKM/PMNS mixing = rotation in this 3D flavor space
 
@@ -3070,7 +3070,7 @@ CKM/PMNS mixing = rotation in this 3D flavor space
 
 | Claim | Previous | Now |
 |-------|----------|-----|
-| 3 generations from Im(H) | CONJECTURE | **STRONG CONJECTURE** |
+| 3 generations from Im_H | CONJECTURE | **STRONG CONJECTURE** |
 
 ### Files Created
 
@@ -3100,7 +3100,7 @@ CKM/PMNS mixing = rotation in this 3D flavor space
 3. **Explained Sector Differences**:
    - Up-type couples to Higgs (H)
    - Down-type couples to Higgs conjugate (H~)
-   - H and H~ point in different Im(H) directions
+   - H and H~ point in different Im_H directions
    - This is forced by quaternion conjugation structure
 
 4. **Why Top is Special**:
@@ -3145,15 +3145,15 @@ mass hierarchy remains qualitative.
 ### Work Done
 
 1. **Domain Origin Analysis**:
-   - SU(2) comes from H (defect/spacetime) with Im(H) = 3
-   - U(1) comes from C (crystal/internal) with Im(C) = 1
-   - SU(3) comes from O (crystal/internal) with Im(O) = 7
+   - SU(2) comes from H (defect/spacetime) with Im_H = 3
+   - U(1) comes from C (crystal/internal) with Im_C = 1
+   - SU(3) comes from O (crystal/internal) with Im_O = 7
    - Electroweak = SU(2) × U(1) = Defect × Crystal (interface product)
    - Strong = SU(3) = Pure Crystal
 
 2. **Weinberg Angle Derivation**:
-   - If couplings scale with imaginary structure: g² ∝ Im(H), g'² ∝ Im(C)
-   - Then sin²θ_W = Im(C)/(Im(H) + Im(C)) = 1/(3+1) = 1/4 = 0.250
+   - If couplings scale with imaginary structure: g² ∝ Im_H, g'² ∝ Im_C
+   - Then sin²θ_W = Im_C/(Im_H + Im_C) = 1/(3+1) = 1/4 = 0.250
    - Observed at M_Z: sin²θ_W = 0.231
    - Discrepancy: 8.1%
 
@@ -3180,7 +3180,7 @@ mass hierarchy remains qualitative.
 
 | Claim | Confidence |
 |-------|------------|
-| sin²θ_W = 1/4 from Im(C)/Im(H) | [DERIVATION] |
+| sin²θ_W = 1/4 from Im_C/Im_H | [DERIVATION] |
 | Scale ~200 TeV | [VERIFIED] via SM running |
 | Physical interpretation | [CONJECTURE] |
 
@@ -3207,7 +3207,7 @@ mass hierarchy remains qualitative.
 7. **Quaternion-Time Connection**:
    - q = t + xi + yj + zk
    - Re(q) = t = time, Im(q) = (x,y,z) = space
-   - Time direction induces orientation on Im(H) = su(2) algebra
+   - Time direction induces orientation on Im_H = su(2) algebra
 
 ### Status Updates (Chirality)
 
@@ -3300,7 +3300,7 @@ From T1 alone, we now derive:
 
 - ~~Fermion count~~ → 15 = R + C + H + O (Session 48, Part 2)
 - ~~Quark/lepton split~~ → 12/3 from interface types
-- ~~Generation count~~ → 3 = dim(Im(H)) [CONJECTURE]
+- ~~Generation count~~ → 3 = dim(Im_H) [CONJECTURE]
 - Specific multiplet assignments (hypercharges)
 - Mass hierarchy
 - Mixing angles
@@ -3330,7 +3330,7 @@ From T1 alone, we now derive:
    - H-R interface → electron singlet (1)
 
 4. **Generations conjecture**:
-   - 3 generations = dim(Im(H)) = 3 imaginary quaternion directions
+   - 3 generations = dim(Im_H) = 3 imaginary quaternion directions
    - Each spatial direction hosts one generation
 
 ### Status Updates
@@ -3339,7 +3339,7 @@ From T1 alone, we now derive:
 |-------|--------|
 | 15 fermions = sum(div alg dims) | DERIVATION |
 | Quark/lepton split 12/3 | DERIVATION |
-| 3 generations from Im(H) | CONJECTURE |
+| 3 generations from Im_H | CONJECTURE |
 | Specific multiplets | OPEN |
 
 ### Files Created
@@ -3404,7 +3404,7 @@ From T1 alone, we now derive:
 ### Work Done
 
 1. **Resolved the 7 vs 8 mismatch**:
-   - Problem: Im(O) = 7, but dim(SU(3)) = 8
+   - Problem: Im_O = 7, but dim(SU(3)) = 8
    - Resolution: When F = C is imposed (derived from T1), O decomposes as O = C + C^3
    - The automorphisms preserving this decomposition form SU(3) (stabilizer in G2)
    - G2/SU(3) = S^6, confirming dim(SU(3)) = 14 - 6 = 8
@@ -8511,7 +8511,7 @@ F = C (antisymmetric structure required for direction)
 
 ### Key Insight: The 7 to 8 Resolution
 
-- Im(O) has 7 dimensions
+- Im_O has 7 dimensions
 - But SU(3) has 8 dimensions
 - Resolution: When F = C is imposed, octonions decompose as O = C + C^3
 - Automorphisms preserving this decomposition = stabilizer in G_2 = SU(3)
@@ -8606,7 +8606,7 @@ Priority 1 (SM Gauge Groups) should be marked as largely resolved:
 1. **1/α = 4² + 11² = 137** — 0.026% error ✓
 2. **dim(G_SM) = 12 = n_d(n_d - 1)** — exact ✓
 3. **rank(G_SM) = 4 = n_d** — exact ✓
-4. **All 5 hypercharges from Im(H) = 3** — exact, unique ✓
+4. **All 5 hypercharges from Im_H = 3** — exact, unique ✓
 5. **SU(3) from O + F=C stabilizer in G₂** — verified ✓
 6. **|Π| = 137^55 ~ 10^117.5** — 0.4% error (log scale) ✓
 7. **79/137 ≈ 1/√3** — 0.12% error (tetrahedral connection!) ✓
@@ -8691,7 +8691,7 @@ But some claims are wrong (sin²θ_W = 2/25) and some gaps remain (division alge
    |-------|---------------|----------------|-------|
    | 19 | n_c + O = 11+8 | m_τ/m_s = 19 | 0.13% |
    | 23 | n_c + 3×H = 11+12 | m_μ/m_e = 9×23 | 0.11% |
-   | 29 | 2×n_c + Im(O) | m_J/ψ/m_μ ≈ 29 | ~0.3% |
+   | 29 | 2×n_c + Im_O | m_J/ψ/m_μ ≈ 29 | ~0.3% |
    | 31 | n_d² + n_c + n_d | m_t/m_b = 4×31/3 | 0.01% |
 
    **Non-Framework Primes** (composite particle ratios):

@@ -150,7 +150,7 @@ graviton_polarizations = 2  # Two tensor polarizations (but G-suppressed)
 print(f"\nMassless modes at macroscopic scales:")
 print(f"  Photon:   {photon_polarizations} polarizations = dim(C) = {C_dim}")
 print(f"  Graviton: {graviton_polarizations} polarizations (G-suppressed, negligible)")
-print(f"  → Effective Casimir DOF = {photon_polarizations} (EM only)")
+print(f"  -> Effective Casimir DOF = {photon_polarizations} (EM only)")
 
 # ==============================================================================
 # PART 4: CASIMIR ENERGY BY CHANNEL
@@ -188,13 +188,13 @@ print(f"  F/A = -pi^2 / (240 a^4)  [the classic Casimir formula]")
 
 # Verify: -2 * pi^2 / 480 = -pi^2/240
 assert simplify(Rational(-2, 480) - Rational(-1, 240)) == 0
-print(f"  Verified: 2/480 = 1/240 ✓")
+print(f"  Verified: 2/480 = 1/240 [OK]")
 
 # Framework decomposition of the denominator
 print(f"\n--- Framework Analysis of 240 ---")
 print(f"  240 = {factorint(240)}")
-print(f"  240 = 16 × 15 = n_d^2 × (R+C+H+O)")
-print(f"  240 = 2^4 × 3 × 5")
+print(f"  240 = 16 * 15 = n_d^2 * (R+C+H+O)")
+print(f"  240 = 2^4 * 3 * 5")
 print(f"  Also: 240 = |E_8 roots| (number of roots of E_8 Lie algebra)")
 print(f"  Also: 240 = |minimal vectors of E_8 lattice|")
 print(f"  CAUTION: This decomposition may be numerological. The 240 comes")
@@ -233,10 +233,10 @@ print()
 # Massless: E ~ 1/a^3 (power law)
 # Massive:  E ~ exp(-m*a)/a^3 (exponentially suppressed)
 
-print(f"Channel     DOF  Mass scale       Casimir at a=1μm          Status")
+print(f"Channel     DOF  Mass scale       Casimir at a=1mum          Status")
 print("-" * 72)
 print(f"C (EM)       2   m=0 (photon)     -pi^2/(720 a^3)           MEASURED")
-print(f"R (grav)     2   m=0 (graviton)   -pi^2/(720 a^3) × (G...)  NEGLIGIBLE")
+print(f"R (grav)     2   m=0 (graviton)   -pi^2/(720 a^3) * (G...)  NEGLIGIBLE")
 print(f"H (weak)     3   M_W~80 GeV       ~ exp(-M_W a)             SUPPRESSED")
 print(f"O (strong)   8   Lambda~200 MeV   ~ exp(-Lambda a)          CONFINED")
 print(f"Tilt diag    4   m_tilt~10^16 GeV ~ exp(-m_tilt a)          INVISIBLE")
@@ -246,18 +246,18 @@ print(f"Tilt diag    4   m_tilt~10^16 GeV ~ exp(-m_tilt a)          INVISIBLE")
 # Lambda * a = 200 MeV * 10^-6 m / (hbar c) = 200e6 * 10^-6 / (197e-15) ~ 10^6
 # m_tilt * a = 10^16 GeV * 10^-6 m / (hbar c) = 10^25 * 10^-6 / (197e-15) ~ 5e34
 
-print(f"\nSuppression factors at a = 1 μm:")
-print(f"  exp(-M_W × a)     ~ exp(-4×10^11) ≈ 0")
-print(f"  exp(-Λ_QCD × a)   ~ exp(-10^6) ≈ 0")
-print(f"  exp(-m_tilt × a)  ~ exp(-5×10^34) ≈ 0")
-print(f"\n→ Only C-channel (photon) contributes. Framework reproduces standard Casimir.")
+print(f"\nSuppression factors at a = 1 mum:")
+print(f"  exp(-M_W * a)     ~ exp(-4*10^11) ~ 0")
+print(f"  exp(-Lambda_QCD * a)   ~ exp(-10^6) ~ 0")
+print(f"  exp(-m_tilt * a)  ~ exp(-5*10^34) ~ 0")
+print(f"\n-> Only C-channel (photon) contributes. Framework reproduces standard Casimir.")
 
 # ==============================================================================
 # PART 6: CASIMIR AS CRYSTALLIZATION PRESSURE
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 6: FRAMEWORK INTERPRETATION — CASIMIR AS CRYSTALLIZATION PRESSURE")
+print("PART 6: FRAMEWORK INTERPRETATION -- CASIMIR AS CRYSTALLIZATION PRESSURE")
 print("=" * 70)
 
 print("""
@@ -267,14 +267,14 @@ The Casimir effect is crystallization pressure applied to the vacuum
 between boundaries that enforce partial orthogonality.
 
 Mapping:
-  Conducting plate  →  Region of enforced orthogonality in C-channel
-  Vacuum between    →  Tilt fluctuations restricted to discrete modes
-  Casimir energy    →  Reduction in total unorthogonality from mode restriction
-  Casimir force     →  Gradient of crystallization pressure (attractive)
+  Conducting plate  ->  Region of enforced orthogonality in C-channel
+  Vacuum between    ->  Tilt fluctuations restricted to discrete modes
+  Casimir energy    ->  Reduction in total unorthogonality from mode restriction
+  Casimir force     ->  Gradient of crystallization pressure (attractive)
 
 The force is ATTRACTIVE because:
   - Moving plates closer eliminates more modes
-  - Fewer modes → less vacuum unorthogonality
+  - Fewer modes -> less vacuum unorthogonality
   - Lower unorthogonality = more crystallized = lower energy
   - The universe "wants" to be more orthogonal (AXM_0117)
 
@@ -283,14 +283,14 @@ Derivation chain:
   [A-AXIOM] AXM_0114 (tilt possibility: vacuum has eps != 0)
   [D] Vacuum has tilt fluctuations around eps*
   [D] Boundary conditions restrict allowed fluctuation modes
-  [D] Fewer modes → lower vacuum energy
-  [D] Energy gradient → attractive force between boundaries
+  [D] Fewer modes -> lower vacuum energy
+  [D] Energy gradient -> attractive force between boundaries
   [I-MATH] Zeta regularization gives finite sum
   [D] F/A = -pi^2/(240 a^4) for 2 C-channel modes
 """)
 
 # ==============================================================================
-# PART 7: DEEPER INSIGHT — QCD CONFINEMENT AS CASIMIR
+# PART 7: DEEPER INSIGHT -- QCD CONFINEMENT AS CASIMIR
 # ==============================================================================
 
 print("=" * 70)
@@ -306,8 +306,8 @@ A quark-antiquark pair creates BOUNDARY CONDITIONS for the O-channel
 (gluon) tilt fluctuations:
   - Quarks = sources of O-channel unorthogonality
   - The flux tube between quarks = restricted O-channel vacuum
-  - 8 gluon modes restricted → Casimir-like energy
-  - Linear potential V(r) ~ sigma × r (string tension)
+  - 8 gluon modes restricted -> Casimir-like energy
+  - Linear potential V(r) ~ sigma * r (string tension)
 
 In the framework:
   EM Casimir (C-channel):     F ~ 1/a^4  (massless photon, 2 DOF)
@@ -318,10 +318,10 @@ due to boundary conditions in different crystallization channels.
 
 The ratio of DOF: O/C = 8/2 = 4
 The ratio of coupling strengths at hadronic scale: alpha_s/alpha ~ 14
-Combined: the strong Casimir is ~ 4 × 14 = 56 = O × Im_O [SPECULATION]
+Combined: the strong Casimir is ~ 4 * 14 = 56 = O * Im_O [SPECULATION]
 
 (This last numerical coincidence should NOT be taken seriously without
-a proper derivation. 56 = 8 × 7 appears often in the framework.)
+a proper derivation. 56 = 8 * 7 appears often in the framework.)
 """)
 
 # ==============================================================================
@@ -336,8 +336,8 @@ print(f"\nMode count from tilt matrix perspective:")
 print(f"  Total tilt DOF:          n_d^2 = {n_d**2}")
 print(f"  Diagonal (massive):      n_d   = {n_d}")
 print(f"  Off-diagonal (gauge):    n_d(n_d-1) = {n_d*(n_d-1)}")
-print(f"  SM gauge generators:     dim(SU(3)×SU(2)×U(1)) = 8+3+1 = 12")
-print(f"  Match:                   n_d(n_d-1) = {n_d*(n_d-1)} = 12 ✓")
+print(f"  SM gauge generators:     dim(SU(3)*SU(2)*U(1)) = 8+3+1 = 12")
+print(f"  Match:                   n_d(n_d-1) = {n_d*(n_d-1)} = 12 [OK]")
 
 # Key relationships
 print(f"\nKey identities:")
@@ -357,9 +357,9 @@ print(f"  Confined strong modes:   dim(SU(3)) = {O_dim}")
 print(f"\nCasimir force denominator 240:")
 print(f"  Standard: from zeta(-3) = 1/120, BCs give factor 2")
 print(f"  Framework decomposition:")
-print(f"    240 = n_d^2 × (R+C+H+O) = {n_d**2} × {R+C_dim+H_dim+O_dim}")
-print(f"    240 = n_d^2 × n_total = 16 × 15")
-print(f"    Status: [SPECULATION] — needs derivation through zeta function")
+print(f"    240 = n_d^2 * (R+C+H+O) = {n_d**2} * {R+C_dim+H_dim+O_dim}")
+print(f"    240 = n_d^2 * n_total = 16 * 15")
+print(f"    Status: [SPECULATION] -- needs derivation through zeta function")
 
 # ==============================================================================
 # PART 9: WHAT WE LEARNED
@@ -373,13 +373,13 @@ print("""
 STRUCTURAL INSIGHTS:
 
 1. VACUUM = TILT FLUCTUATIONS
-   The vacuum is not "empty" — it's the equilibrium state of the tilt
+   The vacuum is not "empty" -- it's the equilibrium state of the tilt
    field eps* with quantum fluctuations delta_eps around it. The vacuum
    has structure because tilt is non-zero (Mexican hat, eps* != 0).
 
 2. BOUNDARIES = ENFORCED ORTHOGONALITY
    A conducting plate forces the C-channel tilt to vanish at the
-   surface. This is literally "enforced crystallization" — the plate
+   surface. This is literally "enforced crystallization" -- the plate
    is a region where the C-channel is more orthogonal than the bulk.
 
 3. CASIMIR = CRYSTALLIZATION PRESSURE ON VACUUM
@@ -393,7 +393,7 @@ STRUCTURAL INSIGHTS:
    - R: gravity (universal, negligible Casimir)
    - C: EM (2 massless modes, DOMINANT Casimir)
    - H: weak (3 massive modes, suppressed)
-   - O: strong (8 confined modes, suppressed → but see QCD string)
+   - O: strong (8 confined modes, suppressed -> but see QCD string)
 
 5. 12 = n_d(n_d-1) IS STRUCTURAL
    The fact that the SM gauge group has 12 generators matching the
@@ -408,7 +408,7 @@ STRUCTURAL INSIGHTS:
 
 GAPS IDENTIFIED:
 
-G1. The 240 = 16 × 15 decomposition needs to go through zeta function
+G1. The 240 = 16 * 15 decomposition needs to go through zeta function
     regularization, not just factor matching.
 
 G2. The Goldstone mode count (6 from Mexican hat) doesn't directly
@@ -436,7 +436,7 @@ tests = [
     ("Off-diagonal DOF = 12 = dim(SM gauge)", n_d*(n_d-1) == 12),
     ("Photon has dim(C) = 2 polarizations", C_dim == 2),
     ("Casimir denominator: 2/480 = 1/240", Rational(2, 480) == Rational(1, 240)),
-    ("240 = n_d^2 × (R+C+H+O)", 240 == n_d**2 * (R + C_dim + H_dim + O_dim)),
+    ("240 = n_d^2 * (R+C+H+O)", 240 == n_d**2 * (R + C_dim + H_dim + O_dim)),
     ("n_d^2 + n_c^2 = 137", n_d**2 + n_c**2 == 137),
     ("2^n_d = n_d^2 (unique to n_d=4)", 2**n_d == n_d**2),
     ("Metric DOF = n_d(n_d+1)/2 = 10", n_d*(n_d+1)//2 == 10),

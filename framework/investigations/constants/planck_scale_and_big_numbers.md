@@ -89,7 +89,7 @@ These are considered "fine-tuning problems" — why should these ratios be so pr
 #### The Electroweak-Planck Hierarchy
 
 ```
-M_Pl/v = 1/(α^8 × √(n_d × n_c / Im(O)))
+M_Pl/v = 1/(α^8 × √(n_d × n_c / Im_O))
        = 1/(α^8 × √(44/7))
        = 4.96 × 10¹⁶
 ```
@@ -98,7 +98,7 @@ where:
 - α = 1/(137 + 4/111) — derived from division algebras
 - 8 = dim(O) — octonion dimension
 - 44 = n_d × n_c = 4 × 11 — defect × crystal
-- 7 = Im(O) — octonion imaginaries
+- 7 = Im_O — octonion imaginaries
 
 **Measured**: M_Pl/v = 4.96 × 10¹⁶ ✓
 
@@ -112,8 +112,8 @@ M_Pl/m_p = (v/m_p) / (v/M_Pl)
 
 where:
 - 11284/43 = v/m_p — Higgs-proton ratio (derived)
-- 11284 = (2n_c(H+O) - C) × Φ₆(Im(O)) + C × Im(H)²
-- 43 = Φ₆(Im(O)) = Φ₆(7) — cyclotomic polynomial
+- 11284 = (2n_c(H+O) - C) × Φ₆(Im_O) + C × Im_H²
+- 43 = Φ₆(Im_O) = Φ₆(7) — cyclotomic polynomial
 
 **Measured**: M_Pl/m_p = 1.30 × 10¹⁹ ✓
 
@@ -170,7 +170,7 @@ The "hierarchy problem" asks: Why is M_Pl/v ~ 10¹⁷?
 
 **Division algebra answer**:
 ```
-M_Pl/v = 1/(α^dim(O) × √(n_d × n_c / Im(O)))
+M_Pl/v = 1/(α^dim(O) × √(n_d × n_c / Im_O))
 
 This is ALGEBRAICALLY DETERMINED, not fine-tuned.
 ```
@@ -244,7 +244,7 @@ For k such that α^k ~ 10⁻¹²²:
 - α ~ 1/137, so α^k ~ 137⁻ᵏ
 - 137⁻⁵⁷ ~ 10⁻¹²²
 
-57 = 3 × 19 = Im(H) × (8 + 11) = Im(H) × (O + n_c)?
+57 = 3 × 19 = Im_H × (8 + 11) = Im_H × (O + n_c)?
 
 **Exploration**: Search for division algebra formula for Λ.
 
@@ -318,7 +318,7 @@ The GUT scale has α_GUT ≈ 1/25.
 At the Z mass: α(M_Z) ≈ 1/128
 At GUT scale: α(M_GUT) ≈ 1/25
 
-128 = 2⁷ = 2^(Im(O))
+128 = 2⁷ = 2^(Im_O)
 25 = 5² = (1² + 2²)²
 
 **Exploration**: Are running coupling values determined by division algebras at each scale?

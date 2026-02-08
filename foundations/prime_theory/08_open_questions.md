@@ -97,9 +97,9 @@ But the deeper question: why this particular congruence pattern?
 - 1⁴ + 8⁴ = 4097 = 17 × 241 (not prime)
 
 **HOWEVER**: Three "bridge primes" connect associative to non-associative:
-- 2417 = 2⁴ + 7⁴ (dim(C) + Im(O))
-- 2657 = 4⁴ + 7⁴ (dim(H) + Im(O))
-- 4177 = 3⁴ + 8⁴ (Im(H) + dim(O))
+- 2417 = 2⁴ + 7⁴ (dim(C) + Im_O)
+- 2657 = 4⁴ + 7⁴ (dim(H) + Im_O)
+- 4177 = 3⁴ + 8⁴ (Im_H + dim(O))
 
 **S184 insight**: These are all norms in Z[ζ₈]: e.g. 2417 = N(2 + 7ζ₈). The pure non-associative case fails because:
 - 7⁴ + 8⁴ = N(7 + 8ζ₈) = 6497 = 73 × 89 (norm is composite)
@@ -116,7 +116,7 @@ But the deeper question: why this particular congruence pattern?
 **Observation**: n = 1, 2, 3, 4 giving four consecutive fourth-power-sum primes (17, 97, 337, 881) uses exactly:
 - dim(R) = 1
 - dim(C) = 2
-- Im(H) = 3
+- Im_H = 3
 - dim(H) = 4
 
 **Question**: Is this exhaustion of "associative dimensions" necessary for the consecutive prime pattern?

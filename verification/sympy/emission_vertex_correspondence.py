@@ -69,7 +69,7 @@ for n in range(1, 6):
           f"(relative to 1-photon: {float(alpha**(n-1)):.6e})")
 
 print(f"\n  Each additional photon suppresses by factor alpha = {float(alpha):.6e}")
-print(f"  This is ~7.3 per thousand — rare but not impossible")
+print(f"  This is ~7.3 per thousand -- rare but not impossible")
 
 # ==============================================================================
 # PART 2: WHY STEPS ARE INDEPENDENT (MARKOV PROPERTY)
@@ -133,7 +133,7 @@ The Born rule (THM_0494) says: for state |psi> = sum c_k |k>,
 For the democratic state: c_k = 1/sqrt(N_I) for all k, so:
   P(k) = |1/sqrt(N_I)|^2 = 1/N_I
 
-The CONSTRAINT is: P(k) must be a PROBABILITY — it must satisfy:
+The CONSTRAINT is: P(k) must be a PROBABILITY -- it must satisfy:
   (a) P(k) >= 0 for all k       [automatically satisfied]
   (b) sum_k P(k) = 1             [satisfied: N_I * (1/N_I) = 1]
   (c) P(k) = |amplitude|^2       [Born rule structure]
@@ -192,7 +192,7 @@ RULE 2: Gravitational transitions use the 16 spacetime channels
   -> Graviton emission rate ~ 16 * P(grav mode)
   -> But graviton coupling is separately determined (Newton's G)
 
-RULE 3: Cartan modes average to zero — no net emission
+RULE 3: Cartan modes average to zero -- no net emission
   -> They redistribute energy internally (thermal equilibration)
   -> Do NOT produce observable radiation
 
@@ -266,7 +266,7 @@ print(f"  Ratio: 12*alpha / alpha_GUT = {float(alpha_total_12/alpha_gut_approx):
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 6: Rigorous Test — Dynamic vs Static Picture")
+print("PART 6: Rigorous Test -- Dynamic vs Static Picture")
 print("=" * 70)
 
 print("""
@@ -364,12 +364,12 @@ The CORRECTION 4/111 is also topological:
   - 111 = Phi_6(n_c) = n_c^2 - n_c + 1 (fixed)
   - 1/alpha = 137 + 4/111 = 15211/111 (RATIONAL number)
 
-If alpha is rational, it cannot be "tuned" — there are no free parameters.
+If alpha is rational, it cannot be "tuned" -- there are no free parameters.
 
 Falsification test: If alpha is IRRATIONAL (involving pi, e, sqrt(2), etc.),
 the framework is wrong. The framework PREDICTS alpha is RATIONAL.
 
-Current measurement: 1/alpha = 137.035999206(11) — compatible with
+Current measurement: 1/alpha = 137.035999177(11) -- compatible with
 the rational value 15211/111 = 137.036036036... to 0.27 ppm.
 The difference (0.000037) is within experimental + higher-order corrections.
 """)
@@ -480,7 +480,7 @@ GENUINE NEW CONTENT from the dynamic (emission) picture:
 
 REMAINING GAPS:
   - The "generic excitation" assumption needs axiom-level justification
-  - At low energy, only 12 modes are massless — why does 137 still matter?
+  - At low energy, only 12 modes are massless -- why does 137 still matter?
   - The 4/111 correction needs a derivation from dynamics, not just observation
   - Step 5 is upgraded from D+ to C- but is still [CONJECTURE]
 """)

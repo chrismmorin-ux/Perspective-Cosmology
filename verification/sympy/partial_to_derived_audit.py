@@ -45,7 +45,7 @@ alpha = 1 / alpha_inv
 M_Pl_GeV = R(122089, 10) * 10**15  # 1.22089e19 GeV
 
 # ==============================================================================
-# PART 1: C1 — THREE GENERATIONS (TARGET: PARTIAL -> DERIVED)
+# PART 1: C1 -- THREE GENERATIONS (TARGET: PARTIAL -> DERIVED)
 # ==============================================================================
 
 print("=" * 70)
@@ -85,7 +85,7 @@ print("  3 independent imaginary directions -> 3 independent fermion copies")
 print("  This is NOT a free parameter -- it's the ONLY consistent count")
 
 # ==============================================================================
-# PART 2: B4 — ASYMPTOTIC FREEDOM (TARGET: PARTIAL -> DERIVED)
+# PART 2: B4 -- ASYMPTOTIC FREEDOM (TARGET: PARTIAL -> DERIVED)
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -135,7 +135,7 @@ print(f"  n_d = dim_H = {n_d}")
 print(f"  {n_c} > {n_d}: {n_c > n_d} -> GUARANTEED by division algebra structure")
 
 # ==============================================================================
-# PART 3: E5 — FERMI CONSTANT (TARGET: STRENGTHEN PARTIAL)
+# PART 3: E5 -- FERMI CONSTANT (TARGET: STRENGTHEN PARTIAL)
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -186,7 +186,7 @@ print(f"G_F_measured  = {G_F_meas:.7e} GeV^-2")
 print(f"Error: {G_F_err*100:.4f}%")
 
 # ==============================================================================
-# PART 4: B6 — HIGGS MECHANISM (CASCADE STRUCTURE)
+# PART 4: B6 -- HIGGS MECHANISM (CASCADE STRUCTURE)
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -227,7 +227,7 @@ print(f"  Measured: ~{float(y_t_meas):.3f}")
 print(f"  Error: {y_t_err*100:.3f}% = {y_t_err*1e6:.0f} ppm")
 
 # ==============================================================================
-# PART 5: G1/G2 — SECOND LAW / ARROW OF TIME (already DERIVED, verify)
+# PART 5: G1/G2 -- SECOND LAW / ARROW OF TIME (already DERIVED, verify)
 # ==============================================================================
 
 print("\n" + "=" * 70)

@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 """
-Alpha Formula Space Search: How Special Is 1/α = 137 + 4/111?
+Alpha Formula Space Search: How Special Is 1/alpha = 137 + 4/111?
 ==============================================================
 
-KEY FINDING: Within the specific formula family f(n,m) = n² + m² + n/(m²-m+1),
+KEY FINDING: Within the specific formula family f(n,m) = n^2 + m^2 + n/(m^2-m+1),
 only (n,m) = (4,11) hits within 0.1% of the CODATA value. The probability of
 this happening by chance is ~1/5000.
 
-However, with unrestricted fractions (a² + b² + c/d), ~4 formulas hit within
-0.3 ppm out of ~1.6M candidates — so the structural constraint (c=n, d=Φ₆(m))
+However, with unrestricted fractions (a^2 + b^2 + c/d), ~4 formulas hit within
+0.3 ppm out of ~1.6M candidates -- so the structural constraint (c=n, d=Phi_6(m))
 is what makes the formula special, not the raw number.
 
-Formula: 1/α = n_d² + n_c² + n_d/(n_c² - n_c + 1)
-Measured: 137.035999084 (CODATA 2018)
+Formula: 1/alpha = n_d^2 + n_c^2 + n_d/(n_c^2 - n_c + 1)
+Measured: 137.035999177 (CODATA 2022)
 Error: 0.27 ppm
-Status: ANALYSIS — formula specialness assessment
+Status: ANALYSIS -- formula specialness assessment
 
 Depends on:
 - [D] n_d = 4 from Frobenius
 - [D] n_c = 11 from division algebra dimensions
-- [A-IMPORT] CODATA 2018 value for comparison
+- [A-IMPORT] CODATA 2022 value for comparison
 
 Created: Session 141
 """
@@ -29,7 +29,7 @@ from fractions import Fraction
 # ==============================================================================
 # TARGET VALUE
 # ==============================================================================
-ALPHA_INV_MEASURED = 137.035999084
+ALPHA_INV_MEASURED = 137.035999177
 ALPHA_INV_UNCERTAINTY = 0.000000021
 
 def ppm_error(predicted):
@@ -37,11 +37,11 @@ def ppm_error(predicted):
     return abs(predicted - ALPHA_INV_MEASURED) / ALPHA_INV_MEASURED * 1e6
 
 # ==============================================================================
-# SEARCH 1: Fixed formula family f(n,m) = n² + m² + n/(m² - m + 1)
+# SEARCH 1: Fixed formula family f(n,m) = n^2 + m^2 + n/(m^2 - m + 1)
 # ==============================================================================
 
 print("=" * 70)
-print("SEARCH 1: f(n,m) = n² + m² + n/(m² - m + 1)")
+print("SEARCH 1: f(n,m) = n^2 + m^2 + n/(m^2 - m + 1)")
 print("=" * 70)
 
 N_MAX = 20
@@ -58,7 +58,7 @@ for n in range(1, N_MAX + 1):
             if err <= threshold:
                 hits_by_threshold[threshold].append((n, m, val, err))
 
-print(f"\nSearch space: {N_MAX}×{N_MAX} = {N_MAX**2} pairs\n")
+print(f"\nSearch space: {N_MAX}*{N_MAX} = {N_MAX**2} pairs\n")
 for threshold in sorted(hits_by_threshold.keys()):
     count = len(hits_by_threshold[threshold])
     print(f"  Hits within {threshold:>6} ppm: {count}")
@@ -80,11 +80,11 @@ print(f"\n  Pairs producing value in [136, 138]: {near_137} / {N_MAX**2}")
 
 # ==============================================================================
 # SEARCH 2: Does the specific denominator matter?
-# Vary: f(n,m) = n² + m² + n/(m² + k*m + j) for k in [-5,5], j in [-5,5]
+# Vary: f(n,m) = n^2 + m^2 + n/(m^2 + k*m + j) for k in [-5,5], j in [-5,5]
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("SEARCH 2: Generalized denominator n² + m² + n/(m² + k*m + j)")
+print("SEARCH 2: Generalized denominator n^2 + m^2 + n/(m^2 + k*m + j)")
 print("=" * 70)
 
 K_RANGE = range(-5, 6)
@@ -111,18 +111,18 @@ for k in K_RANGE:
 print(f"\nTotal formulas tested: {total_formulas}")
 print(f"Hits within 1 ppm: {len(sub_1ppm)}")
 for n, m, k, j, val, err in sorted(sub_1ppm, key=lambda x: x[5]):
-    denom_str = f"m²{k:+d}m{j:+d}" if k != 0 else f"m²{j:+d}"
+    denom_str = f"m^2{k:+d}m{j:+d}" if k != 0 else f"m^2{j:+d}"
     print(f"  (n={n}, m={m}, k={k}, j={j}): denom={m*m+k*m+j}, "
           f"val={val:.10f} ({err:.3f} ppm)")
 
 print(f"\nHits within 10 ppm: {len(sub_10ppm)}")
 
 # ==============================================================================
-# SEARCH 3: Free fraction a² + b² + c/d
+# SEARCH 3: Free fraction a^2 + b^2 + c/d
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("SEARCH 3: Free fraction a² + b² + c/d")
+print("SEARCH 3: Free fraction a^2 + b^2 + c/d")
 print("=" * 70)
 
 A_MAX = 20
@@ -152,11 +152,11 @@ for a in range(1, A_MAX + 1):
 print(f"\nTotal formulas tested: {total_free}")
 print(f"Hits within 0.3 ppm: {len(free_sub_03ppm)}")
 for a, b, c, d, val, err in sorted(free_sub_03ppm, key=lambda x: x[5]):
-    print(f"  {a}²+{b}²+{c}/{d} = {val:.10f} ({err:.3f} ppm)")
+    print(f"  {a}^2+{b}^2+{c}/{d} = {val:.10f} ({err:.3f} ppm)")
 
 print(f"\nHits within 1 ppm: {len(free_sub_1ppm)}")
 for a, b, c, d, val, err in sorted(free_sub_1ppm, key=lambda x: x[5])[:15]:
-    print(f"  {a}²+{b}²+{c}/{d} = {val:.10f} ({err:.3f} ppm)")
+    print(f"  {a}^2+{b}^2+{c}/{d} = {val:.10f} ({err:.3f} ppm)")
 
 print(f"\nHits within 10 ppm: {len(free_sub_10ppm)}")
 
@@ -183,24 +183,24 @@ Framework values:
   n_d + n_c = {n_d + n_c} = total division algebra dims
 
 Main term:
-  n_d² + n_c² = {n_d}² + {n_c}² = {main_term}
+  n_d^2 + n_c^2 = {n_d}^2 + {n_c}^2 = {main_term}
   137 is prime: {isprime(main_term)}
-  137 ≡ 1 (mod 4): {main_term % 4 == 1} → can be sum of two squares
-  Unique decomposition: 4² + 11² = {n_d**2} + {n_c**2} = {main_term}
+  137 == 1 (mod 4): {main_term % 4 == 1} -> can be sum of two squares
+  Unique decomposition: 4^2 + 11^2 = {n_d**2} + {n_c**2} = {main_term}
 
 Correction denominator:
-  Φ₆({n_c}) = {n_c}² - {n_c} + 1 = {phi6}
+  Phi_6({n_c}) = {n_c}^2 - {n_c} + 1 = {phi6}
   Factorization of {phi6}: {dict(factorint(phi6))}
 
 Full formula:
-  1/α = {main_term} + {n_d}/{phi6} = {total} = {float(total):.12f}
+  1/alpha = {main_term} + {n_d}/{phi6} = {total} = {float(total):.12f}
   Error: {ppm_error(float(total)):.3f} ppm
 
 Structural constraints (why (4,11) is special):
-  1. 137 is prime → sum-of-squares decomposition is UNIQUE
+  1. 137 is prime -> sum-of-squares decomposition is UNIQUE
   2. n_d + n_c = 15 = sum of all division algebra dims
   3. n_d = 4 = largest associative division algebra dim
-  4. Φ₆(n_c) = {phi6} = EM channel count in u({n_c})
+  4. Phi_6(n_c) = {phi6} = EM channel count in u({n_c})
   5. Correction numerator = n_d (not free parameter)
 """)
 
@@ -228,12 +228,12 @@ tests = [
     ("137 is prime",
      isprime(main_term)),
 
-    ("4² + 11² is unique decomposition of 137",
+    ("4^2 + 11^2 is unique decomposition of 137",
      all(a*a + b*b != 137
          for a in range(1, 12) for b in range(a+1, 12)
          if (a, b) != (4, 11))),
 
-    ("Denominator 111 = Φ₆(11)",
+    ("Denominator 111 = Phi_6(11)",
      phi6 == 111),
 
     ("n_d + n_c = 15 (division algebra total)",
@@ -269,18 +269,18 @@ expected_random_03ppm = N_MAX**2 * (0.3 / (137.036 * 1e6 / 2))
 print(f"""
 KEY FINDINGS:
 
-1. WITHIN FIXED FAMILY f(n,m) = n² + m² + n/(m²-m+1):
+1. WITHIN FIXED FAMILY f(n,m) = n^2 + m^2 + n/(m^2-m+1):
    - (4,11) is the ONLY hit within 1000 ppm (0.1%)
    - Next closest: > 5000 ppm away
    - Probability of random hit at 0.3 ppm: ~1/5000
 
 2. WITH GENERALIZED DENOMINATOR (varying k, j):
-   - Still ONLY ONE sub-1ppm hit: k=-1, j=1 (the Φ₆ case)
+   - Still ONLY ONE sub-1ppm hit: k=-1, j=1 (the Phi_6 case)
    - The specific denominator form is unique
 
 3. WITH FREE FRACTIONS:
    - {len(free_sub_03ppm)} hits within 0.3 ppm (out of {total_free})
-   - The structural constraint (c=n, d=Φ₆(m)) eliminates most
+   - The structural constraint (c=n, d=Phi_6(m)) eliminates most
 
 4. BOTTOM LINE:
    - If formula family is DERIVED from axioms: genuinely special (~1/5000)

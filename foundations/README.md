@@ -42,7 +42,7 @@ This directory contains the rigorous arguments supporting this claim.
 | 5 | `constants_from_dimensions.md` | α, masses from {1,2,4,8} | **COMPLETE** |
 | 6 | `framework/investigations/spacetime/einstein_from_crystallization.md` | GR from crystallization | **COMPLETE** (moved S140) |
 | 7 | `fermions_from_representations.md` | 15 per generation | **COMPLETE** |
-| 8 | `generations_from_quaternions.md` | 3 generations from Im(H) | **COMPLETE** |
+| 8 | `generations_from_quaternions.md` | 3 generations from Im_H | **COMPLETE** |
 | 9 | `symmetry_breaking_chain.md` | SO(11) → SO(4)×SU(3) forced | **COMPLETE** |
 
 **All 9 foundation documents now exist.**
@@ -64,7 +64,7 @@ Dimensions: {1, 2, 4, 8}
 ├── Gauge = U(1)×SU(2)×SU(3) (automorphisms)  [gauge_from_automorphisms.md]
 ├── SO(11) → SO(4)×SU(3) (forced chain) [symmetry_breaking_chain.md]
 ├── Fermions = 15/gen (representations)  [fermions_from_representations.md]
-├── Generations = 3 (Im(H))              [generations_from_quaternions.md]
+├── Generations = 3 (Im_H)              [generations_from_quaternions.md]
 ├── Constants = ratios (algebra)         [constants_from_dimensions.md]
 └── Gravity = Einstein (crystallization) [einstein_from_crystallization.md]
        ↓
@@ -94,7 +94,7 @@ PHYSICS IS UNIQUE
 | 8 framework primes | D_framework sum-of-squares | `symmetry_breaking_chain.md` |
 | All denominators = f(n_c) | Polynomial unification | `symmetry_breaking_chain.md` |
 | 15 fermions/gen | dim(R⊕C⊕H⊕O) | `fermions_from_representations.md` |
-| 3 generations | dim(Im(H)) = 3 | `generations_from_quaternions.md` |
+| 3 generations | dim(Im_H) = 3 | `generations_from_quaternions.md` |
 | 1/α = 137 + 4/111 | Dimension ratios | `constants_from_dimensions.md` |
 | Einstein equations | Crystallization dynamics | `einstein_from_crystallization.md` |
 
@@ -131,7 +131,7 @@ PHYSICS IS UNIQUE
 | spacetime_from_associativity | Spacetime = 4D | Associativity + Frobenius |
 | gauge_from_automorphisms | SM gauge group | Automorphism calculation |
 | fermions_from_representations | 15 per generation | Representation theory |
-| generations_from_quaternions | 3 generations | dim(Im(H)) = 3 |
+| generations_from_quaternions | 3 generations | dim(Im_H) = 3 |
 | constants_from_dimensions | α, H₀, Ω, etc. | Sub-ppm verification |
 | einstein_from_crystallization | GR emerges | Variational principle |
 

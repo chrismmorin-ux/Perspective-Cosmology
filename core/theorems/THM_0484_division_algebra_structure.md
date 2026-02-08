@@ -115,7 +115,7 @@ The Hurwitz classification (if normed but not necessarily associative) additiona
 
 **Crystal dimension n_c = 11**: See [AXM_0118] for the canonical derivation:
 ```
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 ```
 This counts the total imaginary degrees of freedom across division algebras.
 

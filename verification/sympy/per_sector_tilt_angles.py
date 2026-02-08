@@ -11,7 +11,7 @@ Hypothesis: 1/alpha = Sum_a g(theta_a) where theta_a varies between sectors.
 Formula: 1/alpha = n_c^2 * f_c + n_d^2 * f_d
   where f_c = 1 (crystal sector) and f_d = 1 + 1/(n_d * Phi_6(n_c))
 
-Measured: 1/alpha = 137.035999084 (CODATA 2018)
+Measured: 1/alpha = 137.035999177 (CODATA 2022)
 Status: EXPLORATION
 Created: Session 151
 
@@ -40,7 +40,7 @@ N_I = n_d**2 + n_c**2  # 137
 Phi_6_nc = n_c * (n_c - 1) + 1  # 111 = EM channels of crystal
 
 # Measured value
-alpha_inv_measured = R(137035999084, 10**9)  # CODATA 2018
+alpha_inv_measured = R(137035999084, 10**9)  # CODATA 2022
 
 print("=" * 72)
 print("PER-SECTOR TILT ANGLES: EXPLORATION")
@@ -141,7 +141,7 @@ print()
 # 1/alpha = 11*h_cd + 110*h_co + 16*h_d = 137 + 4/111
 # Many solutions. Try: h_co = 1, h_cd = 1
 # Then h_d = (137 + 4/111 - 110 - 11) / 16 = (16 + 4/111) / 16 = 1 + 1/444
-# Same as before — the correction is entirely in the defect sector
+# Same as before -- the correction is entirely in the defect sector
 
 # Try: h_d = 1, h_co = 1
 # Then h_cd = (137 + 4/111 - 110 - 16) / 11 = (11 + 4/111) / 11 = 1 + 4/1221
@@ -165,7 +165,7 @@ print(f"  The ENTIRE correction sits on one mode!")
 print()
 
 # ==============================================================================
-# SECTION 3: GEOMETRIC INTERPRETATION — TILT ANGLES
+# SECTION 3: GEOMETRIC INTERPRETATION -- TILT ANGLES
 # ==============================================================================
 
 print("=" * 72)
@@ -211,7 +211,7 @@ print()
 
 # What does this mean physically?
 print("Physical interpretation:")
-print("  Crystal modes are fully crystallized — they've settled into their")
+print("  Crystal modes are fully crystallized -- they've settled into their")
 print("  ground state with zero residual tilt.")
 print()
 print("  Defect modes retain a tiny residual tilt of ~2.7 degrees because")
@@ -299,7 +299,7 @@ print("  EM channel count Phi_6(n_c) = 111.")
 print()
 
 # ==============================================================================
-# SECTION 5: FUNCTIONAL FORM — WHAT FUNCTION IS g(theta)?
+# SECTION 5: FUNCTIONAL FORM -- WHAT FUNCTION IS g(theta)?
 # ==============================================================================
 
 print("=" * 72)
@@ -402,7 +402,7 @@ print(f"  S_modified = {S_modified} (was 126)")
 print(f"  Difference: {R(126) - S_modified} = {float(R(126) - S_modified):.6f}")
 print()
 
-# This gives S = 126 - 4/111. Interesting — the SAME correction appears
+# This gives S = 126 - 4/111. Interesting -- the SAME correction appears
 # but now SUBTRACTED from S instead of ADDED to N_I.
 
 print("  NOTABLE: S_modified = 126 - 4/111 = S - n_d/Phi_6(n_c)")
@@ -423,14 +423,14 @@ print(f"  With S = 126 - 4/111:   ln(Lambda/mu) = {float(ln_mod):.6f}")
 print(f"  Ratio: {float(ln_mod / ln_original):.10f}")
 print()
 
-# The difference is tiny — O(1/137^2) — second order in the correction.
+# The difference is tiny -- O(1/137^2) -- second order in the correction.
 ratio_diff = ln_mod / ln_original - 1
 print(f"  Fractional change in ln: {float(ratio_diff):.2e}")
 print(f"  This is O(1/N_I^2) -- negligible at leading order.")
 print()
 
 # ==============================================================================
-# SECTION 7: ALGEBRAIC IDENTITY — THE DEEP STRUCTURE
+# SECTION 7: ALGEBRAIC IDENTITY -- THE DEEP STRUCTURE
 # ==============================================================================
 
 print("=" * 72)

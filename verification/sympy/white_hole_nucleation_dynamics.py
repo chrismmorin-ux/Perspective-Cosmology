@@ -3,7 +3,7 @@
 White Hole as Perspective Nucleation Point
 
 KEY FINDING: White holes are time-reversed black holes in crystallization dynamics.
-The Big Bang is the primordial white hole — the nucleation point of perspective.
+The Big Bang is the primordial white hole -- the nucleation point of perspective.
 
 This script verifies:
 1. The eps dynamics equation is time-reversal invariant

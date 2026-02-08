@@ -3,7 +3,7 @@
 **Status**: DERIVATION
 **Source**: framework/investigations/crystallization/symmetry_breaking_chain.md (CANONICAL)
 **Added**: Session 144 (formalization from S132-133)
-**Updated**: Session 196 (c_3 circularity resolved via Schur-convexity; assumption classification sharpened)
+**Updated**: Session 259 (CONJ-B3 fully resolved [DERIVED]; CONJ-B1 partially resolved [DERIVATION with imports]; assumption classifications updated)
 
 ---
 
@@ -78,12 +78,14 @@ With c_3 > 0 (Step 1.4), lower Tr(e^4) curvature means lower energy cost. The (4
 
 ### Stage 2: SO(7) --> G_2  [THEOREM]
 
-G_2 = Aut(O) is the automorphism group of the octonions [I-MATH: standard result, see e.g. Baez, "The Octonions", Bull. AMS 39 (2002)]. The 7-dimensional imaginary octonion space Im(O) carries the fundamental representation of SO(7). The unique maximal subgroup preserving octonionic multiplication is G_2 subset SO(7).
+G_2 = Aut(O) is the automorphism group of the octonions [I-MATH: standard result, see e.g. Baez, "The Octonions", Bull. AMS 39 (2002)]. The 7-dimensional imaginary octonion space Im_O carries the fundamental representation of SO(7). The unique maximal subgroup preserving octonionic multiplication is G_2 subset SO(7).
 
 - dim(G_2) = 14
 - Goldstone modes: dim(SO(7)) - dim(G_2) = 21 - 14 = 7
 
-*Proof*: G_2 preserves the octonionic product, hence preserves Im(O) as a 7-dimensional real vector space with its inner product and cross product. Any element of SO(7) that preserves the full multiplication table must be in G_2 (definition). The non-associativity of O ensures G_2 is a proper subgroup of SO(7): there exist rotations of Im(O) that preserve distances but not the product. [I-MATH] QED
+*Proof*: G_2 preserves the octonionic product, hence preserves Im_O as a 7-dimensional real vector space with its inner product and cross product. Any element of SO(7) that preserves the full multiplication table must be in G_2 (definition). The non-associativity of O ensures G_2 is a proper subgroup of SO(7): there exist rotations of Im_O that preserve distances but not the product. [I-MATH] QED
+
+**Geometric confirmation (S278, THM_04B6)**: The G_2 moment map on Gr(4,11;R) has zero locus with codim = 11 = n_c, decomposing the 28-dimensional Grassmannian as 28 = 17 (associative) + 11 (crystal). The 17 further splits as 14 (G_2 orbits) + 3 (LGr base = Im_H). This provides independent geometric evidence that the G_2 stage is structurally correct.
 
 ### Stage 3: G_2 --> SU(3)  [THEOREM]
 
@@ -108,20 +110,20 @@ SU(3) = Stab_{G_2}(C) is the stabilizer of the complex subalgebra C within G_2 [
 | 2 | SO(7) --> G_2 | Standard: G_2 = Aut(O) [I-MATH] |
 | 3 | G_2 --> SU(3) | Standard: SU(3) = Stab_{G_2}(C) [I-MATH] + THM_0485 |
 
-### What is DERIVATION (correct reasoning but uses [A-STRUCTURAL] assumptions)
+### What is DERIVATION (correct reasoning but uses assumptions with imports)
 
 | Step | Content | What prevents THEOREM status |
 |------|---------|------------------------------|
-| 1.4 | c_3 > 0 from Schur-convexity + THM_0484 | Depends on quartic Landau form [A-STRUCTURAL] |
-| 1.5 | (4,7) selected over (3,8) | Depends on 1.4 and the energetic selection principle [A-PHYSICAL] |
+| 1.4 | c_3 > 0 from Schur-convexity + THM_0484 | Depends on quartic Landau form [DERIVATION with imports, S259] |
+| 1.5 | (4,7) selected over (3,8) | Depends on 1.4 and the energetic selection principle [DERIVED, S258+S259] |
 
-### The three [A-STRUCTURAL] / [A-PHYSICAL] assumptions
+### The assumptions (updated S259)
 
-1. **Quartic Landau form** [A-STRUCTURAL]: The SO(11)-invariant potential is F(e) = c_1 Tr(e^2) + c_2 [Tr(e^2)]^2 + c_3 Tr(e^4). This is the simplest SO(n)-invariant polynomial with SSB capability (requires at least 4th order). Higher-order invariants (Tr(e^6), [Tr(e^2)]^3, Tr(e^2) Tr(e^4), etc.) are not excluded by any axiom. *Mitigation*: Universality arguments suggest higher-order terms don't change qualitative symmetry-breaking patterns near the critical point (they modify quantitative details but not which subgroup is selected).
+1. **Quartic Landau form** ~~[A-STRUCTURAL]~~ [DERIVATION with imports, S259]: The SO(11)-invariant potential is F(e) = c_1 Tr(e^2) + c_2 [Tr(e^2)]^2 + c_3 Tr(e^4). **S259 resolution (CONJ-B1 partially resolved)**: Two independent routes establish quartic as forced, not chosen: (a) *Algebraic*: degree 4 is minimum for bounded SSB + CCP smoothness forbids cubic + Thom structural stability; (b) *QFT*: CCP -> n_d=4 -> 4D -> quartic marginal -> higher-order irrelevant. Remaining gap: CCP -> continuous transition step is interpretive. See `conj_b1_quartic_truncation.py` (20/20 PASS), `conj_b1_invariant_ring.py` (6/6 PASS).
 
 2. **Coefficient signs from axioms** [A-AXIOM / A-PHYSICAL]: c_1 < 0 (tilt away from uniform state) from AXM_0114. c_2 > 0 (bounded potential) from AXM_0117. These are axiom-derived, not free parameters. However, c_3 > 0 is derived from consistency with THM_0484 via Schur-convexity (Step 1.4) — this is logically sound but creates a dependency: if THM_0484 were wrong, c_3 > 0 would lose its justification.
 
-3. **Energetic selection principle** [A-PHYSICAL]: "Lower energy = preferred breaking direction" is a physical dynamics assumption (gradient flow toward minimum). This is standard in Landau theory but is not derived from the perspective axioms alone.
+3. **Energetic selection principle** ~~[A-PHYSICAL]~~ [DERIVED, S258+S259]: **S258+S259 resolution (CONJ-B3 fully resolved)**: Gradient flow convergence proven (Lyapunov, S258) + ergodic sampling proven via normal closure theorem (S259: so(11) simple, center trivial, SU(2) generates SO(11)). No longer an independent assumption. See `conj_b3_algebraic_dynamics.py` (12/12 PASS), `conj_b3_ergodicity_proof.py` (10/10 PASS).
 
 ---
 
@@ -135,9 +137,9 @@ SU(3) = Stab_{G_2}(C) is the stabilizer of the complex subalgebra C within G_2 [
 | Second-order degeneracy | [D] THEOREM | Algebraic identity, verified |
 | Fourth-order difference = -n_c/Im_O | [D] THEOREM | Algebraic identity, verified |
 | Schur-convexity of Tr(e^4) | [I-MATH] | Standard result from majorization theory |
-| Landau expansion (quartic) | [A-STRUCTURAL] | Simplest SO(n)-invariant potential with SSB; higher-order terms not excluded |
+| Landau expansion (quartic) | ~~[A-STRUCTURAL]~~ [D with imports] | S259: CONJ-B1 partially resolved. Quartic forced by necessity + CCP smoothness + Thom stability + QFT power counting |
 | c_3 > 0 | [D] DERIVATION | From Schur-convexity + THM_0484 consistency (non-circular) |
-| Energetic selection (lower F preferred) | [A-PHYSICAL] | Standard Landau theory; not derived from perspective axioms |
+| Energetic selection (lower F preferred) | ~~[A-PHYSICAL]~~ [DERIVED] | S258+S259: CONJ-B3 fully resolved. Gradient flow + ergodic sampling via normal closure |
 | G_2 = Aut(O) | [I-MATH] | Standard mathematical fact |
 | SU(3) = Stab_{G_2}(C) | [I-MATH] | Standard mathematical fact |
 | F = C | [D] from THM_0485 | Derived from directed time |
@@ -148,15 +150,15 @@ SU(3) = Stab_{G_2}(C) is the stabilizer of the complex subalgebra C within G_2 [
 
 The overall chain is at DERIVATION level, not THEOREM, because:
 
-1. **Quartic Landau form** [A-STRUCTURAL]: The potential is assumed to be the simplest SO(11)-invariant quartic. Higher-order terms are not excluded by any axiom. This is the most significant gap.
+1. **Quartic Landau form** ~~[A-STRUCTURAL]~~ [DERIVATION with imports, S259]: **CONJ-B1 partially resolved**. Two routes establish quartic as forced: (a) algebraic necessity (degree >= 4) + CCP smoothness (no cubic) + Thom structural stability; (b) QFT power counting in d=4 (from CCP -> n_d=4). Remaining gap: CCP -> continuous transition is interpretive, not rigorous. The quartic uses 3 of 10 invariant ring generators, so truncation is NOT automatic from SO(11) representation theory.
 
-2. **c_3 > 0** [D] DERIVATION: The circularity present in earlier versions (Session 182) has been resolved. The old argument assumed block-diagonality to derive c_3 > 0, then used c_3 > 0 to select the block. The corrected argument uses Schur-convexity: c_3 < 0 implies maximum-anisotropy ground state (all eigenvalues distinct, no block structure), which contradicts THM_0484's division algebra organization. This is non-circular because THM_0484 is independently derived. However, the argument still depends on the quartic Landau form (assumption 1).
+2. **c_3 > 0** [D] DERIVATION: The circularity present in earlier versions (Session 182) has been resolved. The corrected argument uses Schur-convexity: c_3 < 0 implies maximum-anisotropy ground state (all eigenvalues distinct, no block structure), which contradicts THM_0484's division algebra organization. This is non-circular because THM_0484 is independently derived. Still depends on quartic form (point 1).
 
-3. **Energetic selection** [A-PHYSICAL]: The principle that the system selects the minimum-energy breaking direction is physics (gradient flow / thermodynamic equilibrium), not pure mathematics. Stages 2-3 are pure group theory and do not need this assumption.
+3. **Energetic selection** ~~[A-PHYSICAL]~~ **[DERIVED, S258+S259]**: **CONJ-B3 fully resolved**. Gradient flow convergence proven (Lyapunov function, S258). Ergodic sampling proven via normal closure theorem (S259): so(11) simple (B_5), center trivial (11 odd), normal closure of SU(2) = SO(11), therefore quaternionic transitions generate full action on Gr(4,11). This is no longer an independent assumption.
 
 **What would promote to THEOREM**:
-- Derive the quartic form from tilt matrix structure (show that the leading SO(11)-invariant potential is necessarily quartic, or that higher-order terms preserve the (4,7) selection)
-- Derive the energetic selection principle from the axioms (e.g., from AXM_0117 crystallization tendency as gradient flow)
+- Make the CCP -> continuous transition argument rigorous (would fully close CONJ-B1)
+- Or: prove higher-order terms preserve (4,7) selection (universality argument)
 
 **What would falsify**:
 - Finding that higher-order invariants (Tr(e^6), etc.) reverse the (4,7) vs (3,8) selection
@@ -175,8 +177,8 @@ The overall chain is at DERIVATION level, not THEOREM, because:
 | THM_0420 | [D] THEOREM | Irreversibility (enables THM_0485) |
 | AXM_0119 | [A-AXIOM] | Transition linearity (enables THM_0484) |
 | [I-MATH] | -- | G_2 = Aut(O), SU(3) = Stab_{G_2}(C), Landau theory, Schur-convexity |
-| Landau expansion | [A-STRUCTURAL] | Quartic form of SO(11)-invariant potential |
-| Energetic selection | [A-PHYSICAL] | Lower energy = preferred (gradient flow) |
+| Landau expansion | [D with imports] | Quartic form: CONJ-B1 partially resolved (S259) |
+| Energetic selection | [DERIVED] | Lower energy = preferred: CONJ-B3 fully resolved (S258+S259) |
 
 ## Verification
 
@@ -201,13 +203,13 @@ The overall chain is at DERIVATION level, not THEOREM, because:
 
 ## Remaining Gaps
 
-| Gap | Severity | What would close it |
-|-----|----------|-------------------|
-| Quartic Landau form not derived | MEDIUM | Show leading SO(11)-invariant potential is quartic from tilt matrix, or show higher-order terms preserve (4,7) selection |
-| Energetic selection not derived | LOW | Derive gradient flow from AXM_0117 formally |
-| c_1, c_2, c_3 values | MEDIUM | Derive coefficient values from axioms (partial: b = alpha M_Pl^4 from S172 democratic argument) |
-| Non-perturbative check | LOW | Verify result holds beyond small-e regime |
-| Higher-order universality | LOW | Prove Tr(e^6) etc. don't change qualitative selection |
+| Gap | Severity | What would close it | Status |
+|-----|----------|-------------------|--------|
+| Quartic Landau form | LOW-MEDIUM | Make CCP -> continuous transition rigorous | **PARTIALLY RESOLVED S259** (CONJ-B1) |
+| ~~Energetic selection~~ | ~~LOW~~ | ~~Derive gradient flow~~ | **RESOLVED S258+S259** (CONJ-B3) |
+| c_1, c_2, c_3 values | MEDIUM | Derive coefficient values from axioms (partial: b = alpha M_Pl^4 from S172 democratic argument) | OPEN |
+| Non-perturbative check | LOW | Verify result holds beyond small-e regime | OPEN |
+| Higher-order universality | LOW | Prove Tr(e^6) etc. don't change qualitative selection | Mitigated by Thom stability (S259) |
 
 ---
 
@@ -217,3 +219,5 @@ The overall chain is at DERIVATION level, not THEOREM, because:
 - Session 144: Formalized as THM_0487
 - Session 182: Promoted SKETCH --> DERIVATION; c_3 argument via block stability (contained circularity)
 - Session 196: Resolved c_3 circularity via Schur-convexity argument; sharpened assumption classification; added logical structure section
+- Session 258: CONJ-B3 partially resolved — gradient flow convergence [THEOREM] via Lyapunov function
+- Session 259: CONJ-B3 fully resolved — ergodic sampling via normal closure theorem. CONJ-B1 partially resolved — quartic forced by necessity + Thom + QFT. Energetic selection [A-PHYSICAL] -> [DERIVED]. Quartic [A-STRUCTURAL] -> [DERIVATION with imports]

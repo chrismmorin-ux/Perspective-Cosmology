@@ -251,12 +251,12 @@ FUNDAMENTAL OBSERVATION:
 
 The number n^2 = dim(u(n)) counts:
   1. The generators of U(n) (Lie algebra)
-  2. The number of entries in an n×n matrix
+  2. The number of entries in an n*n matrix
   3. The independent components of a general linear map on C^n
 
 For PERSPECTIVES:
-  - Perspective on {n_d}-dim defect: described by {n_d}×{n_d} = {n_d**2} parameters
-  - Perspective on {n_c}-dim crystal: described by {n_c}×{n_c} = {n_c**2} parameters
+  - Perspective on {n_d}-dim defect: described by {n_d}*{n_d} = {n_d**2} parameters
+  - Perspective on {n_c}-dim crystal: described by {n_c}*{n_c} = {n_c**2} parameters
 
 INTERFACE = where defect meets crystal:
   - Must parameterize BOTH structures

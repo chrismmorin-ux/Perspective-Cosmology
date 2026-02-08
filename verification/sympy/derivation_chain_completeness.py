@@ -262,28 +262,28 @@ for id, name, steps, precision in ranked:
 # ==============================================================================
 
 print("\n" + "=" * 80)
-print("TIER ANALYSIS — Promotion Candidates")
+print("TIER ANALYSIS -- Promotion Candidates")
 print("=" * 80)
 
 tier1 = [(id, name, steps, prec) for id, name, steps, prec in ranked if score_chain(steps) >= 0.75]
 tier2 = [(id, name, steps, prec) for id, name, steps, prec in ranked if 0.50 <= score_chain(steps) < 0.75]
 tier3 = [(id, name, steps, prec) for id, name, steps, prec in ranked if score_chain(steps) < 0.50]
 
-print(f"\nTIER 1 (score >= 75% — closest to DERIVED):")
+print(f"\nTIER 1 (score >= 75% -- closest to DERIVED):")
 for id, name, steps, prec in tier1:
     conj = [desc for desc, s in steps if s == 'C']
     print(f"  {id}: {name} [{prec}]")
     print(f"    Remaining conjectures: {', '.join(conj)}")
 print()
 
-print(f"TIER 2 (50-75% — need 1-2 key insights):")
+print(f"TIER 2 (50-75% -- need 1-2 key insights):")
 for id, name, steps, prec in tier2:
     conj = [desc for desc, s in steps if s == 'C']
     print(f"  {id}: {name} [{prec}]")
     print(f"    Remaining conjectures: {', '.join(conj)}")
 print()
 
-print(f"TIER 3 (< 50% — substantial work needed):")
+print(f"TIER 3 (< 50% -- substantial work needed):")
 for id, name, steps, prec in tier3:
     sc = score_chain(steps)
     print(f"  {id}: {name} [{prec}] (score: {sc:.0%})")
@@ -307,7 +307,7 @@ print(f"Score >= 75% (near-DERIVED): {above_75}")
 print(f"Score >= 50% (moderately complete): {above_50}")
 print(f"Score < 50% (needs work): {len(items) - above_50}")
 print()
-print("KEY INSIGHT: Most PARTIAL items score 50-75% — they have")
+print("KEY INSIGHT: Most PARTIAL items score 50-75% -- they have")
 print("the algebraic structure RIGHT (integers from division algebras)")
 print("but lack the MECHANISM connecting structure to physics.")
 print("The gap is almost always 'why does THIS ratio appear HERE?'")

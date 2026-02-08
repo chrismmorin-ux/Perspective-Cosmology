@@ -143,7 +143,7 @@ Time might correspond to Re(H):
 
 ARGUMENT 3: Lorentz Signature
 
-The quaternion norm is: |q|² = q·q* = t² + x² + y² + z²
+The quaternion norm is: |q|^2 = q*q* = t^2 + x^2 + y^2 + z^2
 This is Euclidean signature (+,+,+,+)
 
 But physically we have Lorentzian signature (-,+,+,+) or (+,-,-,-)
@@ -172,7 +172,7 @@ print(f"\nInternal modes: {internal}")
 print("\nPossible algebraic meanings of 6:")
 print(f"  1. Im_O - 1 = {Im_O} - 1 = {Im_O - 1} (no)")
 print(f"  2. C x Im_H = {C} x {Im_H} = {C * Im_H} (yes!)")
-print(f"  3. dim(SO(4)/SO(3)) = 6 = dim(S³) connections (yes!)")
+print(f"  3. dim(SO(4)/SO(3)) = 6 = dim(S^3) connections (yes!)")
 print(f"  4. dim(SU(3)) = 8 (no)")
 print(f"  5. dim(SU(2) x SU(2)) = 6 (yes!)")
 print(f"  6. Im_H + Im_H = 3 + 3 = 6 (yes!)")
@@ -309,7 +309,7 @@ In the Goldstone effective action:
   - Modes perpendicular have standard kinetic term
 
 This is like:
-  L = (d__t phi)² - (d__x phi)² - (d__y phi)² - (d__z phi)²
+  L = (d__t phi)^2 - (d__x phi)^2 - (d__y phi)^2 - (d__z phi)^2
 
 The relative minus sign comes from:
   - Time mode: "radial" in crystallization space

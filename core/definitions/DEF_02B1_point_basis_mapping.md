@@ -62,7 +62,7 @@ Points are naturally indexed by their basis vector index.
 
 ## Notes
 
-> **Layer 0 purity note (Session 140 audit)**: Physical role assignments (Im(C)→1, Im(H)→3, Im(O)→7 direction interpretation) moved to Layer 2. The algebraic decomposition n_c = 1+3+7 = 11 is derived in THM_0484 (division algebra structure). See `framework/layer_2_correspondence.md` for physical correspondence.
+> **Layer 0 purity note (Session 140 audit)**: Physical role assignments (Im_C→1, Im_H→3, Im_O→7 direction interpretation) moved to Layer 2. The algebraic decomposition n_c = 1+3+7 = 11 is derived in THM_0484 (division algebra structure). See `framework/layer_2_correspondence.md` for physical correspondence.
 
 This definition makes explicit what was implicit:
 - "Points" are not physical locations in space

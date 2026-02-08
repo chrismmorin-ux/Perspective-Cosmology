@@ -39,7 +39,7 @@ from sympy import (
 def test_herm2_maximal_real_eigenvalue():
     """Test 1: Herm(2) is the maximal real-eigenvalue subspace of M_2(C).
 
-    A matrix X in M_2(C) has all-real eigenvalues iff X is Hermitian (X = X†).
+    A matrix X in M_2(C) has all-real eigenvalues iff X is Hermitian (X = X+).
     Herm(2) has dim_R = 4. No larger real subspace of M_2(C) has this property.
     """
     t, x, y, z = symbols('t x y z', real=True)
@@ -76,7 +76,7 @@ def test_herm2_maximal_real_eigenvalue():
 def test_antihermitian_imaginary_eigenvalues():
     """Test 2: Anti-Hermitian matrices have purely imaginary eigenvalues.
 
-    If Y = -Y†, eigenvalues of Y are purely imaginary.
+    If Y = -Y+, eigenvalues of Y are purely imaginary.
     So iHerm(2) cannot serve as a physical arena (no real measurements).
     """
     a, b, c, d = symbols('a b c d', real=True)
@@ -87,7 +87,7 @@ def test_antihermitian_imaginary_eigenvalues():
         [b + I * c, a - d]
     ])
 
-    # Check anti-Hermitian: Y† = -Y
+    # Check anti-Hermitian: Y+ = -Y
     Y_dag = Y.adjoint()
     sum_check = simplify(Y + Y_dag)
     is_antiherm = all(simplify(sum_check[i, j]) == 0
@@ -119,9 +119,9 @@ def test_no_other_4d_real_eigenvalue_subspace():
     """Test 3: No other 4D real subspace of M_2(C) has all real eigenvalues.
 
     Proof sketch: If W is a 4D real subspace of M_2(C) with all real eigenvalues,
-    then every X in W satisfies X = X† (Hermitian). This is because:
-    - Real eigenvalues + diagonalizability => X = U D U† with D real diagonal
-    - X† = (U D U†)† = U D† U† = U D U† = X (since D is real)
+    then every X in W satisfies X = X+ (Hermitian). This is because:
+    - Real eigenvalues + diagonalizability => X = U D U+ with D real diagonal
+    - X+ = (U D U+)+ = U D+ U+ = U D U+ = X (since D is real)
 
     For normal matrices (which includes all diagonalizable matrices),
     real eigenvalues implies Hermitian. And Herm(2) is the UNIQUE
@@ -146,7 +146,7 @@ def test_no_other_4d_real_eigenvalue_subspace():
 
     # Eigenvalues of Y: (t + i*s) +/- sqrt(x^2 + y^2 + z^2)
     # The real part shifts by 0, imaginary part shifts by s
-    # So eigenvalues are complex (imaginary part = s ≠ 0)
+    # So eigenvalues are complex (imaginary part = s != 0)
     tr_Y = simplify(trace(Y))
     expected_tr = 2 * (t + I * s)
     tr_check = simplify(tr_Y - expected_tr) == 0
@@ -166,7 +166,7 @@ def test_no_other_4d_real_eigenvalue_subspace():
         [t, x + I * s],
         [x - I * s, -t]
     ])
-    # This is NOT Hermitian (Z[0,1] = x+is ≠ conjugate(Z[1,0]) = x+is...
+    # This is NOT Hermitian (Z[0,1] = x+is != conjugate(Z[1,0]) = x+is...
     # actually Z[1,0] = x - is, conjugate = x + is = Z[0,1]. So this IS Hermitian!)
 
     # Try truly non-Hermitian: asymmetric off-diagonal
@@ -174,7 +174,7 @@ def test_no_other_4d_real_eigenvalue_subspace():
         [t, x + s],
         [x - s, -t]
     ])
-    # W[0,1] = x+s, W[1,0] = x-s, conjugate(W[1,0]) = x-s ≠ x+s when s≠0
+    # W[0,1] = x+s, W[1,0] = x-s, conjugate(W[1,0]) = x-s != x+s when s!=0
     # So W is NOT Hermitian
 
     # Eigenvalues of W: tr=0, det = -t^2 - (x+s)(x-s) = -t^2 - x^2 + s^2
@@ -265,7 +265,7 @@ def test_center_is_unique_time():
                     all(comm_3[i, j] == 0 for i in range(2) for j in range(2)))
 
     # No traceless Hermitian matrix commutes with all of su(2)
-    # Check: [sigma_1, sigma_2] = 2i*sigma_3 ≠ 0
+    # Check: [sigma_1, sigma_2] = 2i*sigma_3 != 0
     comm_12 = simplify(sigma_1 * sigma_2 - sigma_2 * sigma_1)
     expected_comm_12 = 2 * I * sigma_3
     noncommuting = all(
@@ -325,7 +325,7 @@ def test_traceless_spans_space():
 def test_split_forced():
     """Test 7: The 1+3 split is FORCED by algebra structure.
 
-    Herm(2) = R*I ⊕ su(2) is the unique decomposition into:
+    Herm(2) = R*I (+) su(2) is the unique decomposition into:
     - center (commutes with everything) = R*I (dim 1)
     - traceless (non-commuting) = su(2) (dim 3)
 
@@ -373,7 +373,7 @@ def test_split_forced():
 
 
 def test_kernel_argument():
-    """Test 8: The perspective kernel argument — End(W) is ALL that's accessible.
+    """Test 8: The perspective kernel argument -- End(W) is ALL that's accessible.
 
     For V = R^n (or C^n), W = im(pi) with dim W = k:
     End(V) = End(W) + Hom(W, W^perp) + Hom(W^perp, W) + End(W^perp)
@@ -425,7 +425,7 @@ def test_kernel_argument():
 
 
 def test_observable_projection():
-    """Test 9: Observable projection — pi*T|_W captures all accessible info.
+    """Test 9: Observable projection -- pi*T|_W captures all accessible info.
 
     For any operator T in End(V), the perspective pi sees:
       T_observable = pi * T * pi  (restricted to W and projected back)
@@ -509,7 +509,7 @@ def test_no_alternative_subspace():
         [0, x + I * s],
         [x - I * s, 0]
     ])
-    # This is NOT Hermitian (check: mixed† has [1,0] = x + I*s ≠ x + I*s...
+    # This is NOT Hermitian (check: mixed+ has [1,0] = x + I*s != x + I*s...
     # actually mixed[0,1] = x+is, conj(mixed[1,0]) = conj(x-is) = x+is = mixed[0,1]
     # So this IS Hermitian! Let me fix this.
 

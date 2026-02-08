@@ -10,7 +10,7 @@ Multiple equivalent formulations:
 3. n_c = R + C + H + O - 4 = 1 + 2 + 4 + 8 - 4 = 11
 
 The "-4" in formula 3 is NOT arbitrary:
-  -4 = -3×R - 1 = -(number of algebras with imaginary parts)×(shared real dimension) - 1
+  -4 = -3*R - 1 = -(number of algebras with imaginary parts)*(shared real dimension) - 1
 
 Or more elegantly: we subtract R once for each of C, H, O (shared real subalgebra)
 plus one additional for R itself having no imaginary part.
@@ -78,18 +78,18 @@ print("\n" + "=" * 70)
 print("UNDERSTANDING THE '-4' SUBTRACTION")
 print("=" * 70)
 
-# The algebras form a tower: R ⊂ C ⊂ H, with O related via Cayley-Dickson
+# The algebras form a tower: R c C c H, with O related via Cayley-Dickson
 # Each algebra contains R as a subalgebra (the "1" or real axis)
 # The "-4" removes these redundant real directions
 
 # Interpretation 1: Remove R from each of {R, C, H, O}
 subtract_interpretation1 = 4 * R_dim  # Remove R four times (once per algebra)
-print(f"\nInterpretation 1: Subtract R×4 = {subtract_interpretation1}")
+print(f"\nInterpretation 1: Subtract R*4 = {subtract_interpretation1}")
 print(f"  R + C + H + O - 4R = {R_dim + C_dim + H_dim + O_dim - 4*R_dim}")
 
 # Interpretation 2: Remove shared real from C, H, O plus R itself
 subtract_interpretation2 = 3 * R_dim + R_dim  # 3 shared + 1 for R having no imaginary
-print(f"\nInterpretation 2: Subtract 3×(shared real in C,H,O) + R = {subtract_interpretation2}")
+print(f"\nInterpretation 2: Subtract 3*(shared real in C,H,O) + R = {subtract_interpretation2}")
 
 # Interpretation 3: Count only what's "new" at each level
 # R contributes: 0 imaginary
@@ -213,10 +213,10 @@ print("=" * 70)
 
 # 137 = H^2 + n_c^2
 formula_137 = H_dim**2 + nc**2
-print(f"\n137 = H² + n_c² = {H_dim}² + {nc}² = {H_dim**2} + {nc**2} = {formula_137}")
+print(f"\n137 = H^2 + n_c^2 = {H_dim}^2 + {nc}^2 = {H_dim**2} + {nc**2} = {formula_137}")
 
 # Alternative: 137 = n_d^2 + n_c^2
-print(f"137 = n_d² + n_c² = {nd}² + {nc}² = {nd**2} + {nc**2} = {nd**2 + nc**2}")
+print(f"137 = n_d^2 + n_c^2 = {nd}^2 + {nc}^2 = {nd**2} + {nc**2} = {nd**2 + nc**2}")
 
 print("""
 This is Pythagoras in the (n_d, n_c) space!

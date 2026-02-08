@@ -26,10 +26,10 @@ These claims have probability of random matching essentially 0%. They deserve se
 
 | # | Constant | Formula | Predicted | Measured | Precision | Verified |
 |---|----------|---------|-----------|----------|-----------|----------|
-| 1 | H₀ | 337/5 | 67.4 km/s/Mpc | 67.4 ± 0.5 | **EXACT** | `hubble_337_derivation.py` |
-| 2 | Ω_Λ | 137/200 | 0.685 | 0.685 ± 0.007 | **EXACT** ⚠ | `omega_lambda_derivation.py` |
-| 3 | Ω_m | 63/200 | 0.315 | 0.315 ± 0.007 | **EXACT** ⚠ | `omega_lambda_derivation.py` |
-| 4 | ℓ₁ (CMB) | 220 | 220 | 220.0 ± 0.5 | **EXACT** | `acoustic_peaks_from_l_A.py` |
+| 1 | H₀ | 337/5 | 67.4 km/s/Mpc | 67.4 ± 0.5 | **within measurement uncertainty** | `hubble_337_derivation.py` |
+| 2 | Ω_Λ | 137/200 | 0.685 | 0.685 ± 0.007 | **0.3% from Planck 2018** ⚠ | `omega_lambda_derivation.py` |
+| 3 | Ω_m | 63/200 | 0.315 | 0.315 ± 0.007 | **0.3% from Planck 2018** ⚠ | `omega_lambda_derivation.py` |
+| 4 | ℓ₁ (CMB) | 220 | 220 | 220.0 ± 0.5 | **matches observed peak position** | `acoustic_peaks_from_l_A.py` |
 | 5 | m_p/m_e | 1836 + 11/72 | 1836.15278 | 1836.15267 | **0.06 ppm** | `proton_electron_best_formula.py` |
 | 6 | 1/α | 137 + 4/111 | 137.036036 | 137.035999 | **0.27 ppm** | `alpha_enhanced_prediction.py` |
 | 7 | v/m_p | 11284/43 | 262.4186 | 262.4182 | **1.63 ppm** | `v_mp_ratio.py` |
@@ -37,7 +37,7 @@ These claims have probability of random matching essentially 0%. They deserve se
 | 9 | cos(θ_W) | 171/194 | 0.881443 | 0.881447 | **3.75 ppm** ⚠ | `mW_mZ_97_formula.py` |
 | 10 | m_μ/m_e | 8891/43 | 206.7674 | 206.7683 | **4.1 ppm** | `lepton_mass_ratio_verification.py` ✱NEW |
 | 11 | W/Ξ⁻ | 139×7/16 | 60.8125 | 60.8129 | **6.35 ppm** | `tier1_baryon_meson_audit.py` |
-| 12 | z_rec | 10×109 | 1090 | 1089.80 | **0.02%** (EXACT integer) | `cmb_recombination_redshift.py` |
+| 12 | z_rec | 10×109 | 1090 | 1089.80 | **0.02%** (integer within measurement uncertainty of 1089.80 ± 0.21) | `cmb_recombination_redshift.py` |
 
 **Changes from S205 audit** (1 demotion, 1 promotion):
 - **DEMOTED**: r_s = 337×3/7 → both factors FALSIFIED (F-8: η*=337, F-9: c_s=3/7). Compensating errors (HRS=7). Moved to Tier 2. Standard physics gives r_s=144.48 (0.03%) from H₀/Ω_m/Ω_b but this is derivative, not independent.
@@ -75,7 +75,7 @@ These claims have probability of random matching essentially 0%. They deserve se
 ### Framework Numbers Used
 
 - n_d = 4 = dim(H) = largest associative division algebra dimension
-- n_c = 11 = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 (crystal constraint)
+- n_c = 11 = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 (crystal constraint)
 - 137 = 4^2 + 11^2 = sum of squares prime (AXM_0118: Prime Attractor Selection)
 - 111 = Phi_6(n_c) = EM channels in u(11) Lie algebra
 
@@ -89,14 +89,15 @@ These claims have probability of random matching essentially 0%. They deserve se
     |
     v
 [A-STRUCTURAL: THM_0485] F = C (complex structure selected)
-    ⚠ CR-041: This step originally retrodicted from α; should now reference
-    THM_0485 independent argument. Circularity concern not fully resolved.
+    ⚠ CR-041: This step originally retrodicted from α. CCP (AXM_0120, S251-S255)
+    forces F=C independently via maximal consistency. CR-041 RESOLVED by CCP derivation.
+    THM_0485 provides a second independent argument.
     |
     v
 [D: from Frobenius + I-MATH] dim(H) = 4 (largest associative division algebra)
     |
     v
-[D: THM_04A0, canonical] n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+[D: THM_04A0, canonical] n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
     |
     v
 [A-AXIOM: AXM_0118 PROPOSED] Prime Attractor: selects primes p = a² + b²
@@ -153,7 +154,7 @@ These claims have probability of random matching essentially 0%. They deserve se
 
 | Property | Value |
 |----------|-------|
-| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) x Im(H)^2) = 1836 + 11/72 = 132203/72 |
+| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) x Im_H^2) = 1836 + 11/72 = 132203/72 |
 | **Predicted** | 1836.15277778 |
 | **Measured (CODATA 2018)** | 1836.15267343 |
 | **Precision** | **0.06 ppm** |
@@ -164,7 +165,7 @@ These claims have probability of random matching essentially 0%. They deserve se
 - 1836 = (H + O) x (Im_H^2 + (H + O)^2) = 12 x 153 (QCD mode product)
 - n_c = 11 = crystal dimension
 - dim(O) = 8 = octonion dimension
-- Im(H) = 3 = imaginary quaternions = generations
+- Im_H = 3 = imaginary quaternions = generations
 - 72 = 8 x 9 = dim(su(3)) x dim(u(3)) = QCD x generation Lie algebra product
 
 ### Derivation Chain (with formal tags)
@@ -266,7 +267,7 @@ Why numerator = n_c (not n_d like alpha)?
     v
 [A-AXIOM: AXM_0118 PROPOSED] Prime Attractor: select primes p = a² + b² OR p = a⁴ + b⁴
     S184: 97 = 2⁴ + 3⁴ = N_{Q(ζ₈)/Q}(2 + 3ζ₈) — Level 2 cyclotomic norm-form prime.
-    Uses DIRECT framework dimensions dim(C)=2, Im(H)=3. CR-061 PARTIALLY RESOLVED.
+    Uses DIRECT framework dimensions dim(C)=2, Im_H=3. CR-061 PARTIALLY RESOLVED.
     |
     v
 [A-PHYSICAL: CONJECTURE] 97 encodes weak isospin T3 = +1/2 structure

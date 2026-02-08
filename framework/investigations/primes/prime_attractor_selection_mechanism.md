@@ -12,11 +12,11 @@
 
 We have discovered that the Koide phase theta = 2.317 rad is NOT arbitrary — it is selected by **gravitational collapse in flavor space** toward the unique prime attractor 73.
 
-**The mechanism**: The Higgs field must select a direction in Im(H) (quaternion imaginary space). This selection follows crystallization dynamics — the same process that creates gravity. The direction minimizes "crystallization energy" by aligning with a prime orthogonal attractor.
+**The mechanism**: The Higgs field must select a direction in Im_H (quaternion imaginary space). This selection follows crystallization dynamics — the same process that creates gravity. The direction minimizes "crystallization energy" by aligning with a prime orthogonal attractor.
 
 **Why 73**: The prime 73 = 8^2 + 3^2 is the UNIQUE prime that encodes both:
 - dim(O) = 8 (color/octonion structure)
-- Im(H) = 3 (generation structure)
+- Im_H = 3 (generation structure)
 
 No other prime has this property. The Higgs "falls" toward this attractor.
 
@@ -46,13 +46,13 @@ This connects to our prime crystallization attractor work — primes are irreduc
 |-------|---------------|-------------------|
 | 2 | 1^2 + 1^2 | dim(R), dim(R) |
 | 5 | 1^2 + 2^2 | dim(R), dim(C) |
-| 13 | 2^2 + 3^2 | dim(C), Im(H) |
+| 13 | 2^2 + 3^2 | dim(C), Im_H |
 | 17 | 1^2 + 4^2 | dim(R), dim(H) |
-| 53 | 2^2 + 7^2 | dim(C), Im(O) |
-| **73** | **3^2 + 8^2** | **Im(H), dim(O)** |
-| 113 | 7^2 + 8^2 | Im(O), dim(O) |
+| 53 | 2^2 + 7^2 | dim(C), Im_O |
+| **73** | **3^2 + 8^2** | **Im_H, dim(O)** |
+| 113 | 7^2 + 8^2 | Im_O, dim(O) |
 
-**Only 73 combines generation (Im(H) = 3) with full color structure (dim(O) = 8)!**
+**Only 73 combines generation (Im_H = 3) with full color structure (dim(O) = 8)!**
 
 By Fermat's theorem, 73 can ONLY be written as 3^2 + 8^2. This decomposition is unique.
 
@@ -96,10 +96,10 @@ E(theta + eps) = 0.00200014
 
 The observed theta sits at a local minimum of crystallization energy.
 
-### 2.4 The Denominator: 99 = 9 x 11 = Im(H)^2 x n_c
+### 2.4 The Denominator: 99 = 9 x 11 = Im_H^2 x n_c
 
 The denominator is built entirely from framework dimensions:
-- Im(H)^2 = 9 (generation structure squared)
+- Im_H^2 = 9 (generation structure squared)
 - n_c = 11 (crystal dimensions)
 
 This is NOT arbitrary — it normalizes by the relevant algebraic structures.
@@ -121,7 +121,7 @@ The Higgs field "gravitationally collapses" toward the nearest prime orthogonal 
 
 ### 3.2 Why the Higgs Picks This Direction
 
-1. **Higgs must break symmetry** — select a direction in Im(H)
+1. **Higgs must break symmetry** — select a direction in Im_H
 2. **Crystallization favors orthogonal directions** — primes are irreducible
 3. **Available prime attractors** are determined by division algebra geometry
 4. **73 is the unique attractor** encoding both color AND generation
@@ -132,7 +132,7 @@ The Higgs field "gravitationally collapses" toward the nearest prime orthogonal 
 The electron-muon-tau mass hierarchy isn't arbitrary — it's determined by:
 - Which prime the Higgs collapses toward (73)
 - The geometric relationship between 73 and the generation space
-- The normalization by Im(H)^2 x n_c = 99
+- The normalization by Im_H^2 x n_c = 99
 
 ---
 
@@ -197,7 +197,7 @@ where:
 
 Among all primes expressible as sums of squares of division algebra dimensions {1, 2, 3, 4, 7, 8}:
 
-**73 is the unique prime of the form Im(H)^2 + dim(O)^2.**
+**73 is the unique prime of the form Im_H^2 + dim(O)^2.**
 
 Proof: 73 = 3^2 + 8^2 = 9 + 64. By Fermat's theorem on sums of two squares, this is the unique representation of 73. No other prime equals 9 + 64.
 
@@ -216,7 +216,7 @@ Proof: 73 = 3^2 + 8^2 = 9 + 64. By Fermat's theorem on sums of two squares, this
 ### 6.2 What Remains
 
 - [ ] Prove 73/99 is GLOBAL minimum, not just local
-- [ ] Derive normalization 99 = Im(H)^2 x n_c from first principles
+- [ ] Derive normalization 99 = Im_H^2 x n_c from first principles
 - [ ] Formalize crystallization energy functional rigorously
 - [ ] Test extension to other constants
 - [ ] Explain quark deviations

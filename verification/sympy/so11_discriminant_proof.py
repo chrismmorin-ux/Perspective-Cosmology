@@ -325,5 +325,5 @@ formulation is degenerate). The polynomial p(3) = -45 does not give the
 physical discriminant for N = 3. The N = 3 model reduces to one effective
 coupling and has a standard O(5) Wilson-Fisher fixed point.
 
-CONFIDENCE: [THEOREM] — exact algebraic proof, no approximations.
+CONFIDENCE: [THEOREM] -- exact algebraic proof, no approximations.
 """)

@@ -2,10 +2,12 @@
 
 > **⚠ HISTORICAL (Session 189 audit)**: This file was last substantively updated ~S77. Many correspondence rules have been added or refined since (e.g., DEF_02B0-02B3, DEF_02C0-02C6). Canonical Layer 2 content is in `core/definitions/DEF_02B0+` and `framework/investigations/`. Use this file for historical reference only.
 >
+> **S267-S271 NOTE**: Yang-Mills mass gap investigation (S268+S271) and tree-dressed paradigm (S266) provide additional structural results. Alpha radiative gap (S262) identifies C=24/11. These developments further reduce effective import count but are not yet reflected in the tables below.
+>
 > **S253 NOTE (CCP + Pipeline + Generations)**: Three major developments (S251) reduce import count:
 > - **CCP (AXM_0120)**: Forces F=C, n_d=4, n_c=11 from a single meta-axiom. I-DIM-1 (F=C) is now fully [DERIVED].
 > - **Pipeline**: 121->55->18->12 = u(1)+su(2)+su(3). Second independent route to SM gauge group (alongside automorphism chain). I-STRUCT-1 now has TWO derivation paths.
-> - **Generation count = 3**: From Im(H) tensor (7->3+3-bar+1) under G2->SU(3). One [A-PHYSICAL] step remains.
+> - **Generation count = 3**: From Im_H tensor (7->3+3-bar+1) under G2->SU(3). One [A-PHYSICAL] step remains.
 > See `core/axioms/AXM_0120_completeness_principle.md` and `framework/investigations/gauge/perspective_transformative_pipeline.md`.
 
 **Status**: HISTORICAL (was IMPORT)
@@ -506,12 +508,12 @@ Several of the original "impossible to derive" items have been addressed:
 | **n_c = 11** | NOT DERIVED | **DERIVED** | **AXM_0120 (CCP, S251)** |
 | **SM gauge group** | NOT DERIVED | **DERIVED** (two routes) | Automorphism chain (S46-52) + **Pipeline (S251)** |
 | **15 fermions** | NOT DERIVED | **DERIVED** [A-DIV] | P-DIV-3 |
-| **3 generations** | NOT DERIVED | **DERIVED** (one [A-PHYSICAL] step) | Im(H) tensor decomposition **(S251)** |
+| **3 generations** | NOT DERIVED | **DERIVED** (one [A-PHYSICAL] step) | Im_H tensor decomposition **(S251)** |
 | **sin²θ_W = 1/4** | NOT DERIVED | **DERIVED** [A-DIV]+[A-COUPLING] | P-COUP-1 |
 | **n_space = 3** | NOT DERIVED | NOT DERIVED | Still open |
 | **\|Π\|** | NOT DERIVED | NOT DERIVED | Still open |
 
-**Remaining open question**: CCP (AXM_0120, S251) resolves Gap G-004 by providing a direct route to division algebra structure without requiring the associativity assumption separately. The key remaining structural inputs are: [A-COUPLING] (gauge coupling scaling) and [A-PHYSICAL] identifications (interface = 1/alpha, generations = Im(H) directions).
+**Remaining open question**: CCP (AXM_0120, S251) resolves Gap G-004 by providing a direct route to division algebra structure without requiring the associativity assumption separately. The key remaining structural inputs are: [A-COUPLING] (gauge coupling scaling) and [A-PHYSICAL] identifications (interface = 1/alpha, generations = Im_H directions).
 
 ### What Would Still Change the Picture
 
@@ -541,7 +543,7 @@ The framework now **derives** (not just organizes): SM gauge group (two independ
 
 Remaining structural inputs:
 - [A-COUPLING]: gauge coupling scaling — cannot be derived
-- [A-PHYSICAL]: physical identifications (interface = 1/alpha, generations = Im(H) directions)
+- [A-PHYSICAL]: physical identifications (interface = 1/alpha, generations = Im_H directions)
 - |Π|: perspective count — unconstrained
 - Lorentz signature — unexplained
 

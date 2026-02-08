@@ -298,7 +298,7 @@ Framework prediction:
 The eps = 0 core becomes "exposed" when horizon shrinks to L_Pl.
 But eps = 0 is unstable (top of Mexican hat potential).
 
-V(eps) = -a·eps^2 + b·eps^4
+V(eps) = -a*eps^2 + b*eps^4
   - Maximum at eps = 0
   - Minimum at eps = eps* = alpha^2
 

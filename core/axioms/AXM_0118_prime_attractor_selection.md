@@ -97,11 +97,11 @@ All primes expressible as a² + b² with a, b ∈ D_framework:
 |-------|---------------|-------------------|
 | 2 | 1² + 1² | R + R |
 | 5 | 1² + 2² | R + C |
-| 13 | 2² + 3² | C + Im(H) |
+| 13 | 2² + 3² | C + Im_H |
 | 17 | 1² + 4² | R + H |
-| 53 | 2² + 7² | C + Im(O) |
-| 73 | 3² + 8² | Im(H) + O |
-| 113 | 7² + 8² | Im(O) + O |
+| 53 | 2² + 7² | C + Im_O |
+| 73 | 3² + 8² | Im_H + O |
+| 113 | 7² + 8² | Im_O + O |
 | 137 | 4² + 11² | H + n_c |
 
 ---
@@ -140,7 +140,7 @@ The mechanism would be **FALSIFIED** if:
 1. **What determines the denominator q?** What rule selects q for each context?
 2. **Is this the only selection criterion?** Could additional constraints exist?
 3. **Why only D_framework primes?** Among all Fermat-valid primes, why these 8?
-4. **Fourth-power primes (CR-061)**: PARTIALLY RESOLVED (Session 184). The norm form identity N_{Q(ζ₈)/Q}(a + bζ₈) = a⁴ + b⁴ [PROVEN] shows fourth-power primes are cyclotomic norm values from Z[ζ₈], just as sum-of-squares primes are Gaussian norm values from Z[i]. This gives 97 = 2⁴ + 3⁴ = N(2 + 3ζ₈) using DIRECT framework dimensions dim(C)=2, Im(H)=3. The unified catalog has 16 primes (8 Level 1 + 10 Level 2, with 2 overlap). See `foundations/prime_theory/05b_fourth_power_norm_forms.md`. **Remaining**: Should AXM_0118 be formally generalized, or should Level 2 primes be a separate definition?
+4. **Fourth-power primes (CR-061)**: PARTIALLY RESOLVED (Session 184). The norm form identity N_{Q(ζ₈)/Q}(a + bζ₈) = a⁴ + b⁴ [PROVEN] shows fourth-power primes are cyclotomic norm values from Z[ζ₈], just as sum-of-squares primes are Gaussian norm values from Z[i]. This gives 97 = 2⁴ + 3⁴ = N(2 + 3ζ₈) using DIRECT framework dimensions dim(C)=2, Im_H=3. The unified catalog has 16 primes (8 Level 1 + 10 Level 2, with 2 overlap). See `foundations/prime_theory/05b_fourth_power_norm_forms.md`. **Remaining**: Should AXM_0118 be formally generalized, or should Level 2 primes be a separate definition?
 
 ---
 
@@ -251,7 +251,7 @@ Framework primes split into:
 
 ### Open questions for CNH
 
-1. **CCF denominator**: Why 3? It's the number of nuclear quantum numbers {A,Z,N}. The coincidence 3 = Im(H) may be structural or accidental.
+1. **CCF denominator**: Why 3? It's the number of nuclear quantum numbers {A,Z,N}. The coincidence 3 = Im_H may be structural or accidental.
 2. **Quantitative meaning of CCF = 0**: Does CCF = 0 (Li-6, C-12) mean "forbidden" or "maximally suppressed"? Li-6 exists at ~10^-14, not zero.
 3. **Scale of suppression**: CCF gives the FACTOR but not the absolute RATE. The mechanism for how CNH modifies BBN reaction rates is not specified.
 4. **Norm vs non-norm in denominators**: The pattern (non-norm primes in denominators, norm primes in numerators) is observed in several formulas. Is this a consequence of the CNH, or a separate principle?
@@ -273,7 +273,7 @@ The CNH is accepted as a [CONJECTURE] with strong mathematical support but witho
 **Why accepted as [CONJECTURE] rather than waiting**:
 - Criterion #4 has no viable path — all observational tests are blocked
 - S249 exhaustively searched alternate predictions (nuclear stability r=-0.15, magic numbers fail, CNO no pattern, particle QNs trivial)
-- Im(H) = 3 connection is an IRREDUCIBLE GAP requiring [I-PHYSICS] input
+- Im_H = 3 connection is an IRREDUCIBLE GAP requiring [I-PHYSICS] input
 - Mathematical exploration of extensions ongoing in parallel session (S250+)
 
 **Organizational insight (S250)**: The CNH classifies framework sectors:
@@ -298,6 +298,6 @@ This is genuine organizational insight but NOT predictive power.
 - [verification/sympy/cnh_deep_investigation.py] — CNH deep investigation (22/22 PASS, S246)
 - [verification/sympy/cnh_phase2_denominator.py] — CCF denominator (26/26 PASS, S248)
 - [verification/sympy/cnh_phase3_predictions.py] — Alternate prediction paths (28/28 PASS, S249)
-- [verification/sympy/cnh_imh_derivation.py] — Im(H) connection analysis (12/12 PASS, S249)
+- [verification/sympy/cnh_imh_derivation.py] — Im_H connection analysis (12/12 PASS, S249)
 - [verification/sympy/cnh_particle_physics.py] — Particle physics extension (16/16 PASS, S249)
-- [verification/sympy/cnh_catalog_classification.py] — Catalog norm classification (20/20 PASS, S250)
+- [verification/sympy/cnh_catalog_reassessment.py] — Catalog norm classification (20/20 PASS, S250)

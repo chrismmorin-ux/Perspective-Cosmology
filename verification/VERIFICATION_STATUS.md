@@ -147,7 +147,7 @@
 | `weinberg_angle_running.py` | sin²θ_W = 1/4 at ~188 TeV | **PASS** | Correctly calculates SM running. Does NOT verify the g² ∝ Im assumption. |
 | `associativity_requirement.py` | n_d = 4 from associativity | **PARTIAL** | Path independence → associativity is STRONG. Gap: division algebra structure not proven from axioms. |
 | `gauge_dimension_rank_analysis.py` | dim(G_SM) = 12, rank = 4 | **PASS** | All 5 key formulas verified: dim = n_d(n_d-1) = 12, rank = n_d = 4. |
-| `hypercharge_derivation.py` | All 5 Y values from Im(H) = 3 | **PASS** | All 5 hypercharges match SM. Anomalies cancel. Uniqueness verified (1 solution). |
+| `hypercharge_derivation.py` | All 5 Y values from Im_H = 3 | **PASS** | All 5 hypercharges match SM. Anomalies cancel. Uniqueness verified (1 solution). |
 | `chirality_quaternion_analysis.py` | Left-handed from T1 | **PASS** | Clean derivation chain presentation. Correctly identifies gaps. |
 | `octonion_su3_decomposition.py` | O + F=C → SU(3) | **PASS** | G₂/SU(3) = S⁶ correctly computed. Resolves 7 vs 8 mismatch (12-11=1 explained). |
 | `rank4_gauge_enumeration.py` | SM is minimal rank-4 group | **PASS** | SM among minimum-dimension (12) rank-4 groups. Division algebras select SM over SU(2)⁴. |
@@ -262,7 +262,7 @@ The verification scripts CONFIRM the audit findings:
 | `gauge_groups_derivation.py` | Verify division algebra → gauge group mapping | **PASS** | Hurwitz theorem verified. C→U(1), H→SU(2), O→SU(3) dimensions correct. |
 | `gauge_dimension_rank_analysis.py` | Verify dim(G_SM) = 12, rank = 4 | **PASS** | All 5 formulas verified. |
 | `rank4_gauge_enumeration.py` | Enumerate all rank-4 gauge groups | **PASS** | SM among minimal-dimension rank-4 groups. |
-| `octonion_su3_decomposition.py` | Explain Im(O) = 7 but dim(SU(3)) = 8 | **PASS** | F=C on O gives O = C + C³, stabilizer = SU(3). |
+| `octonion_su3_decomposition.py` | Explain Im_O = 7 but dim(SU(3)) = 8 | **PASS** | F=C on O gives O = C + C³, stabilizer = SU(3). |
 | `division_algebra_connection.py` | Explore 15 = 4 + 11 = 1+2+4+8 | **PASS** | Multiple decompositions documented. |
 | `dimension_constraints.py` | Why n₁=4 and n₂=11 are special | **PASS** | 137 = 4² + 11² is unique (Fermat). |
 | `associativity_requirement.py` | n_d = 4 from associativity | **PARTIAL** | Gap: division algebra axiom not proven. |
@@ -341,7 +341,7 @@ The verification scripts CONFIRM the audit findings:
 1. ✓ **dim(G_SM) = 12 = n_d(n_d - 1)**
 2. ✓ **rank(G_SM) = 4 = n_d**
 3. ✓ **1/α = 137 = 4² + 11² (at IR)** — 0.026% error
-4. ✓ **All 5 hypercharges from Im(H) = 3**
+4. ✓ **All 5 hypercharges from Im_H = 3**
 5. ✓ **SU(3) from O with F=C, stabilizer in G₂**
 6. ✓ **\|Π\| = 137⁵⁵ ≈ 10^118** — 0.4% error in log scale
 7. ✓ **Gr(4,11) + SO(4) + SO(7) = 55 = C(11,2)**

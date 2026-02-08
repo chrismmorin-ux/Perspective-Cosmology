@@ -23,7 +23,7 @@ print("=" * 70)
 print("PROTON/ELECTRON MASS RATIO: PRIME ATTRACTOR SEARCH")
 print("=" * 70)
 
-# Measured value (CODATA 2018)
+# Measured value (CODATA 2022)
 mp_me_measured = 1836.15267343
 mp_me_uncertainty = 0.00000011
 

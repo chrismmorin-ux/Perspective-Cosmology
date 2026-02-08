@@ -479,9 +479,9 @@ if disc_11 < 0:
     print("""KEY RESULT: NEGATIVE DISCRIMINANT
   => No real mixed fixed points exist for N = 11 at one loop.
   => The only fixed points are:
-     (a) Gaussian (u*=v*=0) — trivial, unstable
-     (b) Isotropic (u*=eps/73, v*=0) — lambda*=0
-     (c) Anisotropic (u*=0, v*=eps/A23) — lambda*=infinity
+     (a) Gaussian (u*=v*=0) -- trivial, unstable
+     (b) Isotropic (u*=eps/73, v*=0) -- lambda*=0
+     (c) Anisotropic (u*=0, v*=eps/A23) -- lambda*=infinity
 
   PHYSICAL INTERPRETATION:
   The absence of a stable mixed fixed point means:
@@ -590,7 +590,7 @@ print("=" * 70)
 print(f"""
 RESULTS:
 
-1. ALL SIX ONE-LOOP BETA FUNCTION COEFFICIENTS — ANALYTIC [DERIVATION]
+1. ALL SIX ONE-LOOP BETA FUNCTION COEFFICIENTS -- ANALYTIC [DERIVATION]
 
    For the SO(N) symmetric traceless matrix model with n = N(N+1)/2 - 1:
 

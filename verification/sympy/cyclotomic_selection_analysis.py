@@ -12,9 +12,9 @@ This script systematically analyzes ALL cyclotomic polynomials to determine:
 KEY QUESTION: Is Phi_6 derivable from division algebra structure, or is it a search result?
 
 Framework numbers to match:
-- 111 = Phi_6(11) — appears in alpha correction
-- 133 = Phi_6(12) — appears in Weinberg angle
-- 37, 43, 57, 73 — other framework numbers
+- 111 = Phi_6(11) -- appears in alpha correction
+- 133 = Phi_6(12) -- appears in Weinberg angle
+- 37, 43, 57, 73 -- other framework numbers
 
 Created: 2026-01-28 (Session 120 - Red Team Priority 2)
 """
@@ -123,7 +123,7 @@ def analyze_phi6_structure():
     """Analyze the mathematical structure of Phi_6."""
     x = Symbol('x')
 
-    # Phi_6(x) = x² - x + 1
+    # Phi_6(x) = x^2 - x + 1
     phi6 = cyclotomic_poly(6, x)
 
     analysis = {
@@ -162,17 +162,17 @@ def search_for_phi6_in_division_algebras():
     # Connection 2: Phi_6 has degree 2 = dim(C) - 1 + 1 = dim(C)
     connections.append("deg(Phi_6) = 2 = dim(C)")
 
-    # Connection 3: Roots of Phi_6 are e^{+/-ipi/3}, angles of 60°
-    # 60° = pi/3 = 180°/3 = rotation in Im_H-dimensional space?
-    connections.append("Roots at +/-60° — hexagonal symmetry")
+    # Connection 3: Roots of Phi_6 are e^{+/-ipi/3}, angles of 60 deg
+    # 60 deg = pi/3 = 180 deg/3 = rotation in Im_H-dimensional space?
+    connections.append("Roots at +/-60 deg -- hexagonal symmetry")
 
     # Connection 4: 6 is the first number where Euler's totient phi(6) = 2
     # (phi(n) = degree of Phi_n)
     connections.append("phi(6) = 2 = dim(C), smallest n with phi(n) = 2 and n > 2")
 
-    # Connection 5: Phi_6(x) = x² - x + 1 = (x³ + 1)/(x + 1) for x ≠ -1
+    # Connection 5: Phi_6(x) = x^2 - x + 1 = (x^3 + 1)/(x + 1) for x != -1
     # Related to cube roots of -1
-    connections.append("Phi_6 related to cube roots of -1: (x³+1)/(x+1)")
+    connections.append("Phi_6 related to cube roots of -1: (x^3+1)/(x+1)")
 
     return connections
 
@@ -181,8 +181,8 @@ def compute_alpha_with_different_cyclotomics():
     x = Symbol('x')
 
     # Note: this IS 1/alpha (inverse fine structure constant)
-    # 1/alpha = 137.035999206 (CODATA 2022)
-    inv_alpha_measured = Rational(137035999206, 10**9)
+    # 1/alpha = 137.035999177 (CODATA 2022)
+    inv_alpha_measured = Rational(137035999177, 10**9)
 
     results = []
 
@@ -280,7 +280,7 @@ def main():
     print("-" * 50)
     connections = search_for_phi6_in_division_algebras()
     for conn in connections:
-        print(f"   • {conn}")
+        print(f"   * {conn}")
 
     # 8. Alpha predictions with different cyclotomics
     print("\n8. ALPHA PREDICTIONS WITH DIFFERENT CYCLOTOMICS")
@@ -305,7 +305,7 @@ def main():
 
     2. Phi_6 produces the BEST alpha prediction by far
        - k=6: 0.27 ppm error (current formula)
-       - Next best (k=2): 191 ppm error — 700* worse
+       - Next best (k=2): 191 ppm error -- 700* worse
        - This is NOT a close call
 
     3. Phi_6 has structural connections to division algebras:

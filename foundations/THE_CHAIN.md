@@ -134,20 +134,26 @@ Time evolution must be associative (causality). [A-PHYSICAL]
 Maximal associative division algebra: H (dimension 4). [THEOREM]
 Therefore spacetime dimension = 4.
 
-Structure: 1 (time) + 3 (space) from H = R + Im(H).
+Structure: 1 (time) + 3 (space) from H = R + Im_H.
 
 **Document**: `spacetime_from_associativity.md`
 
-### Step 7: Gauge Groups from Automorphisms [CONJECTURE]
+### Step 7: Gauge Groups [DERIVATION]
 
-Internal symmetries = automorphisms of division algebras: [A-PHYSICAL]
+Two independent routes converge on U(1) x SU(2) x SU(3):
+
+**Route 1: Automorphisms** [CONJECTURE — gaps remain]
 - Aut(C) = Z₂ → U(1) (electromagnetism) [GAP: finite→continuous, see G-006]
 - Aut(H) = SO(3) → SU(2) (weak force) [GAP: why double cover?]
 - Aut(O) = G₂ ⊃ SU(3) (strong force) [GAP: specific embedding]
 
+**Route 2: Pipeline (S251)** [DERIVATION]
+- u(11) → associativity filter → 121→55→18→12 = u(1)+su(2)+su(3)
+- No gaps in this route; forced by CCP + Frobenius
+
 Standard Model: U(1) × SU(2) × SU(3)
 
-**Document**: `gauge_from_automorphisms.md`
+**Document**: `gauge_from_automorphisms.md`, `framework/investigations/gauge/perspective_transformative_pipeline.md`
 
 ### Step 7b: The SO(11) Symmetry Breaking Chain
 
@@ -166,11 +172,15 @@ SO(11) → SO(4) × SO(7) → SO(4) × G₂ → SO(4) × SU(3)
 
 **Document**: `symmetry_breaking_chain.md`
 
+**Geometric confirmation** (S278, THM_04B6): The G_2 moment map on Gr(4,11;R) has zero locus with codim = 11 = n_c. The Grassmannian decomposes as 28 = 17 (associative) + 11 (crystal), and symplectic reduction gives dim = 3 = Im_H = spatial dimensions. This provides a third independent path to n_c = 11, via differential geometry rather than algebra.
+
+**Conjecture resolutions** (S258-S299): The quartic invariant (CONJ-B1, S286 [THEOREM]), cross-term independence (CONJ-A3, S258 [THEOREM]), spectral convergence (CONJ-A1, S292 [DERIVATION]), gradient flow (CONJ-B3, S259), and gauge kinetic normalization (CONJ-A2, S297 [A-STRUCTURAL]) have all been resolved. IRA count reduced from 10 to 6 (0 conjectures remaining). See `framework/IRREDUCIBLE_ASSUMPTIONS.md`.
+
 ### Step 8: Fermion Content
 
 Division algebra representations give:
 - 15 Weyl fermions per generation
-- 3 generations (from Im(H) = 3)
+- 3 generations (from Im_H = 3)
 - Chirality (from quaternion embedding)
 
 **Document**: `gauge_from_automorphisms.md`, Section IV
@@ -220,12 +230,13 @@ From the four division algebras:
 
 ```
 Dimensions:     R=1, C=2, H=4, O=8
-Imaginaries:    Im(H)=3, Im(O)=7
-Crystal dim:    n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11
+Imaginaries:    Im_H=3, Im_O=7
+Crystal dim:    n_c = Im_C+Im_H+Im_O = 1+3+7 = 11
 Spacetime:      n_d = 4
 
 Key combinations:
   137 = 4² + 11²
+  28 = 17 + 11  (associative + crystal in Gr(4,11))
   179 = 3² + 7² + 11²
   337 = 3⁴ + 4⁴
   200 = 337 - 137
@@ -241,7 +252,7 @@ If any of these is observed, the framework is falsified:
 
 | Observation | What it falsifies |
 |-------------|-------------------|
-| 4th generation fermion | 3 generations from Im(H) |
+| 4th generation fermion | 3 generations from Im_H |
 | New gauge boson | Automorphism derivation |
 | Spacetime ≠ 4 dimensions | Associativity argument |
 | DM mass ≠ 5.11 GeV | Ω ratio derivation |

@@ -259,7 +259,7 @@ if crossover_lam is not None:
     print(f"  c1/c3 = {float(c1_over_c3):.6f}")
 
 # ==============================================================================
-# PART 6: ALTERNATIVE — LAMBDA FROM (4,7)=(3,8) DEGENERACY
+# PART 6: ALTERNATIVE -- LAMBDA FROM (4,7)=(3,8) DEGENERACY
 # ==============================================================================
 
 print("\n" + "=" * 70)

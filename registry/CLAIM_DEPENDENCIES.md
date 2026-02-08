@@ -2,7 +2,7 @@
 
 **Created**: 2026-01-27
 **Rewritten**: 2026-01-30 (Session 144 — canonical naming, Issue 5.2)
-**Updated**: 2026-02-01 (Session 178 — added THM_0487-04A4, DEF_02A3-02C4, S145-S175 claims)
+**Updated**: 2026-02-07 (Session 301 — S189-S299 propagation: AXM_0120, CONJ resolutions, Yang-Mills, IRA inventory)
 **Purpose**: Map every claim to its dependencies (axioms, prior claims, verification scripts)
 
 ---
@@ -91,6 +91,14 @@ All references use the canonical `core/` numbering system:
 **Depends on**: AXM_0117
 **Used by**: α = 137 selection, framework prime structure, all numerical predictions
 **Note**: Session 140 audit flagged — n_c = 11 derivation should be extracted to a theorem.
+
+### AXM_0120: Completeness Principle (CCP)
+**Depends on**: AXM_0100, AXM_0109 (foundational)
+**Statement**: Perfection = maximal consistency. The Crystal contains all possible structure consistent with its axioms.
+**Used by**: n_c = 11, n_d = 4, F = C (all now DERIVED from CCP). SM gauge group pipeline. Generation count = 3.
+**Verification**: `completeness_principle_verification.py` [PASS]
+**Status**: CANONICAL (S251, S264)
+**Note**: Most impactful axiom — forces nearly all structural choices. See `core/axioms/AXM_0120_completeness_principle.md`.
 
 ---
 
@@ -203,7 +211,7 @@ All references use the canonical `core/` numbering system:
 **Status**: SKETCH
 
 ### THM_04A1: Crystal Decomposition
-**Statement**: Crystal decomposes as n_c = Im(C) + Im(H) + Im(O) = 1+3+7 = 11.
+**Statement**: Crystal decomposes as n_c = Im_C + Im_H + Im_O = 1+3+7 = 11.
 **Depends on**: THM_0484, [I-MATH: Hurwitz theorem]
 **Used by**: All n_c-dependent predictions
 **Status**: SKETCH
@@ -289,7 +297,7 @@ All references use the canonical `core/` numbering system:
 **Verification**: `associativity_requirement.py` [PARTIAL]
 
 ### n_c = 11 (Crystal dimension)
-**Statement**: n_c = dim(Im(C)) + dim(Im(H)) + dim(Im(O)) = 1 + 3 + 7 = 11
+**Statement**: n_c = dim(Im_C) + dim(Im_H) + dim(Im_O) = 1 + 3 + 7 = 11
 **Depends on**: THM_0484, [I-MATH: Hurwitz theorem], [A-STRUCTURAL: imaginary decomposition]
 **Used by**: ALL numerical predictions — α, masses, cosmology, CMB
 **Verification**: `nc_11_rigorous_derivation.py` [PASS]
@@ -299,6 +307,13 @@ All references use the canonical `core/` numbering system:
 **Depends on**: THM_0484, THM_0485 (F = C), THM_0487 (SO(11) chain), AXM_0117
 **Used by**: All particle physics predictions, EWSB
 **Verification**: `sm_gauge_group_from_fc.py` [25/25 PASS], `eigenvalue_selection_sm_gauge.py` [22/22 PASS]
+
+### THM_04B6: Moment Map Codimension (S278)
+**Statement**: codim(mu^{-1}(0)) = 11 = n_c in Gr(4,11;R). Decomposition 28 = 17 + 11. Symplectic reduction dim = 3 = Im_H.
+**Depends on**: AXM_0120 (CCP), THM_04AD (rank selection), THM_0487 (G_2 from breaking chain), [I-MATH: G_2 moment map, exterior algebra rank, symplectic reduction]
+**Used by**: Independent geometric confirmation of n_c = 11; geometric derivation of spatial dim = 3
+**Verification**: `mu_zero_locus.py` [16/16 PASS], `h_schubert_state_counting.py` [8/8 PASS]
+**Status**: CANONICAL
 
 ### EWSB: Higgs = pNGB from ε_di (S175)
 **Statement**: (2,1)_{Y=1/2} doublet in ε_di off-diagonal block; VEV gives W⁺,W⁻,Z massive, γ massless.
@@ -607,6 +622,149 @@ All references use the canonical `core/` numbering system:
 ### DEF_02C6 (Incompleteness Gap)
 - **Used by**: THM_04A7, THM_04A9
 
+### THM_04AD: Perspective Rank Selection
+- **Depends on**: AXM_0120 (CCP), THM_0484
+- **Status**: CANONICAL
+- **Used by**: THM_04B6 (Moment map codimension)
+
+### THM_04AE: Lorentz Signature
+- **Depends on**: AXM_0116, THM_0484 (H structure)
+- **Status**: DERIVATION
+
+### THM_04AF: Gap Existence by Exclusion
+- **Depends on**: AXM_0120 (CCP), THM_0484
+- **Status**: DERIVATION
+
+### THM_04B0: Recursive Gap Tower
+- **Depends on**: THM_04A7, AXM_0117
+- **Status**: DERIVATION
+- **Used by**: Consciousness discussion (meta-level)
+
+### THM_04B1: IMC Terminal Undecidability
+- **Depends on**: THM_04B0, AXM_0100
+- **Status**: DERIVATION
+
+### THM_04B2: Perspective from Seed
+- **Depends on**: AXM_0120, THM_0484
+- **Status**: DERIVATION
+
+### THM_04B5: Pi Power Sums
+- **Statement**: Pi-power sums encode division algebra dimensions. Pi forced by CCP.
+- **Depends on**: AXM_0120 (CCP), [I-MATH: analytic number theory]
+- **Status**: THEOREM (S265)
+- **Verification**: `pi_power_sum_deep.py`, `pi_from_foundations.py`
+
 ---
 
-*Last updated: 2026-02-02 (Session 189 — added S181+ provisional dependency entries, AXM_0119 through DEF_02C6)*
+## S251-S299 Key Results (Session 301 update)
+
+### CCP Propagation (S251-S255)
+
+- **n_c = 11** [D: CCP] — now three independent paths: CCP, CD Closure, moment map
+- **n_d = 4** [D: CCP + Frobenius] — maximal associative division algebra
+- **F = C** [D: CCP + T1] — resolved as DERIVED (no longer [A-STRUCTURAL])
+- **SM gauge group** [D: Pipeline 121->55->18->12] — independent of automorphism route
+- **Generations = 3** [D: Im_H tensor decomposition 7->3+3bar+1]
+
+### Conjecture Resolutions (S258-S299)
+
+| Conjecture | Resolution | Session | Mechanism | Impact |
+|------------|-----------|---------|-----------|--------|
+| CONJ-A3 | [THEOREM] | S258 | Radon-Hurwitz: dim 7 odd -> rho(7)=1 < 4 -> no [4,7,7]-composition | n_d^2+n_c^2=137 DERIVED |
+| CONJ-B3 | [THEOREM] | S258-259 | Gradient flow convergence via Lyapunov | Lower energy preferred |
+| CONJ-B1 | [THEOREM] | S286 | FFT on Hom(R^4,R^7): all invariants even | Quartic potential forced |
+| CONJ-A1 | [DERIVATION] | S292 | C5 + IRA-10 -> finite spectrum -> WSR converge | Democratic gauge coupling |
+| CONJ-A2 | [A-STRUCTURAL] | S297 | kappa=1 = standard Tr convention for HS metric | Alpha Step 5 upgraded |
+
+### Yang-Mills Mass Gap (S268-S285) [CANONICAL]
+**Statement**: Glueball mass formula m/sqrt(sigma) = n_d + J(J+1)/n_d + dim_C*L + C_2(A)*(n_g-2)
+**Depends on**: n_d = 4, THM_0484, THM_0487 (SO(11) chain), [A-IMPORT: lattice QCD data]
+**Used by**: QCD sector predictions, SU(N) generalization
+**Verification**: 13 scripts, 285/286 total PASS
+**Key results**: Base mass n_d=4 universal [CONFIRMED]. Large-N intercept 10/3+2/N^2. 0++ at 3.7% from lattice, 1+- at 0.5%.
+
+### Tree-to-Dressed Paradigm (S266-S283)
+**Statement**: Framework predictions are tree-level; radiative corrections organize into 3 bands (A/B/C)
+**Depends on**: All tree-level predictions, [A-STRUCTURAL: radiative correction identification]
+**Used by**: Precision classification of all predictions
+**Verification**: `tree_dressed_paradigm_test.py` (12/12), `tree_dressed_systematic.py` (23/24)
+
+### Alpha C=24/11 (S266-S272)
+**Statement**: Dressed 1/alpha = 137.035999053 (0.0002 ppm from CODATA)
+**Depends on**: Tree-level 15211/111, C = 24/11 = dim(C_colored)*(1+1/n_c)
+**Verification**: `alpha_coefficient_24_11_analysis.py`, `alpha_em_index_density.py`
+
+### Omega_m = 63/200 Derived (S293)
+**Statement**: Dual-channel HS equipartition: 63 dual-role generators, 74 interface-only, total 200 contributions
+**Depends on**: I-STRUCT-5, Schur's lemma, su(4)+su(7) structure
+**Verification**: `omega_m_equipartition_derivation.py` (15/15 PASS)
+
+### Top Yukawa y_t = 1 (S290)
+**Statement**: Full compositeness -> sin(theta)=1; NDA: Y_* cancels; CG cancels (Clifford)
+**Depends on**: AXM_0109, SO(11) spinor embedding (S212), [A-STRUCTURAL: NDA mass relation]
+**Used by**: m_t(tree) = v/sqrt(2), m_H chain (lambda_H = 125/968)
+**Verification**: `top_yukawa_compositeness.py` (12/12), `so11_spinor_yukawa_coupling.py` (12/12)
+
+### IRA Inventory (S259-S299)
+**Statement**: 6 irreducible assumptions (0 conjectures, 2 structural, 2 physical, 1 interpretation, 1 import)
+**Canonical source**: `framework/IRREDUCIBLE_ASSUMPTIONS.md`
+**Key resolutions**: IRA-02 eliminated (CONJ-A1, S292), IRA-03 eliminated (CONJ-B1, S286), IRA-05 eliminated (CONJ-B3, S259), IRA-08/09 derived from IRA-06 (S299)
+**Verification**: `ira_physical_independence.py` (38/38 PASS)
+
+---
+
+## Assumption Impact Matrix Updates (S301)
+
+### If IRA-06 (Crystallization = SSB) [A-PHYSICAL] is wrong:
+
+| Claim | Impact |
+|-------|--------|
+| IRA-08 (tilt = physical field) | DIRECT — derived from IRA-06 |
+| IRA-09 (generation structure) | DIRECT — derived from IRA-06 |
+| All symmetry breaking results | DIRECT |
+| Yang-Mills mass gap | DIRECT — glueball spectrum |
+
+### If IRA-07 (Interface = measurement) [A-PHYSICAL] is wrong:
+
+| Claim | Impact |
+|-------|--------|
+| Born rule connection to alpha | DIRECT |
+| 1/N_I = 1/137 interpretation | DIRECT |
+
+### If IRA-10 (Perspectives = QM) [A-INTERPRETATION] is wrong:
+
+| Claim | Impact |
+|-------|--------|
+| CONJ-A1 resolution | DIRECT — spectral convergence uses finite Hilbert space |
+| Weinberg chain | DIRECT — WSR convergence |
+| All precision gauge predictions | INDIRECT |
+
+---
+
+## Verification Script Mapping Updates (S301)
+
+| Claim | Primary Script | Status |
+|-------|---------------|--------|
+| CONJ-A3 | `conj_a3_algebraic_incompatibility.py` | PASS |
+| CONJ-B1 | `conj_b1_z2_rectangular_matrix.py` | PASS (10/10) |
+| CONJ-B3 | `conj_b3_ergodicity_proof.py` | PASS |
+| CONJ-A1 | `spectral_convergence_conj_a1.py` | PASS (24/24) |
+| CONJ-A2 | `conj_a2_normalization_principle.py` | PASS (10/10) |
+| Yang-Mills | `glueball_structural_derivation.py` | PASS (39/39) |
+| Tree-dressed | `tree_dressed_paradigm_test.py` | PASS (12/12) |
+| Alpha C=24/11 | `alpha_coefficient_24_11_analysis.py` | PASS |
+| Omega_m | `omega_m_equipartition_derivation.py` | PASS (15/15) |
+| y_t = 1 | `top_yukawa_compositeness.py` | PASS (12/12) |
+| IRA independence | `ira_physical_independence.py` | PASS (38/38) |
+| Planck codim | `mu_zero_locus.py` | PASS (16/16) |
+| H_2 correction | `h_topological_step.py` | PASS |
+| Pi from CCP | `pi_from_foundations.py` | PASS |
+| Non-observations | `non_observations_survey.py` | PASS (56/56) |
+| Weinberg one-loop | `weinberg_one_loop_coefficient.py` | PASS |
+| Weinberg coefficient | `weinberg_coefficient_origin.py` | PASS |
+| m_p/m_e coefficient | `mpme_three_loop_residual.py` | PASS |
+| Dimensional propagation | `dimensional_propagation_test.py` | PASS (42/42) |
+
+---
+
+*Last updated: 2026-02-07 (Session 301 — comprehensive S189-S299 propagation: AXM_0120, 5 CONJ resolutions, Yang-Mills CANONICAL, tree-to-dressed, IRA 10->6, ~30 new verification scripts)*

@@ -11,7 +11,7 @@ Depends on:
 - AXM_0100 (Finiteness)
 - AXM_0107 (Non-negative loss)
 - DEF_0214 (Accessible content)
-- DEF_0227 (Information loss — REVISED Session 196)
+- DEF_0227 (Information loss -- REVISED Session 196)
 
 Created: Session 196
 """
@@ -184,7 +184,7 @@ def test_0451_second_law():
         "pi_4": np.array([[0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 0]]),  # dim 3
     }
 
-    # --- Test 1: ERRATUM — Old Delta_I is always >= 0 (tautological) ---
+    # --- Test 1: ERRATUM -- Old Delta_I is always >= 0 (tautological) ---
     print("\nTest 1: ERRATUM: Old Delta_I (overlap loss) always >= 0")
     all_nonneg_old = True
     for name_a, A in perspectives.items():
@@ -200,8 +200,8 @@ def test_0451_second_law():
     print(f"  [{'PASS' if all_nonneg_old else 'FAIL'}] "
           f"Confirms old definition was tautological")
 
-    # --- Test 2: ERRATUM — Old Delta_I >= 0 does NOT imply entropy increase ---
-    print("\nTest 2: ERRATUM: Counterexample — old Delta_I >= 0 but entropy decreases")
+    # --- Test 2: ERRATUM -- Old Delta_I >= 0 does NOT imply entropy increase ---
+    print("\nTest 2: ERRATUM: Counterexample -- old Delta_I >= 0 but entropy decreases")
     # pi_3 (dim 1) -> pi_4 (dim 3): old Delta_I >= 0 but dimension INCREASES
     A = perspectives["pi_3"]  # dim 1
     B = perspectives["pi_4"]  # dim 3
@@ -277,8 +277,8 @@ def test_0451_second_law():
     print(f"  [{'PASS' if decomposition_holds else 'FAIL'}] "
           f"Decomposition holds for all pairs")
 
-    # --- Test 6: Second law — when new Delta_I >= 0, entropy increases ---
-    print("\nTest 6: Second law — Delta_I >= 0 implies S(pi_2) >= S(pi_1)")
+    # --- Test 6: Second law -- when new Delta_I >= 0, entropy increases ---
+    print("\nTest 6: Second law -- Delta_I >= 0 implies S(pi_2) >= S(pi_1)")
     second_law_ok = True
     for name_a, A in perspectives.items():
         for name_b, B in perspectives.items():
@@ -297,8 +297,8 @@ def test_0451_second_law():
     print(f"  [{'PASS' if second_law_ok else 'FAIL'}] "
           f"Entropy non-decreasing for all valid transitions")
 
-    # --- Test 7: Strict inequality — Delta_I > 0 implies S strictly increases ---
-    print("\nTest 7: Strict second law — Delta_I > 0 implies S(pi_2) > S(pi_1)")
+    # --- Test 7: Strict inequality -- Delta_I > 0 implies S strictly increases ---
+    print("\nTest 7: Strict second law -- Delta_I > 0 implies S(pi_2) > S(pi_1)")
     strict_ok = True
     for name_a, A in perspectives.items():
         for name_b, B in perspectives.items():
@@ -315,7 +315,7 @@ def test_0451_second_law():
     print(f"  [{'PASS' if strict_ok else 'FAIL'}] "
           f"Entropy strictly increases when Delta_I > 0")
 
-    # --- Test 8: Temporal sequence — entropy monotonically non-decreasing ---
+    # --- Test 8: Temporal sequence -- entropy monotonically non-decreasing ---
     print("\nTest 8: Temporal sequence entropy monotonicity")
     # Sequence: pi_0 (dim 3) -> pi_1 (dim 2) -> pi_3 (dim 1)
     # All transitions have Delta_I > 0
@@ -365,7 +365,7 @@ def test_0451_second_law():
           f"Graph has genuine directed structure")
 
     # --- Test 10: No deleted edges (at least one direction always valid) ---
-    print("\nTest 10: No deleted edges — at least one direction has Delta_I >= 0")
+    print("\nTest 10: No deleted edges -- at least one direction has Delta_I >= 0")
     no_deleted = True
     for i, name_a in enumerate(names):
         for name_b in names[i+1:]:

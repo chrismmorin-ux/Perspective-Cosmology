@@ -561,7 +561,7 @@ from Layer 0 perspective axioms, with:
 | Hilbert space | [THEOREM] | Direct from axioms |
 | Linearity | [THEOREM] | Vector space structure |
 | i factor | [THEOREM] | Mathematical necessity |
-| Hermitian Ĥ | [THEOREM] | From Stone's theorem |
+| Hermitian Ĥ | [DERIVATION] | From Stone's theorem (given unitarity) |
 | Unitarity | [DERIVATION] | Needs conservation principle |
 | F = ℂ | [DERIVATION] | Time direction argument |
 | Born rule | [DERIVATION] | Overlap interpretation |

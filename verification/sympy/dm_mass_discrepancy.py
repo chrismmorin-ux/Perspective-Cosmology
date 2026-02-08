@@ -27,7 +27,7 @@ n_c = 11      # [D] Crystal dimension = 1 + 2 + 4 + 4 = 11
 # Physical constants [A-IMPORT]
 # =============================================================
 m_e_MeV = Rational(511, 1000)       # Electron mass = 0.511 MeV
-m_p_MeV = Rational(938272088, 1000000) # Proton mass = 938.272088 MeV (CODATA 2018)
+m_p_MeV = Rational(938272088, 1000000) # Proton mass = 938.272088 MeV (CODATA 2022)
 m_p_GeV = m_p_MeV / 1000              # = 0.938272088 GeV
 
 # =============================================================

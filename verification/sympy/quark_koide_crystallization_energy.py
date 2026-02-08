@@ -511,7 +511,7 @@ FINDINGS (Phase 3):
    - Up charge = +2/3 = dim(C)/Im(H) = Koide Q!
    - This may explain why charge and mass have the same algebra
 
-STATUS: [DERIVATION] — Structural pattern identified, mechanism proposed
+STATUS: [DERIVATION] -- Structural pattern identified, mechanism proposed
         Not yet PROVEN from first principles
 
 NEXT STEPS:

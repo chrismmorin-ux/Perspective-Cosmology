@@ -106,7 +106,7 @@ G_2 + SO(3) irreducibility: k in {1, 4}  [k=2 eliminated]
 AXM_0117: maximality -> k = 4 = n_d
     |
     v
-RESULT: V_Crystal = V_pi(4) + G_pi(7) = H + Im(O) = spacetime + internal
+RESULT: V_Crystal = V_pi(4) + G_pi(7) = H + Im_O = spacetime + internal
 ```
 
 This cascade derives the 4+7=11 split from:
@@ -128,7 +128,7 @@ dim(End(V)) = n^2, dim(V) = n. The quadratic growth of the operator algebra rela
 
 ### 3. Algebra selects the rank (tightened)
 
-The evaluation map alone allows any rank. Frobenius restricts to {1, 2, 4}. G_2 + SO(3) irreducibility further eliminates k = 2 (Im(H) cannot fit in 2-dim defect; Im(H)+Im(O) cannot fit in 9-dim hidden). This leaves a **binary** choice: {1, 4}. The constraint eliminates 8 out of 10 possible ranks by algebra alone.
+The evaluation map alone allows any rank. Frobenius restricts to {1, 2, 4}. G_2 + SO(3) irreducibility further eliminates k = 2 (Im_H cannot fit in 2-dim defect; Im_H+Im_O cannot fit in 9-dim hidden). This leaves a **binary** choice: {1, 4}. The constraint eliminates 8 out of 10 possible ranks by algebra alone.
 
 ### 5. Composition blindness
 
@@ -138,7 +138,7 @@ The evaluation map reveals T(v_i) for each operator T, but the composition (T1*T
 
 The split n_c = n_d + (n_c - n_d) = 4 + 7 corresponds exactly to:
 - 4 = dim(H) = maximal associative division algebra
-- 7 = dim(Im(O)) = imaginary part of the maximal normed division algebra
+- 7 = dim(Im_O) = imaginary part of the maximal normed division algebra
 
 This is not numerology. It follows from the Frobenius and Hurwitz classification theorems.
 
@@ -170,7 +170,7 @@ This means: the same evaluation map kernel that creates blind spots ALSO determi
 ### Gauge breaking chain [CONJECTURE]
 
 The hidden antisymmetric maps give so(7) = 21 dims. The breaking chain:
-- SO(7) -> G_2: 21 - 14 = 7 broken generators (= dim(Im(O)))
+- SO(7) -> G_2: 21 - 14 = 7 broken generators (= dim(Im_O))
 - G_2 -> SU(3): 14 - 8 = 6 broken generators
 - Remaining: SU(2) x U(1) from additional structure
 - SM total: 8 + 3 + 1 = 12 generators
@@ -246,7 +246,7 @@ The three routes use DIFFERENT axiom inputs and arrive at the SAME structure. Th
 |----------|--------|------------|
 | Why AXM_0117 (maximality) holds | Axiom — no derivation | Fundamental |
 | Why AXM_0115 (algebraic completeness) holds | Axiom — no derivation | Fundamental |
-| The 1+3 split within k=4 (time vs space) | **DERIVED** (THM_04AE: Z(H)=R=time, Im(H)=space) | Resolved |
+| The 1+3 split within k=4 (time vs space) | **DERIVED** (THM_04AE: Z(H)=R=time, Im_H=space) | Resolved |
 | Lorentz signature from algebra | **DERIVED** (THM_04AE: det has (1,3)) | Resolved |
 | Why det (spectral) is the physical metric | **DERIVED** (THM_04AE Part g: crystallization dynamics selects spectral invariant) | Resolved (remaining: A-PHYSICAL identification) |
 | Connection to crystallization dynamics | **ADDRESSED** (THM_04AE Part g: Born rule + eigenvalue gap) | Resolved |

@@ -101,7 +101,7 @@ print("PART 2: Dark Baryon Structure")
 print("="*70)
 
 # For SU(N), a baryon is made of N quarks in the totally antisymmetric
-# color combination (epsilon^{a₁a_2...aₙ} q_{a₁} q_{a_2} ... q_{aₙ})
+# color combination (epsilon^{a_1a_2...a_n} q_{a_1} q_{a_2} ... q_{a_n})
 
 N_dark = 7
 print(f"\nFor SU({N_dark}), a dark baryon requires {N_dark} dark quarks")
@@ -401,7 +401,7 @@ This means:
   - Lambda_dark/m_p = 7/9 = Im_O/(n_c - C) is the confinement ratio
   - The 49/9 mass ratio emerges from BOTH crystallization AND confinement
 
-The dark baryon mass of 5.11 GeV is not arbitrary—it's determined by:
+The dark baryon mass of 5.11 GeV is not arbitrary--it's determined by:
   1. SU(7) requiring 7 quarks for a baryon
   2. The dark confinement scale set by Im_O/9 * m_p
 

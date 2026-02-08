@@ -13,7 +13,7 @@ Formula:
           = 15211/111
           = 137.036036...
 
-Measured: 137.035999... (CODATA 2018)
+Measured: 137.035999... (CODATA 2022)
 
 Error: ~0.00003% (0.3 ppm)
 
@@ -46,8 +46,8 @@ n_c = 11  # [D] dim(R) + dim(C) + dim(O) = 1 + 2 + 8 (crystal dimensions)
 # ==============================================================================
 # IMPORTS FROM OBSERVATION [A-IMPORT]
 # ==============================================================================
-# CODATA 2018 recommended value (used for comparison only)
-# alpha = 7.2973525693(11) × 10^-3, so 1/alpha = 137.035999084(21)
+# CODATA 2022 recommended value (used for comparison only)
+# alpha = 7.2973525693(11) * 10^-3, so 1/alpha = 137.035999177(21)
 
 print(f"""
 DIVISION ALGEBRA STRUCTURE:
@@ -103,14 +103,14 @@ print("\n" + "=" * 70)
 print("COMPARISON WITH MEASUREMENT")
 print("=" * 70)
 
-# CODATA 2018 recommended value
-# alpha = 7.2973525693(11) × 10^-3
-# 1/alpha = 137.035999084(21)
-alpha_inv_measured = 137.035999084
+# CODATA 2022 recommended value
+# alpha = 7.2973525693(11) * 10^-3
+# 1/alpha = 137.035999177(21)
+alpha_inv_measured = 137.035999177
 alpha_inv_uncertainty = 0.000000021
 
 print(f"""
-CODATA 2018:
+CODATA 2022:
   1/alpha = {alpha_inv_measured} +/- {alpha_inv_uncertainty}
 
 Prediction:
@@ -314,21 +314,21 @@ print("=" * 70)
 print(f"""
 ENHANCED ALPHA PREDICTION FROM DIVISION ALGEBRAS:
 
-┌────────────────────────────────────────────────────────────┐
-│                                                            │
-│   1/alpha = n_d^2 + n_c^2 + n_d / (n_c^2 - n_c + 1)       │
-│                                                            │
-│           = 4^2 + 11^2 + 4/111                            │
-│                                                            │
-│           = 137 + 4/111                                    │
-│                                                            │
-│           = 15211/111                                      │
-│                                                            │
-│           = 137.036036036...                               │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                                                            |
+|   1/alpha = n_d^2 + n_c^2 + n_d / (n_c^2 - n_c + 1)       |
+|                                                            |
+|           = 4^2 + 11^2 + 4/111                            |
+|                                                            |
+|           = 137 + 4/111                                    |
+|                                                            |
+|           = 15211/111                                      |
+|                                                            |
+|           = 137.036036036...                               |
+|                                                            |
++------------------------------------------------------------+
 
-MEASURED (CODATA 2018): 137.035999084(21)
+MEASURED (CODATA 2022): 137.035999177(21)
 
 ACCURACY: 0.27 ppm (parts per million)
 

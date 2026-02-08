@@ -97,7 +97,7 @@ print()
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 2: EM CHARGE — THE CALIBRATION CASE")
+print("SECTION 2: EM CHARGE -- THE CALIBRATION CASE")
 print("=" * 72)
 print()
 
@@ -238,9 +238,9 @@ print()
 #
 # For the WEAK coupling specifically:
 # - H_pure modes (9): DIRECTLY in the SU(2) sector
-# - CH_cross modes (6): bridge between C and H — these carry
+# - CH_cross modes (6): bridge between C and H -- these carry
 #   BOTH U(1) (from C) and SU(2) (from H) quantum numbers
-# - CO_cross modes (14): bridge between C and O — these carry
+# - CO_cross modes (14): bridge between C and O -- these carry
 #   hypercharge (from C) that mixes into SU(2) through EW symmetry
 #
 # Why NOT HO_cross (42 modes)?
@@ -275,7 +275,7 @@ print()
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 6: S_3 = O = 8 — CONSISTENCY CHECK")
+print("SECTION 6: S_3 = O = 8 -- CONSISTENCY CHECK")
 print("=" * 72)
 print()
 
@@ -291,9 +291,9 @@ print()
 # O_pure modes: 49 (directly in SU(3) sector)
 # CO_cross: 14 (C-O bridge)
 # HO_cross: 42 (H-O bridge)
-# This gives 49 + 14 + 42 = 105 — way too many.
+# This gives 49 + 14 + 42 = 105 -- way too many.
 #
-# S_3 = 8 must have a different origin — perhaps the NUMBER OF
+# S_3 = 8 must have a different origin -- perhaps the NUMBER OF
 # SU(3) generators (dim SU(3) = 8) rather than a mode count.
 
 print("S_3 = O = 8")
@@ -351,7 +351,7 @@ SY_modes = {
     "HO_cross": modes["HO_cross"],       # 42
     "H_diag_cancel": -Im_H,              # -3 (cancels the +3 in S_2)
 }
-# Wait, this gives 16 + 42 + 42 - 3 = 97 ✓
+# Wait, this gives 16 + 42 + 42 - 3 = 97 [OK]
 SY_total = sum(SY_modes.values())
 print(f"  defect: {modes['defect']}")
 print(f"  O_pure off-diagonal: {modes['O_pure'] - Im_O}")
@@ -421,7 +421,7 @@ print()
 alpha_2_induced = R(29 * N_I, S_EM)
 print(f"  1/alpha_2(cryst) = S_2 * N_I/S_EM = 29 * 137/126 = {float(alpha_2_induced):.4f}")
 print(f"  1/alpha_2(M_Z) = {float(alpha_2_inv_MZ):.2f}")
-print(f"  (Different scales — cannot directly compare)")
+print(f"  (Different scales -- cannot directly compare)")
 print()
 
 # ==============================================================================
@@ -487,14 +487,14 @@ print()
 # By the SAME complex bridge principle for SU(3):
 # SU(3) lives in the O sector.
 # Modes contributing: O_pure + CO_cross + HO_cross?
-# No — by the bridge principle, modes need C involvement.
+# No -- by the bridge principle, modes need C involvement.
 # O_pure: directly in SU(3) sector (49 modes)
 # CO_cross: C-O bridge (14 modes)
-# HO_cross: H-O bridge — does this count?
+# HO_cross: H-O bridge -- does this count?
 #
 # If the bridge principle requires C specifically:
 # S_3_bridge = O_pure + CO_cross = 49 + 14 = 63
-# sin^2(theta_C) = S_3/S_EM = 63/126 = 1/2 — the color fraction
+# sin^2(theta_C) = S_3/S_EM = 63/126 = 1/2 -- the color fraction
 # But alpha_s is NOT 2*alpha_EM. So this isn't right.
 
 # Let's check various possibilities:

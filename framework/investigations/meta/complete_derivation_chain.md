@@ -86,7 +86,7 @@ Hurwitz + Frobenius → R, C, H, O
 F = C [DERIVED — two independent routes]
     |
     v (CCP-2,3: All imaginary dims, direct sum)
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 [DERIVED from CCP]
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 [DERIVED from CCP]
     |
     v (CCP maximality + Frobenius: max associative)
 n_d = dim(H) = 4 [DERIVED from CCP]
@@ -137,11 +137,11 @@ Representation theory gives:
 STANDARD MODEL FERMION CONTENT
 
 Generation count (S251):
-  Hom(Im(H), Im(O)) = R^3 × R^7
+  Hom(Im_H, Im_O) = R^3 × R^7
     |
     v (G₂ → SU(3) breaking)
   3 copies of (3 + 3̄ + 1) = 3 GENERATIONS
-  Content per generation = 7 = dim(Im(O))
+  Content per generation = 7 = dim(Im_O)
   Why not 2 or 4: Hurwitz forces Im dims = {0,1,3,7}
 ```
 
@@ -210,7 +210,7 @@ Compact manifolds have discrete spectra
 POSITION QUANTIZED (at Planck scale)
 
 Also:
-Spatial rotations on Im(H)
+Spatial rotations on Im_H
     |
     v
 SO(3) is compact
@@ -233,7 +233,7 @@ Crystallization: SO(11) → SO(10)
     |
     v (Division algebra structure)
 Split: 1 (time) + 3 (space) + 6 (internal)
-       = R + Im(H) + C×Im(H)
+       = R + Im_H + C×Im_H
     |
     v
 3+1 SPACETIME FROM QUATERNIONS
@@ -453,7 +453,7 @@ ALL 6 QUARK MASSES FROM v + FRAMEWORK NUMBERS!
 | |amplitude|² form | Forced by Gleason |
 | Discrete spectra | From compactness |
 | Gauge groups | From division algebra automorphisms + Pipeline (S251) |
-| 3 generations | From Im(H) ⊗ (7→3+3̄+1) under G₂→SU(3) (S251) |
+| 3 generations | From Im_H ⊗ (7→3+3̄+1) under G₂→SU(3) (S251) |
 
 ---
 
@@ -478,7 +478,7 @@ ALL 6 QUARK MASSES FROM v + FRAMEWORK NUMBERS!
 | Gap | Status | Priority |
 |-----|--------|----------|
 | Interface = 1/α (Step 5) | [CONJECTURE] — critical gap | HIGH |
-| Mass hierarchy mechanism | SO(3) breaking in Im(H) — [CONJECTURE] | MEDIUM |
+| Mass hierarchy mechanism | SO(3) breaking in Im_H — [CONJECTURE] | MEDIUM |
 | G₂→SU(3) dynamics | What selects direction in S⁶? | MEDIUM |
 | Quark mass hierarchy | Partial | MEDIUM |
 | Absolute neutrino mass | Unknown | LOW |

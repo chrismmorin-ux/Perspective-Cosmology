@@ -81,7 +81,7 @@ F_n = 2^(2^n) + 1
 The consecutive fourth-power primes 17, 97, 337 use exactly the dimensions:
 - dim(R) = 1
 - dim(C) = 2
-- Im(H) = 3
+- Im_H = 3
 - dim(H) = 4
 
 These are the **associative** division algebra dimensions. The pattern breaks at octonions (non-associative).

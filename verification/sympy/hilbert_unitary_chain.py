@@ -2,7 +2,7 @@
 """
 Hilbert Space and Unitary Evolution Chain Verification
 
-KEY FINDING: THM_0491 (Hilbert space) follows directly from axioms — promote
+KEY FINDING: THM_0491 (Hilbert space) follows directly from axioms -- promote
 to CANONICAL. THM_0493 gap CR-037 (continuity) resolves in finite dimensions
 via automatic continuity: any measurable one-parameter unitary group in U(n)
 is automatically smooth. Stone's theorem applies without extra assumptions.
@@ -189,7 +189,7 @@ t3_group = (group_err < 1e-10)
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 4: Automatic Continuity — Resolving CR-037")
+print("PART 4: Automatic Continuity -- Resolving CR-037")
 print("=" * 70)
 
 print("""
@@ -244,7 +244,7 @@ t4_smooth = (deriv_err < 1e-4)
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 5: Stone's Theorem — Generator Recovery")
+print("PART 5: Stone's Theorem -- Generator Recovery")
 print("=" * 70)
 
 print("""
@@ -335,7 +335,7 @@ From T(t) = exp(-itH):
 
   Therefore: i dpsi/dt = H psi    [SCHRODINGER EQUATION]
 
-The factor i is NOT introduced by hand — it follows from:
+The factor i is NOT introduced by hand -- it follows from:
   unitarity (T^dag T = I) + group structure (T(s+t) = T(s)T(t))
   => generator is anti-Hermitian: dT/dt = -iH T
   => Schrodinger equation has the standard form

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-THM_0461 No Temporal Loops — Verification Script
+THM_0461 No Temporal Loops -- Verification Script
 
 KEY FINDING: Temporal sequences (Delta_I > 0 at each step) cannot form cycles.
-The full directed graph (Delta_I >= 0) CAN have cycles — these are spatial, not temporal.
+The full directed graph (Delta_I >= 0) CAN have cycles -- these are spatial, not temporal.
 
 Verifies:
   1. Counterexample: old DEF_0260 (Delta_I >= 0) allowed temporal loops
@@ -65,7 +65,7 @@ def entropy(basis_vectors, dim_V):
 
 
 # ==============================================================================
-# TEST 1: COUNTEREXAMPLE — Old definition allowed temporal loops
+# TEST 1: COUNTEREXAMPLE -- Old definition allowed temporal loops
 # ==============================================================================
 
 def test_counterexample():
@@ -125,7 +125,7 @@ def test_counterexample():
 
 
 # ==============================================================================
-# TEST 2: STRICT DECREASE — dim(U_pi) strictly decreases along temporal sequences
+# TEST 2: STRICT DECREASE -- dim(U_pi) strictly decreases along temporal sequences
 # ==============================================================================
 
 def test_strict_decrease():
@@ -173,7 +173,7 @@ def test_strict_decrease():
 
 
 # ==============================================================================
-# TEST 3: COROLLARY T.2a — Max temporal sequence length <= dim(U_{pi_0})
+# TEST 3: COROLLARY T.2a -- Max temporal sequence length <= dim(U_{pi_0})
 # ==============================================================================
 
 def test_max_length():
@@ -217,7 +217,7 @@ def test_max_length():
 
 
 # ==============================================================================
-# TEST 4: COROLLARY T.3 — Entropy strictly increases along temporal sequences
+# TEST 4: COROLLARY T.3 -- Entropy strictly increases along temporal sequences
 # ==============================================================================
 
 def test_entropy_increase():
@@ -241,7 +241,7 @@ def test_entropy_increase():
     dims = [subspace_dim(b) for b in sequence_bases]
     entropies = [entropy(b, dim_V) for b in sequence_bases]
 
-    # Entropy should be [1, 2, 3, 4, 5] — strictly increasing
+    # Entropy should be [1, 2, 3, 4, 5] -- strictly increasing
     strictly_increasing = all(entropies[i] < entropies[i+1] for i in range(len(entropies)-1))
 
     # Verify S + I = dim(V) at each step
@@ -262,7 +262,7 @@ def test_entropy_increase():
 
 
 # ==============================================================================
-# TEST 5: DAG PROPERTY — Temporal edges form DAG; full graph can have cycles
+# TEST 5: DAG PROPERTY -- Temporal edges form DAG; full graph can have cycles
 # ==============================================================================
 
 def test_dag_property():
@@ -349,7 +349,7 @@ def test_dag_property():
 
 
 # ==============================================================================
-# TEST 6: PROOF CORE — Strict monotonicity of bounded integers prevents cycles
+# TEST 6: PROOF CORE -- Strict monotonicity of bounded integers prevents cycles
 # ==============================================================================
 
 def test_proof_core():

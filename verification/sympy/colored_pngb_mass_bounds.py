@@ -164,7 +164,7 @@ else:
 
 
 # ==============================================================================
-# PART 4: ALTERNATIVE — DIRECT GAUGE COUPLING ESTIMATE
+# PART 4: ALTERNATIVE -- DIRECT GAUGE COUPLING ESTIMATE
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -239,7 +239,7 @@ SITUATION:
   Crude mass estimate: ~{m_crude:.0f} GeV (10x below bounds)
 
 RESOLUTION PATHS:
-  1. Multi-site enhancement (N_CW ~ {N_CW_min_needed or '>20'}) — physically motivated
+  1. Multi-site enhancement (N_CW ~ {N_CW_min_needed or '>20'}) -- physically motivated
   2. Large anomalous dimensions from strong dynamics
   3. Additional mass contributions from top partial compositeness
   4. Colored pNGBs couple to light quarks differently than assumed
@@ -254,7 +254,7 @@ WHAT IS CERTAIN:
   - The pNGBs MUST get substantial mass beyond the crude estimate
   - This is GENERIC to ALL composite Higgs models with colored pNGBs
 
-VERDICT: Tension is real but EXPECTED — it mirrors the "little hierarchy
+VERDICT: Tension is real but EXPECTED -- it mirrors the "little hierarchy
 problem" of composite Higgs models. The framework does not make this worse
 or better than generic MCHM models.
 """)

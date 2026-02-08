@@ -363,7 +363,7 @@ for N_eff, label in [(3, "N_c (QCD fundamental)"), (8, "dim(O) = dim(adj SU(3))"
 
 
 # ==============================================================================
-# PART 7: THE SIGN QUESTION — (1-xi) vs (1+xi)
+# PART 7: THE SIGN QUESTION -- (1-xi) vs (1+xi)
 # ==============================================================================
 
 print("=" * 70)
@@ -510,11 +510,11 @@ ASSESSMENT:
 
 
 # ==============================================================================
-# PART 10: ALTERNATIVE APPROACH — TREE-LEVEL COMPOSITE QUARTIC
+# PART 10: ALTERNATIVE APPROACH -- TREE-LEVEL COMPOSITE QUARTIC
 # ==============================================================================
 
 print("=" * 70)
-print("PART 10: Alternative — Tree-Level Composite Quartic")
+print("PART 10: Alternative -- Tree-Level Composite Quartic")
 print("=" * 70)
 
 print(f"""
@@ -612,7 +612,7 @@ for name, val in identities_24:
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 12: Summary — What Is and Isn't Derived")
+print("PART 12: Summary -- What Is and Isn't Derived")
 print("=" * 70)
 
 print(f"""
@@ -625,9 +625,9 @@ DERIVED (from framework + standard CW theory):
   [D] N_c * O = 24 (algebraic identity, Im_H * dim(O))
 
 CONJECTURAL (plausible but unproven):
-  [C] y_t = 1 (top Yukawa unity — needs fermion sector derivation)
-  [C] xi = n_d/n_c^2 (misalignment — needs vacuum alignment derivation)
-  [C] c_beta = pi^2/6 (form factor — needs composite sector derivation)
+  [C] y_t = 1 (top Yukawa unity -- needs fermion sector derivation)
+  [C] xi = n_d/n_c^2 (misalignment -- needs vacuum alignment derivation)
+  [C] c_beta = pi^2/6 (form factor -- needs composite sector derivation)
 
 IF all three conjectures hold:
   lambda = N_c/(16*pi^2) * (pi^2/6) * 4 * (1 - xi)

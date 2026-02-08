@@ -1,9 +1,9 @@
 """
-Verification: Tilt Matrix Connection to α = 1/137
+Verification: Tilt Matrix Connection to alpha = 1/137
 
 This script verifies:
 1. Dimension counting for tilt matrices
-2. The formula α = 1/(n_d² + n_c²)
+2. The formula alpha = 1/(n_d^2 + n_c^2)
 3. Properties of Hermitian matrices (tilt lives here)
 
 Created: 2026-01-26
@@ -23,21 +23,21 @@ alpha_measured = Rational(1, 137035999) * 1000000  # 1/137.035999
 print("\n1. DIMENSION COUNTING FOR TILT MATRICES")
 print("-" * 40)
 
-# For a complex Hermitian n×n matrix:
+# For a complex Hermitian n*n matrix:
 # - n real diagonal entries
 # - n(n-1)/2 complex off-diagonal entries = n(n-1) real parameters
-# Total = n + n(n-1) = n² parameters
+# Total = n + n(n-1) = n^2 parameters
 
 def hermitian_params(n):
-    """Number of real parameters in n×n Hermitian matrix."""
+    """Number of real parameters in n*n Hermitian matrix."""
     diagonal = n  # Real diagonal
     off_diagonal = n * (n - 1)  # Complex off-diagonal (2 real each, but symmetric)
     # Actually for Hermitian: n diagonal (real) + n(n-1)/2 off-diagonal (complex, 2 real each)
-    # = n + n(n-1) = n²
+    # = n + n(n-1) = n^2
     return n**2
 
 def real_symmetric_params(n):
-    """Number of parameters in n×n real symmetric matrix."""
+    """Number of parameters in n*n real symmetric matrix."""
     return n * (n + 1) // 2
 
 print(f"\nDefect (n_d = {n_d}):")
@@ -52,13 +52,13 @@ print("\n" + "=" * 60)
 print("2. ALPHA FORMULA VERIFICATION")
 print("-" * 40)
 
-# Formula: α = 1/(n_d² + n_c²)
+# Formula: alpha = 1/(n_d^2 + n_c^2)
 alpha_formula = Rational(1, n_d**2 + n_c**2)
 interface_dof = n_d**2 + n_c**2
 
 print(f"\nInterface degrees of freedom:")
-print(f"  n_d² = {n_d}² = {n_d**2}")
-print(f"  n_c² = {n_c}² = {n_c**2}")
+print(f"  n_d^2 = {n_d}^2 = {n_d**2}")
+print(f"  n_c^2 = {n_c}^2 = {n_c**2}")
 print(f"  Total = {interface_dof}")
 
 print(f"\nAlpha from formula:")
@@ -89,15 +89,15 @@ print(f"  Off-diagonal pairs: {off_diag_pairs}")
 print(f"  Real parameters per pair: 2")
 print(f"  Total off-diagonal parameters: {off_diag_count}")
 print(f"  TOTAL parameters: {total}")
-print(f"  Expected (n²): {n**2}")
+print(f"  Expected (n^2): {n**2}")
 print(f"  Match: {total == n**2}")
 
 print("\n" + "=" * 60)
 print("4. ALTERNATIVE: REAL SYMMETRIC CASE")
 print("-" * 40)
 
-# If field F = ℝ instead of ℂ
-# Real symmetric n×n matrix has n(n+1)/2 parameters
+# If field F = R instead of C
+# Real symmetric n*n matrix has n(n+1)/2 parameters
 
 real_defect = real_symmetric_params(n_d)
 real_crystal = real_symmetric_params(n_c)
@@ -114,8 +114,8 @@ print("\n" + "=" * 60)
 print("5. WHY COMPLEX (HERMITIAN) IS REQUIRED")
 print("-" * 40)
 
-# For α = 1/137, we need n² + m² = 137
-# Check: 4² + 11² = 16 + 121 = 137 ✓
+# For alpha = 1/137, we need n^2 + m^2 = 137
+# Check: 4^2 + 11^2 = 16 + 121 = 137 [OK]
 
 print(f"\nComplex Hermitian gives n^2:")
 print(f"  4^2 + 11^2 = 16 + 121 = 137 [OK]")
@@ -129,7 +129,7 @@ print("\n" + "=" * 60)
 print("6. WEINBERG ANGLE AS TILT ANGLE")
 print("-" * 40)
 
-# sin²θ_W ≈ 0.231 at low energy
+# sin^2theta_W ~ 0.231 at low energy
 sin2_theta_W = Rational(231, 1000)
 theta_W = asin(sqrt(sin2_theta_W))
 
@@ -138,7 +138,7 @@ print(f"  sin^2(theta_W) = {float(sin2_theta_W):.4f}")
 print(f"  theta_W = {float(theta_W):.4f} rad = {float(theta_W * 180 / pi):.2f} deg")
 
 # If this is a literal tilt angle:
-# ε_WY = cos(θ_WY) for the off-diagonal tilt
+# epsilon_WY = cos(theta_WY) for the off-diagonal tilt
 # But we need to be careful about the relationship
 
 cos_theta_W = cos(theta_W)

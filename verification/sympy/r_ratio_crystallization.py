@@ -58,8 +58,8 @@ quarks = [
     ('u',  R(2, 3),   0.002,   0.3),    # threshold ~ 2*m_pi
     ('d',  R(-1, 3),  0.005,   0.3),
     ('s',  R(-1, 3),  0.095,   1.0),    # threshold ~ 2*m_K
-    ('c',  R(2, 3),   1.27,    3.73),   # threshold ~ 2*m_D ≈ 3.73 GeV
-    ('b',  R(-1, 3),  4.18,    10.56),  # threshold ~ 2*m_B ≈ 10.56 GeV
+    ('c',  R(2, 3),   1.27,    3.73),   # threshold ~ 2*m_D ~ 3.73 GeV
+    ('b',  R(-1, 3),  4.18,    10.56),  # threshold ~ 2*m_B ~ 10.56 GeV
     ('t',  R(2, 3),   173.0,   346.0),  # threshold ~ 2*m_t
 ]
 
@@ -198,7 +198,7 @@ measured_R = {
 R_QCD_predictions = {}
 for sqrt_s, (R_born_expected, qlist, R_meas, R_unc) in measured_R.items():
     if sqrt_s == 91.2:
-        # Z pole is special — R_l = Gamma_had/Gamma_l, not simple R
+        # Z pole is special -- R_l = Gamma_had/Gamma_l, not simple R
         # Skip for now, handle separately
         continue
 
@@ -219,7 +219,7 @@ for sqrt_s, (R_born_expected, qlist, R_meas, R_unc) in measured_R.items():
 print()
 
 # ==============================================================================
-# PART 3: R AT THE Z POLE — NEUTRAL CURRENT CONTRIBUTION
+# PART 3: R AT THE Z POLE -- NEUTRAL CURRENT CONTRIBUTION
 # ==============================================================================
 
 print("=" * 76)
@@ -235,8 +235,8 @@ print()
 # Pure photon-exchange R at Z-pole energy (would be ~11/3 without Z)
 R_gamma_only = R_born(['u', 'd', 's', 'c', 'b'])
 print(f"R (photon exchange only at M_Z): {R_gamma_only} = {float(R_gamma_only):.4f}")
-print(f"R_l (Z exchange, from z_branching script): 20.767 ± 0.025")
-print(f"Ratio R_l/R_gamma = {20.767/float(R_gamma_only):.2f} — Z resonance enhancement")
+print(f"R_l (Z exchange, from z_branching script): 20.767 +/- 0.025")
+print(f"Ratio R_l/R_gamma = {20.767/float(R_gamma_only):.2f} -- Z resonance enhancement")
 print()
 
 # The Z-pole R encodes sin^2(theta_W) = 28/121
@@ -264,7 +264,7 @@ print()
 QCD_NLO_Z = 1 + alpha_s_MZ/math.pi + 1.409*(alpha_s_MZ/math.pi)**2
 R_l_corrected = float(R_l_Born_simplified) * QCD_NLO_Z
 print(f"R_l with QCD NLO = {float(R_l_Born_simplified):.4f} * {QCD_NLO_Z:.4f} = {R_l_corrected:.3f}")
-print(f"Measured R_l = 20.767 ± 0.025")
+print(f"Measured R_l = 20.767 +/- 0.025")
 print(f"Pull: {(R_l_corrected - 20.767)/0.025:+.2f} sigma")
 print()
 
@@ -309,7 +309,7 @@ print("=" * 76)
 print()
 
 # The key framework content in the R-ratio:
-# 1. N_c = 3 = Im_H — the color factor is a derived quantity
+# 1. N_c = 3 = Im_H -- the color factor is a derived quantity
 # 2. Quark charges follow from SM quantum numbers [A-IMPORT]
 # 3. At Born level, R is purely a mode-counting exercise:
 #    Each quark flavor contributes N_c * Q_f^2 modes
@@ -344,13 +344,13 @@ print(f"  5 flavors (u,d,s,c,b):   R = {R_born(['u', 'd', 's', 'c', 'b'])} = 11/
 print(f"  6 flavors (all):         R = {R_born(['u', 'd', 's', 'c', 'b', 't'])} = 5")
 print()
 
-# Note: R(5 flavors) = 11/3 — contains n_c = 11 in numerator
+# Note: R(5 flavors) = 11/3 -- contains n_c = 11 in numerator
 # This is a coincidence: 11/3 = n_c / Im_H
 R_5flav = R_born(['u', 'd', 's', 'c', 'b'])
 print(f"  COINCIDENCE CHECK: R(5 flavors) = {R_5flav} = {float(R_5flav):.4f}")
 print(f"  n_c / Im_H = {n_c}/{Im_H} = {R(n_c, Im_H)} = {float(R(n_c, Im_H)):.4f}")
 print(f"  Match: {'YES' if R_5flav == R(n_c, Im_H) else 'NO'}")
-print(f"  Status: [STANDARD-RELABELED] — the match 11/3 = n_c/Im_H is KINEMATIC")
+print(f"  Status: [STANDARD-RELABELED] -- the match 11/3 = n_c/Im_H is KINEMATIC")
 print(f"  (depends on which quarks are lighter than ~45 GeV, not on algebra)")
 print()
 
@@ -406,8 +406,8 @@ print()
 # This tests the SAME N_c but in initial state averaging
 
 # The N_c factor appears differently:
-# R-ratio (e+e- -> hadrons):  final state COLOR SUM  → factor N_c
-# Drell-Yan (qq -> ll):       initial state COLOR AVG → factor 1/N_c
+# R-ratio (e+e- -> hadrons):  final state COLOR SUM  -> factor N_c
+# Drell-Yan (qq -> ll):       initial state COLOR AVG -> factor 1/N_c
 # Ratio of ratios: R * sigma_DY/sigma_point = sum(e_q^2)^2  (N_c cancels)
 # This provides an independent check that the color factor is consistent
 
@@ -518,7 +518,7 @@ print(f"  - QCD corrections use b_0 = Im_O at N_f=6 [DERIVATION]")
 print(f"    (below top threshold, b_0 is a fraction, not cleanly framework)")
 print(f"  - R(5 flavors) = 11/3 = n_c/Im_H is KINEMATIC coincidence")
 print(f"    (depends on m_t > M_Z/2, not on algebraic structure)")
-print(f"  - Overall tag: [FRAMEWORK-CONSTRAINED] — N_c makes it non-trivial")
+print(f"  - Overall tag: [FRAMEWORK-CONSTRAINED] -- N_c makes it non-trivial")
 print()
 print("CONFIDENCE: [FRAMEWORK-CONSTRAINED] for mode counting;")
 print("            [DERIVATION] for N_c = 3 and b_0 = 7;")

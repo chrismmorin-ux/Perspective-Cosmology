@@ -370,20 +370,20 @@ The original assessment was too pessimistic. The framework DOES derive:
 
 | Observable | Framework Identification | Origin |
 |------------|-------------------------|--------|
-| **Position x^i** | Goldstone coordinate on Im(H) directions | SO(11)->SO(10) breaking |
+| **Position x^i** | Goldstone coordinate on Im_H directions | SO(11)->SO(10) breaking |
 | **Momentum p_i** | Canonical conjugate to x^i | Translation generator |
 | **Time** | Goldstone mode along crystallization gradient | Aligned with epsilon |
 | **Energy** | Conjugate to time | Rate of crystallization change |
 
 ### Why 3 Spatial Dimensions?
 
-Position lives in Im(H) = imaginary quaternions = 3 dimensions.
+Position lives in Im_H = imaginary quaternions = 3 dimensions.
 
 This is **DERIVED**:
 - Crystallization breaks SO(11) -> SO(10)
 - 10 Goldstone modes emerge
 - Split: 1 (time) + 3 (space) + 6 (internal)
-- Space = Im(H) by quaternion structure
+- Space = Im_H by quaternion structure
 
 ### Why [x, p] = i?
 
@@ -579,12 +579,12 @@ WHY don't we see it?
 
 ### Angular Momentum Quantization
 
-Spatial rotations form SO(3) acting on Im(H).
+Spatial rotations form SO(3) acting on Im_H.
 - SO(3) is compact
 - Compact Lie groups have discrete representations
 - L^2 eigenvalues = l(l+1)*hbar^2
 
-This is DERIVED from quaternion structure (Im(H) = 3).
+This is DERIVED from quaternion structure (Im_H = 3).
 
 ### Derivation Chain
 
@@ -595,7 +595,7 @@ Crystallization SO(11)->SO(10)  ->  Coset S^10 (compact)
 Position = Goldstone coordinate    Laplacian has discrete spectrum
          |                                    |
          v                                    v
-Spatial dimensions = Im(H) = 3     Position quantized (Planck scale)
+Spatial dimensions = Im_H = 3     Position quantized (Planck scale)
          |
          v
 Rotations = SO(3) (compact)  ->  Angular momentum quantized

@@ -20,7 +20,7 @@ Where **interaction channels are Lie algebra dimensions**!
 | Constant | Correction | Numerator | Denominator | Channels |
 |----------|------------|-----------|-------------|----------|
 | 1/α | 4/111 | n_d = 4 | Φ₆(n_c) = 111 | EM channels in u(n_c) |
-| m_p/m_e | 11/72 | n_c = 11 | dim(O)×Im(H)² = 72 | QCD × generation channels |
+| m_p/m_e | 11/72 | n_c = 11 | dim(O)×Im_H² = 72 | QCD × generation channels |
 
 ---
 
@@ -54,12 +54,12 @@ The Lie algebra u(n_c) = u(11) has 121 generators:
 
 ### Formula
 ```
-m_p/m_e = 1836 + 11/72 = (H+O)(Im(H)² + (H+O)²) + n_c/(dim(O)×Im(H)²)
+m_p/m_e = 1836 + 11/72 = (H+O)(Im_H² + (H+O)²) + n_c/(dim(O)×Im_H²)
 ```
 
 ### Lie Algebra Structure of 72
 
-72 = dim(O) × Im(H)² = 8 × 9
+72 = dim(O) × Im_H² = 8 × 9
 
 **Interpretation**:
 - 8 = dim(su(3)) = gluon types (QCD color)
@@ -74,7 +74,7 @@ su(3)_color ⊗ u(3)_generation → 72 interaction channels
 
 ### Derivation Status: **~60% COMPLETE**
 
-1. Division algebras → dim(O) = 8, Im(H) = 3 ✓
+1. Division algebras → dim(O) = 8, Im_H = 3 ✓
 2. Main term structure → 1836 = 12 × 153 ✓
 3. Lie algebra su(3) × u(3) → QCD-gen channels = 72 ✓
 4. Correction structure → n_c/72 identified ✓
@@ -236,8 +236,8 @@ Koide θ = π × 73/99
 
 The correction structure: 73/99
 
-- 73 = 8² + 3² = dim(O)² + Im(H)² (prime!)
-- 99 = 9 × 11 = Im(H)² × n_c
+- 73 = 8² + 3² = dim(O)² + Im_H² (prime!)
+- 99 = 9 × 11 = Im_H² × n_c
 
 **SESSION 93 DISCOVERY**: The pattern extends to ALL quark Koide denominators!
 
@@ -296,13 +296,13 @@ Both α (0.27 ppm) and m_p/m_e (0.06 ppm) fit this pattern with sub-ppm accuracy
 |---|------|---------------|--------|-------|
 | 1 | Hurwitz theorem → R, C, H, O | [I-MATH] | SOUND | Standard theorem (1898) |
 | 2 | n_d = 4 from maximality | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP maximality + Frobenius → n_d = dim(H) = 4 |
-| 3 | n_c = Im(C)+Im(H)+Im(O) = 11 | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP-2,3 force all imaginary dims, direct sum |
+| 3 | n_c = Im_C+Im_H+Im_O = 11 | [D] AXM_0120 (CCP) | RESOLVED S252 | CCP-2,3 force all imaginary dims, direct sum |
 | 4 | SM gauge groups from DA | [D] THM_0487 | DERIVED | SO(11)→SO(4)×SO(7)→...→SU(3)×SU(2)×U(1) |
 | 5 | dim(SM gauge) = 1+3+8 = 12 | [D] | SOUND | From Step 4 |
-| 6 | 153 = Im(H)² + 12² = 9+144 | [D] | SOUND | Arithmetic identity |
+| 6 | 153 = Im_H² + 12² = 9+144 | [D] | SOUND | Arithmetic identity |
 | 7 | 1836 = 12 × 153 | **[CONJECTURE]** | **CRITICAL** | Why this product = m_p/m_e main term? |
 | 8 | Proton probes crystal bulk → n_c | **[A-PHYSICAL]** | Gap | Hypothesis; contrast with α probing interface → n_d |
-| 9 | 72 = dim(O)×Im(H)² = 8×9 | [D] | SOUND | Arithmetic identity |
+| 9 | 72 = dim(O)×Im_H² = 8×9 | [D] | SOUND | Arithmetic identity |
 | 10 | 8 = QCD channels, 9 = generation channels | [A-PHYSICAL] | SOUND | Standard physics identification |
 | 11 | su(3)⊗u(3) → 72 interaction channels | **[CONJECTURE]** | Gap | Why these specific algebras for proton? |
 | 12 | Equal distribution over channels | [D] THM_0496 | DERIVED | Inherited from alpha argument |
@@ -321,7 +321,7 @@ Both α (0.27 ppm) and m_p/m_e (0.06 ppm) fit this pattern with sub-ppm accuracy
 
 **What IS derived**: The correction term 11/72 follows the same unified pattern as alpha's 4/111. The denominator 72 has clear Lie algebra structure (su(3)⊗u(3)). The numerator-denominator pattern (modes/channels) is genuine.
 
-**What is NOT derived**: The main term 1836 = 12 × 153. This was **discovered** with the target value known. The factorization into dim(SM gauge) × (Im(H)² + dim(SM gauge)²) is algebraically correct but the physical interpretation ("QCD mode product") is [A-PHYSICAL]. There is no derivation showing why m_p/m_e should equal this specific product of framework numbers.
+**What is NOT derived**: The main term 1836 = 12 × 153. This was **discovered** with the target value known. The factorization into dim(SM gauge) × (Im_H² + dim(SM gauge)²) is algebraically correct but the physical interpretation ("QCD mode product") is [A-PHYSICAL]. There is no derivation showing why m_p/m_e should equal this specific product of framework numbers.
 
 **Critical gap**: Step 7 — the product structure. For alpha, N_I = n_d² + n_c² has a clear interpretation (interface generators). For m_p/m_e, 12 × 153 lacks a comparably clear interpretation. The "QCD mode product" label is a physical assertion, not a derivation.
 
@@ -336,7 +336,7 @@ Both α (0.27 ppm) and m_p/m_e (0.06 ppm) fit this pattern with sub-ppm accuracy
 | Main term | 137 = n_d²+n_c² [CONJECTURE] | 1836 = 12×153 [CONJECTURE] |
 | Main term interpretation | Interface generators [A-PHYSICAL] | QCD mode product [A-PHYSICAL] |
 | Correction numerator | n_d = 4 (interface) [D] | n_c = 11 (bulk) [A-PHYSICAL] |
-| Correction denominator | 111 = Φ₆(n_c) [D] | 72 = dim(O)×Im(H)² [D] |
+| Correction denominator | 111 = Φ₆(n_c) [D] | 72 = dim(O)×Im_H² [D] |
 | Denominator meaning | EM channels in u(n_c) | QCD×generation channels |
 | Accuracy | 0.27 ppm | 0.06 ppm |
 | Discovery method | Target known | Target known |

@@ -27,9 +27,9 @@ print("=" * 70)
 print("EXTENDED DIVISION ALGEBRA CONSTANTS")
 print("=" * 70)
 
-# CODATA 2018 / PDG values
+# CODATA 2022 / PDG values
 measured = {
-    'alpha_inv': 137.035999084,
+    'alpha_inv': 137.035999177,
     'm_p/m_e': 1836.15267343,
     'sin2_theta_W': 0.23121,
     'alpha_s': 0.1179,

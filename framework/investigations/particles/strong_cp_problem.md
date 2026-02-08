@@ -94,13 +94,13 @@ G2/SU(3) = S^6 (6-sphere)
 
 ### 2.3 The Octonion Phase Structure
 
-The imaginary octonions Im(O) form a 7-dimensional space with no preferred direction. This is because:
+The imaginary octonions Im_O form a 7-dimensional space with no preferred direction. This is because:
 
-1. G2 acts transitively on Im(O) ~ S^6
-2. Any direction in Im(O) can be mapped to any other
-3. There is no distinguished "phase origin" in Im(O)
+1. G2 acts transitively on Im_O ~ S^6
+2. Any direction in Im_O can be mapped to any other
+3. There is no distinguished "phase origin" in Im_O
 
-**Critical observation**: A CP-violating phase requires a REFERENCE direction. In Im(O), there is none.
+**Critical observation**: A CP-violating phase requires a REFERENCE direction. In Im_O, there is none.
 
 ---
 
@@ -164,8 +164,8 @@ The quark mass contribution arg(det(M_u * M_d)) comes from the weak sector and i
 2. G2 has trivial center (no continuous phase freedom)
 3. The coset G2/SU(3) = S^6 parametrizes color orientations
 4. S^6 has no distinguished point (G2 acts transitively)
-5. A nonzero theta would select a preferred direction in Im(O)
-6. But crystallization preserves the SO(7) action on Im(O) that G2 breaks to SU(3)
+5. A nonzero theta would select a preferred direction in Im_O
+6. But crystallization preserves the SO(7) action on Im_O that G2 breaks to SU(3)
 7. The ground state epsilon* = alpha^2 is G2-symmetric
 8. Therefore theta = 0 is the unique G2-preserving value.
 
@@ -183,9 +183,9 @@ The CKM phase delta_CKM = pi*8/21 is NONZERO because:
 2. Quaternions ARE associative (unlike octonions)
 3. H has a definite orientation from T1 (time direction)
 4. This orientation provides a REFERENCE for the phase
-5. The phase delta = pi * dim(O)/(Im(H)*Im(O)) = pi*8/21
+5. The phase delta = pi * dim(O)/(Im_H*Im_O) = pi*8/21
 
-**Key difference**: H has orientation from T1; Im(O) has no orientation.
+**Key difference**: H has orientation from T1; Im_O has no orientation.
 
 ### 4.2 The Asymmetry
 
@@ -200,7 +200,7 @@ The CKM phase delta_CKM = pi*8/21 is NONZERO because:
 
 **Weak sector**: Time direction (T1) breaks the symmetry that would otherwise forbid the CKM phase. The phase is DERIVED from the breaking.
 
-**Strong sector**: The octonion structure has no such breaking mechanism. The G2 automorphisms preserve the "equal footing" of all Im(O) directions. No phase can arise.
+**Strong sector**: The octonion structure has no such breaking mechanism. The G2 automorphisms preserve the "equal footing" of all Im_O directions. No phase can arise.
 
 ---
 

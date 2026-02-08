@@ -264,7 +264,7 @@ print("=" * 70)
 print("PART 6: All Perturbation Directions at the Ground State")
 print("=" * 70)
 
-# The ground state ε = diag(a,a,a,a,b,b,b,b,b,b,b) has several
+# The ground state epsilon = diag(a,a,a,a,b,b,b,b,b,b,b) has several
 # perturbation types:
 
 print("""

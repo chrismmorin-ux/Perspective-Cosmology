@@ -4,7 +4,7 @@
 
 **Purpose**: Comprehensive documentation of the prime-perspective connection for migration to organized exploration framework.
 
-**Status**: Contains [THEOREM], [DERIVATION], [CONJECTURE], and [SPECULATION] — clearly marked throughout.
+**Status**: CANONICAL (mixed confidence: [DERIVATION, computational], [DERIVATION], [CONJECTURE], and [SPECULATION] — clearly marked throughout; computationally verified results downgraded from [THEOREM] per S289 audit)
 
 **Reading Time**: ~30 minutes for full understanding
 **Last Updated**: 2026-01-30
@@ -42,7 +42,7 @@ Determine whether the prime number structure discovered in `explorations/primes_
 
 | # | Discovery | Status | Significance |
 |---|-----------|--------|--------------|
-| 1 | Structural correspondence is exact | [THEOREM] | Primes map perfectly to Crystal basis |
+| 1 | Structural correspondence is exact | [DERIVATION, computational] | Primes map perfectly to Crystal basis (verified, not proven generally) |
 | 2 | Multiplication emerges from axioms | [DERIVATION] | Not imported — genuinely derived |
 | 3 | Primes are forced by non-redundancy | [DERIVATION] | Not arbitrary — mathematically necessary |
 | 4 | Physics may measure "imperfect separation" | [CONJECTURE] | Potential unification of math and physics |
@@ -166,16 +166,16 @@ Time (from perspective sequences)
 
 ## 4.1 The Direct Mappings
 
-**Status**: [THEOREM] — Verified computationally
+**Status**: [DERIVATION, computational] — Verified by exhaustive computation, not proven in general
 
 | Prime Framework | Perspective Framework | Match Quality |
 |-----------------|----------------------|---------------|
-| Prime p | Crystal basis vector b_p | **EXACT** |
-| Prime space (infinite-dim) | V_Crystal | **EXACT** |
-| Coprimality (gcd = 1) | Orthogonality (⟨·,·⟩ = 0) | **EXACT** |
-| Natural number n | Vector in prime-space | **EXACT** |
-| Squarefree number | Perspective "point" | **EXACT** |
-| Factorization | Vector decomposition | **EXACT** |
+| Prime p | Crystal basis vector b_p | **structural isomorphism** |
+| Prime space (infinite-dim) | V_Crystal | **structural isomorphism** |
+| Coprimality (gcd = 1) | Orthogonality (⟨·,·⟩ = 0) | **structural isomorphism** |
+| Natural number n | Vector in prime-space | **structural isomorphism** |
+| Squarefree number | Perspective "point" | **structural isomorphism** |
+| Factorization | Vector decomposition | **structural isomorphism** |
 | "All primes exist" | "Crystal is complete" | **ALIGNED** |
 
 ## 4.2 The Squarefree-Point Correspondence
@@ -486,10 +486,10 @@ LAYER: PRIMES (Shadow of Perfection)
 
 | Claim | Test Evidence | Status |
 |-------|---------------|--------|
-| Primes map to basis vectors | Structural | [THEOREM] |
-| Coprimality = Orthogonality | 19,701 tests | [THEOREM] |
-| Squarefree = Perspective point | 1,000 tests | [THEOREM] |
-| φ is homomorphism | 10,000 tests | [THEOREM] |
+| Primes map to basis vectors | Structural | [DERIVATION, computational] |
+| Coprimality = Orthogonality | 19,701 tests | [DERIVATION, computational] |
+| Squarefree = Perspective point | 1,000 tests | [DERIVATION, computational] |
+| φ is homomorphism | 10,000 tests | [DERIVATION, computational] |
 | Multiplication emerges | 361 tests | [DERIVATION] |
 | Primes forced by non-redundancy | Logical argument | [DERIVATION] |
 | Physics = tilt measurement | None yet | [CONJECTURE] |

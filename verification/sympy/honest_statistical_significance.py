@@ -84,7 +84,7 @@ print("PART 2: Independence Analysis")
 print("=" * 70)
 
 print("""
-Many predictions are NOT independent — they chain from each other.
+Many predictions are NOT independent -- they chain from each other.
 
 Dependency chains (prosecution view):
   Chain A: theta_W -> m_W (derived from m_Z * cos(theta_W))
@@ -300,7 +300,7 @@ print(f"Log10(P_trial_corrected) = {math.log10(p_trial_corrected):.1f}")
 # Method 3: Maximum prosecution (assume generous formula flexibility)
 print("\n--- Method 3: Maximum Prosecution ---")
 # Assume: building blocks give ~5% hit rate at sub-percent per observable
-# (very generous to prosecution — real test shows lower)
+# (very generous to prosecution -- real test shows lower)
 # Assume: 1000 effective trials per observable (generous)
 # Assume: only 8 truly independent predictions (aggressive reduction)
 
@@ -333,7 +333,7 @@ print(f"Prior P(genuine physics) = {prior_genuine}")
 print(f"P(data | genuine) = {p_data_genuine}")
 print(f"P(data | numerology) = {p_data_numerology:.2e}")
 print(f"Posterior P(genuine | data) = {posterior:.4f}")
-print(f"  ({posterior*100:.1f}% — using prosecution P-value)")
+print(f"  ({posterior*100:.1f}% -- using prosecution P-value)")
 
 # With trial-corrected instead:
 p_data_num_trial = p_trial_corrected
@@ -361,7 +361,7 @@ EVIDENCE FOR (beyond pure statistics):
      Random numerology rarely has this property.
 
   2. QUALITATIVE DERIVATIONS: SM gauge group SU(3)xSU(2)xU(1),
-     3+1 spacetime dimensions, Einstein equations — these are not
+     3+1 spacetime dimensions, Einstein equations -- these are not
      numerical matches but structural predictions.
 
   3. INTERCONNECTION: Many predictions share the SAME intermediate
@@ -376,7 +376,7 @@ EVIDENCE AGAINST:
      (alpha, m_p/m_e explicitly acknowledge this).
 
   2. UNPROVEN ASSUMPTIONS: Phi_6 cyclotomic, n_c=11 decomposition
-     are not derived from axioms — they are structural assumptions
+     are not derived from axioms -- they are structural assumptions
      that could be chosen to fit data.
 
   3. FORMULA FLEXIBILITY: With 7 building blocks and standard
@@ -399,7 +399,7 @@ print("PART 7: Quantitative Summary")
 print("=" * 70)
 
 summary = [
-    ("Naive P-value (no correction)", f"10^{math.log10(p_naive):.0f}", "INVALID — ignores all selection effects"),
+    ("Naive P-value (no correction)", f"10^{math.log10(p_naive):.0f}", "INVALID -- ignores all selection effects"),
     ("Trial-corrected P-value", f"10^{math.log10(p_trial_corrected):.0f}", "Accounts for documented trials"),
     ("Prosecution P-value", f"10^{math.log10(p_prosecution):.0f}", "Maximum flexibility assumption"),
     ("Bayesian posterior (prosecution prior)", f"{posterior*100:.0f}%", "P(genuine) with skeptical prior"),

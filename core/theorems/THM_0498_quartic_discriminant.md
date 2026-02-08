@@ -1,6 +1,6 @@
 # THM_0498: Quartic Discriminant (First-Order Transition)
 
-**Status**: SKETCH
+**Status**: DERIVATION
 **Layer**: 1
 **Created**: Session 138, formalized Session 144
 

@@ -3,7 +3,7 @@
 **Status**: CANONICAL
 **Confidence**: [AXIOM] (τ₀) + [DERIVATION] (Γ_dec form) + [A-IMPORT] (t_P scale)
 **Dependencies**: 00_notation, 05_overlap, 08_time
-**Verified**: YES (verification/sympy/h_gamma_derivation.py for h(γ) form)
+**Verified**: PENDING (h_gamma_derivation.py does not exist; h(γ) form derived in Session 2026-01-26-10 but no standalone verification script created)
 
 ---
 

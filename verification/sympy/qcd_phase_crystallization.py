@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-QCD Phase Diagram — Framework Crystallization Verification
+QCD Phase Diagram -- Framework Crystallization Verification
 
 KEY FINDING: Framework N_c = Im_H = 3 structurally constrains:
   1. Deconfinement transition ORDER (crossover for N_c=3 + N_f=2+1)
@@ -199,11 +199,11 @@ print(f"  The approach to the SB limit depends on alpha_s running,")
 print(f"  but the LIMIT itself depends on N_c through gluon DOF")
 
 # ==============================================================================
-# PART 3: COLOR SUPERCONDUCTIVITY — DIQUARK CHANNEL
+# PART 3: COLOR SUPERCONDUCTIVITY -- DIQUARK CHANNEL
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 3: COLOR SUPERCONDUCTIVITY — DIQUARK CHANNEL")
+print("PART 3: COLOR SUPERCONDUCTIVITY -- DIQUARK CHANNEL")
 print("=" * 70)
 
 print(f"\nDiquark pairing: quark x quark -> channel decomposition")
@@ -255,7 +255,7 @@ print(f"  fundamentals equals the anti-fundamental representation.")
 print(f"  Mathematically: 3 x 3 = 3-bar + 6")
 print(f"")
 print(f"For N_c = 4:")
-print(f"  antisymmetric: 4*(4-1)/2 = 6 ≠ 4 = anti-fundamental")
+print(f"  antisymmetric: 4*(4-1)/2 = 6 != 4 = anti-fundamental")
 print(f"  The antisymmetric product is NOT the anti-fundamental.")
 print(f"  This changes the pairing pattern qualitatively:")
 print(f"  - No color-flavor locking in the SU(3) sense")
@@ -303,7 +303,7 @@ print(f"  For N_c = {N_c}: C_F = ({N_c}^2-1)/(2*{N_c}) = {Rational(N_c**2-1, 2*N
 print(f"  Framework gives sigma^(1/2) ~ 441.5 MeV (from n_c, separate derivation)")
 
 # ==============================================================================
-# PART 5: SENSITIVITY ANALYSIS — N_c DEPENDENCE
+# PART 5: SENSITIVITY ANALYSIS -- N_c DEPENDENCE
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -429,7 +429,7 @@ print("SUMMARY")
 print("=" * 70)
 
 print(f"""
-QCD phase diagram — framework N_c = Im_H = 3 structural constraints:
+QCD phase diagram -- framework N_c = Im_H = 3 structural constraints:
 
 1. TRANSITION ORDER (#51):
    N_c = 3 + N_f = 2+1 => CROSSOVER (lattice confirmed)
@@ -448,7 +448,7 @@ QCD phase diagram — framework N_c = Im_H = 3 structural constraints:
 3. COLOR SUPERCONDUCTIVITY (#54):
    Diquark antisymmetric = N_c(N_c-1)/2 = 3 = anti-fundamental
    UNIQUE to N_c = 3: only value where antisym = anti-fund
-   Enables CFL (color-flavor locking) — qualitatively different from N_c != 3
+   Enables CFL (color-flavor locking) -- qualitatively different from N_c != 3
    Framework content: N_c = 3 selects the unique value for CFL pairing
    Tag upgrade: R -> C [FRAMEWORK-CONSTRAINED]
 """)

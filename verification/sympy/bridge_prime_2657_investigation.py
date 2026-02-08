@@ -43,7 +43,7 @@ Gap analysis:
 
 The gap of 3 = Im_H (generations!)
 
-This suggests 2657 encodes: spacetime × generations × octonion interface
+This suggests 2657 encodes: spacetime * generations * octonion interface
 """)
 
 # Relations to other framework numbers

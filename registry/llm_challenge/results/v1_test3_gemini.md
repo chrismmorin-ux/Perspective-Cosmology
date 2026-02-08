@@ -45,7 +45,7 @@ According to the Frobenius and Hurwitz theorems, the permitted division algebras
 
 The Derivation: If n_c represents the total count of these hidden/imaginary dimensions across the fundamental hierarchy of division algebras:
 
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 Alternatively, if n_c is derived from the highest structure allowed by the Zero-Divisor constraint (the Octonions), the "hidden" part is: n_c = 8 - 1 = 7
 
@@ -105,7 +105,7 @@ Would you like me to explore if the non-associative Octonion transitions (n=8) c
 
 Gemini succeeded where GPT-4o failed, specifically on the two ambiguity points:
 
-1. **n_d = dim(H) or dim(Im(H))?** Gemini chose dim(H) = 4 without hesitation. GPT-4o chose dim(Im(H)) = 3. Gemini's reading is more natural given the prompt says "dim(V_pi)."
+1. **n_d = dim(H) or dim(Im_H)?** Gemini chose dim(H) = 4 without hesitation. GPT-4o chose dim(Im_H) = 3. Gemini's reading is more natural given the prompt says "dim(V_pi)."
 
 2. **Does O contribute to n_c?** Gemini explicitly reasoned: O satisfies the no-zero-divisor constraint (it IS a division algebra), it just fails associativity. So its imaginary dimensions belong in the "hidden" count even though O can't serve as the transition algebra. GPT-4o excluded O entirely.
 

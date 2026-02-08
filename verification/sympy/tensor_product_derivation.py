@@ -167,7 +167,7 @@ def test_product_span():
     (all linear combinations) IS the full tensor product.
 
     This means: starting from product states (which the framework
-    naturally provides — independent point states), allowing
+    naturally provides -- independent point states), allowing
     superposition (from the Hilbert space structure) gives the
     full tensor product space.
 
@@ -699,7 +699,7 @@ def main():
     print("ENTANGLEMENT IS GENERIC [THEOREM]:")
     print(f"  In C^{n_c} (x) C^{n_c}, only {gen_results[n_c]['product_fraction']*100:.1f}%"
           f" of parameter space is product states.")
-    print(f"  Entanglement dominates — consistent with framework's view that")
+    print(f"  Entanglement dominates -- consistent with framework's view that")
     print(f"  crystallization constraints (which create entanglement) are the norm.")
     print()
 

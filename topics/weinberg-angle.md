@@ -1,6 +1,6 @@
 # Topic: Weinberg Angle
 
-**Current state**: sin²θ_W = 28/121, α₃/α₂ = 7/2 at 0.34%. **Derivation chain COMPLETE** modulo one [CONJECTURE: spectral convergence C3] (I-STRUCT-5, conditionally derived S238). Steps 1-5 [THEOREM/DERIVATION], Step 6 decomposed: full compositeness [D from axioms] + WSR theorem [I-QFT] + spectral convergence [CONJECTURE]. WSR explain democratic vs Dynkin: non-perturbative reshuffling, factor n_d=4. RG tension real (15:1) but BSM deficit only 0.36%. κ=1 subordinate. EQ-007/EQ-022/EQ-004/EQ-020 all RESOLVED.
+**Current state**: sin²θ_W = 28/121, α₃/α₂ = 7/2 at 0.34%. **Derivation chain FULLY COMPLETE** (S292: spectral convergence resolved via C5 + IRA-10). Steps 1-5 [THEOREM/DERIVATION], Step 6 fully decomposed: full compositeness [D from axioms] + WSR theorem [I-QFT] + spectral convergence [DERIVED from finiteness, S292]. Quartic potential alone insufficient (dim-2 condensate in V-A OPE). IRA-02 eliminated, IRA count 9->8. WSR explain democratic vs Dynkin: non-perturbative reshuffling, factor n_d=4. RG tension real (15:1) but BSM deficit only 0.36%. κ=1 subordinate. EQ-007/EQ-022/EQ-004/EQ-020 all RESOLVED.
 
 ---
 
@@ -8,7 +8,7 @@
 
 - **sin^2(theta_W) = 28/121 = 0.23140** — matches MS-bar at M_Z to 843 ppm (S151, S154)
 - **28 = N_Goldstone(SO(11)->SO(4)xSO(7))** — structural origin proven (S154)
-- **cos(theta_W) = 171/194** — matches on-shell definition to 3.75 ppm (established)
+- **cos(theta_W) = 171/194** — matches on-shell definition to ~93 ppm (Band A, CORRECTED S283 from S279's Band B claim)
 - **Two-scheme consistency**: MS-bar vs on-shell scheme difference agrees to 2.4% (S154)
 - **Uniqueness**: 28/121 is unique among ALL framework ratios in search space (S154)
 - **RG scale**: 28/121 matches SM running at mu = 94.6 GeV, near M_Z (S155)
@@ -18,13 +18,23 @@
 - **O = dim(SU(3)) structural**: via G2 = Aut(O) fixing complex direction (S160)
 - **α₃/α₂ = n_d×Im_O/dim(O) = 7/2 = 3.500** — matches measured 3.488 to 0.34%, zero free parameters (S218)
 - **T_SU2 = T_SU3 = 22** — structural theorem: both gauge groups have identical Dynkin indices in End(V). Follows from T(fund SO(4) under SU(2)) = T(fund G₂ under SU(3)) = 1. Proves one-loop gives wrong answer. (S218)
-- **T_fund = 1 from division algebra minimality** [DERIVATION] — dim(H)=4 = 2×dim_ℂ(fund SU(2)), dim(Im(O))=7 = 1+2×dim_ℂ(fund SU(3)). Each hosts exactly ONE conjugate pair of gauge fundamental with zero excess dimensions. Frobenius guarantees no intermediate sizes. Non-division-algebra dims give T≠1. (S222)
-- **Singlet criterion for two regimes** [CONJECTURE] — R⁴ has 0 SU(2)_L singlets (interface → N=28 coset), R⁷ has 1 SU(3) singlet (internal → N=8 group dim). Singlet exists because G₂→SU(3) requires choosing i∈Im(O), creating invariant direction. SU(2) needs no choice (SO(4)=SU(2)² canonical). Root cause: H associative vs O non-associative. (S222)
+- **T_fund = 1 from division algebra minimality** [DERIVATION] — dim(H)=4 = 2×dim_ℂ(fund SU(2)), dim(Im_O)=7 = 1+2×dim_ℂ(fund SU(3)). Each hosts exactly ONE conjugate pair of gauge fundamental with zero excess dimensions. Frobenius guarantees no intermediate sizes. Non-division-algebra dims give T≠1. (S222)
+- **Singlet criterion for two regimes** [CONJECTURE] — R⁴ has 0 SU(2)_L singlets (interface → N=28 coset), R⁷ has 1 SU(3) singlet (internal → N=8 group dim). Singlet exists because G₂→SU(3) requires choosing i∈Im_O, creating invariant direction. SU(2) needs no choice (SO(4)=SU(2)² canonical). Root cause: H associative vs O non-associative. (S222)
 - **Democratic counting from Schur's lemma** [DERIVATION] — Tangent space Hom(R⁴,R⁷) ≅ R⁴⊗R⁷ is IRREDUCIBLE under isotropy group SO(4)×SO(7). By Schur's lemma, the HS metric (AXM_0110) restricted to this space is the unique invariant bilinear form: (1/n_c)×I₂₈. All 28 directions metrically equal. Dynkin weighting excluded (single irreducible component → one scale factor). Same for SU(3): adjoint irreducible (simple Lie algebra) → Killing form democratic. 1/α_EM(tree) = n_c² = 121. RG correction factors ~5.7% for all three couplings (spread 0.34%). Gap narrowed to [A-PHYSICAL]: emergent gauge field inherits metric. (S224)
 - **Step 6 [A-PHYSICAL] is irreducible** [FINDING] — Three geometric mechanisms on Gr(4,11) give three distinct gauge couplings: democratic N=28 (metric-level, Schur), Dynkin T=7 (one-loop perturbative), curvature C_L=21=Im_O×Im_H (curvature projection onto SU(2)_L). Democratic/Dynkin = n_d = 4 exactly. Measurement selects democratic (0.34%) over Dynkin (71.3%) and curvature (25%). Cannot be derived from AXM_0109/0110/0117. (S228)
 - **RG tension quantified** [DERIVATION] — SM-only running: Λ₂=2115 GeV, Λ₃=141 GeV, ratio 15:1. Compositeness scale f=1354 GeV between them. Colored pNGBs (24 modes) make tension WORSE (ratio→22-34). Required BSM correction only 0.36%. Framework expression Im_H/(n_d·n_c+n_h)=1/17≈5.88% near ε_avg=5.81%. (S228)
 - **κ=1 subordinate to Step 6** [ANALYSIS] — Canonical normalization of Goldstone fields gives κ=1 when Step 6 accepted. 1/n_c from HS metric cancels with n_c from trace normalization. Not a separate assumption. (S228)
-- **WSR conditional derivation of I-STRUCT-5** [DERIVATION + I-QFT + C3] — Full compositeness from axioms (no elementary gauge fields in AXM_0109-0117) + Weinberg sum rules (standard QFT) + Schur's lemma → 1/g² = democratic metric. Gap narrows from [A-PHYSICAL] to [CONJECTURE: spectral convergence C3]. WSR explain perturbative/non-perturbative distinction: Dynkin T=7 → democratic N=28, reshuffling factor = n_d = 4. C3 satisfied by ALL known SSB examples. (S238)
+- **WSR conditional derivation of I-STRUCT-5** [DERIVATION + I-QFT] — Full compositeness from axioms (no elementary gauge fields in AXM_0109-0117) + Weinberg sum rules (standard QFT) + Schur's lemma → 1/g² = democratic metric. **Spectral convergence RESOLVED (S292)**: C5 (finiteness) + IRA-10 -> finite Hilbert space -> WSR converge. Quartic potential alone insufficient (dim-2 condensate in V-A OPE gives rho ~ 1/s). WSR explain perturbative/non-perturbative distinction: Dynkin T=7 → democratic N=28, reshuffling factor = n_d = 4. (S238/S292)
+- **One-loop dressed value** [CONJECTURE] — sin^2(dressed) = 28/121 - alpha/(4*pi^2) = 0.23122, 0.00 sigma from measured. C_W = 1/(4*pi) in alpha/pi basis. 4*pi^2 = n_d*pi^2 = (16*pi^2)/n_d. T_3 trace analog gives 6/11 (does NOT match — extra 1/(4*pi) suppression needed, origin OPEN). 24/24 PASS. (S276)
+- **Coefficient n_d = dim(H)** [CONJECTURE] — In alpha/(16*pi^2) basis, coefficient = n_d = 4. Structural origin: 28 coset modes = R^4 x R^7, mixing scans R^4 = H factor, n_d directions contribute equally (SO(4) isotropy). Resolves T_3 negative result: mixing angles have geometric coefficients, couplings have algebraic coefficients. n_d unique within 1 sigma (n=3,5 at ~1.7 sigma). 18/21 PASS. (S279)
+- **m_p/m_e Band C coefficient = 43/7 = Phi_6(Im_O)/Im_O** [CONJECTURE, HRS 4] — Absolute basis: delta(m_p/m_e) = C * alpha^2/pi. Extracted C = 6.156, 43/7 = 6.143 (0.22% match, 949 sigma significance). Dressed m_p/m_e = 1836.15267365 (2.0 sigma residual). Cyclotomic: Phi_6(7) = 43. Supersedes earlier relative-basis 1/297 (0.43%). 20/20 PASS. (S282)
+- **Systematic 16-ratio band classification** [DERIVATION] — All ratios classified: Band C (3): m_p/m_e, v/M_Koide, 1/alpha. Band B (4): v/m_p, m_mu/m_e, Koide_theta, m_c/m_s. Band A (7): m_tau/m_mu through sin^2. Band D: quark ratios + CKM. 35/36 PASS. (S282)
+- **Band A new coefficients** [SPECULATION] — alpha_s: C = 1/n_c in alpha/pi (1.4%, 0.02 sigma). m_tau/m_mu: C = 1/33 = 1/(Im_H*n_c) in alpha/pi (0.15%, 0.8 sigma). Testable predictions. (S282)
+- **Double-trace pattern** [SPECULATION] — Alpha: C = (12/n_c)*2. m_p/m_e: C = (43/n_c)*(n_c/7). Both have n_c in first factor denominator. (S282)
+- **Coefficient physics-type taxonomy** [CONJECTURE] — Mixing->geometric (n_d), EM coupling->trace (24/11), QCD mass->cyclotomic (43/7), lepton mass->inverse (1/n_d, 1/33), QCD coupling->crystal (1/n_c). (S282)
+- **Double-trace mechanism** [CONJECTURE] — Band C specific: End(V) trace normalization by n_c in first factor. All 8 coefficients are framework monomials. n_c cancels in m_p/m_e -> pure octonionic. Deep identity: Phi_6(Im_H) = Im_O. (S283)
+- **cos(theta_W) Band A correction** [CORRECTION] — S279 Band B claim RETRACTED. Gap ~93 ppm is Band A. Tree-level sin^2+cos^2 = 1.008 (mismatch -8347 ppm). No clean coefficient found. (S283)
+- **m_p/m_e C_3 negative result** — C_3~5.7 extracted, no clean framework match. 2.0 sigma not significant. (S283)
 
 ## What Failed / Dead Ends
 
@@ -44,7 +54,7 @@
 4. ~~**Democratic counting mechanism**~~ **RESOLVED (S224/S228)**: Schur's lemma [DERIVATION] (S224) + Step 6 [A-PHYSICAL] irreducible (S228). Three mechanisms give 28/7/21 — only democratic matches. Gap = one physical assumption.
 5. ~~**Two-regime mechanism**~~ **RESOLVED (S222)**: Singlet criterion — 0 singlets → interface, 1 singlet → internal. Combined with Schur's lemma (S224) gives full derivation chain (contingent on Step 6 [A-PHYSICAL]).
 6. ~~**SU(3) mode counting test**~~ **DONE (S218)**: N_SU3_charged = 94 FAILS. Only dim(SU(3)) = 8 works. Structural theorem T_SU2 = T_SU3 = 22 discovered. Two-regime confirmed.
-7. ~~**T_fund = 1 deeper meaning**~~ **DONE (S222)**: Division algebra minimality, NOT coincidence. dim(H) and dim(Im(O)) are exactly the right sizes to host one conjugate pair. Frobenius + branching rules force T=1.
+7. ~~**T_fund = 1 deeper meaning**~~ **DONE (S222)**: Division algebra minimality, NOT coincidence. dim(H) and dim(Im_O) are exactly the right sizes to host one conjugate pair. Frobenius + branching rules force T=1.
 8. ~~**Emergent gauge coupling formalization**~~ **RESOLVED as irreducible (S228)**: Step 6 cannot be derived from AXM_0109/0110/0117. Recommend adopting as falsifiable framework principle.
 9. ~~**RG matching tension**~~ **QUANTIFIED (S228)**: 15:1 scale ratio. Colored pNGBs worsen it. Required BSM = 0.36%. Full composite sector calculation needed.
 10. ~~**κ=1 normalization**~~ **RESOLVED as subordinate (S228)**: Follows from Step 6 + canonical normalization. Not independent.
@@ -68,6 +78,11 @@
 | S228 | Emergent coupling + RG matching | **Step 6 irreducible**: three mechanisms give 28/7/21 (democratic/Dynkin/curvature). Democratic/Dynkin = n_d = 4. C_L = 21 = Im_O×Im_H (new). RG tension: Λ₂/Λ₃ = 15:1, colored pNGBs worsen, BSM deficit 0.36%. κ=1 subordinate. 2 scripts, 32/32 PASS. |
 | S233 | Step 6 adoption + deeper derivation | **I-STRUCT-5 adopted** [A-PHYSICAL]. EQ-007/004/020/022 resolved. RG: top partners/pNGBs worsen; deficit (~α_s/(4π)) natural. 4 derivation candidates: full compositeness (Weinberg SRs) best. 2 scripts, 27/27 PASS. |
 | S238 | WSR from crystallization dynamics | **Conditional theorem**: full compositeness [D] + WSR [I-QFT] + Schur [D] → I-STRUCT-5. Gap narrows: [A-PHYSICAL] → [CONJECTURE: C3 spectral convergence]. WSR explain democratic/Dynkin reshuffling (factor n_d=4). 1 script, 21/21 PASS. |
+| S276 | One-loop coefficient structure | **sin^2(dressed) = 28/121 - alpha/(4*pi^2)** [CONJECTURE]. 0.00 sigma. C_W = 1/(4*pi). T_3 analog NEGATIVE (6/11 != 1/(4*pi)). 24/24 PASS. |
+| S279 | Coefficient structural origin + Band B | **Coefficient = n_d = dim(H)** [CONJECTURE]. Hom(R^4,R^7) mixing scans R^4. Resolves T_3 negative. Band B: m_mu/m_e ~ 1/n_d (4%), v/m_p ~ 1/n_c (0.1%) [SPECULATION]. 30/37 PASS. |
+| S282 | Tree-to-dressed: systematic + m_p/m_e | **m_p/m_e: C=43/7=Phi_6(Im_O)/Im_O** [CONJECTURE] (0.22%, absolute basis). 16-ratio band classification. Double-trace pattern. Coefficient taxonomy. 35/36 PASS (2 scripts). |
+| S283 | Double-trace + cos(theta_W) + 3-loop | Double-trace Band C specific (21/21 PASS). cos(theta_W) CORRECTED to Band A (17/17 PASS). C_3 negative result (17/17 PASS). |
+| S292 | CONJ-A1 spectral convergence | **CONJ-A1 RESOLVED**: quartic alone insufficient (dim-2 condensate), finiteness (C5+IRA-10) resolves. IRA-02 eliminated. IRA 9->8. 24/24 PASS. |
 
 ## Key Files
 
@@ -93,3 +108,10 @@
 | `verification/sympy/composite_sector_rg_threshold.py` | 15/15 PASS (S233) |
 | `verification/sympy/step6_deeper_derivation_search.py` | 12/12 PASS (S233) |
 | `verification/sympy/weinberg_sum_rules_crystallization.py` | 21/21 PASS (S238) |
+| `verification/sympy/weinberg_coefficient_origin.py` | 18/21 PASS (S279) |
+| `verification/sympy/band_B_coefficient_analysis.py` | 12/16 PASS (S279) |
+| `verification/sympy/tree_dressed_systematic.py` | 15/16 PASS (S282) |
+| `verification/sympy/tree_dressed_coefficients.py` | 20/20 PASS (S282) |
+| `verification/sympy/double_trace_mechanism.py` | 21/21 PASS (S283) |
+| `verification/sympy/cos_theta_W_mW_resolution.py` | 17/17 PASS (S283) |
+| `verification/sympy/mpme_three_loop_residual.py` | 17/17 PASS (S283) |

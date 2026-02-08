@@ -3,7 +3,7 @@
 CMB Polarization Predictions from Perspective Framework
 
 KEY FINDING: Framework predicts EE peak positions, BB amplitude from r=0.035,
-and TE cross-correlation structure — all from division algebra quantities.
+and TE cross-correlation structure -- all from division algebra quantities.
 
 Physics: Polarization comes from Thomson scattering of the local temperature
 quadrupole at last scattering. E-modes trace velocity perturbations (sine of
@@ -344,8 +344,8 @@ print()
 print("Best candidate: Im_H/(O*Im_O) = 3/56 = 0.05357")
 print("  Physical interpretation: Generation structure (3) diluted by")
 print("  full octonionic channels (8*7 = 56)")
-print("  Error: 0.8% (0.1sigma) — within measurement uncertainty")
-print("  Status: [CONJECTURE] — no physics derivation yet")
+print("  Error: 0.8% (0.1sigma) -- within measurement uncertainty")
+print("  Status: [CONJECTURE] -- no physics derivation yet")
 
 # ==============================================================================
 # SECTION 6: POLARIZATION CONSISTENCY RELATIONS
@@ -493,20 +493,20 @@ print("=" * 70)
 
 print("""
 What IS derived from the framework:
-  1. EE peak POSITIONS — from l_A = 96*pi and phi = 3/11 (same as TT)
-  2. EE-TT offset — l_A/2 is standard physics, l_A is framework
-  3. r = 7/200 = 0.035 — from hilltop potential with framework mu^2
-  4. n_t = -r/8 — from slow-roll consistency (standard + framework epsilon)
+  1. EE peak POSITIONS -- from l_A = 96*pi and phi = 3/11 (same as TT)
+  2. EE-TT offset -- l_A/2 is standard physics, l_A is framework
+  3. r = 7/200 = 0.035 -- from hilltop potential with framework mu^2
+  4. n_t = -r/8 -- from slow-roll consistency (standard + framework epsilon)
 
 What is CONJECTURED:
-  5. E/T = 1/n_c — no derivation from polarization physics
-  6. rho_TE = H/n_c — no derivation from quadrupole structure
-  7. tau = 3/56 — no derivation from reionization physics
+  5. E/T = 1/n_c -- no derivation from polarization physics
+  6. rho_TE = H/n_c -- no derivation from quadrupole structure
+  7. tau = 3/56 -- no derivation from reionization physics
 
 What is STANDARD PHYSICS with framework parameters:
-  8. BB spectrum shape — standard GW transfer functions
-  9. Lensing B-modes — standard lensing with framework Omega_m
-  10. TE sign alternation — standard acoustic physics
+  8. BB spectrum shape -- standard GW transfer functions
+  9. Lensing B-modes -- standard lensing with framework Omega_m
+  10. TE sign alternation -- standard acoustic physics
 
 The framework contributes PARAMETERS (l_A, phi, r), not the
 polarization MECHANISM (Thomson scattering, quadrupole generation).

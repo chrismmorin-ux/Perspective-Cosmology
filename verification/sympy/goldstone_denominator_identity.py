@@ -9,9 +9,9 @@ KEY QUESTION: Is 194 - 153 = 41 = total Goldstone modes a structural identity
               or a numerical coincidence at n_c = 11?
 
 SETUP:
-  194 = 2(n_c^2 - 2*n_c - 2) — Weinberg angle denominator
-  153 = (n_c - 2)(n_c + 6)   — proton mass ratio factor
-  41  = total Goldstone modes in SO(11) → SO(4)×SU(3) chain
+  194 = 2(n_c^2 - 2*n_c - 2) -- Weinberg angle denominator
+  153 = (n_c - 2)(n_c + 6)   -- proton mass ratio factor
+  41  = total Goldstone modes in SO(11) -> SO(4)*SU(3) chain
 
 STATUS: INVESTIGATION
 Depends on:
@@ -54,25 +54,25 @@ print("PART 2: Goldstone Count from SO(n_c) Chain")
 print("=" * 70)
 
 # Total Goldstone modes = dim(SO(n_c)) - dim(residual)
-# Chain: SO(n_c) → SO(n_d) × SO(n_c - n_d) → SO(n_d) × G₂ → SO(n_d) × SU(3)
+# Chain: SO(n_c) -> SO(n_d) * SO(n_c - n_d) -> SO(n_d) * G_2 -> SO(n_d) * SU(3)
 #
 # dim(SO(n)) = n(n-1)/2
-# dim(G₂) = 14 (specific to octonions)
+# dim(G_2) = 14 (specific to octonions)
 # dim(SU(3)) = 8 (specific to complex subalgebra of octonions)
 
 dim_SO = lambda nn: nn * (nn - 1) / 2
 
-# Stage 1: SO(n_c) → SO(n_d) × SO(n_c - n_d)
+# Stage 1: SO(n_c) -> SO(n_d) * SO(n_c - n_d)
 # Goldstones = dim(SO(n_c)) - dim(SO(n_d)) - dim(SO(n_c - n_d))
 gold_1 = dim_SO(n_c) - dim_SO(n_d) - dim_SO(n_c - n_d)
 gold_1_simplified = simplify(gold_1)
 
-# Stage 2: SO(n_c - n_d) → G₂ (specific to n_c - n_d = 7)
-# Goldstones = dim(SO(7)) - dim(G₂) = 21 - 14 = 7
-gold_2 = dim_SO(n_c - n_d) - 14  # G₂ has dim 14
+# Stage 2: SO(n_c - n_d) -> G_2 (specific to n_c - n_d = 7)
+# Goldstones = dim(SO(7)) - dim(G_2) = 21 - 14 = 7
+gold_2 = dim_SO(n_c - n_d) - 14  # G_2 has dim 14
 
-# Stage 3: G₂ → SU(3)
-# Goldstones = dim(G₂) - dim(SU(3)) = 14 - 8 = 6
+# Stage 3: G_2 -> SU(3)
+# Goldstones = dim(G_2) - dim(SU(3)) = 14 - 8 = 6
 gold_3 = 14 - 8  # = 6
 
 # Total
@@ -138,7 +138,7 @@ print("=" * 70)
 
 print(f"\nDenominator difference polynomial:")
 print(f"  n_c^2 - 8n_c + 8")
-print(f"  = n_c^2 - O·n_c + O  (where O = 8 = dim(octonions))")
+print(f"  = n_c^2 - O*n_c + O  (where O = 8 = dim(octonions))")
 
 print(f"\nGoldstone polynomial (n_d = 4):")
 gold_nd4_explicit = expand(gold_total.subs(n_d, 4))
@@ -210,7 +210,7 @@ print(f"  44 = n_c * n_d = product of framework dimensions")
 print(f"  44 is itself a framework denominator!")
 
 # Check: 44 appears in our denominator list
-print(f"\n  44 = {11*4} = n_c × n_d")
+print(f"\n  44 = {11*4} = n_c * n_d")
 print(f"  15 = {11+4} = n_c + n_d = |P| + n_d")
 
 print("\n" + "=" * 70)
@@ -219,32 +219,32 @@ print("=" * 70)
 
 # 44 = n_c * n_d appears in the denominator polynomial list
 # Check what physical quantity uses 44
-print(f"\n44 = n_c × n_d")
-print(f"   = (n_c - Im_O)(n_c + Im_H) = (11-7)(11+3) = 4×14 = 56? No.")
-print(f"   Actually 44 = 4 × 11 = H × n_c directly")
-print(f"   = n_d × n_c (product of the two fundamental dimensions)")
+print(f"\n44 = n_c * n_d")
+print(f"   = (n_c - Im_O)(n_c + Im_H) = (11-7)(11+3) = 4*14 = 56? No.")
+print(f"   Actually 44 = 4 * 11 = H * n_c directly")
+print(f"   = n_d * n_c (product of the two fundamental dimensions)")
 
 # The quadratic n^2 - 15n + 44 with roots n_c=11, n_d=4
 # has discriminant 225 - 176 = 49 = 7^2 = Im_O^2
 disc = 15**2 - 4*44
 print(f"\nQuadratic: n^2 - 15n + 44 = 0")
-print(f"  Discriminant = 15^2 - 4×44 = 225 - 176 = {disc} = 7^2 = Im_O^2")
+print(f"  Discriminant = 15^2 - 4*44 = 225 - 176 = {disc} = 7^2 = Im_O^2")
 print(f"  sqrt(discriminant) = 7 = Im_O")
-print(f"  Roots = (15 ± 7)/2 = {(15+7)//2} and {(15-7)//2}")
+print(f"  Roots = (15 +/- 7)/2 = {(15+7)//2} and {(15-7)//2}")
 print(f"        = 11 and 4  [OK]")
 
 print(f"""
 SUMMARY: The discriminant of the linking quadratic is Im_O^2 = 49.
 
-The quadratic n^2 - (n_c + n_d)n + n_c·n_d = 0 has:
+The quadratic n^2 - (n_c + n_d)n + n_c*n_d = 0 has:
   - Sum of roots = n_c + n_d = 15
-  - Product of roots = n_c · n_d = 44
+  - Product of roots = n_c * n_d = 44
   - Discriminant = (n_c - n_d)^2 = (11 - 4)^2 = 7^2 = Im_O^2
   - Half-discriminant = 7 = Im_O
 
 So: n_c - n_d = Im_O = 7
     n_c + n_d = 15
-    n_c × n_d = 44
+    n_c * n_d = 44
 
 ALL THREE RELATIONSHIPS are division algebra quantities!
 """)
@@ -307,7 +307,7 @@ structural = {
     12: 'dim(SM gauge) = n_c + 1',
     14: 'dim(G2) = dim(SO(n_d)) + dim(SU(3))',
     16: 'H^2 = spacetime^2',
-    28: 'n_d × Im_O = Stage 1 Goldstones',
+    28: 'n_d * Im_O = Stage 1 Goldstones',
     41: 'total Goldstones',
 }
 
@@ -325,9 +325,9 @@ for i in range(len(denom_vals)):
 print(f"\n{'D1':>6s} + {'D2':>6s} = {'Sum':>6s}  Structural?")
 print("-" * 60)
 structural_sums = {
-    171: 'cos(theta_W) numerator = 9×19',
-    194: 'Weinberg denominator = 2×97',
-    208: '13×16 = 13×H^2?',
+    171: 'cos(theta_W) numerator = 9*19',
+    194: 'Weinberg denominator = 2*97',
+    208: '13*16 = 13*H^2?',
     234: '?',
 }
 for i in range(len(denom_vals)):
@@ -348,8 +348,8 @@ print(f"  194 - 153 = {194-153} = total Goldstones [OK]")
 print(f"  137 - 121 = {137-121} = H^2 [OK]")
 
 # And: 200 - 153 = 47 (not obviously structural)
-# 200 - 137 = 63 = 7×9 (Im_O × Im_H^2)
-print(f"  200 - 137 = {200-137} = 7×9 = Im_O × Im_H^2")
+# 200 - 137 = 63 = 7*9 (Im_O * Im_H^2)
+print(f"  200 - 137 = {200-137} = 7*9 = Im_O * Im_H^2")
 
 # ==============================================================================
 # VERIFICATION TESTS
@@ -380,7 +380,7 @@ tests = [
     ("Sum of roots = 15 = n_c + n_d",
      11 + 4 == 15),
 
-    ("Product of roots = 44 = n_c × n_d",
+    ("Product of roots = 44 = n_c * n_d",
      11 * 4 == 44),
 
     ("Discriminant = 49 = Im_O^2 = 7^2",
@@ -409,7 +409,7 @@ tests = [
     ("137 - 121 = 16 = H^2",
      137 - 121 == 16),
 
-    ("200 - 137 = 63 = Im_O × Im_H^2",
+    ("200 - 137 = 63 = Im_O * Im_H^2",
      200 - 137 == 63 and 63 == 7 * 9),
 ]
 
@@ -434,7 +434,7 @@ print("=" * 70)
 print("""
 RESULT: 194 - 153 = 41 = Goldstones IS STRUCTURAL [DERIVATION]
 
-The identity is NOT a general polynomial identity — it holds specifically
+The identity is NOT a general polynomial identity -- it holds specifically
 because n_c = 11 is a root of (n - 4)(n - 11) = 0, i.e., the linking
 quadratic n^2 - 15n + 44 = 0 whose other root is n_d = 4.
 
@@ -442,11 +442,11 @@ THE DEEP REASON:
 The quadratic connecting the Weinberg and proton denominators to the
 Goldstone count has coefficients that are THEMSELVES framework quantities:
 
-  n^2 - (n_c + n_d)·n + n_c·n_d = 0
+  n^2 - (n_c + n_d)*n + n_c*n_d = 0
   n^2 - 15n + 44 = 0
 
   Sum of roots:     n_c + n_d = 15
-  Product of roots: n_c · n_d = 44
+  Product of roots: n_c * n_d = 44
   Discriminant:     (n_c - n_d)^2 = Im_O^2 = 49
   Half-gap:         (n_c - n_d)/2 = Im_O/2 = 7/2
 
@@ -461,6 +461,6 @@ CONFIDENCE: [DERIVATION]
 NEW STRUCTURAL IDENTITIES FOUND:
   1. 194 - 153 = 41 (Goldstone count)
   2. 153 - 137 = 113 - 97 = 137 - 121 = 16 = H^2 (spacetime^2)
-  3. 200 - 137 = 63 = Im_O × Im_H^2 (octonionic-quaternionic cross-term)
+  3. 200 - 137 = 63 = Im_O * Im_H^2 (octonionic-quaternionic cross-term)
   4. The H^2 = 16 spacing links FIVE denominators: 97, 113, 121, 137, 153
 """)

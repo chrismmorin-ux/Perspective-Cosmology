@@ -1,7 +1,7 @@
 # The Thesis: Physics as Mathematical Necessity
 
-**Last Updated**: 2026-02-06 (Session S255)
-**Version**: 2.2
+**Last Updated**: 2026-02-07 (Session S301)
+**Version**: 2.3
 **Purpose**: Central claim of the framework in condensed form — a 5-minute overview.
 **Audience**: Academic / anyone wanting the core argument
 **Status**: CURRENT
@@ -25,7 +25,8 @@
 | Crystallization dynamics | [DERIVATION] | Bridge from algebra to physics |
 | Perspective axioms | [AXIOM] | Layer 0 foundation |
 | QM chain | CANONICAL | Strongest derived result |
-| Alpha Step 5 | CONJECTURE | Key incomplete link |
+| Alpha Step 5 (CONJ-A2) | [A-STRUCTURAL] (S297) | kappa=1 = standard Tr convention |
+| IRA inventory | 6 total (S299) | 0 conjectures remaining |
 
 ---
 
@@ -99,8 +100,8 @@ From these four algebras, **structure follows**:
 - This is the Standard Model content
 
 **Three generations** [DERIVATION]
-- Im(H) tensor decomposition: 7 -> 3 + 3-bar + 1 (S251)
-- Content per generation = 7 = dim(Im(O))
+- Im_H tensor decomposition: 7 -> 3 + 3-bar + 1 (S251)
+- Content per generation = 7 = dim(Im_O)
 - Three visible generations plus one dark
 
 **Quantum mechanics** [THEOREM]
@@ -124,8 +125,8 @@ If the framework captures fundamental structure, constants should be determined 
 
 ```
 Division algebra dimensions:  1, 2, 4, 8
-Imaginary dimensions:         Im(H) = 3, Im(O) = 7
-Crystal dimension:            n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11  [D: CCP]
+Imaginary dimensions:         Im_H = 3, Im_O = 7
+Crystal dimension:            n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11  [D: CCP]
 Spacetime dimension:          n_d = 4  [D: CCP + Frobenius]
 Field selection:              F = C  [D: CCP]
 ```
@@ -163,7 +164,7 @@ sin^2(theta_W) = 28/121 = N_Goldstone / n_c^2 [DERIVATION]
 **Interpretation**:
 - 337 = 3^4 + 4^4 (generation^4 + spacetime^4)
 - 200 = 337 - 137 (cosmological - fine structure)
-- 63 = 7 x 9 = Im(O) x Im(H)^2
+- 63 = 7 x 9 = Im_O x Im_H^2
 
 ### The Fourth-Power Prime Hierarchy
 
@@ -181,8 +182,8 @@ Physics scales are built into the algebra.
 - **16 Tier 2 claims** (10-10000 ppm)
 - **~41 Tier 3 claims** (>100 ppm, individually weak)
 - **14 falsified claims** (9 definitive + 4 deprecated + 1 withdrawn)
-- **~548 verification scripts** (~90% passing)
-- **~2 structural assumptions** (reduced from ~3 after CCP derived F=C in S251)
+- **~662 verification scripts** (99.8% passing)
+- **6 irreducible assumptions** (2 structural, 2 physical, 1 interpretation, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 
 ---
 
@@ -198,7 +199,7 @@ The logic:
 
 There is no "another framework with different numbers." Frobenius-Hurwitz is not negotiable.
 
-**Important caveat**: The framework makes ~2 structural assumptions beyond Frobenius-Hurwitz and CCP (e.g., crystallization interpretation, emergent gauge coupling). F=C selection was previously counted as structural but is now DERIVED from CCP (AXM_0120, S251).
+**Important caveat**: The framework makes 6 irreducible assumptions beyond Frobenius-Hurwitz and CCP (2 structural, 2 physical, 1 interpretation, 1 import). Five former conjectures (A1/A2/A3/B1/B3) have been resolved (S258-S299). See `framework/IRREDUCIBLE_ASSUMPTIONS.md` for the canonical inventory.
 
 ### The Coherence Argument
 
@@ -258,13 +259,13 @@ The tensor-to-scalar ratio r = 1 - n_s = 7/200 = 0.035 is derived from hilltop i
 ### What We Acknowledge
 
 1. This is amateur work — outside professional physics
-2. ~2 structural assumptions remain (F=C now derived via CCP, S251)
+2. 6 irreducible assumptions remain (0 conjectures; reduced from ~10 via S258-S299 resolution campaign)
 3. Most predictions are post-hoc (formulas found after knowing targets)
 4. P-value range is 10^-8 to 10^-7 (not the naive 10^-37)
 5. ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error; V<0 gives Λ>0). Magnitude gap remains.
 6. Monte Carlo shows building blocks are not special at 1%
 7. Could be sophisticated numerology
-8. Red Team assessment: 15-25% probability of genuine physics
+8. Red Team assessment: 20-35% probability of genuine physics (v2.0, S257)
 
 ### What We Claim
 
@@ -327,10 +328,11 @@ Either outcome advances knowledge.
 | 2.0 | 2026-02-03 | S227 | Full rewrite. Corrected statistics, added QM derivation, Schur's lemma results, phase grades, Monte Carlo counter-argument, near-term testable predictions, 14 falsifications, updated probability. |
 | 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Gravity grade D+ → C-. |
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C/n_c/n_d DERIVED. Pipeline gauge route. Generation derivation. Assumption count ~3->~2. |
+| 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved, IRA 10->6, probability 20-35%, script count ~662. Alpha Step 5 upgraded [A-STRUCTURAL]. |
 
 ---
 
 *Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
 *Affiliation: Amateur researcher with AI assistance*
 
-All ~548 verification scripts, complete derivation chains, and session records are available.
+All ~662 verification scripts, complete derivation chains, and session records are available.

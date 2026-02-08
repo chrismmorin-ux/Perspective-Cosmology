@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Electroweak Baryogenesis — Composite Higgs Phase Transition Verification
+Electroweak Baryogenesis -- Composite Higgs Phase Transition Verification
 
 KEY FINDING: For composite Higgs with xi = 4/121 (MCHM4, framework):
   - The EW phase transition is a CROSSOVER (v_c/T_c << 1)
@@ -25,7 +25,7 @@ Formulas:
   Washout bound: v_c/T_c > 1 (sphaleron preservation)
 
 Measured: SM result is crossover (lattice: Kajantie et al. 1996, m_H > 72 GeV)
-Status: VERIFICATION (honest negative result — PT too weak)
+Status: VERIFICATION (honest negative result -- PT too weak)
 Depends on:
   - [CONJECTURE] xi = n_d/n_c^2 = 4/121
   - [D from xi] f = v * n_c/2 = 1354 GeV
@@ -337,7 +337,7 @@ print(f"\n  The perturbative formula v_c/T_c ~ 2E/lambda NEVER reaches 1")
 print(f"  for the SM-like cubic E. First-order PT requires ADDITIONAL")
 print(f"  contributions beyond one-loop perturbation theory.")
 print(f"  For xi > 0.1-0.2: strong composite sector dynamics or additional")
-print(f"  light scalars can provide extra barrier → potentially viable.")
+print(f"  light scalars can provide extra barrier -> potentially viable.")
 print(f"  For xi = 4/121: too SM-like, no additional barrier sources.")
 
 # ==============================================================================
@@ -353,7 +353,7 @@ Despite the PT being too weak, xi=4/121 genuinely constrains the baryogenesis pi
 
 1. EW BARYOGENESIS: DISFAVORED [FRAMEWORK-CONSTRAINED]
    xi = 4/121 constrains the EW PT to be a crossover.
-   This is not just relabeling — it's a negative prediction.
+   This is not just relabeling -- it's a negative prediction.
    Changing xi to > 0.1 (e.g., non-framework value) could enable EW baryogenesis.
 
 2. COMPOSITENESS SCALE: f = {float(f):.0f} GeV

@@ -9,7 +9,7 @@
 | Quantity | Expected Value | Key Derivation Step |
 |----------|---------------|---------------------|
 | n_d | 4 | Frobenius: R(1), C(2), H(4), O(8). Associativity excludes O. Max = 4. |
-| n_c | 11 | Im(R)=0, Im(C)=1, Im(H)=3, Im(O)=7. Total: 0+1+3+7 = 11. |
+| n_c | 11 | Im(R)=0, Im_C=1, Im_H=3, Im_O=7. Total: 0+1+3+7 = 11. |
 | n_d^2 + n_c^2 | 137 | 16 + 121 = 137 |
 
 ---

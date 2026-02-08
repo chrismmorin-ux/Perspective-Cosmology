@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PARTIAL Strengthening Pass 2 — Formalizing derivation chains
+PARTIAL Strengthening Pass 2 -- Formalizing derivation chains
 
 KEY FINDING: H7 (BBN) has 3 sub-percent predictions with clear algebra
              H14 (eta) improved to 0.39% with alpha^4 * 3/14
@@ -32,7 +32,7 @@ alpha = 1 / alpha_inv
 alpha_f = float(alpha)
 
 # ==============================================================================
-# PART 1: H7 — BBN ABUNDANCES (Full derivation chain)
+# PART 1: H7 -- BBN ABUNDANCES (Full derivation chain)
 # ==============================================================================
 
 print("=" * 70)
@@ -97,7 +97,7 @@ print(f"  Error: {T_ratio_err:.2f}%")
 print()
 
 # ==============================================================================
-# PART 2: H14/J8 — BARYON ASYMMETRY (improved formula)
+# PART 2: H14/J8 -- BARYON ASYMMETRY (improved formula)
 # ==============================================================================
 
 print("=" * 70)
@@ -134,7 +134,7 @@ print(f"    Non-equilibrium: crystallization boundary [ASSERTED]")
 print(f"    Gap: All 3 conditions identified but not proven from axioms")
 
 # ==============================================================================
-# PART 3: H8 — MATTER CONTENT FRACTIONS
+# PART 3: H8 -- MATTER CONTENT FRACTIONS
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -186,7 +186,7 @@ for name, fw, pl in params_comp:
     print(f"{name:<16} {fw:>12.6f} {pl:>12.6f} {err:>9.2f}%")
 
 # ==============================================================================
-# PART 4: B6 — HIGGS MECHANISM CHAIN (full documentation)
+# PART 4: B6 -- HIGGS MECHANISM CHAIN (full documentation)
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -244,7 +244,7 @@ print(f"Higgs mass: CW gives ~{m_H_CW} GeV vs measured {m_H_meas} GeV ({abs(m_H_
 print(f"Higgs quartic: lambda = 1/dim_O = 1/{dim_O} = {float(lambda_H):.4f} vs {lambda_H_meas} ({abs(float(lambda_H)-lambda_H_meas)/lambda_H_meas*100:.1f}%)")
 
 # ==============================================================================
-# PART 5: D10 — CP VIOLATION FORMULAS
+# PART 5: D10 -- CP VIOLATION FORMULAS
 # ==============================================================================
 
 print("\n" + "=" * 70)

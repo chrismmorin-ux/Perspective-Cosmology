@@ -44,7 +44,7 @@ print("=" * 70)
 print(f"\nxi = n_d/n_c^2 = {n_d}/{n_c**2} = {xi_val} = {float(xi_val):.6f}")
 
 # ==============================================================================
-# PART 1: MCHM4 POTENTIAL — SYMBOLIC SETUP
+# PART 1: MCHM4 POTENTIAL -- SYMBOLIC SETUP
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -136,7 +136,7 @@ V2_expr = (d2V_du2 * c**2 - dV_du * s) / f**2
 V2_at_min = V2_expr.subs([(u, s), (alpha, alpha_at_min), (c**2, 1-xi), (s**2, xi)])
 # Need to handle s appearing linearly: s = sqrt(xi)
 # dV_du at min: 2*(-2*beta*xi)*sqrt(xi) + 4*beta*xi^(3/2) = -4*beta*xi*sqrt(xi) + 4*beta*xi*sqrt(xi) = 0
-# Good — first derivative vanishes at minimum
+# Good -- first derivative vanishes at minimum
 dV_at_min = (2*alpha_at_min*sqrt(xi) + 4*beta*xi*sqrt(xi))
 print(f"\ndV/du at minimum = {simplify(dV_at_min)} (should be 0)")
 assert simplify(dV_at_min) == 0, "First derivative should vanish at minimum"
@@ -361,15 +361,15 @@ Framework prediction: kappa_lambda = {float(kl_exact):.4f}  ({dev_kl:.1f}% below
 
 Significance estimates:
   HL-LHC:      {dev_kl/50:.2f} sigma  (NOT detectable)
-  FCC-hh:      {dev_kl/5:.2f} sigma  (MARGINAL — ~1 sigma)
-  Muon coll:   {dev_kl/3:.2f} sigma  (MARGINAL — ~1.7 sigma)
+  FCC-hh:      {dev_kl/5:.2f} sigma  (MARGINAL -- ~1 sigma)
+  Muon coll:   {dev_kl/3:.2f} sigma  (MARGINAL -- ~1.7 sigma)
 
 This coupling is the HARDEST to measure among the EWSB predictions.
 The kappa_V and kappa_f modifications (1.67%) are more accessible.
 """)
 
 # ==============================================================================
-# PART 9: COMPARISON — WHY kappa_lambda != kappa_f FOR MCHM4
+# PART 9: COMPARISON -- WHY kappa_lambda != kappa_f FOR MCHM4
 # ==============================================================================
 
 print("=" * 70)
@@ -432,7 +432,7 @@ print(f"""
 [D] kappa_lambda != kappa_f = kappa_V = sqrt(117/121)
     Triple coupling has 3x larger deviation than single-Higgs couplings.
 
-Confidence: [DERIVATION] — formula follows from standard composite Higgs
+Confidence: [DERIVATION] -- formula follows from standard composite Higgs
 potential shape + symbolic differentiation (no manual algebra gaps).
 Remaining: xi = n_d/n_c^2 is [CONJECTURE]. If xi changes, kappa_lambda
 changes accordingly.

@@ -62,7 +62,7 @@
 |---|------|---------------|--------|-------|
 | 1 | Hurwitz/Frobenius → R,C,H,O | [I-MATH] | SOUND | Standard theorems |
 | 2 | n_d = 4 = dim(H), uniquely 2^n = n² | [THEOREM] THM_0484 | CANONICAL | Strongest step in chain |
-| 3 | H = R ⊕ Im(H) gives 1 + 3 | [I-MATH] | SOUND | Quaternion algebra |
+| 3 | H = R ⊕ Im_H gives 1 + 3 | [I-MATH] | SOUND | Quaternion algebra |
 | 4 | R direction = time | **[A-PHYSICAL]** | **CONJECTURE** | No derivation for why real = time |
 
 Honest assessment: n_d = 4 is genuine [THEOREM]. 1+3 split is [I-MATH]. Physical identification R = time is interpretive.
@@ -120,7 +120,7 @@ The investigation files used SO(11)/SO(10) = S¹⁰ giving 10 Goldstone modes (d
 | Result | Grade | Path |
 |--------|-------|------|
 | n_d = 4 | A (THEOREM) | Frobenius + crystal existence |
-| 3+1 decomposition exists | B+ | H = R ⊕ Im(H) [I-MATH] |
+| 3+1 decomposition exists | B+ | H = R ⊕ Im_H [I-MATH] |
 | EFE form in 4D (given covariance) | B | Lovelock theorem [I-MATH] |
 | Zero torsion | C- | G₂ argument (sketch-level) |
 | Universality of coupling | B- | Single induced metric [I-MATH] |

@@ -106,7 +106,7 @@ where X = tI + x sigma_1 + y sigma_2 + z sigma_3.
 
 The 1+3 decomposition of spacetime (1 time + 3 space) follows from the algebraic structure of the quaternion transition algebra:
 
-1. **Center decomposition**: H = Z(H) + [H, H] = R + Im(H) = 1 + 3, where Z(H) = R is the center (elements commuting with all of H) and [H, H] = Im(H) = span{i, j, k} is the derived algebra [I-MATH].
+1. **Center decomposition**: H = Z(H) + [H, H] = R + Im_H = 1 + 3, where Z(H) = R is the center (elements commuting with all of H) and [H, H] = Im_H = span{i, j, k} is the derived algebra [I-MATH].
 
 2. **Time = center**: Under the adjoint SU(2) action on Herm(2), the trace part R . I is the trivial representation (1-dim, invariant under all spatial rotations). The unique SU(2)-invariant direction is the time direction.
 

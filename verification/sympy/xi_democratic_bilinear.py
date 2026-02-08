@@ -248,8 +248,8 @@ print(f"  Match? {simplify(xi_alt - xi_dem) == 0}")
 assert simplify(xi_alt - xi_dem) == 0
 
 # So xi = p^2/n_d, and sin^2(tW) = p(1-p) = p - p^2
-# Note: xi = p^2/n_d = (n_d/n_c)^2/n_d = n_d/n_c^2 ✓
-# And: sin^2(tW) = p(1-p) = (n_d/n_c)(Im_O/n_c) = n_d*Im_O/n_c^2 ✓
+# Note: xi = p^2/n_d = (n_d/n_c)^2/n_d = n_d/n_c^2 [OK]
+# And: sin^2(tW) = p(1-p) = (n_d/n_c)(Im_O/n_c) = n_d*Im_O/n_c^2 [OK]
 
 print(f"\nUnified through Bernoulli parameter p = n_d/n_c = {p}:")
 print(f"  sin^2(theta_W) = p*(1-p) = p*q        where q = Im_O/n_c")
@@ -266,7 +266,7 @@ print(f"  xi measures: defect self-coupling = p/n_c")
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 6: The Residual Gap — Why Democratic?")
+print("PART 6: The Residual Gap -- Why Democratic?")
 print("=" * 70)
 
 print(f"""
@@ -318,7 +318,7 @@ the first-order nature of the transition is ALREADY PROVEN (S211).
 
 
 # ==============================================================================
-# PART 7: CONSISTENCY CHECK — f IN THE UNIFIED PICTURE
+# PART 7: CONSISTENCY CHECK -- f IN THE UNIFIED PICTURE
 # ==============================================================================
 
 print("=" * 70)
@@ -326,7 +326,7 @@ print("PART 7: Mass Scale f in the Unified Picture")
 print("=" * 70)
 
 M_Pl = 1.220890e19  # GeV
-alpha_EM = 1/137.035999084
+alpha_EM = 1/137.035999177
 
 # From v formula
 v_pred = M_Pl * alpha_EM**8 * np.sqrt(n_d * n_c / Im_O)
@@ -399,7 +399,7 @@ tests = [
     ("f = v*n_c/sqrt(n_d) = 1354 GeV",
      abs(f - 1354.21) < 1),
 
-    ("kappa_V = sqrt(117/121) ≈ 0.983",
+    ("kappa_V = sqrt(117/121) ~ 0.983",
      abs(kappa_V - 0.983) < 0.001),
 
     # Consistency

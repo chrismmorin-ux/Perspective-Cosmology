@@ -82,15 +82,15 @@ print(f"\nW(eps*) = {W_at_eq_simplified}")
 
 # General pressure = -dW/deps (force per unit area, times geometric factor)
 # Pi_gen = f_ch * (-dW/deps) * Omega
-# At eps = eps*, dW/deps = 0 → no net pressure (equilibrium)
+# At eps = eps*, dW/deps = 0 -> no net pressure (equilibrium)
 # Pressure arises when eps deviates from eps*
 
 # Pressure near equilibrium (restoring force):
 # dW/deps = -2a g eps + 4b eps^3
 # At eps = eps* + delta_eps:
-# dW/deps ≈ (-2a g + 12b eps*^2) delta_eps = (4a g) delta_eps
+# dW/deps ~ (-2a g + 12b eps*^2) delta_eps = (4a g) delta_eps
 # (using eps*^2 = a g/(2b), so 12b eps*^2 = 6a g)
-# Net: (-2a g + 6a g) = 4a g → restoring
+# Net: (-2a g + 6a g) = 4a g -> restoring
 
 m_eff_sq = 4 * a_sym  # Effective mass squared of radial mode (at g=1)
 print(f"\nRadial mode mass^2 = {m_eff_sq} (at g=1)")
@@ -134,7 +134,7 @@ print(f"  Sum: {f_R_16 + f_C_16 + f_H_16 + f_O_16}")
 
 # Scheme B: 137 interface modes
 # 137 = n_d^2 + n_c^2 = 16 + 121
-# C-channel: 1 mode out of 137 → alpha = 1/137
+# C-channel: 1 mode out of 137 -> alpha = 1/137
 f_C_137 = Rational(1, N_I)                           # 1/137 (EM coupling)
 # The full 137-mode decomposition for other channels is more complex
 # and depends on the specific U(n_c) decomposition after SSB
@@ -198,7 +198,7 @@ print("=" * 70)
 # C1 specialization:
 # f_ch = 1 (all channels participate -- universe-wide)
 # Omega = H^3 (Hubble volume ~ 1/H^3, but pressure is per unit volume)
-# -dW/deps → V'(phi) in inflation (potential gradient drives expansion)
+# -dW/deps -> V'(phi) in inflation (potential gradient drives expansion)
 #
 # In the inflationary picture, the relevant pressure is the potential energy:
 # P = -V(phi) = -V_0 (1 - phi^2/mu^2)
@@ -211,7 +211,7 @@ f_ch_C1 = 1  # All channels
 
 # Slow-roll parameters from hilltop
 # eps_sr = (M_Pl^2 / 2) * (V'/V)^2 = phi^2 / (2 mu^4) * (1/(1-phi^2/mu^2))^2
-# At phi_CMB = mu/sqrt(6): eps_sr = 1/(6 mu^2 * (5/6)^2) ≈ 1/(6 * 1536/7 * 25/36)
+# At phi_CMB = mu/sqrt(6): eps_sr = 1/(6 mu^2 * (5/6)^2) ~ 1/(6 * 1536/7 * 25/36)
 # Simplified: eps_sr = 7/(2 * 1536) at leading order... use exact:
 # eta = M_Pl^2 * V''/V = -2/mu^2 / (1-phi^2/mu^2) at phi_CMB
 
@@ -244,11 +244,11 @@ print("=" * 70)
 # C2 specialization:
 # f_ch = stage-dependent (each stage breaks different symmetry)
 # Omega = 1 (universe-wide, but at particle physics scale)
-# -dW/deps → Landau potential gradient: F(eps) = c1 Tr(eps^2) + c2 [Tr(eps^2)]^2 + c3 Tr(eps^4)
+# -dW/deps -> Landau potential gradient: F(eps) = c1 Tr(eps^2) + c2 [Tr(eps^2)]^2 + c3 Tr(eps^4)
 #
-# Stage 1: SO(11) → SO(4) x SO(7): 28 Goldstones
-# Stage 2: SO(7) → G_2: 7 Goldstones
-# Stage 3: G_2 → SU(3): 6 Goldstones
+# Stage 1: SO(11) -> SO(4) x SO(7): 28 Goldstones
+# Stage 2: SO(7) -> G_2: 7 Goldstones
+# Stage 3: G_2 -> SU(3): 6 Goldstones
 # Total: 41 Goldstones
 
 goldstone_stage1 = 28  # dim(SO(11)) - dim(SO(4)) - dim(SO(7)) = 55 - 6 - 21 = 28
@@ -350,12 +350,12 @@ print("=" * 70)
 # C4 specialization:
 # f_ch = 1 (all channels participate in measurement)
 # Omega = 1 (local, quantum scale)
-# -dW/deps → drift = 0 (W = const on pure states)
+# -dW/deps -> drift = 0 (W = const on pure states)
 #
 # The Born rule arises from:
 # 1. W = constant on pure-state manifold (zero drift)
 # 2. Noise proportional to sqrt(p(1-p)) [A-PHYSICAL]
-# 3. Bounded martingale convergence → P(k) = |c_k|^2
+# 3. Bounded martingale convergence -> P(k) = |c_k|^2
 #
 # Collapse timescale: tau ~ 1/(4 alpha^4) * t_Pl ~ 10^-36 s
 
@@ -391,7 +391,7 @@ print("=" * 70)
 # C5 specialization:
 # f_ch = f_R (gravity-dominant: R-channel)
 # Omega = 1/r^2 (spherical geometry, Schwarzschild)
-# -dW/deps → REVERSED: eps decreases toward center (de-crystallization)
+# -dW/deps -> REVERSED: eps decreases toward center (de-crystallization)
 #
 # Critical mass and radius:
 # M_crit = M_Pl/(2 alpha) = 137/2 * M_Pl
@@ -401,7 +401,7 @@ print("=" * 70)
 
 M_crit_in_MPl = Rational(1, 2) / alpha  # M_Pl / (2 alpha) = 137/2
 r_crit_in_LPl = 1 / alpha               # 137 L_Pl
-entropy_factor = n_d                     # n_d = 4 → S = A/(4 L_Pl^2)
+entropy_factor = n_d                     # n_d = 4 -> S = A/(4 L_Pl^2)
 
 print(f"\nC5 specialization:")
 print(f"  f_ch = f_R (gravity dominant)")
@@ -429,11 +429,11 @@ print("=" * 70)
 # C6 specialization:
 # f_ch = dim(channel) / n_d^2  (channel-specific mode fraction)
 # Omega = 1/a^4 (Casimir plate geometry, a = separation)
-# -dW/deps → mode sum restricted by boundary conditions
+# -dW/deps -> mode sum restricted by boundary conditions
 #
 # EM Casimir (C-channel):
 # f_ch = dim(C) / n_d^2 = 2/16 = 1/8
-# F/A = -pi^2 / (240 a^4) × (2 polarizations)
+# F/A = -pi^2 / (240 a^4) * (2 polarizations)
 #
 # QCD string (O-channel):
 # Luscher term: V(r) = -pi C / (O Im_H r) = -pi/(24r)
@@ -478,7 +478,7 @@ print("=" * 70)
 # C7 specialization:
 # f_ch = epoch-dependent (different forces activate at different T)
 # Omega = Hubble volume (cosmological)
-# -dW/deps → same potential as C1, but in post-inflationary regime
+# -dW/deps -> same potential as C1, but in post-inflationary regime
 #
 # g(phi_CMB) = 5/6 at CMB epoch
 # This connects C1 inflation to C7 subsequent evolution
@@ -512,7 +512,7 @@ print("=" * 70)
 # C8 specialization:
 # f_ch = 1/N_I = 1/137 = alpha (Born rule on 137 interface modes)
 # Omega = 1 (per vertex)
-# -dW/deps → energy difference between initial and final tilt states
+# -dW/deps -> energy difference between initial and final tilt states
 #
 # Each QED vertex = one crystallization step
 # Vertex factor = sqrt(alpha) = 1/sqrt(N_I)
@@ -553,7 +553,7 @@ print("=" * 70)
 # C9 specialization:
 # f_ch = division-algebra dependent (R, C, H, O sectors)
 # Omega = 1 (local, per particle)
-# -dW/deps → static: the tilt pattern that locks in = mass pattern
+# -dW/deps -> static: the tilt pattern that locks in = mass pattern
 #
 # 15 fermions/generation = R + C + H + O = 1 + 2 + 4 + 8
 # 3 generations from Im(H) = {i, j, k}
@@ -590,7 +590,7 @@ print(f"\nCross-check 1: dW/deps(eps=0) = {dW_at_zero}")
 # Cross-check 2: At eps = eps*, net pressure = 0 (equilibrium)
 # Already tested in T0.1
 
-# Cross-check 3: At g = 0, the Mexican hat vanishes → no matter stability
+# Cross-check 3: At g = 0, the Mexican hat vanishes -> no matter stability
 W_at_g0 = W.subs(phi_sym, sqrt(mu2))  # g(phi) = 0 when phi = mu
 W_at_g0_simplified = simplify(W_at_g0)
 print(f"Cross-check 3: W(eps, phi=mu) = {W_at_g0_simplified}")
@@ -607,8 +607,8 @@ print(f"  C6 (Casimir) uses 16-DOF -> EM gets 2/{tilt_DOF_total} = {f_C_casimir}
 print(f"  C8 (emission) uses 137-mode -> EM gets 1/{N_I} = {f_C_137}")
 
 # Cross-check 5: Convention conflict on eps*
-# DEF_02C0 says eps* = alpha^2 ≈ 5.3e-5
-# Dynamics files (S132-S133) say eps* = alpha ≈ 7.3e-3
+# DEF_02C0 says eps* = alpha^2 ~ 5.3e-5
+# Dynamics files (S132-S133) say eps* = alpha ~ 7.3e-3
 # This is an OPEN issue
 print(f"\nCross-check 5: eps* CONVENTION CONFLICT")
 print(f"  DEF_02C0: eps* = alpha^2 = {alpha**2} = {float(alpha**2):.6e}")
@@ -617,7 +617,7 @@ print(f"  FLAGGED: This needs resolution (factor of alpha difference)")
 
 # Cross-check 6: Dimensional consistency
 # W has dimensions of [energy density] = [M_Pl^4] in natural units
-# dW/deps is dimensionless × M_Pl^4 (since eps is dimensionless)
+# dW/deps is dimensionless * M_Pl^4 (since eps is dimensionless)
 # Pi_gen = f_ch * (-dW/deps) * Omega
 # Omega carries the geometric dimensions (1/length^4 for Casimir, etc.)
 print(f"\nCross-check 6: Dimensional consistency")

@@ -96,7 +96,7 @@ print("=" * 70)
 print("""
 The 0++ glueball is PURE GLUE - it contains no quarks.
 In the division algebra framework:
-  - Gluons ↔ Octonion structure
+  - Gluons <-> Octonion structure
   - Pure glue = pure octonion observables
 
 The proton is:

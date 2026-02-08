@@ -3,7 +3,7 @@
 Coleman-Weinberg Effective Potential for SO(11) Symmetric Traceless Model
 
 KEY FINDING: CW does NOT pin lambda. Ground state selection requires cubic
-invariant Tr(phi^3) — the quartic-only potential selects (5,6), not (4,7).
+invariant Tr(phi^3) -- the quartic-only potential selects (5,6), not (4,7).
 
 Potential: V(phi) = u [Tr(phi^2)]^2 + v Tr(phi^4)
 Background: phi_0 = sigma * D_{4,7} (block-diagonal direction)
@@ -70,7 +70,7 @@ print(f"Framework (4,7): I_4 = {I4_47} = {float(I4_47):.6f}")
 
 
 # ==============================================================================
-# PART 2: MASS SPECTRUM — CORRECT HESSIAN DERIVATION
+# PART 2: MASS SPECTRUM -- CORRECT HESSIAN DERIVATION
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -519,7 +519,7 @@ print("=" * 70)
 print(f"""
 RESULTS:
 
-1. MASS SPECTRUM [DERIVATION] — verified numerically (65x65 matrix)
+1. MASS SPECTRUM [DERIVATION] -- verified numerically (65x65 matrix)
 
    | Sector          | Mult | Mass^2 / sigma^2             |
    |-----------------|------|------------------------------|

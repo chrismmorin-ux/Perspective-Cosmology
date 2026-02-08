@@ -235,7 +235,7 @@ Each (visible, hidden) pair represents a potential coupling channel.
 If the pair has ε_ij ≠ 0, there's cross-talk between sectors.
 ```
 
-**Dark matter might be**: Dynamics in the 21 dark pairs that leaks into observability through the 28 twilight pairs.
+**Dark matter might be** [SPECULATION]: Dynamics in the 21 dark pairs that leaks into observability through the 28 twilight pairs.
 
 ### 7.2 Gravitational vs Electromagnetic Coupling
 
@@ -290,11 +290,11 @@ For ratio = 5:1, need f ≈ 0.3
 **Step 3**: Interface between perspective and crystal has N_int modes
 - From U(n) counting: N_int = n_d² + n_c² = 137
 
-**Step 4**: Each pair can couple through any of the N_int modes
+**Step 4**: Each pair can couple through any of the N_int modes [A-STRUCTURAL: independence assumption]
 - Independent choices for each pair
-- Total configurations: N_int^(n_c choose 2) = 137^55
+- Total configurations: N_int^(n_c choose 2) = 137^55 [D: from steps 1-4]
 
-**Step 5**: Each configuration IS a distinct perspective
+**Step 5**: Each configuration IS a distinct perspective [A-STRUCTURAL: bijection assumption]
 - |Π| = 137^55
 
 ### 8.2 What This Derivation Needs
@@ -438,7 +438,7 @@ See: `verification/sympy/dark_sections_pi_formula.py` (to be created)
 
 1. Crystal has 11 dimensions → 55 independent pairs
 2. Interface has 137 coupling modes (from n_d² + n_c²)
-3. Each pair independently chooses one of 137 modes
+3. Each pair independently chooses one of 137 modes [SPECULATION: independence is [A-STRUCTURAL]]
 4. Total perspectives = 137^55 ≈ 10^117.5
 
 **The "dark sections" insight adds:**

@@ -3,7 +3,8 @@
 **Created**: Session 131
 **Status**: CONJECTURE — precision suspicious (see Compensating Errors Warning below)
 **Purpose**: Derive r_s = 337 * 3/7 Mpc from physics principles
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-07 (S264: error budget added)
+**Honest precision**: ~5% (propagated from intermediate errors), NOT 0.01%
 
 ---
 
@@ -31,9 +32,19 @@ r_s = 337 * (Im_H / Im_O) Mpc
 | Seems "too good" | +2 | 0.01% from two quantities each off by 5-18% |
 | Multiple verification scripts | -0 | Scripts verify arithmetic, not the physics claims |
 
-**The core concern**: The framework's c_s/c = 3/7 ≈ 0.429 differs from standard physics c_s/c ≈ 0.45 by 5%. The framework's η_* = 337 Mpc differs from standard physics η_* ≈ 285 Mpc by 18%. These errors compensate almost exactly in the product r_s = c_s × η_*. This is a textbook **Precision Illusion** (see Skepticism Checklist red flag #5): final precision (0.01%) far exceeds either intermediate value's accuracy.
+**The core concern**: The framework's c_s/c = 3/7 ≈ 0.429 differs from standard physics c_s/c ≈ 0.45 by 5%. The framework's η_* = 337 Mpc differs from standard physics η_* ≈ 285 Mpc by 18%. These errors compensate almost exactly in the product r_s = c_s × η_*. This appears to be a **Precision Illusion** [CONJECTURE] (see Skepticism Checklist red flag #5): final precision (0.01%) far exceeds either intermediate value's accuracy.
 
 **What would strengthen this**: Derive η_* = 337 Mpc from the cosmological integral η = ∫₀^{a_*} da/(a² H(a)) using only framework parameters (H₀, Ω values). Currently η_* = 337 is an identification (337 = Im_H⁴ + H⁴), not a calculation.
+
+### Error Budget (Added S264)
+
+| Component | Framework | Standard | Error |
+|-----------|-----------|----------|-------|
+| c_s/c | 3/7 = 0.4286 | ~0.45 | ~5% |
+| η_* (Mpc) | 337 | ~285 | ~18% |
+| r_s = c_s × η_* | 144.43 | 144.43 | 0.01% |
+
+The 0.01% agreement is accidental cancellation of 5% and 18% errors in opposite directions. **The honest claimed precision for this formula is ~5%**, determined by the better of the two intermediate values. The 0.01% figure should NOT be cited as evidence of framework accuracy.
 
 ---
 

@@ -16,8 +16,8 @@
 - [AXM_0117: Crystallization Tendency] — maximality selection
 - [THM_04AB: Automorphism Independence] — n_c = 11
 - [I-MATH: Frobenius theorem] — associative division algebras: dim in {1, 2, 4}
-- [I-MATH: G_2 irreducibility] — G_2 = Aut(O) acts irreducibly on Im(O) = R^7
-- [I-MATH: SO(3) irreducibility] — Aut(H) = SO(3) acts irreducibly on Im(H) = R^3
+- [I-MATH: G_2 irreducibility] — G_2 = Aut(O) acts irreducibly on Im_O = R^7
+- [I-MATH: SO(3) irreducibility] — Aut(H) = SO(3) acts irreducibly on Im_H = R^3
 
 ## Provides
 
@@ -39,11 +39,11 @@ For V_Crystal with dim = n_c = 11 [THM_04AB]:
 
 **(b) Algebraic constraint**: The Frobenius theorem restricts the rank to k in {1, 2, 4} [THM_0484, AXM_0119, I-MATH].
 
-**(b') Irreducibility constraint**: G_2 irreducibility forces Im(O) into the hidden space; SO(3) irreducibility of Im(H) then eliminates k = 2, leaving k in {1, 4} [I-MATH: G_2 acts irreducibly on R^7, SO(3) on R^3].
+**(b') Irreducibility constraint**: G_2 irreducibility forces Im_O into the hidden space; SO(3) irreducibility of Im_H then eliminates k = 2, leaving k in {1, 4} [I-MATH: G_2 acts irreducibly on R^7, SO(3) on R^3].
 
 **(c) Selection**: Among {1, 4}, the crystallization tendency [AXM_0117] selects the maximum: k = 4.
 
-**Result**: n_d = dim(H) = 4, with complementary hidden dimension n_c - n_d = 7 = dim(Im(O)).
+**Result**: n_d = dim(H) = 4, with complementary hidden dimension n_c - n_d = 7 = dim(Im_O).
 
 ---
 
@@ -69,15 +69,15 @@ By THM_04AC, for dim(V_Crystal) = 11 >= 2, any set of k linearly independent vec
 
 The Frobenius constraint alone allows k in {1, 2, 4}. Division algebra subspace irreducibility eliminates k = 2:
 
-1. **G_2 forces Im(O) into hidden space.** By AXM_0115, V_Crystal supports octonionic structure. G_2 = Aut(O) acts irreducibly on Im(O) = R^7 [I-MATH]. Therefore Im(O) cannot be split across the defect/hidden boundary -- it lies entirely in one or the other. Since O is non-associative and the defect must support associative transitions (AXM_0119), Im(O) is forced into the hidden space. Result: hidden >= 7, defect <= 4.
+1. **G_2 forces Im_O into hidden space.** By AXM_0115, V_Crystal supports octonionic structure. G_2 = Aut(O) acts irreducibly on Im_O = R^7 [I-MATH]. Therefore Im_O cannot be split across the defect/hidden boundary -- it lies entirely in one or the other. Since O is non-associative and the defect must support associative transitions (AXM_0119), Im_O is forced into the hidden space. Result: hidden >= 7, defect <= 4.
 
-2. **SO(3) forces a binary choice.** Similarly, Aut(H) = SO(3) acts irreducibly on Im(H) = R^3 [I-MATH]. So Im(H) is entirely in defect or entirely in hidden.
+2. **SO(3) forces a binary choice.** Similarly, Aut(H) = SO(3) acts irreducibly on Im_H = R^3 [I-MATH]. So Im_H is entirely in defect or entirely in hidden.
 
-3. **Case A (Im(H) in defect):** defect contains the 3-dim Im(H), so defect >= 3. Combined with Frobenius: k in {1, 2, 4} and k >= 3, giving **k = 4 uniquely**.
+3. **Case A (Im_H in defect):** defect contains the 3-dim Im_H, so defect >= 3. Combined with Frobenius: k in {1, 2, 4} and k >= 3, giving **k = 4 uniquely**.
 
-4. **Case B (Im(H) in hidden):** hidden contains Im(O)(7) + Im(H)(3) = 10 dims. So defect <= 11 - 10 = 1. Combined with Frobenius: **k = 1 uniquely**.
+4. **Case B (Im_H in hidden):** hidden contains Im_O(7) + Im_H(3) = 10 dims. So defect <= 11 - 10 = 1. Combined with Frobenius: **k = 1 uniquely**.
 
-5. **k = 2 is eliminated.** For k = 2: defect = 2, hidden = 9. Im(H)(3-dim) cannot fit in defect(2-dim). And Im(H)(3) + Im(O)(7) = 10 cannot fit in hidden(9). Neither case works. k = 2 is inconsistent with irreducibility.
+5. **k = 2 is eliminated.** For k = 2: defect = 2, hidden = 9. Im_H(3-dim) cannot fit in defect(2-dim). And Im_H(3) + Im_O(7) = 10 cannot fit in hidden(9). Neither case works. k = 2 is inconsistent with irreducibility.
 
 Result: k in {1, 4}. This is a **binary** choice, not ternary. QED (b').
 
@@ -87,11 +87,11 @@ Result: k in {1, 4}. This is a **binary** choice, not ternary. QED (b').
 
 2. Among k in {1, 4}, the maximum is k = 4 = dim(H).
 
-3. This corresponds to Case A: Im(H) in defect, Im(O) in hidden.
+3. This corresponds to Case A: Im_H in defect, Im_O in hidden.
 
-4. The complementary hidden space has dim = 11 - 4 = 7 = dim(Im(O)), which naturally carries the imaginary octonionic structure.
+4. The complementary hidden space has dim = 11 - 4 = 7 = dim(Im_O), which naturally carries the imaginary octonionic structure.
 
-5. The defect decomposes as Im(C)(1) + Im(H)(3) = R + R^3 = 4, providing the algebraic basis for 1+3 = time + space. QED (c).
+5. The defect decomposes as Im_C(1) + Im_H(3) = R + R^3 = 4, providing the algebraic basis for 1+3 = time + space. QED (c).
 
 ---
 
@@ -117,7 +117,7 @@ The evaluation map provides the menu of possible perspectives. Frobenius elimina
 | 4 | H | 4 | 7 | 28 | **SELECTED** (Case A) |
 | 8 | O | 8 | 3 | 24 | Eliminated (non-associative) |
 
-**Why k = 2 fails**: Im(H) = R^3 cannot fit in 2-dim defect. And Im(H)(3) + Im(O)(7) = 10 cannot fit in 9-dim hidden. Both placements of Im(H) are impossible for k = 2.
+**Why k = 2 fails**: Im_H = R^3 cannot fit in 2-dim defect. And Im_H(3) + Im_O(7) = 10 cannot fit in 9-dim hidden. Both placements of Im_H are impossible for k = 2.
 
 k = 4 also gives the largest Grassmannian dimension (28) among the surviving values, providing a secondary information-theoretic argument.
 
@@ -164,6 +164,8 @@ This match is **unique to k = 4** among the Frobenius-allowed values:
 
 SO(8) is the unique rotation group with **triality** — three equivalent 8-dim representations. G_2 = Aut(O) is the common stabilizer of the triality automorphisms, with dim(G_2) = 14 = 28 - 14.
 
+**Moment map confirmation** (THM_04B6, S278): The G_2 moment map on Gr(4,11) has zero locus of codimension 11 = n_c, decomposing 28 = 17 + 11. Symplectic reduction gives dim = 3 = Im_H. This independently confirms that k = 4 produces a Grassmannian whose geometry self-referentially encodes the crystal dimension.
+
 This provides a secondary (and arguably deeper) reason k = 4 is special: it is the only Frobenius-allowed value where the kernel cross-term carries the structure of a Lie algebra with triality, connecting the hidden space to octonionic automorphisms.
 
 **Status**: [DERIVATION] for the dimensional match, [CONJECTURE] for the full SO(8) -> G_2 -> SU(3) breaking chain.
@@ -202,8 +204,8 @@ This provides a secondary (and arguably deeper) reason k = 4 is special: it is t
 
 | Test | Description | Result |
 |------|-------------|--------|
-| 1 | G_2 irreducibility forces Im(O) into hidden | PASS |
-| 2 | SO(3) constrains Im(H) placement (binary choice) | PASS |
+| 1 | G_2 irreducibility forces Im_O into hidden | PASS |
+| 2 | SO(3) constrains Im_H placement (binary choice) | PASS |
 | 3 | Composition blindness from evaluation map | PASS |
 | 4 | Restricted observable algebra End(W) = 16-dim | PASS |
 | 5 | k = 2 eliminated; only {1, 4} survive | PASS |
@@ -234,3 +236,4 @@ This provides a secondary (and arguably deeper) reason k = 4 is special: it is t
 - [AXM_0117: Crystallization Tendency] — maximality selection
 - [AXM_0119: Transition Linearity] — associativity
 - `foundations/spacetime_from_associativity.md` — physical interpretation
+- [THM_04B6: Moment Map Codimension] — codim = n_c on Gr(4,11), geometric self-reference

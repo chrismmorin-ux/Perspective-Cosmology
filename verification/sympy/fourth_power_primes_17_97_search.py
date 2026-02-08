@@ -173,14 +173,14 @@ print("="*70)
 
 print("""
 KNOWN 17 APPEARANCES:
-  eta'/m_u = 313 x 17/12 (EXACT) — Session 110e
-  1836 = 9 x 12 x 17 = Im_H^2 x (H+O) x 17 — proton/electron mass
-  119 = 7 x 17 = Im_O x 17 — appears in Z boson formula
+  eta'/m_u = 313 x 17/12 (EXACT) -- Session 110e
+  1836 = 9 x 12 x 17 = Im_H^2 x (H+O) x 17 -- proton/electron mass
+  119 = 7 x 17 = Im_O x 17 -- appears in Z boson formula
 
 KNOWN 97 APPEARANCES:
-  cos(theta_W) = 171/194 = 171/(2 x 97) — Weinberg angle (3.75 ppm)
-  194 = 2 x 97 — electroweak denominator
-  97 - 17 = 80 = H^2 x 5 — difference spans scales
+  cos(theta_W) = 171/194 = 171/(2 x 97) -- Weinberg angle (3.75 ppm)
+  194 = 2 x 97 -- electroweak denominator
+  97 - 17 = 80 = H^2 x 5 -- difference spans scales
 """)
 
 # Verify known formulas
@@ -427,14 +427,14 @@ print("="*70)
 
 print(f"""
 PRIME 17 = R^4 + C^4 (particle scale):
-  - eta'/m_u = 313 x 17/12 (EXACT) — meson/quark
-  - 1836 = 9 x 12 x 17 — proton/electron
-  - 119 = 7 x 17 — Z boson denominator
+  - eta'/m_u = 313 x 17/12 (EXACT) -- meson/quark
+  - 1836 = 9 x 12 x 17 -- proton/electron
+  - 119 = 7 x 17 -- Z boson denominator
   - Appears in multiple meson ratios
 
 PRIME 97 = C^4 + Im_H^4 (electroweak scale):
-  - cos(theta_W) = 171/194 = 171/(2 x 97) — 3.75 ppm
-  - 194 = 2 x 97 — electroweak denominator
+  - cos(theta_W) = 171/194 = 171/(2 x 97) -- 3.75 ppm
+  - 194 = 2 x 97 -- electroweak denominator
   - Should appear in W, Z, H mass relations
 
 PRIME 337 = Im_H^4 + H^4 (cosmology scale):

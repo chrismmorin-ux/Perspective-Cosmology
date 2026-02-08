@@ -63,7 +63,7 @@ u = Function('u')
 #   u''(p) = 0
 
 print("\nStochastic process: dp = sigma * sqrt(p*(1-p)) * dW")
-print("  (no drift term — populations are MARTINGALES)")
+print("  (no drift term -- populations are MARTINGALES)")
 print("\nExit probability ODE (backward Kolmogorov):")
 print("  (1/2) * sigma^2 * p*(1-p) * u''(p) = 0")
 print("  Since p*(1-p) > 0 for p in (0,1):")
@@ -457,7 +457,7 @@ BORN RULE DERIVATION FROM CRYSTALLIZATION:
     v
 [D] P(collapse to |k>) = |c_k|^2   [BORN RULE]
 
-STATUS: [DERIVATION] — complete mathematical argument with one
+STATUS: [DERIVATION] -- complete mathematical argument with one
 physical assumption (noise proportional to unorthogonality).
 
 The physical assumption is motivated by:
@@ -631,6 +631,6 @@ One physical assumption:
   - Fubini-Study geometry of tilt matrix space
   - Standard stochastic field theory
 
-Confidence: [DERIVATION] — rigorous mathematical argument with one
+Confidence: [DERIVATION] -- rigorous mathematical argument with one
 well-motivated physical assumption. NOT a postulate.
 """)

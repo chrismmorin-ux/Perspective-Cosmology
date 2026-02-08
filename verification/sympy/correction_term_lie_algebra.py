@@ -150,7 +150,7 @@ correction = Fraction(n_d, Phi_6)
 total = main + correction
 total_frac = Fraction(main * Phi_6 + n_d, Phi_6)
 
-alpha_measured = 137.035999084
+alpha_measured = 137.035999177
 alpha_predicted = float(total)
 error_ppm = abs(alpha_predicted - alpha_measured) / alpha_measured * 1e6
 

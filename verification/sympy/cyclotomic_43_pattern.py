@@ -70,7 +70,7 @@ def test_phi6_evaluations():
         phi6_11 == 111
     )
 
-    # Notable: Phi_6 at R,C,Im_H,H gives 1,3,7,13 — all primes!
+    # Notable: Phi_6 at R,C,Im_H,H gives 1,3,7,13 -- all primes!
     small_primes = all(isprime(evaluations[k]) for k in ['R', 'C', 'Im_H', 'H', 'Im_O'])
     # Phi_6(8) = 57 = 3*19 (NOT prime), Phi_6(11) = 111 = 3*37 (NOT prime)
 
@@ -138,7 +138,7 @@ def test_unified_pattern():
     mu_e_float = float(mu_e)
 
     # Measured values
-    alpha_inv_meas = 137.035999084
+    alpha_inv_meas = 137.035999177
     v_mp_meas = 262.4182  # v = 246.22 GeV, m_p = 0.93827 GeV
     mu_e_meas = 206.7683
 
@@ -303,7 +303,7 @@ def test_phi6_primality_table():
     """Test 7: All Phi_6 evaluations at framework dimensions and primality.
 
     Build complete table of Phi_6(k) for all framework-relevant k values.
-    Note which are prime — primality of Phi_6(k) is related to
+    Note which are prime -- primality of Phi_6(k) is related to
     Eisenstein primality and has number-theoretic significance.
     """
     framework_dims = {

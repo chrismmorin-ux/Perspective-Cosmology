@@ -270,8 +270,8 @@ Anomaly cancellation (Sum Y^3 = 0 per generation) verified for SM particle conte
 
 The projection picture provides a geometric mechanism for gauge coupling ratios. On each hidden sub-manifold, the number of Killing vectors equals the gauge algebra dimension:
 
-- S^1: 1 Killing vector = dim(u(1)) = Im(C)
-- S^2: 3 Killing vectors = dim(su(2)) = Im(H)
+- S^1: 1 Killing vector = dim(u(1)) = Im_C
+- S^2: 3 Killing vectors = dim(su(2)) = Im_H
 - CP^2: 8 Killing vectors = dim(su(3))
 
 If hidden-dimension modes are uniformly distributed (maximum entropy from finite access, AXM_0113), each gauge DOF contributes equally, giving:

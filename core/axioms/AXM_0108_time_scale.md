@@ -29,5 +29,5 @@ There exists a fundamental time scale τ₀ > 0.
 
 ## Notes
 
-The physical identification τ₀ = t_P (Planck time) is an empirical input,
+[LAYER 2 NOTE] The physical identification τ₀ = t_P (Planck time) is an empirical input [A-IMPORT],
 not derived from the axioms. See IMP_0600.

@@ -3,7 +3,7 @@
 Hilltop E-fold Calculation: Critical Test for n_s = 193/200 Derivation
 
 PURPOSE: Verify that the hilltop potential with framework parameters
-gives N ≈ 55 e-folds as required for CMB observations.
+gives N ~ 55 e-folds as required for CMB observations.
 
 This is the BLOCKING calculation identified by the Engine agent.
 If N fails, the entire hilltop interpretation is falsified.
@@ -387,7 +387,7 @@ The hilltop interpretation is PLAUSIBLE but needs refinement.
 Consider:
 - More precise phi_CMB determination
 - Reheating temperature effects
-- Alternative hilltop forms (p ≠ 2)
+- Alternative hilltop forms (p != 2)
 """)
 else:
     print(f"""

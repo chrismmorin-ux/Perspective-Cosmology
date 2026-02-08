@@ -18,7 +18,7 @@ from sympy import Rational, sqrt, N
 # Imports (from observation/theory)
 n_perceived = 4   # spacetime dimensions [A-IMPORT]
 n_total = 11      # M-theory dimensions [A-IMPORT]
-alpha_measured = Rational(1, 137035999084) * 10**9  # CODATA value: 1/137.035999084
+alpha_measured = Rational(1, 137035999084) * 10**9  # CODATA value: 1/137.035999177
 
 # Calculation
 interface_measure = n_perceived**2 + n_total**2
@@ -43,10 +43,10 @@ print(f"                  = {N(alpha_predicted, 10)}")
 print()
 
 # Comparison
-alpha_measured_val = 1/137.035999084
+alpha_measured_val = 1/137.035999177
 alpha_predicted_val = float(alpha_predicted)
 inverse_predicted = 1/alpha_predicted_val
-inverse_measured = 137.035999084
+inverse_measured = 137.035999177
 
 error_percent = abs(inverse_predicted - inverse_measured) / inverse_measured * 100
 

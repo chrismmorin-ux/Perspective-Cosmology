@@ -56,7 +56,7 @@ def analyze_all_pairs():
                 status = "PRIME"
             else:
                 factors = factorint(value)
-                factor_str = " × ".join(f"{p}^{e}" if e > 1 else str(p)
+                factor_str = " * ".join(f"{p}^{e}" if e > 1 else str(p)
                                        for p, e in factors.items())
                 composites.append((a, b, value, factor_str, a_interp, b_interp))
                 status = f"composite = {factor_str}"
@@ -129,7 +129,7 @@ def analyze_bridge_prime():
     print(f"\nThis is the ONLY prime connecting associative and non-associative dimensions!")
 
     # Check all cross-boundary pairs
-    print(f"\nAll associative × non-associative pairs:")
+    print(f"\nAll associative * non-associative pairs:")
     for a in ASSOC_DIMS:
         for b in [7, 8]:
             value = fourth_power_sum(a, b)
@@ -151,7 +151,7 @@ def analyze_17_divisibility():
         value = fourth_power_sum(n, n + 1)
         if value % 17 == 0:
             divisible_by_17.append(n)
-            print(f"  n={n:2}: {value} = 17 × {value // 17}")
+            print(f"  n={n:2}: {value} = 17 * {value // 17}")
 
     print(f"\nPattern: n == {[n % 17 for n in divisible_by_17[:10]]} (mod 17)")
 

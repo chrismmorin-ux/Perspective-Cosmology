@@ -319,7 +319,7 @@ def test_gauge_structure():
 
 
 # ==============================================================================
-# Test 5: Summary — the evaluation map determines gauge structure
+# Test 5: Summary -- the evaluation map determines gauge structure
 # ==============================================================================
 def test_evaluation_to_gauge():
     print("\n" + "=" * 70)

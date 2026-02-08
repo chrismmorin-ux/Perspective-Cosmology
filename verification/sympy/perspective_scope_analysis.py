@@ -39,7 +39,7 @@ def are_adjacent(p1: Perspective, p2: Perspective, min_overlap: int = 3) -> bool
 
 class PerspectiveGraph:
     """
-    Model of the perspective space Π.
+    Model of the perspective space Pi.
 
     Construction: Chain-like structure where each perspective connects
     to only its immediate neighbors, creating a sparse graph that
@@ -378,7 +378,7 @@ if abs(avg_growth[0] - N_ACCESS) < 1:
     tests_passed += 1
     print(f"  PASS: n_0 = {avg_growth[0]:.1f} ~ {N_ACCESS}")
 else:
-    print(f"  FAIL: n_0 = {avg_growth[0]:.1f} ≠ {N_ACCESS}")
+    print(f"  FAIL: n_0 = {avg_growth[0]:.1f} != {N_ACCESS}")
 
 # Test 3: Logarithmic fit is reasonable
 print("\n[TEST 3] Logarithmic model fits well (RSS < 100)")

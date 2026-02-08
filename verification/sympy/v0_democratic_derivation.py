@@ -137,7 +137,7 @@ print(f"  Best: between k=4 and k=5")
 import math
 k_exact = math.log(V0_over_MPl4) / math.log(float(alpha))
 print(f"  Exact k = log(V_0/M_Pl^4)/log(alpha) = {k_exact:.4f}")
-print("  Not a clean integer — PATH 1 FAILS")
+print("  Not a clean integer -- PATH 1 FAILS")
 
 # ==============================================================================
 # PATH 2: TILT POTENTIAL CONNECTION V_0 = alpha^n * M_Pl^4
@@ -189,12 +189,12 @@ print("Assessment: None of the natural framework energy scales give A_s ~ 2.1e-9
 print(f"  Closest: 2*alpha^4 gives A_s = {A_s_ab:.2e} (ratio {A_s_ab/A_s_float:.1f}x)")
 
 # ==============================================================================
-# PATH 3: SLOW-ROLL BACK-CALCULATION — CLEAN EXPRESSION SEARCH
+# PATH 3: SLOW-ROLL BACK-CALCULATION -- CLEAN EXPRESSION SEARCH
 # ==============================================================================
 
 print()
 print("=" * 70)
-print("PATH 3: Slow-Roll Back-Calculation — Clean Expression Search")
+print("PATH 3: Slow-Roll Back-Calculation -- Clean Expression Search")
 print("=" * 70)
 print()
 
@@ -232,7 +232,7 @@ print()
 # So V_0 = A_s * (framework_coefficient) just pushes the problem to A_s
 print("Assessment: The coefficient 63*pi^2/1000 has framework structure,")
 print("  but A_s itself is [A-IMPORT]. This gives V_0 = A_s * (framework expression)")
-print("  which is NOT a derivation of V_0 — it's a reformulation.")
+print("  which is NOT a derivation of V_0 -- it's a reformulation.")
 print()
 
 # Search for V_0 as a simple framework expression
@@ -261,7 +261,7 @@ for name, val in tests_path3:
 
 print()
 print("Assessment: No clean expression found for V_0/M_Pl^4 ~ 4.7e-10.")
-print("  The value requires ~alpha^4.6 — not a clean power of alpha.")
+print("  The value requires ~alpha^4.6 -- not a clean power of alpha.")
 print("  PATH 3 FAILS to find a framework derivation.")
 
 # ==============================================================================
@@ -380,16 +380,16 @@ print()
 print(f"V_0/M_Pl^4 ~ {V0_exact:.4e} is NOT derivable from the framework.")
 print(f"The required power of alpha is ~{k_exact:.2f}, not a clean integer.")
 print()
-print("Path 1 (democratic): No integer k in M_Pl^4/N_I^k works       — FAIL")
-print("Path 2 (tilt potential): No natural energy scale matches V_0   — FAIL")
-print("Path 3 (back-calculation): A_s coefficient has structure but   — PARTIAL")
+print("Path 1 (democratic): No integer k in M_Pl^4/N_I^k works       -- FAIL")
+print("Path 2 (tilt potential): No natural energy scale matches V_0   -- FAIL")
+print("Path 3 (back-calculation): A_s coefficient has structure but   -- PARTIAL")
 print("         63/1000 = Im_O*Im_H^2/(Im_H+Im_O)^3 is interesting")
 print("         but A_s itself is [A-IMPORT], so this is circular")
-print("Path 4 (mode counting): No alpha/G1 combination works         — FAIL")
+print("Path 4 (mode counting): No alpha/G1 combination works         -- FAIL")
 print()
 print("Status: Gap G-CMB-V0 remains OPEN.")
 print("The inflationary amplitude is the hardest CMB parameter to derive.")
-print("It requires an absolute energy scale — fundamentally harder than ratios.")
+print("It requires an absolute energy scale -- fundamentally harder than ratios.")
 
 if __name__ == "__main__":
     pass

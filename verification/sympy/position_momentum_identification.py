@@ -124,10 +124,10 @@ The framework provides (1) and (2) comes from the quantum structure
 already derived (non-commutativity of projections).
 
 But there's a subtlety: The projection commutator gives
-  |[P1, P2]| ~ α^2
+  |[P1, P2]| ~ alpha^2
 
 while the canonical commutation relation is
-  [x, p] = i (not i × α^2)
+  [x, p] = i (not i * alpha^2)
 
 How do we reconcile this?
 """)
@@ -140,18 +140,18 @@ Two possibilities:
 
 OPTION 1: Different types of non-commutativity
 ----------------------------------------------
-- [P1, P2] ~ α^2 : Projections onto different observable bases
+- [P1, P2] ~ alpha^2 : Projections onto different observable bases
 - [x, p] = i    : Canonical structure for continuous variables
 
 These are DIFFERENT. The projection commutator controls how much
 two observables interfere, while [x,p]=i is a kinematic relation.
 
-OPTION 2: α^2 controls the EFFECTIVE non-commutativity
+OPTION 2: alpha^2 controls the EFFECTIVE non-commutativity
 -----------------------------------------------------
 In a tilted crystal:
 - Exact projections have [P1, P2] determined by tilt
 - Position/momentum are EFFECTIVE observables
-- The "effective ℏ" might involve α^2
+- The "effective hbar" might involve alpha^2
 
 Let's explore Option 1 more carefully.
 """)
@@ -168,23 +168,23 @@ This follows from the canonical structure of the coset sigma model.
 It says: position and momentum are conjugate variables.
 
 In the framework: This comes from quantizing the Goldstone modes.
-The coefficient is i (or iℏ in dimensional units) by the structure
+The coefficient is i (or ihbar in dimensional units) by the structure
 of Poisson brackets -> commutators.
 
 LEVEL 2: Observable (emergent)
 ------------------------------
-|[P_x, P_p]| ~ f(θ) where θ ~ α^2
+|[P_x, P_p]| ~ f(theta) where theta ~ alpha^2
 
 This controls interference between position and momentum measurements.
-Maximum interference when θ = pi/4 (maximally incompatible).
-Minimum interference when θ = 0 or pi/2 (compatible).
+Maximum interference when theta = pi/4 (maximally incompatible).
+Minimum interference when theta = 0 or pi/2 (compatible).
 
-In our universe: θ = α^2 << 1 means the interference is WEAK.
+In our universe: theta = alpha^2 << 1 means the interference is WEAK.
 This is why classical physics works so well at macroscopic scales.
 
 THE KEY DISTINCTION:
 - [x, p] = i is the ALGEBRAIC structure (always holds)
-- α^2 controls the PHYSICAL manifestation (how strong quantum effects are)
+- alpha^2 controls the PHYSICAL manifestation (how strong quantum effects are)
 """)
 
 print("""
@@ -215,19 +215,19 @@ ANSWER: Momentum p_i is the generator of translations along x^i.
 More precisely:
 - In the coset sigma model, each coordinate phi^a has conjugate pi^a
 - For spatial directions: p_i = pi^i
-- Momentum generates motion: exp(i p_i Δx^i) translates by Δx^i
+- Momentum generates motion: exp(i p_i Deltax^i) translates by Deltax^i
 
 PHYSICAL MEANING:
 Momentum tells you HOW FAST you're moving through the crystal.
 It's the "rate of change of perspective" in spatial directions.
 
 From the crystallization Lagrangian:
-  L = (M_Pl^2/2) × g^{munu} ∂_mu phi^a ∂_nu phi^b G_{ab}
+  L = (M_Pl^2/2) * g^{munu} d_mu phi^a d_nu phi^b G_{ab}
 
 where G_{ab} is the metric on the coset space S^10.
 
 The canonical momentum is:
-  pi^a = ∂L/∂(∂_0 phi^a) = M_Pl^2 × g^{0nu} ∂_nu phi^a × G_{ab}
+  pi^a = dL/d(d_0 phi^a) = M_Pl^2 * g^{0nu} d_nu phi^a * G_{ab}
 """)
 
 print("""
@@ -270,11 +270,11 @@ IMPORTED:
 - This is the ONLY import for [x,p] = i
 
 PARTIALLY DERIVED:
-- The VALUE of ℏ in dimensional units
-- In natural units: ℏ = 1 by definition
-- In SI units: ℏ = 1.055 × 10^-34 J·s
+- The VALUE of hbar in dimensional units
+- In natural units: hbar = 1 by definition
+- In SI units: hbar = 1.055 * 10^-34 J*s
 - The framework sets M_Pl as the fundamental scale
-- ℏ = 1/M_Pl^2 × c^3/G (in terms of fundamental constants)
+- hbar = 1/M_Pl^2 * c^3/G (in terms of fundamental constants)
 """)
 
 print("""
@@ -330,7 +330,7 @@ This follows from:
 WHAT'S STILL MISSING?
 - Non-circular Born rule derivation
 - Origin of discrete spectra (quantization)
-- Specific value of ℏ in framework terms
+- Specific value of hbar in framework terms
 
 STATUS: [DERIVATION] for identification, [IMPORT] for quantization rule
 """)
@@ -373,5 +373,5 @@ The complex structure (i factor) is DERIVED from F = C.
 Remaining gaps:
 1. Born rule (why probability = |amplitude|^2)
 2. Discrete spectra (why some observables are quantized)
-3. Specific ℏ value (beyond "natural units")
+3. Specific hbar value (beyond "natural units")
 """)

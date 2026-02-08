@@ -5,8 +5,8 @@ CRYSTALLIZATION STRESS COSMOLOGY: Lambda Derivation
 KEY FINDING: Lambda = alpha^56 / 77 from shell-interior stress structure
 
 Formula: Lambda/M_Pl^4 = alpha^(dim(O)*Im(O)) / (n_c * Im(O))
-Measured: Lambda ~ 2.888 × 10^-122 (Planck units)
-Predicted: 2.823 × 10^-122
+Measured: Lambda ~ 2.888 * 10^-122 (Planck units)
+Predicted: 2.823 * 10^-122
 Error: 2.2%
 
 Status: DERIVATION
@@ -22,7 +22,7 @@ Mathematical Structure:
   - Energy: F(eps) = -a|eps|^2 + b|eps|^4 (Mexican hat)
   - Equilibrium: eps* = sqrt(a/2b)
   - Stress: sigma = F(eps) - F(eps*) > 0 for eps != eps*
-  - Lambda = <sigma> / (suppression × channels)
+  - Lambda = <sigma> / (suppression * channels)
 
 Derivation Chain:
   [A-AXIOM] Mexican hat from existence pressure + stability
@@ -65,9 +65,9 @@ alpha_measured = 1/137.035999177
 alpha_framework = Fraction(111, 15211)  # = 1/(137 + 4/111)
 
 # Cosmological constant in Planck units
-# Lambda = 1.106 × 10^-52 m^-2
-# In Planck units (l_P^2 = 2.612 × 10^-70 m^2):
-# Lambda_Planck = Lambda * l_P^2 ≈ 2.89 × 10^-122
+# Lambda = 1.106 * 10^-52 m^-2
+# In Planck units (l_P^2 = 2.612 * 10^-70 m^2):
+# Lambda_Planck = Lambda * l_P^2 ~ 2.89 * 10^-122
 Lambda_observed = 2.888e-122
 Lambda_uncertainty = 0.05  # ~5% from cosmological parameters
 
@@ -81,12 +81,12 @@ print("=" * 70)
 
 # The exponent: octonionic crystallization depth
 exponent = dim_O * Im_O
-print(f"\nExponent = dim(O) × Im(O) = {dim_O} × {Im_O} = {exponent}")
+print(f"\nExponent = dim(O) * Im(O) = {dim_O} * {Im_O} = {exponent}")
 print("  Physical: Number of octonionic crystallization layers")
 
 # The denominator: stress distribution channels
 denominator = n_c * Im_O
-print(f"\nDenominator = n_c × Im(O) = {n_c} × {Im_O} = {denominator}")
+print(f"\nDenominator = n_c * Im(O) = {n_c} * {Im_O} = {denominator}")
 print("  Physical: Number of channels for stress distribution")
 
 # ============================================================================
@@ -154,12 +154,12 @@ The cosmological constant arises from crystallization stress:
    - Stress: sigma = F(eps) - F(eps*) > 0
 
 3. SUPPRESSION:
-   - 56 = dim(O) × Im(O) octonionic layers
+   - 56 = dim(O) * Im(O) octonionic layers
    - Each layer suppresses stress by factor alpha
    - Total: alpha^56 ~ 10^-120
 
 4. DISTRIBUTION:
-   - 77 = n_c × Im(O) channels
+   - 77 = n_c * Im(O) channels
    - Equal distribution by u(n_c) symmetry
    - Final: Lambda = alpha^56 / 77 ~ 10^-122
 """)
@@ -177,14 +177,14 @@ Powers of alpha involving dim(O) = 8:
 
 | Quantity    | Formula           | Exponent | Hierarchy        |
 |-------------|-------------------|----------|------------------|
-| v/M_Pl      | alpha^8 × ...     | 8        | Electroweak      |
-| alpha_G     | alpha^16 × ...    | 16 = 2×8 | Gravitational    |
-| Lambda^1/2  | alpha^28 / ...    | 28 ~ 4×7 | Cosmological/2   |
-| Lambda      | alpha^56 / 77     | 56 = 8×7 | Cosmological     |
+| v/M_Pl      | alpha^8 * ...     | 8        | Electroweak      |
+| alpha_G     | alpha^16 * ...    | 16 = 2*8 | Gravitational    |
+| Lambda^1/2  | alpha^28 / ...    | 28 ~ 4*7 | Cosmological/2   |
+| Lambda      | alpha^56 / 77     | 56 = 8*7 | Cosmological     |
 """)
 
 v_over_mpl = alpha_measured**8 * math.sqrt(44/7)
-print(f"v/M_Pl = alpha^8 × sqrt(44/7) = {v_over_mpl:.3e}")
+print(f"v/M_Pl = alpha^8 * sqrt(44/7) = {v_over_mpl:.3e}")
 print(f"sqrt(Lambda) = alpha^28 / sqrt(77) = {(alpha_measured**28)/math.sqrt(77):.3e}")
 print(f"Ratio check: (alpha^28)^2 = alpha^56 [confirmed]")
 
@@ -197,10 +197,10 @@ print("VERIFICATION TESTS")
 print("=" * 70)
 
 tests = [
-    ("Exponent = dim(O) × Im(O) = 56",
+    ("Exponent = dim(O) * Im(O) = 56",
      exponent == 56 and exponent == dim_O * Im_O),
 
-    ("Denominator = n_c × Im(O) = 77",
+    ("Denominator = n_c * Im(O) = 77",
      denominator == 77 and denominator == n_c * Im_O),
 
     ("Error < measurement uncertainty (5%)",
@@ -242,7 +242,7 @@ If stress slowly relaxes toward equilibrium:
 Dark energy should DECREASE over cosmic time.
 
 Current constraints on w(z) = P/rho:
-  - w = -1.03 ± 0.03 (Planck 2018)
+  - w = -1.03 +/- 0.03 (Planck 2018)
   - Consistent with w = -1 (no evolution) at current precision
 
 This model predicts:
@@ -261,7 +261,7 @@ print("SUMMARY")
 print("=" * 70)
 
 print(f"""
-FORMULA: Lambda = alpha^(dim(O)×Im(O)) / (n_c × Im(O))
+FORMULA: Lambda = alpha^(dim(O)*Im(O)) / (n_c * Im(O))
                 = alpha^56 / 77
 
 RESULT:

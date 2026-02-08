@@ -123,7 +123,7 @@ print("PART 4: FRAMEWORK-CONSTRAINED INFLATION")
 print("=" * 70)
 
 # The key insight: inflation ends when epsilon ~ 1
-# Number of e-folds N = ∫ dphi / √(2epsilon)
+# Number of e-folds N = integral dphi / sqrt(2epsilon)
 
 # For large-field inflation with V = (lambda/4)(phi^2 - v^2)^2
 # At phi >> v, V ~= (lambda/4)phi^4
@@ -182,7 +182,7 @@ MEASUREMENTS AND PREDICTIONS:
 
 | Source | Value |
 |--------|-------|
-| Planck 2018 | {ns_measured} ± {ns_uncertainty} |
+| Planck 2018 | {ns_measured} +/- {ns_uncertainty} |
 | Framework (193/200) | {float(ns_framework_exact):.6f} |
 | Quartic inflation (N=55) | {ns_quartic_float:.6f} |
 """)
@@ -217,12 +217,12 @@ Wait - let me recalculate more carefully.
 
 # More careful calculation for phi^4 inflation
 # V = (lambda/4)phi^4
-# V' = lambdaphi³
+# V' = lambdaphi^3
 # V'' = 3lambdaphi^2
 # epsilon = (1/2)(V'/V)^2 = (1/2)(4/phi)^2 = 8/phi^2 (in Planck units)
 # eta = V''/V = 12/phi^2
 
-# N = ∫ V/V' dphi = ∫ phi/(4) dphi = phi^2/8 (from phi to phi_end where phi_end ~ √8)
+# N = integral V/V' dphi = integral phi/(4) dphi = phi^2/8 (from phi to phi_end where phi_end ~ sqrt8)
 # So phi^2 = 8N at N e-folds before end
 # epsilon = 8/phi^2 = 8/(8N) = 1/N
 # eta = 12/phi^2 = 12/(8N) = 3/(2N)

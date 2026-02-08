@@ -2,7 +2,7 @@
 """
 Higgs Mass: Canonical Path Selection (4-Path Comparison)
 
-KEY FINDING: Path 1 (m_H = v * 121/238) is canonical — best accuracy,
+KEY FINDING: Path 1 (m_H = v * 121/238) is canonical -- best accuracy,
 structural consistency with m_Z and m_W, and no formula search.
 
 Four competing paths compared head-to-head:
@@ -313,7 +313,7 @@ print(f"\n{'ALL TESTS PASS' if all_pass else 'SOME TESTS FAILED'}: {passed_count
 # ==============================================================================
 
 print(f"""
-CANONICAL SELECTION: Path 1 — m_H = v * 121/238
+CANONICAL SELECTION: Path 1 -- m_H = v * 121/238
 
   m_H = v * n_c^2 / (2*(n_c^2 - C)) = 246.22 * 121/238 = 125.18 GeV
   Measured: 125.25 +/- 0.17 GeV

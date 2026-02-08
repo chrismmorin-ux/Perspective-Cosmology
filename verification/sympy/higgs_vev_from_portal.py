@@ -38,12 +38,12 @@ n_d = 4   # [D] from Frobenius theorem
 n_c = 11  # [D] from n_d: n_c = R + C + H + H = 1 + 2 + 4 + 4
 
 # Fine structure constant [D]
-# 1/α = 137 + 4/111 = n_d² + n_c² + correction
+# 1/alpha = 137 + 4/111 = n_d^2 + n_c^2 + correction
 alpha_inv = Rational(137) + Rational(4, 111)
 alpha = 1 / alpha_inv
 
 # Crystallization ground state [D] from S101 portal coupling
-# ε* = α² (two gauge vertices)
+# epsilon* = alpha^2 (two gauge vertices)
 epsilon_star = alpha**2
 
 # ==============================================================================
@@ -51,17 +51,17 @@ epsilon_star = alpha**2
 # ==============================================================================
 
 # Planck mass [I] - the ONLY dimensional import
-M_Pl = Rational(122089, 10000) * 10**18  # GeV (1.22089 × 10^19 GeV)
+M_Pl = Rational(122089, 10000) * 10**18  # GeV (1.22089 * 10^19 GeV)
 
 # Measured Higgs VEV [I] for comparison
 v_measured = Rational(24622, 100)  # 246.22 GeV
 
 # ==============================================================================
-# DERIVATION: Why exponent = 2 × n_d?
+# DERIVATION: Why exponent = 2 * n_d?
 # ==============================================================================
 
 print("=" * 70)
-print("DERIVATION: WHY THE EXPONENT IS 8 = 2 × n_d")
+print("DERIVATION: WHY THE EXPONENT IS 8 = 2 * n_d")
 print("=" * 70)
 
 print("""
@@ -95,11 +95,11 @@ print("THE DERIVATION")
 print("=" * 70)
 
 # The complete formula:
-# v = M_Pl × (ε*)^{n_d} × √(n_d × n_c / Im_O)
+# v = M_Pl * (epsilon*)^{n_d} * sqrt(n_d * n_c / Im_O)
 
-# Substituting ε* = α²:
-# v = M_Pl × α^{2×n_d} × √(n_d × n_c / Im_O)
-# v = M_Pl × α^8 × √(44/7)
+# Substituting epsilon* = alpha^2:
+# v = M_Pl * alpha^{2*n_d} * sqrt(n_d * n_c / Im_O)
+# v = M_Pl * alpha^8 * sqrt(44/7)
 
 # Geometric factor
 geom_factor_squared = Rational(n_d * n_c, Im_O)  # = 44/7
@@ -193,7 +193,7 @@ The pattern (eps*)^{n_d} = alpha^{2*n_d} appears to set all major hierarchies:
 | Lambda   | alpha^56 / 77 | 2*28 | Cosmological from 28 = (n_c^2-n_c)/2 |
 """)
 
-# Check α_G
+# Check alpha_G
 v_over_mp = Rational(11284, 43)  # From S82: v/m_p = 11284/43
 alpha_G_pred = alpha**16 * Rational(44, 7) / v_over_mp**2
 alpha_G_num = float(alpha_num**16 * 44/7 / float(v_over_mp)**2)

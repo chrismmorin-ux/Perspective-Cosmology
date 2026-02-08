@@ -28,7 +28,7 @@ from sympy import *
 # ============================================================
 # Framework quantities (all derived or conjectured from axioms)
 # ============================================================
-n_d = 4          # [D: Frobenius theorem — only 4 normed division algebras]
+n_d = 4          # [D: Frobenius theorem -- only 4 normed division algebras]
 n_c = 11         # [D: n_c = Im_C + Im_H + Im_O = 1 + 3 + 7]
 Im_H = 3         # [D: quaternion imaginary dimensions]
 Im_O = 7         # [D: octonion imaginary dimensions]
@@ -45,7 +45,7 @@ tests = []
 # BATCH 1: COSMOLOGICAL
 # ============================================================
 
-# --- #88: Reheating — g_* from framework particle content ---
+# --- #88: Reheating -- g_* from framework particle content ---
 print("=" * 60)
 print("BATCH 1a: Reheating g_* (#88)")
 print("=" * 60)
@@ -69,7 +69,7 @@ bosonic_dof = gluon_dof + photon_dof + W_dof + Z_dof + higgs_dof
 #   Quarks: 6 flavors x N_c colors x 4
 #   Charged leptons: 3 generations x 4
 #   Neutrinos: N_nu species x 2 (Weyl, left-handed only)
-N_gen = 3  # [A-IMPORT: 3 generations — N_c constrains anomaly cancellation]
+N_gen = 3  # [A-IMPORT: 3 generations -- N_c constrains anomaly cancellation]
 quark_dof = 6 * N_c * 4          # 72
 charged_lepton_dof = N_gen * 4   # 12
 neutrino_dof = N_nu * 2          # 6
@@ -102,7 +102,7 @@ tests.append(("N_gluon = N_c^2 - 1 = 8", N_gluon == 8))
 tests.append(("g_* sensitive to N_c: g*(4) != g*(3)", g_star_4 != g_star))
 print()
 
-# --- #90: Jeans collapse — n_s as initial condition ---
+# --- #90: Jeans collapse -- n_s as initial condition ---
 print("=" * 60)
 print("BATCH 1b: Jeans collapse initial conditions (#90)")
 print("=" * 60)
@@ -120,9 +120,9 @@ tests.append(("n_s within Planck 1-sigma", delta_ns < 0.0042))
 tests.append(("n_s - 1 = -7/200", n_s - 1 == Rational(-7, 200)))
 print()
 
-# --- #73: Type Ia SN — Chandrasekhar mass ---
+# --- #73: Type Ia SN -- Chandrasekhar mass ---
 print("=" * 60)
-print("BATCH 1c: Type Ia SN — Chandrasekhar mass (#73)")
+print("BATCH 1c: Type Ia SN -- Chandrasekhar mass (#73)")
 print("=" * 60)
 
 # M_Ch = omega_3^0 * sqrt(3*pi)/2 * (hbar*c/G)^{3/2} / (mu_e * m_p)^2
@@ -256,7 +256,7 @@ print()
 # BATCH 3: ADDITIONAL NEAR-MISSES
 # ============================================================
 
-# --- #80: Merger/ringdown — No-echo prediction ---
+# --- #80: Merger/ringdown -- No-echo prediction ---
 print("=" * 60)
 print("BATCH 3a: Merger/ringdown no-echo prediction (#80)")
 print("=" * 60)
@@ -283,7 +283,7 @@ print(f"  Exponent ~ 2 * M_BH / (sqrt(n_c) * M_Pl)")
 print(f"           ~ 10^{float(log_exponent):.1f}")
 print(f"  R ~ exp(-10^{float(log_exponent):.0f}) = 0 (to any measurable precision)")
 print(f"Prediction: NO post-merger GW echoes")
-print(f"LIGO O1-O3: No echoes detected — CONSISTENT")
+print(f"LIGO O1-O3: No echoes detected -- CONSISTENT")
 print(f"Framework content: n_c = {n_c} enters tilt mass scale")
 
 tests.append(("No-echo: n_c = 11 enters tilt mass", n_c == 11))
@@ -291,7 +291,7 @@ tests.append(("No-echo: exponent >> 1", float(log_exponent) > 30))
 tests.append(("No-echo: R effectively zero", True))  # exp(-10^38) = 0
 print()
 
-# --- #46: Exotic quarkonia — N_c = 3 color algebra ---
+# --- #46: Exotic quarkonia -- N_c = 3 color algebra ---
 print("=" * 60)
 print("BATCH 3b: Exotic quarkonia color algebra (#46)")
 print("=" * 60)
@@ -372,7 +372,7 @@ print(f"(Full CI/Hylleraas methods give sub-ppm agreement)")
 print()
 print(f"Framework constraint: alpha = 1/{alpha_inv} enters via Z*alpha coupling")
 print(f"  CONSISTENCY: Hydrogen (#47) tagged C with same alpha")
-print(f"  Helium (#48) currently tagged R — inconsistent")
+print(f"  Helium (#48) currently tagged R -- inconsistent")
 print(f"  Both use alpha as the EM coupling; helium should be C")
 
 tests.append(("He: Z_eff = 27/16", Z_eff == Rational(27, 16)))

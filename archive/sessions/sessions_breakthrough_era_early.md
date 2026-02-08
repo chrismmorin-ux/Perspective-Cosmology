@@ -577,9 +577,9 @@ This is progress: we now know exactly what's missing.
    - 9/9 tests PASS
 
 3. **Discovered THREE bridge primes** (new finding):
-   - 2417 = 2^4 + 7^4 (dim(C) + Im(O))
-   - 2657 = 4^4 + 7^4 (dim(H) + Im(O))
-   - 4177 = 3^4 + 8^4 (Im(H) + dim(O))
+   - 2417 = 2^4 + 7^4 (dim(C) + Im_O)
+   - 2657 = 4^4 + 7^4 (dim(H) + Im_O)
+   - 4177 = 3^4 + 8^4 (Im_H + dim(O))
    - Key insight: Bridge requires at least one associative dimension
    - Pure octonionic 7^4 + 8^4 = 6497 remains composite
 
@@ -839,8 +839,8 @@ The only testable regime is M ~ M_Pl evaporation, where effects are α² ~ 10⁻
 |------|--------|
 | Hurwitz: R,C,H,O dims 1,2,4,8 | PASS |
 | Imaginary dims: 0+1+3+7 = 11 | PASS |
-| dim(U(1)) = 1 = Im(C) | PASS |
-| dim(SU(2)) = 3 = Im(H) | PASS |
+| dim(U(1)) = 1 = Im_C | PASS |
+| dim(SU(2)) = 3 = Im_H | PASS |
 | dim(SU(3)) = 8 = G_2 - S^6 | PASS |
 | Total gauge dim = 12 | PASS |
 | Gauge dim = n_d x (n_d-1) | PASS |
@@ -1010,7 +1010,7 @@ l_1 = 303 * 8/11 = 220.4 (0.17% from measured 220)
 ### Key Insight
 
 **n_c = 11 is the TOTAL IMAGINARY DIMENSION** across all division algebras:
-- Im(R) = 0, Im(C) = 1, Im(H) = 3, Im(O) = 7
+- Im(R) = 0, Im_C = 1, Im_H = 3, Im_O = 7
 - n_c = 0 + 1 + 3 + 7 = 11
 
 **The partition**: n_c + n_d = 11 + 4 = 15 = R + C + H + O
@@ -3029,7 +3029,7 @@ After implementation:
 ## Session 2026-01-28 (Session 109) - POSITION/MOMENTUM IDENTIFICATION
 
 **Focus**: Identify what position and momentum ARE in the framework
-**Outcome**: RESOLVED — Position = Goldstone coordinate on Im(H); Momentum = conjugate generator
+**Outcome**: RESOLVED — Position = Goldstone coordinate on Im_H; Momentum = conjugate generator
 
 ### The Question
 
@@ -3043,7 +3043,7 @@ Session 108 derived quantum structure (non-commutativity, uncertainty) but left 
 
 | Observable | Framework Identification | Origin |
 |------------|-------------------------|--------|
-| **Position x^i** | Goldstone coordinate on Im(H) directions | SO(11)->SO(10) crystallization |
+| **Position x^i** | Goldstone coordinate on Im_H directions | SO(11)->SO(10) crystallization |
 | **Momentum p_i** | Canonical conjugate to x^i | Translation generator |
 | **Time** | Goldstone mode along crystallization gradient | 1 of 10 modes |
 | **Energy** | Conjugate to time | Rate of crystallization change |
@@ -3052,7 +3052,7 @@ Session 108 derived quantum structure (non-commutativity, uncertainty) but left 
 - Crystallization breaks SO(11) -> SO(10)
 - 10 Goldstone modes emerge (= n_c - 1)
 - Split: 1 (time) + 3 (space) + 6 (internal)
-- Spatial modes span Im(H) = 3 dimensions
+- Spatial modes span Im_H = 3 dimensions
 
 **2. Two Levels of Non-Commutativity**
 
@@ -3082,7 +3082,7 @@ Session 108 derived quantum structure (non-commutativity, uncertainty) but left 
 The framework now has a COMPLETE picture of quantum observables:
 - Position = "where in crystallized manifold" (Goldstone coordinate)
 - Momentum = "how fast moving through crystal" (translation generator)
-- 3 spatial dimensions from Im(H) = imaginary quaternions
+- 3 spatial dimensions from Im_H = imaginary quaternions
 
 ### What's DERIVED vs IMPORTED
 
@@ -3172,7 +3172,7 @@ Gleason's theorem -> Born rule |<a|psi>|^2
 - Appears continuous at accessible energies
 
 **Angular momentum**:
-- SO(3) acts on Im(H) = 3 spatial dimensions
+- SO(3) acts on Im_H = 3 spatial dimensions
 - Compact group -> discrete representations
 - DERIVED from quaternion structure
 
@@ -4175,8 +4175,8 @@ This parallels QED scattering (two vertices give alpha^2 cross-section).
 
 The 10 Goldstone modes from SO(11)->SO(10) MUST split as:
 - Time: 1 (aligned with crystallization gradient)
-- Space: 3 = Im(H) (imaginary quaternions, perpendicular)
-- Internal: 6 = C x Im(H) (gauge/generation)
+- Space: 3 = Im_H (imaginary quaternions, perpendicular)
+- Internal: 6 = C x Im_H (gauge/generation)
 
 Key insight: Spacetime dimension n_d = 4 = H is forced by quaternion structure.
 
@@ -4247,7 +4247,7 @@ H_0/M_Pl = alpha^28 * sqrt(19/3003)
 
 **Components:**
 - alpha = 1/(137 + 4/111) [fine structure from framework]
-- 28 = 56/2 = (dim(O) * Im(O))/2 [half cosmological depth]
+- 28 = 56/2 = (dim(O) * Im_O)/2 [half cosmological depth]
 - 19 = n_c + O [crystal + octonion = 11 + 8]
 - 3003 = Im_H * Im_O * n_c * (C^2 + Im_H^2) = 3 * 7 * 11 * 13
 
@@ -4447,8 +4447,8 @@ The signature (-,+,+,+) emerges from crystallization structure:
 | Mode | Role | Sign | Origin |
 |------|------|------|--------|
 | Time (1) | Radial | **-** | Coupled to potential evolution |
-| Space (3) | Angular (Im(H)) | **+** | Free Goldstone propagation |
-| Internal (6) | Angular (C×Im(H)) | — | Gauge/generation |
+| Space (3) | Angular (Im_H) | **+** | Free Goldstone propagation |
+| Internal (6) | Angular (C×Im_H) | — | Gauge/generation |
 
 The minus sign is NOT put in by hand — it reflects the fundamental asymmetry between:
 - Direction of crystallization progress (time = radial)
@@ -5424,8 +5424,8 @@ The O-sector (8D octonions, 7 imaginary) contains dimensions we can't directly o
 
 Already verified formula: **Λ = α^56 / 77** with 2% accuracy
 
-- **56 = dim(O) × Im(O)** = octonionic crystallization depth
-- **77 = n_c × Im(O)** = crystal-color distribution channels
+- **56 = dim(O) × Im_O** = octonionic crystallization depth
+- **77 = n_c × Im_O** = crystal-color distribution channels
 
 **Physical Interpretation**:
 1. Vacuum fluctuations exist at Planck scale (Λ_bare ~ 1)
@@ -5452,8 +5452,8 @@ Already verified formula: **Λ = α^56 / 77** with 2% accuracy
 - Stress = Dark Energy
 
 **Λ Formula Derivation**:
-- Suppression: α^56 (56 = dim(O)×Im(O) octonionic layers)
-- Distribution: 1/77 (77 = n_c×Im(O) channels)
+- Suppression: α^56 (56 = dim(O)×Im_O octonionic layers)
+- Distribution: 1/77 (77 = n_c×Im_O channels)
 - Result: Λ = α^56/77 ≈ 2.82×10⁻¹²² (2.2% error)
 
 ### Files Created
@@ -5627,7 +5627,7 @@ D(quark_type) = g_factor × prime
 
 **Why does T3 select the specific prime?**
 
-T3 is the projection of weak isospin onto a preferred axis in Im(H). Different projections illuminate different division algebra substructures:
+T3 is the projection of weak isospin onto a preferred axis in Im_H. Different projections illuminate different division algebra substructures:
 
 | T3 | Projection Target | Prime | Structure |
 |----|-------------------|-------|-----------|
@@ -5676,7 +5676,7 @@ T3 is the projection of weak isospin onto a preferred axis in Im(H). Different p
 2. **Denominator correlates with WEAK ISOSPIN T3**:
    - T3 = +1/2 (up-type): denominator = n_c = 11
    - T3 = -1/2 (down-type): denominator = O = 8
-   - Heavy (mixed): denominator = Im(O) × Im(H)² = 63
+   - Heavy (mixed): denominator = Im_O × Im_H² = 63
 
 3. **Algebraic insight: n_c EXCLUDES dim(H) exactly!**
    - n_c = R + C + O = 1 + 2 + 8 = 11
@@ -5686,11 +5686,11 @@ T3 is the projection of weak isospin onto a preferred axis in Im(H). Different p
 4. **Proposed mechanism**:
    - T3 > 0 (aligned with H) → couples to orthogonal structure (n_c)
    - T3 < 0 (anti-aligned with H) → couples to O (color) directly
-   - Heavy quarks mix both structures → Im(O) × Im(H)²
+   - Heavy quarks mix both structures → Im_O × Im_H²
 
 5. **Charge connection**:
-   - Up charge = +2/3 = dim(C)/Im(H)
-   - Lepton Koide Q = 2/3 = dim(C)/Im(H)
+   - Up charge = +2/3 = dim(C)/Im_H
+   - Lepton Koide Q = 2/3 = dim(C)/Im_H
    - Same ratio! Charge and mass share division algebra origin.
 
 ### Files Created
@@ -5721,22 +5721,22 @@ T3 is the projection of weak isospin onto a preferred axis in Im(H). Different p
 | Triplet | A² Formula | Exact | Error |
 |---------|-----------|-------|-------|
 | Leptons | dim(C) | 2 | 0.002% |
-| Up (u,c,t) | (Im(H)×n_c+R)/n_c | 34/11 | 0.05% |
-| Down (d,s,b) | (C×O+Im(H))/O | 19/8 | 0.52% |
-| Heavy (c,b,t) | 2+1/(Im(O)×Im(H)²) | 127/63 | 0.004% |
+| Up (u,c,t) | (Im_H×n_c+R)/n_c | 34/11 | 0.05% |
+| Down (d,s,b) | (C×O+Im_H)/O | 19/8 | 0.52% |
+| Heavy (c,b,t) | 2+1/(Im_O×Im_H²) | 127/63 | 0.004% |
 
 **Phase 2: θ (Koide phase)**
 
 | Triplet | θ/π Formula | Exact | Error |
 |---------|------------|-------|-------|
-| Leptons | (Im(H)²+O²)/(Im(H)²×n_c) | 73/99 | 0.006% |
-| Up (u,c,t) | 67/(H²+Im(H)⁴) | 67/97 | 0.05% |
-| Down (d,s,b) | (C×Im(H)×13)/(Im(H)×37) | 78/111 | 0.14% |
+| Leptons | (Im_H²+O²)/(Im_H²×n_c) | 73/99 | 0.006% |
+| Up (u,c,t) | 67/(H²+Im_H⁴) | 67/97 | 0.05% |
+| Down (d,s,b) | (C×Im_H×13)/(Im_H×37) | 78/111 | 0.14% |
 | Heavy (c,b,t) | 73/(C×53) | 73/106 | 0.03% |
 
 ### Key Insights
 
-1. **97 = 4² + 9² = dim(H)² + Im(H)⁴** — pure division algebra prime!
+1. **97 = 4² + 9² = dim(H)² + Im_H⁴** — pure division algebra prime!
 2. **106 = 2 × 53 = dim(C) × α_s_prime** — heavy quarks use strong coupling prime
 3. **111 appears in BOTH α correction AND down-quark theta** — deep connection!
 4. **Heavy quarks preserve the Koide prime 73** — only denominator changes
@@ -5865,15 +5865,15 @@ Sources:
 
 | Ratio | Formula | Exact | Error |
 |-------|---------|-------|-------|
-| m_t/m_b | (n_c^2 + Im(H))/Im(H) | 124/3 | **0.008%** |
-| m_c/m_s | ((H+O)^2 + C*Im(H))/n_c | 150/11 | **0.000%** EXACT! |
+| m_t/m_b | (n_c^2 + Im_H)/Im_H | 124/3 | **0.008%** |
+| m_c/m_s | ((H+O)^2 + C*Im_H)/n_c | 150/11 | **0.000%** EXACT! |
 | m_s/m_d | n_d^2 + n_d - 1/n_c | 219/11 | **0.078%** |
-| m_b/m_c | (n_d^2 + Im(O))/Im(O) | 23/7 | **0.222%** |
+| m_b/m_c | (n_d^2 + Im_O)/Im_O | 23/7 | **0.222%** |
 
 ### Key Insights
 
 1. **m_c/m_s = 150/11 is EXACT** — first exact quark mass ratio!
-   - 150 = (H+O)^2 + C*Im(H) = 144 + 6
+   - 150 = (H+O)^2 + C*Im_H = 144 + 6
    - 11 = n_c (crystal dimensions)
 
 2. **n_c = 11 appears in multiple ratios**:
@@ -5881,7 +5881,7 @@ Sources:
    - m_s/m_d = 219/11
    - Same as lepton ratio m_tau/m_mu = 185/11
 
-3. **23 = n_d^2 + Im(O) appears in THREE places**:
+3. **23 = n_d^2 + Im_O appears in THREE places**:
    - m_mu/m_e main term (9 x 23)
    - alpha_s correction (11/23)
    - m_b/m_c formula (23/7)
@@ -5962,7 +5962,7 @@ The equal distribution is now **DERIVED**, not assumed:
 Applied same Lie algebra analysis to m_p/m_e = 1836 + 11/72:
 
 ```
-72 = dim(O) × Im(H)² = 8 × 9
+72 = dim(O) × Im_H² = 8 × 9
    = dim(su(3)) × dim(u(3))
    = (gluon types) × (generation channels)
    = QCD-generation interaction channels
@@ -6025,7 +6025,7 @@ The framework derives ALL dimensionless relationships. The absolute scale is a u
 
 | Constant | Formula | Predicted | Measured | Error |
 |----------|---------|-----------|----------|-------|
-| **v/m_p** | (2n_c(H+O)-C) + C×Im(H)²/Φ₆(Im(O)) | 11284/43 | 262.4185 | **0.21 ppm** |
+| **v/m_p** | (2n_c(H+O)-C) + C×Im_H²/Φ₆(Im_O) | 11284/43 | 262.4185 | **0.21 ppm** |
 | **α_G** | α^16 × (44/7) / (11284/43)² | 5.90×10⁻³⁹ | 5.91×10⁻³⁹ | **0.068%** |
 
 ### The Gravitational Coupling Formula
@@ -6033,7 +6033,7 @@ The framework derives ALL dimensionless relationships. The absolute scale is a u
 ```
 α_G = G m_p² / (ℏ c) = (m_p / M_Pl)²
 
-    = α^16 × (n_d × n_c / Im(O)) / (2n_c(H+O) - C)²
+    = α^16 × (n_d × n_c / Im_O) / (2n_c(H+O) - C)²
 
     = α^16 × (44/7) / 262²
 ```
@@ -6159,7 +6159,7 @@ M_Pl/m_p  ~ 10^19 = (11284/43) / (α^8 × √(44/7)) [proton hierarchy]
 | Parameter | Formula | Value | Error |
 |-----------|---------|-------|-------|
 | **|V_ub|** | 1/(137 + n_c² + n_d) = 1/262 | 0.003817 | **0.08%** |
-| **δ_CKM** | π×dim(O)/(Im(H)×Im(O)) = π×8/21 | 1.197 rad | **0.07%** |
+| **δ_CKM** | π×dim(O)/(Im_H×Im_O) = π×8/21 | 1.197 rad | **0.07%** |
 
 ### Key Insights
 
@@ -6169,7 +6169,7 @@ M_Pl/m_p  ~ 10^19 = (11284/43) / (α^8 × √(44/7)) [proton hierarchy]
 
 2. **CP violation from division algebras**
    - δ = π × 8/21 = π × octonion/(generations × colors)
-   - CP violation emerges from mismatch between O and Im(H)×Im(O)
+   - CP violation emerges from mismatch between O and Im_H×Im_O
 
 3. **δ_CKM ≈ θ_Koide / 2**
    - Ratio = 0.516 (very close to 0.5!)

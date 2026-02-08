@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-CP Phase Precision Check — Is delta_CKM = pi*8/21 genuinely 0.1%?
+CP Phase Precision Check -- Is delta_CKM = pi*8/21 genuinely 0.1%?
 
 KEY FINDING: delta_CKM = pi*dim_O/(Im_H*Im_O) = 1.1968 rad vs 1.196 +/- 0.027 rad
-             This is 0.07% error — SUB-PERMILLE precision
+             This is 0.07% error -- SUB-PERMILLE precision
 
 CAUTION: Measurement uncertainty is 2.3%, so 0.07% match is WITHIN error bars.
          The formula is [CONJECTURE] but the precision is noteworthy.

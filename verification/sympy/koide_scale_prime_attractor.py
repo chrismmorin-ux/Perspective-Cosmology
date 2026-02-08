@@ -3,12 +3,12 @@
 Koide Scale: Prime Attractor Enhancement
 =========================================
 
-Current: M = v/784 = v/(4×7)² = v/28² with 0.07% error
+Current: M = v/784 = v/(4*7)^2 = v/28^2 with 0.07% error
 
 Can we find a correction term like the alpha and m_p/m_e formulas?
 
 Method:
-  - Alpha: 1/α = 137 + 4/111 (0.27 ppm)
+  - Alpha: 1/alpha = 137 + 4/111 (0.27 ppm)
   - m_p/m_e: 1836 + 11/72 (0.06 ppm)
 
 Goal: M = v/(main_term + correction) with ppm-level accuracy
@@ -32,8 +32,8 @@ print("=" * 70)
 v_GeV = 246.22  # GeV
 
 # Koide scale from charged lepton masses
-# M = (m_e + m_μ + m_τ) / (1 + √2 cos θ)² × (appropriate factor)
-# Empirically: M ≈ 313.86 MeV
+# M = (m_e + m_mu + m_tau) / (1 + sqrt2 cos theta)^2 * (appropriate factor)
+# Empirically: M ~ 313.86 MeV
 
 # Calculate from lepton masses
 m_e = 0.510998950  # MeV
@@ -41,11 +41,11 @@ m_mu = 105.6583755  # MeV
 m_tau = 1776.86     # MeV
 
 # Koide Q = 2/3 exactly
-# sqrt(m_e) + sqrt(m_μ) + sqrt(m_τ) = √M × (1 + 2cos²θ) × something
+# sqrt(m_e) + sqrt(m_mu) + sqrt(m_tau) = sqrtM * (1 + 2cos^2theta) * something
 # This is complex - let's use the empirical scale
 
-# The scale M such that m_i = M(1 + √2 cos(θ + 2πi/3))²
-# gives M ≈ 313.8 MeV
+# The scale M such that m_i = M(1 + sqrt2 cos(theta + 2pii/3))^2
+# gives M ~ 313.8 MeV
 
 M_measured_MeV = 313.856  # MeV (derived from fitting)
 M_measured_GeV = M_measured_MeV / 1000
@@ -92,7 +92,7 @@ print(f"""
   n_d = {n_d}, n_c = {n_c}
   H+O = {H_plus_O}, C+O = {C_plus_O}
 
-  Current: 784 = (n_d × Im(O))² = (4 × 7)² = 28²
+  Current: 784 = (n_d * Im(O))^2 = (4 * 7)^2 = 28^2
 """)
 
 # =============================================================================
@@ -135,15 +135,15 @@ print("=" * 70)
 
 # Try various division algebra products
 bases = [
-    (784, "(n_d × Im(O))² = 28²"),
+    (784, "(n_d * Im(O))^2 = 28^2"),
     (783, "?"),
     (785, "?"),
-    (4 * 196, "4 × 196 = 4 × 14²"),
-    (7 * 112, "7 × 112 = 7 × 16 × 7"),
-    (8 * 98, "8 × 98 = dim(O) × 98"),
-    (11 * 71, "n_c × 71"),
-    (12 * 65, "(H+O) × 65"),
-    (4 * 7 * 28, "4 × 7 × 28"),
+    (4 * 196, "4 * 196 = 4 * 14^2"),
+    (7 * 112, "7 * 112 = 7 * 16 * 7"),
+    (8 * 98, "8 * 98 = dim(O) * 98"),
+    (11 * 71, "n_c * 71"),
+    (12 * 65, "(H+O) * 65"),
+    (4 * 7 * 28, "4 * 7 * 28"),
 ]
 
 print(f"\nTarget: v/M = {v_over_M:.6f}")
@@ -171,7 +171,7 @@ for k in range(-20, 21):
                 b = int(math.sqrt(b_sq))
                 if b*b == b_sq and a <= b:
                     error = abs(val - v_over_M) / v_over_M * 100
-                    print(f"  {val} = {a}² + {b}² (PRIME), error = {error:.4f}%")
+                    print(f"  {val} = {a}^2 + {b}^2 (PRIME), error = {error:.4f}%")
 
 # =============================================================================
 # SEARCH 4: CYCLOTOMIC CORRECTION
@@ -181,8 +181,8 @@ print("\n" + "=" * 70)
 print("SEARCH 4: CYCLOTOMIC CORRECTION")
 print("=" * 70)
 
-# Try: v/M = 784 + n/Φ_6(m)
-print("\nTrying v/M = 784 + n/Φ_6(m):")
+# Try: v/M = 784 + n/Phi_6(m)
+print("\nTrying v/M = 784 + n/Phi_6(m):")
 
 for n in [1, 2, 3, 4, 7, 8, 11]:
     for m in range(3, 15):
@@ -190,17 +190,17 @@ for n in [1, 2, 3, 4, 7, 8, 11]:
         predicted = 784 + n/phi6_m
         error = abs(predicted - v_over_M) / v_over_M * 100
         if error < 0.05:  # Within 0.05%
-            print(f"  784 + {n}/Φ_6({m}) = 784 + {n}/{phi6_m} = {predicted:.6f}, error = {error:.5f}%")
+            print(f"  784 + {n}/Phi_6({m}) = 784 + {n}/{phi6_m} = {predicted:.6f}, error = {error:.5f}%")
 
 # Try negative corrections
-print("\nTrying v/M = 784 - n/Φ_6(m):")
+print("\nTrying v/M = 784 - n/Phi_6(m):")
 for n in [1, 2, 3, 4]:
     for m in range(3, 15):
         phi6_m = m**2 - m + 1
         predicted = 784 - n/phi6_m
         error = abs(predicted - v_over_M) / v_over_M * 100
         if error < 0.05:
-            print(f"  784 - {n}/Φ_6({m}) = 784 - {n}/{phi6_m} = {predicted:.6f}, error = {error:.5f}%")
+            print(f"  784 - {n}/Phi_6({m}) = 784 - {n}/{phi6_m} = {predicted:.6f}, error = {error:.5f}%")
 
 # =============================================================================
 # SEARCH 5: SYSTEMATIC FORMULA SEARCH
@@ -233,7 +233,7 @@ for error, A, B, C, predicted in results[:20]:
 # =============================================================================
 
 print("\n" + "=" * 70)
-print("SEARCH 6: v/M = v × something")
+print("SEARCH 6: v/M = v * something")
 print("=" * 70)
 
 # What if M = v/something where something has nice structure?
@@ -242,14 +242,14 @@ print(f"\nTarget denominator: {target_denom:.6f}")
 
 # Check if it's close to division algebra expressions
 expressions = [
-    (784, "(4×7)² = 28²"),
-    (4 * Im_O**2, f"n_d × Im(O)² = 4 × 49 = {4 * 49}"),
-    (n_d**2 * 49, f"n_d² × Im(O)² = 16 × 49 = {16*49}"),
-    ((n_d * Im_O)**2, f"(n_d × Im(O))² = 28² = {28**2}"),
-    (H_plus_O * 65, f"(H+O) × 65 = 12 × 65 = {12*65}"),
-    (n_c * 71, f"n_c × 71 = 11 × 71 = {11*71}"),
-    (Im_O * 112, f"Im(O) × 112 = 7 × 112 = {7*112}"),
-    (dim_O * 98, f"dim(O) × 98 = 8 × 98 = {8*98}"),
+    (784, "(4*7)^2 = 28^2"),
+    (4 * Im_O**2, f"n_d * Im(O)^2 = 4 * 49 = {4 * 49}"),
+    (n_d**2 * 49, f"n_d^2 * Im(O)^2 = 16 * 49 = {16*49}"),
+    ((n_d * Im_O)**2, f"(n_d * Im(O))^2 = 28^2 = {28**2}"),
+    (H_plus_O * 65, f"(H+O) * 65 = 12 * 65 = {12*65}"),
+    (n_c * 71, f"n_c * 71 = 11 * 71 = {11*71}"),
+    (Im_O * 112, f"Im(O) * 112 = 7 * 112 = {7*112}"),
+    (dim_O * 98, f"dim(O) * 98 = 8 * 98 = {8*98}"),
 ]
 
 print(f"\nDivision algebra expressions near {target_denom:.2f}:")
@@ -265,9 +265,9 @@ print("\n" + "=" * 70)
 print("SEARCH 7: MULTIPLICATIVE CORRECTION")
 print("=" * 70)
 
-# Maybe v/M = 784 × (1 + k) for some small k?
+# Maybe v/M = 784 * (1 + k) for some small k?
 k_mult = v_over_M / 784 - 1
-print(f"\nIf v/M = 784 × (1 + k), then k = {k_mult:.8f}")
+print(f"\nIf v/M = 784 * (1 + k), then k = {k_mult:.8f}")
 
 # Search for simple fractions for k
 print(f"\nSimple fractions near k = {k_mult:.8f}:")
@@ -300,16 +300,16 @@ CANDIDATE 1: v/M = 784 + 1/3 = {candidate1} = {pred1:.6f}
   Error: {err1:.1f} ppm
 
   Interpretation:
-    784 = (n_d × Im(O))² = 28²
+    784 = (n_d * Im(O))^2 = 28^2
     1/3 = 1/Im(H)
 """)
 
 # Try 784 + 1/Im(H) = 784 + 1/3
 formula1 = (n_d * Im_O)**2 + Fraction(1, Im_H)
 pred1_check = float(formula1)
-print(f"  Formula: (n_d × Im(O))² + 1/Im(H) = 784 + 1/3 = {pred1_check:.6f}")
+print(f"  Formula: (n_d * Im(O))^2 + 1/Im(H) = 784 + 1/3 = {pred1_check:.6f}")
 
-# What about 28² - something?
+# What about 28^2 - something?
 # 784 - 1/3 = 783.666...
 candidate2 = Fraction(784) - Fraction(1, 3)
 pred2 = float(candidate2)
@@ -335,7 +335,7 @@ CANDIDATE 3: v/M = 2351/3 = {pred3:.6f}
 """)
 
 # Check what 2351 is
-print(f"\n2351 factorization: 2351 = {2351} = {7 * 336} = 7 × 336 = 7 × 48 × 7 = 7² × 48")
+print(f"\n2351 factorization: 2351 = {2351} = {7 * 336} = 7 * 336 = 7 * 48 * 7 = 7^2 * 48")
 if isprime(2351):
     print("  2351 is PRIME")
 
@@ -344,16 +344,16 @@ if isprime(2351):
 # =============================================================================
 
 print("\n" + "=" * 70)
-print("SEARCH 8: FORMULA v/M = (n_d × Im(O))² + correction")
+print("SEARCH 8: FORMULA v/M = (n_d * Im(O))^2 + correction")
 print("=" * 70)
 
 base_sq = (n_d * Im_O)**2  # = 784
 target_correction = v_over_M - base_sq
-print(f"\nBase: (n_d × Im(O))² = {base_sq}")
+print(f"\nBase: (n_d * Im(O))^2 = {base_sq}")
 print(f"Target correction: {target_correction:.8f}")
 
-# Search for correction = a/(b×c) where a,b,c are div algebra dims
-print("\nSearching for correction = a/(b×c):")
+# Search for correction = a/(b*c) where a,b,c are div algebra dims
+print("\nSearching for correction = a/(b*c):")
 for a in [1, 2, 3, 4, 7, 8, 11]:
     for b in [1, 2, 3, 4, 7, 8, 11]:
         for c in [1, 2, 3, 4, 7, 8, 11]:
@@ -362,10 +362,10 @@ for a in [1, 2, 3, 4, 7, 8, 11]:
                 predicted = base_sq + correction
                 error = abs(predicted - v_over_M) / v_over_M * 1e6
                 if error < 100:  # Within 100 ppm
-                    print(f"  784 + {a}/({b}×{c}) = 784 + {a}/{b*c} = {predicted:.6f}, error = {error:.1f} ppm")
+                    print(f"  784 + {a}/({b}*{c}) = 784 + {a}/{b*c} = {predicted:.6f}, error = {error:.1f} ppm")
 
 # Also try subtraction
-print("\nSearching for correction = -a/(b×c):")
+print("\nSearching for correction = -a/(b*c):")
 for a in [1, 2, 3, 4, 7, 8, 11]:
     for b in [1, 2, 3, 4, 7, 8, 11]:
         for c in [1, 2, 3, 4, 7, 8, 11]:
@@ -374,7 +374,7 @@ for a in [1, 2, 3, 4, 7, 8, 11]:
                 predicted = base_sq + correction
                 error = abs(predicted - v_over_M) / v_over_M * 1e6
                 if error < 100:
-                    print(f"  784 - {a}/({b}×{c}) = 784 - {a}/{b*c} = {predicted:.6f}, error = {error:.1f} ppm")
+                    print(f"  784 - {a}/({b}*{c}) = 784 - {a}/{b*c} = {predicted:.6f}, error = {error:.1f} ppm")
 
 # =============================================================================
 # SUMMARY
@@ -388,21 +388,21 @@ print(f"""
 MEASURED: v/M = {v_over_M:.8f}
 
 CURRENT FORMULA:
-  v/M = (n_d × Im(O))² = 28² = 784
+  v/M = (n_d * Im(O))^2 = 28^2 = 784
   Error: {abs(784 - v_over_M)/v_over_M * 100:.4f}%
 
 BEST CANDIDATES FROM SEARCH:
 
 1. v/M = 784 + 1/3 = 2353/3 = 784.333...
    Error: {abs(784 + 1/3 - v_over_M)/v_over_M * 1e6:.1f} ppm
-   Interpretation: (n_d × Im(O))² + 1/Im(H)
+   Interpretation: (n_d * Im(O))^2 + 1/Im(H)
 
 2. v/M = 784 - 1/3 = 2351/3 = 783.666...
    Error: {abs(784 - 1/3 - v_over_M)/v_over_M * 1e6:.1f} ppm
-   Interpretation: (n_d × Im(O))² - 1/Im(H)
+   Interpretation: (n_d * Im(O))^2 - 1/Im(H)
 
 Note: The correction needed ({target_correction:.6f}) is very small.
-      v/M ≈ 784 is already quite good (0.07% error).
+      v/M ~ 784 is already quite good (0.07% error).
 
       The best simple correction doesn't have obvious division
       algebra structure yet.

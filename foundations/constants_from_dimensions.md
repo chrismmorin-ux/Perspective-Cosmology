@@ -38,11 +38,11 @@ From the four division algebras:
 | Quantity | Formula | Value | Meaning |
 |----------|---------|-------|---------|
 | Im(R) | R - 1 | 0 | Imaginary reals (none) |
-| Im(C) | C - 1 | 1 | Imaginary complex |
-| Im(H) | H - 1 | 3 | Imaginary quaternions |
-| Im(O) | O - 1 | 7 | Imaginary octonions |
+| Im_C | C - 1 | 1 | Imaginary complex |
+| Im_H | H - 1 | 3 | Imaginary quaternions |
+| Im_O | O - 1 | 7 | Imaginary octonions |
 | n_d | H | 4 | Spacetime dimension (largest associative) |
-| n_c | Im(C) + Im(H) + Im(O) | 11 | **Total imaginary dimensions** |
+| n_c | Im_C + Im_H + Im_O | 11 | **Total imaginary dimensions** |
 | H_sum | R + C + H + O | 15 | Total division algebra dimension |
 
 **Key relationship (Session 123)**:
@@ -51,7 +51,7 @@ From the four division algebras:
 
 **Rigorous derivation of n_c = 11**:
 ```
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 
 Equivalently: n_c = R + C + H + O - 4 = 15 - 4 = 11
 (The -4 removes the shared real axis counted 4 times)
@@ -86,7 +86,7 @@ Equivalently: n_c = R + C + H + O - 4 = 15 - 4 = 11
 
 137 is the sum of squares of the two fundamental dimensions:
 - **n_d = 4**: Spacetime (quaternion dimension)
-- **n_c = 11**: Crystal (Im(C) + Im(H) + Im(O) = 1 + 3 + 7; also R + C + O = 1 + 2 + 8, non-canonical)
+- **n_c = 11**: Crystal (Im_C + Im_H + Im_O = 1 + 3 + 7; also R + C + O = 1 + 2 + 8, non-canonical)
 
 The electromagnetic coupling measures the "interface" between spacetime and internal structure.
 
@@ -419,7 +419,7 @@ Located in `verification/sympy/`:
 
 | Choice | Classification | Example |
 |--------|---------------|---------|
-| n_c = Im(C)+Im(H)+Im(O) (sum, not product) | [D] AXM_0120 (CCP-3) | RESOLVED S252: CCP-3 (no redundancy) forces direct sum |
+| n_c = Im_C+Im_H+Im_O (sum, not product) | [D] AXM_0120 (CCP-3) | RESOLVED S252: CCP-3 (no redundancy) forces direct sum |
 | n_d = H (largest associative) | [D] from Frobenius + AXM_0119 | Derived |
 | H₀ = 337/5 (which dimensions, which operation) | [A-PHYSICAL] | Why these for Hubble? |
 | Ω_Λ = 137/200 = (n_d²+n_c²)/(2(n_c-1)²) | [A-PHYSICAL] | Identification with dark energy |

@@ -17,7 +17,7 @@ C = 2
 # Claim 1: H0 = 337/5
 val = Fraction(337, 5)
 print(f"\n1. H0 = 337/5 = {float(val):.1f} km/s/Mpc")
-print(f"   Measured: 67.4 ± 0.5")
+print(f"   Measured: 67.4 +/- 0.5")
 print(f"   337 = {Im_H}^4 + {H}^4 = {Im_H**4} + {H**4} = {Im_H**4 + H**4}")
 assert Im_H**4 + H**4 == 337, "337 check FAILED"
 print(f"   [PASS] 337 = Im_H^4 + H^4")
@@ -25,7 +25,7 @@ print(f"   [PASS] 337 = Im_H^4 + H^4")
 # Claim 2: Omega_Lambda = 137/200
 val = Fraction(137, 200)
 print(f"\n2. Omega_Lambda = 137/200 = {float(val)}")
-print(f"   Measured: 0.685 ± 0.007")
+print(f"   Measured: 0.685 +/- 0.007")
 print(f"   137 = {n_d}^2 + {n_c}^2 = {n_d**2 + n_c**2}")
 assert n_d**2 + n_c**2 == 137, "137 check FAILED"
 print(f"   [PASS] 137 = n_d^2 + n_c^2")
@@ -34,13 +34,13 @@ print(f"   [PASS] 137 = n_d^2 + n_c^2")
 val = Fraction(63, 200)
 print(f"\n3. Omega_m = 63/200 = {float(val)}")
 print(f"   = 1 - 137/200 = {float(Fraction(200-137, 200))}")
-print(f"   Measured: 0.315 ± 0.007")
+print(f"   Measured: 0.315 +/- 0.007")
 print(f"   [PASS] Complement of Omega_Lambda")
 
 # Claim 4: ell_1 = 220
 print(f"\n4. ell_1 = 220")
 print(f"   = 2 x {n_c} x 10 = {2*n_c*10}")
-print(f"   Measured: 220.0 ± 0.5")
+print(f"   Measured: 220.0 +/- 0.5")
 assert 2 * n_c * 10 == 220, "220 check FAILED"
 print(f"   [PASS] 2 * n_c * 10 = 220")
 
@@ -158,7 +158,7 @@ val = 10 * 109
 print(f"\n13. z_rec = 10 x 109 = {val}")
 measured = 1089.80
 error_pct = abs(val - measured) / measured * 100
-print(f"   Measured: {measured} ± 0.21")
+print(f"   Measured: {measured} +/- 0.21")
 print(f"   Error: {error_pct:.3f}%")
 print(f"   109 = ? (need to check framework origin)")
 print(f"   [PASS] Exact integer within measurement uncertainty")

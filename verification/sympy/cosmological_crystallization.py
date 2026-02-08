@@ -93,7 +93,7 @@ test("mu^2 = (C+H)*H^4/Im_O = 1536/7",
 # Test 2: n_s = 193/200 comparison to Planck
 # Framework: n_s = 193/200 = 0.965
 # Planck 2018: n_s = 0.9649 +/- 0.0042
-# Deviation: |0.965 - 0.9649| / 0.0042 = 0.024 sigma — excellent
+# Deviation: |0.965 - 0.9649| / 0.0042 = 0.024 sigma -- excellent
 # ------------------------------------------------------------------------------
 
 n_s_framework = Rational(193, 200)
@@ -109,7 +109,7 @@ test("n_s = 193/200 within 1 sigma of Planck",
 # ------------------------------------------------------------------------------
 # Test 3: r = 7/128 formula check + BICEP tension flag
 # Framework: r = Im_O / (8 * n_d^2) = 7/128 = 0.0547
-# BICEP/Keck 2021: r < 0.036 (95% CL) — IN TENSION
+# BICEP/Keck 2021: r < 0.036 (95% CL) -- IN TENSION
 # NOTE: Earlier C1 entry uses r = 7/200 = 0.035. The 7/128 formula is from
 # the astrophysical script (S231). Both are [CONJECTURE].
 # We verify the 7/128 formula and flag tension.
@@ -154,7 +154,7 @@ test("N_eff = Im_H = 3 within 1 sigma of Planck",
 # Test 5: Omega_Lambda = 137/200 conjecture comparison
 # Planck 2018: 0.6847 +/- 0.0073
 # Framework: 137/200 = 0.685
-# Note: alpha_inv = 137 appears in numerator — RED FLAG for numerology
+# Note: alpha_inv = 137 appears in numerator -- RED FLAG for numerology
 # ------------------------------------------------------------------------------
 
 Om_Lambda = Rational(137, 200)
@@ -165,14 +165,14 @@ dev_OL = Abs(Om_Lambda - Om_Lambda_planck) / Om_Lambda_sigma
 test("Omega_Lambda = 137/200 within 1 sigma of Planck",
      float(dev_OL) < 1,
      f"Omega_Lambda = {float(Om_Lambda):.4f}, Planck = {float(Om_Lambda_planck):.4f}, "
-     f"deviation = {float(dev_OL):.2f} sigma. [CONJECTURE — triple formula RED FLAG]")
+     f"deviation = {float(dev_OL):.2f} sigma. [CONJECTURE -- triple formula RED FLAG]")
 
 # ------------------------------------------------------------------------------
 # Test 6: Omega_m = 63/200 conjecture comparison
 # Planck 2018: 0.3153 +/- 0.0073
 # Framework: 63/200 = 0.315
 # 63 = O^2 - 1 = Im_O x Im_H^2
-# Note: no derived mechanism — pattern match only
+# Note: no derived mechanism -- pattern match only
 # ------------------------------------------------------------------------------
 
 Om_m = Rational(63, 200)
@@ -183,7 +183,7 @@ dev_Om = Abs(Om_m - Om_m_planck) / Om_m_sigma
 test("Omega_m = 63/200 within 1 sigma of Planck",
      float(dev_Om) < 1,
      f"Omega_m = {float(Om_m):.4f}, Planck = {float(Om_m_planck):.4f}, "
-     f"deviation = {float(dev_Om):.2f} sigma. [CONJECTURE — mechanism unknown]")
+     f"deviation = {float(dev_Om):.2f} sigma. [CONJECTURE -- mechanism unknown]")
 
 # Consistency: Omega_Lambda + Omega_m = 1
 test("Omega_Lambda + Omega_m = 1",
@@ -217,7 +217,7 @@ test("Lambda sign: V<0 gives Lambda>0 (S230 resolution)",
 # ------------------------------------------------------------------------------
 # Test 8: DM mass = 5.11 GeV [CONJECTURE]
 # Formula: m_DM = m_e * n_c^2 / n_d = 0.51100 * 121/4 = 15.46 MeV
-# Wait — that gives 15.46 MeV, not 5.11 GeV!
+# Wait -- that gives 15.46 MeV, not 5.11 GeV!
 # Let me check: 0.511 MeV * 121/4 = 0.511 * 30.25 = 15.46 MeV
 # Alternative: m_DM = m_e * (n_c/n_d)^2 ... 0.511 * (11/4)^2 = 0.511*7.5625 = 3.86 MeV
 # Another: m_DM = 10 * m_e = 5.11 MeV? That's 5.11 MeV not GeV...
@@ -232,7 +232,7 @@ test("Lambda sign: V<0 gives Lambda>0 (S230 resolution)",
 # The user says 5.11 GeV, which would be 10000 * m_e.
 # Let me just document what the formula gives and flag the discrepancy.
 # Actually, the user might mean a different formula. Let me verify the stated one.
-# m_e * n_c^2/n_d = 0.000511 GeV * 121/4 = 0.01546 GeV ≠ 5.11 GeV
+# m_e * n_c^2/n_d = 0.000511 GeV * 121/4 = 0.01546 GeV != 5.11 GeV
 # Checking EQ-013: "Dark matter 5 GeV mass mechanism"
 # Maybe the formula involves other quantities. Let me just test and document.
 # ------------------------------------------------------------------------------
@@ -243,13 +243,13 @@ DM_mass_formula = m_e_MeV * n_c**2 / n_d  # MeV
 test("DM mass formula: m_e * n_c^2/n_d",
      DM_mass_formula == Rational(511 * 121, 1000 * 4),
      f"m_DM = {float(DM_mass_formula):.3f} MeV = {float(DM_mass_formula)/1000:.5f} GeV. "
-     f"Note: user claims 5.11 GeV — formula gives {float(DM_mass_formula):.1f} MeV, "
-     f"NOT 5.11 GeV. Formula or interpretation mismatch — needs investigation.")
+     f"Note: user claims 5.11 GeV -- formula gives {float(DM_mass_formula):.1f} MeV, "
+     f"NOT 5.11 GeV. Formula or interpretation mismatch -- needs investigation.")
 
 # ------------------------------------------------------------------------------
 # Test 9: l_2 from baryon loading with phi_odd = 3/11
 # phi_odd = Im_H/n_c = 3/11 = 0.2727
-# Standard: l_2 ≈ 2*l_1 * (1 + shift from baryon loading)
+# Standard: l_2 ~ 2*l_1 * (1 + shift from baryon loading)
 # Framework claim: l_2/l_1 = 537/220 -> l_2 = 537.5
 # Planck: l_2 = 537.5 +/- 0.7
 # The phi_odd = 3/11 enters baryon loading formula: R = Omega_b/(Omega_gamma*(1+z))
@@ -339,7 +339,7 @@ test("r_s framework ~ 144.4 Mpc close to Planck 144.43",
      f"r_s(framework) ~ {float(r_s_framework):.1f} Mpc, "
      f"Planck = {float(r_s_planck):.2f} +/- {float(r_s_sigma):.2f} Mpc, "
      f"deviation = {float(dev_rs):.1f} sigma. "
-     f"[FRAMEWORK-CONSTRAINED — uses standard integral, r_s derivation caveated S205]")
+     f"[FRAMEWORK-CONSTRAINED -- uses standard integral, r_s derivation caveated S205]")
 
 # ==============================================================================
 # SUMMARY
@@ -365,7 +365,7 @@ print("- Tests 1-3: Framework inflationary predictions (mu^2, n_s, r)")
 print("- Test 3: r = 7/128 is IN TENSION with BICEP/Keck r < 0.036")
 print("- Tests 5-6: Omega_Lambda/Omega_m are [CONJECTURE] with RED FLAG (triple formula)")
 print("- Test 7: Lambda sign resolution (S230) is a convention fix, not a prediction")
-print("- Test 8: DM mass formula gives 15.5 MeV, not the claimed 5.11 GeV — discrepancy flagged")
+print("- Test 8: DM mass formula gives 15.5 MeV, not the claimed 5.11 GeV -- discrepancy flagged")
 print("- Tests 9-10: Standard physics consistency checks with framework N_nu = 3 input")
 print("- Test 12: r_s uses standard integral (caveated after S205 factor demotion)")
-print("- Lambda magnitude gap (~10^111) REMAINS — documented but not testable here")
+print("- Lambda magnitude gap (~10^111) REMAINS -- documented but not testable here")

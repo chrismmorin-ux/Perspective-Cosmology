@@ -115,9 +115,9 @@ This explains why quantum effects are subtle.
 - Crystallization breaks SO(11) -> SO(10)
 - 10 Goldstone modes emerge
 - Split: 1 (time) + 3 (space) + 6 (internal)
-- Spatial modes span Im(H) = imaginary quaternions
+- Spatial modes span Im_H = imaginary quaternions
 
-**Why 3 spatial dimensions**: Im(H) = 3
+**Why 3 spatial dimensions**: Im_H = 3
 
 ### Momentum
 
@@ -217,12 +217,12 @@ WHY don't we see it?
 
 ### Angular Momentum Quantization
 
-Spatial rotations form SO(3) acting on Im(H):
+Spatial rotations form SO(3) acting on Im_H:
 - SO(3) is compact
 - Compact Lie groups have discrete representations
 - Therefore angular momentum is discrete
 
-This is DERIVED from quaternion structure (Im(H) = 3).
+This is DERIVED from quaternion structure (Im_H = 3).
 
 ### Derivation Chain
 
@@ -299,7 +299,7 @@ V_Crystal (vector space + inner product)
       Time Space Internal
        (1)  (3)   (6)
              |
-        Im(H) = 3
+        Im_H = 3
              |
         SO(3) compact
              |

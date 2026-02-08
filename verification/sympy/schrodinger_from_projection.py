@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Schrödinger Equation from Dimensional Projection
+Schrodinger Equation from Dimensional Projection
 
-KEY FINDING: The Schrödinger equation in 3D emerges as the projected dynamics
+KEY FINDING: The Schrodinger equation in 3D emerges as the projected dynamics
 of a wave in (3+k) dimensions, where k compact hidden dimensions are unobservable.
 
 Core premise: A particle is a higher-dimensional object. Measurement is its 3D
@@ -10,11 +10,11 @@ projection. The total information requires the full dimensionality. Quantum
 uncertainty arises because the hidden dimensions are inaccessible.
 
 Key results verified:
-1. Separation of variables: full-space Schrödinger → 3D Schrödinger + mass term
+1. Separation of variables: full-space Schrodinger -> 3D Schrodinger + mass term
 2. Fourier orthogonality: hidden modes decouple upon tracing
 3. Born rule from marginalization over hidden dimensions
 4. Density matrix from partial trace (decoherence mechanism)
-5. Uncertainty principle: hidden-dimension motion → momentum uncertainty
+5. Uncertainty principle: hidden-dimension motion -> momentum uncertainty
 6. Wave packet spreading: hidden motion drives 3D dispersion
 
 Status: DERIVATION
@@ -68,12 +68,12 @@ d2_dx2 = diff(Phi_ansatz, x, 2)
 d2_dtheta2 = diff(Phi_ansatz, theta, 2)
 dt_Phi = diff(Phi_ansatz, t)
 
-# The full Schrödinger equation = 0 form:
+# The full Schrodinger equation = 0 form:
 # ihbar * dPhi/dt + (hbar^2/2m)(d^2Phi/dx^2 + (1/R^2)*d^2Phi/dtheta^2) = 0
 full_eqn = I * hbar * dt_Phi + (hbar**2 / (2 * m_phys)) * (d2_dx2 + d2_dtheta2 / R**2)
 
 # Factor out exp(i*n*theta)
-# The equation should be: exp(i*n*theta) * [3D Schrödinger for psi] = 0
+# The equation should be: exp(i*n*theta) * [3D Schrodinger for psi] = 0
 full_simplified = simplify(full_eqn / exp(I * n * theta))
 
 print(f"\nAfter dividing out exp(i*n*theta):")
@@ -81,7 +81,7 @@ print(f"  {full_simplified}")
 
 # Extract the effective potential from the hidden dimension
 # Should be: ihbar dpsi/dt + (hbar^2/2m) d^2psi/dx^2 - n^2*hbar^2/(2*m*R^2) * psi = 0
-# i.e., Schrödinger with V_eff = n^2 * hbar^2 / (2*m*R^2)
+# i.e., Schrodinger with V_eff = n^2 * hbar^2 / (2*m*R^2)
 
 V_eff = n**2 * hbar**2 / (2 * m_phys * R**2)
 print(f"\nEffective potential from hidden dimension: V_eff = n^2 * hbar^2 / (2*m*R^2)")
@@ -108,7 +108,7 @@ expected_t = diff(psi(x, t), t)
 test1c_pass = simplify(t_ratio - expected_t) == 0
 print(f"[{'PASS' if test1c_pass else 'FAIL'}] t-derivative passes through exp(i*n*theta)")
 
-# For n=0: free Schrödinger equation (no hidden-dimension contribution)
+# For n=0: free Schrodinger equation (no hidden-dimension contribution)
 V_eff_n0 = V_eff.subs(n, 0)
 test1d_pass = (V_eff_n0 == 0)
 print(f"[{'PASS' if test1d_pass else 'FAIL'}] n=0 gives free Schrodinger (V_eff = {V_eff_n0})")
@@ -265,7 +265,7 @@ print("-> more uncertainty in subsequent measurements")
 
 # A Gaussian wave packet in 3D with width sigma
 # has momentum uncertainty Delta_p = hbar / (2*sigma)
-# As sigma → 0 (precise position), Delta_p → infinity
+# As sigma -> 0 (precise position), Delta_p -> infinity
 
 # The hidden dimension contributes additional momentum: p_hidden = n*hbar/R
 # This is not directly measurable, but affects the energy: E_n = n^2*hbar^2/(2*m*R^2)
@@ -294,10 +294,10 @@ for n_val in [0, 1, 2, 3]:
     delta_E = delta_p_min**2 / (2 * m_val) + E_n
     print(f"  n = {n_val}          | {E_n:.4f}           | {delta_p_min:.4f} + hidden p = {n_val}*hbar/R = {n_val*hbar_val/R_val:.4f}")
 
-# THE KEY RESULT: measuring position precisely (sigma_0 → 0) means:
-# 1. Delta_p → infinity in 3D (standard Heisenberg)
+# THE KEY RESULT: measuring position precisely (sigma_0 -> 0) means:
+# 1. Delta_p -> infinity in 3D (standard Heisenberg)
 # 2. The hidden mode state becomes uncertain (we can't constrain n)
-# 3. Different n modes evolve at different rates → the 3D state decoheres
+# 3. Different n modes evolve at different rates -> the 3D state decoheres
 # 4. This IS the measurement back-action, with a physical mechanism
 
 print("\n--- The Measurement Back-Action Mechanism ---")
@@ -319,7 +319,7 @@ E2 = n2**2 * hbar_val**2 / (2 * m_val * R_val**2)
 # Off-diagonal element of density matrix oscillates as exp(i*(E1-E2)*t/hbar)
 # |rho_12(t)| = |c1*c2| * |exp(i*(E1-E2)*t/hbar)| = |c1*c2| (constant!)
 # BUT: if we average over a time window (coarse-grained measurement),
-# the oscillating phase averages to zero → decoherence
+# the oscillating phase averages to zero -> decoherence
 
 delta_E = abs(E1 - E2)
 decoherence_time = 2 * np.pi * hbar_val / delta_E
@@ -348,7 +348,7 @@ print("we get the Klein-Gordon equation in 3D -> Schrodinger in non-rel limit")
 # Full-space wave equation: d^2 Phi/dt^2 = c^2 * nabla^2_N Phi
 # With Phi = psi(x,t) * exp(i*n*theta):
 # d^2 psi/dt^2 * exp(i*n*theta) = c^2 * [d^2 psi/dx^2 - n^2/R^2 * psi] * exp(i*n*theta)
-# → d^2 psi/dt^2 = c^2 * d^2 psi/dx^2 - (n*c/R)^2 * psi
+# -> d^2 psi/dt^2 = c^2 * d^2 psi/dx^2 - (n*c/R)^2 * psi
 # This is the Klein-Gordon equation with mass m_n = n*hbar/(R*c)
 
 c_speed = Symbol('c', positive=True)
@@ -357,7 +357,7 @@ print(f"\n  Klein-Gordon mass from hidden dimension: m_n = n*hbar/(R*c) = {mass_
 print(f"  Klein-Gordon equation: d^2 psi/dt^2 = c^2 d^2 psi/dx^2 - (m_n*c^2/hbar)^2 psi")
 
 # Non-relativistic limit: psi(x,t) = phi(x,t) * exp(-i*m_n*c^2*t/hbar)
-# where phi varies slowly → recover Schrödinger equation for phi
+# where phi varies slowly -> recover Schrodinger equation for phi
 print(f"\n  Non-relativistic limit (psi = phi * exp(-i*m_n*c^2*t/hbar)):")
 print(f"  -> i*hbar d(phi)/dt = -(hbar^2/(2*m_n)) d^2(phi)/dx^2")
 print(f"  THIS IS THE FREE SCHRODINGER EQUATION")
@@ -408,7 +408,7 @@ Phi_0 /= norm
 P_x_initial = np.sum(np.abs(Phi_0)**2, axis=1) * dth
 
 # Compare with a particle that has NO hidden dimension spread
-# (delta function in theta → single mode → pure state in x)
+# (delta function in theta -> single mode -> pure state in x)
 Phi_0_pure = np.zeros((N_x, N_th), dtype=complex)
 for i, xv in enumerate(x_arr):
     for j, thv in enumerate(th_arr):

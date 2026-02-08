@@ -26,8 +26,8 @@ O gives SU(3) with 3 colors
 H gives SU(2)
 Quarks transform under SU(3) as triplets
 
-[ASSUMED] B = 1/3 for quarks (because 3 quarks = 1 baryon)
-[ASSUMED] L = 1 for leptons (color singlets)
+[A-IMPORT] B = 1/3 for quarks (because 3 quarks = 1 baryon; from SM baryon number assignment)
+[A-IMPORT] L = 1 for leptons (color singlets; from SM lepton number assignment)
 
 Then:
 Y_L = (B - L)/2 → all left-handed hypercharges
@@ -40,9 +40,9 @@ Y_R = Y_L + T³ → all right-handed hypercharges
 |---------|--------|
 | 3 colors from O structure | DERIVED (dim(O)/dim(C) - 1 = 3) |
 | Quarks are color triplets | DERIVED (from O-interface) |
-| B = 1/3 | **ASSUMED** |
-| L = 1 | ASSUMED (or from lepton being color singlet?) |
-| Y = (B-L)/2 | Imported from SM |
+| B = 1/3 | **[A-IMPORT]** from SM baryon number |
+| L = 1 | **[A-IMPORT]** from SM lepton number |
+| Y = (B-L)/2 | **[A-IMPORT]** from SM hypercharge formula |
 
 ---
 
@@ -74,7 +74,7 @@ This is **phenomenological** — we observe protons exist and have B = 1.
    - This might fix B = 1/N_colors
 
 3. **Division algebra structure**:
-   - B might relate to Im(O)/Im(H) or similar ratio
+   - B might relate to Im_O/Im_H or similar ratio
    - This would ground B in the mathematical structure
 
 ---
@@ -257,10 +257,10 @@ But the NUMERICAL VALUE B = 1/3 would be derived, not assumed.
 Could B relate to the division algebra structure directly?
 
 **Observation**:
-- Im(H) = 3 = N_colors
-- B = 1/3 = 1/Im(H)
+- Im_H = 3 = N_colors
+- B = 1/3 = 1/Im_H
 
-Is there a reason B = 1/dim(Im(H))?
+Is there a reason B = 1/dim(Im_H)?
 
 ### 8.2 Interface Interpretation
 

@@ -257,7 +257,7 @@ f_ch = algebra-dependent    [R, C, H, O sectors contribute differently]
 Omega = 1                   [per particle]
 ```
 
-The static limit. After C2 completes, the eigenvalue pattern of eps_ij is frozen. 15 = R + C + H + O fermions per generation. 3 generations from Im(H).
+The static limit. After C2 completes, the eigenvalue pattern of eps_ij is frozen. 15 = R + C + H + O fermions per generation. 3 generations from Im_H.
 
 ---
 

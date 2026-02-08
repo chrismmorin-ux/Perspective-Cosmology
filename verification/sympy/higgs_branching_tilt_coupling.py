@@ -136,14 +136,14 @@ print(f"  = {float(predicted_ql):.2f}")
 print(f"Framework: N_c = Im_H = {Im_H} (quaternion imaginary dimensions)")
 
 # ==============================================================================
-# PART 3: CJ-CDV-06 test — bb̄ dominance from O-channel mode counting
+# PART 3: CJ-CDV-06 test -- bb dominance from O-channel mode counting
 # ==============================================================================
 print("\n" + "=" * 70)
 print("PART 3: CJ-CDV-06 -- bb-bar dominance and O-channel mode counting")
 print("=" * 70)
 
-# The conjecture: bb̄ dominance is because b quarks are in the O-channel
-# with 8 modes (dim O) × mass coupling
+# The conjecture: bb dominance is because b quarks are in the O-channel
+# with 8 modes (dim O) * mass coupling
 #
 # In SM terms: Gamma(bb) = N_c * m_b^2 / (8*pi*v^2) * m_H * beta_b^3
 # The color factor N_c = 3 = Im_H is the framework contribution.
@@ -151,18 +151,18 @@ print("=" * 70)
 # But CJ-CDV-06 asks: is there MORE than just N_c = 3?
 # Does dim(O) = 8 play a role beyond just 3 colors?
 
-# Test: bb̄ fraction among all fermion decays
+# Test: bb fraction among all fermion decays
 BR_all_fermion = BR_quark_fermion + BR_lepton_fermion
 bb_fraction_of_fermions = BR_SM['bb'] / BR_all_fermion
-print(f"\nbb̄ as fraction of all fermion decays: {float(bb_fraction_of_fermions)*100:.1f}%")
+print(f"\nbb as fraction of all fermion decays: {float(bb_fraction_of_fermions)*100:.1f}%")
 
 # SM prediction: bb dominates because m_b >> m_c, m_tau, etc.
 # bb/(all fermions) = N_c*m_b^2 / (N_c*(m_b^2+m_c^2) + m_tau^2 + m_mu^2)
 bb_SM_frac = N_c * m_b**2 / (N_c * mass_sq_quarks + mass_sq_leptons)
 print(f"SM tree-level prediction: {float(bb_SM_frac)*100:.1f}%")
 
-# Framework test: does bb̄ fraction = dim(O)/(dim(O) + dim(H) + dim(C))?
-# That would be 8/15 = 53.3% — close to 58.2% but not exact
+# Framework test: does bb fraction = dim(O)/(dim(O) + dim(H) + dim(C))?
+# That would be 8/15 = 53.3% -- close to 58.2% but not exact
 framework_O_frac_15 = Rational(dim_O, dim_O + dim_H + dim_C)
 print(f"\ndim(O)/(O+H+C) = {dim_O}/({dim_O}+{dim_H}+{dim_C}) = {framework_O_frac_15} = {float(framework_O_frac_15)*100:.1f}%")
 
@@ -173,11 +173,11 @@ print(f"dim(O)/n_c = {dim_O}/{n_c} = {float(framework_O_frac_nc)*100:.1f}%")
 # Or: Im_O/(Im_O + Im_H + dim_C) = 7/12 = 58.3%? <--- close to 58.2!
 framework_ImO_frac = Rational(Im_O, Im_O + Im_H + dim_C)
 print(f"Im_O/(Im_O+Im_H+dim_C) = {Im_O}/({Im_O}+{Im_H}+{dim_C}) = {framework_ImO_frac} = {float(framework_ImO_frac)*100:.1f}%")
-print(f"  Compare measured bb̄ BR: 58.2%")
+print(f"  Compare measured bb BR: 58.2%")
 print(f"  Error: {abs(float(framework_ImO_frac) - 0.582)/0.582*100:.1f}%")
 
 # Hmm, 7/12 = 58.33% vs 58.2% is only 0.2% off. Suspicious proximity.
-# But this is likely coincidence — the 58.2% depends on m_b specifically.
+# But this is likely coincidence -- the 58.2% depends on m_b specifically.
 
 # ==============================================================================
 # PART 4: Gauge boson ratio WW*/ZZ*
@@ -189,13 +189,13 @@ print("=" * 70)
 ratio_WZ = BR_SM['WW'] / BR_SM['ZZ']
 print(f"\nBR(WW*)/BR(ZZ*) = {float(ratio_WZ):.2f}")
 
-# SM prediction: Gamma(WW)/Gamma(ZZ) ≈ 2 * (g_W/g_Z)^2 * (phase space)
+# SM prediction: Gamma(WW)/Gamma(ZZ) ~ 2 * (g_W/g_Z)^2 * (phase space)
 # At tree level, coupling ratio is exact:
 # g_HWW = g * m_W = 2*m_W^2/v
 # g_HZZ = g/cos(theta_W) * m_Z = 2*m_Z^2/v
-# Width ratio ∝ (2*m_W^2/v)^2 / (2*m_Z^2/v)^2 * PS correction
-# ≈ (m_W/m_Z)^4 * 2 (factor 2 from charged vs neutral)
-# ≈ cos^4(theta_W) * 2
+# Width ratio ~ (2*m_W^2/v)^2 / (2*m_Z^2/v)^2 * PS correction
+# ~ (m_W/m_Z)^4 * 2 (factor 2 from charged vs neutral)
+# ~ cos^4(theta_W) * 2
 
 # Framework: cos^2(theta_W) = 1 - 28/121 = 93/121
 cos4_W = cos2_W**2
@@ -204,7 +204,7 @@ print(f"\nFramework (leading order): 2*cos^4(theta_W)")
 print(f"  = 2 * (93/121)^2 = {float(WZ_framework):.3f}")
 print(f"  Compare measured ratio: {float(ratio_WZ):.3f}")
 
-# Phase space matters here — both are off-shell at m_H = 125 GeV
+# Phase space matters here -- both are off-shell at m_H = 125 GeV
 # More accurate: include off-shell phase space factor
 # Gamma(WW*) = (g^2*m_H^3)/(64*pi*m_W^2) * delta_W (off-shell correction)
 # For m_H=125 GeV: delta_W ~ 0.57, delta_Z ~ 0.49
@@ -215,27 +215,27 @@ print(f"  (m_H < 2*m_W and m_H < 2*m_Z, so both are partially off-shell)")
 # or to the W/Z mass ratio which connects to sin^2(theta_W)
 print(f"\n  dim(H)/dim(C) = {dim_H}/{dim_C} = {Rational(dim_H, dim_C)} = {float(Rational(dim_H, dim_C)):.1f}")
 print(f"  Im_H/dim_C = {Im_H}/{dim_C} = {Rational(Im_H, dim_C)} = {float(Rational(Im_H, dim_C)):.1f}")
-print(f"  (Neither matches the ~8.2 ratio — WW/ZZ is mostly a mass/phase-space effect)")
+print(f"  (Neither matches the ~8.2 ratio -- WW/ZZ is mostly a mass/phase-space effect)")
 
 # ==============================================================================
-# PART 5: Loop-induced ratio gg/γγ
+# PART 5: Loop-induced ratio gg/gammagamma
 # ==============================================================================
 print("\n" + "=" * 70)
-print("PART 5: Loop-induced decays — gg vs γγ")
+print("PART 5: Loop-induced decays -- gg vs gammagamma")
 print("=" * 70)
 
 ratio_gg_gamgam = BR_SM['gg'] / BR_SM['gamgam']
-print(f"\nBR(gg)/BR(γγ) = {float(ratio_gg_gamgam):.1f}")
+print(f"\nBR(gg)/BR(gammagamma) = {float(ratio_gg_gamgam):.1f}")
 
-# SM: Gamma(gg)/Gamma(gamgam) ≈ (alpha_s/alpha)^2 * (8/2)^2 * |A_1/2(tau_t)|^2 / |A_1(tau_W) + 4/3*A_1/2(tau_t)|^2
-# Very roughly: ≈ (alpha_s/alpha)^2 * (color sum / EM charge sum)^2
+# SM: Gamma(gg)/Gamma(gamgam) ~ (alpha_s/alpha)^2 * (8/2)^2 * |A_1/2(tau_t)|^2 / |A_1(tau_W) + 4/3*A_1/2(tau_t)|^2
+# Very roughly: ~ (alpha_s/alpha)^2 * (color sum / EM charge sum)^2
 # alpha_s(m_H) ~ 0.1126, alpha(m_H) ~ 1/128
-# ≈ (0.1126*128)^2 * correction ≈ (14.4)^2 * (form factor correction ~ 1/6)
+# ~ (0.1126*128)^2 * correction ~ (14.4)^2 * (form factor correction ~ 1/6)
 
 # Framework interpretation:
 # gg = O-channel loop (strong, 8 gluons)
-# γγ = C-channel loop (EM, 1 photon)
-# Ratio should involve (alpha_s/alpha_EM)^2 × (O-mode / C-mode)^2
+# gammagamma = C-channel loop (EM, 1 photon)
+# Ratio should involve (alpha_s/alpha_EM)^2 * (O-mode / C-mode)^2
 
 alpha_s_mH = Rational(1126, 10000)  # alpha_s(m_H) ~ 0.1126
 alpha_em_mH = Rational(1, 128)      # alpha_EM(m_H) ~ 1/128
@@ -244,7 +244,7 @@ alpha_em_mH = Rational(1, 128)      # alpha_EM(m_H) ~ 1/128
 naive_ratio = (alpha_s_mH / alpha_em_mH)**2
 print(f"\nNaive (alpha_s/alpha_EM)^2 = {float(naive_ratio):.1f}")
 print(f"Actual ratio: {float(ratio_gg_gamgam):.1f}")
-print(f"  → Form factor correction: {float(ratio_gg_gamgam / naive_ratio):.3f}")
+print(f"  -> Form factor correction: {float(ratio_gg_gamgam / naive_ratio):.3f}")
 
 # Framework ratio test: alpha_s ~ 1/(Im_O+1) = 1/8, alpha ~ 1/137
 # (alpha_s/alpha)^2 ~ (137/8)^2 ~ 293
@@ -268,8 +268,8 @@ print("=" * 70)
 # More refined channel assignment:
 # Strong sector (O): bb, cc, ss (implicit), gg
 # Weak sector (H): WW, ZZ (gauge bosons carrying SU(2))
-# EM sector (C): γγ
-# Mixed: Zγ (H ∩ C)
+# EM sector (C): gammagamma
+# Mixed: Zgamma (H n C)
 # Yukawa-only (no strong): tautau, mumu (leptons couple to H but NOT O)
 
 # Key insight: fermion couplings go through Yukawa (tilt curvature)
@@ -312,11 +312,11 @@ print("=" * 70)
 patterns = [
     ("Im_O/12 = 7/12", Rational(Im_O, 12), BR_SM['bb'], "bb BR"),
     ("Im_H/n_c = 3/11", Rational(Im_H, n_c), BR_SM['WW'] + BR_SM['ZZ'], "WW+ZZ BR"),
-    ("1/N_I = 1/137", Rational(1, N_I), BR_SM['gamgam'], "γγ BR"),
+    ("1/N_I = 1/137", Rational(1, N_I), BR_SM['gamgam'], "gammagamma BR"),
     ("n_d/n_c^2 = 4/121", Rational(n_d, n_c**2), BR_SM['ZZ'], "ZZ BR"),
     ("dim_O/N_I = 8/137", Rational(dim_O, N_I), BR_SM['gg'], "gg BR"),
     ("dim_C/n_c = 2/11", Rational(dim_C, n_c), BR_SM['tautau'] + BR_SM['mumu'], "tau+mu BR"),
-    ("dim_H/n_c = 4/11", Rational(dim_H, n_c), None, "—"),
+    ("dim_H/n_c = 4/11", Rational(dim_H, n_c), None, "--"),
 ]
 
 print(f"\n{'Pattern':<25} {'Value':>8} {'SM BR':>10} {'Ratio':>8} {'Match?':<8}")
@@ -327,13 +327,13 @@ for label, framework_val, sm_val, target in patterns:
         match = "~YES" if 0.8 < ratio_pat < 1.2 else "NO"
         print(f"{label:<25} {float(framework_val):.5f} {float(sm_val):.5f}  {ratio_pat:>7.3f}  {match}")
     else:
-        print(f"{label:<25} {float(framework_val):.5f}      —        —     —")
+        print(f"{label:<25} {float(framework_val):.5f}      --        --     --")
 
-# The 7/12 ≈ 0.5833 vs bb BR = 0.582 proximity
+# The 7/12 ~ 0.5833 vs bb BR = 0.582 proximity
 print(f"\n*** Notable proximity: Im_O/(Im_O+Im_H+dim_C) = 7/12 = {float(Rational(7,12)):.4f}")
 print(f"    vs BR(bb) = 0.5820")
 print(f"    Error: {abs(float(Rational(7,12)) - 0.582)/0.582*100:.2f}%")
-print(f"    BUT: This is likely coincidental — BB BR depends on m_b")
+print(f"    BUT: This is likely coincidental -- BB BR depends on m_b")
 
 # ==============================================================================
 # PART 8: What CJ-CDV-06 ACTUALLY predicts
@@ -343,11 +343,11 @@ print("PART 8: Honest assessment of CJ-CDV-06")
 print("=" * 70)
 
 print("""
-CJ-CDV-06 states: "Higgs bb̄ dominance = O-channel mode counting"
+CJ-CDV-06 states: "Higgs bb dominance = O-channel mode counting"
 
 ASSESSMENT:
 
-1. The bb̄ dominance (58.2%) is PRIMARILY because:
+1. The bb dominance (58.2%) is PRIMARILY because:
    - m_b is the heaviest accessible fermion (4.18 GeV >> m_tau = 1.78 GeV)
    - Color factor N_c = 3 enhances quarks over leptons
    - This is standard SM physics
@@ -359,7 +359,7 @@ ASSESSMENT:
 
 3. The 7/12 proximity to BB BR:
    - Im_O/(Im_O + Im_H + dim_C) = 7/12 = 58.33% vs 58.2%
-   - Error: 0.2% — suspiciously close
+   - Error: 0.2% -- suspiciously close
    - BUT: The BB BR depends on m_b, m_c, m_tau, v, m_H, alpha_s(m_H)
    - Changing m_b by 1% changes BB BR by ~2%
    - This is likely NUMEROLOGICAL unless a mechanism is shown
@@ -372,10 +372,10 @@ ASSESSMENT:
 """)
 
 # ==============================================================================
-# PART 9: What IS derivable — the channel hierarchy
+# PART 9: What IS derivable -- the channel hierarchy
 # ==============================================================================
 print("=" * 70)
-print("PART 9: Derivable framework content — channel hierarchy")
+print("PART 9: Derivable framework content -- channel hierarchy")
 print("=" * 70)
 
 # The framework DOES predict a hierarchy: O > H > C for coupling strengths
@@ -389,7 +389,7 @@ print(f"  C-mediated: {float(C_mediated)*100:.3f}%")
 print(f"  Hierarchy O > H > C: {'YES' if O_mediated > H_mediated > C_mediated else 'NO'}")
 
 # The framework also predicts: within each channel, heavier fermions dominate
-# because tilt curvature ∝ mass (Yukawa coupling y_f = m_f/v)
+# because tilt curvature ~ mass (Yukawa coupling y_f = m_f/v)
 print(f"\nWithin O-channel:")
 print(f"  bb > cc:  {float(BR_SM['bb']):.4f} > {float(BR_SM['cc']):.4f} = {'YES' if BR_SM['bb'] > BR_SM['cc'] else 'NO'}")
 print(f"  bb/cc = {float(BR_SM['bb']/BR_SM['cc']):.1f} (expect m_b^2/m_c^2 = {float(m_b**2/m_c**2):.1f})")
@@ -399,10 +399,10 @@ print(f"  tautau > mumu: {float(BR_SM['tautau']):.5f} > {float(BR_SM['mumu']):.5
 print(f"  tautau/mumu = {float(BR_SM['tautau']/BR_SM['mumu']):.0f} (expect m_tau^2/m_mu^2 = {float(m_tau**2/m_mu**2):.0f})")
 
 # Framework prediction for WW/ZZ:
-# Gamma(WW)/Gamma(ZZ) related to cos^4(theta_W) × 2
+# Gamma(WW)/Gamma(ZZ) related to cos^4(theta_W) * 2
 # With sin^2 = 28/121: cos^2 = 93/121, cos^4 = 8649/14641
-# 2*cos^4 = 17298/14641 ≈ 1.18 × (phase space correction ≈ 7)
-# Actual ratio ~ 8.2 → phase space dominates
+# 2*cos^4 = 17298/14641 ~ 1.18 * (phase space correction ~ 7)
+# Actual ratio ~ 8.2 -> phase space dominates
 print(f"\nWW/ZZ ratio:")
 print(f"  Measured: {float(ratio_WZ):.2f}")
 print(f"  2*cos^4(theta_W) = {float(WZ_framework):.3f} (coupling only)")
@@ -428,13 +428,13 @@ print(f"  From BRs: {float(ql_ratio_meas):.2f}")
 print(f"  Error: {abs(float(ql_ratio_pred - ql_ratio_meas)/float(ql_ratio_meas))*100:.1f}%")
 print(f"  Note: Discrepancy from QCD corrections to quark widths")
 
-# Prediction 2: γγ/μμ ratio (both very clean)
+# Prediction 2: gammagamma/mumu ratio (both very clean)
 # Gamma(gamgam)/Gamma(mumu) involves alpha^2 vs m_mu^2/v^2
 gamgam_mumu = BR_SM['gamgam'] / BR_SM['mumu']
-print(f"\nPrediction 2: γγ/μμ ratio")
+print(f"\nPrediction 2: gammagamma/mumu ratio")
 print(f"  Measured: {float(gamgam_mumu):.1f}")
 # SM: Gamma(gamgam)/Gamma(mumu) = (alpha/pi)^2 * (m_H/m_mu)^2 * |loop factors|^2 / 2
-# This is complex — skip detailed formula
+# This is complex -- skip detailed formula
 
 # Prediction 3: bb fraction among tree-level fermion decays
 bb_tree_frac_meas = BR_SM['bb'] / (BR_SM['bb'] + BR_SM['cc'] + BR_SM['tautau'] + BR_SM['mumu'])
@@ -472,8 +472,8 @@ tests = [
     ("WW/ZZ coupling factor ~ 2*cos^4(theta_W)", 0.5 < float(WZ_framework) < 2.0),
 
     # Part 5: Loop hierarchy
-    ("gg >> γγ (O-loop >> C-loop)", BR_SM['gg'] > 10 * BR_SM['gamgam']),
-    ("gg/γγ > (alpha_s/alpha)^2 * correction", float(ratio_gg_gamgam) > 10),
+    ("gg >> gammagamma (O-loop >> C-loop)", BR_SM['gg'] > 10 * BR_SM['gamgam']),
+    ("gg/gammagamma > (alpha_s/alpha)^2 * correction", float(ratio_gg_gamgam) > 10),
 
     # Part 6: Mass hierarchy within channels
     ("bb > cc within O-channel (m_b > m_c)", BR_SM['bb'] > BR_SM['cc']),
@@ -505,10 +505,10 @@ What the framework DOES contribute to Higgs branching ratios:
    - Already established in THM_04A3, not a new prediction
 
 2. [CONFIRMED] Channel hierarchy O > H > C mirrors force hierarchy:
-   - O-mediated (quarks+gg) >> H-mediated (WW+ZZ) >> C-mediated (γγ)
+   - O-mediated (quarks+gg) >> H-mediated (WW+ZZ) >> C-mediated (gammagamma)
    - Crystallization ordering: Strong > Weak > EM
 
-3. [NOTED] Proximity Im_O/(Im_O+Im_H+dim_C) = 7/12 ≈ BB BR:
+3. [NOTED] Proximity Im_O/(Im_O+Im_H+dim_C) = 7/12 ~ BB BR:
    - 58.33% vs 58.2% (0.2% error)
    - Status: NUMEROLOGICAL until mechanism shown
    - The BB BR depends on m_b which is not derived from framework
@@ -517,7 +517,7 @@ What the framework DOES contribute to Higgs branching ratios:
    - Cannot predict individual BRs without fermion masses
    - Fermion mass derivation is a separate open problem
 
-CJ-CDV-06 status: PARTIAL — the mode counting aspect (N_c = 3 = Im_H) is
+CJ-CDV-06 status: PARTIAL -- the mode counting aspect (N_c = 3 = Im_H) is
 trivially confirmed, but the deeper claim that O-channel structure determines
 the specific BB fraction is UNSUPPORTED without a mass mechanism.
 """)

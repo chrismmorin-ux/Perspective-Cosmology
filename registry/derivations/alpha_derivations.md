@@ -19,7 +19,7 @@
 
 **Physical Interpretation**:
 - n_d = 4: dim(H) — largest associative division algebra (spacetime defect)
-- n_c = 11: Im(C) + Im(H) + Im(O) = 1 + 3 + 7 (crystal constraint)
+- n_c = 11: Im_C + Im_H + Im_O = 1 + 3 + 7 (crystal constraint)
 - Main term (137): Prime attractor encoding associative/non-associative split
 - Correction (4/111): Crystallization incompleteness
 
@@ -84,7 +84,7 @@
 
 **Why 44/7?**:
 - 44 = 4 × 11 = n_d × n_c (defect-crystal interface)
-- 7 = Im(O) = imaginary octonions (color structure)
+- 7 = Im_O = imaginary octonions (color structure)
 - Ratio encodes defect-crystal to color geometry
 
 **Imports**: M_Pl from observation (required for dimensional scale)

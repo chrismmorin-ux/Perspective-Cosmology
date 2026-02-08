@@ -4,13 +4,13 @@
 **Priority**: HIGH
 **Purpose**: Derive why there are exactly 3 generations of fermions
 
-> **Verification note (S189 audit)**: This document's core claim (3 generations = dim(Im(H)) = 3) is a structural correspondence [A-PHYSICAL], not a quantitative prediction requiring SymPy verification. The identification of quaternionic imaginary dimensions with fermion generations is a conceptual assertion that needs physical justification, not computational verification. Mass ratio claims (if any) would require scripts.
+> **Verification note (S189 audit)**: This document's core claim (3 generations = dim(Im_H) = 3) is a structural correspondence [A-PHYSICAL], not a quantitative prediction requiring SymPy verification. The identification of quaternionic imaginary dimensions with fermion generations is a conceptual assertion that needs physical justification, not computational verification. Mass ratio claims (if any) would require scripts.
 
 ---
 
 ## The Claim
 
-> **There are exactly 3 generations of fermions because dim(Im(H)) = 3 — the quaternions have exactly 3 imaginary units.**
+> **There are exactly 3 generations of fermions because dim(Im_H) = 3 — the quaternions have exactly 3 imaginary units.**
 
 ---
 
@@ -63,22 +63,22 @@ i² = j² = k² = ijk = -1
 
 H splits into:
 ```
-H = R ⊕ Im(H)
+H = R ⊕ Im_H
 ```
 
 Where:
 - **R** = {a : a ∈ R} — the real quaternions (dim 1)
-- **Im(H)** = {bi + cj + dk} — the imaginary quaternions (dim 3)
+- **Im_H** = {bi + cj + dk} — the imaginary quaternions (dim 3)
 
 ### 2.3 The Key Number
 
-> **dim(Im(H)) = 3**
+> **dim(Im_H) = 3**
 
 This is the number of imaginary quaternion directions: i, j, k.
 
 ---
 
-## Part III: From Im(H) to Generations
+## Part III: From Im_H to Generations
 
 ### 3.1 The Physical Interpretation
 
@@ -115,7 +115,7 @@ The heaviest generation (3rd) corresponds to the direction selected by the produ
 
 Recall: Aut(H) ≅ SO(3)
 
-SO(3) acts on Im(H) by rotations:
+SO(3) acts on Im_H by rotations:
 ```
 (i, j, k) → (i', j', k')
 ```
@@ -124,7 +124,7 @@ This 3-dimensional rotation group has dimension 3.
 
 ### 4.2 Generation Mixing
 
-The rotation of Im(H) corresponds to generation mixing:
+The rotation of Im_H corresponds to generation mixing:
 - CKM matrix (quarks)
 - PMNS matrix (leptons)
 
@@ -145,19 +145,19 @@ There is no 5-dimensional or 6-dimensional associative division algebra.
 
 ### 5.1 The Number 3 Throughout Physics
 
-The number 3 appears connected to Im(H) throughout:
+The number 3 appears connected to Im_H throughout:
 
 | Appearance | Value | Connection |
 |------------|-------|------------|
-| Generations | 3 | dim(Im(H)) |
-| Colors | 3 | But this is from Im(O)/something |
-| Spatial dimensions | 3 | dim(Im(H)) |
+| Generations | 3 | dim(Im_H) |
+| Colors | 3 | But this is from Im_O/something |
+| Spatial dimensions | 3 | dim(Im_H) |
 | CKM angles | 3 | 3×3 matrix |
 | PMNS angles | 3 | 3×3 matrix |
 
-### 5.2 Not from Im(O)
+### 5.2 Not from Im_O
 
-Why not 7 generations (from Im(O) = 7)?
+Why not 7 generations (from Im_O = 7)?
 
 Because:
 - Octonions are non-associative
@@ -177,10 +177,10 @@ The framework predicts N_ν = 3 exactly, consistent with observation.
 
 ## Part VI: The Generation-Space Connection
 
-### 6.1 Both Are Im(H)
+### 6.1 Both Are Im_H
 
-Spatial dimensions = 3 (from Im(H) for spacetime)
-Generations = 3 (from Im(H) for internal structure)
+Spatial dimensions = 3 (from Im_H for spacetime)
+Generations = 3 (from Im_H for internal structure)
 
 Is this a coincidence?
 
@@ -196,7 +196,7 @@ The framework suggests:
 One interpretation:
 - 3 spatial dimensions = external (where things are)
 - 3 generations = internal (what things are)
-- Both = Im(H) applied differently
+- Both = Im_H applied differently
 
 ---
 
@@ -214,7 +214,7 @@ The masses span ~4 orders of magnitude.
 
 ### 7.2 Framework Prediction
 
-The mass ratios involve Im(H) = 3:
+The mass ratios involve Im_H = 3:
 
 ```
 m_τ/m_μ = 185/11 ≈ 16.8
@@ -242,14 +242,14 @@ Theoretically: the framework says no.
 
 ### 8.2 The Framework Argument
 
-- dim(Im(H)) = 3 exactly
+- dim(Im_H) = 3 exactly
 - No 4th imaginary quaternion exists
 - Therefore no 4th generation
 
 ### 8.3 What Would Falsify This?
 
 Discovery of a 4th generation fermion would:
-- Falsify the generation = Im(H) claim
+- Falsify the generation = Im_H claim
 - Require revision of the framework
 - Be the clearest possible test
 
@@ -268,9 +268,9 @@ Division algebras {R,C,H,O}
       ↓
 Quaternions H required for time (associativity)
       ↓
-H = R ⊕ Im(H)
+H = R ⊕ Im_H
       ↓
-dim(Im(H)) = 3
+dim(Im_H) = 3
       ↓
 3 GENERATIONS
 ```
@@ -292,7 +292,7 @@ The number 3 is forced.
 
 | Observation | Value | Framework |
 |-------------|-------|-----------|
-| Generations | 3 | dim(Im(H)) = 3 |
+| Generations | 3 | dim(Im_H) = 3 |
 | Light ν species | 2.984 ± 0.008 | Predicts 3 |
 | 4th gen search | null | Predicts none |
 
@@ -300,15 +300,15 @@ The number 3 is forced.
 
 | Claim | Status |
 |-------|--------|
-| dim(Im(H)) = 3 | MATHEMATICAL FACT |
+| dim(Im_H) = 3 | MATHEMATICAL FACT |
 | H unique 4D division algebra | FROBENIUS THEOREM |
-| Generations = Im(H) copies | FRAMEWORK CLAIM |
+| Generations = Im_H copies | FRAMEWORK CLAIM |
 
 ---
 
 ## Summary
 
-> **3 generations because dim(Im(H)) = 3**
+> **3 generations because dim(Im_H) = 3**
 
 The quaternions — required for consistent time evolution — have exactly 3 imaginary units.
 

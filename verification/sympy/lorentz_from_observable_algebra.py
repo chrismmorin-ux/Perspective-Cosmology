@@ -173,7 +173,7 @@ def test_trace_signature():
     print(f"  Expected: 2*(t^2 + x^2 + y^2 + z^2)")
     print(f"  Match: {check1}")
 
-    # This is EUCLIDEAN — all positive!
+    # This is EUCLIDEAN -- all positive!
     print(f"\n  Tr(X^2) gives Euclidean metric (all positive)")
     print(f"  This is the CRYSTAL inner product (AXM_0101)")
 

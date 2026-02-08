@@ -39,7 +39,7 @@ def test_1_real_commutator_vanishes():
     v^T [A,B] v = 0 identically.
 
     This means: in a real Hilbert space, the Robertson bound
-    DA*DB >= 1/2|<psi|[A,B]|psi>| gives DA·DB ≥ 0, which is trivial.
+    DA*DB >= 1/2|<psi|[A,B]|psi>| gives DA*DB >= 0, which is trivial.
     """
     print("=" * 70)
     print("TEST 1: Real commutator quadratic form vanishes")
@@ -144,40 +144,40 @@ def test_2_complex_commutator_nonzero():
     sigma_y = Matrix([[0, -I], [I, 0]])
     sigma_z = Matrix([[1, 0], [0, -1]])
 
-    # --- Test 2a: [σ_x, σ_y] = 2iσ_z ---
+    # --- Test 2a: [sigma_x, sigma_y] = 2isigma_z ---
     comm_xy = sigma_x * sigma_y - sigma_y * sigma_x
     expected = 2 * I * sigma_z
 
     total_tests += 1
     match = comm_xy == expected
-    print(f"  [{'PASS' if match else 'FAIL'}] [σ_x, σ_y] = 2iσ_z")
+    print(f"  [{'PASS' if match else 'FAIL'}] [sigma_x, sigma_y] = 2isigma_z")
     if match: tests_passed += 1
 
-    # --- Test 2b: Expectation in |+z⟩ state ---
+    # --- Test 2b: Expectation in |+z> state ---
     psi_up = Matrix([1, 0])
     exp_val = (psi_up.adjoint() * comm_xy * psi_up)[0, 0]
 
     total_tests += 1
     is_2i = exp_val == 2*I
-    print(f"  [{'PASS' if is_2i else 'FAIL'}] ⟨+z|[σ_x,σ_y]|+z⟩ = {exp_val} (expected 2i)")
+    print(f"  [{'PASS' if is_2i else 'FAIL'}] <+z|[sigma_x,sigma_y]|+z> = {exp_val} (expected 2i)")
     if is_2i: tests_passed += 1
 
     # --- Test 2c: Robertson bound is non-trivial ---
-    # DA·DB ≥ ½|⟨[A,B]⟩| = ½|2i| = 1
+    # DA*DB >= 1/2|<[A,B]>| = 1/2|2i| = 1
     total_tests += 1
     bound = abs(exp_val) / 2
     nontrivial = bound > 0
     print(f"  [{'PASS' if nontrivial else 'FAIL'}] Robertson bound = {bound} > 0")
     if nontrivial: tests_passed += 1
 
-    # --- Test 2d: Commutator is anti-Hermitian (= i × Hermitian) ---
+    # --- Test 2d: Commutator is anti-Hermitian (= i * Hermitian) ---
     total_tests += 1
     comm_dag = comm_xy.adjoint()
     is_antihermitian = simplify(comm_xy + comm_dag) == zeros(2, 2)
     print(f"  [{'PASS' if is_antihermitian else 'FAIL'}] [A,B] is anti-Hermitian")
     if is_antihermitian: tests_passed += 1
 
-    # Extract the Hermitian part: [A,B] = iC → C = [A,B]/i = -i[A,B]
+    # Extract the Hermitian part: [A,B] = iC -> C = [A,B]/i = -i[A,B]
     C = simplify(-I * comm_xy)
     total_tests += 1
     C_hermitian = simplify(C - C.adjoint()) == zeros(2, 2)
@@ -186,7 +186,7 @@ def test_2_complex_commutator_nonzero():
 
     print(f"\n  CONSEQUENCE: The factor i in [A,B] = iC bridges anti-Hermitian")
     print(f"  commutators to real-valued uncertainty bounds.")
-    print(f"  This i IS the Im(C) direction. Remove it → bound collapses to 0.")
+    print(f"  This i IS the Im(C) direction. Remove it -> bound collapses to 0.")
 
     return tests_passed, total_tests
 
@@ -227,7 +227,7 @@ def test_3_unitarity_requires_i():
     UdagU = simplify(U_explicit.adjoint() * U_explicit)
     total_tests += 1
     is_unitary = UdagU == eye(2)
-    print(f"  [{'PASS' if is_unitary else 'FAIL'}] exp(-isH)† exp(-isH) = I (unitary)")
+    print(f"  [{'PASS' if is_unitary else 'FAIL'}] exp(-isH)+ exp(-isH) = I (unitary)")
     if is_unitary: tests_passed += 1
 
     # --- Test 3b: exp(-sH) is NOT unitary ---
@@ -239,7 +239,7 @@ def test_3_unitarity_requires_i():
     RdagR = simplify(R_mat.T * R_mat)  # Real, so dag = transpose
     total_tests += 1
     not_unitary = RdagR != eye(2)
-    print(f"  [{'PASS' if not_unitary else 'FAIL'}] exp(-sH)^T exp(-sH) ≠ I (NOT unitary)")
+    print(f"  [{'PASS' if not_unitary else 'FAIL'}] exp(-sH)^T exp(-sH) != I (NOT unitary)")
     print(f"         Got: diag({simplify(RdagR[0,0])}, {simplify(RdagR[1,1])})")
     if not_unitary: tests_passed += 1
 
@@ -250,10 +250,10 @@ def test_3_unitarity_requires_i():
 
     total_tests += 1
     norm_decays = simplify(norm_sq - 1) != 0
-    print(f"  [{'PASS' if norm_decays else 'FAIL'}] ||exp(-sH)ψ||² = {norm_sq} ≠ 1 (norm decays)")
+    print(f"  [{'PASS' if norm_decays else 'FAIL'}] ||exp(-sH)psi||^2 = {norm_sq} != 1 (norm decays)")
     if norm_decays: tests_passed += 1
 
-    # --- Test 3d: The factor i converts Hermitian → anti-Hermitian ---
+    # --- Test 3d: The factor i converts Hermitian -> anti-Hermitian ---
     # -iH is anti-Hermitian when H is Hermitian
     iH = -I * H
     total_tests += 1
@@ -270,7 +270,7 @@ def test_3_unitarity_requires_i():
 
     print(f"\n  CONSEQUENCE: The i in exp(-isH) converts the Hermitian generator H")
     print(f"  into anti-Hermitian flow -iH, which preserves norms (unitarity).")
-    print(f"  Without i: norms decay exponentially → probability not conserved.")
+    print(f"  Without i: norms decay exponentially -> probability not conserved.")
 
     return tests_passed, total_tests
 
@@ -282,12 +282,12 @@ def test_3_unitarity_requires_i():
 
 def test_4_interference_requires_complex():
     """
-    THEOREM [I-MATH]: For complex amplitudes α, β,
-    |α + β|² = |α|² + |β|² + 2Re(α*β)
+    THEOREM [I-MATH]: For complex amplitudes alpha, beta,
+    |alpha + beta|^2 = |alpha|^2 + |beta|^2 + 2Re(alpha*beta)
 
-    The cross term 2Re(α*β) is the INTERFERENCE term.
-    For real amplitudes, 2Re(α*β) = 2αβ (always positive for same-sign).
-    For complex amplitudes, 2Re(α*β) can be NEGATIVE (destructive interference).
+    The cross term 2Re(alpha*beta) is the INTERFERENCE term.
+    For real amplitudes, 2Re(alpha*beta) = 2alphabeta (always positive for same-sign).
+    For complex amplitudes, 2Re(alpha*beta) can be NEGATIVE (destructive interference).
 
     Destructive interference is what makes quantum mechanics different from
     classical probability. It requires Im(C).
@@ -314,20 +314,20 @@ def test_4_interference_requires_complex():
 
     total_tests += 1
     cross_match = simplify(cross_term - expected_cross) == 0
-    print(f"  [{'PASS' if cross_match else 'FAIL'}] |α+β|² = |α|²+|β|² + 2Re(ᾱβ)")
+    print(f"  [{'PASS' if cross_match else 'FAIL'}] |alpha+beta|^2 = |alpha|^2+|beta|^2 + 2Re(abeta)")
     if cross_match: tests_passed += 1
 
-    # --- Test 4b: Real amplitudes — no destructive interference for same-sign ---
-    # For real α, β > 0: cross term = 2αβ > 0 (always constructive)
+    # --- Test 4b: Real amplitudes -- no destructive interference for same-sign ---
+    # For real alpha, beta > 0: cross term = 2alphabeta > 0 (always constructive)
     total_tests += 1
     real_cross = 2 * a_r * b_r  # When a_i = b_i = 0
     # This is positive when a_r, b_r have same sign
-    print(f"  [PASS] Real same-sign amplitudes: cross = 2αβ > 0 (constructive only)")
+    print(f"  [PASS] Real same-sign amplitudes: cross = 2alphabeta > 0 (constructive only)")
     tests_passed += 1
 
-    # --- Test 4c: Complex amplitudes — destructive interference ---
-    # α = 1, β = -1: |1 + (-1)|² = 0, but |1|² + |-1|² = 2
-    # α = 1, β = exp(iπ) = -1: same thing, but mediated by phase
+    # --- Test 4c: Complex amplitudes -- destructive interference ---
+    # alpha = 1, beta = -1: |1 + (-1)|^2 = 0, but |1|^2 + |-1|^2 = 2
+    # alpha = 1, beta = exp(ipi) = -1: same thing, but mediated by phase
     alpha_val = S(1)
     beta_val = exp(I * pi)  # = -1, via phase rotation
 
@@ -336,7 +336,7 @@ def test_4_interference_requires_complex():
 
     total_tests += 1
     destructive = sum_sq_val == 0 and indiv_sq_val == 2
-    print(f"  [{'PASS' if destructive else 'FAIL'}] α=1, β=e^(iπ): |α+β|²={sum_sq_val}, |α|²+|β|²={indiv_sq_val}")
+    print(f"  [{'PASS' if destructive else 'FAIL'}] alpha=1, beta=e^(ipi): |alpha+beta|^2={sum_sq_val}, |alpha|^2+|beta|^2={indiv_sq_val}")
     print(f"         Complete destructive interference via phase")
     if destructive: tests_passed += 1
 
@@ -348,12 +348,12 @@ def test_4_interference_requires_complex():
 
     total_tests += 1
     is_cos = simplify(cross_phase - 2*cos(theta)) == 0
-    print(f"  [{'PASS' if is_cos else 'FAIL'}] Cross term = 2cos(θ) — varies from -2 to +2")
-    print(f"         θ lives in Im(C). Remove Im(C) → θ locked to 0 → cross = +2 always")
+    print(f"  [{'PASS' if is_cos else 'FAIL'}] Cross term = 2cos(theta) -- varies from -2 to +2")
+    print(f"         theta lives in Im(C). Remove Im(C) -> theta locked to 0 -> cross = +2 always")
     if is_cos: tests_passed += 1
 
     print(f"\n  CONSEQUENCE: Destructive interference (quantum hallmark) requires")
-    print(f"  phase θ ∈ Im(C). Without Im(C), all cross terms are positive →")
+    print(f"  phase theta in Im(C). Without Im(C), all cross terms are positive ->")
     print(f"  classical probability (no double-slit dark fringes).")
 
     return tests_passed, total_tests
@@ -366,13 +366,13 @@ def test_4_interference_requires_complex():
 
 def test_5_measurement_requires_phase_loss():
     """
-    DERIVATION: The Born rule P(k) = |c_k|² discards phase information.
-    |c_k|² = |c_k|² regardless of the phase of c_k.
+    DERIVATION: The Born rule P(k) = |c_k|^2 discards phase information.
+    |c_k|^2 = |c_k|^2 regardless of the phase of c_k.
 
     The information LOST in measurement is precisely the Im(C) component:
-    c_k = |c_k| exp(iφ_k) → P(k) = |c_k|² (φ_k erased).
+    c_k = |c_k| exp(iphi_k) -> P(k) = |c_k|^2 (phi_k erased).
 
-    Without Im(C): amplitudes are real, |c_k|² = c_k², no phase to lose,
+    Without Im(C): amplitudes are real, |c_k|^2 = c_k^2, no phase to lose,
     measurement is deterministic readout (no "collapse").
     """
     print("\n" + "=" * 70)
@@ -389,20 +389,20 @@ def test_5_measurement_requires_phase_loss():
 
     total_tests += 1
     phase_independent = simplify(diff(born, phi)) == 0
-    print(f"  [{'PASS' if phase_independent else 'FAIL'}] d/dφ |c|² = 0 (Born rule erases phase)")
+    print(f"  [{'PASS' if phase_independent else 'FAIL'}] d/dphi |c|^2 = 0 (Born rule erases phase)")
     if phase_independent: tests_passed += 1
 
     # --- Test 5b: Two states with same |c_k| but different phases ---
-    c1 = Rational(1, 2) + I * sqrt(3)/2  # |c1|² = 1
-    c2 = Rational(1, 2) - I * sqrt(3)/2  # |c2|² = 1
+    c1 = Rational(1, 2) + I * sqrt(3)/2  # |c1|^2 = 1
+    c2 = Rational(1, 2) - I * sqrt(3)/2  # |c2|^2 = 1
 
     total_tests += 1
     same_born = simplify(abs(c1)**2 - abs(c2)**2) == 0
-    print(f"  [{'PASS' if same_born else 'FAIL'}] Different phases, same P: |½+i√3/2|² = |½-i√3/2|² = {simplify(abs(c1)**2)}")
+    print(f"  [{'PASS' if same_born else 'FAIL'}] Different phases, same P: |1/2+isqrt3/2|^2 = |1/2-isqrt3/2|^2 = {simplify(abs(c1)**2)}")
     if same_born: tests_passed += 1
 
-    # --- Test 5c: Real amplitudes — Born rule is trivial ---
-    # If c_k is real: |c_k|² = c_k², phase = 0 or π only
+    # --- Test 5c: Real amplitudes -- Born rule is trivial ---
+    # If c_k is real: |c_k|^2 = c_k^2, phase = 0 or pi only
     # Measurement just reads off the (known) real value
     a_real = symbols('a', real=True)
     born_real = a_real**2
@@ -410,7 +410,7 @@ def test_5_measurement_requires_phase_loss():
     total_tests += 1
     # For real amplitudes, the "information content" of measurement is just sign
     # No continuous phase to lose
-    print(f"  [PASS] Real amplitudes: |a|² = a², only discrete sign information (no continuous phase)")
+    print(f"  [PASS] Real amplitudes: |a|^2 = a^2, only discrete sign information (no continuous phase)")
     tests_passed += 1
 
     # --- Test 5d: Phase degrees of freedom count ---
@@ -431,7 +431,7 @@ def test_5_measurement_requires_phase_loss():
     if correct_count: tests_passed += 1
 
     print(f"\n  CONSEQUENCE: Measurement loses {phase_dof} Im(C) phase degrees of freedom.")
-    print(f"  Without Im(C): no phases to lose → measurement is trivial readout.")
+    print(f"  Without Im(C): no phases to lose -> measurement is trivial readout.")
     print(f"  The 'collapse' IS the projection from C-amplitudes to R-probabilities.")
 
     return tests_passed, total_tests
@@ -440,18 +440,18 @@ def test_5_measurement_requires_phase_loss():
 # ==============================================================================
 # TEST 6: The factor i is UNIQUELY forced by unitarity
 # ==============================================================================
-# Consequence: The Im(C) direction is not a choice — it's mathematically necessary.
+# Consequence: The Im(C) direction is not a choice -- it's mathematically necessary.
 
 def test_6_i_uniquely_forced():
     """
     THEOREM [I-MATH]: For a one-parameter group T(s) in GL(n,C):
-    - T(s)†T(s) = I for all s (unitarity)
+    - T(s)+T(s) = I for all s (unitarity)
     - T(0) = I, T(s+t) = T(s)T(t) (group property)
 
-    Then T(s) = exp(sA) where A† = -A (anti-Hermitian).
-    Writing A = -iH: H† = H (Hermitian), and T(s) = exp(-isH).
+    Then T(s) = exp(sA) where A+ = -A (anti-Hermitian).
+    Writing A = -iH: H+ = H (Hermitian), and T(s) = exp(-isH).
 
-    The factor i is the UNIQUE element that converts Hermitian → anti-Hermitian.
+    The factor i is the UNIQUE element that converts Hermitian -> anti-Hermitian.
     """
     print("\n" + "=" * 70)
     print("TEST 6: Factor i uniquely forced by unitarity")
@@ -460,7 +460,7 @@ def test_6_i_uniquely_forced():
     tests_passed = 0
     total_tests = 0
 
-    # --- Test 6a: Anti-Hermitian ↔ Hermitian via i ---
+    # --- Test 6a: Anti-Hermitian <-> Hermitian via i ---
     h11, h12_r, h12_i = symbols('h11 h12_r h12_i', real=True)
     h22 = symbols('h22', real=True)
     H = Matrix([
@@ -479,34 +479,34 @@ def test_6_i_uniquely_forced():
     print(f"  [{'PASS' if iH_antiherm else 'FAIL'}] iH is anti-Hermitian")
     if iH_antiherm: tests_passed += 1
 
-    # --- Test 6b: Only ±i converts Hermitian to anti-Hermitian ---
+    # --- Test 6b: Only +/-i converts Hermitian to anti-Hermitian ---
     # If zH is anti-Hermitian for all Hermitian H, then:
-    # (zH)† = z̄ H† = z̄ H = -zH → z̄ = -z → Re(z) = 0 → z is purely imaginary
+    # (zH)+ = z H+ = z H = -zH -> z = -z -> Re(z) = 0 -> z is purely imaginary
     z_r, z_i = symbols('z_r z_i', real=True)
     z = z_r + I * z_i
 
     zH = z * H
-    # Anti-Hermitian condition: (zH)† = -zH
-    # z̄ H = -z H (since H† = H)
-    # (z̄ + z) H = 0 for all H
+    # Anti-Hermitian condition: (zH)+ = -zH
+    # z H = -z H (since H+ = H)
+    # (z + z) H = 0 for all H
     # 2*Re(z) H = 0 for all H
     # Re(z) = 0
 
     total_tests += 1
-    # Check: z̄ H + z H = (z̄+z)H = 2*z_r * H
+    # Check: z H + z H = (z+z)H = 2*z_r * H
     cond = simplify(conjugate(z) + z)
-    forced_imaginary = cond == 2*z_r  # Must be zero for all H → z_r = 0
-    print(f"  [{'PASS' if forced_imaginary else 'FAIL'}] z̄+z = 2Re(z) must = 0 → z purely imaginary")
+    forced_imaginary = cond == 2*z_r  # Must be zero for all H -> z_r = 0
+    print(f"  [{'PASS' if forced_imaginary else 'FAIL'}] z+z = 2Re(z) must = 0 -> z purely imaginary")
     if forced_imaginary: tests_passed += 1
 
-    # With unit norm |z| = 1 and z purely imaginary: z = ±i
+    # With unit norm |z| = 1 and z purely imaginary: z = +/-i
     total_tests += 1
-    # |z| = |z_i| = 1 → z_i = ±1 → z = ±i
-    print(f"  [PASS] |z|=1, Re(z)=0 → z = ±i (unique up to sign)")
+    # |z| = |z_i| = 1 -> z_i = +/-1 -> z = +/-i
+    print(f"  [PASS] |z|=1, Re(z)=0 -> z = +/-i (unique up to sign)")
     tests_passed += 1
 
     print(f"\n  CONSEQUENCE: The factor i in T(s) = exp(-isH) is the UNIQUE unit")
-    print(f"  purely imaginary number. It is not chosen — it is forced by")
+    print(f"  purely imaginary number. It is not chosen -- it is forced by")
     print(f"  unitarity + Hermitian generator. This i IS Im(C).")
 
     return tests_passed, total_tests
@@ -557,7 +557,7 @@ def test_7_uniqueness_of_terminal():
 
     # --- Test 7c: Im(R) = {0} has dim 0, not reachable ---
     total_tests += 1
-    print(f"  [PASS] Im(R) has dim 0 — forbidden as terminal gap (partiality requires dim ≥ 1)")
+    print(f"  [PASS] Im(R) has dim 0 -- forbidden as terminal gap (partiality requires dim >= 1)")
     tests_passed += 1
 
     # --- Test 7d: Im(H), Im(O) have dim > 1, admit further perspectives ---
@@ -565,7 +565,7 @@ def test_7_uniqueness_of_terminal():
     im_h_admits = algebras['H']['im_dim'] >= 2
     im_o_admits = algebras['O']['im_dim'] >= 2
     both = im_h_admits and im_o_admits
-    print(f"  [{'PASS' if both else 'FAIL'}] Im(H) dim={algebras['H']['im_dim']}≥2, Im(O) dim={algebras['O']['im_dim']}≥2 → NOT terminal (admit further perspective)")
+    print(f"  [{'PASS' if both else 'FAIL'}] Im(H) dim={algebras['H']['im_dim']}>=2, Im(O) dim={algebras['O']['im_dim']}>=2 -> NOT terminal (admit further perspective)")
     if both: tests_passed += 1
 
     # --- Test 7e: Classification ---
@@ -573,8 +573,8 @@ def test_7_uniqueness_of_terminal():
     print(f"  [PASS] Complete classification:")
     print(f"         Im(R)=0: forbidden (dim 0)")
     print(f"         Im(C)=1: TERMINAL (dim 1 < 2, unique)")
-    print(f"         Im(H)=3: non-terminal (dim 3 ≥ 2)")
-    print(f"         Im(O)=7: non-terminal (dim 7 ≥ 2)")
+    print(f"         Im(H)=3: non-terminal (dim 3 >= 2)")
+    print(f"         Im(O)=7: non-terminal (dim 7 >= 2)")
     tests_passed += 1
 
     print(f"\n  CONSEQUENCE: Im(C) is the UNIQUE direction that is:")
@@ -594,8 +594,8 @@ def test_8_complete_chain():
     """
     Traces the complete derivation chain:
 
-    AXIOMS → THM_04B0 (terminal gap = 1) → THM_0485 (F = C) →
-    THM_0493 (T = exp(-isH)) → {uncertainty, interference, unitarity, Born rule}
+    AXIOMS -> THM_04B0 (terminal gap = 1) -> THM_0485 (F = C) ->
+    THM_0493 (T = exp(-isH)) -> {uncertainty, interference, unitarity, Born rule}
 
     Without Im(C), each of these collapses.
     """
@@ -607,15 +607,15 @@ def test_8_complete_chain():
     total_tests = 0
 
     chain = [
-        ("AXM_0100+0101+0102", "dim(V_Crystal) = n ≥ 2", "AXIOM"),
+        ("AXM_0100+0101+0102", "dim(V_Crystal) = n >= 2", "AXIOM"),
         ("THM_04AC", "Perspectives exist, no perspective on dim < 2", "THEOREM"),
         ("THM_04B0(c)", "All gap towers terminate at dim 1", "THEOREM"),
         ("THM_04B0(d)", "Terminal gap = Im(C) for n_c=11, rank=4", "THEOREM (Layer 1)"),
         ("THM_0485", "F = C (directed time requires complex numbers)", "THEOREM"),
-        ("THM_0491", "V_π is complex Hilbert space", "THEOREM"),
+        ("THM_0491", "V_pi is complex Hilbert space", "THEOREM"),
         ("THM_0493", "T(s) = exp(-isH), factor i forced by unitarity", "DERIVATION"),
-        ("THM_04A5", "DA·DB ≥ ½|⟨[A,B]⟩| (uncertainty principle)", "THEOREM"),
-        ("THM_0494", "P(k) = |c_k|² (Born rule from crystallization)", "DERIVATION"),
+        ("THM_04A5", "DA*DB >= 1/2|<[A,B]>| (uncertainty principle)", "THEOREM"),
+        ("THM_0494", "P(k) = |c_k|^2 (Born rule from crystallization)", "DERIVATION"),
     ]
 
     print(f"\n  {'Step':<22} {'Result':<52} {'Level':<20}")
@@ -626,14 +626,14 @@ def test_8_complete_chain():
         tests_passed += 1
         print(f"  {step:<22} {result:<52} {level:<20}")
 
-    print(f"\n  WITHOUT Im(C) (counterfactual — if terminal gap were dim 0):")
+    print(f"\n  WITHOUT Im(C) (counterfactual -- if terminal gap were dim 0):")
 
     counterfactuals = [
         ("Uncertainty", "Robertson bound = 0 (trivial)", "Test 1-2 above"),
         ("Unitarity", "exp(-sH) contracts (non-unitary)", "Test 3 above"),
         ("Interference", "No destructive interference", "Test 4 above"),
         ("Measurement", "No phase to collapse", "Test 5 above"),
-        ("Quantum phase", "No exp(iθ) rotation", "No Im direction"),
+        ("Quantum phase", "No exp(itheta) rotation", "No Im direction"),
     ]
 
     print(f"\n  {'Feature':<18} {'Without Im(C)':<40} {'Verified by':<20}")
@@ -683,34 +683,34 @@ def main():
     print(f"\n  TOTAL: {all_passed}/{all_total} tests passed")
 
     if all_passed == all_total:
-        print(f"\n  ALL PASS — Im(C) necessity chain verified")
+        print(f"\n  ALL PASS -- Im(C) necessity chain verified")
     else:
-        print(f"\n  SOME FAILURES — review above")
+        print(f"\n  SOME FAILURES -- review above")
 
     print(f"\n{'='*70}")
     print(f"MATHEMATICAL CONSEQUENCES (what necessarily follows):")
     print(f"{'='*70}")
     print(f"""
-  LAYER 0 [THEOREM — no physics]:
-    1. Terminal gap = dim 1 for ALL towers from dim ≥ 2
+  LAYER 0 [THEOREM -- no physics]:
+    1. Terminal gap = dim 1 for ALL towers from dim >= 2
     2. Dim 1 is irresolvable (no perspective possible)
     3. Tower depth is finite and bounded by n-1
 
-  LAYER 1 [THEOREM — uses division algebra structure]:
+  LAYER 1 [THEOREM -- uses division algebra structure]:
     4. Terminal gap = Im(C) specifically (unique 1-dim imaginary part)
     5. Im(C) generates F = C (complex structure for directed time)
     6. Factor i in exp(-isH) IS the Im(C) generator
-    7. Factor i is the UNIQUE unit that converts Hermitian → anti-Hermitian
+    7. Factor i is the UNIQUE unit that converts Hermitian -> anti-Hermitian
 
-  MATHEMATICAL NECESSITIES [THEOREM/DERIVATION — follows from F = C]:
+  MATHEMATICAL NECESSITIES [THEOREM/DERIVATION -- follows from F = C]:
     8. Uncertainty principle non-trivial ONLY because of Im(C)
        (real commutators have zero quadratic form)
     9. Unitary evolution ONLY because of Im(C)
        (without i, exp(-sH) contracts rather than rotates)
    10. Quantum interference ONLY because of Im(C)
-       (destructive interference requires phase ∈ Im(C))
+       (destructive interference requires phase in Im(C))
    11. Non-trivial measurement ONLY because of Im(C)
-       (collapse = loss of phase; no phase → no collapse)
+       (collapse = loss of phase; no phase -> no collapse)
 
   STRUCTURAL UNIQUENESS [THEOREM]:
    12. Im(C) is the ONLY division algebra imaginary part with dim = 1

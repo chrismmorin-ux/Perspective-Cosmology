@@ -30,9 +30,9 @@ Verified: 2026-01-26 (Session 52)
 Property 5 (No zero divisors) has been RESOLVED!
 
 Key insight: "You can't see a subset of zero."
-- A perspective necessarily has dim(V_π) ≥ 1
+- A perspective necessarily has dim(V_pi) >= 1
 - Legitimate transitions map perspectives to perspectives
-- Therefore chains preserve dim ≥ 1, so T₁ ∘ T₂ ≠ 0
+- Therefore chains preserve dim >= 1, so T_1 o T_2 != 0
 
 See: framework/investigations/perspective_foundations_and_zero_divisors.md
 

@@ -1,5 +1,5 @@
 """
-Verification: Squarefree Numbers ↔ Perspective Points Correspondence
+Verification: Squarefree Numbers <-> Perspective Points Correspondence
 
 This script verifies Theorem 3.2 from perspective_connection.md:
 Squarefree numbers correspond exactly to binary coordinate vectors,
@@ -56,12 +56,12 @@ def signature_to_subset(sig: np.ndarray, primes: List[int]) -> Set[int]:
     return {p for p, exp in zip(primes, sig) if exp > 0}
 
 # =============================================================================
-# Test 1: Squarefree ⟺ Binary Signature
+# Test 1: Squarefree <==> Binary Signature
 # =============================================================================
 
 def test_squarefree_binary_correspondence(N: int = 1000):
     """
-    Verify: n is squarefree ⟺ prime_signature(n) is binary (all 0s and 1s)
+    Verify: n is squarefree <==> prime_signature(n) is binary (all 0s and 1s)
     """
     print("=" * 60)
     print("TEST 1: Squarefree <=> Binary Signature")
@@ -236,8 +236,8 @@ def test_count_comparison(N: int = 1000):
 
 def test_multiplicative_to_additive(N: int = 100):
     """
-    Verify: The map φ(n) = prime_signature(n) converts
-    multiplication to addition: φ(a×b) = φ(a) + φ(b)
+    Verify: The map phi(n) = prime_signature(n) converts
+    multiplication to addition: phi(a*b) = phi(a) + phi(b)
     """
     print("\n" + "=" * 60)
     print("TEST 5: phi(a*b) = phi(a) + phi(b)")
@@ -276,7 +276,7 @@ def test_multiplicative_to_additive(N: int = 100):
 
 def test_orthogonality_coprimality(N: int = 200):
     """
-    Reconfirm: Inner product = 0 ⟺ coprime
+    Reconfirm: Inner product = 0 <==> coprime
     """
     print("\n" + "=" * 60)
     print("TEST 6: <phi(a), phi(b)> = 0 <=> gcd(a,b) = 1")

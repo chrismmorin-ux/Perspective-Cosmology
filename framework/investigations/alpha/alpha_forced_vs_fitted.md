@@ -87,7 +87,7 @@ The path independence argument is sound:
 **CCP resolution (S251)**: AXM_0120 derives n_c = 11 directly:
 - **CCP-1** (consistency): No zero divisors → division algebras only (Hurwitz: R, C, H, O)
 - **CCP-2** (completeness): V_Crystal must contain ALL algebraically consistent imaginary dimensions
-- **CCP-3** (minimality): Direct sum, no redundancy → Im(C) ⊕ Im(H) ⊕ Im(O) = 1+3+7 = **11**
+- **CCP-3** (minimality): Direct sum, no redundancy → Im_C ⊕ Im_H ⊕ Im_O = 1+3+7 = **11**
 - The defect uses the full algebra H (dim 4); the crystal uses the imaginary parts of all algebras
 
 **Former adversarial objections (status updated S252)**:
@@ -257,7 +257,7 @@ The specialness lives entirely in the structural constraint: c = n (numerator = 
 |------|-------|-------|---------|
 | 1 | Division algebras exist | **A** | FORCED (math theorem) |
 | 2 | Time → associativity → n_d = 4 | **A−** | FORCED: CCP + Frobenius. *Upgraded B−→A−, S252.* |
-| 3 | Crystal dimensions n_c = 11 | **A−** | FORCED: CCP derives Im(C)+Im(H)+Im(O)=11. *Upgraded C+→A−, S252.* |
+| 3 | Crystal dimensions n_c = 11 | **A−** | FORCED: CCP derives Im_C+Im_H+Im_O=11. *Upgraded C+→A−, S252.* |
 | 4 | F = C (complex field) | **A−** | FORCED: Two independent routes (THM_0485 + CCP). *Upgraded B−→A−, S252.* |
 | 5 | Generator count = 1/α | **C** | Two complementary mechanisms: induced kinetic term (5C) + Born rule coupling (5D). Together determine log(Λ/μ) = 137π/21. Three gaps remain. *Upgraded D+→C, S153.* |
 | 6 | EM channels = 111 | **B+** | Forced given u(11) |
@@ -324,7 +324,7 @@ Below are concrete, smaller steps that do not require closing the full gap in on
    The formula 137 + 4/111 = 137.036036… is compared to α⁻¹(q² = 0) ≈ 137.035999 (CODATA). Match: 0.27 ppm. **Interpretation**: The framework formula gives α⁻¹ at **low energy / IR** (q² → 0 or electron mass scale). A framework-derived scale μ (e.g. crystallization energy) is not yet identified; the comparison scale is the standard measurement scale. So: "Formula gives α⁻¹ at IR; framework scale μ not yet derived." See also `alpha_crystal_interface.md` (running) and `alpha_prime_attractor_enhanced.md`.
 
 5. **U(1) in the tilt construction** — **DONE** (documented)  
-   In u(n_c), the Lie algebra has: Cartan (n_c − 1), off-diagonal n_c(n_c−1), and **one U(1) generator** (trace / overall phase). The framework identifies the electromagnetic field with this U(1): Im(C) → U(1), and "EM channels = off-diagonal + U(1) = 111" (alpha_correction_derivation). So the **EM-like subspace** is the trace/identity component of u(n_c); u(n_d) similarly has an overall phase. Refs: `alpha_correction_derivation.md`, `gauge_from_division_algebras.md`, `forces_as_localized_recrystallization.md` (C → U(1) isometry).
+   In u(n_c), the Lie algebra has: Cartan (n_c − 1), off-diagonal n_c(n_c−1), and **one U(1) generator** (trace / overall phase). The framework identifies the electromagnetic field with this U(1): Im_C → U(1), and "EM channels = off-diagonal + U(1) = 111" (alpha_correction_derivation). So the **EM-like subspace** is the trace/identity component of u(n_c); u(n_d) similarly has an overall phase. Refs: `alpha_correction_derivation.md`, `gauge_from_division_algebras.md`, `forces_as_localized_recrystallization.md` (C → U(1) isometry).
 
 6. **Literature**: α as 1/N** — **DONE** (documented)  
    No direct precedent for "α⁻¹ = dimension of gauge Lie algebra at defect–crystal interface." Monster group / Leech lattice derivations (e.g. El Naschie, Marek-Crnjac) use 196560, 196883, 248 (E₈) — different structures. Our framework uses division algebra dimensions (4, 11) and interface generator count 137. The structural origin is different; helps distinguish from coincidence.
@@ -337,7 +337,7 @@ Below are concrete, smaller steps that do not require closing the full gap in on
 
 ### ~~To strengthen Step 3 (n_c = 11)~~ — RESOLVED S252
 
-**CCP (AXM_0120)** derives n_c = 11: completeness forces all division algebra imaginaries (Im(C)+Im(H)+Im(O) = 1+3+7 = 11). No axiom "total=15" is needed — CCP derives it.
+**CCP (AXM_0120)** derives n_c = 11: completeness forces all division algebra imaginaries (Im_C+Im_H+Im_O = 1+3+7 = 11). No axiom "total=15" is needed — CCP derives it.
 
 ---
 
@@ -351,6 +351,20 @@ Below are concrete, smaller steps that do not require closing the full gap in on
 | GUTs (sin²θ_W = 3/8) | Group theory principled but incomplete | **SIMILAR** — our group theory is principled too, but mechanism gap (Step 5) is analogous |
 
 **Key difference from pure numerology**: The framework doesn't start from 137 and work backwards (like Gilson). It starts from division algebra dimensions and arrives at 137. This is genuine mathematical content. But the physical interpretation (Step 5) remains a conjecture, which puts it closer to Wyler than to a complete derivation.
+
+---
+
+## Pi-Power Decomposition of 137 [OBSERVATION, S265/S270]
+
+The triple identity n_d^2 = 2^n_d = 16 (which holds only for n in {2, 4} = {dim(C), dim(H)}) provides an angular-geometric interpretation of the alpha denominator:
+
+```
+137 = n_d^2 + n_c^2
+    = (total pi-power sum over D_fw) + n_c^2
+    = (total angular DOF across framework spheres) + (crystal dim)^2
+```
+
+Here f(d) = floor(d/2) = rank(SO(d)) counts independent rotation planes. Over all D_fw = {1,2,3,4,7,8,11}: sum f(d) = 0+1+1+2+3+4+5 = 16 = n_d^2. This is a rewriting, not a new derivation -- it adds geometric meaning to the 16 in the alpha formula. Extending to sedenions breaks the identity (n_d^2 != 2^n_d for any n_d > 4), confirming CCP truncation necessity. See THM_04B5 and `verification/sympy/pi_power_alpha_connection.py` (16/16 PASS).
 
 ---
 

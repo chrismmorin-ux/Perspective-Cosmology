@@ -33,11 +33,11 @@ from sympy import (
 
 
 # ==============================================================================
-# Test 1: Cayley-Hamilton — det and Tr are the complete invariants
+# Test 1: Cayley-Hamilton -- det and Tr are the complete invariants
 # ==============================================================================
 def test_cayley_hamilton_completeness():
     print("=" * 70)
-    print("TEST 1: Cayley-Hamilton — det and Tr are Complete Invariants")
+    print("TEST 1: Cayley-Hamilton -- det and Tr are Complete Invariants")
     print("=" * 70)
 
     sigma_0 = eye(2)
@@ -91,7 +91,7 @@ def test_cayley_hamilton_completeness():
     # det(X) = 0 iff at least one eigenvalue is zero.
     # det(X) < 0 iff eigenvalues have opposite signs.
     # det(X) > 0 iff eigenvalues have same sign.
-    # Tr(X) = sum of eigenvalues — symmetric, doesn't distinguish them.
+    # Tr(X) = sum of eigenvalues -- symmetric, doesn't distinguish them.
 
     print(f"""
   KEY INSIGHT:
@@ -166,7 +166,7 @@ def test_eigenvalue_gap():
   The crystallization rate (THM_0494) depends on the eigenvalue gap:
     gap = 2r = 2*sqrt(x^2 + y^2 + z^2) = sqrt(Tr^2 - 4*det)
 
-  This is the SPATIAL NORM — it depends on det, not just Tr.
+  This is the SPATIAL NORM -- it depends on det, not just Tr.
 
   For a Hamiltonian H = E*I + h_x*s1 + h_y*s2 + h_z*s3:
   - E = Tr(H)/2 = average eigenvalue = "time" component
@@ -227,8 +227,8 @@ def test_transition_dynamics():
     # At the light cone: E^2 = |h|^2
     # This is where the "time rate" (global phase) equals the "space rate" (transition)
     #
-    # det(H) > 0: E > |h| — time dominates (timelike Hamiltonian)
-    # det(H) < 0: E < |h| — transitions dominate (spacelike Hamiltonian)
+    # det(H) > 0: E > |h| -- time dominates (timelike Hamiltonian)
+    # det(H) < 0: E < |h| -- transitions dominate (spacelike Hamiltonian)
     # det(H) = 0: balance point (null/lightlike Hamiltonian)
 
     # For differences: det(H1 - H2) = (E1-E2)^2 - |h1-h2|^2
@@ -267,9 +267,9 @@ def test_transition_dynamics():
     """)
 
     # Verify: det is Lorentzian, Tr is not useful for dynamics
-    # Tr(DH) = 2*(E1-E2) — only time difference, no spatial info
-    # Tr(DH^2) = 2*((E1-E2)^2 + |h1-h2|^2) — Euclidean, no causal structure
-    # det(DH) = (E1-E2)^2 - |h1-h2|^2 — Minkowski, has causal structure
+    # Tr(DH) = 2*(E1-E2) -- only time difference, no spatial info
+    # Tr(DH^2) = 2*((E1-E2)^2 + |h1-h2|^2) -- Euclidean, no causal structure
+    # det(DH) = (E1-E2)^2 - |h1-h2|^2 -- Minkowski, has causal structure
 
     print(f"  Comparison of invariants for DH = H1 - H2:")
     print(f"  Tr(DH) = 2*(E1-E2)        -> time only, no spatial info")
@@ -308,7 +308,7 @@ def test_light_cone_degeneracy():
     # When det(X) = 0, X is rank 1: X = lambda * |u><u|
     # (a projection times a scalar)
 
-    # Example: X = I + sigma_3 = diag(2, 0) — rank 1, det = 0
+    # Example: X = I + sigma_3 = diag(2, 0) -- rank 1, det = 0
     X_null = sigma_0 + sigma_3  # = diag(2, 0)
     det_null = det(X_null)
     rank_null = X_null.rank()
@@ -549,7 +549,7 @@ def test_discriminant_dynamics():
 
 
 # ==============================================================================
-# Test 7: Numerical verification — dynamics on the light cone
+# Test 7: Numerical verification -- dynamics on the light cone
 # ==============================================================================
 def test_light_cone_dynamics():
     print("\n" + "=" * 70)
@@ -642,8 +642,8 @@ def test_light_cone_dynamics():
     print(f"  [{'PASS' if check1 else 'FAIL'}] Timelike: det > 0")
     print(f"  [{'PASS' if check2 else 'FAIL'}] Null: det = 0")
     print(f"  [{'PASS' if check3 else 'FAIL'}] Spacelike: det < 0")
-    print(f"  [{'PASS' if check4 else 'FAIL'}] Same Tr(X^2) but different det — Euclidean is blind")
-    print(f"  [{'PASS' if check5 else 'FAIL'}] Different det — Minkowski distinguishes")
+    print(f"  [{'PASS' if check4 else 'FAIL'}] Same Tr(X^2) but different det -- Euclidean is blind")
+    print(f"  [{'PASS' if check5 else 'FAIL'}] Different det -- Minkowski distinguishes")
 
     return check1 and check2 and check3 and check4 and check5
 

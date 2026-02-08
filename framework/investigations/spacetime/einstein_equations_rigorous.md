@@ -67,7 +67,7 @@ Division algebras over R: {R, C, H, O}
 Dimensions: 1, 2, 4, 8
 
 n_d = dim(H) = 4  (spacetime dimension)
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11  (crystal dimension)
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11  (crystal dimension)
 ```
 
 ### 1.3 The Fine Structure Constant
@@ -109,6 +109,8 @@ Where {b̃_i} is the observed basis and {δ_ij} is the crystal's orthonormal bas
 ### 2.3 Ground State Value
 
 **Claim**: ε* = α² = 1/137²
+
+**[CIRCULAR WARNING]**: ε* = α² is assumed, not derived. The coefficients a, b below are reverse-engineered from this assumption. This section demonstrates self-consistency of the potential with the known value of α, NOT an independent derivation of α from the potential.
 
 **Derivation**:
 1. The ground state minimizes the potential V(ε)
@@ -237,7 +239,7 @@ Framework identities: singlet fraction = 4/28 = 1/Im_O = 1/7. After EWSB: 3 eate
 **How spacetime emerges** [DERIVATION]:
 1. THM_0484 (division algebra structure): n_d = 4 = dim(H) [CANONICAL]
 2. THM_04AE (observable algebra): Herm(2) ≅ R⁴ with det form of signature (1,3) [DERIVATION]
-3. The quaternion structure H = R ⊕ Im(H) gives 1 (time) + 3 (space)
+3. The quaternion structure H = R ⊕ Im_H gives 1 (time) + 3 (space)
 4. Time = Z(H) = R (center of quaternion algebra) [THM_04AE Part (e)]
 
 **Why the old picture was wrong**: The earlier version identified (4,1) Goldstone modes with spacetime coordinates. But Goldstone modes are field fluctuations of the order parameter ε_di around the ground state — they live ON spacetime, not AS spacetime. The defect manifold (which IS spacetime) exists independently of the Goldstone spectrum. The coincidence that both have dimension 4 is because both arise from n_d = dim(H) = 4, but they are conceptually distinct.
@@ -293,9 +295,9 @@ det(X) = t² - x² - y² - z²   [signature (1,3)]
 
 ### 5.3 The 1+3 Split
 
-The quaternion structure H = R ⊕ Im(H) gives:
+The quaternion structure H = R ⊕ Im_H gives:
 - **Time** = center Z(H) = R (1-dim, invariant under SU(2) adjoint action)
-- **Space** = Im(H) = span{i,j,k} (3-dim, adjoint representation of SU(2))
+- **Space** = Im_H = span{i,j,k} (3-dim, adjoint representation of SU(2))
 
 This is algebraically forced: the unique SU(2)-invariant direction IS the time direction.
 
@@ -303,7 +305,7 @@ This is algebraically forced: the unique SU(2)-invariant direction IS the time d
 
 The S¹⁰ radial/angular argument claimed:
 - 1 radial mode (crystallization gradient) → time (minus sign)
-- 3 angular modes (Im(H)) → space (plus signs)
+- 3 angular modes (Im_H) → space (plus signs)
 
 This fails because:
 1. The correct coset is Gr(4,11), not S¹⁰

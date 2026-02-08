@@ -36,7 +36,7 @@ GPT-4o's result is the most scientifically informative: it made valid mathematic
 
 ### The Two Ambiguities
 
-**Ambiguity 1**: Does n_d equal dim(H) = 4 or dim(Im(H)) = 3?
+**Ambiguity 1**: Does n_d equal dim(H) = 4 or dim(Im_H) = 3?
 
 **Ambiguity 2**: Does n_c include the imaginary dimensions of the octonions O?
 
@@ -44,7 +44,7 @@ GPT-4o's result is the most scientifically informative: it made valid mathematic
 
 ## Findings
 
-### Ambiguity 1: n_d = dim(H) = 4 vs dim(Im(H)) = 3
+### Ambiguity 1: n_d = dim(H) = 4 vs dim(Im_H) = 3
 
 **Confidence**: [DERIVATION]
 
@@ -66,7 +66,7 @@ The real axis of H is not a trivial scalar — it carries the identity transitio
 GPT-4o argued that the "accessible" dimensions should be the non-trivial ones:
 - The real direction of H is the scalar identity
 - Only the imaginary directions (i, j, k) represent genuine "tilt axes"
-- Therefore n_d = dim(Im(H)) = 3
+- Therefore n_d = dim(Im_H) = 3
 
 This requires an additional interpretive step: identifying "accessible" with "non-scalar," which is not stated in the axioms.
 
@@ -76,7 +76,7 @@ This requires an additional interpretive step: identifying "accessible" with "no
 |------|---------|---------|
 | Partition identity: n_d + n_c = 15 | 4 + 11 = 15 PASS | 3 + n_c = 15 requires n_c = 12 (no natural source) |
 | Pythagorean primality | 4² + 11² = 137 (prime) | 3² + 4² = 25 = 5² (not prime) |
-| "Maximum dimension" reading | dim(H) = 4 (direct) | dim(Im(H)) = 3 (requires extra step) |
+| "Maximum dimension" reading | dim(H) = 4 (direct) | dim(Im_H) = 3 (requires extra step) |
 
 #### Verdict
 
@@ -105,7 +105,7 @@ These have *different roles*:
 O is a genuine division algebra. It satisfies the no-zero-divisors constraint. Its imaginary dimensions exist as part of the total algebraic structure even though O cannot serve as the transition algebra. Therefore:
 
 ```
-n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
+n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11
 ```
 
 **Chain**: [I-MATH: Hurwitz gives {R, C, H, O}] → [D: imaginary decomposition] → [D: n_c = 1 + 3 + 7 = 11]
@@ -114,7 +114,7 @@ n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11
 
 GPT-4o argued that since associativity is required for transitions, and O is non-associative, O should be excluded entirely:
 - Only R, C, H are "permitted" algebras
-- n_c = Im(R) + Im(C) + Im(H) = 0 + 1 + 3 = 4
+- n_c = Im(R) + Im_C + Im_H = 0 + 1 + 3 = 4
 
 This is internally consistent: if "permitted" means "can serve as the transition algebra," then only Frobenius algebras contribute.
 
@@ -191,7 +191,7 @@ The axiom document asks for the *maximum* n_d consistent with associativity, whi
 
 ### What is INTERPRETIVE (but Strongly Constrained)
 
-1. Whether n_d = dim(H) or dim(Im(H)) — **interpretive**, but "dim(V_pi)" strongly suggests full dimension
+1. Whether n_d = dim(H) or dim(Im_H) — **interpretive**, but "dim(V_pi)" strongly suggests full dimension
 2. Whether n_c includes O — **interpretive**, but every downstream consistency check requires it
 3. The combination n_d² + n_c² — **interpretive** (why Pythagorean?), but it yields a prime (structural)
 

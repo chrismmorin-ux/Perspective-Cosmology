@@ -20,7 +20,7 @@ Formula: sin^2(theta_W) = 28/121 (MS-bar at M_Z)
 Measured: sin^2_MS-bar(M_Z) = 0.23122
 Predicted: 0.23140
 Error: 843 ppm
-Status: INVESTIGATION — scheme identification + 1/alpha_2 resolution
+Status: INVESTIGATION -- scheme identification + 1/alpha_2 resolution
 Created: Session 160
 """
 
@@ -267,7 +267,7 @@ running = float(inv_alpha_0) - float(inv_alpha_MZ)
 print(f"  Delta(1/alpha) = {float(inv_alpha_0):.3f} - {float(inv_alpha_MZ):.3f} = {running:.3f}")
 print(f"  This is the standard QED vacuum polarization from charged fermions.")
 print(f"  It is a STANDARD PHYSICS calculation, not a framework prediction.")
-print(f"  The framework doesn't need to derive it — it's an [A-IMPORT].")
+print(f"  The framework doesn't need to derive it -- it's an [A-IMPORT].")
 print()
 
 # ==============================================================================

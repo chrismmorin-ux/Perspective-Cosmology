@@ -10,7 +10,7 @@
 
 | # | Phenomenon | Framework Status | Reference | Notes |
 |---|-----------|-----------------|-----------|-------|
-| A1 | 3+1 spacetime dimensionality | **DERIVED** | THM_0484 + THM_0487 + gr_chain_consolidation.py (21/21) | n_d=4 from Frobenius (CANONICAL). 3+1 from H = R+Im(H). "Why H not O?" resolved by THM_0484. Only Layer 2 gap: Goldstone↔spacetime [A-PHYSICAL]. |
+| A1 | 3+1 spacetime dimensionality | **DERIVED** | THM_0484 + THM_0487 + gr_chain_consolidation.py (21/21) | n_d=4 from Frobenius (CANONICAL). 3+1 from H = R+Im_H. "Why H not O?" resolved by THM_0484. Only Layer 2 gap: Goldstone↔spacetime [A-PHYSICAL]. |
 | A2 | Lorentz invariance | PARTIAL | coset_sigma_model_lorentz.py (8/8) + partial_strengthening_pass5.py (12/13) | Symmetric 2-tensor in 4D: 10 components = 1+3+6. Signature (-,+,+,+) from crystallization gradient: radial=-1, angular(Im_H)=+1. SO(3,1) emerges from SO(4) sector. Mode decomposition verified (8/8 PASS). 60% derived. Gap: full tensor proof of Lorentz invariance. |
 | A3 | Equivalence principle | **DERIVED** | gr_chain_consolidation.py (21/21) | Automatic: single induced metric g_uv from Goldstone construction. All matter couples universally. No free coupling parameter. [I-MATH] |
 | A4 | Einstein field equations | **DERIVED** | einstein_from_crystallization.py (8/8) + gr_chain_consolidation.py | FORM derived: 4D + covariance + Lovelock theorem [I-MATH] → unique EH action. [A-STRUCTURAL]: 2-derivative truncation. Coefficients in A13. |

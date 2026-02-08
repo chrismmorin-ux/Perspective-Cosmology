@@ -26,9 +26,9 @@ The derivations_summary.md is **severely outdated** (last meaningful update: 202
 |-------|---------|----------|---------|--------|
 | **1/α = 137.036** | n_d² + n_c² + n_d/(n_c² - n_c + 1) | **0.27 ppm** | S80 | MISSING |
 | **v = 246 GeV** | M_Pl × α^8 × √(44/7) | **0.034%** | S81 | MISSING |
-| **Koide Q = 2/3** | dim(C)/Im(H) | **EXACT** | S73 | MISSING |
+| **Koide Q = 2/3** | dim(C)/Im_H | **EXACT** | S73 | MISSING |
 | **Koide θ = 2.3165** | π × 73/99 | **0.006%** | S75 | MISSING |
-| **Koide M = 314 MeV** | v/(n_d × Im(O))² | **0.07%** | S74 | MISSING |
+| **Koide M = 314 MeV** | v/(n_d × Im_O)² | **0.07%** | S74 | MISSING |
 | **sin²θ_W = 1/4** | tree level | **EXACT** | S77 | MISSING |
 | **sin²θ_W(M_Z) = 0.231** | with SM running | **0.1%** | S77 | MISSING |
 | **μ_isotropy = 15v** | 3693 GeV | **0.36%** | S77 | MISSING |
@@ -84,7 +84,7 @@ These were flagged as "needing formalization" but haven't been done:
 | Claim | Dependencies | Status |
 |-------|--------------|--------|
 | v = M_Pl × α^8 × √(44/7) | α derivation, M_Pl import | NOT TRACKED |
-| Koide Q = 2/3 | F = C, dim(C) = 2, Im(H) = 3 | NOT TRACKED |
+| Koide Q = 2/3 | F = C, dim(C) = 2, Im_H = 3 | NOT TRACKED |
 | Koide θ = π×73/99 | AXM_0118 (prime attractor) | NOT TRACKED |
 | sin²θ_W = 1/4 | [A-COUPLING] | NOT TRACKED |
 | sin²θ_W = 17/73 | AXM_0118 (prime attractor) | NOT TRACKED |

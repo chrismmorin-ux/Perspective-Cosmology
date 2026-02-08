@@ -42,7 +42,7 @@ If ANY criterion fails, the facet is **extraneous** — mathematically valid but
 ### Step 1: Enumerate the transformation space
 
 ```
-End(V_Crystal) where V_Crystal = Im(C) + Im(H) + Im(O)
+End(V_Crystal) where V_Crystal = Im_C + Im_H + Im_O
 dim(End) = 11^2 = 121
 ```
 
@@ -50,9 +50,9 @@ Decompose by algebraic block structure:
 
 | Block | Dimension | Meaning |
 |-------|-----------|---------|
-| End(Im(C)) | 1 x 1 = 1 | Phase self-action |
-| End(Im(H)) | 3 x 3 = 9 | Rotation self-action |
-| End(Im(O)) | 7 x 7 = 49 | Interaction self-action |
+| End(Im_C) | 1 x 1 = 1 | Phase self-action |
+| End(Im_H) | 3 x 3 = 9 | Rotation self-action |
+| End(Im_O) | 7 x 7 = 49 | Interaction self-action |
 | Hom(C,H) + transpose | 2 x 3 = 6 | Phase-rotation coupling |
 | Hom(C,O) + transpose | 2 x 7 = 14 | Phase-interaction coupling |
 | Hom(H,O) + transpose | 2 x 21 = 42 | Rotation-interaction coupling |
@@ -63,20 +63,20 @@ Decompose by algebraic block structure:
 The natural automorphism group of V_Crystal's algebraic structure:
 
 ```
-Aut = Aut(Im(C)) x Aut(Im(H)) x Aut(Im(O)) = {1} x SO(3) x G_2
+Aut = Aut(Im_C) x Aut(Im_H) x Aut(Im_O) = {1} x SO(3) x G_2
 dim(Aut) = 0 + 3 + 14 = 17
 ```
 
 Under this group, End(V) decomposes into irreducible representations:
 
-**End(Im(H)) under SO(3)**: 9 = 1 + 3 + 5
+**End(Im_H) under SO(3)**: 9 = 1 + 3 + 5
 - 1 = scalar identity [INVARIANT]
 - 3 = so(3) adjoint [gauge-like]
 - 5 = symmetric traceless [quadrupole]
 
-**End(Im(O)) under G_2**: 49 = 1 + 7 + 14 + 27
+**End(Im_O) under G_2**: 49 = 1 + 7 + 14 + 27
 - 1 = scalar identity [INVARIANT]
-- 7 = fundamental [directions in Im(O)]
+- 7 = fundamental [directions in Im_O]
 - 14 = adjoint = g_2 [gauge-like]
 - 27 = symmetric traceless [quadrupole]
 
@@ -94,9 +94,9 @@ Decomposition under CCP structure:
 
 | Component | Dimension | Type |
 |-----------|-----------|------|
-| so(1) from Im(C) | 0 | trivial (1D has no rotations) |
-| so(3) from Im(H) | 3 | H-sector rotations |
-| so(7) from Im(O) | 21 | O-sector rotations |
+| so(1) from Im_C | 0 | trivial (1D has no rotations) |
+| so(3) from Im_H | 3 | H-sector rotations |
+| so(7) from Im_O | 21 | O-sector rotations |
 | Cross C-H | 3 | phase-rotation mixing |
 | Cross C-O | 7 | phase-interaction mixing |
 | Cross H-O | 21 | rotation-interaction mixing |
@@ -117,9 +117,9 @@ Test: does [X, X] stay in X?
 
 | Subalgebra | dim | Closed? | Reason |
 |------------|-----|---------|--------|
-| u(1) from Im(C) | 1 | YES | Abelian (trivially closed) |
-| so(3) from Im(H) | 3 | YES | [so(3), so(3)] = so(3) |
-| g_2 from Im(O) | 14 | YES | [g_2, g_2] = g_2 |
+| u(1) from Im_C | 1 | YES | Abelian (trivially closed) |
+| so(3) from Im_H | 3 | YES | [so(3), so(3)] = so(3) |
+| g_2 from Im_O | 14 | YES | [g_2, g_2] = g_2 |
 | so(7)/g_2 coset | 7 | **NO** | Brackets generate g_2 |
 | Cross-sector terms | 31 | **NO** | Generate larger algebra |
 
@@ -131,10 +131,10 @@ Test: does [X, X] stay in X?
 
 The crystallization dynamics (AXM_0117) selects stable configurations.
 
-**Critical breaking**: G_2 acting on Im(O) = R^7.
+**Critical breaking**: G_2 acting on Im_O = R^7.
 
-G_2 acts **transitively** on S^6 (the unit sphere in Im(O)). This means:
-- Every direction in Im(O) is equivalent under G_2
+G_2 acts **transitively** on S^6 (the unit sphere in Im_O). This means:
+- Every direction in Im_O is equivalent under G_2
 - Crystallization selects ANY direction (all are equivalent)
 - The stabilizer of a direction is SU(3) [I-MATH]
 - This breaking is perturbatively stable: small perturbations stay on S^6
@@ -184,9 +184,9 @@ Each division algebra contributes one sector to the pipeline:
 | Algebra | V_Crystal sector | Automorphism | Gauge group | Physical role |
 |---------|-----------------|--------------|-------------|---------------|
 | R | (baseline) | {1} | — | Irreducible scale |
-| C | Im(C) = R^1 | Z/2 ~ U(1) | U(1) | Irreducible oriented phase |
-| H | Im(H) = R^3 | SO(3) | SU(2) | Irreducible rotation coupling |
-| O | Im(O) = R^7 | G_2 -> SU(3) | SU(3) | Irreducible interaction pattern |
+| C | Im_C = R^1 | Z/2 ~ U(1) | U(1) | Irreducible oriented phase |
+| H | Im_H = R^3 | SO(3) | SU(2) | Irreducible rotation coupling |
+| O | Im_O = R^7 | G_2 -> SU(3) | SU(3) | Irreducible interaction pattern |
 
 Each assignment follows from the pipeline — not imposed, but derived.
 
@@ -197,15 +197,15 @@ Each assignment follows from the pipeline — not imposed, but derived.
 ### The Argument
 
 **Theorem (Generation Count)** [DERIVATION + A-PHYSICAL]:
-The number of fermion generations equals dim(Im(H)) = 3.
+The number of fermion generations equals dim(Im_H) = 3.
 
 **Proof sketch**:
 
-1. **CCP forces Im(H) = R^3** as a sector of V_Crystal (Theorem CCP.1).
+1. **CCP forces Im_H = R^3** as a sector of V_Crystal (Theorem CCP.1).
 
-2. **The inter-sector coupling** between Im(H) and Im(O) lives in:
+2. **The inter-sector coupling** between Im_H and Im_O lives in:
    ```
-   Hom(Im(H), Im(O)) = Im(H) tensor Im(O) = R^3 tensor R^7
+   Hom(Im_H, Im_O) = Im_H tensor Im_O = R^3 tensor R^7
    dim = 21
    ```
 
@@ -220,19 +220,19 @@ The number of fermion generations equals dim(Im(H)) = 3.
    R^3 tensor R^7 --> R^3 tensor (3 + 3-bar + 1)
                     = (R^3 tensor 3) + (R^3 tensor 3-bar) + (R^3 tensor 1)
    ```
-   Each tensor product with R^3 produces **3 copies** (one per Im(H) direction):
+   Each tensor product with R^3 produces **3 copies** (one per Im_H direction):
    - 3 copies of SU(3) fundamental (quark-like)
    - 3 copies of SU(3) anti-fundamental (antiquark-like)
    - 3 copies of SU(3) singlet (lepton-like)
 
-5. **Each Im(H) direction yields one generation** [A-PHYSICAL]:
-   The three directions i, j, k in Im(H) each contribute one copy of the full (quark + antiquark + lepton) representation content.
+5. **Each Im_H direction yields one generation** [A-PHYSICAL]:
+   The three directions i, j, k in Im_H each contribute one copy of the full (quark + antiquark + lepton) representation content.
 
 6. **All generations are equivalent** [DERIVED from SO(3) symmetry]:
-   SO(3) acts transitively on the unit sphere in Im(H). All directions are equivalent under automorphism. Therefore all generations have identical quantum numbers.
+   SO(3) acts transitively on the unit sphere in Im_H. All directions are equivalent under automorphism. Therefore all generations have identical quantum numbers.
 
 7. **Mass hierarchy requires SO(3) breaking** [CONJECTURE]:
-   The observed mass hierarchy (m_e << m_mu << m_tau) requires the SO(3) symmetry of Im(H) to be broken by crystallization dynamics. The three Im(H) directions become inequivalent, producing three distinct mass scales.
+   The observed mass hierarchy (m_e << m_mu << m_tau) requires the SO(3) symmetry of Im_H to be broken by crystallization dynamics. The three Im_H directions become inequivalent, producing three distinct mass scales.
 
 ### Dimension Count Verification
 
@@ -247,7 +247,7 @@ The number of fermion generations equals dim(Im(H)) = 3.
 
 | Step | Status | Confidence |
 |------|--------|------------|
-| dim(Im(H)) = 3 | [DERIVED from CCP] | HIGH |
+| dim(Im_H) = 3 | [DERIVED from CCP] | HIGH |
 | G_2 -> SU(3) breaking | [DERIVED from pipeline] | HIGH |
 | 7 -> 3 + 3-bar + 1 | [I-MATH] | CERTAIN (representation theory) |
 | 3 copies from tensor product | [DERIVED] | HIGH |
@@ -258,10 +258,10 @@ The number of fermion generations equals dim(Im(H)) = 3.
 
 The generation count has been one of the longest-standing unexplained features of the Standard Model. The pipeline provides:
 
-- **The number 3**: forced by dim(Im(H)), which is forced by CCP + Hurwitz
-- **Identical quantum numbers**: forced by SO(3) invariance of Im(H)
+- **The number 3**: forced by dim(Im_H), which is forced by CCP + Hurwitz
+- **Identical quantum numbers**: forced by SO(3) invariance of Im_H
 - **Generation-specific masses**: requires SO(3) breaking (mechanism = crystallization dynamics, not yet derived)
-- **Why not 2 or 4**: Im(H) = 3 is a mathematical theorem, not a parameter
+- **Why not 2 or 4**: Im_H = 3 is a mathematical theorem, not a parameter
 
 ---
 
@@ -317,22 +317,22 @@ Each filter is forced, not chosen:
 | 11 | n_c = 1+3+7 | Crystal dimension |
 | 121 | n_c^2 | dim(End(V)), Weinberg denominator |
 | 55 | n_c(n_c-1)/2 | dim(so(11)), norm-preserving |
-| 28 | n_d x Im(O) = 4x7 | Weinberg numerator, dim(so(8)) |
+| 28 | n_d x Im_O = 4x7 | Weinberg numerator, dim(so(8)); decomposes as 17+11 via G_2 moment map [THM_04B6] |
 | 18 | 1+3+14 | Closed subalgebras (pre-stabilization) |
-| 12 | 1+3+8 | SM gauge dim = Im(C)+Im(H)+O |
+| 12 | 1+3+8 | SM gauge dim = Im_C+Im_H+O |
 | 109 | 121-12 | Extraneous dimensions (prime!) |
 | 6 | 14-8 | Broken generators in G_2->SU(3) |
-| 3 | Im(H) | Generation count |
+| 3 | Im_H | Generation count |
 
 ---
 
 ## 10. Investigation Opportunities
 
-1. **Mass hierarchy mechanism** [HIGH PRIORITY]: How does SO(3) breaking in Im(H) produce the observed mass spectrum (m_e : m_mu : m_tau)?
+1. **Mass hierarchy mechanism** [HIGH PRIORITY]: How does SO(3) breaking in Im_H produce the observed mass spectrum (m_e : m_mu : m_tau)?
 
 2. **G_2 -> SU(3) dynamics**: What crystallization mechanism selects a direction in S^6? The 6 broken generators — do they connect to the Higgs mechanism?
 
-3. **The 21-dim coupling Hom(Im(H),Im(O))**: This mediates all generation-color interactions. Its structure under the full gauge group determines Yukawa couplings.
+3. **The 21-dim coupling Hom(Im_H,Im_O)**: This mediates all generation-color interactions. Its structure under the full gauge group determines Yukawa couplings.
 
 4. **Quadratic residue bifurcation**: What is the physical meaning of the QR mod 11 split: {1,3,4} vs {2,7,8}?
 

@@ -122,7 +122,7 @@ def main():
     print(f"   999 = Im_H^3 * 37 = {Im_H**3} * 37 = {val_999}")
 
     # Test 11: Comparison with measured value
-    alpha_inv_measured = Rational(137035999206, 10**9)  # CODATA 2022: 137.035999206
+    alpha_inv_measured = Rational(137035999177, 10**9)  # CODATA 2022: 137.035999177
     alpha_inv_predicted = Rational(15211, 111)
     error_ppm = abs(float(alpha_inv_predicted - alpha_inv_measured) / float(alpha_inv_measured)) * 1e6
     test11 = error_ppm < 1.0  # Sub-ppm

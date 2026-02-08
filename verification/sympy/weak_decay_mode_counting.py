@@ -152,7 +152,7 @@ print()
 # W* -> qq' (hadronic, with CKM and QCD)
 
 N_tau_lep = 2  # e and mu channels (not tau itself)
-print(f"Tau leptonic channels: {N_tau_lep} (e, mu only — tau excluded by energy)")
+print(f"Tau leptonic channels: {N_tau_lep} (e, mu only -- tau excluded by energy)")
 print()
 
 # R_tau = Gamma(tau->had) / Gamma(tau->e nu nu)
@@ -165,8 +165,8 @@ print(f"  (uses CKM unitarity: |V_ud|^2 + |V_us|^2 + |V_ub|^2 = 1)")
 print()
 
 # QCD + EW corrections
-# S_EW ≈ 1.0198 (electroweak factor)
-# delta_pert ≈ 0.20 (perturbative QCD, known to N^3LO)
+# S_EW ~ 1.0198 (electroweak factor)
+# delta_pert ~ 0.20 (perturbative QCD, known to N^3LO)
 S_EW = 1.0198
 delta_pert = alpha_s_mtau / math.pi + 5.202 * (alpha_s_mtau / math.pi)**2
 R_tau_corrected = N_c * S_EW * (1 + delta_pert)
@@ -254,7 +254,7 @@ g_A = 1.2756          # neutron axial coupling
 f_ps = 1.6887         # phase space integral
 
 tau_n_pred = 2 * math.pi**3 / (G_F**2 * (m_e * 1e-3)**5 * 1e25 * V_ud**2 * f_ps * (1 + 3 * g_A**2))
-# This is in natural units, needs conversion — complex, just note structure
+# This is in natural units, needs conversion -- complex, just note structure
 print(f"  Lifetime: {tau_n_meas} +/- 0.5 s [A-IMPORT]")
 print(f"  Framework content: H-channel identification; d->u as Im(H) rotation")
 print(f"  Rate calculation: [STANDARD-RELABELED] (all inputs are [A-IMPORT])")
@@ -294,7 +294,7 @@ print(f"  This is the biggest gap for C10 to have predictive content.")
 print()
 
 # ==============================================================================
-# PART 7: MUON DECAY — PURE LEPTONIC MODE COUNTING
+# PART 7: MUON DECAY -- PURE LEPTONIC MODE COUNTING
 # ==============================================================================
 
 print("PART 7: MUON DECAY MODE COUNTING")
@@ -328,7 +328,7 @@ print(f"  Rate: fully determined by G_F and m_mu [A-IMPORT]")
 print()
 
 # ==============================================================================
-# PART 8: SUMMARY TABLE — FRAMEWORK vs IMPORT
+# PART 8: SUMMARY TABLE -- FRAMEWORK vs IMPORT
 # ==============================================================================
 
 print("PART 8: HONESTY SUMMARY")
@@ -444,7 +444,7 @@ print("SUMMARY")
 print("=" * 72)
 print()
 print("Framework mode counting for weak decays:")
-print(f"  Generations: Im_H = 3 [CONJECTURE] — matches observation")
+print(f"  Generations: Im_H = 3 [CONJECTURE] -- matches observation")
 print(f"  W channels: Im_H + 2*N_c = 3 + 6 = 9 [FRAMEWORK-CONSTRAINED]")
 print(f"  Tau branching: R_tau = N_c * (1+QCD) ~ 3.6 [FRAMEWORK-CONSTRAINED]")
 print(f"  CKM structure: {Im_H}x{Im_H} unitary, {n_angles}+{n_phases} params [CONJECTURE]")

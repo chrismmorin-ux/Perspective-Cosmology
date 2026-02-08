@@ -2,8 +2,8 @@
 """
 Entanglement from Crystallization: Bell Correlation Verification
 
-KEY QUESTION: Does the framework's projection structure — perspectives
-projecting from a higher-dimensional crystallized state — reproduce
+KEY QUESTION: Does the framework's projection structure -- perspectives
+projecting from a higher-dimensional crystallized state -- reproduce
 the quantum mechanical Bell correlations?
 
 FRAMEWORK SETUP:
@@ -62,19 +62,19 @@ n_d = 4     # Defect dimension (spacetime)
 # This is the SU(2) sector from quaternionic crystallization (H channel)
 
 # Basis states for spin-1/2 (z-basis)
-up = Matrix([1, 0])    # |↑⟩
-dn = Matrix([0, 1])    # |↓⟩
+up = Matrix([1, 0])    # |^>
+dn = Matrix([0, 1])    # |v>
 
 # ==============================================================================
 # PART 2: TENSOR PRODUCT STRUCTURE
 # ==============================================================================
 # Two perspectives pi_1 and pi_2 each see C^2 (local spin)
-# Combined system lives in C^2 ⊗ C^2 = C^4
+# Combined system lives in C^2 (x) C^2 = C^4
 #
 # FRAMEWORK INTERPRETATION:
 #   The full crystalline state lives in a higher-dimensional space V.
 #   Perspectives pi_1, pi_2 are projections: V -> V_pi_i = C^2
-#   The tensor product V_pi_1 ⊗ V_pi_2 represents the COMBINED
+#   The tensor product V_pi_1 (x) V_pi_2 represents the COMBINED
 #   information accessible to both perspectives.
 #
 # KEY CLAIM [CONJECTURE]:
@@ -83,14 +83,14 @@ dn = Matrix([0, 1])    # |↓⟩
 #   If pi_1 and pi_2 access disjoint parts of U, their combined
 #   state space is the tensor product of individual spaces.
 
-# Basis for C^2 ⊗ C^2
-uu = TensorProduct(up, up)  # |↑↑⟩
-ud = TensorProduct(up, dn)  # |↑↓⟩
-du = TensorProduct(dn, up)  # |↓↑⟩
-dd = TensorProduct(dn, dn)  # |↓↓⟩
+# Basis for C^2 (x) C^2
+uu = TensorProduct(up, up)  # |^^>
+ud = TensorProduct(up, dn)  # |^v>
+du = TensorProduct(dn, up)  # |v^>
+dd = TensorProduct(dn, dn)  # |vv>
 
 # Singlet state: the maximally entangled, rotationally invariant state
-# |ψ⁻⟩ = (|↑↓⟩ - |↓↑⟩) / √2
+# |psi^-> = (|^v> - |v^>) / sqrt2
 #
 # FRAMEWORK INTERPRETATION:
 #   This is a CRYSTALLIZED CONSTRAINT in the full space V:
@@ -101,22 +101,22 @@ singlet = (ud - du) / sqrt(2)
 # ==============================================================================
 # TEST 1: Non-factorizability (genuine entanglement)
 # ==============================================================================
-# A state is entangled iff it CANNOT be written as |a⟩⊗|b⟩
+# A state is entangled iff it CANNOT be written as |a>(x)|b>
 # For the singlet, we prove this by showing it has Schmidt rank 2
 
 def test_non_factorizability():
     """Verify the singlet cannot be factored as a product state."""
     # Express singlet in matrix form (2x2 matrix of coefficients)
-    # |ψ⟩ = Σ_{ij} M_{ij} |i⟩⊗|j⟩
-    # Singlet: M = (1/√2) [[0, 1], [-1, 0]]
+    # |psi> = Sigma_{ij} M_{ij} |i>(x)|j>
+    # Singlet: M = (1/sqrt2) [[0, 1], [-1, 0]]
     M = Matrix([[0, 1], [-1, 0]]) / sqrt(2)
 
     # State is factorizable iff rank(M) = 1
-    # State is entangled iff rank(M) ≥ 2
+    # State is entangled iff rank(M) >= 2
     schmidt_rank = M.rank()
 
     # Also compute the partial trace (reduced density matrix)
-    # rho_1 = Tr_2(|ψ⟩⟨ψ|) for perspective 1
+    # rho_1 = Tr_2(|psi><psi|) for perspective 1
     rho_1 = M * M.adjoint()
 
     # For maximally entangled state, rho_1 = I/2 (maximally mixed)
@@ -135,21 +135,21 @@ def test_non_factorizability():
 # In the framework:
 #   - Measurement = crystallization to eigenstate (THM_0494)
 #   - Choosing measurement axis = choosing which perspective to project onto
-#   - The projection operator for spin along direction n̂ at angle theta:
-#     P_+(theta) = |n̂+⟩⟨n̂+| where |n̂+⟩ is spin-up along n̂
+#   - The projection operator for spin along direction n at angle theta:
+#     P_+(theta) = |n+><n+| where |n+> is spin-up along n
 
 def spin_state(theta):
     """
     Spin-up eigenstate along axis at angle theta from z-axis (in xz-plane).
 
-    |n̂+⟩ = cos(θ/2)|↑⟩ + sin(θ/2)|↓⟩
-    |n̂-⟩ = -sin(θ/2)|↑⟩ + cos(θ/2)|↓⟩
+    |n+> = cos(theta/2)|^> + sin(theta/2)|v>
+    |n-> = -sin(theta/2)|^> + cos(theta/2)|v>
 
-    FRAMEWORK: This is the perspective subspace V_pi(theta) — the
+    FRAMEWORK: This is the perspective subspace V_pi(theta) -- the
     crystallization axis chosen by the observer.
     """
-    return (cos(theta/2) * up + sin(theta/2) * dn,   # spin-up along θ
-            -sin(theta/2) * up + cos(theta/2) * dn)   # spin-down along θ
+    return (cos(theta/2) * up + sin(theta/2) * dn,   # spin-up along theta
+            -sin(theta/2) * up + cos(theta/2) * dn)   # spin-down along theta
 
 # ==============================================================================
 # PART 4: BELL CORRELATION FUNCTION
@@ -157,16 +157,16 @@ def spin_state(theta):
 
 def bell_correlation(alpha, beta):
     """
-    Compute the correlation E(α, β) for spin measurements on the singlet.
+    Compute the correlation E(alpha, beta) for spin measurements on the singlet.
 
-    Alice measures along angle α, Bob along angle β.
-    E(α,β) = P(++) + P(--) - P(+-) - P(-+)
+    Alice measures along angle alpha, Bob along angle beta.
+    E(alpha,beta) = P(++) + P(--) - P(+-) - P(-+)
 
-    where P(ab) = |⟨a,b|ψ⟩|² (Born rule, THM_0494)
+    where P(ab) = |<a,b|psi>|^2 (Born rule, THM_0494)
 
     FRAMEWORK INTERPRETATION:
-      - Alice's perspective pi_1 projects onto axis α
-      - Bob's perspective pi_2 projects onto axis β
+      - Alice's perspective pi_1 projects onto axis alpha
+      - Bob's perspective pi_2 projects onto axis beta
       - The crystallization constraint (singlet) in V determines
         the joint probability via the Born rule
       - The correlation comes from the GEOMETRY of the higher-dimensional
@@ -183,7 +183,7 @@ def bell_correlation(alpha, beta):
     ab_mp = TensorProduct(a_dn, b_up)
     ab_mm = TensorProduct(a_dn, b_dn)
 
-    # Probabilities via Born rule: P = |⟨measurement|singlet⟩|²
+    # Probabilities via Born rule: P = |<measurement|singlet>|^2
     # Inner product in C^4
     P_pp = Abs(ab_pp.adjoint() @ singlet)**2
     P_pm = Abs(ab_pm.adjoint() @ singlet)**2
@@ -203,12 +203,12 @@ def bell_correlation(alpha, beta):
     return E, (P_pp, P_pm, P_mp, P_mm)
 
 # ==============================================================================
-# TEST 2: Correlation function E(α,β) = -cos(α - β)
+# TEST 2: Correlation function E(alpha,beta) = -cos(alpha - beta)
 # ==============================================================================
 
 def test_bell_correlation():
     """
-    Verify that the singlet correlation is E(α,β) = -cos(α - β).
+    Verify that the singlet correlation is E(alpha,beta) = -cos(alpha - beta).
 
     This is the key result: the framework's Hilbert space (THM_0491)
     + Born rule (THM_0494) + projection structure automatically gives
@@ -232,11 +232,11 @@ def test_bell_correlation():
 
 def test_chsh():
     """
-    CHSH inequality: |S| ≤ 2 for local hidden variables.
-    QM singlet achieves |S| = 2√2 (Tsirelson bound).
+    CHSH inequality: |S| <= 2 for local hidden variables.
+    QM singlet achieves |S| = 2sqrt2 (Tsirelson bound).
 
-    Standard angles: a=0, a'=π/2, b=π/4, b'=3π/4
-    (or equivalently: a=0, a'=π/4, b=π/8, b'=3π/8 for max violation)
+    Standard angles: a=0, a'=pi/2, b=pi/4, b'=3pi/4
+    (or equivalently: a=0, a'=pi/4, b=pi/8, b'=3pi/8 for max violation)
 
     S = E(a,b) - E(a,b') + E(a',b) + E(a',b')
 
@@ -274,12 +274,12 @@ def test_no_signaling():
     No-signaling: Alice's local statistics are independent of Bob's
     measurement choice (and vice versa).
 
-    P_A(+|α) = P(++|α,β) + P(+-|α,β) must be independent of β.
+    P_A(+|alpha) = P(++|alpha,beta) + P(+-|alpha,beta) must be independent of beta.
 
     FRAMEWORK INTERPRETATION:
       Perspectives are INDEPENDENT projections of V.
       Changing pi_2's projection axis cannot affect pi_1's marginal.
-      This follows from the projection structure: Tr_2(|ψ⟩⟨ψ|) is
+      This follows from the projection structure: Tr_2(|psi><psi|) is
       independent of the basis chosen for system 2.
 
     This is crucial: the framework explains correlations WITHOUT
@@ -319,11 +319,11 @@ def test_coherence_entanglement():
     """
     Connect DEF_0265 (coherence measure) to entanglement.
 
-    DEF_0265: Coh(τ, π₁, π₂) = |A_π₁(τ) ∩ A_π₂(τ)| / max(|A_π₁(τ)|, |A_π₂(τ)|)
+    DEF_0265: Coh(tau, pi_1, pi_2) = |A_pi_1(tau) n A_pi_2(tau)| / max(|A_pi_1(tau)|, |A_pi_2(tau)|)
 
     For entangled states in the framework:
-      - The "trajectory" τ is the crystallized state in V
-      - A_π(τ) is the set of states accessible from perspective π
+      - The "trajectory" tau is the crystallized state in V
+      - A_pi(tau) is the set of states accessible from perspective pi
       - High coherence = high classical correlation (product state)
       - Entanglement may correspond to a SPECIFIC pattern of coherence
         where individual perspectives are maximally uncertain (Coh with
@@ -357,7 +357,7 @@ def test_coherence_entanglement():
 
     # Concurrence (entanglement measure for 2-qubit states)
     # For singlet: C = 1 (maximally entangled)
-    # Concurrence formula: C = max(0, λ₁ - λ₂ - λ₃ - λ₄)
+    # Concurrence formula: C = max(0, lambda_1 - lambda_2 - lambda_3 - lambda_4)
     # For singlet, this is 1
 
     # Framework interpretation of concurrence:
@@ -376,12 +376,12 @@ def test_higher_dim_embedding():
     (representing the full crystal) preserves all correlations.
 
     FRAMEWORK POINT:
-      The singlet lives in C^2 ⊗ C^2 = C^4, but the full crystal
+      The singlet lives in C^2 (x) C^2 = C^4, but the full crystal
       space has dimension related to n_c = 11 or the full 15.
       The crystallization constraint in the higher space projects
       DOWN to the singlet in the spin subspace.
 
-    TEST: Embed C^4 into C^(n_c × n_c) and verify that projecting
+    TEST: Embed C^4 into C^(n_c * n_c) and verify that projecting
     back to the spin subspace preserves the correlation function.
     This confirms that the higher-dimensional crystalline structure
     is COMPATIBLE with standard entanglement physics.
@@ -390,14 +390,14 @@ def test_higher_dim_embedding():
     # (n_c = 11 for each particle's crystal dimension)
     # The spin subspace is a 4D subspace of the 121D space
 
-    # Embedding: |ψ_singlet⟩ in C^4 -> |ψ_embedded⟩ in C^121
+    # Embedding: |psi_singlet> in C^4 -> |psi_embedded> in C^121
     # with the state occupying the first 4 components
 
     dim_full = n_c * n_c  # 121
-    dim_spin = 4           # C^2 ⊗ C^2
+    dim_spin = 4           # C^2 (x) C^2
 
     # Singlet in C^4
-    psi_4 = Matrix([0, 1, -1, 0]) / sqrt(2)  # |↑↓⟩ - |↓↑⟩
+    psi_4 = Matrix([0, 1, -1, 0]) / sqrt(2)  # |^v> - |v^>
 
     # Embed in C^121
     psi_embedded = zeros(dim_full, 1)
@@ -424,7 +424,7 @@ def test_higher_dim_embedding():
     return is_recovered, norm_preserved, dim_full, dim_spin
 
 # ==============================================================================
-# TEST 7: Framework-specific — crystallization as entanglement mechanism
+# TEST 7: Framework-specific -- crystallization as entanglement mechanism
 # ==============================================================================
 
 def test_crystallization_mechanism():
@@ -440,9 +440,9 @@ def test_crystallization_mechanism():
       5. Constraint in V forces correlated outcome at pi_2
 
     Mathematical model:
-      - Pre-interaction: |a⟩ ⊗ |b⟩ (product state, no shared constraint)
-      - Crystallization event: U_interact |a⟩|b⟩ = |ψ_entangled⟩
-      - U_interact is unitary (THM_0493) — crystallization preserves norm
+      - Pre-interaction: |a> (x) |b> (product state, no shared constraint)
+      - Crystallization event: U_interact |a>|b> = |psi_entangled>
+      - U_interact is unitary (THM_0493) -- crystallization preserves norm
       - Post-crystallization state cannot be factored -> entangled
 
     TEST: Verify that a generic unitary on C^4 can produce any entangled
@@ -451,7 +451,7 @@ def test_crystallization_mechanism():
     """
     theta = symbols('theta', real=True, positive=True)
 
-    # Start with product state |↑↑⟩
+    # Start with product state |^^>
     product = Matrix([1, 0, 0, 0])
 
     # A "crystallization" unitary that creates entanglement
@@ -468,7 +468,7 @@ def test_crystallization_mechanism():
         [-sin(theta), 0, 0, cos(theta)]
     ])
 
-    # Verify unitarity: U^† U = I
+    # Verify unitarity: U^+ U = I
     UdagU = simplify(U_crystal.adjoint() * U_crystal)
     is_unitary = simplify(UdagU - eye(4)) == zeros(4)
 
@@ -484,7 +484,7 @@ def test_crystallization_mechanism():
     ])
 
     # Singular values determine entanglement
-    # For our state: M = [[cos(θ), 0], [0, cos(θ)]] + [[0,0],[sin(θ),0]] etc.
+    # For our state: M = [[cos(theta), 0], [0, cos(theta)]] + [[0,0],[sin(theta),0]] etc.
     # Let's compute the reduced density matrix
     rho_1 = simplify(M_out * M_out.adjoint())
 
@@ -515,19 +515,19 @@ def test_specific_angles():
     E_00, _ = bell_correlation(Rational(0), Rational(0))
     results['E(0,0)'] = (simplify(E_00), -1)
 
-    # Opposite axis: perfect correlation E(0,π) = +1
+    # Opposite axis: perfect correlation E(0,pi) = +1
     E_0pi, _ = bell_correlation(Rational(0), pi)
     results['E(0,pi)'] = (simplify(E_0pi), 1)
 
-    # Perpendicular: no correlation E(0,π/2) = 0
+    # Perpendicular: no correlation E(0,pi/2) = 0
     E_0half, _ = bell_correlation(Rational(0), pi/2)
     results['E(0,pi/2)'] = (simplify(E_0half), 0)
 
-    # 45 degrees: E(0,π/4) = -cos(π/4) = -1/√2
+    # 45 degrees: E(0,pi/4) = -cos(pi/4) = -1/sqrt2
     E_045, _ = bell_correlation(Rational(0), pi/4)
     results['E(0,pi/4)'] = (simplify(E_045), -cos(pi/4))
 
-    # 60 degrees: E(0,π/3) = -cos(π/3) = -1/2
+    # 60 degrees: E(0,pi/3) = -cos(pi/3) = -1/2
     E_060, _ = bell_correlation(Rational(0), pi/3)
     results['E(0,pi/3)'] = (simplify(E_060), Rational(-1, 2))
 
@@ -621,7 +621,7 @@ def main():
     print(f"  State recovered after projection: {recovered}")
     print(f"  Norm preserved in embedding: {norm_ok}")
     t6 = recovered and norm_ok
-    test_results.append(("Embedding in n_c²-dim space preserves state", recovered))
+    test_results.append(("Embedding in n_c^2-dim space preserves state", recovered))
     test_results.append(("Norm preserved in higher-dim embedding", norm_ok))
     print()
 

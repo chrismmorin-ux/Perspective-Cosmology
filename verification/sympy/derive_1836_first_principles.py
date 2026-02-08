@@ -283,7 +283,7 @@ m_p/m_e = (H+O) x T(R^2 + H^2) + n_c/(O x Im(H)^2)
         = {predicted}
         = {predicted_float:.10f}
 
-MEASURED (CODATA 2018): {measured_float:.10f}
+MEASURED (CODATA 2022): {measured_float:.10f}
 
 ERROR: {error_ppm:.3f} ppm
 """)

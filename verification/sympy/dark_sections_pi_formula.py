@@ -60,7 +60,7 @@ total_pairs = light_pairs + dark_pairs + twilight_pairs
 
 print(f"\n   Light pairs (both visible):       ({n_visible} choose 2) = {light_pairs}")
 print(f"   Dark pairs (both hidden):         ({n_hidden} choose 2) = {dark_pairs}")
-print(f"   Twilight pairs (one each):        {n_visible} × {n_hidden} = {twilight_pairs}")
+print(f"   Twilight pairs (one each):        {n_visible} * {n_hidden} = {twilight_pairs}")
 print(f"   Total:                            {light_pairs} + {dark_pairs} + {twilight_pairs} = {total_pairs}")
 print(f"   Expected (11 choose 2):           {exponent}")
 print(f"   MATCH: {total_pairs == exponent}")

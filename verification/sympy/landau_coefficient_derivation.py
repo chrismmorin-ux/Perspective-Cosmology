@@ -465,7 +465,7 @@ for target_name, target_val in targets.items():
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 9: Bifurcation Analysis — When Does a*=0 Become a Minimum?")
+print("PART 9: Bifurcation Analysis -- When Does a*=0 Become a Minimum?")
 print("=" * 70)
 
 # As mu^2 increases from 0, the uniform point becomes unstable at mu^2_crit.
@@ -590,8 +590,8 @@ RESULTS:
    This provides a NEW selection mechanism for (4,7) over (3,8)!
 
 4. PHYSICAL INTERPRETATION [CONJECTURE]
-   a*=0 means spacetime is "perfectly defective" — zero tilt.
-   b*=-1 means internal space is "perfectly crystallized" — unit tilt.
+   a*=0 means spacetime is "perfectly defective" -- zero tilt.
+   b*=-1 means internal space is "perfectly crystallized" -- unit tilt.
    The defect-crystal duality is maximally expressed.
 
 5. OPEN: lambda still undetermined

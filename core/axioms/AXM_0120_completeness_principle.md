@@ -2,7 +2,7 @@
 
 **Tag**: 0120
 **Type**: META-AXIOM
-**Status**: PROPOSED
+**Status**: CANONICAL
 **Layer**: 0 (Pure Mathematics — no physics interpretation)
 **Source**: Session S251 (formalization of "perfection = maximal consistency")
 **Added**: Session S251
@@ -110,17 +110,17 @@ The field itself must be at the consistency boundary.
 1. By Hurwitz's theorem [I-MATH, 1898], the normed division algebras over R are exactly {R, C, H, O}. No others exist.
 2. Their imaginary subspaces (structure beyond the real line):
    - Im(R) = {0} — dimension 0 (R has no imaginary part)
-   - Im(C) ~ R^1 — dimension 1
-   - Im(H) ~ R^3 — dimension 3
-   - Im(O) ~ R^7 — dimension 7
+   - Im_C ~ R^1 — dimension 1
+   - Im_H ~ R^3 — dimension 3
+   - Im_O ~ R^7 — dimension 7
 3. By CCP-2, V_Crystal contains Im(D) for each D.
 4. Im(R) = {0} contributes nothing. R is the ground field, not a source of new algebraic directions.
-5. By CCP-3 (minimality): V_Crystal = Im(C) + Im(H) + Im(O) (direct sum).
+5. By CCP-3 (minimality): V_Crystal = Im_C + Im_H + Im_O (direct sum).
 6. dim(V_Crystal) = 1 + 3 + 7 = **11**. QED
 
 **Why imaginary dimensions?** Each Im(D_k) represents the algebraic directions that D_k introduces BEYOND the real numbers. R provides the scalar baseline. The imaginary parts are the genuinely new, independent algebraic degrees of freedom.
 
-**Why direct sum?** Each division algebra represents a different level of algebraic complexity (different property lost at its boundary). Im(C) captures ordering-boundary structure, Im(H) captures commutativity-boundary structure, Im(O) captures associativity-boundary structure. These are conceptually and algebraically independent sectors.
+**Why direct sum?** Each division algebra represents a different level of algebraic complexity (different property lost at its boundary). Im_C captures ordering-boundary structure, Im_H captures commutativity-boundary structure, Im_O captures associativity-boundary structure. These are conceptually and algebraically independent sectors.
 
 ### Theorem CCP.2: F = C (Field Determination)
 
@@ -159,7 +159,7 @@ The field itself must be at the consistency boundary.
 4. D_framework = {1, 2, 3, 4, 7, 8, 11} — the complete union.
 5. Every element is forced by CCP + Hurwitz. None is optional. QED
 
-**Remark**: D_framework has exactly 7 elements. This number is itself Im(O), the dimension of the octonion imaginaries — a coincidence that may or may not be structurally significant [SPECULATION].
+**Remark**: D_framework has exactly 7 elements. This number is itself Im_O, the dimension of the octonion imaginaries — a coincidence that may or may not be structurally significant [SPECULATION].
 
 ---
 
@@ -193,7 +193,7 @@ The field itself must be at the consistency boundary.
 - **Subsumes C5**: Replaces "dimension is some finite n" with "dimension is exactly 11"
 - **Constrains C1**: Resolves F = C (was ambiguous "R or C")
 - **Strengthens T0**: Fixes the algebraic type of the transition structure (quaternionic)
-- **Subsumes P1-P4, Pi1-Pi2 (S253, THM_04B2)**: CCP forces Im(C), which breaks symmetry, creating perspective. All six perspective axioms are derivable from V_Crystal + CCP. The perspective axioms remain useful as working descriptions of the derived structure, but they are no longer logically independent
+- **Subsumes P1-P4, Pi1-Pi2 (S253, THM_04B2)**: CCP forces Im_C, which breaks symmetry, creating perspective. All six perspective axioms are derivable from V_Crystal + CCP. The perspective axioms remain useful as working descriptions of the derived structure, but they are no longer logically independent
 - **Compatible with AXM_0117-0118**: CCP provides the structural foundation; dynamics and selection operate on the forced structure
 
 ---
@@ -206,6 +206,23 @@ With CCP forcing D_framework = {1,2,3,4,7,8,11}, the Gaussian norm N(a+bi) = a^2
 - **Non-norms** (not representable): {3, 7, 11} — the imaginary dimensions and n_c
 
 This partition is a THEOREM of number theory applied to a forced set, not a pattern match. If CNH is adopted, the 8 framework primes {2, 5, 13, 17, 53, 73, 113, 137} become derivable: they are exactly the primes of the form a^2 + b^2 with a, b in D_framework.
+
+---
+
+## Pi-Power Truncation Consistency Check (S265/S270)
+
+The pi-power map f(d) = floor(d/2) = rank(SO(d)) applied to D_framework produces sums that self-referentially encode framework dimensions:
+
+| Subset | Pi-power sum | = |
+|--------|-------------|---|
+| DA dims {1,2,4,8} | 7 | Im(O) |
+| Imaginary dims {1,3,7} | 4 | n_d |
+| D_fw \ {11} | 11 | n_c |
+| All D_fw | 16 | n_d^2 = 2^n_d |
+
+This self-referential structure depends critically on CCP's Hurwitz truncation. Hypothetically extending to sedenions (dim 16, Im = 15, n_c_ext = 26) breaks every property: Im pi-sum != n_d, n_c != 3*n_d - 1, n_d^2 != 2^n_d, and n_d^2 + n_c^2 loses primality (692 = 4*173).
+
+This is **not** a new argument for CCP, but a **consistency check**: the pi-power structure works if and only if the Cayley-Dickson tower stops at exactly the octonions, which is what CCP + Hurwitz forces. See THM_04B5 for full statement and proofs; verified in `pi_power_alpha_connection.py` (16/16 PASS).
 
 ---
 

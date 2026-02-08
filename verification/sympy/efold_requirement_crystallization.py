@@ -61,7 +61,7 @@ The key assumptions are:
 """)
 
 # Standard calculation
-# N ≈ 62 - ln(k/(a_0 H_0)) - (1/4)ln(g_*/g_0) - (1/4)ln(ρ_RH/ρ_end)
+# N ~ 62 - ln(k/(a_0 H_0)) - (1/4)ln(g_*/g_0) - (1/4)ln(rho_RH/rho_end)
 # For k = 0.05 Mpc^-1, typical values give N ~ 55-60
 
 N_standard = 55  # Typical value
@@ -104,14 +104,14 @@ print("=" * 70)
 
 # Explore framework expressions that give ~37
 formulas = [
-    ("n_c × n_d - 7", n_c * n_d - Im_O),           # 11×4 - 7 = 37
-    ("H × n_c - 7", H * n_c - Im_O),               # 4×11 - 7 = 37
-    ("O × H + Im_H + C", O * H + Im_H + C),        # 8×4 + 3 + 2 = 37
-    ("(n_c + n_d)² / H - C", (n_c + n_d)**2 / H - C),  # 225/4 - 2 = 54.25
-    ("Im_O × (H + R) + C", Im_O * (H + R) + C),    # 7×5 + 2 = 37
-    ("(H + R)² + n_c + R", (H + R)**2 + n_c + R),  # 25 + 11 + 1 = 37
-    ("C × n_d × H + Im_H + C", C * n_d * H + Im_H + C),  # 2×4×4 + 3 + 2 = 37
-    ("H² + Im_O × n_d - 7", H**2 + Im_O * n_d - Im_O),  # 16 + 28 - 7 = 37
+    ("n_c * n_d - 7", n_c * n_d - Im_O),           # 11*4 - 7 = 37
+    ("H * n_c - 7", H * n_c - Im_O),               # 4*11 - 7 = 37
+    ("O * H + Im_H + C", O * H + Im_H + C),        # 8*4 + 3 + 2 = 37
+    ("(n_c + n_d)^2 / H - C", (n_c + n_d)**2 / H - C),  # 225/4 - 2 = 54.25
+    ("Im_O * (H + R) + C", Im_O * (H + R) + C),    # 7*5 + 2 = 37
+    ("(H + R)^2 + n_c + R", (H + R)**2 + n_c + R),  # 25 + 11 + 1 = 37
+    ("C * n_d * H + Im_H + C", C * n_d * H + Im_H + C),  # 2*4*4 + 3 + 2 = 37
+    ("H^2 + Im_O * n_d - 7", H**2 + Im_O * n_d - Im_O),  # 16 + 28 - 7 = 37
 ]
 
 print("\nFramework expressions giving N ~ 37:")
@@ -129,10 +129,10 @@ print(f"""
 NOTABLE: Multiple framework expressions give N = 37 exactly!
 
 The most elegant is:
-  N = n_c × n_d - Im_O = 11 × 4 - 7 = 37
+  N = n_c * n_d - Im_O = 11 * 4 - 7 = 37
 
 This can be interpreted as:
-  - n_c × n_d = crystal × spacetime dimensions = 44
+  - n_c * n_d = crystal * spacetime dimensions = 44
   - Subtract imaginary octonion degrees of freedom
   - N = 44 - 7 = 37
 """)
@@ -221,7 +221,7 @@ z_cryst_estimate = mexp(37)
 
 print(f"""
 Framework values:
-  z_* = 33² = {z_recomb} (recombination - VERIFIED)
+  z_* = 33^2 = {z_recomb} (recombination - VERIFIED)
 
 Crystallization boundary estimate:
   If N = 37: z_cryst ~ e^37 ~ {z_cryst_estimate:.1e}
@@ -252,7 +252,7 @@ this could have observable consequences:
 1. **Tensor modes at larger scales**:
    - Standard: tensor modes exit horizon at N ~ 55-60
    - Crystallization: tensor modes exit at N ~ 37
-   - Ratio of scales: exp(55-37) ~ 6 × 10^7
+   - Ratio of scales: exp(55-37) ~ 6 * 10^7
    - This affects the largest-scale CMB anisotropies
 
 2. **Trans-Planckian problem**:
@@ -270,24 +270,24 @@ this could have observable consequences:
 """)
 
 # ==============================================================================
-# PART 8: THE FORMULA N = n_c × n_d - Im_O
+# PART 8: THE FORMULA N = n_c * n_d - Im_O
 # ==============================================================================
 
 print("=" * 70)
-print("PART 8: INVESTIGATING N = n_c × n_d - Im_O = 37")
+print("PART 8: INVESTIGATING N = n_c * n_d - Im_O = 37")
 print("=" * 70)
 
 # This formula has nice properties:
-# n_c × n_d = crystal × spacetime = 44
+# n_c * n_d = crystal * spacetime = 44
 # Im_O = 7 = the "hidden" degrees of freedom
 
 N_framework = n_c * n_d - Im_O
 
 print(f"""
-The formula N = n_c × n_d - Im_O = {n_c} × {n_d} - {Im_O} = {N_framework}
+The formula N = n_c * n_d - Im_O = {n_c} * {n_d} - {Im_O} = {N_framework}
 
 Interpretation:
-- n_c × n_d = 11 × 4 = 44 (crystal × spacetime modes)
+- n_c * n_d = 11 * 4 = 44 (crystal * spacetime modes)
 - Im_O = 7 (internal degrees of freedom, not contributing to expansion)
 - N = 44 - 7 = 37 (effective e-folds for observable universe)
 
@@ -301,10 +301,10 @@ This connects to other framework patterns:
 # 37 = ?
 
 framework_37 = [
-    ("n_c × n_d - Im_O", n_c * n_d - Im_O),
-    ("H × n_c - Im_O", H * n_c - Im_O),
-    ("Im_O × (H + R) + C", Im_O * (H + R) + C),
-    ("(H + R)² + n_c + R", (H + R)**2 + n_c + R),
+    ("n_c * n_d - Im_O", n_c * n_d - Im_O),
+    ("H * n_c - Im_O", H * n_c - Im_O),
+    ("Im_O * (H + R) + C", Im_O * (H + R) + C),
+    ("(H + R)^2 + n_c + R", (H + R)**2 + n_c + R),
 ]
 
 print("\n37 appears in multiple framework contexts:")
@@ -322,7 +322,7 @@ print("=" * 70)
 
 tests = [
     ("N_hilltop ~ 37 (not ~55)", abs(N_hilltop - 37) < 3),
-    ("n_c × n_d - Im_O = 37", n_c * n_d - Im_O == 37),
+    ("n_c * n_d - Im_O = 37", n_c * n_d - Im_O == 37),
     ("37 is prime", isprime(37)),
     ("37 < 55 (standard requirement)", 37 < 55),
     ("Framework consistency", H * n_c - Im_O == n_c * n_d - Im_O),
@@ -342,7 +342,7 @@ SUMMARY:
 The hilltop potential gives N ~ {N_hilltop:.0f} e-folds, not 55-60.
 
 This matches the framework formula:
-  N = n_c × n_d - Im_O = 11 × 4 - 7 = 37
+  N = n_c * n_d - Im_O = 11 * 4 - 7 = 37
 
 HYPOTHESIS: In crystallization cosmology, the e-fold requirement is
 DIFFERENT from standard cosmology because:

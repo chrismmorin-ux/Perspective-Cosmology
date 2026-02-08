@@ -14,7 +14,7 @@ Three potential sources of deviation:
 TESTS:
   1. Bipartite entanglement: no deviation for small systems (spin-1/2)
   2. Dimensional cap: at what N does the constraint bite?
-  3. Multipartite: GHZ and W states — which fit in the crystal?
+  3. Multipartite: GHZ and W states -- which fit in the crystal?
   4. Monogamy of entanglement: framework constraint vs standard CKW
   5. Schmidt number constraint from crystal dimension
   6. Decoherence from Wright-Fisher crystallization dynamics
@@ -36,7 +36,7 @@ n_P = 11  # Number of points
 
 
 # ==============================================================================
-# TEST 1: Bipartite spin-1/2 — no deviation
+# TEST 1: Bipartite spin-1/2 -- no deviation
 # ==============================================================================
 
 def test_bipartite_no_deviation():
@@ -120,7 +120,7 @@ def test_n_qubit_cap():
 
 
 # ==============================================================================
-# TEST 3: Multipartite states — GHZ and W
+# TEST 3: Multipartite states -- GHZ and W
 # ==============================================================================
 
 def test_multipartite_states():
@@ -169,7 +169,7 @@ def test_multipartite_states():
 
 
 # ==============================================================================
-# TEST 4: Monogamy of entanglement — framework vs CKW
+# TEST 4: Monogamy of entanglement -- framework vs CKW
 # ==============================================================================
 
 def test_monogamy():
@@ -187,7 +187,7 @@ def test_monogamy():
     Hilbert space (tensor product + positivity of density matrices).
 
     In the framework, the same Hilbert space structure gives the
-    same CKW bound — no additional constraint for small systems.
+    same CKW bound -- no additional constraint for small systems.
 
     HOWEVER: for systems near the dimensional cap (N >= 7 qubits),
     the truncated Hilbert space could impose STRONGER monogamy.
@@ -285,7 +285,7 @@ def test_schmidt_constraint():
     }
 
     # Hypothetical: particle with more than n_c internal states
-    # (not possible in framework — this IS the constraint)
+    # (not possible in framework -- this IS the constraint)
     dim_hyp = 15
     scenarios['hypothetical_15'] = {
         'dim_A': dim_hyp,
@@ -332,7 +332,7 @@ def test_crystallization_decoherence():
     If sigma^2 ~ 1/n_c^2 = 1/121 (natural scale):
       Decoherence time ~ 121 * log(d) in crystal time units
 
-    This is SPECULATIVE — the connection between Wright-Fisher
+    This is SPECULATIVE -- the connection between Wright-Fisher
     timescales and physical decoherence is not established.
     """
     # Wright-Fisher mean absorption time
@@ -359,7 +359,7 @@ def test_crystallization_decoherence():
             tau = symlog(d) / sigma_sq
             absorption_times[(label, d)] = float(tau)
 
-    # This is speculative — we're computing timescales, not making
+    # This is speculative -- we're computing timescales, not making
     # a firm prediction. The key point is that the framework
     # NATURALLY gives a decoherence mechanism (Wright-Fisher dynamics)
     # that standard QM must import (decoherence from environment).
@@ -368,7 +368,7 @@ def test_crystallization_decoherence():
 
 
 # ==============================================================================
-# TEST 7: Summary — what deviates and what doesn't
+# TEST 7: Summary -- what deviates and what doesn't
 # ==============================================================================
 
 def test_deviation_summary():

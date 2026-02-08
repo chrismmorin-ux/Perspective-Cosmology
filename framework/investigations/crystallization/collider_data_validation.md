@@ -198,7 +198,7 @@ The framework must predict g_V^f and g_A^f from tilt mode geometry:
 ### Verification Scripts
 
 - **Target**: `verification/sympy/entropy_crystallization_collider.py`
-- **Target**: `verification/sympy/r_ratio_tilt_counting.py`
+- **Target**: `verification/sympy/r_ratio_tilt_counting.py` [planned, not yet created]
 
 ### Findings Log (Phase II)
 
@@ -287,7 +287,7 @@ All three SM one-loop beta coefficients decompose exactly into framework numbers
 
 ### Verification Scripts
 
-- **Target**: `verification/sympy/qgp_tilt_barrier.py`
+- **Target**: `verification/sympy/qgp_tilt_barrier.py` [planned, not yet created]
 - **DONE**: `verification/sympy/tilt_dynamics_beta_functions.py` — 17/18 PASS
 
 ### Findings Log (Phase III)

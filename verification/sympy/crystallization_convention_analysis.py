@@ -11,7 +11,7 @@ Also tests: multi-mode excitation suppression reproduces QED vertex structure,
 and the leading QED correction (Schwinger a_e = alpha/(2*pi)) is consistent.
 
 Formula: alpha = P(EM channel) = 1/N_I (Gaussian: e^2 = alpha)
-Status: DERIVATION — convention analysis
+Status: DERIVATION -- convention analysis
 
 Depends on:
 - DEF_02B3: N_I = 137
@@ -34,10 +34,10 @@ Phi_6 = n_c**2 - n_c + 1  # 111
 
 alpha_inv_full = Rational(15211, 111)
 alpha_full = Rational(111, 15211)
-alpha_inv_measured = Rational(137035999084, 10**9)
+alpha_inv_measured = Rational(137035999177, 10**9)
 
 # ==============================================================================
-# PART 1: WHY GAUSSIAN — ALGEBRAIC vs GEOMETRIC COUPLING
+# PART 1: WHY GAUSSIAN -- ALGEBRAIC vs GEOMETRIC COUPLING
 # ==============================================================================
 
 print("=" * 70)

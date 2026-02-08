@@ -1,8 +1,8 @@
 # Inflationary Amplitude V₀ Derivation
 
-**Status**: GAP (G-CMB-V0)
+**Status**: GAP with candidate (G-CMB-V0)
 **Created**: Session 189, 2026-02-02
-**Last Updated**: Session 189, 2026-02-02
+**Last Updated**: Session 289, 2026-02-07
 
 ---
 
@@ -99,24 +99,57 @@ The framework derives *ratios* well (dimensionless quantities from division alge
 
 This is structurally analogous to the cosmological constant problem: the framework can derive the shape of the potential but not its normalization.
 
+## Path 5 (S289): V₀ = α⁴/C — Candidate
+
+**Status**: [CONJECTURE, HRS 5]
+
+**Formula**: V₀/M_Pl⁴ = α_tree⁴ × n_c/N_colored = α⁴/C
+
+where C = N_colored/n_c = 24/11 (the alpha radiative correction coefficient).
+
+**Result**: A_s(pred) = 2.090 × 10⁻⁹, measured 2.099 × 10⁻⁹. Deviation: 0.41% (0.29σ).
+
+**Connection to alpha chain**: SAME C = 24/11 appears in both:
+- Alpha correction: 1/α_dressed = 1/α_tree + C·α/(4π²)
+- V₀ prediction: V₀ = α⁴ · M_Pl⁴ / C
+
+**Caveat**: Found by systematic search, NOT derived. HRS = 5.
+The rational 6/13 gives a better match (0.29%) but lacks framework motivation.
+Four simple fractions a/b (a<b≤30) match within 1%: 6/13, 12/26, 11/24, 13/28.
+Only 11/24 = 1/C has established framework meaning.
+
+**Falsification**: CMB-S4 (~0.5% A_s precision) could distinguish. If A_s shifts by >1% from Planck 2018, formula fails.
+
+## A_s Formula Structure
+
+If V₀ = α⁴ × n_c/N_colored × M_Pl⁴:
+
+A_s = α⁴ × 5³ × n_c / (Im_H³ × Im_O × π²) = α⁴ × 1375/(189π²)
+
+The slow-roll coefficient 63π²/1000 = Im_O·Im_H²·π²/(Im_H+Im_O)³ is framework-structured regardless of V₀ derivation.
+
 ## Open Questions
 
-1. **Planck mass in framework units**: What sets M_Pl in terms of crystallization parameters?
-2. **Radiative corrections**: Does the one-loop CW potential fix V₀ once the other parameters are known?
-3. **Alternative inflation models**: Could V₀ emerge from a tunneling calculation (Hawking-Moss) rather than a classical potential?
-4. **The α⁴·Im_O/n_c near-miss**: Is 7/11 × α⁴ meaningful, or post-hoc?
+1. **Why V₀ involves 1/C**: Can Coleman-Weinberg dynamics from the 24 colored pNGBs generate this? The same states correct alpha and could set the inflaton potential height.
+2. **CMB-S4 test**: Will ~0.5% A_s precision distinguish 11/24 from 6/13?
+3. **Connection to dimensional propagation** (S280): V₀ = α⁴/C × M_Pl⁴ would complete the chain: M_Pl → all 12 dimensionful predictions via framework ratios only.
+4. **Original questions from S189**: Planck mass in framework units, CW potential, tunneling alternative.
 
 ## Dependencies
 
-- Uses: THM_0496 (democratic distribution), hilltop potential (μ² = 1536/7), [A-IMPORT] A_s
+- Uses: THM_0496 (democratic distribution), hilltop potential (μ² = 1536/7), [A-IMPORT] A_s for validation, C = 24/11 [DERIVED S269-S272]
 - Used by: CMB amplitude, inflationary energy scale, reheating temperature
 
 ## Verification
 
-**Script**: `verification/sympy/v0_democratic_derivation.py` — 14/14 PASS
+**Scripts**:
+- `verification/sympy/v0_democratic_derivation.py` — 14/14 PASS (S189)
+- `verification/sympy/v0_structural_search.py` — 12/12 PASS (S289)
+- `verification/sympy/v0_alpha4_over_C.py` — 11/12 PASS (S289, 1 FAIL = 6/13 beats 11/24 numerically)
 
 ## Session History
 
 | Session | Work Done | Outcome |
 |---------|-----------|---------|
 | 189 | 4-path derivation search | All fail. Gap G-CMB-V0 OPEN. α⁴·Im_O/n_c near-miss noted. |
+| 289 | Systematic search + alpha chain connection | V₀ = α⁴/C candidate [CONJECTURE, HRS 5]. A_s 0.41% off (0.29σ). |

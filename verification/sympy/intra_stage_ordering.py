@@ -196,7 +196,7 @@ print(f"37 is the FIRST secondary prime")
 # sum of Stage 1 primes = smallest Stage 2 secondary prime?
 print(f"\nIs bootstrap STRUCTURAL or coincidental?")
 
-# The Stage 1 primes are determined by D_framework ∩ {1..4}
+# The Stage 1 primes are determined by D_framework n {1..4}
 # For the STANDARD framework, these are {2, 5, 13, 17} with sum 37
 
 # Check if any other framework dimension set would give bootstrap

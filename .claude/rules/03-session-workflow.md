@@ -103,6 +103,16 @@ Don't wait until session end. When a pattern emerges:
 registry/emerging_patterns.md -> Add with timestamp and score
 ```
 
+### Propagation Awareness (After Major Results)
+When a result constitutes a **propagation trigger** (status change, retraction, count change,
+formula update), immediately note it for Step 4c:
+
+> "This resolves [X] — propagation trigger. Will update manifest at session end."
+
+For CRITICAL triggers (retractions, falsifications), consider updating key cross-references
+immediately rather than deferring to session end, since stale critical information actively
+misleads. For MEDIUM/LOW triggers, defer to Step 4c.
+
 ### Formalization Prompts (After Every Derivation or Finding)
 After completing a derivation, finding, or significant result, proactively ask:
 
@@ -180,6 +190,28 @@ Session file "Open Questions" sections reference EQ IDs:
 ```
 1. **Top Yukawa** (EQ-006): Can y_t ~ 1 be derived...
 ```
+
+### Step 4c: Propagation Manifest Update
+Check if this session produced any **propagation triggers**:
+
+1. **Status changes**: Did any CONJ become THEOREM/DERIVATION? Any investigation become CANONICAL?
+2. **Retractions**: Was anything RETRACTED or FALSIFIED?
+3. **Count changes**: Did IRA count, script count, or prediction count change?
+4. **Formula changes**: Did any formula coefficient or value change?
+5. **Assessment changes**: Did probability estimates or grades change?
+6. **EQ resolutions**: Were any exploration queue items resolved?
+
+If YES to any:
+1. Read `registry/PROPAGATION_MANIFEST.md`
+2. For each trigger: add a new PROP entry OR update an existing one
+3. List known files that reference the old value (grep if unsure)
+4. Update any high-priority cross-references in the same session if feasible
+5. Mark remaining stale references for the next quality engine run
+
+If NO triggers: skip this step.
+
+**Quick check** (< 2 min): Scan your session's key findings for words like "RESOLVED",
+"RETRACTED", "PROVEN", "upgraded", "count ... ->", "CANONICAL". If none, move on.
 
 ### Step 5: File Placement Check
 For every NEW file created this session:

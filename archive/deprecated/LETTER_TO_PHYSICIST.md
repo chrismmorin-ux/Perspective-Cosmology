@@ -98,11 +98,11 @@ The correction 4/111 = n_d / (EM channels) arises because:
 **Error**: 0.06 ppm
 
 **Components**:
-- 1836 = (H + O) x (Im(H)^2 + (H+O)^2) = 12 x 153
-- Correction = n_c / (O x Im(H)^2) = 11/72
+- 1836 = (H + O) x (Im_H^2 + (H+O)^2) = 12 x 153
+- Correction = n_c / (O x Im_H^2) = 11/72
 
 **The Lie algebra derivation of 72**:
-72 = dim(O) x Im(H)^2 = 8 x 9 = dim(su(3)) x dim(u(3))
+72 = dim(O) x Im_H^2 = 8 x 9 = dim(su(3)) x dim(u(3))
 - 8 = gluon types (adjoint of SU(3)_color)
 - 9 = generation channels (U(3)_flavor = 3 generations with phases)
 
@@ -252,7 +252,7 @@ All fundamental constants derive from division algebra dimensions:
 ```
 Division Algebra Dimensions:
   dim(R) = 1, dim(C) = 2, dim(H) = 4, dim(O) = 8
-  Im(H) = 3, Im(O) = 7
+  Im_H = 3, Im_O = 7
   n_d = dim(H) = 4 (defect/spacetime)
   n_c = dim(R) + dim(C) + dim(O) = 11 (crystal-side)
 
@@ -263,13 +263,13 @@ Framework Primes (a^2 + b^2 where a,b are dimensions):
 Universal Constants:
   1/alpha = n_d^2 + n_c^2 + n_d/Phi_6(n_c) = 137 + 4/111 = 15211/111
   alpha_s = 5^2/(dim(C)^2 x 53) = 25/212
-  theta_Koide = pi x 73/99 where 73 = Im(H)^2 + dim(O)^2
+  theta_Koide = pi x 73/99 where 73 = Im_H^2 + dim(O)^2
 
 Mixing Angles:
   sin^2(theta_12) = dim(C)^2/13 = 4/13
-  sin^2(theta_13) = dim(C)/(Im(O) x 13) = 2/91
-  sin^2(theta_23) = (dim(C) x Im(H))/n_c = 6/11
-  lambda_CKM = Im(H)^2/(5 x dim(O)) = 9/40
+  sin^2(theta_13) = dim(C)/(Im_O x 13) = 2/91
+  sin^2(theta_23) = (dim(C) x Im_H)/n_c = 6/11
+  lambda_CKM = Im_H^2/(5 x dim(O)) = 9/40
 ```
 
 ## Appendix B: Comparison to Existing Approaches

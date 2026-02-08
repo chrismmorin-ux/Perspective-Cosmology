@@ -213,5 +213,5 @@ This connects the Koide scale to:
   1. Electroweak symmetry breaking (v)
   2. The octonion-spacetime interface (n_d * Im(O))
 
-STATUS: [CONJECTURE] — formula matches but interpretation needs verification
+STATUS: [CONJECTURE] -- formula matches but interpretation needs verification
 """)

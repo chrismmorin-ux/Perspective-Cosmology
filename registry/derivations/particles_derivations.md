@@ -12,18 +12,18 @@
 
 | Property | Value |
 |----------|-------|
-| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) x Im(H)^2) = 1836 + 11/72 = 132203/72 |
+| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) x Im_H^2) = 1836 + 11/72 = 132203/72 |
 | **Predicted** | 1836.15277778 |
 | **Measured (CODATA 2022)** | 1836.152673426(32) |
 | **Accuracy** | **0.06 ppm** (best in framework!) |
 | **Session** | S82 (formula), S89 (Lie algebra derivation) |
 
 **Physical Interpretation**:
-- Main term (1836): (H+O) x (Im(H)^2 + (H+O)^2) = 12 x 153 (QCD mode product)
+- Main term (1836): (H+O) x (Im_H^2 + (H+O)^2) = 12 x 153 (QCD mode product)
 - Correction (11/72): n_c / (QCD x generation channels)
 
 **The Lie Algebra Derivation of 72 (S89)**:
-- 72 = dim(O) x Im(H)^2 = 8 x 9
+- 72 = dim(O) x Im_H^2 = 8 x 9
 - 8 = dim(su(3)) = gluon types (QCD color gauge algebra)
 - 9 = dim(u(3)) = generation channels (3 generations with phases)
 - **72 = QCD-generation interaction channels** — tensor product structure!
@@ -72,12 +72,12 @@
 
 | Property | Value |
 |----------|-------|
-| **Formula** | Q = dim(C)/Im(H) = 2/3 |
+| **Formula** | Q = dim(C)/Im_H = 2/3 |
 | **SM value** | 2/3 (exact) |
 | **Accuracy** | **EXACT** |
 | **Session** | S73 |
 
-**Why 2/3?**: The Koide relation emerges from C → H embedding. Complex numbers embed in quaternions, and 2/3 = dim(C)/Im(H) is algebraically forced.
+**Why 2/3?**: The Koide relation emerges from C → H embedding. Complex numbers embed in quaternions, and 2/3 = dim(C)/Im_H is algebraically forced.
 
 #### B. Koide theta = 2.3165 rad (Prime Attractor)
 
@@ -89,19 +89,19 @@
 | **Accuracy** | **0.006%** |
 | **Session** | S75 |
 
-**Why 73?**: 73 = 3^2 + 8^2 = Im(H)^2 + dim(O)^2 encodes generation-color structure (same prime as Weinberg!)
+**Why 73?**: 73 = 3^2 + 8^2 = Im_H^2 + dim(O)^2 encodes generation-color structure (same prime as Weinberg!)
 
 #### C. Koide Mass Scale M (Matched)
 
 | Property | Value |
 |----------|-------|
-| **Formula** | M = v/(n_d x Im(O))^2 = v/784 |
+| **Formula** | M = v/(n_d x Im_O)^2 = v/784 |
 | **Predicted** | 314.0 MeV |
 | **Measured** | 313.8 MeV |
 | **Accuracy** | **0.07%** |
 | **Session** | S74 |
 
-**Why 784 = 4^2 x 7^2?**: dim(H)^2 x Im(O)^2 — pure division algebra structure.
+**Why 784 = 4^2 x 7^2?**: dim(H)^2 x Im_O^2 — pure division algebra structure.
 
 **Verification**: `verification/sympy/koide_theta_prime_attractor.py`
 
@@ -121,22 +121,22 @@ Unlike leptons (which satisfy Koide exactly), quarks deviate from Q = 2/3. Sessi
 | Triplet | Formula | Exact Value | Error | Session |
 |---------|---------|-------------|-------|---------|
 | **Leptons** | dim(C) | 2 | 0.002% | S73 |
-| **Up-type (u,c,t)** | (Im(H)*n_c + R)/n_c | 34/11 | **0.05%** | S91 |
-| **Down-type (d,s,b)** | (C*O + Im(H))/O | 19/8 | **0.52%** | S91 |
-| **Heavy (c,b,t)** | 2 + 1/(Im(O)*Im(H)^2) | 127/63 | **0.004%** | S91 |
+| **Up-type (u,c,t)** | (Im_H*n_c + R)/n_c | 34/11 | **0.05%** | S91 |
+| **Down-type (d,s,b)** | (C*O + Im_H)/O | 19/8 | **0.52%** | S91 |
+| **Heavy (c,b,t)** | 2 + 1/(Im_O*Im_H^2) | 127/63 | **0.004%** | S91 |
 
 **Key insight (S92)**: The A^2 DENOMINATOR is determined by weak isospin T3:
 - T3 = +1/2 (up-type): n_c = 11 in denominator
 - T3 = -1/2 (down-type): O = 8 in denominator
-- Heavy (mixed): Im(O)*Im(H)^2 = 63 in denominator
+- Heavy (mixed): Im_O*Im_H^2 = 63 in denominator
 
 #### B. Quark theta/pi (Koide Phase over Pi)
 
 | Triplet | Formula | Exact Value | Error | Session |
 |---------|---------|-------------|-------|---------|
-| **Leptons** | (Im(H)^2 + O^2)/(Im(H)^2 x n_c) | 73/99 | 0.006% | S75 |
-| **Up-type** | 67/(H^2 + Im(H)^4) | 67/97 | **0.05%** | S91 |
-| **Down-type** | (C*Im(H)*13)/(Im(H)*37) | 78/111 | **0.14%** | S91 |
+| **Leptons** | (Im_H^2 + O^2)/(Im_H^2 x n_c) | 73/99 | 0.006% | S75 |
+| **Up-type** | 67/(H^2 + Im_H^4) | 67/97 | **0.05%** | S91 |
+| **Down-type** | (C*Im_H*13)/(Im_H*37) | 78/111 | **0.14%** | S91 |
 | **Heavy** | 73/(C*53) | 73/106 | **0.03%** | S91 |
 
 #### C. The Three Quark-Koide Primes (S93 Breakthrough)
@@ -173,7 +173,7 @@ The theta denominators use THREE framework primes, each encoding a different int
 
 **Why does T3 select the prime?**
 
-T3 is the projection of weak isospin onto a preferred axis in Im(H). Different projections illuminate different division algebra substructures:
+T3 is the projection of weak isospin onto a preferred axis in Im_H. Different projections illuminate different division algebra substructures:
 
 | T3 | Doublet Position | Projects Onto | Prime |
 |----|------------------|---------------|-------|
@@ -389,10 +389,10 @@ Key insight: Same democratic ratio alpha = 1/N_I appears in both gauge coupling 
 
 | Parameter | Formula | Predicted | Measured (PDG 2024) | Error | Session |
 |-----------|---------|-----------|---------------------|-------|---------|
-| **lambda (Cabibbo)** | Im(H)^2/(5*dim(O)) = 9/40 | 0.2250 | 0.22497 +/- 0.00070 | **0.01%** | S82 |
-| **|V_cb|** | 2/Im(O)^2 = 2/49 | 0.04082 | 0.0398-0.0422 | **2-4%** | S83 |
+| **lambda (Cabibbo)** | Im_H^2/(5*dim(O)) = 9/40 | 0.2250 | 0.22497 +/- 0.00070 | **0.01%** | S82 |
+| **|V_cb|** | 2/Im_O^2 = 2/49 | 0.04082 | 0.0398-0.0422 | **2-4%** | S83 |
 | **|V_ub|** | 1/(137+n_c^2+n_d) = 1/262 | 0.003817 | 0.00382 +/- 0.00024 | **~0.1%** | S87 |
-| **delta_CKM** | pi*dim(O)/(Im(H)*Im(O)) = pi*8/21 | 1.197 rad | 1.152 +/- 0.056 rad | **3.9% (0.8-sigma)** | S87 |
+| **delta_CKM** | pi*dim(O)/(Im_H*Im_O) = pi*8/21 | 1.197 rad | 1.152 +/- 0.056 rad | **3.9% (0.8-sigma)** | S87 |
 
 #### Key Insights
 
@@ -402,7 +402,7 @@ Key insight: Same democratic ratio alpha = 1/N_I appears in both gauge coupling 
 
 **CP violation from division algebras**
 - delta = pi x octonion/(generations x colors)
-- This is the mismatch between full O and Im(H)*Im(O) decomposition
+- This is the mismatch between full O and Im_H*Im_O decomposition
 
 **delta_CKM ~ theta_Koide/2**
 - Ratio = 0.516 (very close to 1/2!)

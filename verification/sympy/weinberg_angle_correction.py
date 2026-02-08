@@ -166,9 +166,9 @@ print("\n" + "=" * 70)
 print("SEARCH 4: STRUCTURAL FORMULAS")
 print("=" * 70)
 
-# Maybe sin^2(theta_W) = 1/4 × (1 - correction)?
+# Maybe sin^2(theta_W) = 1/4 * (1 - correction)?
 # Or sin^2(theta_W) = 1/4 - something/n_c
-# Or sin^2(theta_W) = 1/4 - Im(H)/(n_d × n_c)?
+# Or sin^2(theta_W) = 1/4 - Im(H)/(n_d * n_c)?
 
 print(f"\nTrying structural formulas:")
 

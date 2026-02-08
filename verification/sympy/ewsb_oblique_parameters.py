@@ -4,7 +4,7 @@ Oblique Parameters (S, T) from Colored pNGBs
 
 KEY FINDING: Light colored pNGBs are ruled out by S parameter at >3 sigma.
 S parameter independently requires m_colored > ~1 TeV.
-This is a CONSISTENCY check — the same conclusion as LHC direct searches.
+This is a CONSISTENCY check -- the same conclusion as LHC direct searches.
 
 Delta_S(light limit) = 2 * dim(3) / (6*pi) = 1/pi ~ 0.318
 PDG: S = 0.04 +/- 0.10 => light limit excluded at >3 sigma
@@ -73,7 +73,7 @@ print(f"              T = {T_exp} +/- {T_err}")
 
 
 # ==============================================================================
-# PART 1: S PARAMETER — LIGHT LIMIT
+# PART 1: S PARAMETER -- LIGHT LIMIT
 # ==============================================================================
 
 print("\n" + "=" * 70)
@@ -238,7 +238,7 @@ Lambda = 4 * np.pi * f_val
 Delta_S_Higgs = 1 / (12 * np.pi) * xi_f * np.log(Lambda**2 / m_H**2)
 print(f"Delta_S_Higgs = {Delta_S_Higgs:.6f}")
 print(f"  = (1/(12*pi)) * {xi_f:.4f} * ln(({Lambda:.0f}/{m_H})^2)")
-print(f"  This is {Delta_S_Higgs/S_err:.2f} sigma — negligible")
+print(f"  This is {Delta_S_Higgs/S_err:.2f} sigma -- negligible")
 
 
 # ==============================================================================

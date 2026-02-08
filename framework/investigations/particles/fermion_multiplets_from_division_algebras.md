@@ -1,7 +1,7 @@
 # Fermion Multiplets from Division Algebras
 
 **Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S50, 100+ sessions stale)
-**Confidence**: [DERIVATION] — hypercharges now derived from Im(H) = 3
+**Confidence**: [DERIVATION] — hypercharges now derived from Im_H = 3
 **Dependencies**: gauge_from_division_algebras.md, core/17_complex_structure.md
 **Created**: 2026-01-26 (Session 48)
 **Updated**: 2026-01-26 (Session 50 — Hypercharge derivation complete)
@@ -20,7 +20,7 @@ Division algebras have total dimension R + C + H + O = 1 + 2 + 4 + 8 = 15.
 
 **Hypothesis**: Fermion multiplets arise from division algebra structure at the defect-crystal interface.
 
-**Status**: All 5 hypercharges now DERIVED from Im(H) = 3. See Part VIII.
+**Status**: All 5 hypercharges now DERIVED from Im_H = 3. See Part VIII.
 
 ---
 
@@ -119,14 +119,14 @@ SM has three copies of the 15 fermions. Why 3?
 
 This means:
 - SU(2) = {q in H : |q| = 1}
-- Lie algebra su(2) = Im(H) = span{i, j, k}
-- **dim(su(2)) = dim(Im(H)) = 3**
+- Lie algebra su(2) = Im_H = span{i, j, k}
+- **dim(su(2)) = dim(Im_H) = 3**
 
 ### 3.3 The Generation Argument
 
-**The dual role of Im(H)**:
+**The dual role of Im_H**:
 
-Im(H) describes BOTH:
+Im_H describes BOTH:
 1. **Physical space**: The 3 spatial dimensions (geometry)
 2. **Flavor space**: The 3 generators of SU(2)_L (gauge)
 
@@ -135,32 +135,32 @@ This is NOT a coincidence — it's the SAME mathematical structure!
 **Argument**:
 1. Fermions couple to weak SU(2)_L
 2. SU(2) = unit quaternions (theorem)
-3. Lie algebra su(2) = Im(H)
+3. Lie algebra su(2) = Im_H
 4. Fermion "flavor" lives in this 3D space
 5. 3 independent directions = 3 generations
 
 ### 3.4 Why Exactly 3?
 
-- Im(H) is 3-dimensional (period)
+- Im_H is 3-dimensional (period)
 - There are exactly 3 linearly independent directions: i, j, k
 - Cannot have 4th generation without 4th spatial dimension!
 
 ### 3.5 Predictions (All Match Observation)
 
-| Prediction | From Im(H) | Observation |
+| Prediction | From Im_H | Observation |
 |------------|------------|-------------|
-| n_gen = 3 | dim(Im(H)) = 3 | 3 generations |
+| n_gen = 3 | dim(Im_H) = 3 | 3 generations |
 | Same charges | Orientation doesn't affect rep | All gens identical charges |
-| Mixing exists | Rotations in Im(H) | CKM/PMNS matrices exist |
+| Mixing exists | Rotations in Im_H | CKM/PMNS matrices exist |
 | 3 angles | dim SO(3) = 3 | CKM has 3 angles |
-| No 4th gen | dim(Im(H)) = 3 only | Z-width excludes 4th |
+| No 4th gen | dim(Im_H) = 3 only | Z-width excludes 4th |
 
 ### 3.6 Generation Mixing
 
-**CKM/PMNS as rotations in Im(H)**:
+**CKM/PMNS as rotations in Im_H**:
 - Flavor eigenstates aligned with i, j, k
 - Mass eigenstates rotated from this basis
-- Mixing matrix = SO(3) rotation in Im(H)
+- Mixing matrix = SO(3) rotation in Im_H
 
 The CKM matrix is close to identity (small rotation), meaning generations are "almost aligned" with i, j, k.
 
@@ -220,15 +220,15 @@ Confidence increased due to:
 | Total fermions per gen | 15 = R + C + H + O | DERIVED |
 | Quark count | 12 = dim(H) × 3 | DERIVED |
 | Lepton count | 3 = R + C | DERIVED |
-| **All 5 hypercharges** | From Im(H) = 3 | **DERIVED (Session 50)** |
+| **All 5 hypercharges** | From Im_H = 3 | **DERIVED (Session 50)** |
 | **Anomaly cancellation** | Automatic from structure | **DERIVED (Session 50)** |
-| Generations | 3 = dim(Im(H)) | CONJECTURE |
+| Generations | 3 = dim(Im_H) | CONJECTURE |
 
 ### 5.2 Conjectural (Needs Work)
 
 | Claim | Issue |
 |-------|-------|
-| ~~Hypercharge values~~ | **RESOLVED** — derived from Im(H) = 3 |
+| ~~Hypercharge values~~ | **RESOLVED** — derived from Im_H = 3 |
 | ~~Anomaly cancellation~~ | **RESOLVED** — automatic |
 | Specific multiplet assignments | Why Q_L is (3,2) specifically? |
 | Interface mechanism | How does H-O interface work exactly? |
@@ -248,10 +248,10 @@ Confidence increased due to:
 
 ### 6.1 The Key Insight
 
-**All 5 SM hypercharges derive from Im(H) = 3.**
+**All 5 SM hypercharges derive from Im_H = 3.**
 
 The derivation uses only:
-1. Im(H) = 3 (imaginary quaternion dimensions)
+1. Im_H = 3 (imaginary quaternion dimensions)
 2. Standard charge/anomaly constraints
 
 ### 6.2 Derivation Chain
@@ -260,7 +260,7 @@ The derivation uses only:
 T1 (time has direction)
   -> F = C (complex structure required)
   -> Division algebras: R, C, H, O
-  -> Im(H) = 3 (imaginary quaternion dimensions)
+  -> Im_H = 3 (imaginary quaternion dimensions)
   -> O gives SU(3) with N_colors = 3
   -> H gives SU(2) with T3 = +/-1/2
   -> B = 1/N_colors = 1/3 for quarks
@@ -324,7 +324,7 @@ Verification confirms only ONE solution exists.
 
 ### 6.7 What This Derives
 
-From Im(H) = 3 alone, plus charge quantization:
+From Im_H = 3 alone, plus charge quantization:
 - The denominator 6 in quark hypercharges (= 2 × 3)
 - All specific hypercharge values
 - Anomaly cancellation (automatic!)
@@ -364,8 +364,8 @@ Our framework provides a different origin (perspective/defect-crystal) but arriv
 
 1. **Exact count**: 15 fermions = total division algebra dimension
 2. **Structure match**: 12 quarks + 3 leptons matches H×3 + (R+C)
-3. **Generation hint**: 3 = dim(Im(H))
-4. **ALL HYPERCHARGES**: Derived from Im(H) = 3 (Session 50)
+3. **Generation hint**: 3 = dim(Im_H)
+4. **ALL HYPERCHARGES**: Derived from Im_H = 3 (Session 50)
 5. **Anomaly cancellation**: Automatic from derived hypercharges
 
 ### What We Need
@@ -383,7 +383,7 @@ Our framework provides a different origin (perspective/defect-crystal) but arriv
 | Quark/lepton split | [DERIVATION] |
 | **All 5 hypercharges** | **[DERIVATION]** |
 | **Anomaly cancellation** | **[DERIVATION]** |
-| 3 generations from Im(H) | **[STRONG CONJECTURE]** |
+| 3 generations from Im_H | **[STRONG CONJECTURE]** |
 | Mass hierarchy | [OPEN] |
 | Mixing angles | [OPEN] |
 
@@ -400,4 +400,4 @@ Our framework provides a different origin (perspective/defect-crystal) but arriv
 
 ---
 
-*This document derives SM fermion content from division algebra structure. Session 49 completed the hypercharge derivation: all 5 values follow from Im(H) = 3.*
+*This document derives SM fermion content from division algebra structure. Session 49 completed the hypercharge derivation: all 5 values follow from Im_H = 3.*

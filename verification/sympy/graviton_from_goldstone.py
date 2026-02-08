@@ -113,7 +113,7 @@ These 2 degrees of freedom are the TWO POLARIZATIONS of the graviton:
   - h_x (cross polarization)
 
 This matches the spin-2 massive particle: 2s+1 = 5 states for m>0,
-but only 2 helicity states (±2) for massless spin-2.
+but only 2 helicity states (+/-2) for massless spin-2.
 """)
 
 # Verify counting

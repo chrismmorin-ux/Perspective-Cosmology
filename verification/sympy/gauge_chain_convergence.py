@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Gauge Chain Convergence: Two Routes to SU(3)×SU(2)×U(1)
+Gauge Chain Convergence: Two Routes to SU(3)*SU(2)*U(1)
 
 KEY FINDING: The evaluation map kernel decomposition and THM_0487 crystal
 breaking chain independently derive the same SM gauge group structure.
 
-Route 1 (THM_0487, energetic): SO(11) -> SO(4)×SO(7) -> SO(4)×G_2 -> SO(4)×SU(3)
-Route 2 (eval map, algebraic): End(V) decomposition -> hidden G_2 -> SU(3), defect U(2) -> SU(2)×U(1)
+Route 1 (THM_0487, energetic): SO(11) -> SO(4)*SO(7) -> SO(4)*G_2 -> SO(4)*SU(3)
+Route 2 (eval map, algebraic): End(V) decomposition -> hidden G_2 -> SU(3), defect U(2) -> SU(2)*U(1)
 
 The convergence of kinematic (eval map) and dynamic (crystal breaking) arguments
 on the same gauge group is non-trivial evidence for internal consistency.
@@ -151,7 +151,7 @@ def test_defect_gauge_group():
     # With F = C (THM_0485), defect W = R^4 becomes W_C = C^2
     # The observable algebra: End_C(C^2) = M_2(C) (from THM_04AE)
     # The UNITARY group preserving the inner product on C^2: U(2)
-    # U(2) = SU(2) × U(1) / Z_2
+    # U(2) = SU(2) * U(1) / Z_2
 
     dim_W_real = n_d       # 4
     dim_W_complex = n_d // 2  # 2 (as C-module)
@@ -174,7 +174,7 @@ def test_defect_gauge_group():
     print(f"    dim(U(2)) = {u2_dim}")
     print(f"    dim(SU(2)) = {su2_dim}")
     print(f"    dim(U(1)) = {u1_dim}")
-    print(f"    U(2) = SU(2) × U(1) / Z_2")
+    print(f"    U(2) = SU(2) * U(1) / Z_2")
 
     check1 = u2_dim == su2_dim + u1_dim
     print(f"\n    [{'PASS' if check1 else 'FAIL'}] dim(U(2)) = dim(SU(2)) + dim(U(1))")
@@ -195,7 +195,7 @@ def test_defect_gauge_group():
     # The 1+3 split (time + space) is the same as trace + traceless
     # SU(2) acts on the traceless part = spatial rotations
     # U(1) acts on the trace part = time translations
-    herm2_dim = dim_W_complex ** 2  # 4 real parameters for Hermitian 2×2
+    herm2_dim = dim_W_complex ** 2  # 4 real parameters for Hermitian 2*2
     traceless_herm2 = herm2_dim - 1  # 3
 
     check2 = traceless_herm2 == su2_dim
@@ -205,33 +205,33 @@ def test_defect_gauge_group():
 
     # Cross-check with THM_0487:
     # THM_0487 gives SO(4) as residual defect symmetry
-    # SO(4) ~= SU(2)_L × SU(2)_R / Z_2  [I-MATH]
+    # SO(4) ~= SU(2)_L * SU(2)_R / Z_2  [I-MATH]
     # dim(SO(4)) = 6 = 3 + 3
     so4_dim = n_d * (n_d - 1) // 2  # 6
     check3 = so4_dim == 2 * su2_dim
     print(f"\n  THM_0487 comparison:")
     print(f"    THM_0487: SO(4) residual, dim = {so4_dim}")
-    print(f"    SO(4) ~= SU(2)_L × SU(2)_R, dim = {su2_dim} + {su2_dim}")
-    print(f"    [{'PASS' if check3 else 'FAIL'}] dim(SO(4)) = 2 × dim(SU(2))")
+    print(f"    SO(4) ~= SU(2)_L * SU(2)_R, dim = {su2_dim} + {su2_dim}")
+    print(f"    [{'PASS' if check3 else 'FAIL'}] dim(SO(4)) = 2 * dim(SU(2))")
 
     # The key difference between routes:
-    # THM_0487: SO(4) -> SU(2)_L × SU(2)_R, then EWSB breaks SU(2)_R -> U(1)_Y
-    # Eval map: F=C immediately gives U(2) = SU(2) × U(1) (no separate EWSB needed)
-    # Both arrive at SU(2) × U(1), but via different mechanisms
+    # THM_0487: SO(4) -> SU(2)_L * SU(2)_R, then EWSB breaks SU(2)_R -> U(1)_Y
+    # Eval map: F=C immediately gives U(2) = SU(2) * U(1) (no separate EWSB needed)
+    # Both arrive at SU(2) * U(1), but via different mechanisms
     print(f"\n  Route comparison for electroweak sector:")
-    print(f"    THM_0487: SO(4) -> SU(2)_L × SU(2)_R -> [EWSB] -> SU(2)_L × U(1)_Y")
-    print(f"    Eval map: W_C = C^2 -> U(2) = SU(2) × U(1) (F=C does EWSB's work)")
-    print(f"    Both give SU(2) × U(1) with dim = {su2_dim} + {u1_dim} = {su2_dim + u1_dim}")
+    print(f"    THM_0487: SO(4) -> SU(2)_L * SU(2)_R -> [EWSB] -> SU(2)_L * U(1)_Y")
+    print(f"    Eval map: W_C = C^2 -> U(2) = SU(2) * U(1) (F=C does EWSB's work)")
+    print(f"    Both give SU(2) * U(1) with dim = {su2_dim} + {u1_dim} = {su2_dim + u1_dim}")
 
     return check1 and check2 and check3
 
 
 # ==============================================================================
-# Test 4: Full SM gauge group — convergence of two routes
+# Test 4: Full SM gauge group -- convergence of two routes
 # ==============================================================================
 def test_sm_convergence():
     print("\n" + "=" * 70)
-    print("TEST 4: SM Gauge Group — Two-Route Convergence")
+    print("TEST 4: SM Gauge Group -- Two-Route Convergence")
     print("=" * 70)
 
     su3_dim = 8   # color (from hidden space)
@@ -240,10 +240,10 @@ def test_sm_convergence():
     sm_dim = su3_dim + su2_dim + u1_dim  # 12
 
     print(f"\n  === Route 1: THM_0487 (Crystal Breaking, Energetic) ===")
-    print(f"  SO(11) -> SO(4)×SO(7)    [Landau potential, c_3 > 0]")
-    print(f"    -> SO(4)×G_2           [G_2 = Aut(O)]")
-    print(f"    -> SO(4)×SU(3)         [F = C, THM_0485]")
-    print(f"    -> SU(2)×U(1)×SU(3)   [EWSB, Stage 4]")
+    print(f"  SO(11) -> SO(4)*SO(7)    [Landau potential, c_3 > 0]")
+    print(f"    -> SO(4)*G_2           [G_2 = Aut(O)]")
+    print(f"    -> SO(4)*SU(3)         [F = C, THM_0485]")
+    print(f"    -> SU(2)*U(1)*SU(3)   [EWSB, Stage 4]")
     print(f"  Gauge generators: 3 + 1 + 8 = {sm_dim}")
     thm0487_goldstones = 28 + 7 + 6  # = 41 (pre-EWSB)
     print(f"  Total Goldstones: {thm0487_goldstones} (Stages 1-3)")
@@ -254,7 +254,7 @@ def test_sm_convergence():
     print(f"    -> G_2 = Aut(O)        [THM_04AB, octonionic structure]")
     print(f"    -> SU(3)               [F = C, THM_0485]")
     print(f"    Defect unitaries: U(2) [F = C -> W_C = C^2]")
-    print(f"    -> SU(2) × U(1)")
+    print(f"    -> SU(2) * U(1)")
     print(f"  Gauge generators: 3 + 1 + 8 = {sm_dim}")
 
     # Both routes give the same answer
@@ -262,7 +262,7 @@ def test_sm_convergence():
     route2_gauge = (3, 1, 8)
     check1 = route1_gauge == route2_gauge
     print(f"\n  [{'PASS' if check1 else 'FAIL'}] Both routes give "
-          f"SU(3)×SU(2)×U(1) with dims {route1_gauge}")
+          f"SU(3)*SU(2)*U(1) with dims {route1_gauge}")
 
     # The routes use DIFFERENT mechanisms:
     print(f"\n  === Mechanism Comparison ===")
@@ -270,8 +270,8 @@ def test_sm_convergence():
     print(f"  {'-'*20} {'-'*30} {'-'*30}")
     print(f"  {'SU(3) origin':<20} {'SO(7)->G_2->SU(3)':<30} {'so(7) antisym -> G_2 -> SU(3)'}")
     print(f"  {'SU(3) mechanism':<20} {'Landau energy min':<30} {'Aut(O) structure preservation'}")
-    print(f"  {'SU(2)×U(1) origin':<20} {'SO(4) -> EWSB':<30} {'U(2) from F=C on C^2'}")
-    print(f"  {'SU(2)×U(1) mech.':<20} {'Higgs VEV':<30} {'Complex structure on defect'}")
+    print(f"  {'SU(2)*U(1) origin':<20} {'SO(4) -> EWSB':<30} {'U(2) from F=C on C^2'}")
+    print(f"  {'SU(2)*U(1) mech.':<20} {'Higgs VEV':<30} {'Complex structure on defect'}")
     print(f"  {'Key assumption':<20} {'Quartic Landau form':<30} {'THM_04AC + THM_04AD'}")
 
     # What each route NEEDS that the other provides:
@@ -290,7 +290,7 @@ def test_sm_convergence():
 
 
 # ==============================================================================
-# Test 5: Dimensional accounting — generators vs broken generators
+# Test 5: Dimensional accounting -- generators vs broken generators
 # ==============================================================================
 def test_generator_accounting():
     print("\n" + "=" * 70)
@@ -300,7 +300,7 @@ def test_generator_accounting():
     # Total symmetry of the crystal: SO(11)
     so11_dim = 11 * 10 // 2  # = 55
 
-    # Residual symmetry: SO(4) × SU(3)
+    # Residual symmetry: SO(4) * SU(3)
     so4_dim = 4 * 3 // 2     # = 6
     su3_dim = 8
     residual = so4_dim + su3_dim  # = 14
@@ -309,7 +309,7 @@ def test_generator_accounting():
     goldstones = so11_dim - residual  # = 41
 
     print(f"\n  Crystal symmetry: SO(11), dim = {so11_dim}")
-    print(f"  Residual: SO(4)×SU(3), dim = {so4_dim} + {su3_dim} = {residual}")
+    print(f"  Residual: SO(4)*SU(3), dim = {so4_dim} + {su3_dim} = {residual}")
     print(f"  Broken generators (Goldstones): {goldstones}")
 
     # THM_0487 Goldstone counting: 28 + 7 + 6 = 41
@@ -319,7 +319,7 @@ def test_generator_accounting():
     print(f"  [{'PASS' if check1 else 'FAIL'}] Stage sum = total Goldstones = {goldstones}")
 
     # Eval map perspective: what's visible vs hidden
-    visible_ops = n_d * n_c         # 44 (k rows of n×n matrices)
+    visible_ops = n_d * n_c         # 44 (k rows of n*n matrices)
     hidden_ops = (n_c - n_d) * n_c  # 77
     total_ops = n_c ** 2            # 121
 
@@ -337,7 +337,7 @@ def test_generator_accounting():
     # Ratio: 41/77 = 41/77
     ratio = Rational(goldstones, hidden_ops)
     print(f"\n  Goldstones / Hidden operators = {goldstones}/{hidden_ops} = {ratio}")
-    print(f"  (This is not a clean fraction — the two decompositions are different.)")
+    print(f"  (This is not a clean fraction -- the two decompositions are different.)")
     print(f"  Goldstones = broken crystal symmetry generators")
     print(f"  Hidden ops = eval map kernel dimensions (broader concept)")
 
@@ -352,7 +352,7 @@ def test_generator_accounting():
     print(f"  [{'PASS' if check3 else 'FAIL'}] SM gauge has {sm_dim} generators")
 
     # EWSB adds 3 more broken (W+, W-, Z acquire mass)
-    # After EWSB: residual = SU(3) × U(1)_EM
+    # After EWSB: residual = SU(3) * U(1)_EM
     post_ewsb_residual = su3_dim + 1  # = 9
     ewsb_broken = 3  # W+, W-, Z
     total_with_ewsb = goldstones + ewsb_broken  # = 44
@@ -360,13 +360,13 @@ def test_generator_accounting():
     print(f"\n  Including EWSB (Stage 4):")
     print(f"    Additional broken: {ewsb_broken} (W+, W-, Z)")
     print(f"    Total broken: {total_with_ewsb}")
-    print(f"    Remaining: SU(3)×U(1)_EM, dim = {post_ewsb_residual}")
+    print(f"    Remaining: SU(3)*U(1)_EM, dim = {post_ewsb_residual}")
 
     # 44 = total Goldstones including EWSB
-    # = 4 × 11 = n_d × n_c
+    # = 4 * 11 = n_d * n_c
     check4 = total_with_ewsb == n_d * n_c
-    print(f"\n  Total with EWSB = {total_with_ewsb} = n_d × n_c = {n_d}×{n_c}")
-    print(f"  [{'PASS' if check4 else 'FAIL'}] Total broken generators = n_d × n_c")
+    print(f"\n  Total with EWSB = {total_with_ewsb} = n_d * n_c = {n_d}*{n_c}")
+    print(f"  [{'PASS' if check4 else 'FAIL'}] Total broken generators = n_d * n_c")
 
     # This is a notable identity: the number of broken generators
     # INCLUDING EWSB equals exactly the visible operator count!
@@ -378,7 +378,7 @@ def test_generator_accounting():
 
 
 # ==============================================================================
-# Test 6: Cross-term structure — Hom(W^perp, W) = 28 = so(8)
+# Test 6: Cross-term structure -- Hom(W^perp, W) = 28 = so(8)
 # ==============================================================================
 def test_crossterm_so8():
     print("\n" + "=" * 70)
@@ -391,7 +391,7 @@ def test_crossterm_so8():
     # so(7) = 21, so(8) = 28, so(9) = 36
     so_dims = {n: n*(n-1)//2 for n in range(2, 12)}
 
-    print(f"\n  Hom(W^perp, W) = {n_h} × {n_d} = {hom_wpw}")
+    print(f"\n  Hom(W^perp, W) = {n_h} * {n_d} = {hom_wpw}")
     print(f"\n  Lie algebra dimensions so(n):")
     for n, d in so_dims.items():
         marker = " <-- MATCH" if d == hom_wpw else ""
@@ -446,11 +446,11 @@ def test_representation_content():
     print("TEST 7: Representation Content Under SM Gauge Group")
     print("=" * 70)
 
-    # Under SU(3)_c × SU(2)_L × U(1)_Y, the Hom blocks decompose:
+    # Under SU(3)_c * SU(2)_L * U(1)_Y, the Hom blocks decompose:
     # This is the physical interpretation [A-PHYSICAL, Layer 2/3]
 
     print(f"\n  End(V) block -> SM representation [CONJECTURE]:")
-    print(f"  (Layer 2 correspondence — physical identification required)")
+    print(f"  (Layer 2 correspondence -- physical identification required)")
     print()
 
     blocks = [
@@ -471,8 +471,8 @@ def test_representation_content():
         total += dim
 
     check1 = total == n_c ** 2
-    print(f"\n  Total: {total} = {n_c}² = {n_c**2}")
-    print(f"  [{'PASS' if check1 else 'FAIL'}] Sum = n_c²")
+    print(f"\n  Total: {total} = {n_c}^2 = {n_c**2}")
+    print(f"  [{'PASS' if check1 else 'FAIL'}] Sum = n_c^2")
 
     # Key dimensional check:
     # 28 (Hom(W^perp,W)) contains the gauge CONNECTIONS
@@ -493,11 +493,11 @@ def test_representation_content():
 
 
 # ==============================================================================
-# Test 8: The continuous s gap — what the eval map CANNOT resolve
+# Test 8: The continuous s gap -- what the eval map CANNOT resolve
 # ==============================================================================
 def test_continuous_s_gap():
     print("\n" + "=" * 70)
-    print("TEST 8: Continuous Parameter s — Honest Gap Assessment")
+    print("TEST 8: Continuous Parameter s -- Honest Gap Assessment")
     print("=" * 70)
 
     # THM_0493 (unitary evolution) establishes that time evolution is
@@ -513,7 +513,7 @@ def test_continuous_s_gap():
     print(f"    [Y] The algebra of observables: M_2(C)")
     print(f"    [Y] The state space: density matrices (Bloch ball)")
     print(f"    [Y] Born rule: P(lam_i) = Tr(P_i rho)")
-    print(f"    [Y] Gauge structure: SU(3)×SU(2)×U(1)")
+    print(f"    [Y] Gauge structure: SU(3)*SU(2)*U(1)")
     print()
     print(f"  WHAT THE EVAL MAP DOES NOT DETERMINE:")
     print(f"    [N] Which H generates time evolution (continuous choice)")
@@ -528,7 +528,7 @@ def test_continuous_s_gap():
     print(f"    - THM_0494 (Wright-Fisher) for dynamical Born rule")
 
     # This is an honest documentation of limits, not a failure
-    check1 = True  # No computational test — this is a logical assessment
+    check1 = True  # No computational test -- this is a logical assessment
     print(f"\n  [{'PASS' if check1 else 'FAIL'}] Continuous s gap documented as irreducible")
     print(f"  (This is a FEATURE: kinematics != dynamics)")
 
@@ -536,15 +536,15 @@ def test_continuous_s_gap():
 
 
 # ==============================================================================
-# Test 9: Herm(2) = spacetime — status assessment
+# Test 9: Herm(2) = spacetime -- status assessment
 # ==============================================================================
 def test_herm2_spacetime():
     print("\n" + "=" * 70)
-    print("TEST 9: Herm(2) = Spacetime — Assumption Status")
+    print("TEST 9: Herm(2) = Spacetime -- Assumption Status")
     print("=" * 70)
 
     # From THM_04AE: Herm(2) = R^4 with basis {I, sigma_1, sigma_2, sigma_3}
-    # Two quadratic forms: Q_E = Tr(X²) [Euclidean], Q_L = det(X) [Lorentzian]
+    # Two quadratic forms: Q_E = Tr(X^2) [Euclidean], Q_L = det(X) [Lorentzian]
     # THM_04AE Part (g): det is selected by dynamics (crystallization)
 
     # The remaining assumption: "Herm(2) elements correspond to spacetime events"
@@ -578,18 +578,18 @@ def test_herm2_spacetime():
     # Kadison duality check:
     # For commutative C*-algebras, Gelfand-Naimark gives: A ~= C(X) for compact X
     # M_2(C) is NOT commutative, so Gelfand-Naimark doesn't directly apply
-    # But the center Z(M_2(C)) = C·I is commutative, giving "one point"
+    # But the center Z(M_2(C)) = C*I is commutative, giving "one point"
     # The full noncommutative structure gives a "quantum spacetime point"
-    m2c_center_dim = 1  # C·I
+    m2c_center_dim = 1  # C*I
     check1 = m2c_center_dim == 1
     print(f"\n  Kadison duality:")
-    print(f"    Z(M_2(C)) = C·I, dim = {m2c_center_dim}")
+    print(f"    Z(M_2(C)) = C*I, dim = {m2c_center_dim}")
     print(f"    Gelfand spectrum of center = one point")
     print(f"    Each perspective sees a 'quantum point' with internal structure")
     print(f"    [{'PASS' if check1 else 'FAIL'}] Center is 1-dimensional (single point spectrum)")
 
     # The honest status
-    print(f"\n  STATUS: [A-PHYSICAL] — Layer 2 correspondence rule")
+    print(f"\n  STATUS: [A-PHYSICAL] -- Layer 2 correspondence rule")
     print(f"  This is the weakest link in the eval map chain.")
     print(f"  It cannot be removed without additional mathematical input")
     print(f"  (spectral geometry / noncommutative geometry framework).")
@@ -627,10 +627,10 @@ def main():
     if pass_count == total:
         print(f"\n  KEY FINDINGS:")
         print(f"  1. Two independent routes (energetic + algebraic) converge on")
-        print(f"     SU(3)×SU(2)×U(1) as the SM gauge group [DERIVATION]")
+        print(f"     SU(3)*SU(2)*U(1) as the SM gauge group [DERIVATION]")
         print(f"  2. Hidden space: so(7) -> G_2 -> SU(3) from octonionic structure")
-        print(f"  3. Defect space: U(2) = SU(2)×U(1) from F=C complexification")
-        print(f"  4. 44 total broken generators = n_d × n_c = visible operators")
+        print(f"  3. Defect space: U(2) = SU(2)*U(1) from F=C complexification")
+        print(f"  4. 44 total broken generators = n_d * n_c = visible operators")
         print(f"  5. k=4 uniquely connects to SO(8) triality -> G_2 = Aut(O)")
         print(f"  6. Continuous s gap is irreducible from eval map (kinematics != dynamics)")
         print(f"  7. Herm(2) = spacetime remains [A-PHYSICAL] (weakest link)")

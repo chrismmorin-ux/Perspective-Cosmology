@@ -274,7 +274,7 @@ print(f"Error: {sin2_23_err:.2f}%")
 print(f"Status: {'EXCELLENT MATCH' if sin2_23_err < 1 else 'CLOSE'}")
 
 # =============================================================================
-# Part 6: The 1/44 Pattern for θ_13
+# Part 6: The 1/44 Pattern for theta_13
 # =============================================================================
 
 print("\n" + "=" * 70)

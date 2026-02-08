@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tier 1 Promotion Analysis — Can 75%+ completeness items be upgraded?
+Tier 1 Promotion Analysis -- Can 75%+ completeness items be upgraded?
 
 KEY FINDING: B5 (confinement) is CASCADE by same standard as A5-A12
              E2 tree-level + 1-loop running gives sin^2(theta_W) = 0.2312
@@ -25,7 +25,7 @@ alpha = 1 / alpha_inv
 alpha_f = float(alpha)
 
 # ==============================================================================
-# PART 1: B5 — CONFINEMENT (CASCADE ARGUMENT)
+# PART 1: B5 -- CONFINEMENT (CASCADE ARGUMENT)
 # ==============================================================================
 
 print("=" * 70)
@@ -74,7 +74,7 @@ RECOMMENDATION: B5 -> CASCADE (with note about Clay Millennium Prize)
 """)
 
 # ==============================================================================
-# PART 2: E2 — WEINBERG ANGLE FROM DERIVED BETAS ONLY
+# PART 2: E2 -- WEINBERG ANGLE FROM DERIVED BETAS ONLY
 # ==============================================================================
 
 print("=" * 70)
@@ -180,7 +180,7 @@ print(f"  This uses ONLY DERIVED quantities (B3, B4) + standard RG [I-MATH].")
 print(f"  The 171/194 formula is an additional precision conjecture.")
 
 # ==============================================================================
-# PART 3: B9 — PARITY VIOLATION
+# PART 3: B9 -- PARITY VIOLATION
 # ==============================================================================
 
 print("\n" + "=" * 70)

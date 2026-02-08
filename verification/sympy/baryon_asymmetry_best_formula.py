@@ -49,7 +49,7 @@ n_d = 4     # [D] Defect dimension = H
 # IMPORTS FROM OBSERVATION [A-IMPORT]
 # ==============================================================================
 # Fine structure constant
-alpha_precise = Float('7.2973525693e-3')  # [A-IMPORT] CODATA 2018
+alpha_precise = Float('7.2973525693e-3')  # [A-IMPORT] CODATA 2022
 
 # Measured baryon asymmetry values
 eta_planck = Float('6.10e-10')      # [A-IMPORT] Planck 2018 (from CMB)

@@ -66,14 +66,14 @@
 
 | Property | Value |
 |----------|-------|
-| **Formula** | Lambda/M_Pl^4 = alpha^(dim(O)xIm(O)) / (n_c x Im(O)) = alpha^56 / 77 |
+| **Formula** | Lambda/M_Pl^4 = alpha^(dim(O)xIm_O) / (n_c x Im_O) = alpha^56 / 77 |
 | **Predicted** | 2.82 x 10^-122 |
 | **Measured** | 2.89 x 10^-122 |
 | **Accuracy** | **2.2%** |
 
 **Physical interpretation**:
-- 56 = dim(O) x Im(O) = 8 x 7 = octonionic crystallization depth
-- 77 = n_c x Im(O) = 11 x 7 = stress distribution channels
+- 56 = dim(O) x Im_O = 8 x 7 = octonionic crystallization depth
+- 77 = n_c x Im_O = 11 x 7 = stress distribution channels
 - Lambda is stress from non-equilibrium crystallization in shell-interior structure
 
 #### G. Summary Table
@@ -138,8 +138,8 @@ All follow from Omega_Lambda = 13/19 plus:
 
 | Step | Content | Tag |
 |------|---------|-----|
-| 1 | 56 = dim(O) x Im(O) = 8 x 7 | [D] from division algebra |
-| 2 | 77 = n_c x Im(O) = 11 x 7 | [D] from framework quantities |
+| 1 | 56 = dim(O) x Im_O = 8 x 7 | [D] from division algebra |
+| 2 | 77 = n_c x Im_O = 11 x 7 | [D] from framework quantities |
 | 3 | Lambda/M_Pl^4 = alpha^56/77 | **[CONJECTURE]** — no derivation connects crystallization to this exact formula |
 | 4 | V(eps*) = -alpha^6 M_Pl^2/2 < 0 | **[ERROR]** — wrong sign (confirmed S195 via SymPy) |
 
@@ -595,7 +595,7 @@ Pattern: All 5 formulas are post-hoc matches. Framework quantities (n_c, Im_H, I
 | **Session** | S101b |
 
 **Structure**:
-- 28 = 56/2 = (dim(O) x Im(O))/2 = half cosmological depth
+- 28 = 56/2 = (dim(O) x Im_O)/2 = half cosmological depth
 - 19 = n_c + O = 11 + 8
 - 3003 = Im_H x Im_O x n_c x (C^2 + Im_H^2) = 3 x 7 x 11 x 13
 
@@ -634,7 +634,7 @@ Pattern: All 5 formulas are post-hoc matches. Framework quantities (n_c, Im_H, I
 
 | Step | Content | Tag |
 |------|---------|-----|
-| 1 | 28 = dim(O) x Im(O) / 2 | [D] from division algebra |
+| 1 | 28 = dim(O) x Im_O / 2 | [D] from division algebra |
 | 2 | 19 = n_c + O | [D] from framework |
 | 3 | 3003 = 3 x 7 x 11 x 13 | [D] from framework |
 | 4 | H/M_Pl = alpha^28 x sqrt(19/3003) | **[CONJECTURE]** — formula constructed to match Planck value |

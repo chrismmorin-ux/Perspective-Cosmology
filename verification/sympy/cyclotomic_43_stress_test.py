@@ -13,9 +13,9 @@ GOALS:
 6. Look-elsewhere: Quantitative probability of pattern by chance
 
 KEY MEASURED VALUES:
-  1/alpha = 137.035999084 (CODATA 2018)
+  1/alpha = 137.035999177 (CODATA 2022)
   v = 246.21965 GeV, m_p = 0.93827208816 GeV => v/m_p = 262.41825...
-  m_mu/m_e = 206.7682830 (CODATA 2018)
+  m_mu/m_e = 206.7682830 (CODATA 2022)
 
 FRAMEWORK PREDICTIONS:
   1/alpha = 137 + 4/111      (0.27 ppm)
@@ -48,7 +48,7 @@ def phi6(k):
 
 
 # Measured values (high precision)
-ALPHA_INV_MEAS = 137.035999084
+ALPHA_INV_MEAS = 137.035999177
 V_MP_MEAS = 246.21965 / 0.93827208816
 MU_E_MEAS = 206.7682830
 
@@ -75,7 +75,7 @@ def best_fit(x, D):
 
 
 # =============================================================================
-# Test 1: Denominator Scan — How unique is D=43?
+# Test 1: Denominator Scan -- How unique is D=43?
 # =============================================================================
 def test_denominator_scan():
     """For D in [2, 200], find denominators that simultaneously give
@@ -314,7 +314,7 @@ def test_look_elsewhere():
 
 
 # =============================================================================
-# Test 8: Tighter scan — sub-2-ppm dual fits
+# Test 8: Tighter scan -- sub-2-ppm dual fits
 # =============================================================================
 def test_tight_scan():
     """Repeat denominator scan with TIGHT tolerance (0.02) requiring
@@ -339,7 +339,7 @@ def test_tight_scan():
 def main():
     print("=" * 70)
     print("CYCLOTOMIC 43 STRESS TEST")
-    print("Session S226 — Numerator Mechanism and Uniqueness")
+    print("Session S226 -- Numerator Mechanism and Uniqueness")
     print("=" * 70)
 
     pass_count = 0
@@ -508,7 +508,7 @@ def main():
     print("  All decompose in div alg quantities: YES")
     print("  Decompositions unique: NO (many alternatives)")
     print("  Any derivation mechanism: NO")
-    print("  Assessment: [CONJECTURE] — post-hoc pattern matching")
+    print("  Assessment: [CONJECTURE] -- post-hoc pattern matching")
     print()
     print("CROSS-SECTOR CHANNELS (55):")
     print("  Appear in formulas: NOT YET")

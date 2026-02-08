@@ -134,7 +134,7 @@ print(f"  Equal: {lhs == rhs}")
 
 print("\nQuaternions (H, dim=4): ASSOCIATIVE")
 # Represent quaternions as 2x2 complex matrices
-# q = a + bi + cj + dk ↔ [[a+bi, c+di], [-c+di, a-bi]]
+# q = a + bi + cj + dk <-> [[a+bi, c+di], [-c+di, a-bi]]
 def quat(a, b, c, d):
     return Matrix([
         [complex(a, b), complex(c, d)],

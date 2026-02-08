@@ -64,8 +64,8 @@ HEAVY QUARKS (derived S109):
 # Heavy quark hierarchy
 y_t = 1 - Rational(1, n_c**2)  # 120/121
 m_t_pred = v / sqrt(2) * y_t
-m_b_pred = m_t_pred * Rational(Im_H, n_c**2)  # × 3/121
-m_c_pred = m_b_pred * Rational(Im_H, n_c - 1)  # × 3/10
+m_b_pred = m_t_pred * Rational(Im_H, n_c**2)  # * 3/121
+m_c_pred = m_b_pred * Rational(Im_H, n_c - 1)  # * 3/10
 
 print(f"  m_t = (v/sqrt(2)) * (1 - 1/n_c^2)")
 print(f"      = (v/sqrt(2)) * (120/121)")

@@ -86,9 +86,9 @@ Primes that ARE division algebra dimensions (not sums of squares):
 | Prime | Role | Physical Manifestation | Status |
 |-------|------|------------------------|--------|
 | **2** | dim(C) | Complex numbers, U(1), EM | CONFIRMED |
-| **3** | Im(H) | Quaternion imaginaries, 3 generations, 3 colors | CONFIRMED |
-| **7** | Im(O) | Octonion imaginaries, internal structure | CONFIRMED |
-| **11** | n_c = 1+3+7 | Crystal dimensions (Im(C)+Im(H)+Im(O)) | CONFIRMED |
+| **3** | Im_H | Quaternion imaginaries, 3 generations, 3 colors | CONFIRMED |
+| **7** | Im_O | Octonion imaginaries, internal structure | CONFIRMED |
+| **11** | n_c = 1+3+7 | Crystal dimensions (Im_C+Im_H+Im_O) | CONFIRMED |
 
 ---
 
@@ -244,7 +244,7 @@ Primes appearing in CKM/PMNS mixing:
 
 | Angle | Measured | Ratio | Interpretation | Error |
 |-------|----------|-------|----------------|-------|
-| sin²θ_23 | 0.572 | **4/7** | dim(H)/Im(O) | **0.1%** |
+| sin²θ_23 | 0.572 | **4/7** | dim(H)/Im_O | **0.1%** |
 | sin²θ_12 | 0.303 | **10/33** | 10/(3×n_c) | **0.01%** |
 | sin²θ_13 | 0.0220 | **1/44** | 1/(n_d×n_c) | 3.2% |
 
@@ -252,10 +252,10 @@ Primes appearing in CKM/PMNS mixing:
 
 | Parameter | Measured | Ratio | Interpretation | Error | Session |
 |-----------|----------|-------|----------------|-------|---------|
-| λ (Cabibbo) | 0.2265 | **9/40** | Im(H)²/(5×dim(O)) | **EXACT** | S82 |
-| |V_cb| | 0.0408 | **2/49** | 2/Im(O)² | **~0%** | S83 |
+| λ (Cabibbo) | 0.2265 | **9/40** | Im_H²/(5×dim(O)) | **EXACT** | S82 |
+| |V_cb| | 0.0408 | **2/49** | 2/Im_O² | **~0%** | S83 |
 | **|V_ub|** | **0.00382** | **1/262** | **1/(137+n_c²+n_d)** | **0.08%** | **S87** |
-| **δ_CKM** | **1.196 rad** | **π×8/21** | **π×dim(O)/(Im(H)×Im(O))** | **0.07%** | **S87** |
+| **δ_CKM** | **1.196 rad** | **π×8/21** | **π×dim(O)/(Im_H×Im_O)** | **0.07%** | **S87** |
 
 **Key insight**: |V_ub| = 1/262 where **262 = 137 + n_c² + n_d** — connects to fine structure!
 
@@ -280,7 +280,7 @@ Primes appearing in CKM/PMNS mixing:
 
 | Ratio | Formula | Value | Error | Session |
 |-------|---------|-------|-------|---------|
-| **v/m_p** | (2n_c(H+O)-C) + C×Im(H)²/Φ₆(Im(O)) | **11284/43** | **0.21 ppm** | **S88** |
+| **v/m_p** | (2n_c(H+O)-C) + C×Im_H²/Φ₆(Im_O) | **11284/43** | **0.21 ppm** | **S88** |
 | **α_G** | α^16 × (44/7) / (v/m_p)² | 5.90×10⁻³⁹ | **0.068%** | **S88** |
 
 ### The Big Numbers Explained
@@ -317,9 +317,9 @@ Everything else follows from dimensionless ratios.
 | Prime | Category | Where Found | Confidence |
 |-------|----------|-------------|------------|
 | 2 | Structural + Framework | dim(C), binary | CONFIRMED |
-| 3 | Structural | Im(H), generations | CONFIRMED |
+| 3 | Structural | Im_H, generations | CONFIRMED |
 | **5** | Framework | **Fermion reps, m_s/m_d, V_us** | **CONFIRMED** |
-| 7 | Structural | Im(O), sin²θ₁₃ denominator | CONFIRMED |
+| 7 | Structural | Im_O, sin²θ₁₃ denominator | CONFIRMED |
 | 11 | Structural | n_c, sin²θ₂₃ denominator | CONFIRMED |
 | **13** | Framework | **sin²θ₁₂ = 4/13, sin²θ₁₃ = 2/(7×13)** | **CONFIRMED** |
 | **17** | Framework | **m_τ/m_μ, m_p/m_e** | **CONFIRMED** |
@@ -371,8 +371,8 @@ sin²θ = (dim)/(prime) or (dim)/(dim × prime)
 
 Examples:
   sin²θ₁₂ = 4/13 = dim(C)² / prime_13
-  sin²θ₁₃ = 2/91 = dim(C) / (Im(O) × prime_13)
-  sin²θ₂₃ = 6/11 = (dim(C) × Im(H)) / n_c
+  sin²θ₁₃ = 2/91 = dim(C) / (Im_O × prime_13)
+  sin²θ₂₃ = 6/11 = (dim(C) × Im_H) / n_c
 ```
 
 For mass ratios:
@@ -398,8 +398,8 @@ Primes that ARE division algebra dimensions themselves:
 | Prime | Dimension | Also equals | Physical Role |
 |-------|-----------|-------------|---------------|
 | **2** | dim(C) | Φ₆(1)+1 | Complex numbers, EM, binary structure |
-| **3** | Im(H) | Φ₆(2) | Generations, colors, quaternion imaginaries |
-| **7** | Im(O) | Φ₆(3) | Octonion imaginaries, internal structure |
+| **3** | Im_H | Φ₆(2) | Generations, colors, quaternion imaginaries |
+| **7** | Im_O | Φ₆(3) | Octonion imaginaries, internal structure |
 | **11** | n_c = 1+3+7 | — | Crystal dimensions, denominators |
 
 Note: 3, 7, 11 are ≡ 3 (mod 4), so they cannot be sums of two squares.
@@ -412,13 +412,13 @@ Primes expressible as sums of two squares of dimensions. **Complete list**:
 |-------|------|---------------------|-------------------|
 | **2** | 1² + 1² | R + R | Binary structure |
 | **5** | 1² + 2² | R + C | Fermion representations |
-| **13** | 2² + 3² | C + Im(H) | Neutrino mixing (EM + generations) |
+| **13** | 2² + 3² | C + Im_H | Neutrino mixing (EM + generations) |
 | **17** | 1² + 4² | R + H | Lepton mass ratios |
-| **53** | 2² + 7² | C + Im(O) | Strong coupling (EM + color) |
-| **73** | 3² + 8² | Im(H) + O | Koide phase (generations + octonion) |
-| **97** | 9² + 4² | Im(H)⁴ + H² | Weak angle (T3 structure) |
-| **109** | 10² + 3² | (n_c-1) + Im(H) | Recombination (mode connections + gen) |
-| **113** | 7² + 8² | Im(O) + O | Glueball (pure octonion) |
+| **53** | 2² + 7² | C + Im_O | Strong coupling (EM + color) |
+| **73** | 3² + 8² | Im_H + O | Koide phase (generations + octonion) |
+| **97** | 9² + 4² | Im_H⁴ + H² | Weak angle (T3 structure) |
+| **109** | 10² + 3² | (n_c-1) + Im_H | Recombination (mode connections + gen) |
+| **113** | 7² + 8² | Im_O + O | Glueball (pure octonion) |
 | **137** | 4² + 11² | H + n_c | Fine structure (spacetime + crystal) |
 
 ### TIER 3: Triple-Sum Primes (a² + b² + c²)
@@ -429,17 +429,17 @@ Primes expressible as sums of THREE squares of dimensions:
 |-------|------|------|
 | **3** | 1² + 1² + 1² | Also structural |
 | **11** | 1² + 1² + 3² | Also structural |
-| **19** | 1² + 3² + 3² | R + 2×Im(H)² |
-| **29** | 2² + 3² + 4² | C² + Im(H)² + H² |
-| **41** | 3² + 4² + 4² | Im(H)² + 2×H² |
-| **59** | 1² + 3² + 7² | R + Im(H)² + Im(O)² |
-| **67** | 3² + 3² + 7² | 2×Im(H)² + Im(O)² |
-| **89** | 3² + 4² + 8² | Im(H)² + H² + O² |
-| **107** | 3² + 7² + 7² | Im(H)² + 2×Im(O)² |
-| **131** | 1² + 3² + 11² | R + Im(H)² + n_c² |
-| **139** | 3² + 3² + 11² | 2×Im(H)² + n_c² |
-| **179** | 3² + 7² + 11² | Im(H)² + Im(O)² + n_c² |
-| **251** | 3² + 11² + 11² | Im(H)² + 2×n_c² |
+| **19** | 1² + 3² + 3² | R + 2×Im_H² |
+| **29** | 2² + 3² + 4² | C² + Im_H² + H² |
+| **41** | 3² + 4² + 4² | Im_H² + 2×H² |
+| **59** | 1² + 3² + 7² | R + Im_H² + Im_O² |
+| **67** | 3² + 3² + 7² | 2×Im_H² + Im_O² |
+| **89** | 3² + 4² + 8² | Im_H² + H² + O² |
+| **107** | 3² + 7² + 7² | Im_H² + 2×Im_O² |
+| **131** | 1² + 3² + 11² | R + Im_H² + n_c² |
+| **139** | 3² + 3² + 11² | 2×Im_H² + n_c² |
+| **179** | 3² + 7² + 11² | Im_H² + Im_O² + n_c² |
+| **251** | 3² + 11² + 11² | Im_H² + 2×n_c² |
 
 ### TIER 4: Cyclotomic Primes Φ₆(d)
 
@@ -456,7 +456,7 @@ The 6th cyclotomic polynomial Φ₆(x) = x² - x + 1 connects structural primes:
 | Φ₆(12) | 144-12+1 | 133 = 7×19 | Appears in sin²θ_W |
 | Φ₆(15) | 225-15+1 | **211** | (prime) |
 
-**Why Φ₆?** Because 6 = 2 × 3 = dim(C) × Im(H) = EM × generations!
+**Why Φ₆?** Because 6 = 2 × 3 = dim(C) × Im_H = EM × generations!
 
 The cyclotomic Φ₆ encodes how EM and generation structure combine.
 
@@ -468,12 +468,12 @@ Primes expressible as weighted sums of dimensions:
 |-------|------|----------------|
 | **19** | 8 + 11 | O + n_c |
 | **23** | 11 + 12 = 11 + 3×4 | n_c + 3×H (crystal + 3×spacetime) |
-| **29** | 7 + 22 = 7 + 2×11 | Im(O) + 2×n_c |
-| **31** | 3 + 28 = 3 + 4×7 | Im(H) + 4×Im(O) |
+| **29** | 7 + 22 = 7 + 2×11 | Im_O + 2×n_c |
+| **31** | 3 + 28 = 3 + 4×7 | Im_H + 4×Im_O |
 | **37** | 4 + 33 = 4 + 3×11 | H + 3×n_c (spacetime + 3×crystal) |
 | **41** | 8 + 33 = 8 + 3×11 | O + 3×n_c |
 | **43** | 11 + 32 = 11 + 4×8 | n_c + 4×O |
-| **47** | 3 + 44 = 3 + 4×11 | Im(H) + 4×n_c |
+| **47** | 3 + 44 = 3 + 4×11 | Im_H + 4×n_c |
 
 ### The 37 Mystery
 
@@ -490,9 +490,9 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 | Prime | Tier | Algebraic Origin | Physical Location |
 |-------|------|------------------|-------------------|
 | 2 | 1 (Structural) | dim(C) | EM, binary |
-| 3 | 1 (Structural) | Im(H), Φ₆(2) | Generations, colors |
+| 3 | 1 (Structural) | Im_H, Φ₆(2) | Generations, colors |
 | 5 | 2 (Framework) | 1² + 2² | Representations |
-| 7 | 1 (Structural) | Im(O), Φ₆(3) | Color structure |
+| 7 | 1 (Structural) | Im_O, Φ₆(3) | Color structure |
 | 11 | 1 (Structural) | n_c = 1+2+8 | Crystal dims |
 | 13 | 2 (Framework) | 2² + 3², Φ₆(4) | PMNS matrix |
 | 17 | 2 (Framework) | 1² + 4² | Lepton masses |
@@ -546,7 +546,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 **Form**: 3 is NOT a sum of two squares (3 ≡ 3 mod 4)
 
 **Appearances**:
-- Im(H) = 3 (quaternion imaginaries i, j, k)
+- Im_H = 3 (quaternion imaginaries i, j, k)
 - 3 generations of fermions
 - 3 colors (QCD)
 - Z₃ cyclic structure in Koide
@@ -579,7 +579,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 **Form**: 7 is NOT a sum of two squares (7 ≡ 3 mod 4)
 
 **Appearances**:
-- Im(O) = 7 (octonion imaginary units)
+- Im_O = 7 (octonion imaginary units)
 - Internal gauge structure
 - Appears in Koide scale: M = v/(4×7)² = v/784
 - **sin²θ₁₃ denominator factor: 91 = 7 × 13**
@@ -593,7 +593,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 **Form**: 11 is NOT a sum of two squares (11 ≡ 3 mod 4)
 
 **Appearances**:
-- n_c = Im(C) + Im(H) + Im(O) = 1 + 3 + 7 = 11 (crystal-side dimensions)
+- n_c = Im_C + Im_H + Im_O = 1 + 3 + 7 = 11 (crystal-side dimensions)
 - Appears in 1/α = 4² + 11² = 137
 - **sin²θ₂₃ denominator: 6/11**
 - **m_c/m_u factor: 588 ≈ 11 × 53**
@@ -604,7 +604,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ### Prime 13: The EM-Generation Prime (SESSION 83 FINDING!)
 
-**Form**: 13 = 2² + 3² = dim(C)² + Im(H)²
+**Form**: 13 = 2² + 3² = dim(C)² + Im_H²
 
 **Appearances** (NEWLY FOUND):
 - **sin²θ₁₂ = 4/13** (0.23% error, 0.05 sigma)
@@ -612,7 +612,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 - **Both WITHIN experimental uncertainty!**
 
 **Physical meaning**:
-- 13 combines complex structure (dim(C) = 2) with generation structure (Im(H) = 3)
+- 13 combines complex structure (dim(C) = 2) with generation structure (Im_H = 3)
 - Neutrino mixing involves EXACTLY this: EM interactions (W/Z) + generation structure
 - sin²θ₁₂ = 4/13 = "fraction of EM structure in EM+generation space"
 - sin²θ₁₃ involves 7 (octonion) because tau neutrino couples to heavy quarks
@@ -650,7 +650,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ### Prime 53: The EM-Color Prime (SESSION 83 FINDING!)
 
-**Form**: 53 = 2² + 7² = dim(C)² + Im(O)²
+**Form**: 53 = 2² + 7² = dim(C)² + Im_O²
 
 **Appearances** (NEWLY FOUND):
 - **α_s(M_Z) = 25/212 = 5²/(4×53)** (0.02% error, 0.03 sigma!)
@@ -658,7 +658,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 - **m_c/m_u ≈ 11×53 = 583** (0.8% error)
 
 **Physical meaning**:
-- 53 combines complex structure (dim(C) = 2) with octonion imaginaries (Im(O) = 7)
+- 53 combines complex structure (dim(C) = 2) with octonion imaginaries (Im_O = 7)
 - This is where EM meets color — exactly what the strong coupling describes!
 - α_s = 5²/(4×53) = (fermion_prime)² / (dim(C)² × EM-color_prime)
 
@@ -668,7 +668,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ### Prime 73: The Koide Prime
 
-**Form**: 73 = 3² + 8² = Im(H)² + dim(O)²
+**Form**: 73 = 3² + 8² = Im_H² + dim(O)²
 
 **Appearances**:
 - θ_Koide = π × 73/99 (0.006% precision)
@@ -680,7 +680,7 @@ So 37 encodes "spacetime plus tripled crystal" — a natural structure for fine-
 
 ### Prime 97: The T3 Prime (SESSION 95 FINDING!)
 
-**Form**: 97 = 9² + 4² = Im(H)⁴ + H² = 81 + 16
+**Form**: 97 = 9² + 4² = Im_H⁴ + H² = 81 + 16
 
 Note: 97 is NOT a simple sum of two dimension squares. It's Im_H⁴ + H².
 
@@ -711,14 +711,14 @@ cos(θ_W) = 171/194 = (Im_H² × (n_c + O)) / (2 × (H² + Im_H⁴))
 
 ### Prime 109: The Recombination Prime (SESSION 99 FINDING!)
 
-**Form**: 109 = 10² + 3² = (n_c - 1)² + Im(H)²
+**Form**: 109 = 10² + 3² = (n_c - 1)² + Im_H²
 
 **Appearances** (NEWLY FOUND):
 - **z_rec = 10 × 109 = 1090** (recombination redshift, 0.018% error!)
 - Within Planck measurement uncertainty (1089.80 ± 0.21)
 
 **Physical meaning**:
-- 109 combines mode connections (n_c - 1 = 10) with generation structure (Im(H) = 3)
+- 109 combines mode connections (n_c - 1 = 10) with generation structure (Im_H = 3)
 - The recombination redshift marks when the universe became transparent
 - This connects the CMB release directly to crystallization geometry
 - z_rec = 10 × (ℓ₁/2 - 1) — ties to first acoustic peak!
@@ -734,7 +734,7 @@ z_rec = 10 × (n_c×(n_c-1) - 1) = 10 × 109 = 1090
 
 ### Prime 113: The Pure Octonion Prime (SESSION 83 FINDING!)
 
-**Form**: 113 = 7² + 8² = Im(O)² + dim(O)²
+**Form**: 113 = 7² + 8² = Im_O² + dim(O)²
 
 **Appearances** (NEWLY FOUND):
 - **m_glueball(0++)/m_proton = 113/62** (0.004% error!)
@@ -746,7 +746,7 @@ z_rec = 10 × (n_c×(n_c-1) - 1) = 10 × 109 = 1090
 - The glueball is PURE GLUE — no quarks, just gluons
 - This is the most octonion-pure object in physics!
 - Finding 113 in glueball mass is a perfect match of math to physics
-- 62 = 7 + 55 = Im(O) + 5×n_c = octonion + representation×crystal
+- 62 = 7 + 55 = Im_O + 5×n_c = octonion + representation×crystal
 
 **Verification**: `prime_113_verification.py`, `prime_113_glueball.py`
 
@@ -820,20 +820,20 @@ All fundamental constants can be expressed using division algebra dimensions:
 ```
 1/α = 4² + 11² + 4/111 = dim(H)² + n_c² + correction
 α_s = 5²/(4×53) = 5²/(dim(C)² × prime_53)
-θ_Koide = π × 73/99 where 73 = Im(H)² + dim(O)²
+θ_Koide = π × 73/99 where 73 = Im_H² + dim(O)²
 
 PMNS (Neutrino):
 sin²θ₁₂ = 10/33 = 10/(3 × n_c)
 sin²θ₁₃ = 1/44 = 1/(n_d × n_c)
-sin²θ₂₃ = 4/7 = dim(H)/Im(O)
+sin²θ₂₃ = 4/7 = dim(H)/Im_O
 
 CKM (Quark) — COMPLETE (Session 87):
-λ = 9/40 = Im(H)²/(5 × dim(O))
-|V_cb| = 2/49 = 2/Im(O)²
+λ = 9/40 = Im_H²/(5 × dim(O))
+|V_cb| = 2/49 = 2/Im_O²
 |V_ub| = 1/262 = 1/(137 + n_c² + n_d)    ⬅️ CONNECTS TO α!
-δ_CKM = π×8/21 = π × dim(O)/(Im(H) × Im(O))
+δ_CKM = π×8/21 = π × dim(O)/(Im_H × Im_O)
 
-m_glueball/m_proton = 113/62 where 113 = Im(O)² + dim(O)²
+m_glueball/m_proton = 113/62 where 113 = Im_O² + dim(O)²
 ```
 
 ---

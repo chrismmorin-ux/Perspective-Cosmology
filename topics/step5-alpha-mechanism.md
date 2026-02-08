@@ -1,6 +1,6 @@
 # Topic: Step 5 Alpha Mechanism
 
-**Current state**: Six approaches analyzed (5A-5F). THM_04A2 (single-photon tilt, 5F) is clearest physical picture. All require one undetermined scale. Grade: D+ (5D/5F at C-). Gap G2 (uniformity) CLOSED via HS derivation (S165). Born rule uniqueness + robustness proven (S173, 37/37 PASS). THM_0491 promoted to CANONICAL, THM_0493 promoted to DERIVATION (CR-037 resolved via automatic continuity, 18/18 PASS). **S211 update**: Critical equipartition mechanism RULED OUT (SO(11) transition is first-order, no Wilson-Fisher fixed point for N≥4). Coset geometry is ONLY remaining path to democratic counting. Remaining gap: gauge kinetic term normalization.
+**Current state**: CONJ-A2 **PARTIALLY RESOLVED** (S297). Step 15 upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]. kappa=1 = standard Tr convention for HS metric. WSR + Schur (S292) gives 1/g^2 = kappa*N_i. DE-009 does NOT block the WSR/HS approach. Sigma model: sum(Q^2)_coset = 14 (not 137); factor-9 gap with generators. EQ-002/EQ-003 duality: ONE parameter gives BOTH alpha=1/137 AND Omega_m=63/200 (0.04 sigma). Only kappa=1 matches; alternatives off by >10%. Alpha chain: 0 axiom assumptions + 1 structural convention + 0 conjectures. 34/34 PASS (3 new scripts).
 
 ---
 
@@ -24,6 +24,11 @@
 - **THM_0491 -> CANONICAL**: Proof complete (AXM_0109+0110+0113+THM_0485). `hilbert_unitary_chain.py` 18/18 PASS.
 - **THM_0493 -> DERIVATION**: CR-037 resolved. Automatic continuity in U(n_d) (Weil 1940). Sign convention corrected. 18/18 PASS.
 - **Born rule well-founded**: THM_0494 no longer conditional on SKETCH foundations.
+- **DE-009 scope clarified** (S297): DE-009 blocks Sub-problem B (photon=democratic mode) but NOT Sub-problems A+C (WSR/HS approach). No hidden obstruction.
+- **kappa=1 = standard Tr convention** (S297): WSR+Schur gives 1/g^2 = kappa*N_i. Standard (unnormalized) HS = Tr(A^dag B) gives kappa=1. Natural mathematical default.
+- **EQ-002/EQ-003 duality** (S297): kappa=1 gives BOTH alpha=1/137 AND Omega_m=63/200. Two predictions from one parameter.
+- **Sigma model constraint** (S297): sum(Q^2)_coset=14 (scalar charges), S_EM=126 (generator charges). Factor 9 gap. C=24/11 consistent.
+- **Step 15 upgraded**: [CONJECTURE] -> [A-STRUCTURAL within I-STRUCT-5] (S297). Alpha chain: 0+1+0.
 
 ## What Failed / Dead Ends
 
@@ -65,6 +70,8 @@
 | S173 | Born rule uniqueness + robustness | WF UNIQUE at degree 2, Born rule robust to noise amplitude, 37/37 PASS |
 | S211 | Democratic counting mechanism triage | Critical equipartition RULED OUT (first-order transition). Coset geometry ONLY remaining path. Eval map convergence noted (28/121). |
 | S215 | Coset geometry: three paths | HS metric DEAD END, coset PARTIAL, democratic counting PROMISING. Gap: why democratic not Dynkin? 15/15 PASS. |
+| S288 | Step 5 irreducibility analysis | 3 mechanisms converge (Large-N, Killing, CCP). Likely irreducible [A-STRUCTURAL]. EQ-002/EQ-003 duality. 8/8 PASS. |
+| S297 | CONJ-A2 attack (3 phases) | kappa=1 = standard Tr convention [A-STRUCTURAL]. DE-009 doesn't block WSR path. Sigma model sum(Q^2)=14. EQ-002/EQ-003 duality. 34/34 PASS (3 scripts). |
 
 ## Key Files
 

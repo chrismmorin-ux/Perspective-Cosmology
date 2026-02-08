@@ -193,7 +193,7 @@ print(f"=> Framework predicts SM-like Higgs at Run 2 precision. CONSISTENT.")
 # ==============================================================================
 
 print("\n" + "=" * 70)
-print("PART 4: Falsification — What Would Break the Desert")
+print("PART 4: Falsification -- What Would Break the Desert")
 print("=" * 70)
 
 print(f"""
@@ -272,9 +272,9 @@ for name, data in experiments.items():
 
 print(f"""
 Timeline for testing framework coupling deviations:
-  Run 3:  kappa_V at {dev_kV/4:.1f} sigma — NOT decisive
-  HL-LHC: kappa_V at {dev_kV/1.5:.1f} sigma — MARGINAL (approaching 1 sigma)
-  FCC-ee: kappa_V at {dev_kV/0.3:.1f} sigma — DECISIVE
+  Run 3:  kappa_V at {dev_kV/4:.1f} sigma -- NOT decisive
+  HL-LHC: kappa_V at {dev_kV/1.5:.1f} sigma -- MARGINAL (approaching 1 sigma)
+  FCC-ee: kappa_V at {dev_kV/0.3:.1f} sigma -- DECISIVE
 
 Direct search for colored pNGBs:
   HL-LHC reaches ~2.5 TeV (pair production)

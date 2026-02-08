@@ -8,14 +8,14 @@ Three generations follow from Im(H) = 3 quaternion imaginary units.
 
 CHAIN (Pauli):
   THM_0491 (Hilbert space) + THM_04A6 (spin-statistics, CASCADE)
-  → anticommutation {a†_i, a†_j} = 0
-  → (a†_i)^2 = 0
-  → no two fermions in same state
+  -> anticommutation {a+_i, a+_j} = 0
+  -> (a+_i)^2 = 0
+  -> no two fermions in same state
 
 CHAIN (Three generations):
-  THM_0484 (division algebras) → H exists (dim 4, Im(H) = 3)
-  → 3 orthogonal imaginary units {i, j, k}
-  → 3 fermion generations
+  THM_0484 (division algebras) -> H exists (dim 4, Im(H) = 3)
+  -> 3 orthogonal imaginary units {i, j, k}
+  -> 3 fermion generations
 
 Status: VERIFICATION (cascade audit)
 
@@ -65,23 +65,23 @@ print("=" * 72)
 print("\n" + "=" * 72)
 print("PART 1: PAULI EXCLUSION PRINCIPLE")
 print("  Chain: THM_0491 (Hilbert space) + THM_04A6 (spin-statistics)")
-print("  → anticommutation → exclusion")
+print("  -> anticommutation -> exclusion")
 print("=" * 72)
 
 # --------------------------------------------------------------------------
 # 1a. Fermionic creation/annihilation operators
 # --------------------------------------------------------------------------
-print("\n--- 1a: Fermionic algebra {a†_i, a†_j} = 0 ---")
+print("\n--- 1a: Fermionic algebra {a+_i, a+_j} = 0 ---")
 
 # For a 2-state fermionic system (simplest nontrivial case):
 # States: |0,0>, |1,0>, |0,1>, |1,1>  (occupation number basis)
-# a†_1 creates particle in state 1, a†_2 creates particle in state 2
+# a+_1 creates particle in state 1, a+_2 creates particle in state 2
 
 # Represent on 4-dim Fock space: |n1, n2> with n1, n2 in {0, 1}
 # Basis ordering: |00>, |10>, |01>, |11>
 
 # Creation operators (matrix representation)
-# a†_1: |00> -> |10>, |01> -> |11> (with sign from anticommutation)
+# a+_1: |00> -> |10>, |01> -> |11> (with sign from anticommutation)
 a1_dag = np.array([
     [0, 0, 0, 0],
     [1, 0, 0, 0],
@@ -89,7 +89,7 @@ a1_dag = np.array([
     [0, 0, 1, 0]
 ], dtype=complex)
 
-# a†_2: |00> -> |01>, |10> -> -|11> (minus sign from crossing a†_1)
+# a+_2: |00> -> |01>, |10> -> -|11> (minus sign from crossing a+_1)
 a2_dag = np.array([
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -100,7 +100,7 @@ a2_dag = np.array([
 a1 = a1_dag.conj().T
 a2 = a2_dag.conj().T
 
-# Check anticommutation: {a†_i, a†_j} = a†_i a†_j + a†_j a†_i = 0
+# Check anticommutation: {a+_i, a+_j} = a+_i a+_j + a+_j a+_i = 0
 anticomm_11 = a1_dag @ a1_dag + a1_dag @ a1_dag
 anticomm_22 = a2_dag @ a2_dag + a2_dag @ a2_dag
 anticomm_12 = a1_dag @ a2_dag + a2_dag @ a1_dag
@@ -109,22 +109,22 @@ err_11 = la.norm(anticomm_11)
 err_22 = la.norm(anticomm_22)
 err_12 = la.norm(anticomm_12)
 
-print(f"  {{a1†, a1†}} = 0: error = {err_11:.2e}")
-print(f"  {{a2†, a2†}} = 0: error = {err_22:.2e}")
-print(f"  {{a1†, a2†}} = 0: error = {err_12:.2e}")
+print(f"  {{a1+, a1+}} = 0: error = {err_11:.2e}")
+print(f"  {{a2+, a2+}} = 0: error = {err_22:.2e}")
+print(f"  {{a1+, a2+}} = 0: error = {err_12:.2e}")
 
 record_test(
-    "1a. Fermionic anticommutation {a†_i, a†_j} = 0",
+    "1a. Fermionic anticommutation {a+_i, a+_j} = 0",
     err_11 < 1e-14 and err_22 < 1e-14 and err_12 < 1e-14
 )
 
 # --------------------------------------------------------------------------
-# 1b. Pauli exclusion: (a†_i)^2 = 0
+# 1b. Pauli exclusion: (a+_i)^2 = 0
 # --------------------------------------------------------------------------
-print("\n--- 1b: Pauli exclusion (a†_i)^2 = 0 ---")
+print("\n--- 1b: Pauli exclusion (a+_i)^2 = 0 ---")
 
 # This is the CONTENT of Pauli exclusion:
-# (a†_1)^2 |vacuum> = 0  (can't create two particles in same state)
+# (a+_1)^2 |vacuum> = 0  (can't create two particles in same state)
 a1_dag_sq = a1_dag @ a1_dag
 a2_dag_sq = a2_dag @ a2_dag
 
@@ -132,11 +132,11 @@ vacuum = np.array([1, 0, 0, 0], dtype=complex)
 double_creation_1 = a1_dag_sq @ vacuum
 double_creation_2 = a2_dag_sq @ vacuum
 
-print(f"  (a1†)^2 |0> = {double_creation_1}")
-print(f"  (a2†)^2 |0> = {double_creation_2}")
+print(f"  (a1+)^2 |0> = {double_creation_1}")
+print(f"  (a2+)^2 |0> = {double_creation_2}")
 
 record_test(
-    "1b. (a†_i)^2 = 0 (Pauli exclusion from anticommutation)",
+    "1b. (a+_i)^2 = 0 (Pauli exclusion from anticommutation)",
     la.norm(double_creation_1) < 1e-14 and la.norm(double_creation_2) < 1e-14
 )
 
@@ -149,9 +149,9 @@ state_10 = a1_dag @ vacuum  # |1,0>
 state_01 = a2_dag @ vacuum  # |0,1>
 state_11 = a1_dag @ a2_dag @ vacuum  # |1,1> (different states, allowed)
 
-print(f"  a1†|0> = {state_10} (norm = {la.norm(state_10):.4f})")
-print(f"  a2†|0> = {state_01} (norm = {la.norm(state_01):.4f})")
-print(f"  a1†a2†|0> = {state_11} (norm = {la.norm(state_11):.4f})")
+print(f"  a1+|0> = {state_10} (norm = {la.norm(state_10):.4f})")
+print(f"  a2+|0> = {state_01} (norm = {la.norm(state_01):.4f})")
+print(f"  a1+a2+|0> = {state_11} (norm = {la.norm(state_11):.4f})")
 
 record_test(
     "1c. Single and different-state occupations are allowed",
@@ -163,26 +163,26 @@ record_test(
 # --------------------------------------------------------------------------
 print("\n--- 1d: Canonical anticommutation relations ---")
 
-# {a_i, a†_j} = delta_ij
+# {a_i, a+_j} = delta_ij
 car_11 = a1 @ a1_dag + a1_dag @ a1
 car_22 = a2 @ a2_dag + a2_dag @ a2
 car_12 = a1 @ a2_dag + a2_dag @ a1
 car_21 = a2 @ a1_dag + a1_dag @ a2
 
-# These should be: {a_i, a†_j} acts as identity on states with correct occupancy
-# In matrix form on Fock space: {a1, a1†} = diag projection
-# More precisely, {a_i, a†_i} should act as identity within relevant subspace
+# These should be: {a_i, a+_j} acts as identity on states with correct occupancy
+# In matrix form on Fock space: {a1, a1+} = diag projection
+# More precisely, {a_i, a+_i} should act as identity within relevant subspace
 
-# Check {a_i, a_i†} = 1 (number operator constraint)
+# Check {a_i, a_i+} = 1 (number operator constraint)
 err_car_11 = la.norm(car_11 - np.eye(4))
 err_car_22 = la.norm(car_22 - np.eye(4))
 err_car_12 = la.norm(car_12)
 err_car_21 = la.norm(car_21)
 
-print(f"  {{a1, a1†}} = I: error = {err_car_11:.2e}")
-print(f"  {{a2, a2†}} = I: error = {err_car_22:.2e}")
-print(f"  {{a1, a2†}} = 0: error = {err_car_12:.2e}")
-print(f"  {{a2, a1†}} = 0: error = {err_car_21:.2e}")
+print(f"  {{a1, a1+}} = I: error = {err_car_11:.2e}")
+print(f"  {{a2, a2+}} = I: error = {err_car_22:.2e}")
+print(f"  {{a1, a2+}} = 0: error = {err_car_12:.2e}")
+print(f"  {{a2, a1+}} = 0: error = {err_car_21:.2e}")
 
 record_test(
     "1d. Full canonical anticommutation relations satisfied",
@@ -243,7 +243,7 @@ record_test(
 
 print("\n" + "=" * 72)
 print("PART 2: THREE FERMION GENERATIONS")
-print("  Chain: THM_0484 (division algebras) → H exists → Im(H) = 3")
+print("  Chain: THM_0484 (division algebras) -> H exists -> Im(H) = 3")
 print("=" * 72)
 
 # --------------------------------------------------------------------------
@@ -281,7 +281,7 @@ print(f"  ijk = -1: error = {err_ijk:.2e}")
 print(f"  dim(Im(H)) = 3 imaginary units: i, j, k")
 
 record_test(
-    "2a. Quaternion algebra: exactly 3 imaginary units satisfying i²=j²=k²=ijk=-1",
+    "2a. Quaternion algebra: exactly 3 imaginary units satisfying i^2=j^2=k^2=ijk=-1",
     err_i_sq < 1e-14 and err_j_sq < 1e-14 and err_k_sq < 1e-14 and err_ijk < 1e-14
 )
 
@@ -317,7 +317,7 @@ record_test(
 # --------------------------------------------------------------------------
 print("\n--- 2c: Orthogonality of i, j, k ---")
 
-# Inner product on H: <q1, q2> = (1/2)Tr(q1† q2)
+# Inner product on H: <q1, q2> = (1/2)Tr(q1+ q2)
 def quat_inner(a, b):
     return 0.5 * np.trace(a.conj().T @ b)
 
@@ -347,8 +347,8 @@ record_test(
 # --------------------------------------------------------------------------
 print("\n--- 2e: No 4th imaginary unit ---")
 
-# Any purely imaginary quaternion q = ai + bj + ck with a²+b²+c² = 1
-# satisfies q² = -1. But it's a LINEAR COMBINATION of i,j,k.
+# Any purely imaginary quaternion q = ai + bj + ck with a^2+b^2+c^2 = 1
+# satisfies q^2 = -1. But it's a LINEAR COMBINATION of i,j,k.
 # There are exactly 3 INDEPENDENT imaginary units.
 
 # Verify: dim(Im(H)) = 4 - 1 = 3
@@ -364,7 +364,7 @@ print(f"  dim(Im(H)) = {dim_Im} (exactly 3 generations)")
 q_test = (q_i + q_j + q_k) / np.sqrt(3)  # unit imaginary quaternion
 q_test_sq = q_test @ q_test
 err_sq = la.norm(q_test_sq + q_1)
-print(f"  Random unit imaginary: q² = -1 (error = {err_sq:.2e})")
+print(f"  Random unit imaginary: q^2 = -1 (error = {err_sq:.2e})")
 print("  But q = (i+j+k)/sqrt(3) -- linearly dependent on {i,j,k}")
 
 record_test(
@@ -379,7 +379,7 @@ print("\n--- 2f: Division algebra dimension chain ---")
 
 # R: dim=1, Im(R)=0
 # C: dim=2, Im(C)=1
-# H: dim=4, Im(H)=3  ← THIS gives generations
+# H: dim=4, Im(H)=3  <- THIS gives generations
 # O: dim=8, Im(O)=7
 
 dims = {'R': 1, 'C': 2, 'H': 4, 'O': 8}
@@ -415,13 +415,13 @@ print(f"  Passed: {n_pass}")
 print(f"  Failed: {n_fail}")
 
 print("\n--- Pauli Exclusion Chain ---")
-print("  THM_0491 (Hilbert space)  → quantum state space")
-print("  THM_04A6 (spin-statistics) → fermions anticommute")
-print("  [I-MATH] anticommutation  → (a†)² = 0 → exclusion")
+print("  THM_0491 (Hilbert space)  -> quantum state space")
+print("  THM_04A6 (spin-statistics) -> fermions anticommute")
+print("  [I-MATH] anticommutation  -> (a+)^2 = 0 -> exclusion")
 print("  STATUS: CASCADE from spin-statistics")
 
 print("\n--- Three Generations Chain ---")
-print("  THM_0484 (division algebras) → R, C, H, O exist")
+print("  THM_0484 (division algebras) -> R, C, H, O exist")
 print("  [D] H has dim 4, Im(H) = 3")
 print("  [A-PHYSICAL] Im(H) = generation count")
 print("  STATUS: PARTIAL (physical identification is import)")

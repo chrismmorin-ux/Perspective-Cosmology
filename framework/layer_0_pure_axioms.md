@@ -525,11 +525,11 @@ THM_04B2 proves that the perspective axioms (P1-P4, Pi1-Pi2) and transition axio
 | CCP (Consistency-Completeness) | 1 |
 | **Total** | **5** |
 
-**How**: CCP forces Im(C) to exist in V_Crystal (it's the imaginary part of C, the first non-trivial normed division algebra). Im(C) breaks C4 symmetry, creating the decomposition V = V_pi + G_pi, which IS perspective. The cascade Im(C) -> Im(H) -> Im(O) forces n_c = 11, n_d = 4. Perspective axioms P1-P3 follow from THM_04AC (dim >= 2). P4 follows from F = C. Pi1-Pi2 follow from SO(11) action. T0 follows from CCP forcing quaternionic transitions. T1 is definitional (V_Crystal has no temporal structure by construction).
+**How**: CCP forces Im_C to exist in V_Crystal (it's the imaginary part of C, the first non-trivial normed division algebra). Im_C breaks C4 symmetry, creating the decomposition V = V_pi + G_pi, which IS perspective. The cascade Im_C -> Im_H -> Im_O forces n_c = 11, n_d = 4. Perspective axioms P1-P3 follow from THM_04AC (dim >= 2). P4 follows from F = C. Pi1-Pi2 follow from SO(11) action. T0 follows from CCP forcing quaternionic transitions. T1 is definitional (V_Crystal has no temporal structure by construction).
 
-**The logical chain**: CCP -> Im(C) -> symmetry breaking -> perspective -> transitions -> time -> physics.
+**The logical chain**: CCP -> Im_C -> symmetry breaking -> perspective -> transitions -> time -> physics.
 
-**Im(C) as seed**: The irreducible element Im(C) is both the FIRST consequence of CCP (the minimal non-real algebraic element) and the LAST remainder of the gap tower (THM_04B0, terminal dim 1). The cascade that builds V_Crystal from Im(C) (bottom-up) is the same structure that self-examination discovers (top-down). See `core/theorems/THM_04B2_perspective_from_seed.md`.
+**Im_C as seed**: The irreducible element Im_C is both the FIRST consequence of CCP (the minimal non-real algebraic element) and the LAST remainder of the gap tower (THM_04B0, terminal dim 1). The cascade that builds V_Crystal from Im_C (bottom-up) is the same structure that self-examination discovers (top-down). See `core/theorems/THM_04B2_perspective_from_seed.md`.
 
 **Note**: The perspective and transition axioms remain useful as working tools — they describe the derived structure clearly. But they are no longer logically independent.
 
@@ -539,8 +539,8 @@ THM_04B2 proves that the perspective axioms (P1-P4, Pi1-Pi2) and transition axio
 |---------|--------|--------------|-----------|
 | V_Crystal | **PRIMITIVE** | — | ✓ |
 | CCP | **PRIMITIVE** | — | ✓ |
-| Im(C) | Derived | CCP-2 forces Im(C) in V_Crystal | ✓ |
-| Perspective | Derived (S253) | Im(C) breaks C4 symmetry (THM_04B2) | ✓ |
+| Im_C | Derived | CCP-2 forces Im_C in V_Crystal | ✓ |
+| Perspective | Derived (S253) | Im_C breaks C4 symmetry (THM_04B2) | ✓ |
 | B̃ (tilted basis) | Derived | F=C structure misaligns projections | ✓ |
 | V_Observable | Derived | V_π = span(B̃) | ✓ |
 | P (points) | Derived | Dimension intersection structure | **GAP** |
@@ -569,8 +569,8 @@ See Section 24 for details on remaining gaps.
 
 | Property | Determined By |
 |----------|---------------|
-| Im(C) exists | CCP-2 (completeness) |
-| Symmetry breaks / perspective exists | Im(C) + C4 (THM_04B2) |
+| Im_C exists | CCP-2 (completeness) |
+| Symmetry breaks / perspective exists | Im_C + C4 (THM_04B2) |
 | Perspectives have finite access | CCP.1 (n=11 is finite) |
 | Tilt is possible | CCP.2 (F=C, complex structure) |
 | Points, Σ, Γ are emergent | Definitions from dimensions |

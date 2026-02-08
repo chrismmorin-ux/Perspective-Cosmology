@@ -13,7 +13,7 @@ KEY FINDING: Session 147's induced coupling coefficient was WRONG by factor 2.
   21 = Im_H * Im_O is arguably MORE fundamental than 42.
 
 Formula: 1/alpha = S/(6*pi) * ln(Lambda/mu) where S = N_I - n_c = 126
-Measured: 1/alpha = 137.035999084 (CODATA 2018)
+Measured: 1/alpha = 137.035999177 (CODATA 2022)
 Status: INVESTIGATION (three paths examined)
 
 Depends on:

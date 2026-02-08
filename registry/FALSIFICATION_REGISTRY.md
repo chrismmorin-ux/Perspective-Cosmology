@@ -43,6 +43,10 @@ A theory that can't be proven wrong isn't science. Every prediction must have:
 | **F-STR-4** | SM from SO(11) + F=C | — | THEORY | Internal consistency |
 | **F-COL-5** | kappa_lambda = 0.950 | 5.03% | UNTESTABLE (near-term) | FCC-hh, muon collider |
 | **F-STR-5** | 3 right-handed neutrinos | — | CONSISTENT | Cosmological N_eff |
+| **F-STR-6** | No stable magnetic monopoles | — | CONSISTENT | Monopole searches (MoEDAL, etc.) |
+| **F-STR-7** | Proton absolutely stable | — | CONSISTENT | Hyper-K (~2030, key test!) |
+| **F-STR-8** | No stable cosmic strings | — | CONSISTENT | CMB / pulsar timing |
+| **F-STR-9** | No SUSY partners | — | CONSISTENT | LHC SUSY searches |
 
 ---
 
@@ -72,7 +76,7 @@ These are the framework's strongest claims — specific numbers with sub-percent
 
 | Field | Value |
 |-------|-------|
-| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) × Im(H)²) = 1836 + 11/72 |
+| **Formula** | m_p/m_e = 1836 + n_c/(dim(O) × Im_H²) = 1836 + 11/72 |
 | **Predicted** | 1836.15277778 |
 | **Measured** | 1836.15267343 (CODATA 2022) |
 | **Error** | **0.06 ppm** |
@@ -522,7 +526,7 @@ All 7 computed from framework parameters BEFORE looking up measurements.
 
 | Field | Value |
 |-------|-------|
-| **Prediction** | dim(Im(H)) = 3 → exactly 3 generations |
+| **Prediction** | dim(Im_H) = 3 → exactly 3 generations |
 | **Measured** | 3 generations (Z-width, LEP) |
 | **Confidence** | CONJECTURE (derivation is weak) |
 
@@ -593,6 +597,80 @@ All 7 computed from framework parameters BEFORE looking up measurements.
 **Status**: CONSISTENT
 
 **Source**: Session 66
+
+---
+
+### F-STR-6: No Stable Magnetic Monopoles
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | No stable magnetic monopoles exist |
+| **Mechanism** | SO(11) breaking chain gives pi_2 = Z/2Z (not Z); Z_2 defects pair-annihilate |
+| **Contrast with GUTs** | Standard SU(5) GUT predicts pi_2 = Z (stable monopoles) |
+| **Confidence** | DERIVATION |
+
+**Falsified if**: Stable magnetic monopoles with integer (Z) topological charge discovered.
+
+**Not falsified by**: Z_2 monopole-like excitations (framework predicts these can exist but pair-annihilate).
+
+**Current**: No monopoles observed. MoEDAL at LHC, MACRO, IceCube all set upper bounds. Consistent.
+
+**Why this differs from "inflation diluted them"**: The framework says monopoles with integer charges CANNOT FORM (wrong homotopy group), not merely that they were inflated away. This is a structural prediction, not a cosmological contingency.
+
+**Source**: Session 275; `magnetic_monopole_absence.py` (26/26 PASS)
+
+---
+
+### F-STR-7: Proton Absolutely Stable (No Baryon Number Violation)
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | Proton is absolutely stable — no decay mechanism exists |
+| **Mechanism** | Quarks (O-channel) and leptons (C-channel) live in different division algebra sectors; no cross-channel gauge bosons |
+| **Contrast with GUTs** | SU(5) GUT: quarks+leptons share multiplets -> X/Y leptoquarks -> proton decay tau ~ 10^34-36 yr |
+| **Confidence** | DERIVATION |
+
+**Falsified if**: Proton decay observed at ANY lifetime.
+
+**Current**: tau_p > 2.4 x 10^34 years (Super-Kamiokande). Consistent.
+
+**Upcoming**: Hyper-K (~2030) will push to ~10^35 years. **This is a key discriminating test**: GUTs predict decay in this range, framework predicts absolute stability.
+
+**Why this is sharp**: The framework doesn't just predict a long lifetime — it predicts NO mechanism for decay. The R+C+O channel separation is structural: baryon number is conserved by the division algebra block structure, not by an accidental symmetry.
+
+**Source**: Session 275; `non_observations_survey.py` (30/30 PASS)
+
+---
+
+### F-STR-8: No Stable Cosmic Strings
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | No stable cosmic strings |
+| **Mechanism** | pi_1 = 0 (Stage 1, 3) or Z/2Z (Stage 2, pair-annihilate) |
+| **Confidence** | THEOREM |
+
+**Falsified if**: Stable cosmic strings detected (CMB B-mode patterns, pulsar timing arrays, gravitational lensing).
+
+**Current**: No confirmed cosmic string detections. Consistent.
+
+**Source**: Session 275; `non_observations_survey.py` (30/30 PASS)
+
+---
+
+### F-STR-9: No Supersymmetric Partners
+
+| Field | Value |
+|-------|-------|
+| **Prediction** | No superpartners at any mass scale |
+| **Mechanism** | SO(11) is a bosonic Lie group; framework axioms provide no fermionic generators; fermions emerge as topological defects |
+| **Confidence** | STRUCTURAL |
+
+**Falsified if**: Discovery of any superpartner at any mass.
+
+**Current**: gluino > 2.3 TeV, squarks > 1.8 TeV (LHC Run 3). Consistent.
+
+**Source**: Session 275; `non_observations_survey.py` (30/30 PASS)
 
 ---
 

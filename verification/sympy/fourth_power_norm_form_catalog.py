@@ -135,7 +135,7 @@ def sum_of_squares_primes_from_dims(dims):
 
 
 # ==============================================================================
-# SECTION 4: Cross-reference — which primes are in BOTH catalogs?
+# SECTION 4: Cross-reference -- which primes are in BOTH catalogs?
 # ==============================================================================
 
 def cross_reference(sos_primes, fp_primes):
@@ -280,7 +280,7 @@ def deep_dive_97():
 
 
 # ==============================================================================
-# SECTION 7: The norm hierarchy — unifying principle
+# SECTION 7: The norm hierarchy -- unifying principle
 # ==============================================================================
 
 def norm_hierarchy():

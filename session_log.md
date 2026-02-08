@@ -556,7 +556,7 @@ Provides concrete equations for previously metaphorical concepts.
    - FALSIFIED: Naive "12 Goldstone = 12 gauge bosons" — generator types don't match
    - Coset has 12 off-diagonal; SM has 8 off-diagonal + 4 diagonal
    - STRENGTHENED: Pati-Salam SU(4) connection (4x4 tilt matrix gives SU(4) naturally)
-   - Im(H) ~ su(2) gives weak isospin from quaternionic structure
+   - Im_H ~ su(2) gives weak isospin from quaternionic structure
 
 #### Background Agent Results (Session 132, late)
 

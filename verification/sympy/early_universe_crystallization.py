@@ -163,7 +163,7 @@ print(f"Difference: {abs(float(Yp_measured) - float(sin2_theta_W)):.4f}")
 correction_1 = (sin2_theta_W - Yp_measured)  # = 0.005
 
 # For Y_p = 1/4 - k, we have k = 0.005
-# k = 1/200 ≈ 0.005
+# k = 1/200 ~ 0.005
 
 # Hypothesis: Y_p = 1/4 - 1/(2*n_c^2) = 1/4 - 1/242
 Yp_h1 = sin2_theta_W - Rational(1, 2*n_c**2)  # 1/4 - 1/242 = 0.2459

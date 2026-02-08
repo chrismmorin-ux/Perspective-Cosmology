@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """
-Single-Photon Tilt Derivation of α: Full Chain Verification
+Single-Photon Tilt Derivation of alpha: Full Chain Verification
 
 KEY FINDING: A single quantum of tilt excitation in the N_I = 137 dimensional
 interface Hilbert space, with no preferred direction, yields Born-rule
-probability P = 1/N_I per mode. Physical identification P = α gives
-1/α = 137 + 4/111 = 15211/111 ≈ 137.036036 (0.27 ppm from CODATA 2022).
+probability P = 1/N_I per mode. Physical identification P = alpha gives
+1/alpha = 137 + 4/111 = 15211/111 ~ 137.036036 (0.27 ppm from CODATA 2022).
 
-Formula: 1/α = N_I + n_d/Φ₆(n_c) where N_I = n_d² + n_c², Φ₆(x) = x² - x + 1
-Measured: α⁻¹ = 137.035999206(11) [CODATA 2022]
+Formula: 1/alpha = N_I + n_d/Phi_6(n_c) where N_I = n_d^2 + n_c^2, Phi_6(x) = x^2 - x + 1
+Measured: alpha^-^1 = 137.035999177(11) [CODATA 2022]
 Error: 0.27 ppm
 Status: VERIFICATION
 
 Depends on:
 - [D] n_d = 4 from Frobenius theorem / associativity filter (THM_04A0, THM_0482)
 - [D] n_c = 11 from prime attractor selection (AXM_0118, THM_0484)
-- [D] N_I = n_d² + n_c² from Lie algebra dimension (DEF_02B3)
-- [D] Φ₆(n_c) = 111 from EM channel count (DEF_02C3)
+- [D] N_I = n_d^2 + n_c^2 from Lie algebra dimension (DEF_02B3)
+- [D] Phi_6(n_c) = 111 from EM channel count (DEF_02C3)
 - [SKETCH] Born rule from crystallization noise (THM_0494)
-- [A-PHYSICAL] P(mode) = α identification (Layer 2 correspondence)
+- [A-PHYSICAL] P(mode) = alpha identification (Layer 2 correspondence)
 
 Created: Session 164
 """
@@ -42,7 +42,7 @@ n_c = 11
 # IMPORTS (from measurement)
 # ==============================================================================
 
-# CODATA 2022: α⁻¹ = 137.035999206(11)
+# CODATA 2022: alpha^-^1 = 137.035999177(11)
 ALPHA_INV_MEASURED = R(137035999206, 10**9)  # exact rational representation
 
 # ==============================================================================
@@ -50,32 +50,32 @@ ALPHA_INV_MEASURED = R(137035999206, 10**9)  # exact rational representation
 # ==============================================================================
 
 def step1_interface_mode_count():
-    """Step 1: N_I = n_d² + n_c² from U(n_d) × U(n_c) generator count."""
+    """Step 1: N_I = n_d^2 + n_c^2 from U(n_d) * U(n_c) generator count."""
     N_I = n_d**2 + n_c**2
-    d_d = n_d**2  # dim U(n_d) = n_d²
-    d_c = n_c**2  # dim U(n_c) = n_c²
+    d_d = n_d**2  # dim U(n_d) = n_d^2
+    d_c = n_c**2  # dim U(n_c) = n_c^2
     return N_I, d_d, d_c
 
 def step2_democratic_amplitude():
-    """Step 2: Democratic amplitude |ψ⟩ = (1/√N_I) Σ|k⟩ (no preferred direction)."""
+    """Step 2: Democratic amplitude |psi> = (1/sqrtN_I) Sigma|k> (no preferred direction)."""
     N_I = n_d**2 + n_c**2
     # Amplitude per mode
     c_k = 1 / sqrt(N_I)
-    # Check normalization: Σ|c_k|² = N_I × (1/N_I) = 1
+    # Check normalization: Sigma|c_k|^2 = N_I * (1/N_I) = 1
     norm_sq = N_I * c_k**2
     return c_k, norm_sq
 
 def step3_born_probability():
-    """Step 3: Born rule P(k) = |c_k|² = 1/N_I per mode."""
+    """Step 3: Born rule P(k) = |c_k|^2 = 1/N_I per mode."""
     N_I = n_d**2 + n_c**2
     P_k = R(1, N_I)
-    # Sum of probabilities = N_I × P_k = 1
+    # Sum of probabilities = N_I * P_k = 1
     total_prob = N_I * P_k
     return P_k, total_prob
 
 def step4_em_channels():
-    """Step 4: EM channel count Φ₆(n_c) and correction term."""
-    # Sixth cyclotomic polynomial: Φ₆(x) = x² - x + 1
+    """Step 4: EM channel count Phi_6(n_c) and correction term."""
+    # Sixth cyclotomic polynomial: Phi_6(x) = x^2 - x + 1
     Phi6 = n_c**2 - n_c + 1  # = 111
     # Decomposition: 111 = n_c(n_c-1) + 1 = 110 off-diagonal + 1 U(1)
     off_diag = n_c * (n_c - 1)  # = 110
@@ -85,11 +85,11 @@ def step4_em_channels():
     return Phi6, off_diag, u1, correction
 
 def step5_full_formula():
-    """Step 5: Full prediction 1/α = N_I + n_d/Φ₆(n_c) = 15211/111."""
+    """Step 5: Full prediction 1/alpha = N_I + n_d/Phi_6(n_c) = 15211/111."""
     N_I = n_d**2 + n_c**2
     Phi6 = n_c**2 - n_c + 1
     alpha_inv = N_I + R(n_d, Phi6)
-    # Simplify: (N_I × Phi6 + n_d) / Phi6
+    # Simplify: (N_I * Phi6 + n_d) / Phi6
     numerator = N_I * Phi6 + n_d
     return alpha_inv, numerator, Phi6
 
@@ -112,7 +112,7 @@ def sensitivity_n_c(n_c_test, n_d_fixed=4):
     return float(alpha_inv)
 
 def alternative_N_I():
-    """Check that no N_I ± 1 gives a better match."""
+    """Check that no N_I +/- 1 gives a better match."""
     measured = float(ALPHA_INV_MEASURED)
     results = {}
     for N in [135, 136, 137, 138, 139]:
@@ -127,11 +127,11 @@ def alternative_N_I():
 # ==============================================================================
 
 def check_primality():
-    """137 is prime — structural significance."""
+    """137 is prime -- structural significance."""
     return isprime(137)
 
 def check_sum_of_two_squares():
-    """137 = 4² + 11² — uniquely decomposable as sum of two squares."""
+    """137 = 4^2 + 11^2 -- uniquely decomposable as sum of two squares."""
     decompositions = []
     for a in range(1, 12):
         for b in range(a, 12):

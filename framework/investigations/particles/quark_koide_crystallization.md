@@ -21,7 +21,7 @@ Session 91 discovered that ALL quark triplets have exact division algebra formul
 | Leptons | 2 | 0 | — | Pure C |
 | Up-type | 34/11 | +12/11 | n_c = 11 | Crystal |
 | Down-type | 19/8 | +3/8 | O = 8 | Color |
-| Heavy | 127/63 | +1/63 | Im(O)×Im(H)² = 63 | Both |
+| Heavy | 127/63 | +1/63 | Im_O×Im_H² = 63 | Both |
 
 ### The Mechanism (Proposed)
 
@@ -40,9 +40,9 @@ From `quark_koide_empirical.py`:
 
 ```
 Leptons:   A² = 2 = dim(C)                           [exact]
-Up-type:   A² = 34/11 = (Im(H)×n_c + R)/n_c          [0.05% error]
-Down-type: A² = 19/8 = (C×O + Im(H))/O               [0.52% error]
-Heavy:     A² = 127/63 = 2 + 1/(Im(O)×Im(H)²)        [0.004% error]
+Up-type:   A² = 34/11 = (Im_H×n_c + R)/n_c          [0.05% error]
+Down-type: A² = 19/8 = (C×O + Im_H)/O               [0.52% error]
+Heavy:     A² = 127/63 = 2 + 1/(Im_O×Im_H²)        [0.004% error]
 ```
 
 ### θ/π (Koide Phase over Pi)
@@ -50,9 +50,9 @@ Heavy:     A² = 127/63 = 2 + 1/(Im(O)×Im(H)²)        [0.004% error]
 From `quark_koide_theta_primes.py`:
 
 ```
-Leptons:   θ/π = 73/99  = (Im(H)²+O²)/(Im(H)²×n_c)   [0.006% error]
-Up-type:   θ/π = 67/97  = 67/(H²+Im(H)⁴)             [0.05% error]
-Down-type: θ/π = 78/111 = (C×Im(H)×13)/(Im(H)×37)    [0.14% error]
+Leptons:   θ/π = 73/99  = (Im_H²+O²)/(Im_H²×n_c)   [0.006% error]
+Up-type:   θ/π = 67/97  = 67/(H²+Im_H⁴)             [0.05% error]
+Down-type: θ/π = 78/111 = (C×Im_H×13)/(Im_H×37)    [0.14% error]
 Heavy:     θ/π = 73/106 = 73/(C×53)                  [0.03% error]
 ```
 
@@ -76,8 +76,8 @@ The correction encodes how color coupling shifts the attractor away from the lep
 | Triplet | Correction | Numerator | Denominator |
 |---------|------------|-----------|-------------|
 | Up-type | 12/11 | 12 = n_c + R | 11 = n_c |
-| Down-type | 3/8 | 3 = Im(H) | 8 = dim(O) |
-| Heavy | 1/63 | 1 = dim(R) | 63 = Im(O)×Im(H)² |
+| Down-type | 3/8 | 3 = Im_H | 8 = dim(O) |
+| Heavy | 1/63 | 1 = dim(R) | 63 = Im_O×Im_H² |
 
 ### Pattern in Denominators
 
@@ -85,7 +85,7 @@ The denominator tells us what structure "normalizes" the color correction:
 
 - **Up-type** (+2/3 charge): Crystal structure → n_c = 11
 - **Down-type** (-1/3 charge): Color structure → O = 8
-- **Heavy** (mixed): Both structures → Im(O)×Im(H)² = 63
+- **Heavy** (mixed): Both structures → Im_O×Im_H² = 63
 
 **Key Observation**: Electric charge correlates with denominator type!
 
@@ -113,8 +113,8 @@ This would explain:
 ### The 2/3 Coincidence
 
 A remarkable coincidence:
-- Up quark charge = +2/3 = dim(C)/Im(H)
-- Lepton Koide Q = 2/3 = dim(C)/Im(H)
+- Up quark charge = +2/3 = dim(C)/Im_H
+- Lepton Koide Q = 2/3 = dim(C)/Im_H
 
 **Both involve the same ratio!** This suggests electric charge quantization and mass generation share the same division algebra origin.
 
@@ -277,13 +277,13 @@ The A² denominator correlates with **weak isospin T3**, not electric charge Q:
 |----|------------|----------------|----------------|
 | +1/2 | Up-type | n_c = 11 | Orthogonal to H |
 | -1/2 | Down-type | O = 8 | Aligned with O |
-| mixed | Heavy | 63 = Im(O)×Im(H)² | Both structures |
+| mixed | Heavy | 63 = Im_O×Im_H² | Both structures |
 
 ### Proposed Mechanism
 
 1. **T3 = +1/2** (up-type): "Aligned" with H → couples to non-H = n_c
 2. **T3 = -1/2** (down-type): "Anti-aligned" with H → couples to O directly
-3. **Heavy quarks**: Mix both T3 types → couples to Im(O)×Im(H)²
+3. **Heavy quarks**: Mix both T3 types → couples to Im_O×Im_H²
 
 This explains WHY up-type and down-type have different A² formulas!
 
@@ -384,7 +384,7 @@ Each prime encodes the dominant interaction for that quark type:
 
 ### The Mechanism
 
-T3 (weak isospin) is the projection of the quark's weak charge onto a preferred axis in Im(H). Different projections "illuminate" different division algebra substructures:
+T3 (weak isospin) is the projection of the quark's weak charge onto a preferred axis in Im_H. Different projections "illuminate" different division algebra substructures:
 
 | T3 | Doublet Position | Projection Target | Prime | Structure |
 |----|------------------|-------------------|-------|-----------|
@@ -395,7 +395,7 @@ T3 (weak isospin) is the projection of the quark's weak charge onto a preferred 
 ### Why Each Prime?
 
 **T3 = +1/2 (up-type) → 97 = H² + Im_H⁴**:
-- Aligned with the T3 axis in Im(H) (conventionally 'k')
+- Aligned with the T3 axis in Im_H (conventionally 'k')
 - Sees the FULL quaternionic structure: H² = 16 (weak multiplet) + Im_H⁴ = 81 (generation⁴)
 - Up-type quarks are the "natural" weak eigenstates
 

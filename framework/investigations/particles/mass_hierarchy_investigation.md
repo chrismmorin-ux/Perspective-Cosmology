@@ -2,6 +2,7 @@
 
 **Status**: ARCHIVE (reclassified from ACTIVE -- last referenced ~S50, 100+ sessions stale)
 **Confidence**: [SPECULATION] — qualitative mechanism identified, no quantitative predictions
+**Verification**: `verification/sympy/mass_imperfection_analysis.py` (partial -- covers exponential depth model)
 **Dependencies**: fermion_multiplets_from_division_algebras.md
 **Created**: 2026-01-26 (Session 50)
 **Last Updated**: 2026-02-03
@@ -20,14 +21,14 @@ One generation of fermions weighs vastly more than another:
 
 Similar hierarchies exist for down-type quarks and charged leptons.
 
-**The question**: If generations are "the same" (differ only in Im(H) direction), why do they have such different masses?
+**The question**: If generations are "the same" (differ only in Im_H direction), why do they have such different masses?
 
 ---
 
 ## Why This Is Hard
 
 In our framework:
-- Generations correspond to directions i, j, k in Im(H)
+- Generations correspond to directions i, j, k in Im_H
 - Pure quaternion algebra treats i, j, k symmetrically:
   - i² = j² = k² = -1
   - |i| = |j| = |k| = 1
@@ -169,13 +170,13 @@ In the Standard Model:
 - Down-type quarks couple to Higgs conjugate (H~)
 - Leptons couple to H~
 
-**Key insight**: H and H~ point in DIFFERENT directions in Im(H) space!
+**Key insight**: H and H~ point in DIFFERENT directions in Im_H space!
 
 The conjugation operation in quaternion terms involves:
 - Complex conjugation (flip imaginary signs)
 - Multiplication by j (one of the quaternion units)
 
-This ROTATES the Higgs direction in Im(H) space.
+This ROTATES the Higgs direction in Im_H space.
 
 ### Why Top is Special
 
@@ -192,7 +193,7 @@ All other fermions are misaligned in at least one way.
 | Mechanism | Effect | Source |
 |-----------|--------|--------|
 | Interface depth | ~100x per generation | Exponential Higgs fade |
-| H vs H~ | ~40x between up/down | Different Im(H) orientations |
+| H vs H~ | ~40x between up/down | Different Im_H orientations |
 
 ---
 

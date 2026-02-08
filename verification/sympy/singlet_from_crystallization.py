@@ -150,7 +150,7 @@ def test_tilt_ordering():
     tendency favors the formation of the singlet state because
     it has lower tilt (more crystallized) in the SU(2) sector.
 
-    This is NOT an absolute rule — it's a tendency. The actual
+    This is NOT an absolute rule -- it's a tendency. The actual
     outcome depends on the interaction dynamics and energy
     constraints. But the singlet is the PREFERRED endpoint.
     """
@@ -190,7 +190,7 @@ def test_mexican_hat():
     Singlet: |epsilon|^2 = 0 -> W = 0 (at origin, unstable maximum)
     Triplet: |epsilon|^2 = 2 -> W = -2a + 4b
 
-    Wait — this is the nucleation paradox context. The Mexican hat
+    Wait -- this is the nucleation paradox context. The Mexican hat
     means epsilon = 0 is UNSTABLE. The stable point is at
     epsilon* = sqrt(a/2b).
 
@@ -296,7 +296,7 @@ def test_color_singlets():
 
 
 # ==============================================================================
-# TEST 6: General principle — gauge singlets minimize tilt
+# TEST 6: General principle -- gauge singlets minimize tilt
 # ==============================================================================
 
 def test_general_principle():

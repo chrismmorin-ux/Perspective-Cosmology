@@ -92,17 +92,17 @@ cs2_A1 = R(Im_H, Im_O)
 print(f"  Test A1: c_s^2 = Im_H/Im_O = {Im_H}/{Im_O} = {float(cs2_A1):.6f}")
 print(f"    c_s = {float(sqrt(cs2_A1)):.6f}")
 
-# Test 2: c_s^2 = Im_H / (Im_H + Im_O) — fractional
+# Test 2: c_s^2 = Im_H / (Im_H + Im_O) -- fractional
 cs2_A2 = R(Im_H, Im_H + Im_O)
 print(f"  Test A2: c_s^2 = Im_H/(Im_H+Im_O) = {Im_H}/{Im_H+Im_O} = {float(cs2_A2):.6f}")
 print(f"    c_s = {float(sqrt(cs2_A2)):.6f}")
 
-# Test 3: c_s^2 = n_d / n_c — spacetime/crystal
+# Test 3: c_s^2 = n_d / n_c -- spacetime/crystal
 cs2_A3 = R(n_d, n_c)
 print(f"  Test A3: c_s^2 = n_d/n_c = {n_d}/{n_c} = {float(cs2_A3):.6f}")
 print(f"    c_s = {float(sqrt(cs2_A3)):.6f}")
 
-# Test 4: c_s^2 = 1/3 — radiation dominated (standard limit R*=0)
+# Test 4: c_s^2 = 1/3 -- radiation dominated (standard limit R*=0)
 cs2_A4 = R(1, 3)
 print(f"  Test A4: c_s^2 = 1/3 (radiation limit) = {float(cs2_A4):.6f}")
 print(f"    c_s = {float(sqrt(cs2_A4)):.6f}")
@@ -187,7 +187,7 @@ print()
 # 3/7 = 1/(3(1+R*)) => 3(1+R*) = 7/3 => 1+R* = 7/9 => R* = -2/9
 R_star_needed = R(7, 3) / 3 - 1  # = 7/9 - 1 = -2/9
 print(f"R* needed for c_s^2 = 3/7: R* = {R_star_needed} = {float(R_star_needed):.4f}")
-print(f"  This is NEGATIVE — physically impossible (baryons have positive density)")
+print(f"  This is NEGATIVE -- physically impossible (baryons have positive density)")
 print()
 
 # What c_s^2 does the framework Omega_b give?
@@ -220,7 +220,7 @@ print()
 print("Assessment: Path C REFUTES c_s = 3/7.")
 print("  Standard formula gives c_s ~ 0.454, framework claims c_s = 3/7 ~ 0.429.")
 print("  Framework's Omega_b modification changes c_s by <1%, nowhere near the 5.6% gap.")
-print("  Grade: INFORMATIVE — shows c_s = 3/7 CONTRADICTS standard acoustic physics.")
+print("  Grade: INFORMATIVE -- shows c_s = 3/7 CONTRADICTS standard acoustic physics.")
 
 # ==============================================================================
 # PATH D: CHANNEL WEIGHT IN CRYSTALLIZATION PRESSURE
@@ -381,7 +381,7 @@ print(f"SUMMARY: {sum(1 for _, p in tests if p)}/{len(tests)} tests passed")
 if all_pass:
     print("ALL TESTS PASS")
 else:
-    print("SOME TESTS FAILED — investigate")
+    print("SOME TESTS FAILED -- investigate")
 print()
 
 print("=" * 70)
@@ -390,10 +390,10 @@ print("=" * 70)
 print()
 print("c_s = 3/7 = Im_H/Im_O remains [CONJECTURE] with HRS = 7 (HIGH).")
 print()
-print("Path A (DOF ratio):      IDENTIFICATION only, no dynamics    — Grade F")
-print("Path B (tilt decomp):    Restates Path A in tilt language    — Grade F")
-print("Path C (standard R*):    REFUTES c_s = 3/7                  — Grade: INFORMATIVE")
-print("Path D (channel weight): Recovers value CIRCULARLY          — Grade D")
+print("Path A (DOF ratio):      IDENTIFICATION only, no dynamics    -- Grade F")
+print("Path B (tilt decomp):    Restates Path A in tilt language    -- Grade F")
+print("Path C (standard R*):    REFUTES c_s = 3/7                  -- Grade: INFORMATIVE")
+print("Path D (channel weight): Recovers value CIRCULARLY          -- Grade D")
 print()
 print("NONE of the 4 paths derive c_s = 3/7 from first principles.")
 print("The r_s = 337*(3/7) = 144.43 Mpc: each factor ~5-18% off standard,")

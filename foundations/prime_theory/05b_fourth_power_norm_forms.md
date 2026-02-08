@@ -123,7 +123,7 @@ But 97 is NOT in the current AXM_0118 catalog because:
 
 ### The Resolution
 
-97 = 2⁴ + 3⁴ = dim(C)⁴ + Im(H)⁴
+97 = 2⁴ + 3⁴ = dim(C)⁴ + Im_H⁴
 
 Both 2 and 3 ARE direct framework dimensions. The fourth-power representation uses **more fundamental** inputs than the sum-of-squares representation.
 
@@ -132,7 +132,7 @@ Both 2 and 3 ARE direct framework dimensions. The fourth-power representation us
 The same numerical values serve both representations:
 ```
 2⁴ = 16 = 4²    (dim(C)⁴ = dim(H)²)
-3⁴ = 81 = 9²    (Im(H)⁴ = (Im(H)²)²)
+3⁴ = 81 = 9²    (Im_H⁴ = (Im_H²)²)
 ```
 
 So 97 = 2⁴ + 3⁴ = 4² + 9². The fourth-power form is primary; the sum-of-squares form is derivative.
@@ -145,13 +145,13 @@ So 97 = 2⁴ + 3⁴ = 4² + 9². The fourth-power form is primary; the sum-of-sq
 
 | Prime | a² + b² | Algebraic Content |
 |-------|---------|-------------------|
-| 2 | 1² + 1² | R + Im(C) |
+| 2 | 1² + 1² | R + Im_C |
 | 5 | 1² + 2² | R + C |
-| 13 | 2² + 3² | C + Im(H) |
+| 13 | 2² + 3² | C + Im_H |
 | 17 | 1² + 4² | R + H |
-| 53 | 2² + 7² | C + Im(O) |
-| 73 | 3² + 8² | Im(H) + O |
-| 113 | 7² + 8² | Im(O) + O |
+| 53 | 2² + 7² | C + Im_O |
+| 73 | 3² + 8² | Im_H + O |
+| 113 | 7² + 8² | Im_O + O |
 | 137 | 4² + 11² | H + n_c |
 
 ### Level 2: Fourth-Power Primes (10 primes — NEW)
@@ -160,12 +160,12 @@ So 97 = 2⁴ + 3⁴ = 4² + 9². The fourth-power form is primary; the sum-of-sq
 |-------|---------|-------------------|----------|
 | 2 | 1⁴ + 1⁴ | R + R | Pure associative |
 | 17 | 1⁴ + 2⁴ | R + C | Pure associative |
-| 97 | 2⁴ + 3⁴ | C + Im(H) | Pure associative |
+| 97 | 2⁴ + 3⁴ | C + Im_H | Pure associative |
 | 257 | 1⁴ + 4⁴ | R + H | Pure associative |
-| 337 | 3⁴ + 4⁴ | Im(H) + H | Pure associative |
-| 2417 | 2⁴ + 7⁴ | C + Im(O) | Assoc-nonassoc bridge |
-| 2657 | 4⁴ + 7⁴ | H + Im(O) | Assoc-nonassoc bridge |
-| 4177 | 3⁴ + 8⁴ | Im(H) + O | Assoc-nonassoc bridge |
+| 337 | 3⁴ + 4⁴ | Im_H + H | Pure associative |
+| 2417 | 2⁴ + 7⁴ | C + Im_O | Assoc-nonassoc bridge |
+| 2657 | 4⁴ + 7⁴ | H + Im_O | Assoc-nonassoc bridge |
+| 4177 | 3⁴ + 8⁴ | Im_H + O | Assoc-nonassoc bridge |
 | 14657 | 2⁴ + 11⁴ | C + n_c | Crystal bridge |
 | 14897 | 4⁴ + 11⁴ | H + n_c | Crystal bridge |
 
@@ -185,11 +185,11 @@ So 97 = 2⁴ + 3⁴ = 4² + 9². The fourth-power form is primary; the sum-of-sq
 | n | n⁴ + (n+1)⁴ | Prime? | Framework Dimensions |
 |---|-------------|--------|---------------------|
 | 1 | 17 | YES | dim(R), dim(C) — BOTH in D_fw |
-| 2 | 97 | YES | dim(C), Im(H) — BOTH in D_fw |
-| 3 | 337 | YES | Im(H), dim(H) — BOTH in D_fw |
+| 2 | 97 | YES | dim(C), Im_H — BOTH in D_fw |
+| 3 | 337 | YES | Im_H, dim(H) — BOTH in D_fw |
 | 4 | 881 | YES | dim(H), 5 — 5 NOT in D_fw |
 | 5 | 1921 = 17×113 | NO | — |
-| 7 | 6497 = 73×89 | NO | Im(O), dim(O) — COMPOSITE despite BOTH in D_fw |
+| 7 | 6497 = 73×89 | NO | Im_O, dim(O) — COMPOSITE despite BOTH in D_fw |
 
 ### Observations
 

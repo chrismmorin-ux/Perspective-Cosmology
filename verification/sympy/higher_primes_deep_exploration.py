@@ -294,7 +294,7 @@ FOURTH-POWER PRIME HIERARCHY:
 
                     OBSERVABLE PHYSICS
                            |
-    ┌──────────────────────┼──────────────────────┐
+    +----------------------+----------------------+
     |                      |                      |
    17                     97                    337
   R^4+C^4              C^4+Im_H^4           Im_H^4+H^4
@@ -302,31 +302,31 @@ FOURTH-POWER PRIME HIERARCHY:
     |                      |                      |
     |  gap=1               |  gap=1               |  gap=1
     |                      |                      |
-    └──────────────────────┴──────────────────────┘
+    +----------------------+----------------------+
                            |
                     ASSOCIATIVE BOUNDARY
                            |
-                    ═══════╪═══════
+                    =======+=======
                            |
                     NON-ASSOCIATIVE
                            |
-    ┌──────────────────────┼──────────────────────┐
+    +----------------------+----------------------+
     |                      |                      |
    257                   2657                   4177
   R^4+H^4              H^4+Im_O^4            Im_H^4+O^4
   (gap=3)              (gap=3)               (gap=5)
     |                      |                      |
-    └──────────────────────┴──────────────────────┘
+    +----------------------+----------------------+
                            |
                     CRYSTAL BOUNDARY
                            |
-    ┌──────────────────────┼──────────────────────┐
+    +----------------------+----------------------+
     |                      |                      |
   2417                  14657                  14897
  C^4+Im_O^4           C^4+n_c^4              H^4+n_c^4
  (gap=5)               (gap=9)                (gap=7)
     |                      |                      |
-    └──────────────────────┴──────────────────────┘
+    +----------------------+----------------------+
                            |
                     TRANS-COSMOLOGICAL
                            ?
@@ -428,20 +428,20 @@ KEY DISCOVERIES:
 2. GAP-3 BRIDGE PRIMES
    - 257 and 2657 both have gap = 3 = Im_H
    - These may govern "generation-mediated" physics
-   - Sum: 257 + 2657 = 2914 = 2 × 31 × 47
+   - Sum: 257 + 2657 = 2914 = 2 * 31 * 47
 
 3. NEAR-MISS PHYSICS
-   - 2657/12 ≈ 221.4 (close to l_1 = 220)
-   - 2657/42 ≈ 63.3 (close to Omega_m num = 63)
-   - 2657/19 ≈ 139.8 (close to 137 + 2)
+   - 2657/12 ~ 221.4 (close to l_1 = 220)
+   - 2657/42 ~ 63.3 (close to Omega_m num = 63)
+   - 2657/19 ~ 139.8 (close to 137 + 2)
 
 4. HIERARCHY STRUCTURE
-   - Observable: 17 → 97 → 337 (gap=1, consecutive)
+   - Observable: 17 -> 97 -> 337 (gap=1, consecutive)
    - Trans-cosmic: 257, 2657, 4177 (gap=3,5, bridge)
    - Ultra-scale: 14657, 14897 (gap=7,9, crystal)
 
 5. R^4 UNIVERSALITY
-   - All Fermat primes F_n (n≥2) contain R^4 = 1
+   - All Fermat primes F_n (n>=2) contain R^4 = 1
    - The "real line" anchors the Fermat structure
    - Framework naturally generates Fermat primes!
 

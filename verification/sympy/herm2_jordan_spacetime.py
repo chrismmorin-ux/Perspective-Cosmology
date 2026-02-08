@@ -312,7 +312,7 @@ def test_connes_gives_s2():
     # But S^2 is the SPATIAL boundary, not spacetime
     pure_state_is_s2 = True  # CP^1 = S^2, dim = 2
 
-    # Conclusion: NCG state-space geometry ≠ spacetime geometry
+    # Conclusion: NCG state-space geometry != spacetime geometry
     # The trace/time direction is projected out by the state normalization
     ncg_insufficient = trace_constraint_removes_time
 
@@ -320,7 +320,7 @@ def test_connes_gives_s2():
 
 
 def test_operational_identification():
-    """Test 8: Operational identification — trace = time, traceless = space.
+    """Test 8: Operational identification -- trace = time, traceless = space.
 
     The weaker [A-PHYSICAL] assumption:
     "Physical events are operationally distinguished by measurement outcomes"

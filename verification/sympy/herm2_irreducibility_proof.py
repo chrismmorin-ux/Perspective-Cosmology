@@ -6,14 +6,14 @@ KEY FINDING: The physical arena is FORCED to be Herm(2) without any
 correspondence axiom. The argument:
 
 1. Observable algebra = M_2(C) [DERIVED]
-2. Real eigenvalues => arena S ⊆ Herm(2) [I-MATH]
+2. Real eigenvalues => arena S c= Herm(2) [I-MATH]
 3. S is SU(2)-invariant (basis-independence from C4)
 4. Time = center R*I [DERIVED: THM_04AE]
 5. Framework derives non-commuting observables [DERIVED: composition blindness]
 6. Non-commuting self-adjoint ops in M_2(C) = su(2) [I-MATH]
 7. su(2) is IRREDUCIBLE under SU(2) [I-MATH]
-8. Irreducibility => S ∩ su(2) = {0} or su(2) (all or nothing) [PIGEONHOLE]
-9. S ∩ su(2) = {0} contradicts step 5
+8. Irreducibility => S n su(2) = {0} or su(2) (all or nothing) [PIGEONHOLE]
+9. S n su(2) = {0} contradicts step 5
 10. Therefore S = Herm(2) [forced]
 
 No CP-1 bridge needed. QM (derived) forces non-commuting observables,
@@ -23,7 +23,7 @@ Tests:
 1. su(2) is irreducible under Ad(SU(2))
 2. No proper SU(2)-invariant subspace of su(2) exists
 3. Center R*I is the unique trivial subrepresentation
-4. Herm(2) = R*I ⊕ su(2) is complete (no room for anything else)
+4. Herm(2) = R*I (+) su(2) is complete (no room for anything else)
 5. Non-commuting observables exist iff su(2) component is nonzero
 6. Composition blindness forces non-commutativity
 7. Adding any su(2) element forces ALL of su(2) (by invariance)
@@ -143,12 +143,12 @@ def test_no_proper_invariant_subspace():
 def test_center_unique_trivial_subrep():
     """Test 3: Center R*I is the unique trivial sub-representation.
 
-    Under Ad(SU(2)): X -> UXU†
-    The center C*I is fixed: U(cI)U† = cI for all U.
+    Under Ad(SU(2)): X -> UXU+
+    The center C*I is fixed: U(cI)U+ = cI for all U.
     This is the trivial representation (dim 1).
 
     No other element of Herm(2) is fixed by ALL of Ad(SU(2)).
-    Proof: If UXU† = X for all U in SU(2), then X commutes with all
+    Proof: If UXU+ = X for all U in SU(2), then X commutes with all
     U, hence X is in the center = C*I. Self-adjoint => X in R*I.
     """
     t, x, y, z = symbols('t x y z', real=True)
@@ -197,7 +197,7 @@ def test_center_unique_trivial_subrep():
 
 
 def test_herm2_complete_decomposition():
-    """Test 4: Herm(2) = R*I ⊕ su(2) with no room for anything else.
+    """Test 4: Herm(2) = R*I (+) su(2) with no room for anything else.
 
     dim_R(Herm(2)) = 4
     dim_R(R*I) = 1  (center = time)
@@ -273,8 +273,8 @@ def test_noncommuting_iff_su2():
     center_commutes = all(simplify(comm_center[i, j]) == 0
                           for i in range(2) for j in range(2))
 
-    # Check: if x1 ≠ 0, there exists Y with [X, Y] ≠ 0
-    # Take X = sigma_1, Y = sigma_2: [s1, s2] = 2i*s3 ≠ 0
+    # Check: if x1 != 0, there exists Y with [X, Y] != 0
+    # Take X = sigma_1, Y = sigma_2: [s1, s2] = 2i*s3 != 0
     comm_s1_s2 = sigma_1 * sigma_2 - sigma_2 * sigma_1
     nonzero = any(simplify(comm_s1_s2[i, j]) != 0
                   for i in range(2) for j in range(2))
@@ -293,7 +293,7 @@ def test_composition_blindness_forces_noncommutativity():
     NOT an eigenstate of non-commuting observable B. This is superposition.
 
     For M_2(C): if all observables commuted (only center), the algebra
-    would be C*I ≅ C, which is 1-dimensional. But End(C^2) = M_2(C)
+    would be C*I ~= C, which is 1-dimensional. But End(C^2) = M_2(C)
     is 4-dimensional (complex). The non-commuting part is FORCED by
     the algebra being larger than its center.
     """
@@ -392,7 +392,7 @@ def test_time_direction_forced():
     THM_04AE identifies this with time:
     - Center elements are invariant under all inner automorphisms
     - det(tI + spatial) = t^2 - |spatial|^2 gives time the + sign
-    - Causal structure (det ≷ 0) requires one time direction
+    - Causal structure (det >=~ 0) requires one time direction
 
     This is derived, not assumed.
     """
@@ -425,27 +425,27 @@ def test_full_reconstruction():
     """Test 9: S = Herm(2) from constraints alone.
 
     The proof:
-    1. S ⊆ Herm(2) [real eigenvalues]
-    2. R*I ⊆ S [time exists, center is unique time direction]
-    3. su(2) ⊆ S [non-commuting observables exist + irreducibility]
-    4. R*I ⊕ su(2) = Herm(2) [complete decomposition]
-    5. Therefore: Herm(2) ⊆ S [from 2+3+4]
-    6. S ⊆ Herm(2) and Herm(2) ⊆ S => S = Herm(2) [set theory]
+    1. S c= Herm(2) [real eigenvalues]
+    2. R*I c= S [time exists, center is unique time direction]
+    3. su(2) c= S [non-commuting observables exist + irreducibility]
+    4. R*I (+) su(2) = Herm(2) [complete decomposition]
+    5. Therefore: Herm(2) c= S [from 2+3+4]
+    6. S c= Herm(2) and Herm(2) c= S => S = Herm(2) [set theory]
 
     Verify each containment.
     """
-    # S ⊆ Herm(2): from real eigenvalues [I-MATH]
+    # S c= Herm(2): from real eigenvalues [I-MATH]
     upper_bound = True  # verified in herm2_uniqueness_as_spacetime.py
 
-    # R*I ⊆ S: time exists
+    # R*I c= S: time exists
     center_in = True  # from THM_04AE + framework defines time
 
-    # su(2) ⊆ S: non-commuting observables exist + irreducibility
+    # su(2) c= S: non-commuting observables exist + irreducibility
     # Non-commuting exist: composition blindness (test 6)
     # Irreducibility forces all: (test 7)
     su2_in = True
 
-    # Completeness: R*I ⊕ su(2) = Herm(2)
+    # Completeness: R*I (+) su(2) = Herm(2)
     dim_center = 1
     dim_su2 = 3
     dim_herm2 = 4
@@ -460,7 +460,7 @@ def test_full_reconstruction():
 def test_metric_uniqueness():
     """Test 10: det is the unique Lorentzian SU(2)-invariant quadratic form on Herm(2).
 
-    By Schur's lemma, SU(2)-invariant bilinear forms on Herm(2) = R*I ⊕ su(2)
+    By Schur's lemma, SU(2)-invariant bilinear forms on Herm(2) = R*I (+) su(2)
     are determined by:
     - A form on R*I (1 parameter: overall scale)
     - A form on su(2) (1 parameter: overall scale, since su(2) is irreducible)
@@ -514,8 +514,8 @@ def main():
         ("su(2) is irreducible under Ad(SU(2))", test_su2_irreducible),
         ("No proper SU(2)-invariant subspace of su(2)", test_no_proper_invariant_subspace),
         ("Center R*I is unique trivial sub-rep", test_center_unique_trivial_subrep),
-        ("Herm(2) = R*I ⊕ su(2), complete", test_herm2_complete_decomposition),
-        ("Non-commuting observables ⟺ su(2) nonzero", test_noncommuting_iff_su2),
+        ("Herm(2) = R*I (+) su(2), complete", test_herm2_complete_decomposition),
+        ("Non-commuting observables <==> su(2) nonzero", test_noncommuting_iff_su2),
         ("Composition blindness forces non-commutativity", test_composition_blindness_forces_noncommutativity),
         ("Any su(2) element forces all of su(2)", test_any_su2_element_forces_all),
         ("Time direction forced (center uniqueness)", test_time_direction_forced),
@@ -561,17 +561,17 @@ def main():
     print("  - Non-commuting observables exist         [composition blindness]")
     print()
     print("Proof:")
-    print("  1. S ⊆ Herm(2)  [real eigenvalues]")
-    print("  2. R·I ⊆ S       [time = center]")
+    print("  1. S c= Herm(2)  [real eigenvalues]")
+    print("  2. R*I c= S       [time = center]")
     print("  3. su(2) is irreducible under SU(2)  [I-MATH]")
-    print("  4. Non-commuting observables ∈ su(2)  [I-MATH]")
-    print("  5. They exist ⟹ SOME of su(2) is in S  [composition blindness]")
-    print("  6. SOME + irreducibility ⟹ ALL of su(2) in S  [PIGEONHOLE]")
-    print("  7. R·I ⊕ su(2) = Herm(2) ⊆ S  [from 2+6]")
-    print("  8. S ⊆ Herm(2) and Herm(2) ⊆ S ⟹ S = Herm(2)  ∎")
+    print("  4. Non-commuting observables in su(2)  [I-MATH]")
+    print("  5. They exist ==> SOME of su(2) is in S  [composition blindness]")
+    print("  6. SOME + irreducibility ==> ALL of su(2) in S  [PIGEONHOLE]")
+    print("  7. R*I (+) su(2) = Herm(2) c= S  [from 2+6]")
+    print("  8. S c= Herm(2) and Herm(2) c= S ==> S = Herm(2)  QED")
     print()
     print("Result: spacetime = (Herm(2), det) = R^{3,1}")
-    print("Status: [THEOREM] — no correspondence axiom (CP-1) needed")
+    print("Status: [THEOREM] -- no correspondence axiom (CP-1) needed")
     print("The irreducibility of su(2) is the pigeonhole that forces")
     print("the entire spatial arena once ANY non-commuting observable exists.")
 

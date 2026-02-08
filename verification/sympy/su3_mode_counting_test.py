@@ -195,11 +195,11 @@ print(f"BEST: {best_name} (error {best_error*100:.2f}%)")
 print()
 
 # ==============================================================================
-# SECTION 3: STRUCTURAL THEOREM — T_SU2 = T_SU3
+# SECTION 3: STRUCTURAL THEOREM -- T_SU2 = T_SU3
 # ==============================================================================
 
 print("=" * 72)
-print("SECTION 3: STRUCTURAL THEOREM — EQUAL DYNKIN INDICES")
+print("SECTION 3: STRUCTURAL THEOREM -- EQUAL DYNKIN INDICES")
 print("=" * 72)
 print()
 
@@ -219,7 +219,7 @@ T_L_A = 0 + 0 + 2 + 6  # = 8
 #                = 7 x 1 + 4 x 0 = 7 per block
 T_L_BC = 2 * 7  # = 14
 
-# Block D: End(R^7) — all SU(2)_L singlets
+# Block D: End(R^7) -- all SU(2)_L singlets
 T_L_D = 0
 
 T_L_total = T_L_A + T_L_BC + T_L_D

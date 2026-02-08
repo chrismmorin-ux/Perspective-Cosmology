@@ -11,7 +11,7 @@ phase unitarity, winding periodicity, and Lie algebra generation. These
 properties collectively explain WHY the irreducible remainder has the
 specific character it does.
 
-Additional verification: Im(C) as the "seed" — that injecting Im(C) into
+Additional verification: Im(C) as the "seed" -- that injecting Im(C) into
 V_Crystal, combined with CCP (maximal consistency), forces the entire
 division algebra cascade and n_c = 11.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Verification: Consistency-Completeness Principle (CCP) — AXM_0120
+Verification: Consistency-Completeness Principle (CCP) -- AXM_0120
 
 KEY FINDING: The CCP forces dim(V_Crystal) = 11, F = C, n_d = 4,
 and D_framework = {1,2,3,4,7,8,11} from pure mathematics.
@@ -30,7 +30,7 @@ div_alg_names = {1: 'R', 2: 'C', 4: 'H', 8: 'O'}
 # C: commutative, associative, division (loses ordering)
 # H: associative, division (loses commutativity)
 # O: alternative, division (loses associativity)
-# S(16): FAILS — has zero divisors
+# S(16): FAILS -- has zero divisors
 
 # ============================================================
 # 2. IMAGINARY DIMENSIONS
@@ -49,7 +49,7 @@ expected_im_dims = {1: 0, 2: 1, 4: 3, 8: 7}
 # 3. CRYSTAL DIMENSION: n_c = sum of non-trivial imaginary dims
 # ============================================================
 # CCP-2: V_Crystal contains Im(D) for each D
-# CCP-3: Minimal — direct sum, no redundancy
+# CCP-3: Minimal -- direct sum, no redundancy
 # Im(R) = {0} contributes nothing
 
 n_c = sum(imaginary_dims[d] for d in div_alg_dims if imaginary_dims[d] > 0)
@@ -72,7 +72,7 @@ expected_D_fw = {1, 2, 3, 4, 7, 8, 11}
 # 5. FIELD DETERMINATION: F = C
 # ============================================================
 # Requirements for scalar field:
-# (a) Must be a division algebra (no zero divisors) — CCP-1
+# (a) Must be a division algebra (no zero divisors) -- CCP-1
 # (b) Must be commutative (field axiom for scalars)
 # (c) Must be algebraically closed (CCP-4)
 #
@@ -98,7 +98,7 @@ real_roots = [r for r in poly_roots if r.is_real]
 # T0 requires associative composition
 # Associative division algebras: R(1), C(2), H(4)
 # O is NOT associative
-# CCP maximality → H (dim 4)
+# CCP maximality -> H (dim 4)
 
 associative_div_algs = {1, 2, 4}  # R, C, H
 n_d = max(associative_div_algs)     # = 4

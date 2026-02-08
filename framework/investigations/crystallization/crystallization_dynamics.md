@@ -354,7 +354,7 @@ The damping scale:
 ```
 [AXIOM] Division algebras: R=1, C=2, H=4, O=8
     ↓
-[DERIVED] n_d = 4, n_c = Im(C)+Im(H)+Im(O) = 1+3+7 = 11, n_total = 15
+[DERIVED] n_d = 4, n_c = Im_C+Im_H+Im_O = 1+3+7 = 11, n_total = 15
     ↓
 [PHYSICAL] Crystallization field φ with V(φ) = V₀(1 - φ²/μ²)  [CANONICAL: hilltop]
     ↓
@@ -379,13 +379,9 @@ The damping scale:
 4. **Silk damping scale** — formula proposed but not verified
 5. **Connection to Standard Model** — L_coupling not specified
 
-### Required Scripts
+### Required Scripts (deferred — file archived S123)
 
-- [ ] `crystallization_potential.py` — Calculate V(φ), v², λ
-- [ ] `slow_roll_parameters.py` — Calculate ε, η from framework
-- [ ] `spectral_index_derivation.py` — Derive n_s from slow-roll
-- [ ] `sound_horizon_integral.py` — Calculate r_s from first principles
-- [ ] `peak_height_ratios.py` — Attempt to derive C_ℓ₂/C_ℓ₁
+**Deferred scripts (S123)**: Five planned scripts were never created (crystallization_potential.py, slow_roll_parameters.py, spectral_index_derivation.py, sound_horizon_integral.py, peak_height_ratios.py). These investigations were superseded by hilltop_inflation_canonical.md and other CANONICAL files. See Session 123 for context.
 
 ---
 
@@ -398,8 +394,8 @@ The damping scale:
 | **mu^2 parameter** | **CORRECTED** | mu^2 = (C+H)*H^4/Im_O = 1536/7 (Session 129) |
 | Equations of motion | STANDARD | No modification needed |
 | Perturbation theory | STANDARD | Framework enters through V(phi) |
-| n_s derivation | **RESOLVED** | n_s = 193/200 = 0.965 exactly |
-| r derivation | **RESOLVED** | r = 7/200 = 0.035 exactly |
+| n_s derivation | **RESOLVED** | n_s = 193/200 = 0.965 (within 1-sigma of Planck 0.9649 +/- 0.0042) |
+| r derivation | **RESOLVED** | r = 7/200 = 0.035 (within current upper bound r < 0.036) |
 | r = 1 - n_s | **VERIFIED** | eta/epsilon = -5 at phi_CMB = mu/sqrt(6) |
 | **E-fold number** | **RESOLVED** | N = 52 with CORRECT mu^2 (Session 129) |
 | Peak heights | GAP | Major unsolved problem |
@@ -902,12 +898,9 @@ The same field φ that drives inflation also controls quantum collapse:
 8. **Quantum gravity**: Does ε_ij couple to spacetime curvature?
 9. **Born rule violations**: Predicted at α² ~ 10^-5 level — observable?
 
-### Verification Scripts Needed
+### Verification Scripts Needed (deferred — file archived S123)
 
-- [ ] `crystallization_coupled_potential.py` — Verify W(ε,φ) behavior
-- [ ] `attractor_eigenvalue_structure.py` — Check prime classification
-- [ ] `collapse_threshold_estimate.py` — Estimate U_threshold
-- [x] `born_rule_from_crystallization.py` — **DONE (12/12 PASS, Session 134)**
+**Deferred scripts (S123/S128)**: Three planned scripts were never created (crystallization_coupled_potential.py, attractor_eigenvalue_structure.py, collapse_threshold_estimate.py). These remain open investigation directions. `born_rule_from_crystallization.py` was completed (12/12 PASS, Session 134).
 
 ---
 
@@ -1537,14 +1530,14 @@ SU(4) → SU(3) × U(1)  (breaking Pati-Salam to color + B-L)
 
 **Where does SU(2) come from?** The quaternionic structure:
 ```
-Im(H) = {i, j, k} with [i,j] = 2k (cyclic)
+Im_H = {i, j, k} with [i,j] = 2k (cyclic)
 This IS the su(2) Lie algebra!
 ```
 
 **Full picture**:
 ```
 From n_d = 4 (tilt matrix):  SU(4) Pati-Salam (15 generators)
-From Im(H) = 3 (quaternions): SU(2) weak isospin (3 generators)
+From Im_H = 3 (quaternions): SU(2) weak isospin (3 generators)
 From C = 2 (complex field):   U(1) hypercharge (1 generator)
 ```
 

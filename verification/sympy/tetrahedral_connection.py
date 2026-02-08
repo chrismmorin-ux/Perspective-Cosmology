@@ -55,7 +55,7 @@ print("""
       - cos(theta_tet) = sqrt(2/3)
 
    b) Methane molecule (CH4):
-      - H-C-H bond angle = 109.47 deg = 180 deg - 2×35.26 deg
+      - H-C-H bond angle = 109.47 deg = 180 deg - 2*35.26 deg
       - Carbon at center of tetrahedron
 
    c) Cube inscribed in sphere:
@@ -81,7 +81,7 @@ print(f"   - Total: 4 + 6 + 4 = 14")
 # Compare to defect sector channels
 n_d = 4
 channels_defect = n_d**2  # = 16
-print(f"\n   Defect sector channels: {n_d}² = {channels_defect}")
+print(f"\n   Defect sector channels: {n_d}^2 = {channels_defect}")
 print(f"   Close to 14! Difference: {channels_defect - 14}")
 
 # Is 14 special?
@@ -105,7 +105,7 @@ print("""
 # Verify: projection from vertex to opposite face
 print(f"\n6. PROJECTION CALCULATION")
 # Height of regular tetrahedron with edge a:
-# h = a × sqrt(2/3)
+# h = a * sqrt(2/3)
 # Distance from vertex to center of opposite face = h
 # If we project unit area at angle theta_tet:
 # Projection factor = cos(theta_tet) = sqrt(2/3)
@@ -115,41 +115,41 @@ print(f"   cos(theta_tet) = sqrt(2/3) = {N(cos_tet, 6)}")
 print(f"   sin(theta_tet) = 1/sqrt3 = {N(1/sqrt(3), 6)}")
 
 # This matches!
-print(f"\n   MATCH: sin²(theta_tet) + cos²(theta_tet) = 1/3 + 2/3 = 1 CHECK")
+print(f"\n   MATCH: sin^2(theta_tet) + cos^2(theta_tet) = 1/3 + 2/3 = 1 CHECK")
 
 # Connection to 58 and 79
 print(f"\n7. NUMERICAL VERIFICATION")
-# If cos²(theta) = visible and sin²(theta) = hidden:
+# If cos^2(theta) = visible and sin^2(theta) = hidden:
 cos2_tet = Rational(2, 3)
 sin2_tet = Rational(1, 3)
 
-# Expected: visible = 137 × cos²(theta), hidden = 137 × sin²(theta)
+# Expected: visible = 137 * cos^2(theta), hidden = 137 * sin^2(theta)
 visible_expected = 137 * cos2_tet
 hidden_expected = 137 * sin2_tet
 
-print(f"   If hidden = 137 × sin²(theta_tet) = 137/3 = {N(hidden_expected, 4)}")
+print(f"   If hidden = 137 * sin^2(theta_tet) = 137/3 = {N(hidden_expected, 4)}")
 print(f"   Actual hidden = 79")
 print(f"   Difference: {N(79 - hidden_expected, 4)}")
 
-print(f"\n   If visible = 137 × cos²(theta_tet) = 274/3 = {N(visible_expected, 4)}")
+print(f"\n   If visible = 137 * cos^2(theta_tet) = 274/3 = {N(visible_expected, 4)}")
 print(f"   Actual visible = 58")
 print(f"   Difference: {N(58 - visible_expected, 4)}")
 
-# The fractions don't match sin² and cos²
-print(f"\n   NOTE: The split isn't sin²/cos²!")
-print(f"   Instead: hidden/total ~ sin(theta_tet), not sin²(theta_tet)")
+# The fractions don't match sin^2 and cos^2
+print(f"\n   NOTE: The split isn't sin^2/cos^2!")
+print(f"   Instead: hidden/total ~ sin(theta_tet), not sin^2(theta_tet)")
 print(f"   79/137 = {N(f_hidden, 6)} ~ sin(theta_tet) = {N(1/sqrt(3), 6)}")
 
 # So it's a linear (not quadratic) relationship
 print(f"\n8. LINEAR vs QUADRATIC")
 print(f"   Linear: f_hidden ~ sin(theta_tet) = 1/sqrt3 (CHECK matches to 0.12%)")
-print(f"   Quadratic: f_hidden ~ sin²(theta_tet) = 1/3 (FAIL off by 73%)")
+print(f"   Quadratic: f_hidden ~ sin^2(theta_tet) = 1/3 (FAIL off by 73%)")
 
 # What would make it linear?
 print(f"""
    Question: Why LINEAR not quadratic?
 
-   In projections, usually area goes as cos²(theta).
+   In projections, usually area goes as cos^2(theta).
    But here we have linear sin(theta).
 
    Possible explanations:
@@ -168,9 +168,9 @@ print(f"   tan(theta_tet) = 1/sqrt2 = {N(1/sqrt(2), 6)}")
 print(f"   tan(54.74 deg) = sqrt2 = {N(sqrt(2), 6)}")
 print(f"   sqrt3 = {N(sqrt(3), 6)}")
 
-# Interestingly: 79/58 ~ sqrt(2) × something?
+# Interestingly: 79/58 ~ sqrt(2) * something?
 print(f"   79/58 / sqrt2 = {N(ratio/sqrt(2), 6)}")
-print(f"   This is close to 1! So 79/58 ~ sqrt2 × 0.96...")
+print(f"   This is close to 1! So 79/58 ~ sqrt2 * 0.96...")
 
 # Check: is 79/58 close to any simple expression?
 print(f"\n10. SEARCHING FOR EXACT EXPRESSION")
@@ -209,7 +209,7 @@ FINDINGS:
 1. f_hidden = 79/137 ~ sin(theta_tet) where theta_tet ~ 35.26 deg is the tetrahedral angle
    Accuracy: 0.12%
 
-2. The relationship is LINEAR (sin not sin²)
+2. The relationship is LINEAR (sin not sin^2)
    This suggests amplitude, not probability
 
 3. n_defect = 4 = number of tetrahedron vertices

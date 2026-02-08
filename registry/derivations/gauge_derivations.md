@@ -35,7 +35,7 @@
 
 **Why 17 and 73?**:
 - 17 = 1² + 4² = dim(R)² + dim(H)² (weak-reality coupling)
-- 73 = 3² + 8² = Im(H)² + dim(O)² (generation-color structure)
+- 73 = 3² + 8² = Im_H² + dim(O)² (generation-color structure)
 - **73 appears in BOTH Koide AND Weinberg** — universal attractor!
 
 #### C. Running from Tree Level

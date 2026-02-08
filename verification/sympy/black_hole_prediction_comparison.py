@@ -152,7 +152,7 @@ STANDARD GR:
   - Curvature diverges: R -> infinity
   - Density diverges: rho -> infinity
   - Geodesic incompleteness
-  - Physics "breaks down" — needs quantum gravity
+  - Physics "breaks down" -- needs quantum gravity
 
 CRYSTALLIZATION:
   - eps -> 0 at singularity
@@ -172,7 +172,7 @@ POTENTIAL DIFFERENCE:
   of singularity), but mechanism is different.
 
 TESTABLE?
-  Not directly — inside the horizon, inaccessible.
+  Not directly -- inside the horizon, inaccessible.
   Possibly through:
     - Gravitational wave echoes
     - Primordial black hole evaporation signatures
@@ -207,11 +207,11 @@ CRYSTALLIZATION:
 COMPARISON:
   Crystallization is most similar to option 3 (island formula / Page curve).
 
-  The eps field plays the role of the "island" — degrees of freedom
+  The eps field plays the role of the "island" -- degrees of freedom
   at the horizon that purify the radiation.
 
 TESTABLE DIFFERENCE?
-  None — both predict:
+  None -- both predict:
     - Unitarity preserved
     - Page curve behavior
     - No firewall
@@ -239,7 +239,7 @@ STANDARD PHYSICS (various proposals):
 CRYSTALLIZATION:
   - As M -> M_Pl, horizon shrinks to L_Pl
   - eps = 0 core becomes "exposed"
-  - eps = 0 is UNSTABLE — immediately decays to eps*
+  - eps = 0 is UNSTABLE -- immediately decays to eps*
   - White-hole-like burst
   - Complete evaporation, no remnant
 
@@ -338,7 +338,7 @@ COMPARISON:
     - 3 rotation axes from Im(H) = 3
 
 TESTABLE DIFFERENCE?
-  None identified — same numerical predictions.
+  None identified -- same numerical predictions.
 
 VERDICT: IDENTICAL PREDICTIONS
 """)

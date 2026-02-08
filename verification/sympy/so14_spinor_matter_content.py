@@ -6,13 +6,13 @@ QUESTION: Does the 128-dimensional SO(14) spinor encode matter content?
 
 KEY OBSERVATIONS:
 1. SO(14) Dirac spinor = 2^7 = 128 = 2^Im_O
-2. SO(14) Weyl spinor = 2^6 = 64 = 2^(C × Im_H)
+2. SO(14) Weyl spinor = 2^6 = 64 = 2^(C * Im_H)
 3. SO(10) spinor = 2^5 = 16 (one SM generation + nu_R)
 
 DECOMPOSITION EXPLORATION:
-- 128 = O × 16 (octonions × SO(10) generation)
-- 64 = H × 16 (quaternions × SO(10) generation)
-- 128 = 2 × 64 (two chiralities)
+- 128 = O * 16 (octonions * SO(10) generation)
+- 64 = H * 16 (quaternions * SO(10) generation)
+- 128 = 2 * 64 (two chiralities)
 
 Created: Session 119
 """
@@ -102,7 +102,7 @@ print("="*70)
 print("PART 3: DECOMPOSITION UNDER SO(10) x SO(4)")
 print("="*70)
 
-# SO(14) ⊃ SO(10) x SO(4) branching
+# SO(14) ) SO(10) x SO(4) branching
 spinor_10 = 16  # SO(10) spinor (one generation)
 spinor_4 = 4    # SO(4) spinor
 
@@ -113,7 +113,7 @@ SO(14) contains SO(10) x SO(4):
 For spinors, the branching is more complex.
 
 The key formula: n(SO(14)) = 7 = 5 + 2 = n(SO(10)) + n(SO(4))
-  -> 2^7 = 2^5 × 2^2 under branching
+  -> 2^7 = 2^5 * 2^2 under branching
 
 This gives:
   128_Dirac -> (16, 2) + (16', 2')
@@ -122,14 +122,14 @@ This gives:
     16 = SO(10) Weyl spinor (one generation: u, d, e, nu_e, etc.)
     2 = SO(4) ~ SU(2) x SU(2) spinor
 
-  128 = 16 × 4 + 16' × 4 = 64 + 64 = two chiralities
+  128 = 16 * 4 + 16' * 4 = 64 + 64 = two chiralities
 
 Physical interpretation:
   Each SO(14) Weyl (64-dim) contains:
-    64 = 16 × 4 = (one SM generation) × (spacetime spinor indices)
+    64 = 16 * 4 = (one SM generation) * (spacetime spinor indices)
 
   Or equivalently:
-    64 = 4 × 16 = H × spinor_SO10 = spacetime × generation
+    64 = 4 * 16 = H * spinor_SO10 = spacetime * generation
 """)
 
 # ==============================================================================
@@ -141,14 +141,14 @@ print("PART 4: MATTER COUNTING")
 print("="*70)
 
 # Standard Model fermion count per generation
-sm_quarks = 2 * 3 * 2  # (u,d) × 3 colors × (L,R)
-sm_leptons = 2 * 2     # (e,nu) × (L,R if nu_R exists)
+sm_quarks = 2 * 3 * 2  # (u,d) * 3 colors * (L,R)
+sm_leptons = 2 * 2     # (e,nu) * (L,R if nu_R exists)
 
 print(f"""
 Standard Model fermion counting (per generation):
 
-Quarks: (u,d) × 3 colors × (L,R) = 2 × 3 × 2 = {sm_quarks} Weyl spinors
-Leptons: (e,nu) × (L,R) = 2 × 2 = {sm_leptons} Weyl spinors (with nu_R)
+Quarks: (u,d) * 3 colors * (L,R) = 2 * 3 * 2 = {sm_quarks} Weyl spinors
+Leptons: (e,nu) * (L,R) = 2 * 2 = {sm_leptons} Weyl spinors (with nu_R)
 
 Total per generation: {sm_quarks + sm_leptons} = 16 Weyl spinors
 
@@ -156,7 +156,7 @@ This EXACTLY matches SO(10) spinor dimension!
   16 = 2^{n_d} = 2^H
 
 For 3 generations:
-  3 × 16 = {3 * 16} Weyl spinors
+  3 * 16 = {3 * 16} Weyl spinors
 
 Compare to SO(14) Weyl: 64
   64 - 48 = {64 - 48} extra states
@@ -183,21 +183,21 @@ Extra states: {extra}
 Interpretation options:
 
 1. HIDDEN/DARK GENERATION:
-   64 = (Im_H + R) × 16 = 4 × 16
+   64 = (Im_H + R) * 16 = 4 * 16
 
    Three visible generations (Im_H = 3) plus one dark generation (R = 1)
-   The 4th generation is "hidden" — could be dark matter!
+   The 4th generation is "hidden" -- could be dark matter!
 
 2. QUATERNIONIC STRUCTURE:
-   64 = H × 16 = spacetime × one_generation
+   64 = H * 16 = spacetime * one_generation
 
    The SO(14) Weyl "wraps" spacetime around a single generation
    This is the crystallization picture!
 
 3. FRAMEWORK COUNTING:
-   64 = 2^(C × Im_H) = 2^6
+   64 = 2^(C * Im_H) = 2^6
 
-   The power 6 = EM (C=2) × generations (Im_H=3)
+   The power 6 = EM (C=2) * generations (Im_H=3)
    Each of 6 "channels" contributes 2 states = 2^6 total
 
 The extra 16 states = ONE hidden generation.
@@ -222,11 +222,11 @@ Each Weyl 64 contains:
   48 visible (3 generations)
   16 hidden (1 dark generation)
 
-Total visible: 2 × 48 = 96 states
-Total hidden:  2 × 16 = 32 states
+Total visible: 2 * 48 = 96 states
+Total hidden:  2 * 16 = 32 states
 
 Alternatively:
-  128 = O × 16 = 8 × 16
+  128 = O * 16 = 8 * 16
 
   8 copies of the SO(10) spinor!
   This is {O} = octonion copies.
@@ -240,7 +240,7 @@ Or:
   - O = H + H' = 4 + 4
   - 4 left-handed + 4 right-handed structures
 
-  128 = 4 × 32 where 32 = 2 × 16 (L+R of one generation)
+  128 = 4 * 32 where 32 = 2 * 16 (L+R of one generation)
 """)
 
 # ==============================================================================
@@ -286,27 +286,27 @@ print("PART 8: GENERATION-CHIRALITY PAIRING")
 print("="*70)
 
 print(f"""
-Key observation: 64 = 2^6 = 2^(C × Im_H)
+Key observation: 64 = 2^6 = 2^(C * Im_H)
 
 The power decomposes:
-  6 = C × Im_H = 2 × 3
+  6 = C * Im_H = 2 * 3
 
 Physical meaning:
   C = 2 -> two chiralities (L/R)
   Im_H = 3 -> three generations
 
-  64 = 2^2 × 2^3 = 4 × 8 (chirality × color-gen modes?)
+  64 = 2^2 * 2^3 = 4 * 8 (chirality * color-gen modes?)
 
 Alternative:
   6 = 2 + 4 = C + H
 
-  64 = 2^C × 2^H = 4 × 16 = (chirality factor) × (generation)
+  64 = 2^C * 2^H = 4 * 16 = (chirality factor) * (generation)
 
 The factor 4 = H = spacetime/quaternions
 The factor 16 = 2^H = one generation
 
-So: 64 = H × (2^H) = quaternions × (one generation spinor)
-    This is the "crystallized" spacetime × matter!
+So: 64 = H * (2^H) = quaternions * (one generation spinor)
+    This is the "crystallized" spacetime * matter!
 """)
 
 # ==============================================================================
@@ -325,26 +325,26 @@ tests = [
 
     # Framework expressions
     ("128 = 2^Im_O", 128 == 2**Im_O),
-    ("64 = 2^(C × Im_H)", 64 == 2**(C * Im_H)),
+    ("64 = 2^(C * Im_H)", 64 == 2**(C * Im_H)),
     ("16 = 2^H", 16 == 2**H),
 
     # Matter counting
     ("16 = SM fermions per generation", sm_quarks + sm_leptons == 16),
-    ("64 = H × 16", 64 == H * 16),
-    ("128 = O × 16", 128 == O * 16),
+    ("64 = H * 16", 64 == H * 16),
+    ("128 = O * 16", 128 == O * 16),
 
     # Extra states
-    ("64 - 3×16 = 16 (one hidden gen)", 64 - 3*16 == 16),
-    ("64 = (Im_H + R) × 16", 64 == (Im_H + R) * 16),
+    ("64 - 3*16 = 16 (one hidden gen)", 64 - 3*16 == 16),
+    ("64 = (Im_H + R) * 16", 64 == (Im_H + R) * 16),
 
     # Decomposition
-    ("128 = 2 × 64 (chirality)", 128 == 2 * 64),
-    ("64 = 4 × 16 (H × gen)", 64 == 4 * 16),
-    ("128 = 8 × 16 (O × gen)", 128 == 8 * 16),
+    ("128 = 2 * 64 (chirality)", 128 == 2 * 64),
+    ("64 = 4 * 16 (H * gen)", 64 == 4 * 16),
+    ("128 = 8 * 16 (O * gen)", 128 == 8 * 16),
 
     # Powers
     ("7 = Im_O (SO(14) rank)", 14//2 == Im_O),
-    ("6 = C × Im_H", 6 == C * Im_H),
+    ("6 = C * Im_H", 6 == C * Im_H),
     ("6 = C + H", 6 == C + H),
 ]
 
@@ -376,16 +376,16 @@ KEY FINDINGS:
 
 1. SO(14) SPINOR DIMENSIONS:
    Dirac: 128 = 2^Im_O = 2^7
-   Weyl:  64 = 2^(C×Im_H) = 2^6
+   Weyl:  64 = 2^(C*Im_H) = 2^6
 
 2. MATTER CONTENT OF WEYL (64):
-   Visible: 3 generations × 16 = 48 states
+   Visible: 3 generations * 16 = 48 states
    Hidden:  1 dark generation = 16 states
 
-   64 = (Im_H + R) × 16 = (3+1) × 16
+   64 = (Im_H + R) * 16 = (3+1) * 16
 
 3. FULL SPINOR (128) INTERPRETATION:
-   128 = O × 16 = 8 copies of SO(10) spinor
+   128 = O * 16 = 8 copies of SO(10) spinor
 
    These 8 copies = R + Im_O = 1 + 7
    - 1 low-energy visible sector
@@ -398,11 +398,11 @@ KEY FINDINGS:
    Each direction -> binary choice -> 2^7 = 128
 
 5. GENERATION-CHIRALITY:
-   64 = 2^(C×Im_H) = 2^(2×3)
-   The power factors as: EM × generations
+   64 = 2^(C*Im_H) = 2^(2*3)
+   The power factors as: EM * generations
 
    This is WHY there are 3 generations with 2 chiralities!
 
 CONJECTURE: The 4th generation (16 extra states in each Weyl)
-is the DARK SECTOR — same quantum numbers, higher mass.
+is the DARK SECTOR -- same quantum numbers, higher mass.
 """)

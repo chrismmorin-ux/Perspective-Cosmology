@@ -82,8 +82,8 @@ QCD_amp = n_c * Im_H**2  # = 99
 m_p_pred = float(quark_content) * 1000 * int(QCD_amp)
 m_p_meas = 938.272
 
-print(f"\n  Formula: m_p = (2m_u + m_d) × n_c × Im_H²")
-print(f"              = quark_content × {QCD_amp}")
+print(f"\n  Formula: m_p = (2m_u + m_d) * n_c * Im_H^2")
+print(f"              = quark_content * {QCD_amp}")
 print(f"  Predicted: {m_p_pred:.2f} MeV")
 print(f"  Measured:  {m_p_meas:.3f} MeV")
 print(f"  Error:     {abs(m_p_pred - m_p_meas)/m_p_meas*100:.2f}%")
@@ -121,8 +121,8 @@ glueball_ratio = Rational(glueball_num, glueball_den)
 m_glueball_pred = m_p_meas * float(glueball_ratio)  # Use measured m_p for chain
 m_glueball_meas = 1710  # MeV (lightest 0++ glueball)
 
-print(f"\n  Formula: m_glueball/m_p = (Im_O² + O²) / ((n_c-1)×(H+C) + C)")
-print(f"                         = ({Im_O**2} + {O**2}) / ({n_c-1}×{H+C} + {C})")
+print(f"\n  Formula: m_glueball/m_p = (Im_O^2 + O^2) / ((n_c-1)*(H+C) + C)")
+print(f"                         = ({Im_O**2} + {O**2}) / ({n_c-1}*{H+C} + {C})")
 print(f"                         = {glueball_num}/{glueball_den}")
 print(f"  Predicted: {m_glueball_pred:.0f} MeV")
 print(f"  Measured:  ~{m_glueball_meas} MeV")
@@ -147,8 +147,8 @@ print(f"  Error:     {abs(Lambda_QCD_pred - Lambda_QCD_meas)/Lambda_QCD_meas*100
 
 # Alternative: direct from m_p
 Lambda_QCD_direct = m_p_meas * float(glueball_ratio) / int(O)
-print(f"\n  Direct: Lambda_QCD = m_p × (113/62) / 8")
-print(f"                     = m_p × 113/496")
+print(f"\n  Direct: Lambda_QCD = m_p * (113/62) / 8")
+print(f"                     = m_p * 113/496")
 print(f"                     = {Lambda_QCD_direct:.1f} MeV")
 
 # =============================================================================
@@ -158,14 +158,14 @@ print("\n" + "=" * 70)
 print("STEP 6: ALPHA_S(M_Z)")
 print("=" * 70)
 
-# From S83: alpha_s = 25/212 = (C+Im_H)² / (H × (C² + Im_O²))
+# From S83: alpha_s = 25/212 = (C+Im_H)^2 / (H * (C^2 + Im_O^2))
 alpha_s_num = (C + Im_H)**2  # = 25
-alpha_s_den = H * (C**2 + Im_O**2)  # = 4 × 53 = 212
+alpha_s_den = H * (C**2 + Im_O**2)  # = 4 * 53 = 212
 alpha_s_pred = float(Rational(alpha_s_num, alpha_s_den))
 alpha_s_meas = 0.1179  # PDG 2022
 
-print(f"\n  Formula: alpha_s = (C + Im_H)² / (H × (C² + Im_O²))")
-print(f"                   = {(C+Im_H)**2} / ({H} × {C**2 + Im_O**2})")
+print(f"\n  Formula: alpha_s = (C + Im_H)^2 / (H * (C^2 + Im_O^2))")
+print(f"                   = {(C+Im_H)**2} / ({H} * {C**2 + Im_O**2})")
 print(f"                   = {alpha_s_num}/{alpha_s_den}")
 print(f"  Predicted: {alpha_s_pred:.5f}")
 print(f"  Measured:  {alpha_s_meas:.5f}")
@@ -178,17 +178,17 @@ print("\n" + "=" * 70)
 print("STEP 7: DARK SECTOR SCALE (from S95)")
 print("=" * 70)
 
-# Lambda_dark = m_p × (Im_O / Im_H²) = m_p × 7/9
+# Lambda_dark = m_p * (Im_O / Im_H^2) = m_p * 7/9
 Lambda_dark = m_p_meas * int(Im_O) / int(Im_H**2)
 Lambda_ratio = Lambda_dark / Lambda_QCD_pred
 
-print(f"\n  Formula: Lambda_dark = m_p × Im_O / Im_H²")
-print(f"                       = {m_p_meas:.0f} × {Im_O}/{Im_H**2}")
+print(f"\n  Formula: Lambda_dark = m_p * Im_O / Im_H^2")
+print(f"                       = {m_p_meas:.0f} * {Im_O}/{Im_H**2}")
 print(f"  Predicted: {Lambda_dark:.0f} MeV")
 
 print(f"\n  Ratio: Lambda_dark / Lambda_QCD = {Lambda_dark:.0f} / {Lambda_QCD_pred:.0f}")
 print(f"                                  = {Lambda_ratio:.3f}")
-print(f"       = (7/9) / (113/496) = (7/9) × (496/113) = {7*496/(9*113):.3f}")
+print(f"       = (7/9) / (113/496) = (7/9) * (496/113) = {7*496/(9*113):.3f}")
 
 # Simplify
 ratio_exact = Rational(Im_O, Im_H**2) / Rational(glueball_num, glueball_den * O)
@@ -209,19 +209,19 @@ FROM v = {float(v):.2f} GeV (single input):
 +-----------------+----------------------------------+-----------+-----------+-------+
 | m_u             | (chain from v)                   | {m_u_MeV:.2f} MeV  | 2.2 MeV   | 4%    |
 | m_d             | (chain from v)                   | {m_d_MeV:.2f} MeV  | 4.7 MeV   | 5%    |
-| m_p             | (2m_u+m_d) × 99                  | {m_p_pred:.0f} MeV   | {m_p_meas:.0f} MeV   | 0.6%  |
+| m_p             | (2m_u+m_d) * 99                  | {m_p_pred:.0f} MeV   | {m_p_meas:.0f} MeV   | 0.6%  |
 | m_n             | m_p + (m_d-m_u)/2                | {m_n_pred:.0f} MeV   | {m_n_meas:.0f} MeV   | 0.6%  |
-| m_glueball      | m_p × 113/62                     | {m_glueball_pred:.0f} MeV  | {m_glueball_meas} MeV  | 0.0%  |
+| m_glueball      | m_p * 113/62                     | {m_glueball_pred:.0f} MeV  | {m_glueball_meas} MeV  | 0.0%  |
 | Lambda_QCD      | m_glueball / 8                   | {Lambda_QCD_pred:.0f} MeV   | {Lambda_QCD_meas} MeV   | 1.5%  |
 | alpha_s(M_Z)    | 25/212                           | {alpha_s_pred:.5f}  | {alpha_s_meas:.5f}  | 0.0%  |
-| Lambda_dark     | m_p × 7/9                        | {Lambda_dark:.0f} MeV   | —         | —     |
+| Lambda_dark     | m_p * 7/9                        | {Lambda_dark:.0f} MeV   | --         | --     |
 +-----------------+----------------------------------+-----------+-----------+-------+
 
 KEY FRAMEWORK EXPRESSIONS:
-  99   = n_c × Im_H² = 11 × 9 (QCD amplification)
-  113  = Im_O² + O² = 49 + 64 (glueball numerator)
-  62   = (n_c-1)×(H+C) + C (glueball denominator)
-  212  = H × (C² + Im_O²) = 4 × 53 (alpha_s denominator)
+  99   = n_c * Im_H^2 = 11 * 9 (QCD amplification)
+  113  = Im_O^2 + O^2 = 49 + 64 (glueball numerator)
+  62   = (n_c-1)*(H+C) + C (glueball denominator)
+  212  = H * (C^2 + Im_O^2) = 4 * 53 (alpha_s denominator)
 
 ZERO FREE PARAMETERS - All from division algebra dimensions!
 """)
@@ -239,10 +239,10 @@ tests = [
     ("m_glueball error < 1%", abs(m_glueball_pred - m_glueball_meas)/m_glueball_meas < 0.01),
     ("Lambda_QCD error < 5%", abs(Lambda_QCD_pred - Lambda_QCD_meas)/Lambda_QCD_meas < 0.05),
     ("alpha_s error < 1%", abs(alpha_s_pred - alpha_s_meas)/alpha_s_meas < 0.01),
-    ("99 = n_c × Im_H^2", 99 == 11 * 9),
+    ("99 = n_c * Im_H^2", 99 == 11 * 9),
     ("113 = Im_O^2 + O^2", 113 == 49 + 64),
     ("62 = (n_c-1)*(H+C) + C", 62 == 10*6 + 2),
-    ("212 = H × 53", 212 == 4 * 53),
+    ("212 = H * 53", 212 == 4 * 53),
     ("53 = C^2 + Im_O^2", 53 == 4 + 49),
 ]
 
@@ -269,15 +269,15 @@ v = 246.22 GeV (SINGLE INPUT)
     v
 m_u, m_d (light quarks)
     |
-    | QCD amplification = 99 = n_c × Im_H² (S110b)
+    | QCD amplification = 99 = n_c * Im_H^2 (S110b)
     v
-m_p = (2m_u + m_d) × 99 = 944 MeV [0.6%]
+m_p = (2m_u + m_d) * 99 = 944 MeV [0.6%]
     |
     +-------> m_n = m_p + (m_d-m_u)/2 = 945 MeV [0.6%] (S110b)
     |
     | Glueball ratio 113/62 (S83)
     v
-m_glueball = m_p × 113/62 = 1710 MeV [0.0%]
+m_glueball = m_p * 113/62 = 1710 MeV [0.0%]
     |
     | Octonion division (S110b)
     v

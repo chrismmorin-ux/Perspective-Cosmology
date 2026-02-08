@@ -44,37 +44,37 @@ print("="*70)
 matches = [
     # (Prime, form, ratio_name, measured, n, d, formula_meaning)
     (139, "2*Im_H^2 + n_c^2", "W/Xi_minus", m_W/m_Xi_minus, 7, 16,
-     "double generation + crystal → electroweak/hyperon"),
+     "double generation + crystal -> electroweak/hyperon"),
 
     (181, "C^2 + Im_O^2 + 2*O^2", "Xi0/d", m_Xi0/m_d, 14, 9,
-     "EM + color + 2*octonion → strange hyperon/down quark"),
+     "EM + color + 2*octonion -> strange hyperon/down quark"),
 
     (313, "3*O^2 + n_c^2", "eta_prime/u", m_eta_prime/m_u, 17, 12,
-     "triple octonion + crystal → eta-prime meson/up quark"),
+     "triple octonion + crystal -> eta-prime meson/up quark"),
 
     (193, "R^2 + 3*O^2", "m_mu/m_e", m_mu/m_e, 15, 14,
-     "scalar + triple octonion → muon/electron mass ratio!"),
+     "scalar + triple octonion -> muon/electron mass ratio!"),
 
     (283, "2*Im_O^2 + O^2 + n_c^2", "Xi_minus/d", m_Xi_minus/m_d, 1, 1,
-     "double color + octonion + crystal → charged hyperon/down"),
+     "double color + octonion + crystal -> charged hyperon/down"),
 
     (283, "2*Im_O^2 + O^2 + n_c^2", "ell_1 (CMB)", ell_1, 7, 9,
-     "double color + octonion + crystal → FIRST ACOUSTIC PEAK!"),
+     "double color + octonion + crystal -> FIRST ACOUSTIC PEAK!"),
 
     (251, "Im_H^2 + 2*n_c^2", "z_eq", z_eq, 27, 2,
-     "generation + double crystal → MATTER-RADIATION EQUALITY!"),
+     "generation + double crystal -> MATTER-RADIATION EQUALITY!"),
 
     (179, "Im_H^2 + Im_O^2 + n_c^2", "m_b/m_s", m_b/m_s, 1, 4,
-     "ALL THREE structural dims → bottom/strange"),
+     "ALL THREE structural dims -> bottom/strange"),
 
     (179, "Im_H^2 + Im_O^2 + n_c^2", "ell_2 (CMB)", ell_2, 3, 1,
-     "ALL THREE structural dims → SECOND ACOUSTIC PEAK"),
+     "ALL THREE structural dims -> SECOND ACOUSTIC PEAK"),
 
     (139, "2*Im_H^2 + n_c^2", "m_tau/m_e", m_tau/m_e, 25, 1,
-     "double generation + crystal → tau/electron (generations!)"),
+     "double generation + crystal -> tau/electron (generations!)"),
 
     (181, "C^2 + Im_O^2 + 2*O^2", "z_rec", z_rec, 6, 1,
-     "EM + color + 2*octonion → RECOMBINATION REDSHIFT"),
+     "EM + color + 2*octonion -> RECOMBINATION REDSHIFT"),
 ]
 
 print("\n" + "-"*70)
@@ -197,8 +197,8 @@ CMB ACOUSTIC PEAKS (all with high prime expressions):
 | Observable | Formula 1 (original) | Formula 2 (high prime) | Error |
 |------------|---------------------|------------------------|-------|
 | ell_1 = 220 | 2 x n_c x (n_c-1) = 220 (EXACT) | 283 x 7/9 = 220.1 | 0.05% |
-| ell_2 = 538 | — | 179 x 3 = 537 | 0.15% |
-| ell_3 = 811 | — | 181 x 9/2 = 814.5 | 0.46% |
+| ell_2 = 538 | -- | 179 x 3 = 537 | 0.15% |
+| ell_3 = 811 | -- | 181 x 9/2 = 814.5 | 0.46% |
 
 COSMOLOGICAL REDSHIFTS:
 

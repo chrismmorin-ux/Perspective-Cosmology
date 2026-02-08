@@ -100,8 +100,8 @@ The coupling scaling law **CANNOT BE DERIVED** from current principles.
 | Killing form | FAILS | Doesn't match |
 
 **Key insight**: Im(algebra) = dim(Lie algebra) for C and H!
-- Im(C) = 1 = dim(u(1))
-- Im(H) = 3 = dim(su(2))
+- Im_C = 1 = dim(u(1))
+- Im_H = 3 = dim(su(2))
 
 So g^2 proportional to Im is equivalent to g^2 proportional to dim(Lie algebra).
 
