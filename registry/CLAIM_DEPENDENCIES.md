@@ -705,10 +705,10 @@ All references use the canonical `core/` numbering system:
 **Used by**: m_t(tree) = v/sqrt(2), m_H chain (lambda_H = 125/968)
 **Verification**: `top_yukawa_compositeness.py` (12/12), `so11_spinor_yukawa_coupling.py` (12/12)
 
-### IRA Inventory (S259-S299)
-**Statement**: 6 irreducible assumptions (0 conjectures, 2 structural, 2 physical, 1 interpretation, 1 import)
+### IRA Inventory (S259-S304)
+**Statement**: 4 irreducible assumptions (0 conjectures, 1 structural, 2 physical, 0 interpretation, 1 import)
 **Canonical source**: `framework/IRREDUCIBLE_ASSUMPTIONS.md`
-**Key resolutions**: IRA-02 eliminated (CONJ-A1, S292), IRA-03 eliminated (CONJ-B1, S286), IRA-05 eliminated (CONJ-B3, S259), IRA-08/09 derived from IRA-06 (S299)
+**Key resolutions**: IRA-02 eliminated (CONJ-A1, S292), IRA-03 eliminated (CONJ-B1, S286), IRA-05 eliminated (CONJ-B3, S259), IRA-08/09 derived from IRA-06 (S299), IRA-10 eliminated (THM_0491+CCP, S302), IRA-01 resolved (kappa=1 derived, S304)
 **Verification**: `ira_physical_independence.py` (38/38 PASS)
 
 ---

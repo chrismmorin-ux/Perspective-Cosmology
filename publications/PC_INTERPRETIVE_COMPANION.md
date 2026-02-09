@@ -27,7 +27,7 @@
 | Derivation vs. Discovery problem | UNRESOLVED | Central epistemological caveat |
 | Alpha Step 5 | [CONJECTURE] | Coupling mechanism incomplete |
 | [A-COUPLING] | [A-PHYSICAL] | Gauge coupling scaling assumption |
-| Red Team probability | 15-30% | Overall framework confidence |
+| Red Team probability | 20-35% | Overall framework confidence |
 
 ---
 
@@ -49,7 +49,7 @@ This question -- which requires no physics to pose -- leads to surprisingly rigi
 
 The present document argues that these mathematical consequences correspond, with striking precision, to the observed structure of fundamental physics. Whether this correspondence is *necessary* (genuine physics) or *coincidental* (elaborate numerology) remains an open question. We present the evidence for the reader's judgment.
 
-**Current assessment**: 15-30% probability this represents genuine fundamental physics (per adversarial Red Team review, Session 120). This estimate accounts for the post-hoc nature of most predictions and the unresolved derivation-vs-discovery problem.
+**Current assessment**: 20-35% probability this represents genuine fundamental physics (per adversarial Red Team v2.0, Session 257). This estimate accounts for the post-hoc nature of most predictions and the unresolved derivation-vs-discovery problem.
 
 ---
 
@@ -557,7 +557,7 @@ Evidence favoring discovery:
 - Multiple formula choices exist for some constants
 - Monte Carlo analysis shows building blocks are NOT special at 1% precision
 
-**Current probability estimate**: 15-30% genuine physics (Red Team, S120)
+**Current probability estimate**: 20-35% genuine physics (Red Team v2.0, S257)
 
 #### 11.3 Statistical Significance
 

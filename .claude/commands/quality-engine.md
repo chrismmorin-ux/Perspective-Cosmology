@@ -230,14 +230,27 @@ Reference: `registry/HALLUCINATION_LOG.md` for prior findings (HP-001 through HP
 
 ### 6.1 Script Execution Health
 
-Run ALL verification scripts and measure pass rates. Compare to baseline.
+Run ALL verification scripts using the dedicated test runner. Compare to baseline.
 
-- Execute every `.py` file in `verification/sympy/` with a timeout (90s default)
-- Classify results: OK (no errors, no FAIL), HAS_FAIL (runs but has FAIL tests), ERROR (runtime crash), TIMEOUT
-- Compare pass rate to previous run (baseline: 99.8% run rate, 92.1% all-PASS as of S289)
-- Flag any NEW errors or regressions since last run
-- Check for Windows cp1252 Unicode encoding errors (should be 0 after S289 purge)
-- **Report**: Pass rate, error count, regression list, comparison to baseline
+**Tool**: `python tools/run_verification.py --json --workers 8 --timeout 20`
+
+This runner:
+- Executes every `.py` file in `verification/sympy/` in parallel (8 workers, ~85s total)
+- Counts ONLY `[PASS]` and `[FAIL]` markers (with square brackets) as test assertions
+- Ignores bare "FAIL" in descriptive text (e.g., "Octonions FAIL associativity!", "Total: 28/28 PASS, 0 FAIL")
+- Returns structured JSON with per-script results, fail lines, and timing
+
+**Classification**:
+- `all_pass`: Has `[PASS]` markers and zero `[FAIL]` markers
+- `has_fail`: Has at least one `[FAIL]` marker (these are REAL test failures)
+- `no_tests`: No `[PASS]` or `[FAIL]` markers (informational/educational scripts)
+- `errors`: Non-zero exit code without any test markers
+- `timeouts`: Exceeded timeout
+
+**Baseline** (Run 9): 694 scripts, 484 all-pass, 54 has-fail, 150 no-tests, 0 errors, 6 timeouts. 89.0% pass rate (of scripts with tests). 7574 pass assertions, 91 fail assertions.
+
+- Compare current run to baseline. Flag NEW failures (regressions) and NEW passes (improvements).
+- **Report**: Pass rate, total assertions, regressions, improvements, comparison to baseline
 
 ### 6.2 Precision Language Audit
 

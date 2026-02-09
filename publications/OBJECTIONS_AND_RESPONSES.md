@@ -178,7 +178,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
 1. **Mathematics doesn't care about credentials.** If 1/alpha = 137 + 4/111, it's either right or wrong regardless of who found it.
 
 2. **Everything is verifiable:**
-   - ~548 verification scripts (all available)
+   - ~713 verification scripts (all available)
    - Complete derivation chains with confidence tags
    - No hidden steps
 
@@ -383,7 +383,7 @@ The error was in the T_μν derivation: at the ground state, L(ε*) = -V(ε*) > 
 1. **If dark matter is found outside 4.5-5.7 GeV**: We will document the failure
 2. **If r != 0.035**: We will document the failure
 3. **If errors are found**: We will correct them publicly
-4. **All materials available**: ~548 scripts, derivations, session logs
+4. **All materials available**: ~713 scripts, derivations, session logs
 5. **14 failures already documented**: We don't hide what doesn't work
 
 ---

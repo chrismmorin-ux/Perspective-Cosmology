@@ -209,7 +209,7 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 | Anticipated objections | `publications/OBJECTIONS_AND_RESPONSES.md` |
 | Technical overview | `publications/TECHNICAL_SUMMARY.md` |
 | Tiered claims | `claims/README.md` |
-| Verification scripts | `verification/sympy/` (~548 scripts) |
+| Verification scripts | `verification/sympy/` (~713 scripts) |
 | Quick start guide | `publications/QUICKSTART.md` |
 
 ---
@@ -223,6 +223,7 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 | 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Updated limitations and bottom line. |
 | 2.2 | 2026-02-06 | S255 | CCP propagation: assumption count ~3->~2. F=C now derived. |
 | 2.3 | 2026-02-07 | S301 | Probability 15-25% -> 20-35% (Red Team v2.0, S257). Script count 548 -> 662+. IRA count -> 6 (S299). |
+| 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
 
 ---
 

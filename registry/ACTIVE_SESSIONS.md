@@ -15,14 +15,32 @@ Sessions register here at start, deregister at end.
 
 | Session | Focus | Started | Last Updated | Status |
 |---------|-------|---------|--------------|--------|
-| S303 | EQ-008: Im_H normalization — why 1/(D-1) = 1/Im_H | 2026-02-07 | 2026-02-07 | ACTIVE |
-| S304 | IRA-01: Is kappa=1 definitional or irreducible? | 2026-02-07 | 2026-02-07 | ACTIVE |
-
+| S323 | H-parity conservation + dark quarks + SO(8) triality | 2026-02-09 | 2026-02-09 | ACTIVE |
 ---
 
 ## Recently Completed
 
 | Session | Focus | Completed | Handoff Notes |
+| S322 | Scalar channel DM identity + generation questions | 2026-02-09 | DM = scalar channel color singlet [CONJECTURE]. H-parity stabilizes DM [DERIVATION]. 21=dim(so(7)) [THEOREM via CD]. Mass hierarchy OPEN. EQ-043 partially resolved. 100/100 PASS (3 scripts). Next: CKM/PMNS, dark quarks, Koide, or new topic. |
+| S321 | Generation mechanism formalization | 2026-02-09 | IRA-09 RESOLVED via Hom(H,R^7) decomposition. 3 channels from Im(H)=3, Weinberg-forced. No new IRA, count=4. 37/37 PASS. Next: mass hierarchy, scalar channel role, or new topic. |
+| S320 | DM-3b: Spinor gap -> SU(3) CORRECTION | 2026-02-08 | **CORRECTION SESSION**. SU(3) c G_2 = color, not generation [DERIVATION]. IRA-09 (S299) resolution RETRACTED. S319 "8 dark states" RETRACTED. Phase 1 B-D portal RETRACTED. Spinor 32 = 1 full SM gen. DM mass/coupling/Omega survive. HP-013 logged. 24/24 PASS (`spinor_gap_su3_analysis.py`). Next: DM particle identity (reopened) or new topic. |
+| S319 | DM-3a: Dark sector spectrum + asymmetry transfer | 2026-02-08 | 8 dark states (not 16) from G_2 decomposition. DM = Type A right-handed (1 Dirac). G_2 democracy gives 1/3 (excluded). B-D portal needed. 25/25 PASS. Next: B-D portal derivation, spinor gap (8/16), or new topic. |
+| S318 | DM-2a: Omega split + asymmetric DM | 2026-02-08 | Two inputs -> three outputs: Omega_b (-0.88%), Omega_DM (+0.63%). No algebraic split of 63. Thermal excluded by 10^8. Ratio match CORRECTED to 1.5%. 26/26 PASS. Next: Thread 3 (dark sector spectrum) or asymmetry transfer formalization (EQ-043). |
+| S317 | DM-1a: G_2 singlet coupling + experimental landscape | 2026-02-08 | EQ-042 RESOLVED: Scenario B (g=0) [DERIVATION]. Dark is SM singlet (LEP). sigma_SI=0. Asymmetric DM ratio match 1.5% (corrected S318). 50/50 PASS. |
+| S316 | DM sigma_SI prediction | 2026-02-08 | Standard Higgs portal EXCLUDED (BR=51%). Max sigma_SI < 8.2e-47. DM mass not from Higgs VEV. EQ-042 opened. Next: coupling mechanism, dark sector structure. |
+| S315 | EQ-013: Derive exponent n_d in DM mass | 2026-02-08 | Exponent DERIVED from det(M) on End(R^n_d). Trace/det unification with Weinberg. 22/22 PASS. EQ-013 FULLY RESOLVED. Next: sigma_SI or dark spectrum. |
+| S314 | EQ-013: DM mass formula selection | 2026-02-08 | Formula C = PRIMARY (m_e*(n_c-1)^n_d, weakness 0). A/C coincidence proven (317 ppm). LZ no exclusion. 26/26 PASS. Next: derive exponent=n_d or sigma_SI prediction. |
+| S313 | Wolf space fork: F_4 role + fork gap theorem | 2026-02-08 | Fork at so(9) not so(7). dim(so(11))-dim(F_4)=Im_H [DERIVATION] via triple identity n_d^2=2^n_d. Gap=1+2=Im_C+dim_C (Cayley-Dickson C->H). Chi {3,7} terminates by Hurwitz. 53/53 PASS. Next: new topic. |
+| S312 | G_2/SO(4) Wolf space + structural identities | 2026-02-08 | G_2/SO(4): dim=dim_O, chi=Im_H, qd=dim_C [THEOREM]. F_4 Wolf: dim=28, chi=7. SO(4) split: int=2n_c, half=chi(Gr+). 55-42=Phi_6(n_d). 59/59 PASS. Next: F_4 role; Lambda^4(O); new topic. |
+| S311 | Graded decomposition 42=21+14+6+1 | 2026-02-08 | Construction sequence R->Im(O)->Lambda^2->Lambda^2_C with ratios {7,3,2} = reverse CD [DERIVATION]. Coset dims = div alg dims [THEOREM]. 32/32 PASS. Next: physical meaning of construction; G_2/SO(4) Wolf space; new topic. |
+| S310 | Egyptian fraction interpretation + Sylvester-CD | 2026-02-08 | Numerators=Lie algebra dims [DERIVATION]: 21=so(7), 14=G_2, 6=so(4). Beta ladder DEBUNKED. Sylvester-CD branching at Im_H. 43-15=28=N_Goldstone. 64/64 PASS. Next: graded decomposition formalization; branching physics; new topic. |
+| S309 | Phi_6 cascade formalization + mathematical depth measure | 2026-02-08 | Phi_6 = Sylvester's sequence [DERIVATION]. Egyptian fraction 1/2+1/3+1/7+...=1 [THEOREM]. Band exclusivity of cascade denominators. Depth D(den) NOT standalone predictor (rho=+0.34). Strong dressing untestable (sigma<1). 72/75 PASS. Next: Egyptian fraction interpretation; refined depth measure; experimental tests. |
+| S308 | Band structure deep dive: predict membership, 3-scale origin, Band D | 2026-02-07 | Band membership predicted a priori (16/16). 3 scales from 2 loops x coeff dichotomy. Band D = feature. Phi_6 cascade, 121-28-137 triangle. 25/25 PASS. Next: Phi_6 formalization, strong dressing, depth measure. |
+| S307 | EQ-039: Tree-to-dressed coefficient unification + Band A predictions | 2026-02-07 | EQ-039 ESSENTIALLY COMPLETE. Scheme conversion resolved [DERIVATION]. Band A: m_tau/m_mu 1.9 ppm, alpha_s 3 ppm. cos C=dim(C)=2 candidate. 36/37 PASS. Next: monitor Belle II m_tau; cos needs m_W improvement. |
+| S306 | IRA-04: rho derivation attempt | 2026-02-07 | Irreducibility CONFIRMED by CW analysis. Perturbative CW cannot fix rho. Candidate rho=11/3=n_c/Im_H [CONJECTURE] from equal-log gauge loops. IRA count unchanged at 4. 11/11 PASS (1 script). Next: new physics or 11/3 unification. |
+| S305 | EQ-008: Four remaining directions | 2026-02-07 | EQ-008 ESSENTIALLY COMPLETE. S=S_EM [DERIVATION]. NOT rep ratio [THEOREM]. Paramagnetic chain (1 [A-PHYSICAL]). 54/54 PASS (4 scripts). Next: Band A predictions (EQ-039) or new physics. |
+| S304 | IRA-01: kappa=1 definitional analysis | 2026-02-07 | IRA-01 RESOLVED [DERIVATION]. kappa=1 derived from C2 propagation + I-STRUCT-5 democracy + full compositeness. IRA count 5->4. 26/26 PASS (2 scripts). Next: new physics or IRA-04 (LOW). |
+| S303 | EQ-008: Im_H normalization | 2026-02-07 | Denominator RESOLVED [DERIVATION]. 1/(D-1)=1/Im_H forced by D=n_d. Remaining gap = numerator only. 20/20 PASS (1 script). Next: numerator strengthening or remaining investigation directions. |
 | S302 | IRA-10 redundancy: perspectives=QM derived | 2026-02-07 | IRA-10 RESOLVED. All 7 QM properties derived without IRA-10. Weinberg criterion forces identification. IRA count 6->5. [A-INTERPRETATION] tier eliminated. 39/39 PASS (1 script). Next: IRA-01 analysis, new physics, or LLM v3. |
 | S301 | Comprehensive S257-S299 propagation | 2026-02-07 | All 10+ framework files updated. Publications v2.3. CLAIM_DEPENDENCIES +110 sessions. EQ cleanup 30->24 active. Next: EQ-008 or Band A predictions. |
 | S300 | EQ-008: Im_H normalization — why 1/(D-1) = 1/Im_H | 2026-02-07 | Stale — cleaned up S301 |

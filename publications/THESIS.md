@@ -26,7 +26,7 @@
 | Perspective axioms | [AXIOM] | Layer 0 foundation |
 | QM chain | CANONICAL | Strongest derived result |
 | Alpha Step 5 (CONJ-A2) | [A-STRUCTURAL] (S297) | kappa=1 = standard Tr convention |
-| IRA inventory | 6 total (S299) | 0 conjectures remaining |
+| IRA inventory | 4 total (S304) | 0 conjectures remaining |
 
 ---
 
@@ -182,8 +182,8 @@ Physics scales are built into the algebra.
 - **16 Tier 2 claims** (10-10000 ppm)
 - **~41 Tier 3 claims** (>100 ppm, individually weak)
 - **14 falsified claims** (9 definitive + 4 deprecated + 1 withdrawn)
-- **~662 verification scripts** (99.8% passing)
-- **6 irreducible assumptions** (2 structural, 2 physical, 1 interpretation, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
+- **~689 verification scripts** (99.9% run rate)
+- **4 irreducible assumptions** (1 structural, 2 physical, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 
 ---
 
@@ -199,7 +199,7 @@ The logic:
 
 There is no "another framework with different numbers." Frobenius-Hurwitz is not negotiable.
 
-**Important caveat**: The framework makes 6 irreducible assumptions beyond Frobenius-Hurwitz and CCP (2 structural, 2 physical, 1 interpretation, 1 import). Five former conjectures (A1/A2/A3/B1/B3) have been resolved (S258-S299). See `framework/IRREDUCIBLE_ASSUMPTIONS.md` for the canonical inventory.
+**Important caveat**: The framework makes 4 irreducible assumptions beyond Frobenius-Hurwitz and CCP (1 structural, 2 physical, 1 import). Seven former conjectures and assumptions (A1/A2/A3/B1/B3 plus IRA-01/08/09/10) have been resolved (S258-S304). See `framework/IRREDUCIBLE_ASSUMPTIONS.md` for the canonical inventory.
 
 ### The Coherence Argument
 
@@ -259,7 +259,7 @@ The tensor-to-scalar ratio r = 1 - n_s = 7/200 = 0.035 is derived from hilltop i
 ### What We Acknowledge
 
 1. This is amateur work — outside professional physics
-2. 6 irreducible assumptions remain (0 conjectures; reduced from ~10 via S258-S299 resolution campaign)
+2. 4 irreducible assumptions remain (0 conjectures; reduced from ~10 via S258-S304 resolution campaign)
 3. Most predictions are post-hoc (formulas found after knowing targets)
 4. P-value range is 10^-8 to 10^-7 (not the naive 10^-37)
 5. ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error; V<0 gives Λ>0). Magnitude gap remains.
@@ -329,10 +329,11 @@ Either outcome advances knowledge.
 | 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Gravity grade D+ → C-. |
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C/n_c/n_d DERIVED. Pipeline gauge route. Generation derivation. Assumption count ~3->~2. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved, IRA 10->6, probability 20-35%, script count ~662. Alpha Step 5 upgraded [A-STRUCTURAL]. |
+| 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
 
 ---
 
 *Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
 *Affiliation: Amateur researcher with AI assistance*
 
-All ~662 verification scripts, complete derivation chains, and session records are available.
+All ~713 verification scripts, complete derivation chains, and session records are available.

@@ -15,7 +15,7 @@
 | `claims/FALSIFIED.md` | 14 falsified claims |
 | `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202) |
 | `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v2.0 (S257) |
-| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 6 irreducible assumptions (canonical inventory) |
+| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions (canonical inventory) |
 | `framework/investigations/_INDEX.md` | ~150 investigation files |
 
 ## Critical Framework Elements
@@ -28,14 +28,14 @@
 | Emergent gauge coupling (CONJ-A1) | **RESOLVED S292** | Democratic = WSR + Schur + finiteness |
 | Yang-Mills mass gap | CANONICAL (S284) | Glueball spectrum from framework |
 | Top Yukawa y_t = 1 | [CONJECTURE] (S290) | Full compositeness |
-| IRA inventory | 6 total (S299) | See IRREDUCIBLE_ASSUMPTIONS.md |
+| IRA inventory | 4 total (S304) | See IRREDUCIBLE_ASSUMPTIONS.md |
 | ~~CC wrong sign (F-10)~~ | **RESOLVED S230** | Sign convention error — V<0 gives Λ>0 via standard GR. Magnitude gap remains. |
 
 ---
 
 ## The Big Picture
 
-This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After ~300 sessions and ~662 verification scripts (99.8% pass rate), the results are mixed but intriguing.
+This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After ~300 sessions and ~713 verification scripts (99.9% run rate), the results are mixed but intriguing.
 
 **What's genuinely remarkable**:
 - 12 sub-10 ppm numerical predictions from integers only (9 robust, 3 with caveats)
@@ -47,7 +47,7 @@ This framework attempts something ambitious: derive the constants and structure 
 - All using only {1, 2, 4, 8} and their algebraic combinations
 
 **What requires caution**:
-- 6 irreducible assumptions remain (2 structural, 2 physical, 1 interpretation, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
+- 4 irreducible assumptions remain (1 structural, 2 physical, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 - P-value range: 10^-8 to 10^-7 (not the naive 10^-37 sometimes cited)
 - Most numerical predictions are post-hoc (formulas found after knowing targets)
 - ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error). Magnitude gap remains.
@@ -233,7 +233,7 @@ Recording failures is essential. See `claims/FALSIFIED.md` for full details and 
 | Weinberg: sin^2(dressed) = 28/121 - alpha/(4*pi^2) | S276 | [CONJECTURE] |
 | Top Yukawa y_t = 1 from full compositeness | S290 | [CONJECTURE] |
 | Omega_m = 63/200 from dual-channel HS equipartition | S293 | [DERIVATION] |
-| IRA count reduced 10 -> 6 (5 conjectures resolved) | S259-S299 | Canonical inventory |
+| IRA count reduced 10 -> 4 (7 conjectures/assumptions resolved) | S259-S304 | Canonical inventory |
 | Planck constant: codim(mu^{-1}(0)) = n_c = 11 | S278 | [THEOREM] |
 | Non-observations: 12 predictions, 2 root causes | S275 | CANONICAL |
 
@@ -332,6 +332,7 @@ Our view: Yes, but with appropriate skepticism.
 | 2.1 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C now DERIVED, assumption count ~3→~2, Pipeline + generation derivation added, Einstein eq CC caveat removed (already resolved S230). |
 | 2.2 | 2026-02-07 | S257 | Red Team v2.0: probability updated 15-25% -> 20-35%. Reference updated to RED_TEAM_SUMMARY_V2.md. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved (A1/A2/A3/B1/B3), IRA 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm, y_t=1, Omega_m DERIVED. Script count ~548->~662. Assumption count updated to 6 IRA (explicit inventory). Critical gaps updated: 5/5 resolved or partially resolved, 2 new gaps added. |
+| 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved S302-S304). Script count ~662->~713. IRA-09 mechanism corrected (S320: SU(3)=color, not generation). |
 
 ---
 

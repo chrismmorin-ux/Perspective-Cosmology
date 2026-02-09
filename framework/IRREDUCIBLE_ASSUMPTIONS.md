@@ -14,7 +14,7 @@ An assumption is **irreducible** if:
 2. It is NEEDED by at least one active derivation chain
 3. It is not a consequence of another assumption on this list
 
-This list supersedes the approximate "13 assumptions" count from S256, which was never explicitly enumerated. Post-S302 count: **5 irreducible assumptions** (2 [A-STRUCTURAL], 0 [CONJECTURE], 2 [A-PHYSICAL], 1 [A-IMPORT], 0 [A-INTERPRETATION]). IRA-08 and IRA-09 RESOLVED (S299): both DERIVED from IRA-06. IRA-10 RESOLVED (S302): all 7 QM defining properties derived without IRA-10; Weinberg criterion forces identification. IRA-06 and IRA-07 survive as independent but are Weinberg-forced.
+This list supersedes the approximate "13 assumptions" count from S256, which was never explicitly enumerated. Post-S321 count: **4 irreducible assumptions** (1 [A-STRUCTURAL], 0 [CONJECTURE], 2 [A-PHYSICAL], 1 [A-IMPORT], 0 [A-INTERPRETATION]). IRA-01 RESOLVED (S304): kappa=1 derived from C2 propagation + I-STRUCT-5 democracy across blocks + full compositeness. IRA-08 RESOLVED (S299): derived from IRA-06. IRA-09 RESOLVED (S321): Hom(H,R^7) decomposition gives 3 generation channels; Weinberg-forced (S299 resolution retracted S320: SU(3)=color). IRA-10 RESOLVED (S302): all 7 QM defining properties derived without IRA-10; Weinberg criterion forces identification. IRA-06 and IRA-07 survive as independent but are Weinberg-forced.
 
 ---
 
@@ -36,8 +36,9 @@ These were once irreducible but are now derived:
 | B1: Quartic potential (IRA-03) | FFT + necessity + Thom | S259/S285 | FFT on Hom(R^4,R^7): all invariants even (no cubic); degree>=4 necessity; Thom stability |
 | A1: Spectral convergence (IRA-02) | C5 + IRA-10 + I-QFT | S292 | Finite Hilbert space -> finite spectral sum -> WSR converge. Quartic potential alone insufficient (dim-2 condensate). Democratic coupling follows from Schur (S224) + WSR |
 | IRA-08: Tilt = physical field | IRA-06 + order parameter uniqueness | S299 | eps is the ONLY continuous DOF on Gr(4,11). Given IRA-06 (crystallization = SSB), the order parameter IS the physical field by definition. No alternative candidate exists. |
-| IRA-09: Generation structure | IRA-06 + Weinberg criterion | S299 | G_2 -> SU(3) branching 7 -> 3+3bar+1 [I-MATH]. The 3 copies have all defining properties of generations (identical gauge quantum numbers, distinguished by non-gauge QN, exactly 3). No plausible alternative interpretation identified. |
+| IRA-09: Generation structure | Hom(H,R^7) decomposition + Weinberg criterion (S321) | S299/S320/S321 | S299 resolution WRONG (SU(3)=color, retracted S320). S321: Hom(H,R^7) = R^7 + Im(H)xR^7 gives 3 independent R^7 channels. Weinberg-forced: identical structure = identical role. No new IRA. See `generation_mechanism_formalization.py` (37/37 PASS). |
 | IRA-10: Perspectives = QM | IRA-06 + IRA-07 + THM_0491/0494/0493/0485 + Weinberg criterion | S302 | All 7 QM defining properties (Hilbert space, Born rule, unitarity, complex amplitudes, non-commutativity, uncertainty, quantization) derived from Layer 0/1 axioms WITHOUT IRA-10. Finite dimensionality from AXM_0113 + C5 [THM_0491 CANONICAL]. No plausible alternative to QM interpretation. Same mechanism as IRA-08/09 (S299). |
+| IRA-01: Interface = 1/alpha (kappa=1) | C2 propagation + I-STRUCT-5 democracy + full compositeness | S304 | C2 induces ||E_ij||^2 = 1 on End(V) [DERIVED]. Tr is the UNIQUE HS metric giving equal norms across blocks u(4) and u(11) — Tr/n violates democracy (1/4 vs 1/11) and is ambiguous for rectangular Hom(R^4,R^7). Full compositeness (DERIVED from axioms) -> no bare gauge kinetic term -> no rescaling. Therefore kappa = 1 [DERIVATION from C2 + I-STRUCT-5 + I-QFT]. S297 correction: Omega_m is kappa-independent (ratio). |
 
 ---
 
@@ -45,24 +46,29 @@ These were once irreducible but are now derived:
 
 ### Tier 1: Alpha / Gauge Chain (highest impact)
 
-#### IRA-01: Interface = 1/alpha [A-STRUCTURAL within I-STRUCT-5]
+#### ~~IRA-01: Interface = 1/alpha (kappa=1)~~ [RESOLVED S304]
 
-**Type**: [A-STRUCTURAL] (Step 15 in alpha chain) — upgraded from [CONJECTURE] S297
-**Impact**: CRITICAL — the entire framework's primary numerical prediction depends on this
-**Statement**: The generator count N_I = n_d^2 + n_c^2 = 137 equals the inverse fine-structure constant at the compositeness scale. Equivalently: kappa = 1 (standard Tr convention for HS metric).
-**What's proven**:
-- The number 137 is derived from axioms [DERIVED from CCP]
-- WSR + Schur's lemma gives 1/g_i^2 = kappa * N_i for all gauge factors [DERIVED S292]
-- kappa = 1 corresponds to standard (unnormalized) Hilbert-Schmidt inner product <A,B> = Tr(A^dag B) [STANDARD MATH]
-- DE-009 does NOT block the WSR/HS approach (only blocks Sub-problem B: photon ID) [S297]
-- Sigma model one-loop: sum(Q^2)_coset = 14, S_EM = 126 = 6*Im_H*Im_O [S297]
-- EQ-002/EQ-003 duality: kappa = 1 gives BOTH alpha = 1/137 AND Omega_m = 63/200 [S297]
-- Only kappa = 1 gives 1/alpha ~ 137; alternatives (1/n_c, 1/4pi, 1/n_d, 2/pi) off by >10% [S297]
-**What remains**: kappa = 1 = standard Tr convention is a natural mathematical default but cannot be derived from axioms alone. It is a Layer 2 identification: "the HS metric with Tr convention maps to physical coupling."
-**Status**: [A-STRUCTURAL] — absorbed into I-STRUCT-5's absolute extension. The convention "use standard Tr" is the irreducible content. No longer a [CONJECTURE] because the EQ-002/EQ-003 duality provides strong structural support (two independent predictions from one parameter).
-**Depends on**: I-STRUCT-5 (democratic bilinear principle, DERIVED S292 for ratios)
-**Used by**: Alpha prediction (1/alpha = 137 + 4/111), Omega_m = 63/200, all precision claims
-**Verification**: `conj_a2_de009_scope.py` (12/12), `conj_a2_sigma_model_coefficient.py` (12/12), `conj_a2_normalization_principle.py` (10/10)
+**Type**: ~~[A-STRUCTURAL]~~ -> **[DERIVED from C2 + I-STRUCT-5 + I-QFT]** (resolved S304)
+**Former statement**: The generator count N_I = n_d^2 + n_c^2 = 137 equals the inverse fine-structure constant at the compositeness scale. Equivalently: kappa = 1 (standard Tr convention for HS metric).
+**Resolution**: kappa = 1 is DERIVED, not assumed. Three converging arguments:
+1. **C2 propagation**: Crystal axiom C2 (⟨b_i, b_j⟩ = δ_ij) induces ||E_ij||² = 1 on End(V) — the standard Tr convention inherits from the crystal norm. Not a convention choice.
+2. **Democracy across blocks**: Tr/n convention gives different norms in u(4) vs u(11) blocks (1/4 vs 1/11), violating I-STRUCT-5. Only standard Tr gives equal norms. Furthermore, Tr/n is ambiguous for rectangular Hom(R^4, R^7) matrices (no canonical "n").
+3. **Full compositeness**: No bare gauge kinetic term (DERIVED from axioms) -> induced coupling IS the physical coupling -> no rescaling freedom -> kappa = 1.
+- S297 correction: Omega_m = 63/200 is kappa-INDEPENDENT (ratio where kappa cancels). The real argument is C2 propagation + democracy, not EQ-002/EQ-003 duality.
+- Killing form alternative gives 1/alpha = 2790 (wrong) and introduces dimension-dependent factors violating democracy.
+**Derivation chain**:
+```
+C2 (⟨b_i, b_j⟩ = δ_ij) [AXIOM]
+  -> ||E_ij||² = 1 on End(V) [DERIVED: C2 propagation]
+  -> HS metric = standard Tr [DERIVED: unique extension]
+  + I-STRUCT-5 (democratic principle) [DERIVED S292]
+  -> Tr/n EXCLUDED (unequal norms, rectangular ambiguity) [THEOREM]
+  + Full compositeness [DERIVED from axioms]
+  -> no bare kinetic term -> no rescaling [DERIVED]
+  -> kappa = 1 [DERIVATION from C2 + I-STRUCT-5 + I-QFT]
+```
+**Verification**: `ira_01_kappa_definitional.py` (16/16 PASS), `ira_01_ratio_consistency.py` (10/10 PASS)
+**Moved to**: Resolved Assumptions table
 
 #### ~~IRA-02: Democratic gauge coupling = HS metric~~ [RESOLVED S292]
 
@@ -212,18 +218,26 @@ No properties inconsistent with physical time identified.
 **Verification**: `ira_physical_independence.py` (38/38 PASS)
 **Moved to**: Resolved Assumptions table
 
-#### ~~IRA-09: Generation structure~~ [RESOLVED S299]
+#### ~~IRA-09: Generation structure~~ [RESOLVED S321]
 
-**Type**: ~~[A-PHYSICAL]~~ -> **[DERIVED from IRA-06 + Weinberg criterion]** (resolved S299)
+**Type**: ~~[A-PHYSICAL]~~ -> **[DERIVED from Hom(H,R^7) decomposition + Weinberg criterion]** (resolved S321)
 **Former statement**: The G_2 -> SU(3) branching 7 -> 3 + 3-bar + 1 gives 3 physical generations of fermions.
-**Resolution**: Given IRA-06 (crystallization = SSB gives the physical spectrum):
-1. Fermions = spinorial reps of SO(11) [DERIVED from CCP + representation theory]
-2. SO(7) contains G_2 = Aut(O) which contains SU(3) [I-MATH]
-3. Under G_2 -> SU(3): 7 -> 3 + 3-bar + 1 [I-MATH: branching rule]
-4. The 3 copies have ALL defining properties of generations: identical gauge quantum numbers, distinguished by non-gauge quantum number, exactly 3 copies
-5. **No plausible alternative interpretation exists**: not color (different SU(3)), not spatial dimensions (already Im_H), no other physical concept matches "3 identical copies of fermion content"
-6. Weinberg criterion: all properties present + no alternatives = identification forced
-**Verification**: `ira_physical_independence.py` (38/38 PASS)
+**S299 resolution** (RETRACTED S320): Claimed 3 copies from 7->3+3bar+1 are generations. WRONG: SU(3) c G_2 = color, not generation (lepton test decisive, S320).
+**S321 resolution** (CORRECT): Hom(H, R^7) decomposition gives 3 independent generation channels:
+1. Tilt field eps in Hom(H, R^7) [already resolved via IRA-06/08]
+2. H = R + Im(H), dim(Im(H)) = 3 [I-MATH: Frobenius + Hurwitz]
+3. Hom(H, R^7) = Hom(R, R^7) + Hom(Im(H), R^7) = R^7 + (R^7 + R^7 + R^7) [I-MATH]
+4. The 3 Im(H) channels (eps(i), eps(j), eps(k)) are independent DOFs [D: orthogonal restrictions]
+5. Each channel carries identical R^7 structure [I-MATH]
+6. Weinberg criterion: identical structure = identical physical role -> 3 generations [D]
+No new [A-PHYSICAL] needed. Generation count follows from the quaternionic structure of R^4 = H and linear algebra of the tilt field, combined with the same Weinberg criterion used for IRA-08/10.
+**Three complementary mechanisms** (all giving 3 from Im(H) = 3):
+- Mechanism C (strongest): Hom decomposition (above)
+- Mechanism D: F=C selects 1 complex structure, 2 latent -> total 3
+- Mechanism A: Aut(H) = SO(3) vector rep = dim 3
+**Derivation chain**: CCP [AXIOM] -> H [D: Frobenius] -> H=R+Im(H) [I-MATH] -> Hom(H,R^7)=R^7+3*R^7 [I-MATH] -> 3 generations [D+Weinberg]. 0 [A-PHYSICAL].
+**Verification**: `generation_mechanism_formalization.py` (37/37 PASS, S321), `spinor_gap_su3_analysis.py` (24/24 PASS, S320)
+**Impact**: S319 dark sector counting (8 dark states) still RETRACTED (S320). DM particle identity still reopened. IRA count UNCHANGED at 4.
 **Moved to**: Resolved Assumptions table
 
 #### ~~IRA-10: Perspectives = quantum states~~ [RESOLVED S302]
@@ -241,7 +255,7 @@ No properties inconsistent with physical time identified.
 No QM-inconsistent properties identified. No plausible alternative interpretation (not classical, not statistical, not non-quantum informational).
 By the Weinberg criterion (same as IRA-08/09 in S299): structural isomorphism forces identification.
 **Finite dimensionality** (CONJ-A1 crux): THM_0491 derives dim(V_π) < ∞ from AXM_0113. C5 gives dim(V) < ∞. CCP gives H_phys ⊂ V. Chain holds without IRA-10 and is STRONGER (rests on CANONICAL theorem).
-**Key argument**: "These 7 properties define QM. V_π has all 7. No alternative interpretation exists. Therefore V_π IS a quantum state space." Same pattern as IRA-08 (eps = field) and IRA-09 (3 copies = generations).
+**Key argument**: "These 7 properties define QM. V_π has all 7. No alternative interpretation exists. Therefore V_π IS a quantum state space." Same pattern as IRA-08 (eps = field). (Note: IRA-09 S299 resolution RETRACTED S320 — SU(3)=color not generation — but IRA-10's resolution is independent of IRA-09.)
 **Verification**: `ira_10_redundancy_analysis.py` (39/39 PASS)
 **Moved to**: Resolved Assumptions table
 
@@ -265,10 +279,10 @@ By the Weinberg criterion (same as IRA-08/09 in S299): structural isomorphism fo
 ## Dependency Map
 
 ```
-IRA-01 (alpha = 1/N_I) [A-STRUCTURAL within I-STRUCT-5]
-  |-- formerly needed IRA-02 (now resolved via C5 + THM_0491 + CCP, S292/S302)
-  |-- CONJ-A2 PARTIALLY RESOLVED S297: upgraded from CONJECTURE to A-STRUCTURAL
-  |-- kappa = 1 = standard Tr convention (absorbed into I-STRUCT-5)
+IRA-01 RESOLVED (S304) -- C2 propagation + I-STRUCT-5 democracy + full compositeness
+  |-- kappa = 1 DERIVED from crystal norm (C2) propagation to End(V)
+  |-- Tr/n excluded: unequal norms (1/4 vs 1/11) + rectangular ambiguity
+  |-- formerly needed IRA-02 (resolved S292/S302)
 
 IRA-02 RESOLVED (S292) -- A1 resolved (C5 + THM_0491 + CCP -> finite spectrum -> WSR)
 
@@ -283,7 +297,7 @@ IRA-05 RESOLVED (S259) -- B3 fully eliminated
 
 IRA-06 (crystallization = SSB) [A-PHYSICAL, Weinberg-forced]
   |-- IRA-08 RESOLVED (S299): derived from IRA-06 (order parameter uniqueness)
-  |-- IRA-09 RESOLVED (S299): derived from IRA-06 + Weinberg criterion
+  |-- IRA-09 RESOLUTION RETRACTED (S320): SU(3) = color, not generation; see IRA-09 entry
   |-- IRA-10 RESOLVED (S302): derived from IRA-06 + IRA-07 + theorems + Weinberg criterion
   |-- Weinberg-forced: all 8 SSB properties present, 0 alternatives, 0 inconsistencies
   |-- Independent of IRA-07 (different domain: process vs parameter)
@@ -295,7 +309,12 @@ IRA-07 (adjacency = time) [A-PHYSICAL, Weinberg-forced]
 
 IRA-08 RESOLVED (S299) -- derived from IRA-06 (eps is ONLY DOF, order parameter by definition)
 
-IRA-09 RESOLVED (S299) -- derived from IRA-06 + Weinberg criterion (no alternative interpretation)
+IRA-09 RESOLVED (S321) -- Hom(H,R^7) decomposition + Weinberg criterion
+  |-- S299 resolution WRONG (SU(3) = color, retracted S320)
+  |-- S321: Hom(H,R^7) = R^7 + Im(H) x R^7 = R^7 + 3*R^7
+  |-- 3 independent R^7 channels from Im(H) = 3 [I-MATH]
+  |-- Weinberg-forced: identical structure -> 3 generations [D]
+  |-- No new IRA needed (0 [A-PHYSICAL])
 
 IRA-10 RESOLVED (S302) -- derived from IRA-06 + IRA-07 + THM_0491/0494/0493/0485 + Weinberg criterion (all 7 QM properties derived, no alternative)
 
@@ -310,11 +329,11 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 | Type | Count | IDs | Notes |
 |------|-------|-----|-------|
 | [CONJECTURE] | 0 | — | (None remaining) |
-| [A-STRUCTURAL] | 2 | IRA-01, IRA-04 | Alpha = 1/N_I (kappa=1, S297), Quartic ratio (S298) |
+| [A-STRUCTURAL] | 1 | IRA-04 | Quartic ratio (S298). IRA-01 RESOLVED S304 (C2 propagation). |
 | [A-PHYSICAL] | 2 | IRA-06, IRA-07 | Both Weinberg-forced (S299). IRA-08/09/10 resolved as derived. |
 | [A-INTERPRETATION] | 0 | — | IRA-10 RESOLVED S302: all 7 QM properties derived without it. Tier ELIMINATED. |
 | [A-IMPORT] | 1 | IRA-11 | Cosmological observation |
-| **Total** | **5** | | IRA-10 RESOLVED S302 (Weinberg criterion). Count 6 -> 5. [A-INTERPRETATION] tier eliminated. |
+| **Total** | **4** | | IRA-01 RESOLVED S304 (C2 propagation + democracy). Count 5 -> 4. |
 
 ---
 
@@ -326,10 +345,10 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 | ~~2~~ | ~~CONJ-B3~~ | ~~IRA-05~~ | ~~SU(2) ergodicity~~ | — | **FULLY RESOLVED S259** |
 | ~~1~~ | ~~CONJ-B1 residual~~ | ~~IRA-03~~ | ~~CCP -> continuous transition~~ | — | **FULLY RESOLVED S285** (FFT on Hom(R^4,R^7)) |
 | ~~2~~ | ~~CONJ-A1~~ | ~~IRA-02~~ | ~~Non-perturbative QFT~~ | — | **RESOLVED S292** (C5 + IRA-10 -> finite spectrum -> WSR converge) |
-| 3 | ~~CONJ-A2~~ | ~~IRA-01 -> [DERIVED]~~ | — | — | **PARTIALLY RESOLVED S297**: upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]. kappa=1 = standard Tr convention. EQ-002/EQ-003 duality: two predictions from one parameter. |
+| ~~3~~ | ~~CONJ-A2~~ | ~~IRA-01~~ | ~~C2 propagation + democracy~~ | — | **FULLY RESOLVED S304**: kappa=1 DERIVED from C2 propagation to End(V) + I-STRUCT-5 democracy across blocks + full compositeness. IRA count 5 -> 4. |
 | 4 | IRA-04 | **PARTIALLY RESOLVED** (S298) | Boundedness theorem | LOW | Form derived (c_4>0 [THEOREM]); ratio rho=c_4/b_4 irreducible but LOW impact |
 | 5 | ~~IRA-08~~ | **RESOLVED** (S299) | IRA-06 + uniqueness | — | eps is ONLY DOF; order parameter by definition given SSB |
-| 6 | ~~IRA-09~~ | **RESOLVED** (S299) | IRA-06 + Weinberg | — | No alternative interpretation of 3+3bar+1; generation ID forced |
+| 6 | ~~IRA-09~~ | **RESOLVED** (S321) | Hom(H,R^7) decomposition + Weinberg | — | S299 wrong (SU(3)=color, S320). S321: Hom(H,R^7) = R^7 + 3*R^7 gives 3 generation channels. Weinberg-forced. 37/37 PASS. |
 | 7 | ~~IRA-10~~ | **RESOLVED** (S302) | Weinberg criterion | — | All 7 QM properties derived without IRA-10. Same mechanism as IRA-08/09. |
 | — | IRA-06/07 | Weinberg-forced but irreducible | Structural isomorphism leaves no alternative | — | Meta-assumption of mathematical physics |
 | — | IRA-11 | Import | Would require cosmological derivation | Out of scope |  |
@@ -346,4 +365,4 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 
 ---
 
-*Version 3.0 (S302). IRA-10 RESOLVED: all 7 QM defining properties (Hilbert space, Born rule, unitarity, complex amplitudes, non-commutativity, uncertainty, quantization) derived from Layer 0/1 axioms without IRA-10. Finite dimensionality from AXM_0113 + C5 via THM_0491 [CANONICAL]. Weinberg criterion forces identification (same mechanism as IRA-08/09 in S299). CONJ-A1 chain strengthened: now rests on CANONICAL theorem instead of [A-INTERPRETATION]. [A-INTERPRETATION] tier ELIMINATED. IRA count 6 -> 5. Supersedes v2.0 (S299).*
+*Version 6.0 (S321). IRA-09 RESOLVED via Hom(H,R^7) decomposition: 3 independent R^7 channels from Im(H)=3, Weinberg-forced. S299 resolution (SU(3) branching) remains retracted (S320: SU(3)=color). New resolution is structurally different: uses tilt field decomposition, not group branching. IRA count remains 4. See `generation_mechanism_formalization.py` (37/37 PASS). Supersedes v5.0 (S320).*

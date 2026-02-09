@@ -24,14 +24,14 @@ Not every error is a hallucination. This log tracks **LLM-generated errors** —
 
 | Metric | Value |
 |--------|-------|
-| Claims reviewed | 14 |
-| Hallucinations caught | 4 |
+| Claims reviewed | 15 |
+| Hallucinations caught | 5 |
 | Precision inflation | 4 |
 | Post-hoc fitting | 2 |
 | Hidden circularity | 1 |
 | Calculation errors | 2 |
 | Code bugs | 1 |
-| Invalid proofs | 1 |
+| Invalid proofs | 2 |
 | No hallucination confirmed | 1 |
 
 ---
@@ -362,8 +362,8 @@ The formula "H² = Z for k ≥ 2 and n-k ≥ 2" IS correct for complex Grassmann
 - **Self-referential epsilon**: Gap parameter defined from data shown to scale as expected loop order — tautological (HP-010).
 - **Axiom justification loops**: F=C axiom justified by results that assume F=C (HP-009). Resolved by CCP work but older docs may retain circular framing.
 
-### Invalid Proofs
-*No incidents logged.*
+### Invalid Proofs (NEW - S320)
+- **Wrong SU(3) identification**: SU(3) c G_2 identified as generation symmetry when it's color (HP-013). Weinberg criterion misapplied (didn't check for inconsistency with existing color identification). "Lepton test" now a standard discriminator.
 
 ---
 
@@ -374,7 +374,7 @@ The formula "H² = Z for k ≥ 2 and n-k ≥ 2" IS correct for complex Grassmann
 | Computational (SymPy) | 2 | HP-002 (wrong phi_CMB), HP-004 (wrong eta/eps) |
 | Test execution | 1 | HP-003 (variable shadowing) |
 | Multi-path verification | 1 | HP-001 (confirmed NO hallucination) |
-| Semantic (audit) | 7 | HP-005 through HP-011 (precision inflation, circularity, CODATA) |
+| Semantic (audit) | 8 | HP-005 through HP-011 (precision inflation, circularity, CODATA), HP-013 (SU(3) misidentification) |
 | External (Wolfram) | 0 | -- |
 | User skepticism | 0 | -- |
 
@@ -382,6 +382,32 @@ The formula "H² = Z for k ≥ 2 and n-k ≥ 2" IS correct for complex Grassmann
 
 ---
 
-*Updated 2026-02-07 (Session S287 Hallucination Audit). Added HP-005 through HP-011. New pattern categories: Precision Inflation, Post-Hoc Fitting.*
+### HP-013: SU(3) c G_2 Misidentified as Generation Symmetry
+
+**Date**: 2026-02-08
+**Session**: S320 (correcting S299)
+**Type**: Structural misjudgment / invalid proof
+**How caught**: Semantic (lepton test discriminator)
+**Severity**: CRITICAL
+
+**Original claim** (S299, IRA-09 resolution):
+"SU(3) c G_2 gives generation structure via 7 -> 3+3bar+1. The 3 copies have all defining properties of generations. Weinberg criterion forces identification."
+
+**Actual result**:
+SU(3) c G_2 c SO(7) is COLOR SU(3)_c, not a generation symmetry. The framework's SM pipeline (S251) derives u(1)xsu(2)xsu(3) from G_2 -- this SU(3) IS color. The "3 copies" in 7->3+3bar+1 are 3 COLORS, and the "1" is the lepton (color singlet). This is the standard Pati-Salam pattern.
+
+**Decisive test**: SM leptons are SU(3) singlets but come in 3 generations. If SU(3) = generation, singlet states get only 1 copy -> only 1 lepton generation (contradicts observation). SU(3) = color gives correct lepton counting.
+
+**Impact**: IRA-09 resolution RETRACTED. S319 "8 dark states" RETRACTED. S320 Phase 1 (B-D portal, triality) RETRACTED. DM particle identity reopened.
+
+**How it looked plausible**:
+The Weinberg criterion ("all defining properties present -> forced identification") was applied without checking that the SU(3) in question was ALREADY identified as color by the framework's own gauge group derivation. The 7->3+3bar+1 decomposition genuinely gives 3 identical representations, making the generation interpretation seem natural. S212 (original fermion embedding) used the CORRECT identification (SU(3) = color) but S299 introduced the wrong one.
+
+**Lesson learned**:
+(1) When identifying a mathematical object, check if it's ALREADY identified elsewhere in the framework. One SU(3) can't serve two roles. (2) The Weinberg criterion requires checking for INCONSISTENCIES, not just matching properties. The inconsistency here (SU(3) already = color) was the key missed check. (3) Always apply a "lepton test" for generation claims: leptons are gauge singlets, so any generation mechanism must work for singlets too.
+
+---
+
+*Updated 2026-02-08 (Session S320). Added HP-013 (SU(3) misidentification, CRITICAL). New lesson: "lepton test" discriminator for generation claims.*
 
 *Update this file whenever a hallucination is caught. The patterns will inform better defenses.*

@@ -35,6 +35,40 @@
 - **Double-trace mechanism** [CONJECTURE] — Band C specific: End(V) trace normalization by n_c in first factor. All 8 coefficients are framework monomials. n_c cancels in m_p/m_e -> pure octonionic. Deep identity: Phi_6(Im_H) = Im_O. (S283)
 - **cos(theta_W) Band A correction** [CORRECTION] — S279 Band B claim RETRACTED. Gap ~93 ppm is Band A. Tree-level sin^2+cos^2 = 1.008 (mismatch -8347 ppm). No clean coefficient found. (S283)
 - **m_p/m_e C_3 negative result** — C_3~5.7 extracted, no clean framework match. 2.0 sigma not significant. (S283)
+- **sin^2+cos^2 mismatch = scheme conversion** [DERIVATION] — sin^2=28/121 is MS-bar, cos=171/194 is on-shell. Different schemes, so sin^2+cos^2 != 1 expected. Framework Delta = 0.00835 vs experimental Delta = 0.00802 (4.1% match). sqrt(93)/11 is 57x WORSE than 171/194. 16/17 PASS. (S307)
+- **m_tau/m_mu dressed prediction** [SPECULATION] — C=1/(Im_H*n_c)=1/33 in alpha/pi basis. Tree 185/11 (70 ppm gap) -> dressed 16.8170 (1.9 ppm, 37x improvement). Testable at Belle II ~2027 (need 23 ppm). 20/20 PASS. (S307)
+- **alpha_s dressed prediction** [SPECULATION] — C=1/n_c=1/11 in alpha/pi basis. Tree 25/212 (208 ppm gap) -> dressed 0.11790 (3 ppm). Not constraining with current uncertainty. (S307)
+- **cos(theta_W) coefficient candidate C=dim(C)=2** [SPECULATION] — In alpha/(16*pi^2) basis gives 0.88 ppm residual (Band C level). Extracted C=2.02, match to dim(C) 0.95%. Same dim(C) in alpha's 24/11=12/11*2. Needs m_W to ~1 MeV for meaningful test. (S307)
+- **Band structure = organizing principle** [CONJECTURE] — Band C: multi-factor trace-normalized coefficients. Band B/A: single-monomial suppression factors. Absolute corrections need trace structure; relative corrections need suppression factors. Sector-dominance maps physics type to algebraic structure. (S307)
+- **Band membership predicted a priori** [CONJECTURE] — 3-step structural criterion: (1) QCD-dominant -> Band D, (2) EM one-loop -> Band A, (3) trace-enhanced C>1 -> Band C, suppression C<1 -> Band B. 16/16 correct. Key: compositeness + End(V) trace = Band C signature. (S308)
+- **Three EM scales from structural reasons** [CONJECTURE] — 2 loop orders x coefficient dichotomy (C>1 vs C<1) = 3 non-empty cells. C=1 natural B/C boundary (Koide sits exactly there). A/B gap set by 1/alpha (~137x), B/C gap by coefficient ratio (~10-70x). Clean separations. (S308)
+- **Band D = feature** [CONJECTURE] — All Band D gaps < alpha_s/pi (~37500 ppm). QCD-dominated quantities correctly predicted outside perturbative EM dressing scope. (S308)
+- **Phi_6 cascade mirrors band depth** [DERIVATION/OBSERVATION] — Phi_6: 2->3->7->43->111 maps to Cayley-Dickson tower AND band-defining denominators. 43 in Band B, 111 in Band C. Cascade depth correlates with precision. (S308)
+- **121-28-137 triangle** [DERIVATION] — 121=End(V) in Band A denom, 28=coset in Band A numer, 137~alpha in Band C. Sum 121+137=258 in Band D. Mathematical depth -> prediction precision. (S308)
+- **Mathematical depth -> precision hierarchy** [SPECULATION] — Quadratic forms -> sub-ppm. Cyclotomic -> ppm. Linear products -> 100 ppm. Additive -> percent. (S308)
+- **Phi_6 cascade = Sylvester's sequence** [DERIVATION] — Phi_6(x) = x^2-x+1 from dim(C)=2 generates {2,3,7,43,1807,...} = Sylvester's sequence (product formula verified). Connection is exact. (S309)
+- **Egyptian fraction of unity** [THEOREM] — 1/dim_C + 1/Im_H + 1/Im_O + 1/43 + ... = 1. Physical terms give 41/42, remainder = 1/42 = 1/(dim_C*Im_H*Im_O). Division algebra cascade values partition unity. (S309)
+- **Band exclusivity of cascade denominators** [CONJECTURE] — Pure Phi_6 cascade values as full denominators: {3,7}->D, {43}->B, {111}->C, {1807+}->absent. Gap gradient: 1500->2.8->0.27 ppm. Deeper cascade -> finer band. (S309)
+- **Physics termination at cascade depth** [OBSERVATION] — 1807=13*139 and 12211 (prime) appear nowhere in framework: not as denominators, numerators, or factors. Physics extends ONE Phi_6 step beyond Hurwitz, then stops. (S309)
+- **Cyclotomic D=3 exclusively maps to B/C** [CONJECTURE] — All denominators that are Phi_6 evaluations of atoms appear only in Band B or C. 100% purity. General depth D(den) alone does NOT anti-correlate (rho=+0.34), but total D(num)+D(den) weakly does (rho=-0.37). (S309)
+- **Beta function ladder** [OBSERVATION] — b_0(N_f=0)=n_c=11, b_0(N_f=3)=Im_H^2=9, b_0(N_f=6)=Im_O=7. QCD beta coefficients at natural flavor counts equal division algebra numbers. **DEBUNKED (S310)**: just odd numbers 11->1, repackaging of 11/3=n_c/Im_H (EQ-008). Only b_0(0)=n_c and b_0(6)=Im_O structural. (S309/S310)
+- **Egyptian fraction numerators = Lie algebra dimensions** [DERIVATION] — Over LCM denominator 42=dim_C*Im_H*Im_O, numerators are: 42/2=21=dim(so(7)), 42/3=14=dim(G_2), 42/7=6=dim(so(4)). Cross-algebraic pattern: C->SO(7), H->G_2, O->SO(4). Follows from Cayley-Dickson Im_H=(Im_O-1)/2 and dim(G_2)=2*Im_O. 42=dim_R(so(7)_C). (S310)
+- **Sylvester-CD branching at Im_H** [DERIVATION] — Phi_6(x)=2x+1 has unique solution x=3=Im_H. H is the branching point where local (CD doubling) and global (Sylvester product) diverge. Beyond this: CD gives 15 (sedenions, zero divisors), Sylvester gives 43 (framework physics). 43-15=28=N_Goldstone=n_d*Im_O [DERIVATION]. (S310)
+- **Phi_6(n) = n(n-1)+1 = off-diagonal endomorphisms + 1** [THEOREM] — Connects to Egyptian fraction: Phi_6(Im_O)-1 = 7*6 = 42 = Egyptian denominator (same object). (S310)
+- **Graded decomposition 42 = 21+14+6+1** [DERIVATION] — Construction sequence R->Im(O)->Lambda^2(Im(O))->Lambda^2(Im(O))_C with cumulative dims {1,7,21,42} and ratios {Im_O=7, Im_H=3, dim_C=2} = Sylvester denominators in reverse Cayley-Dickson order. Sequence is UNIQUE: exterior algebra C(7,k)/C(7,k-1) integer only at k=1,2 (giving {7,3}), forcing switch to complexification. Layer sizes = Lie algebra dims in chain so(4) subset G_2 subset SO(7). (S311)
+- **Coset dimensions = division algebra dimensions** [THEOREM] — SO(7)/G_2 = 7 = Im_O, G_2/SO(4) = 8 = dim_O. Coset spaces are literally octonionic. Cumulative/Quotient = 42/21 = dim_C = 2 (the complexification step). (S311)
+- **Ratio-minus-one = Cayley-Dickson dimensions** [THEOREM] — Im_O-1=6=C(n_d,2)=dim(so(4)), Im_H-1=2=dim_C, dim_C-1=1=Im_C. Layer formula: Layer_k = F_{k-1}*(ratio_k - 1). (S311)
+- **Weight distribution** [DERIVATION] — so(7) gets 1/2=1/dim_C of budget, G_2 gets 1/3=1/Im_H, so(4) gets 1/7=1/Im_O. Anti-correlation: simplest algebra (C, weight 1/2) funds largest group (SO(7), 21 dim). (S311)
+- **42 + 28 = C(dim_O, n_d) = C(8,4) = 70** [DERIVATION] — Chain sum + Goldstones = 4th exterior power of O. N_Goldstone = C(dim_O, 2) via dim_O = 2*n_d (CD doubling). Also: 70 = Im_O*(n_c-1). (S312)
+- **55 - 42 = Phi_6(n_d) = 13** [DERIVATION] — so(n_c) deficit = cyclotomic at n_d. Identity n_d^2-n_d+2 = 2*Im_O holds ONLY at n_d=1,4 [THEOREM] (roots of (n-1)(n-4)=0). (S312)
+- **G_2/SO(4) Wolf space** [THEOREM] — dim=8=dim_O, chi=3=Im_H (|W(G_2)|/|W(SO(4))|=12/4), quat_dim=2=dim_C. ALL three invariants are division algebra dimensions. Parameterizes quaternionic subalgebras H inside O. Poincare polynomial 1+t^4+t^8. (S312)
+- **F_4/(Sp(3)*Sp(1)) Wolf space** [OBSERVATION] — dim=28=N_Goldstone, chi=7=Im_O, quat_dim=7=Im_O. Two of five exceptional Wolf spaces have BOTH invariants as framework numbers; the other three (E_6, E_7, E_8) do not. (S312)
+- **SO(4) content of 42: integer/half-integer split** [DERIVATION] — Integer spin = 22 = 2*n_c. Half-integer = 20 = chi(Gr+(4,11)). L-R asymmetry = Im_H. Split SPECIFIC to Im_H=3 [THEOREM]: 2h^2-5h-3=0 has unique positive root h=3. (S312)
+- **Branching rules verified** [THEOREM] — 7->(1/2,1/2)+(0,1)=4+3 (octonionic decomp). 14->(1,0)+(0,1)+2*(1/2,1/2)=6+8 (Cartan decomp). so(7)->(1,0)+2*(0,1)+(1/2,1/2)+(1/2,3/2)=21 (Lambda^2). (S312)
+- **Fork Gap Theorem** [DERIVATION] — dim(so(11))-dim(F_4) = Im_H = 3. Fork at so(9) not so(7): both contain so(9)=so(dim_O+1)=so(Im_H^2). so(11) extends classically (so(2)+R^9xR^2=19 gen), F_4 extends spinorially (Delta_9=2^n_d=16 gen). Gap = 19-16 = 3 because n_d^2 = 2^n_d (triple identity, unique at n_d=4). Gap decomposes as Im_C+dim_C=1+2=Im_H (Cayley-Dickson C->H). (S313)
+- **F_4 incompatible with SO(11)** [DERIVATION] — Different ranks (4 vs 5), different extensions of SO(7). F_4=Aut(J_3(O)) (octonionic); SO(11)=Isom(R^n_c) (crystallization). dim(F_4)=n_d*Phi_6(n_d)=52=C(n_c,2)-Im_H. The dim=28 match is structural: 4*quat_dim vs n_d*Im_O, both=28 because quat_dim=Im_O and n_d=4. (S313)
+- **Chi sequence terminates** [DERIVATION] — G_2 Wolf chi=Im_H=3, F_4 Wolf chi=Im_O=7. No Wolf space has chi=n_c=11 (not exceptional, not Gr_4^+). HP^10 has chi=11 but dim=40 (not framework). Termination forced by Hurwitz (no post-octonionic division algebra). Chi product=21=dim(so(7)), chi sum=10=n_c-1. Wolf dim sum=36=C(9,2)=dim(so(9)). (S313)
+- **n^2=2^n solutions = {dim_C, n_d} = {2, 4}** [THEOREM] — Both framework dimensions satisfy the triple identity. Connects fork gap to division algebra tower. (S313)
 
 ## What Failed / Dead Ends
 
@@ -83,6 +117,13 @@
 | S282 | Tree-to-dressed: systematic + m_p/m_e | **m_p/m_e: C=43/7=Phi_6(Im_O)/Im_O** [CONJECTURE] (0.22%, absolute basis). 16-ratio band classification. Double-trace pattern. Coefficient taxonomy. 35/36 PASS (2 scripts). |
 | S283 | Double-trace + cos(theta_W) + 3-loop | Double-trace Band C specific (21/21 PASS). cos(theta_W) CORRECTED to Band A (17/17 PASS). C_3 negative result (17/17 PASS). |
 | S292 | CONJ-A1 spectral convergence | **CONJ-A1 RESOLVED**: quartic alone insufficient (dim-2 condensate), finiteness (C5+IRA-10) resolves. IRA-02 eliminated. IRA 9->8. 24/24 PASS. |
+| S307 | EQ-039 coefficient unification + Band A | sin^2+cos^2 mismatch = scheme conversion [DERIVATION] (16/17 PASS). Band A dressed: m_tau/m_mu 1.9 ppm, alpha_s 3 ppm [SPECULATION] (20/20 PASS). cos coefficient C=dim(C)=2 candidate [SPECULATION]. Band structure = organizing principle [CONJECTURE]. |
+| S308 | Band structure deep dive | Band membership predicted a priori (16/16, 3-step criterion) [CONJECTURE]. 3 EM scales from 2 loop orders x coefficient dichotomy [CONJECTURE]. Band D = feature (QCD-dominant) [CONJECTURE]. Phi_6 cascade mirrors band depth. 121-28-137 triangle. 25/25 PASS (1 script). |
+| S309 | Phi_6 cascade formalization + depth measure | **Phi_6 = Sylvester's sequence** [DERIVATION]. **Egyptian fraction: 1/2+1/3+1/7+...=1** [THEOREM]. Band exclusivity [CONJECTURE]. Physics termination (1807 absent) [OBSERVATION]. D(den) alone fails (rho=+0.34), but D=3 -> B/C exclusively. Beta ladder b_0={11,9,7}. 72/75 PASS (3 scripts). |
+| S310 | Egyptian fraction interpretation + Sylvester-CD | **Numerators = Lie algebra dims** [DERIVATION]: 21=so(7), 14=G_2, 6=so(4). Cross-algebraic pattern. Beta ladder DEBUNKED. **Sylvester-CD branching at Im_H** [DERIVATION]. **43-15=28=N_Goldstone**. Phi_6(n)=n(n-1)+1 [THEOREM]. 64/64 PASS (3 scripts). |
+| S311 | Graded decomposition 42=21+14+6+1 | **Construction sequence** R->Im(O)->Lambda^2->Lambda^2_C with ratios {7,3,2} = reverse CD [DERIVATION]. Exterior algebra forces switch. **Coset dims = div alg dims** [THEOREM]: SO(7)/G_2=7, G_2/SO(4)=8. Cumulative/Quotient=dim_C [THEOREM]. 32/32 PASS (1 script). |
+| S312 | G_2/SO(4) Wolf space + structural identities | **G_2/SO(4)**: dim=dim_O, chi=Im_H, qd=dim_C [THEOREM]. **F_4 Wolf**: dim=28, chi=7 [OBSERVATION]. SO(4) split: int=2n_c, half=chi(Gr+), unique to Im_H=3 [THEOREM]. 42+28=C(8,4), 55-42=Phi_6(n_d). 59/59 PASS (2 scripts). |
+| S313 | Wolf space fork: F_4 role + fork gap theorem | **Fork Gap Theorem**: dim(so(11))-dim(F_4)=Im_H [DERIVATION] via n_d^2=2^n_d. Fork at so(9) not so(7): classical (19 gen) vs spinorial (16 gen). Gap=Im_C+dim_C=1+2 (CD C->H). Chi {3,7} terminates by Hurwitz. dim(F_4)=n_d*Phi_6(n_d). n^2=2^n solutions={dim_C, n_d}. 53/53 PASS (2 scripts). |
 
 ## Key Files
 
@@ -115,3 +156,17 @@
 | `verification/sympy/double_trace_mechanism.py` | 21/21 PASS (S283) |
 | `verification/sympy/cos_theta_W_mW_resolution.py` | 17/17 PASS (S283) |
 | `verification/sympy/mpme_three_loop_residual.py` | 17/17 PASS (S283) |
+| `verification/sympy/weinberg_scheme_conversion.py` | 16/17 PASS (S307) |
+| `verification/sympy/band_A_dressed_predictions.py` | 20/20 PASS (S307) |
+| `verification/sympy/band_structure_deep_dive.py` | 25/25 PASS (S308) |
+| `verification/sympy/phi6_cascade_formalization.py` | 32/32 PASS (S309) |
+| `verification/sympy/structural_depth_measure.py` | 19/22 PASS (S309) |
+| `verification/sympy/strong_dressing_paradigm.py` | 21/21 PASS (S309) |
+| `verification/sympy/egyptian_fraction_interpretation.py` | 31/31 PASS (S310) |
+| `verification/sympy/beta_ladder_skeptical_analysis.py` | 14/14 PASS (S310) |
+| `verification/sympy/sylvester_cayley_dickson.py` | 19/19 PASS (S310) |
+| `verification/sympy/graded_decomposition_42.py` | 32/32 PASS (S311) |
+| `verification/sympy/graded_42_physical_implications.py` | 34/34 PASS (S312) |
+| `verification/sympy/wolf_space_verification.py` | 25/25 PASS (S312) |
+| `verification/sympy/f4_wolf_space_chain.py` | 30/30 PASS (S313) |
+| `verification/sympy/fork_gap_im_h.py` | 23/23 PASS (S313) |

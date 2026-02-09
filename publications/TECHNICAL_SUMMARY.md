@@ -16,7 +16,7 @@
 | `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202) |
 | `framework/layer_0_pure_axioms.md` | Pure axioms (Layer 0) |
 | `framework/layer_2_correspondence.md` | Physics imports catalog |
-| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 6 irreducible assumptions (canonical inventory) |
+| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions (canonical inventory) |
 | `framework/investigations/_INDEX.md` | ~150 investigation files |
 
 ## Critical Framework Elements
@@ -30,7 +30,7 @@
 | QM chain | S185-S201 | CANONICAL | Hilbert space + Born rule from axioms |
 | Alpha Step 5 (CONJ-A2) | — | [A-STRUCTURAL within I-STRUCT-5] (S297) | kappa=1 = standard Tr convention |
 | Yang-Mills mass gap | — | CANONICAL (S284) | Glueball spectrum from n_d=4 |
-| IRA inventory | — | 6 total (S299) | 0 conjectures remaining |
+| IRA inventory | — | 4 total (S304) | 0 conjectures remaining |
 | Moment map codim = n_c | THM_04B6 | CANONICAL | Geometric confirmation of n_c = 11 |
 | F=C selection | THM_0485 | [DERIVATION] | Complex structure forced |
 | ~~CC wrong sign~~ | F-10 | **RESOLVED S230** | Sign convention error — V<0 gives Λ>0 via standard GR. Magnitude gap remains. |
@@ -49,7 +49,7 @@ We present a framework claiming that the structure of physics — gauge groups, 
 - **Cosmological parameters**: H_0, Omega_Lambda, Omega_m (exact matches within error bars)
 - **Dark matter mass**: m_DM = 5.11 GeV (falsifiable prediction)
 
-The framework has 6 irreducible assumptions (2 structural, 2 physical, 1 interpretation, 1 import — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`) once division algebras and the Completeness Principle (CCP, AXM_0120) are accepted. We present the derivation chain, numerical evidence, statistical assessment, and honest limitations.
+The framework has 4 irreducible assumptions (1 structural, 2 physical, 1 import — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`) once division algebras and the Completeness Principle (CCP, AXM_0120) are accepted. We present the derivation chain, numerical evidence, statistical assessment, and honest limitations.
 
 ---
 
@@ -502,7 +502,7 @@ n_d = 4, n_c = 11, F = C (DERIVED, CCP AXM_0120 + THM_04A0)
 
 The framework's strongest evidence is structural (QM derivation, gauge groups, blind CMB predictions). Its weakest areas are gravity (CC magnitude gap ~10^111) and the mechanism connecting division algebra structure to specific constant values.
 
-All ~662 verification scripts are available in `verification/sympy/`.
+All ~713 verification scripts are available in `verification/sympy/`.
 
 ---
 
@@ -548,6 +548,7 @@ l_1 = 220 = 2 x 11 x 10
 | 2.1 | 2026-02-03 | S230 | F-10 CC sign resolved (convention error). Gravity grade D+ → C-. F-10 reclassified from FALSIFIED to RESOLVED. |
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: n_c/n_d/F=C now [D: CCP]. Pipeline gauge route added. Generation derivation updated. Assumption count ~3->~2. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved (A1/A2/A3/B1/B3), IRA 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm (3 bands), y_t=1, Omega_m DERIVED, alpha C=24/11. Script count ~548->~662. Probability 15-25%->20-35%. IRA inventory added (Section 13.3). Open gaps updated (5/6 resolved). New sections: 6.4 (radiative), 6.5 (Yang-Mills), 6.6 (tree-to-dressed). |
+| 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
 
 ---
 
