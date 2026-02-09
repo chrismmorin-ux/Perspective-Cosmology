@@ -345,7 +345,7 @@ print(f"""
   B1    cos(theta_W)      171/194         alpha^2/pi     ~1/n_d = 1/4    1/dim(H) [CONJECTURE]
   B1    m_mu/m_e          8891/43         alpha^2/pi     ~1/n_d = 1/4    1/dim(H) [CONJECTURE]
   B2    v/m_p             11284/43        alpha^2/pi     ~1/n_c = 1/11   1/crystal [CONJECTURE]
-  C     1/alpha           15211/111       alpha^2/pi     24/11           traces [CONJECTURE]
+  C     1/alpha           15211/111       alpha^2/pi     24/11           traces [DERIVATION]
   C     m_p/m_e           132203/72       alpha^2/pi     (sub-ppm)       non-pert
 
   PATTERN:

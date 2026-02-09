@@ -22,23 +22,23 @@ Single source of truth for tracking framework state — claims, proofs, dependen
 
 ## Red Team Findings
 
-### v2.0 (Session 257, 2026-02-07) — `RED_TEAM_SUMMARY_V2.md`
+### v3.0 (Session 330, 2026-02-09) — `RED_TEAM_SUMMARY_V3.md`
 
-Updated 3-critic adversarial review across 135 sessions of development. Top surviving criticisms:
+Updated 3-critic adversarial review covering S258-S327. Top surviving criticisms:
 
-| # | Risk | Severity | Status vs S120 |
+| # | Risk | Severity | Status vs v2.0 |
 |---|------|----------|----------------|
-| 1 | Derivation vs. discovery (numerical predictions) | CRITICAL | PARTIALLY MITIGATED |
-| 2 | No human expert validation | HIGH | PARTIALLY IMPROVED |
-| 3 | Sub-ppm fits post-hoc; blind predictions percent-level | HIGH | NEW |
-| 4 | Monte Carlo: building blocks not special | HIGH | NEW |
-| 5 | CCP axiom may be retrofitted | MEDIUM-HIGH | NEW |
-| 6 | Alpha Step 5 / emergent gauge coupling [A-PHYSICAL] | MEDIUM-HIGH | PARTIALLY RESOLVED |
+| 1 | Derivation vs. discovery | CRITICAL | NARROWED (IRA 10->4, testable predictions) |
+| 2 | No human expert validation | HIGH | UNCHANGED (200+ sessions) |
+| 3 | Monte Carlo: building blocks not special | HIGH | UNCHANGED |
+| 4 | Sub-ppm post-hoc; blind percent-level | MEDIUM-HIGH | PARTIALLY MITIGATED (tree-to-dressed) |
+| 5 | CCP axiom may be retrofitted | MEDIUM | PARTIALLY MITIGATED (downstream consequences) |
 
-3 of 8 original S120 criticisms RESOLVED (n_c=11, F=C, CC sign). 3 partially mitigated. 2 unchanged.
+5 v2.0 criticisms IMPROVED or RESOLVED (Alpha Step 5, triple-formula, catalog, post-hoc, heterogeneity). 3 new criticisms added (DM convenience, IRA semantic, corrections fragility, all MEDIUM or below).
 
-**Updated probability**: 20-35% genuine physics (up from 15-30%). LLM Challenge v1 (S128-135): 3/4 SUCCESS. V2 (S257): 15/18 PASS. Structural derivations confirmed reproducible; numerical formulas not independently discovered. Highest-ROI next action: v3 numerical discovery challenge + human expert review.
+**Updated probability**: 25-40% genuine physics (up from 20-35%). IRA 10->4, 5 conjectures resolved, Yang-Mills CANONICAL, DM mass formula (identity OPEN per S335), tree-to-dressed systematic. Highest-ROI next action: external review via launch + LLM v4.
 
+### v2.0 (Session 257, 2026-02-07) — `RED_TEAM_SUMMARY_V2.md` (historical)
 ### v1.0 (Session 120, 2026-01-28) — `RED_TEAM_SUMMARY.md` (historical)
 
 ## Frozen Files (Do NOT Read at Startup)

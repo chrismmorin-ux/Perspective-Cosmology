@@ -267,7 +267,7 @@ The framework unifies:
 - CONJ-A3 PROVEN via Radon-Hurwitz (S258): n_d^2+n_c^2=137 DERIVED
 - CONJ-B3 resolved (S258-259): gradient flow convergence
 - Alpha radiative gap (S262): QED running WRONG DIRECTION [THEOREM]
-- Tree-to-dressed paradigm (S266): 3 bands (A/B/C), C=24/11 (0.0002 ppm)
+- Tree-to-dressed paradigm (S266): 3 bands (A/B/C), C_2=24/11 [DERIVATION] (5.9 sigma); D_3=1 [CONJECTURE] (0.0006 sigma)
 
 **Sessions 268-285 (Yang-Mills Mass Gap)**:
 - Glueball spectrum from framework structure CANONICAL (S284)

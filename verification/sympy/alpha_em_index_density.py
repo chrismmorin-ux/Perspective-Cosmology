@@ -6,11 +6,11 @@ KEY FINDING: The 1/n_c normalization in C = 24/n_c is identified as the
 EM index density rho_EM = Tr(Q_EM^2)/n_c = 2/n_c, which is FORCED by
 the democratic metric (Schur's lemma) + the EM charge eigenvalues.
 
-Formula: C = sum(Q^2)_colored * rho_EM = 12 * (2/11) = 24/11
+Formula: C = sum(Q^2)_colored * rho_EM = 12 * (2/11) = 24/11 [DERIVATION]
 Measured: 1/alpha = 137.035999177(21) (CODATA 2022)
-Predicted: 1/alpha = 137.035999053 (with C = 24/11)
-Error: 0.0002 ppm (~1.5 sigma)
-Status: DERIVATION (structural identification of 1/n_c)
+Predicted: 1/alpha = 137.035999053 (with C_2 = 24/11)
+Error: 2-loop: 0.0009 ppm (5.9σ); 3-loop D_3=1: 0.0006σ [CONJ, HRS 5]
+Status: DERIVATION (structural identification of 1/n_c; C_2 = 24/11 from defect charges)
 
 Session: S272
 Dependencies: S269 (sum Q^2 = 12), S266 (C = 24/11), S233 (I-STRUCT-5)

@@ -152,7 +152,7 @@ The hexagonal structure (Eisenstein integers) emerges from C × Im_H.
 | Quantity | Value |
 |----------|-------|
 | Predicted | 137.036036036... |
-| Measured | 137.035999084(21) |
+| Measured | 137.035999177(21) (CODATA 2022) |
 | **Error** | **0.27 ppm** |
 
 **Script**: `verification/sympy/alpha_enhanced_prediction.py`

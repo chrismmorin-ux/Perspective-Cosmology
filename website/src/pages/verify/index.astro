@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VerificationPortal from '../../components/VerificationPortal';
+import verificationData from '../../../data/verification-scripts.json';
+---
+
+<BaseLayout title="Verify" description="735+ SymPy verification scripts you can run yourself. Every claim is computationally verified.">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">Verification Portal</h1>
+      <p class="text-gray-400 max-w-3xl">
+        Every mathematical claim in this framework is backed by a SymPy verification script.
+        No calculation appears in documentation without a passing script. Below are curated
+        highlights — the full set of 735+ scripts is available on GitHub.
+      </p>
+    </div>
+
+    <!-- Interactive explorer -->
+    <VerificationPortal client:load data={verificationData} />
+
+    <!-- How to run section -->
+    <div class="mt-16 border-t border-gray-800 pt-10">
+      <h2 class="text-xl font-semibold text-white mb-6">Run them yourself</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
+          <div class="text-sm font-medium text-white mb-2">1. Requirements</div>
+          <p class="text-xs text-gray-500 mb-3">Python 3.8+ and SymPy. That's it.</p>
+          <code class="text-xs font-mono text-gray-400 bg-gray-950 px-3 py-2 rounded block">
+            pip install sympy mpmath
+          </code>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
+          <div class="text-sm font-medium text-white mb-2">2. Run any script</div>
+          <p class="text-xs text-gray-500 mb-3">Each script is self-contained with PASS/FAIL output.</p>
+          <code class="text-xs font-mono text-gray-400 bg-gray-950 px-3 py-2 rounded block whitespace-pre">cd verification/sympy/
+python alpha_enhanced_prediction.py</code>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
+          <div class="text-sm font-medium text-white mb-2">3. Check the output</div>
+          <p class="text-xs text-gray-500 mb-3">Every script prints explicit PASS or FAIL for each test.</p>
+          <code class="text-xs font-mono text-emerald-400/80 bg-gray-950 px-3 py-2 rounded block whitespace-pre">Test 1: 137.036036... [PASS]
+Test 2: error < 1 ppm  [PASS]</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Methodology section -->
+    <div class="mt-12 border-t border-gray-800 pt-10">
+      <h2 class="text-xl font-semibold text-white mb-4">Verification methodology</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+        <div>
+          <h3 class="text-white font-medium mb-2">What each script does</h3>
+          <ul class="space-y-1.5 text-gray-500">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              States all assumptions explicitly with [A]/[I]/[D] tags
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              Performs the calculation using exact rational arithmetic (SymPy)
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              Compares against measured values (CODATA 2022 / PDG 2022)
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              Prints explicit PASS/FAIL for every test assertion
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-medium mb-2">What this proves (and doesn't)</h3>
+          <ul class="space-y-1.5 text-gray-500">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              The arithmetic is correct (verified computationally)
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5 shrink-0">&#10003;</span>
+              The formulas match measurement to stated precision
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-yellow-400 mt-0.5 shrink-0">!</span>
+              Does NOT prove the derivation chain is physically correct
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-yellow-400 mt-0.5 shrink-0">!</span>
+              Numerology risk: right numbers, possibly wrong reasons
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GitHub link -->
+    <div class="mt-12 bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
+      <h3 class="text-white font-medium mb-2">Full script repository</h3>
+      <p class="text-sm text-gray-500 mb-4">
+        All 735 verification scripts are open source. Clone the repo and run them all.
+      </p>
+      <p class="text-xs text-gray-600">
+        GitHub repository link will be available at launch.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

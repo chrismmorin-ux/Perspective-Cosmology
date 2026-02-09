@@ -39,9 +39,9 @@ Define two derived quantities:
     = 137.036036036...
 ```
 
-**Measured (CODATA 2018)**: 137.035999084(21)
+**Measured (CODATA 2022)**: 137.035999177(21)
 
-**Error**: **0.27 ppm** (parts per million)
+**Error**: **0.27 ppm** at tree level (1755 sigma). Two-loop dressed (C_2=24/11): 0.0009 ppm (5.9 sigma) [DERIVATION]. Three-loop (D_3=1): **0.0001 ppb (0.0006 sigma)** [CONJECTURE, HRS 5]. Full formula: 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi.
 
 *Verify: 15211 ÷ 111 = 137.036036...*
 

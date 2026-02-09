@@ -1,7 +1,7 @@
 # Perspective Cosmology — A Plain-Language Description
 
-**Last Updated**: 2026-02-06 (Session S255)
-**Version**: 2.1
+**Last Updated**: 2026-02-09 (Session S330)
+**Version**: 2.6
 **Purpose**: Non-specialist description of the framework.
 **Audience**: General public / non-physicists
 **Status**: CURRENT
@@ -35,7 +35,7 @@ Perspective Cosmology is an amateur, speculative theoretical framework — built
 
 The framework tries to show that if you start from the bare minimum requirements for *anything to be observed at all*, you get forced — step by step — into the exact physics we see: the Standard Model of particle physics, Einstein's general relativity, 3+1 spacetime dimensions, and even specific numerical values of constants like the fine structure constant.
 
-It is **not** established physics. It has not been peer-reviewed. The framework's own adversarial review estimates a 20-35% chance that it's genuinely capturing real physics rather than being an elaborate coincidence (Red Team v2.0, S257). But the results are unusual enough that the author considers them worth investigating.
+It is **not** established physics. It has not been peer-reviewed. The framework's own adversarial review estimates a 25-40% chance that it's genuinely capturing real physics rather than being an elaborate coincidence (Red Team v3.0, S330). But the results are unusual enough that the author considers them worth investigating.
 
 ---
 
@@ -115,8 +115,9 @@ This is where the framework is most striking and most controversial. Using only 
 **The fine structure constant** (which governs the strength of electromagnetism):
 - Formula: 1/alpha = 137 + 4/111 = 15211/111
 - This gives 137.036036...
-- The measured value is 137.035999084
-- That's a match to **0.27 parts per million** — using only integers
+- The measured value is 137.035999177 (CODATA 2022)
+- That's a match to **0.27 parts per million** at tree level — using only integers
+- With a two-loop correction (C_2 = 24/11, [DERIVATION]), this improves to 0.001 ppm (5.9 sigma). With a three-loop correction (D_3 = 1, [CONJECTURE]): **0.0006 sigma** from measurement
 
 **The proton-to-electron mass ratio** (why the proton is ~1836 times heavier than the electron):
 - Formula: m_p/m_e = 1836 + 11/72
@@ -142,13 +143,13 @@ In total: 12 predictions match to better than 10 parts per million, though 3 of 
 
 3. **Amateur work.** The author is not a professional physicist. While this doesn't automatically invalidate the work, it means the derivation chains may have gaps.
 
-4. **~2 structural assumptions.** Earlier claims of "zero free parameters" have been corrected. The framework makes about 2 structural choices that aren't forced by the axioms alone (reduced from ~3 after the Completeness Principle derived F=C in S251).
+4. **4 irreducible assumptions.** Earlier claims of "zero free parameters" have been corrected. The framework makes 4 assumptions that aren't forced by the axioms alone (1 structural, 2 physical, 1 import — reduced from ~10 via resolution campaign S258-S304). See `framework/IRREDUCIBLE_ASSUMPTIONS.md`.
 
 5. **Incomplete derivation chains.** Some key steps — particularly "Step 5" of the fine structure constant derivation — remain at the conjecture level.
 
 6. **~~Cosmological constant has wrong sign.~~** **RESOLVED (S230)**: This was a sign convention error in the framework documents. The correct GR relationship (Λ = -8πG·V) gives the right sign. The *magnitude* gap (~10^111) remains — this is the standard CC problem shared by all physics frameworks.
 
-7. **Internal probability estimate: 20-35%.** The framework's own adversarial analysis (Red Team v2.0, S257) gives it roughly one-in-four odds of being genuine physics.
+7. **Internal probability estimate: 25-40%.** The framework's own adversarial analysis (Red Team v3.0, S330) gives it roughly one-in-three odds of being genuine physics.
 
 ---
 
@@ -224,6 +225,8 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 | 2.2 | 2026-02-06 | S255 | CCP propagation: assumption count ~3->~2. F=C now derived. |
 | 2.3 | 2026-02-07 | S301 | Probability 15-25% -> 20-35% (Red Team v2.0, S257). Script count 548 -> 662+. IRA count -> 6 (S299). |
 | 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
+| 2.5 | 2026-02-09 | S324 | Assumption description updated: "~2 structural" -> "4 irreducible (1 structural, 2 physical, 1 import)". |
+| 2.6 | 2026-02-09 | S330 | Red Team v3.0: probability 20-35% -> 25-40%. IRA 10->4. |
 
 ---
 

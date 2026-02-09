@@ -271,8 +271,8 @@ These follow rigorously from the postulates.
 | Correction | n_d/Φ₆(n_c) | 4/111 | Crystallization incompleteness |
 | **Total** | **15211/111** | **137.036036** | |
 
-- Measured: 137.035999084(21)
-- **Accuracy: 0.27 ppm**
+- Measured: 137.035999177(21) (CODATA 2022)
+- **Accuracy: 0.27 ppm** (tree-level, 1755 sigma); 0.0009 ppm / 5.9 sigma after C_2=24/11 dressing [DERIVATION]; **0.0006 sigma** after D_3=1 three-loop [CONJECTURE, HRS 5]
 - Free parameters: 0
 - Verification: `alpha_enhanced_prediction.py`
 

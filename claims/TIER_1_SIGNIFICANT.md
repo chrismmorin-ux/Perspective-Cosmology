@@ -68,8 +68,8 @@ These claims have probability of random matching essentially 0%. They deserve se
 |----------|-------|
 | **Formula** | 1/alpha = n_d^2 + n_c^2 + n_d/(n_c^2 - n_c + 1) = 137 + 4/111 = 15211/111 |
 | **Predicted** | 137.036036036... |
-| **Measured (CODATA 2018)** | 137.035999084(21) |
-| **Precision** | **0.27 ppm** |
+| **Measured (CODATA 2022)** | 137.035999177(21) |
+| **Precision** | **0.27 ppm** (tree-level); 0.0009 ppm / 5.9 sigma after C_2=24/11 dressing [DERIVATION]; **0.0001 ppb / 0.0006 sigma** after D_3=1 three-loop [CONJECTURE, HRS 5] |
 | **Random match probability** | ~0% |
 
 ### Framework Numbers Used

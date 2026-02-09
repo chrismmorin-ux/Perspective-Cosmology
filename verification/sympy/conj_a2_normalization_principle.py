@@ -395,7 +395,7 @@ THE DUALITY ARGUMENT:
     - alpha_tree = 1/137 (electromagnetic coupling)
     - Omega_m = 63/200 (matter fraction)
 
-  Both match observation (alpha: 0.0002 ppm after corrections;
+  Both match observation (alpha: 2-loop 5.9 sigma; 3-loop D_3=1: 0.0006 sigma [CONJ];
   Omega_m: 0.04 sigma).
 
   Getting TWO correct predictions from ONE assumption is strong
@@ -560,7 +560,7 @@ EITHER WAY:
 tests_total += 1
 # Check: N_I = n_d^2 + n_c^2 (derived) + kappa = 1 -> alpha = 1/137
 # Combined with C = 24/11 (derived) -> 1/alpha = 137.035999053
-# Matches CODATA to 0.0002 ppm
+# Matches CODATA 2022: 2-loop 5.9 sigma; 3-loop D_3=1: 0.0006 sigma [CONJ, HRS 5]
 from sympy import nsolve, pi as PI
 a = symbols('a', positive=True)
 C_coeff = R(24, 11)

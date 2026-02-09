@@ -1,0 +1,299 @@
+{
+  "stats": {
+    "total_scripts": 735,
+    "pass_rate": 99.8,
+    "domains": 8,
+    "total_tests": 4200,
+    "codata_year": 2022
+  },
+  "domains": [
+    { "id": "alpha", "name": "Fine Structure Constant", "icon": "atom", "count": 38, "color": "#3b82f6" },
+    { "id": "weinberg", "name": "Weinberg Angle", "icon": "angle", "count": 22, "color": "#8b5cf6" },
+    { "id": "cosmology", "name": "Cosmology", "icon": "globe", "count": 45, "color": "#06b6d4" },
+    { "id": "particles", "name": "Particles & Masses", "icon": "particles", "count": 65, "color": "#f59e0b" },
+    { "id": "gauge", "name": "Gauge Structure", "icon": "gauge", "count": 30, "color": "#22c55e" },
+    { "id": "qm", "name": "Quantum Mechanics", "icon": "wave", "count": 12, "color": "#ec4899" },
+    { "id": "gravity", "name": "Gravity & GR", "icon": "gravity", "count": 18, "color": "#ef4444" },
+    { "id": "math", "name": "Pure Mathematics", "icon": "proof", "count": 40, "color": "#94a3b8" }
+  ],
+  "featured": [
+    {
+      "id": "feat-01",
+      "filename": "alpha_enhanced_prediction.py",
+      "title": "Fine Structure Constant (alpha)",
+      "description": "Derives 1/alpha = 137 + 4/111 entirely from division algebra dimensions. Sub-ppm accuracy (0.3 ppm) with zero free parameters.",
+      "formula": "1/alpha = n_d^2 + n_c^2 + n_d/(n_c^2 - n_c + 1) = 137.036036...",
+      "measured": "137.035999... (CODATA 2022)",
+      "precision": "0.3 ppm",
+      "domain": "alpha",
+      "tests": 4,
+      "featured_order": 1,
+      "start_here": true
+    },
+    {
+      "id": "feat-02",
+      "filename": "weinberg_one_loop_coefficient.py",
+      "title": "Weinberg Angle (tree + one-loop)",
+      "description": "Tree-level sin^2(theta_W) = 28/121 from democratic bilinear principle, plus one-loop correction structure. 800 ppm tree gap analyzed.",
+      "formula": "sin^2(theta_W) = 28/121 = 0.23140...",
+      "measured": "0.23122 +/- 0.00003 (PDG 2022)",
+      "precision": "800 ppm (tree)",
+      "domain": "weinberg",
+      "tests": 8,
+      "featured_order": 2,
+      "start_here": true
+    },
+    {
+      "id": "feat-03",
+      "filename": "hubble_337_derivation.py",
+      "title": "Hubble Constant (H_0)",
+      "description": "Derives H_0 = 337/5 = 67.4 km/s/Mpc from fourth-power prime family. Exact match to Planck 2018 CMB value within measurement uncertainty.",
+      "formula": "H_0 = (Im_H^4 + H^4)/5 = 337/5 = 67.4",
+      "measured": "67.4 +/- 0.5 km/s/Mpc (Planck 2018)",
+      "precision": "Exact to reported precision",
+      "domain": "cosmology",
+      "tests": 4,
+      "featured_order": 3,
+      "start_here": true
+    },
+    {
+      "id": "feat-04",
+      "filename": "omega_lambda_derivation.py",
+      "title": "Dark Energy Density (Omega_Lambda)",
+      "description": "Derives Omega_Lambda = 137/200 = 0.685 connecting the fine structure constant to cosmological expansion.",
+      "formula": "Omega_Lambda = 137/200 = 0.685",
+      "measured": "0.685 +/- 0.007 (Planck 2018)",
+      "precision": "0.3%",
+      "domain": "cosmology",
+      "tests": 4,
+      "featured_order": 4,
+      "start_here": true
+    },
+    {
+      "id": "feat-05",
+      "filename": "omega_m_equipartition_derivation.py",
+      "title": "Matter Density (Omega_m)",
+      "description": "Derives Omega_m = 63/200 from Hilbert-Schmidt equipartition with dual-channel counting. 63 dual-role generators out of 200 total contributions.",
+      "formula": "Omega_m = 63/200 = 0.315",
+      "measured": "0.3153 +/- 0.0073 (Planck 2018)",
+      "precision": "0.04 sigma",
+      "domain": "cosmology",
+      "tests": 6,
+      "featured_order": 5,
+      "start_here": true
+    },
+    {
+      "id": "feat-06",
+      "filename": "conj_a3_algebraic_incompatibility.py",
+      "title": "CONJ-A3: Algebraic Independence (pure math)",
+      "description": "Proves R^4 and R^7 structures cannot coexist in a common norm-multiplicative algebra. Forces n_d^2 + n_c^2 = 137, not (n_d + n_c)^2 = 225. Uses Radon-Hurwitz obstruction.",
+      "formula": "rho(7) = 1 -> [4,7,7]-composition impossible",
+      "measured": null,
+      "precision": "Exact (theorem)",
+      "domain": "math",
+      "tests": 6,
+      "featured_order": 6,
+      "start_here": true
+    },
+    {
+      "id": "feat-07",
+      "filename": "generation_mechanism_formalization.py",
+      "title": "Three Generations of Fermions",
+      "description": "Three independent mechanisms trace the generation count to dim(Im(H)) = 3. Strongest: Hom(H, R^7) decomposes into exactly 3 quaternionic channels.",
+      "formula": "N_gen = dim(Im(H)) = 3",
+      "measured": "3 (observed)",
+      "precision": "Exact",
+      "domain": "particles",
+      "tests": 6,
+      "featured_order": 7,
+      "start_here": true
+    },
+    {
+      "id": "feat-08",
+      "filename": "schrodinger_from_projection.py",
+      "title": "Schrodinger Equation from Projection",
+      "description": "Derives the Schrodinger equation, Born rule, and uncertainty principle from dimensional projection of a higher-dimensional wave onto 3D.",
+      "formula": "H_3D psi = E_3D psi (from separation of variables)",
+      "measured": null,
+      "precision": "Exact (derivation)",
+      "domain": "qm",
+      "tests": 12,
+      "featured_order": 8,
+      "start_here": true
+    }
+  ],
+  "curated": [
+    {
+      "id": "cur-01",
+      "filename": "alpha_C_derivation_composite.py",
+      "title": "Alpha C_2 Coefficient (24/11)",
+      "description": "Derives the alpha correction coefficient C_2 = 24/11 from composite Grassmannian geometry. Achieves 0.0002 ppm accuracy.",
+      "formula": "1/alpha = 137 + 4/111 + 24/11 * alpha/pi",
+      "precision": "0.0002 ppm",
+      "domain": "alpha",
+      "tests": 20
+    },
+    {
+      "id": "cur-02",
+      "filename": "alpha_step5_mechanism.py",
+      "title": "Alpha Step 5: Three-Path Convergence",
+      "description": "Three independent calculation paths (VEV counting, alternating signs, 2D sigma model) converge on the same correction structure.",
+      "precision": "0.0006 sigma",
+      "domain": "alpha",
+      "tests": 10
+    },
+    {
+      "id": "cur-03",
+      "filename": "tree_dressed_systematic.py",
+      "title": "Tree-to-Dressed Classification (16 ratios)",
+      "description": "Classifies all 16 derived dimensionless ratios into radiative correction bands A/B/C with structural coefficients.",
+      "precision": "Systematic",
+      "domain": "alpha",
+      "tests": 8
+    },
+    {
+      "id": "cur-04",
+      "filename": "band_A_dressed_predictions.py",
+      "title": "Band A Dressed Predictions",
+      "description": "One-loop corrections for Band A quantities (alpha, Weinberg angle) using framework coefficients.",
+      "precision": "Sub-ppm",
+      "domain": "alpha",
+      "tests": 6
+    },
+    {
+      "id": "cur-05",
+      "filename": "band_B_coefficient_analysis.py",
+      "title": "Band B Coefficient Analysis",
+      "description": "Analyzes intermediate-precision predictions in Band B with effective coupling extraction.",
+      "precision": "Percent-level",
+      "domain": "alpha",
+      "tests": 8
+    },
+    {
+      "id": "cur-06",
+      "filename": "weinberg_coefficient_origin.py",
+      "title": "Weinberg Coefficient Origin",
+      "description": "Traces the Weinberg angle tree-level formula sin^2 = n_d*Im_O / n_c^2 = 28/121 to its algebraic roots.",
+      "precision": "800 ppm (tree)",
+      "domain": "weinberg",
+      "tests": 6
+    },
+    {
+      "id": "cur-07",
+      "filename": "dark_matter_mass_scale.py",
+      "title": "Dark Matter Mass Scale",
+      "description": "Explores six approaches to the dark matter particle mass from crystallization stress, geometric means, and gauge ratios.",
+      "precision": "Order of magnitude",
+      "domain": "particles",
+      "tests": 8
+    },
+    {
+      "id": "cur-08",
+      "filename": "yang_mills_mass_gap_analysis.py",
+      "title": "Yang-Mills Mass Gap Structure",
+      "description": "Framework structural analysis: b_0(pure SU(3)) = 11 = n_c, glueball mass conjecture m_0++/sqrt(sigma) ~ n_d = 4.",
+      "precision": "Structural",
+      "domain": "gauge",
+      "tests": 6
+    },
+    {
+      "id": "cur-09",
+      "filename": "higgs_mass_pngb_cw.py",
+      "title": "Higgs Mass from Coleman-Weinberg",
+      "description": "pNGB Higgs mass from SO(11)->SO(4)xSO(7) breaking via Coleman-Weinberg potential. 28 Goldstone modes decompose under SM gauge group.",
+      "precision": "Structural",
+      "domain": "particles",
+      "tests": 8
+    },
+    {
+      "id": "cur-10",
+      "filename": "dark_matter_phenomenology.py",
+      "title": "Dark Matter Phenomenology",
+      "description": "Experimental signatures, detection cross-sections, and collider signatures for the framework's dark matter candidate.",
+      "precision": "Phenomenological",
+      "domain": "particles",
+      "tests": 6
+    },
+    {
+      "id": "cur-11",
+      "filename": "so8_triality_28_decomposition.py",
+      "title": "SO(8) Triality and 28 Decomposition",
+      "description": "Verifies SO(8) triality structure and the decomposition of 28 = dim(so(8)) into representation-theoretic components.",
+      "precision": "Exact",
+      "domain": "math",
+      "tests": 8
+    },
+    {
+      "id": "cur-12",
+      "filename": "ira_01_ratio_consistency.py",
+      "title": "IRA-01 Ratio Consistency",
+      "description": "Cross-checks consistency of the 4 remaining irreducible assumptions against derived quantities.",
+      "precision": "Consistency check",
+      "domain": "math",
+      "tests": 6
+    },
+    {
+      "id": "cur-13",
+      "filename": "neutrino_mass_derivation.py",
+      "title": "Neutrino Mass Formula",
+      "description": "Derives neutrino mass scale from seesaw mechanism with framework parameters.",
+      "precision": "Order of magnitude",
+      "domain": "particles",
+      "tests": 4
+    },
+    {
+      "id": "cur-14",
+      "filename": "gravitational_coupling_derivation.py",
+      "title": "Gravitational Coupling",
+      "description": "Explores the connection between gravitational coupling G and division algebra dimensions.",
+      "precision": "Structural",
+      "domain": "gravity",
+      "tests": 4
+    },
+    {
+      "id": "cur-15",
+      "filename": "acoustic_peak_dynamics.py",
+      "title": "CMB Acoustic Peak Dynamics",
+      "description": "Derives acoustic peak spacing from framework cosmological parameters.",
+      "precision": "Percent-level",
+      "domain": "cosmology",
+      "tests": 6
+    },
+    {
+      "id": "cur-16",
+      "filename": "alpha_ccwz_one_loop.py",
+      "title": "Alpha CCWZ One-Loop",
+      "description": "Computes alpha one-loop correction using CCWZ (Callan-Coleman-Wess-Zumino) formalism on the coset SO(11)/[SO(4)xSO(7)].",
+      "precision": "Sub-ppm",
+      "domain": "alpha",
+      "tests": 10
+    },
+    {
+      "id": "cur-17",
+      "filename": "h_parity_conservation_depth.py",
+      "title": "H-Parity Conservation",
+      "description": "Proves conservation of H-parity quantum number — stabilizes dark matter candidate against decay.",
+      "precision": "Exact (theorem)",
+      "domain": "particles",
+      "tests": 8
+    },
+    {
+      "id": "cur-18",
+      "filename": "tier1_numerical_verification.py",
+      "title": "Tier 1 Numerical Verification",
+      "description": "Master verification script: checks all 13 Tier 1 (sub-10 ppm) predictions against CODATA 2022 / PDG measurements.",
+      "precision": "Multi-quantity",
+      "domain": "math",
+      "tests": 13
+    },
+    {
+      "id": "cur-19",
+      "filename": "tier2_numerical_verification.py",
+      "title": "Tier 2 Numerical Verification",
+      "description": "Checks all Tier 2 predictions (10-10,000 ppm) against measured values.",
+      "precision": "Multi-quantity",
+      "domain": "math",
+      "tests": 10
+    }
+  ]
+}

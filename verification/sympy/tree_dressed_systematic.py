@@ -662,7 +662,7 @@ print(f"""
   ----  --------          -------------    ---------  ---------------------       ------
   C     m_p/m_e           132203/72        0.06       C ~ {C_mpme:.3f} (a^2/pi)        [EXTRACT]
   C     v/M_Koide         1569/2           0.13       C ~ {C_vM:.3f} (a^2/pi)          [EXTRACT]
-  C     1/alpha           15211/111        0.27       C = 24/11 (a^2/pi)         [CONJECTURE]
+  C     1/alpha           15211/111        0.27       C = 24/11 (a^2/pi)         [DERIVATION]
   B     v/m_p             11284/43         1.5        C ~ 1/n_c (a^2/pi)         [SPECULATION]
   B     m_mu/m_e          8891/43          4.1        C ~ 1/n_d (a^2/pi)         [SPECULATION]
   B     Koide_theta       pi*73/99*f       14.7       C ~ ? (a^2/pi)             [NEW]

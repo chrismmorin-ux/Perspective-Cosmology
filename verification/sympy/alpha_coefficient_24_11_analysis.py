@@ -605,6 +605,7 @@ print(f"""
   5. With C = 24/11, the corrected 1/alpha is within ~0.005 ppm of
      measurement -- an improvement of ~50x over C = 2.
 
-  STATUS: [CONJECTURE] -- C = 24/11 is structurally motivated but not derived
-  from axioms. The colored pNGB interpretation is the most physical.
+  STATUS: [DERIVATION] -- C = 24/11 is derived from defect charge
+  selection theorem (CCWZ Phase 2, S338-S344). The colored pNGB interpretation
+  provides the physical mechanism.
 """)

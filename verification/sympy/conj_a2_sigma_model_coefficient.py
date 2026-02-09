@@ -645,7 +645,7 @@ DOES GIVE (from one-loop sigma model):
   1. sum(Q^2)_coset = {sum_Q2_coset} = 2*Im_O [THEOREM]
   2. Charge pattern: 7 modes at Q=+1, 14 at Q=0, 7 at Q=-1 [THEOREM]
   3. Colored subset: sum(Q^2) = 12 = (Im_O-1)*2 [THEOREM]
-  4. Two-loop coefficient C = 24/11 when combined with rho_EM [CONJECTURE]
+  4. Two-loop coefficient C = 24/11 when combined with rho_EM [DERIVATION]
   5. Self-consistent running structure
 
 DOES NOT GIVE:

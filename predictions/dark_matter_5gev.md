@@ -1,7 +1,9 @@
 # Dark Matter Prediction: m_DM = 5.11 GeV
 
-**Status**: ACTIVE PREDICTION — Most decisive test of framework
-**Priority**: HIGHEST
+> **REVISION NEEDED**: This file predates S320/S335/S339 retractions. The mass prediction and density ratio SURVIVE but the carrier particle identity and coupling mechanism are RETRACTED. See `framework/investigations/particles/dark_matter_identity.md` for current status.
+
+**Status**: ACTIVE PREDICTION (mass survives; identity OPEN)
+**Priority**: HIGH
 **Timeline**: 2025-2027
 
 ---
@@ -20,14 +22,14 @@ This is the framework's most falsifiable prediction. Detection at the wrong mass
 
 From the cosmic inventory:
 ```
-Ω_DM/Ω_b = 49/9 = (Im_O)² / (Im_H)² = 7²/3²
+Omega_DM/Omega_b = 49/9 = (Im_O)^2 / (Im_H)^2 = 7^2/3^2
 ```
 
 This is the ratio of color-squared to generation-squared.
 
-**Measured**: Ω_DM/Ω_b ≈ 5.32 (Planck 2018)
+**Measured**: Omega_DM/Omega_b ~ 5.376 (Planck 2018: 0.265/0.0493)
 **Predicted**: 49/9 = 5.444
-**Error**: 2.3%
+**Error**: 1.3% (1.3 sigma)
 
 ### Step 2: Number Density Relation
 
@@ -61,57 +63,26 @@ m_DM = m_b × (Ω_DM/Ω_b) = m_p × 49/9 ≈ 5.11 GeV
 
 ---
 
-## Alternative Derivation: 4th Generation (Session 119)
+## ~~Alternative Derivation: 4th Generation (Session 119)~~ **RETRACTED S320**
 
-### Path 2: From SO(14) Spinor Structure
+> **RETRACTED**: S320 showed SO(11) spinor 32 = 1 SM generation with 0 dark states. The "4th dark generation" model from SO(14) is incompatible with the SO(11) framework. See S320.md.
 
-The SO(14) Weyl spinor decomposes as:
-```
-64 = (Im_H + R) × 16 = (3 + 1) × 16
+### ~~Path 2: From SO(14) Spinor Structure~~
 
-Where:
-  Im_H = 3 visible generations
-  R = 1 dark (4th) generation
-  16 = states per generation
-```
+~~The SO(14) Weyl spinor decomposes as 64 = (3+1) x 16, giving a "dark generation".~~
 
-The dark generation has mass hierarchy:
-```
-m_dark/m_visible = (n_c - 1)^4 = 10^4
-```
+**This model is INVALID** for SO(11): the spinor decomposition gives exactly 1 SM generation (15 SM + 1 nu_R), with 0 dark states.
 
-For the dark electron (lightest dark particle):
-```
-m_dark_e = m_e × 10^4 = 0.511 MeV × 10000 = 5.11 GeV
-```
+### Why Two Paths Give the Same Number
 
-**SAME ANSWER as Path 1!**
-
-### Why Two Paths Agree
+The canonical derivation (S315) is now:
 
 | Path | Input | Formula | Result |
 |------|-------|---------|--------|
-| 1 (Cosmology) | Ω_DM/Ω_b = 49/9 | m_p × 49/9 | 5.11 GeV |
-| 2 (Generations) | hierarchy = 10^4 | m_e × 10^4 | 5.11 GeV |
+| 1 (Cosmology) | Omega_DM/Omega_b = 49/9 | m_p x 49/9 | 5.114 GeV |
+| 2 (det, canonical) | det(M) on End(R^4) | m_e x (n_c-1)^n_d | 5.110 GeV |
 
-The agreement is NOT coincidence:
-```
-m_p × 49/9 ≈ m_e × 10^4
-
-Because: m_p/m_e ≈ 1836 ≈ 9 × 204 ≈ Im_H² × (n_c-1)²
-```
-
-Both paths use the same framework numbers (Im_O, Im_H, n_c) — they MUST agree.
-
-### Physical Model: Dark Electron
-
-The dark matter is the **4th generation electron**:
-- Same quantum numbers as visible electron (charge -1, spin 1/2)
-- But in the "dark generation" from quaternion real axis
-- Stable: cannot decay to visible generations (mixing suppressed by 10^-4)
-- Mass: 5.11 GeV exactly
-
-**Verification**: `so14_dark_generation.py` (15/15 PASS), `dark_generation_spectrum.py` (8/8 PASS)
+Agreement to ~0.05% because m_p/m_e ~ 1836 ~ 9 x 204 ~ Im_H^2 x (n_c-1)^2.
 
 ---
 
@@ -131,18 +102,15 @@ The dark matter is the **4th generation electron**:
 
 ### Nature of Dark Matter
 
-| Property | Prediction | Reason |
+| Property | Prediction | Status |
 |----------|------------|--------|
-| Asymmetric | Yes | Same mechanism as baryon asymmetry |
-| Self-interacting | Yes, σ/m ~ 0.025 cm²/g | Portal coupling |
-| Portal coupling | ε ~ α² ~ 5×10⁻⁵ | Two gauge vertices |
+| Asymmetric | Yes | SURVIVES (from Omega ratio) |
+| ~~Self-interacting~~ | ~~σ/m ~ 0.025 cm²/g~~ | **RETRACTED** (coupling unknown, S339) |
+| ~~Portal coupling~~ | ~~ε ~ α² ~ 5×10⁻⁵~~ | **RETRACTED** (carrier unidentified, S339) |
 
-### Dark Sector Structure
+### ~~Dark Sector Structure~~ **RETRACTED S320/S339**
 
-| Particle | Mass | Role |
-|----------|------|------|
-| Dark fermion | 5.11 GeV | Dark matter |
-| Dark photon | ~5 GeV | Portal mediator |
+> ~~Dark fermion at 5.11 GeV + dark photon at ~5 GeV.~~ **RETRACTED**: No dark sector from SO(11) spinor (S320). Coupling mechanism invalidated (S335/S339). DM carrier UNKNOWN.
 
 ---
 
@@ -206,7 +174,7 @@ If dark matter is detected at mass outside 4.5-5.7 GeV:
 
 ## Verification
 
-**Script**: `verification/sympy/dark_matter_testable_predictions.py` (note: originally referenced as `dark_matter_mass_prediction.py`, which does not exist)
+**Scripts**: `verification/sympy/dm_exponent_determinant.py` (S315), `verification/sympy/dm_candidate_systematic_survey.py` (32/32 PASS, S339)
 
 ```python
 # Key calculation
@@ -240,14 +208,17 @@ print(f"Predicted: m_DM = {float(m_DM):.2f} MeV = {float(m_DM)/1000:.3f} GeV")
 
 **m_DM = 5.11 GeV is the framework's most testable prediction.**
 
-- Derived from first principles (division algebra dimensions)
+- Mass derived from structural invariants: m_e * (n_c-1)^n_d (S315 [DERIVATION])
 - Clear falsification criterion (wrong mass)
 - Being tested NOW (2025-2027)
 - Current null results are consistent but prediction is under pressure
+- **OPEN GAP**: Carrier particle unidentified (S339). All 28 pNGBs accounted for. Most promising: nu_R from spinor.
 
 If confirmed: Framework gains enormous credibility
 If falsified: Framework must honestly acknowledge failure
 
 ---
 
-*This prediction will likely determine the framework's fate.*
+*See `framework/investigations/particles/dark_matter_identity.md` for full carrier analysis.*
+*Canonical derivation script: `verification/sympy/dm_exponent_determinant.py` (S315)*
+*Retraction analysis: `verification/sympy/det_tr_decoupling_analysis.py` (32/32 PASS, S339)*

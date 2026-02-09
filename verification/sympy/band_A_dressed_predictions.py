@@ -281,7 +281,7 @@ alpha_inv_meas = 137.035999177
 alpha_inv_resid = abs(alpha_inv_dressed - alpha_inv_meas) / alpha_inv_meas * 1e6
 predictions.append(("C", "1/alpha", "24/11", f"{float(alpha_tree_inv):.6f}",
     f"{alpha_inv_dressed:.6f}", f"{alpha_inv_meas:.6f}",
-    f"{alpha_inv_resid:.4f}", "0.0002 ppm"))
+    f"{alpha_inv_resid:.4f}", "2-loop: 5.9σ; 3-loop D_3=1: 0.0006σ [CONJ]"))
 
 # m_p/m_e: absolute correction
 C_mpme = Rational(43, 7)
@@ -381,7 +381,7 @@ print("""
 
   COUNTER-ARGUMENT: These assignments are post-hoc. With 8 quantities
   and ~10 framework building blocks, finding matches is expected.
-  The discriminating power comes from PRECISION: 24/11 gives 0.0002 ppm.
+  The discriminating power comes from PRECISION: C_2=24/11 [DERIVATION]; 2-loop: 5.9σ; 3-loop D_3=1: 0.0006σ [CONJ].
 """)
 
 # ==================================================================

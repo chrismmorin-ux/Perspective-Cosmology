@@ -7,15 +7,18 @@
 
 ### 1.1 Fine Structure Constant (α) — Prime Attractor + Crystallization
 
-**Confidence**: STRONG DERIVATION — **0.27 ppm** accuracy with zero free parameters
+**Confidence**: STRONG DERIVATION (tree-level) — **0.27 ppm** with zero free parameters
 
-| Property | Value |
-|----------|-------|
-| **Formula** | 1/α = n_d² + n_c² + n_d/(n_c² - n_c + 1) = 137 + 4/111 = 15211/111 |
-| **Predicted** | 137.036036... |
-| **Measured (CODATA 2022)** | 137.035999177(21) |
-| **Accuracy** | **0.27 ppm** (sub-ppm!) |
-| **Session** | S77-80 |
+| Level | 1/alpha | Gap | Sigma | Parameters | Confidence |
+|-------|---------|-----|-------|------------|------------|
+| **Tree** | 15211/111 = 137.036036... | 0.27 ppm | 1755 | 0 | [DERIVATION] |
+| **2-loop** (C_2 = 24/11) | 137.035999053 | 0.0009 ppm | **5.9** | 1 | [DERIVATION] (S341-S344) |
+| **3-loop** (D_3 = 1) | 137.035999177 | 0.0001 ppb | **0.0006** | 2 | [CONJECTURE, HRS 5] (S344) |
+| **Measured (CODATA 2022)** | 137.035999177(21) | — | — | — | — |
+
+**Status**: Tree-level is 0.27 ppm (remarkable for zero parameters). Two-loop: C_2=24/11 from defect charges on SO(11)/SO(4)xSO(7) [DERIVATION]. Three-loop: D_3=1, candidate origin N_VEV=1 [CONJECTURE, HRS 5]. Full formula: 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi. All coefficients rational. Grassmannian: C_2 = k*(n-k-1)/n with k=4, n=11. Scripts: `alpha_ccwz_three_loop.py` (24/24 PASS), `alpha_d3_derivation_attempt.py` (23/23 PASS).
+
+| **Session** | S77-80 (tree), S266 (C_2=24/11), S331 (3-loop analysis) |
 
 **Physical Interpretation**:
 - n_d = 4: dim(H) — largest associative division algebra (spacetime defect)

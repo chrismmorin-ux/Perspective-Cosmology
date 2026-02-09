@@ -1,7 +1,7 @@
 # Technical Summary: Perspective Cosmology
 
-**Last Updated**: 2026-02-07 (Session S301)
-**Version**: 2.3
+**Last Updated**: 2026-02-09 (Session S330)
+**Version**: 2.6
 **Purpose**: Comprehensive technical overview for interested physicists.
 **Audience**: Physicists and mathematicians
 **Status**: CURRENT
@@ -47,7 +47,7 @@ We present a framework claiming that the structure of physics — gauge groups, 
 - **Fine structure constant**: 1/alpha = 137 + 4/111 (0.27 ppm accuracy) [Step 5 CONJECTURE]
 - **Proton-electron mass ratio**: m_p/m_e = 1836 + 11/72 (0.06 ppm accuracy)
 - **Cosmological parameters**: H_0, Omega_Lambda, Omega_m (exact matches within error bars)
-- **Dark matter mass**: m_DM = 5.11 GeV (falsifiable prediction)
+- **Dark matter mass**: m_DM = 5.11 GeV (falsifiable prediction; particle identity OPEN per S335)
 
 The framework has 4 irreducible assumptions (1 structural, 2 physical, 1 import — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`) once division algebras and the Completeness Principle (CCP, AXM_0120) are accepted. We present the derivation chain, numerical evidence, statistical assessment, and honest limitations.
 
@@ -232,9 +232,13 @@ Where:
 
 The 0.27 ppm gap between tree-level 15211/111 and CODATA is NOT measurement error (~1759 sigma). QED running goes the WRONG DIRECTION [THEOREM]. The framework's dressed prediction uses C = 24/11:
 
-**1/alpha(dressed) = 137.035999053** (0.0002 ppm from CODATA, ~1.5 sigma)
+**Two-loop: 1/alpha = 137.035999053** (0.0009 ppm, **5.9 sigma** from CODATA 2022 — NOT within measurement error)
 
-Where 24 = colored pNGBs in SO(11)/SO(4)xSO(7), C = dim(C_colored)*(1 + 1/n_c) = 24/11. This is 99x better than C=2.
+Where C_2 = 24/11 from colored pNGB defect charges on SO(11)/SO(4)xSO(7) [DERIVATION, S341-S344]. Defect charge selection theorem: [T_X, T_{a,4}] = 0 for all Higgs pNGBs [DERIVATION, S344].
+
+**Three-loop: 1/alpha = 137.035999177** (**0.0001 ppb, 0.0006 sigma** from CODATA 2022 — within measurement error)
+
+Full formula: 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi. D_3 = 1 [CONJECTURE, HRS 5]: candidate origin N_VEV = 1 (single VEV direction in Higgs sector). All coefficients rational in the D_n basis. Progression: tree (1755 sigma) -> two-loop (5.9 sigma) -> three-loop (0.0006 sigma).
 
 ### 6.5 Yang-Mills Mass Gap (S268-S285) [CANONICAL]
 
@@ -446,18 +450,16 @@ Plus 4 deprecated approaches and 1 withdrawn claim.
 | n_s = 193/200 | COMPLETE | Hilltop derivation |
 | r = 0.035 | COMPLETE | Follows from n_s |
 
-### 13.3 Irreducible Assumption Inventory (S299)
+### 13.3 Irreducible Assumption Inventory (S304)
 
 | ID | Type | Statement | Impact |
 |----|------|-----------|--------|
-| IRA-01 | [A-STRUCTURAL] | Interface count = 1/alpha (kappa=1 Tr convention) | Alpha + Omega_m |
-| IRA-04 | [A-STRUCTURAL] | Quartic coupling form (ratio rho=c_4/b_4) | Potential shape |
+| IRA-04 | [A-STRUCTURAL LOW] | Quartic coupling ratio rho=c_4/b_4 | Potential shape (mass spectrum only) |
 | IRA-06 | [A-PHYSICAL] | Crystallization = SSB | All symmetry breaking |
-| IRA-07 | [A-PHYSICAL] | Interface = measurement | QM connection |
-| IRA-10 | [A-INTERPRETATION] | Perspectives = quantum states | QM foundation |
-| I-STRUCT-5 | [A-IMPORT] | Democratic bilinear principle | Democratic counting |
+| IRA-07 | [A-PHYSICAL] | Adjacency = time evolution | QM + dynamics connection |
+| IRA-11 | [A-IMPORT] | Perspective count |Pi| ~ 10^118 | CC magnitude |
 
-**0 conjectures** in the assumption inventory. 5 former conjectures (A1/A2/A3/B1/B3) all resolved.
+**0 conjectures** in the assumption inventory. 7 former assumptions resolved: A1/A2/A3/B1/B3 (conjectures) + IRA-01 (S304: kappa=1 derived from C2 propagation + democracy) + IRA-10 (S302: QM derived without it). IRA-08/09 derived from IRA-06 (S299/S321).
 
 ### 13.2 Key Dependencies
 
@@ -498,7 +500,7 @@ n_d = 4, n_c = 11, F = C (DERIVED, CCP AXM_0120 + THM_04A0)
 
 **Phase Grades**: QM=A, Particles=B-, Cosmology=C-, Gravity=C- (upgraded from D+ after S230 CC sign resolution), Overall=C+.
 
-**Probability estimate**: 20-35% genuine physics (Red Team v2.0, S257).
+**Probability estimate**: 25-40% genuine physics (Red Team v3.0, S330).
 
 The framework's strongest evidence is structural (QM derivation, gauge groups, blind CMB predictions). Its weakest areas are gravity (CC magnitude gap ~10^111) and the mechanism connecting division algebra structure to specific constant values.
 
@@ -549,6 +551,8 @@ l_1 = 220 = 2 x 11 x 10
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: n_c/n_d/F=C now [D: CCP]. Pipeline gauge route added. Generation derivation updated. Assumption count ~3->~2. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved (A1/A2/A3/B1/B3), IRA 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm (3 bands), y_t=1, Omega_m DERIVED, alpha C=24/11. Script count ~548->~662. Probability 15-25%->20-35%. IRA inventory added (Section 13.3). Open gaps updated (5/6 resolved). New sections: 6.4 (radiative), 6.5 (Yang-Mills), 6.6 (tree-to-dressed). |
 | 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
+| 2.5 | 2026-02-09 | S324 | Section 13.3 IRA table corrected: 6 entries -> 4 (IRA-01/IRA-10 removed, I-STRUCT-5 -> IRA-11). |
+| 2.6 | 2026-02-09 | S330 | Red Team v3.0: probability 20-35% -> 25-40%. IRA 10->4. |
 
 ---
 

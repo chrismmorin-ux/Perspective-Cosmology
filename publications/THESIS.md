@@ -1,7 +1,7 @@
 # The Thesis: Physics as Mathematical Necessity
 
-**Last Updated**: 2026-02-07 (Session S301)
-**Version**: 2.3
+**Last Updated**: 2026-02-09 (Session S330)
+**Version**: 2.5
 **Purpose**: Central claim of the framework in condensed form — a 5-minute overview.
 **Audience**: Academic / anyone wanting the core argument
 **Status**: CURRENT
@@ -135,9 +135,11 @@ Field selection:              F = C  [D: CCP]
 
 | Constant | Formula | Predicted | Measured | Error |
 |----------|---------|-----------|----------|-------|
-| **1/alpha** | 4^2 + 11^2 + 4/Phi_6(11) | 137.036036 | 137.035999084 | **0.27 ppm** |
+| **1/alpha** | 4^2 + 11^2 + 4/Phi_6(11) | 137.036036 | 137.035999177 | **0.27 ppm** (tree) |
 | **m_p/m_e** | 1836 + 11/72 | 1836.15278 | 1836.15267343 | **0.06 ppm** |
 | **cos(theta_W)** | 171/194 | 0.881443 | 0.881447 | **3.75 ppm** |
+
+**Dressed prediction** (S337-S344): 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi = **137.035999177** (0.0006 sigma from CODATA). C_2 = 24/11 from colored pNGB defect charges [DERIVATION]; D_3 = 1 from VEV mode counting [CONJECTURE, HRS 5]. All coefficients rational.
 
 **Interpretation**:
 - 137 = 4^2 + 11^2 (spacetime^2 + crystal^2)
@@ -182,7 +184,7 @@ Physics scales are built into the algebra.
 - **16 Tier 2 claims** (10-10000 ppm)
 - **~41 Tier 3 claims** (>100 ppm, individually weak)
 - **14 falsified claims** (9 definitive + 4 deprecated + 1 withdrawn)
-- **~689 verification scripts** (99.9% run rate)
+- **~713 verification scripts** (99.9% run rate)
 - **4 irreducible assumptions** (1 structural, 2 physical, 1 import) — see `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 
 ---
@@ -265,7 +267,7 @@ The tensor-to-scalar ratio r = 1 - n_s = 7/200 = 0.035 is derived from hilltop i
 5. ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error; V<0 gives Λ>0). Magnitude gap remains.
 6. Monte Carlo shows building blocks are not special at 1%
 7. Could be sophisticated numerology
-8. Red Team assessment: 20-35% probability of genuine physics (v2.0, S257)
+8. Red Team assessment: 25-40% probability of genuine physics (v3.0, S330)
 
 ### What We Claim
 
@@ -330,6 +332,7 @@ Either outcome advances knowledge.
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C/n_c/n_d DERIVED. Pipeline gauge route. Generation derivation. Assumption count ~3->~2. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved, IRA 10->6, probability 20-35%, script count ~662. Alpha Step 5 upgraded [A-STRUCTURAL]. |
 | 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved). Script count ~662->~713. |
+| 2.5 | 2026-02-09 | S330 | Red Team v3.0: probability 20-35% -> 25-40%. IRA 10->4. |
 
 ---
 

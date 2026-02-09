@@ -24,8 +24,8 @@ Not every error is a hallucination. This log tracks **LLM-generated errors** —
 
 | Metric | Value |
 |--------|-------|
-| Claims reviewed | 15 |
-| Hallucinations caught | 5 |
+| Claims reviewed | 16 |
+| Hallucinations caught | 6 |
 | Precision inflation | 4 |
 | Post-hoc fitting | 2 |
 | Hidden circularity | 1 |
@@ -312,6 +312,8 @@ When defining a gap parameter from data, check whether the scaling with coupling
 **Description**:
 Alpha scripts inconsistently use CODATA 2018 (1/alpha = 137.035999084) vs CODATA 2022 (137.035999206). The flagship "0.0002 ppm" claim for C=24/11 is computed against CODATA 2018. Against CODATA 2022, the gap would be ~0.001 ppm — still excellent but 5x worse. Since the framework doesn't predict which CODATA vintage to use, the honest precision claim should state the CODATA version used.
 
+**Resolution**: RESOLVED (S331). Full propagation completed: all markdown files and verification scripts updated to CODATA 2022 (137.035999177) with correct 0.0009 ppm / 5.9 sigma claim. ~30 files fixed.
+
 **Lesson learned**:
 Pin all precision claims to a specific CODATA version and state it explicitly. When updating to newer CODATA, recompute all affected precision claims.
 
@@ -408,6 +410,32 @@ The Weinberg criterion ("all defining properties present -> forced identificatio
 
 ---
 
-*Updated 2026-02-08 (Session S320). Added HP-013 (SU(3) misidentification, CRITICAL). New lesson: "lepton test" discriminator for generation claims.*
+### HP-014: Custodial Singlet Misidentified as SU(2)_L Singlet
+
+**Date**: 2026-02-09
+**Session**: S328 (correcting S325)
+**Type**: Representation theory error / invalid proof
+**How caught**: Explicit matrix computation (SymPy, 34/34 PASS)
+**Severity**: HIGH
+
+**Original claim** (S325, Finding #5):
+"Dark quarks are SU(2)_L singlets [DERIVATION]. The scalar channel comes from R c H (custodial singlet in the (2,2) bifundamental). The custodial singlet is the eps_{ab} contraction, which IS SU(2)_L invariant."
+
+**Actual result**:
+The (2,2) representation of SU(2)_L x SU(2)_R decomposes under SU(2)_L alone as 2+2 (two doublets). There is NO SU(2)_L singlet in (2,2). The custodial singlet (antisymmetric under diagonal SU(2)_V) is a SCALAR formed by contracting BOTH indices -- it's not a subrepresentation. ALL pNGBs from SO(11)/SO(4)xSO(7) are SU(2)_L doublets with Y = +/-1/2.
+
+**Additional finding**: F=C breaks SO(4) -> SU(2)_R x U(1)_L (not U(1) x U(1) as initially expected). J = -2*L1 commutes with ALL of SU(2)_R. This gives SU(2)_L(SM) = SU(2)_R, U(1)_Y(SM) = U(1)_L.
+
+**Impact**: S325 "SU(2)_L singlet" [DERIVATION] RETRACTED. S325 "Y=0 preferred" [CONJECTURE] RETRACTED. S322 "DM = pNGB color singlet" needs revision (pNGB color singlet = Higgs).
+
+**How it looked plausible**:
+The word "singlet" in "custodial singlet" suggests it's a singlet representation. The eps_{ab} contraction IS SU(2)_L invariant as a BILINEAR FORM -- but the eps contraction maps (2,2) -> scalar, not to a subrepresentation. The confusion: "SU(2)_L invariant contraction EXISTS" != "SU(2)_L singlet SUBSPACE exists". This is a basic representation theory error that was not caught because the argument sounded plausible.
+
+**Lesson learned**:
+(1) A group-invariant bilinear form (eps contraction) is NOT the same as a singlet subrepresentation. The form maps V tensor V -> scalars; a singlet subrepresentation is a 1D subspace of V. (2) For any product representation n x m, decompose under EACH factor separately before making gauge quantum number claims. (3) Always verify representation decompositions with explicit matrices, not verbal arguments.
+
+---
+
+*Updated 2026-02-09 (Session S328). Added HP-014 (custodial vs gauge singlet confusion, HIGH). New lesson: invariant bilinear form != singlet subrepresentation.*
 
 *Update this file whenever a hallucination is caught. The patterns will inform better defenses.*

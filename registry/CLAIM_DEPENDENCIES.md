@@ -689,10 +689,10 @@ All references use the canonical `core/` numbering system:
 **Used by**: Precision classification of all predictions
 **Verification**: `tree_dressed_paradigm_test.py` (12/12), `tree_dressed_systematic.py` (23/24)
 
-### Alpha C=24/11 (S266-S272)
-**Statement**: Dressed 1/alpha = 137.035999053 (0.0002 ppm from CODATA)
-**Depends on**: Tree-level 15211/111, C = 24/11 = dim(C_colored)*(1+1/n_c)
-**Verification**: `alpha_coefficient_24_11_analysis.py`, `alpha_em_index_density.py`
+### Alpha C_2=24/11 two-loop + D_3=1 three-loop (S266-S344)
+**Statement**: Two-loop: 1/alpha = 137.035999053 (0.0009 ppm, 5.9 sigma) [DERIVATION]. Three-loop: 1/alpha = 137.035999177 (**0.0006 sigma**) [CONJECTURE, HRS 5]. Full formula: 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi.
+**Depends on**: Tree-level 15211/111, C_2 = 24/11 (defect charges on SO(11)/SO(4)xSO(7)), D_3 = 1 (N_VEV candidate)
+**Verification**: `alpha_ccwz_three_loop.py` (24/24), `alpha_d3_derivation_attempt.py` (23/23), `alpha_em_index_density.py`, `alpha_three_loop_residual.py`
 
 ### Omega_m = 63/200 Derived (S293)
 **Statement**: Dual-channel HS equipartition: 63 dual-role generators, 74 interface-only, total 200 contributions

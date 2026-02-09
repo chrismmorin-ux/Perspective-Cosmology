@@ -379,7 +379,7 @@ UNAFFECTED (kappa-independent):
 AFFECTED (kappa-dependent):
   - 1/alpha = 137 (becomes 1/alpha = 137*kappa)
   - C = 24/11 coefficient (might change)
-  - Dressed 1/alpha = 137.035999053 (the 0.0002 ppm claim)
+  - Dressed 1/alpha = 137.035999053 (2-loop: 5.9 sigma; 3-loop with D_3=1: 0.0006 sigma [CONJ, HRS 5])
   - EQ-003 absolute resolution (becomes conditional on kappa)
 """)
 

@@ -1,0 +1,103 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "A framework deriving 63+ physical constants from division algebra geometry." } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | Perspective Cosmology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous" />
+</head>
+<body class="min-h-screen flex flex-col">
+  <nav class="border-b border-gray-800 bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="/" class="font-semibold text-lg text-white hover:text-brand-400 transition-colors">
+          Perspective Cosmology
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <a href="/explore" class="text-gray-400 hover:text-white transition-colors">Explore</a>
+          <a href="/publications/math" class="text-gray-400 hover:text-white transition-colors">Publications</a>
+          <a href="/skeptics" class="text-gray-400 hover:text-white transition-colors">For Skeptics</a>
+          <a href="/predictions" class="text-gray-400 hover:text-white transition-colors">Predictions</a>
+          <a href="/verify" class="text-gray-400 hover:text-white transition-colors">Verify</a>
+          <a href="/about" class="text-gray-400 hover:text-white transition-colors">About</a>
+          <a href="/faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a>
+        </div>
+        <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white" aria-label="Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-800 pb-4">
+      <div class="px-4 pt-2 space-y-2 text-sm">
+        <a href="/explore" class="block py-2 text-gray-400 hover:text-white">Explore</a>
+        <a href="/publications/math" class="block py-2 text-gray-400 hover:text-white">Publications</a>
+        <a href="/skeptics" class="block py-2 text-gray-400 hover:text-white">For Skeptics</a>
+        <a href="/predictions" class="block py-2 text-gray-400 hover:text-white">Predictions</a>
+        <a href="/verify" class="block py-2 text-gray-400 hover:text-white">Verify</a>
+        <a href="/about" class="block py-2 text-gray-400 hover:text-white">About</a>
+        <a href="/faq" class="block py-2 text-gray-400 hover:text-white">FAQ</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <footer class="border-t border-gray-800 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-gray-500">
+        <div>
+          <h3 class="text-white font-semibold mb-3">Perspective Cosmology</h3>
+          <p>Speculative mathematical framework exploring division algebra geometry and physical constants.</p>
+          <p class="mt-2 text-gray-600">25-40% chance this is genuine physics.<br/>100% chance the math is worth checking.</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-3">Resources</h3>
+          <ul class="space-y-1.5">
+            <li><a href="/publications/math" class="hover:text-gray-300">Mathematical Foundations</a></li>
+            <li><a href="/verify" class="hover:text-gray-300">Verification Scripts</a></li>
+            <li><a href="/predictions" class="hover:text-gray-300">Predictions Registry</a></li>
+            <li><a href="/skeptics" class="hover:text-gray-300">For Skeptics</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-3">Connect</h3>
+          <ul class="space-y-1.5">
+            <li><a href="/contact" class="hover:text-gray-300">Contact</a></li>
+            <li><a href="/about" class="hover:text-gray-300">About the Project</a></li>
+            <li><a href="/faq" class="hover:text-gray-300">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-600">
+        <p>This work was developed with AI assistance (Claude, Anthropic). All mathematical claims are computationally verified via 735+ SymPy scripts.</p>
+        <p class="mt-1">Speculative amateur work. Not peer-reviewed.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

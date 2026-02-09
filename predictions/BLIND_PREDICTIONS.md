@@ -38,14 +38,17 @@
 | Field | Value |
 |-------|-------|
 | **Observable** | Primary dark matter particle mass |
-| **Framework Prediction** | m_DM = m_p × (49/9) = 5.11 GeV |
+| **Framework Prediction** | m_DM = m_e × (n_c-1)^n_d = 5.11 GeV |
+| **Alternative Path** | m_p × (49/9) = 5.114 GeV (agrees to ~0.05%) |
 | **Current Status** | Not yet detected |
 | **Allowed Range** | 4.6 - 5.6 GeV (10% tolerance) |
-| **Coupling** | Portal-mediated (weak) |
-| **Derivation** | `dark_matter_mass_prediction.py` |
-| **Registered** | 2026-01-28 |
+| **Coupling** | UNKNOWN (carrier unidentified, S339) |
+| **Derivation** | `dm_exponent_determinant.py` (S315), `dm_candidate_systematic_survey.py` (S339) |
+| **Registered** | 2026-01-28 (v2 updated 2026-02-09) |
 
 **FALSIFICATION COMMITMENT**: If direct detection experiments definitively exclude 5.11 GeV across ALL coupling strengths, this prediction is falsified.
+
+**Version history**: v1 (S120): formula m_p*49/9, coupling "portal-mediated (weak)". v2 (S339): canonical formula m_e*(n_c-1)^n_d from det(M) derivation (S315); coupling changed to UNKNOWN (carrier unidentified after S335/S339 retractions: pNGB singlet = Higgs, det(M) mode = scale not particle, all 28 pNGBs accounted for).
 
 ---
 
@@ -499,6 +502,29 @@ symmetry is algebraically EXACT. Mass ratios require crystallization dynamics.
 
 ---
 
+## Tier 4: Parametric Predictions (Locked)
+
+### P-022: Colored pNGB Mass (Scalar Leptoquark)
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Mass of colored pseudo-Nambu-Goldstone bosons from SO(11)/[SO(4)xSO(7)] |
+| **Framework Prediction** | m_col = 1761 GeV (central, g_rho = n_d = 4) |
+| **Uncertainty Range** | 1320 - 2201 GeV (g_rho = 3 to 5) |
+| **Full Range** | 440 - 5531 GeV (g_rho = 1 to 4*pi) |
+| **Current Bound** | > 1500-1800 GeV (LHC Run 2, scalar leptoquarks) |
+| **Key Assumption** | g_rho = n_d = 4 [CONJECTURE] (Yang-Mills mass gap analogy) |
+| **Framework Inputs** | f = v*n_c/2 = 1354 GeV [D], C_2(3) = 4/3 [I-MATH], alpha_s = 0.1179 [I] |
+| **Decomposition** | QCD 80%, EW 12%, Top 8% (of m^2) |
+| **Derivation** | `colored_pngb_cw_mass.py` (20/20 PASS) |
+| **Registered** | 2026-02-09 (Session 326) |
+
+**FALSIFICATION COMMITMENT**: If HL-LHC excludes all scalar leptoquarks below 2.5 TeV with beta=1 (pair production), the g_rho = n_d candidate is under pressure (requires g_rho > 5). If FCC-hh finds NO colored scalars below 10 TeV, the entire colored pNGB prediction is falsified.
+
+**Note**: This is a PARAMETRIC prediction, not a precision prediction. The uncertainty in g_rho introduces O(1) uncertainty in the mass. The framework determines f, xi, representations, and C_2 completely; only g_rho remains free. Classification: [CONJECTURE].
+
+---
+
 ## Version History
 
 | Date | Change | Reason |
@@ -507,7 +533,9 @@ symmetry is algebraically EXACT. Mass ratios require crystallization dynamics.
 | 2026-01-28 | Added P-008 (higher CMB peaks), P-009 (tensor-scalar) | Session 124 CMB work |
 | 2026-01-30 | Added P-010 through P-016 (7 blind cosmological observables) | Session 138 Phase 4.1 |
 | 2026-01-31 | Added P-017 through P-021 (5 neutrino sector predictions) | Session 167 neutrino masses |
-| 2026-02-02 | P-006 updated: 117/121 → 193/200 (hilltop derivation, CR-071) | Auditor Phase 5 |
+| 2026-02-02 | P-006 updated: 117/121 -> 193/200 (hilltop derivation, CR-071) | Auditor Phase 5 |
+| 2026-02-09 | Added P-022 (colored pNGB mass) | Session 326 EQ-015 resolution |
+| 2026-02-09 | P-002 v2: canonical formula, coupling UNKNOWN | Session 339 det-Tr correction |
 
 ---
 

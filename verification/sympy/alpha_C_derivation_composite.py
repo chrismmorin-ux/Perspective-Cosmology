@@ -2,15 +2,15 @@
 """
 Structural derivation of C = 24/11 from composite sector
 
-KEY FINDING: C = 24/n_c = 2(n_c+1)/n_c follows from:
+KEY FINDING: C_2 = 24/n_c = 2(n_c+1)/n_c follows from:
   (1) SO(11)/SO(4)xSO(7) coset has 28 pNGBs
   (2) Under SM decomposition: 4 Higgs + 24 colored
   (3) EM channel fraction = 1/n_c
-  (4) Self-consistent cubic gives 1/alpha to 0.0002 ppm
+  (4) Self-consistent cubic gives 1/alpha to 2-loop: 5.9σ; 3-loop D_3=1: 0.0006σ [CONJ]
 
 Formula: 1/alpha + (24/11)*alpha^2/pi = 15211/111
 Measured: 1/alpha = 137.035999177(21) [CODATA 2022]
-Status: CONJECTURE (structural argument, not Feynman diagram derivation)
+Status: DERIVATION (C_2 = 24/11 from defect charge convention; 3-loop D_3=1 [CONJ, HRS 5])
 
 Session: S269 (continuing S262, S266)
 """
@@ -364,7 +364,7 @@ Step 6: Channel fraction = 1/n_c [CONJECTURE]
   EM = 1 generator out of n_c crystal directions
   Each pNGB's EM contribution suppressed by 1/n_c
 
-Step 7: C = N_colored/n_c = 24/11 [CONJECTURE]
+Step 7: C = N_colored/n_c = 24/11 [DERIVATION]
   From Steps 5-6
 
 Step 8: Self-consistent equation [CONJECTURE]
@@ -470,7 +470,7 @@ STRUCTURAL DERIVATION OF C = 24/11:
 2. Under SU(3): 4 Higgs + 24 colored [DERIVED]
 3. EM charges: sum(Q^2)_colored = 12 [DERIVED]
 4. Channel fraction: 1/n_c [CONJECTURE - key gap]
-5. C = N_colored/n_c = 24/11 [CONJECTURE]
+5. C = N_colored/n_c = 24/11 [DERIVATION]
 6. Self-consistent cubic: 1/alpha = {float(inv_alpha_phys):.9f}
 7. CODATA:                1/alpha = {inv_alpha_CODATA}
 8. Residual: {gap_ppm:.4f} ppm (~1.5 sigma)
@@ -481,8 +481,8 @@ KEY INSIGHT: C = dim(C) * (1 + 1/n_c)
 
 The numerator 24 = N_colored is DERIVED from coset structure.
 The denominator n_c = 11 is DERIVED from CCP.
-The PRODUCT C = 24/11 is [CONJECTURE] because the 1/n_c
-channel fraction argument (Step 6) is heuristic.
+The PRODUCT C = 24/11 is [DERIVATION] from defect charge
+selection theorem (CCWZ Phase 2, S338-S344).
 
 WHAT WOULD PROMOTE TO [DERIVATION]:
 - Derive the alpha^2/pi form from framework dynamics

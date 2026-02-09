@@ -1,6 +1,6 @@
 # Topic: Step 5 Alpha Mechanism
 
-**Current state**: CONJ-A2 **PARTIALLY RESOLVED** (S297). Step 15 upgraded from [CONJECTURE] to [A-STRUCTURAL within I-STRUCT-5]. kappa=1 = standard Tr convention for HS metric. WSR + Schur (S292) gives 1/g^2 = kappa*N_i. DE-009 does NOT block the WSR/HS approach. Sigma model: sum(Q^2)_coset = 14 (not 137); factor-9 gap with generators. EQ-002/EQ-003 duality: ONE parameter gives BOTH alpha=1/137 AND Omega_m=63/200 (0.04 sigma). Only kappa=1 matches; alternatives off by >10%. Alpha chain: 0 axiom assumptions + 1 structural convention + 0 conjectures. 34/34 PASS (3 new scripts).
+**Current state**: **D_3 derivation attempted** (S347). Three routes (VEV counting [PLAUSIBLE], alternating signs [CONSISTENT], 2D sigma model [CONTEXTUAL]) converge on D_3=1 but do NOT prove it. C_2 = k*(n-k-1)/n Grassmannian formula. Phase 3 propagated (PROP-027). 23/23 PASS (S347), 24/24 PASS (S344), 43/43 PASS (S341), 36/36 PASS (S337). Next: 2-loop CW potential on coset for genuine D_3 derivation.
 
 ---
 
@@ -29,6 +29,9 @@
 - **EQ-002/EQ-003 duality** (S297): kappa=1 gives BOTH alpha=1/137 AND Omega_m=63/200. Two predictions from one parameter.
 - **Sigma model constraint** (S297): sum(Q^2)_coset=14 (scalar charges), S_EM=126 (generator charges). Factor 9 gap. C=24/11 consistent.
 - **Step 15 upgraded**: [CONJECTURE] -> [A-STRUCTURAL within I-STRUCT-5] (S297). Alpha chain: 0+1+0.
+- **CCWZ Phase 1 COMPLETE** (S337): Full SO(11)/SO(4)xSO(7) setup. 36/36 PASS. Two Q_EM conventions: defect-only (sum Q^2=14, integer charges) vs full SM with T_X (sum Q^2=50/3, fractional charges). Higgs charges {+1,0,0,-1} identical in both. Gauge boson mass: W massive, photon/gluons/T_X massless.
+- **CCWZ Phase 2 COMPLETE** (S341): VEV corrected to h0=(T_{0,4}-T_{2,4})/sqrt(2) [THEOREM]. T_{0,4} alone breaks U(1)_EM. CW potential (gauge loops -> Higgs potential) is DIFFERENT from alpha C_2 (structural EM counting). C_2=24/11 from defect charges [DERIVATION]. Beta functions (7/3 defect, 25/9 full) differ from C_2. 43/43 PASS.
+- **CCWZ Phase 3 COMPLETE** (S344): Defect charge selection THEOREM: [T_X, T_{a,4}]=0 for all Higgs pNGBs. D_3=1 [CONJECTURE]: full formula 1/alpha=15211/111-(24/11)*alpha^2/pi+alpha^3/pi. Prediction: 137.035999177, 0.0006 sigma from CODATA. All coefficients RATIONAL in D_n basis. 24/24 PASS.
 
 ## What Failed / Dead Ends
 
@@ -48,11 +51,14 @@
 
 ## Open Paths
 
-1. **Derive scale ratio**: exp(137pi/21) ~ 8e8. Notable: v_EW*12*N_I ~ m_e*exp(137pi/21) to 0.5%. (S149)
-2. **Why no bare kinetic term**: Show EM gauge field is purely induced (Sakharov mechanism). (S149)
-3. **Correction terms**: 4/111 for EM is established. Find analogues for alpha_2, alpha_s. (S155)
-4. **S_2=29 derivation**: From SO(11) representation theory. (S155 Task B)
-5. ~~**Derive counting metric**~~: RESOLVED (S165) — Path C: counting metric = HS inner product from AXM_0110.
+1. ~~**CCWZ Phase 3**~~: RESOLVED (S344) — D_3=1, 0.0006 sigma. Defect charges THEOREM.
+2. ~~**D_3 derivation attempt**~~: INVESTIGATED (S347) — Three routes converge on D_3=1 but don't prove it. Multi-route plausibility, not derivation.
+3. **Derive D_3 from 2-loop CW potential**: Need explicit CW calculation on SO(11)/SO(4)xSO(7) with VEV. Or: compute Gr(4,11) Casimir at 4th order for Wegner's 3-loop beta. (S347)
+3. **Derive scale ratio**: exp(137pi/21) ~ 8e8. Notable: v_EW*12*N_I ~ m_e*exp(137pi/21) to 0.5%. (S149)
+4. **Why no bare kinetic term**: Show EM gauge field is purely induced (Sakharov mechanism). (S149)
+5. **Correction terms**: 4/111 for EM is established. Find analogues for alpha_2, alpha_s. (S155)
+6. **S_2=29 derivation**: From SO(11) representation theory. (S155 Task B)
+7. ~~**Derive counting metric**~~: RESOLVED (S165) — Path C: counting metric = HS inner product from AXM_0110.
 
 ## Sessions
 
@@ -72,6 +78,10 @@
 | S215 | Coset geometry: three paths | HS metric DEAD END, coset PARTIAL, democratic counting PROMISING. Gap: why democratic not Dynkin? 15/15 PASS. |
 | S288 | Step 5 irreducibility analysis | 3 mechanisms converge (Large-N, Killing, CCP). Likely irreducible [A-STRUCTURAL]. EQ-002/EQ-003 duality. 8/8 PASS. |
 | S297 | CONJ-A2 attack (3 phases) | kappa=1 = standard Tr convention [A-STRUCTURAL]. DE-009 doesn't block WSR path. Sigma model sum(Q^2)=14. EQ-002/EQ-003 duality. 34/34 PASS (3 scripts). |
+| S337 | CCWZ Phase 1 | Full CCWZ setup. Two Q_EM conventions (defect: 14 vs full: 50/3). Gauge boson mass matrix. 36/36 PASS (1 script). |
+| S341 | CCWZ Phase 2 | VEV corrected. CW vs alpha distinction. C_2=24/11 from defect charges. 43/43 PASS (1 script). |
+| S344 | CCWZ Phase 3 | Defect charge THEOREM. D_3=1: 0.0006 sigma. All coefficients rational. 24/24 PASS (1 script). |
+| S347 | D_3 derivation attempt + propagation | Three routes (VEV, signs, sigma model). C_2=k(n-k-1)/n. Phase 3 propagated. 23/23 PASS (1 script). |
 
 ## Key Files
 
@@ -83,3 +93,8 @@
 | `framework/investigations/quantum/photon_emission_crystallization.md` | S148 branching ratio |
 | `framework/investigations/alpha/step5_unified_5C_5D.md` | S153 unified mechanism |
 | `framework/investigations/alpha/alpha_dimensionless_geometry.md` | S146 geometric picture |
+| `framework/investigations/alpha/alpha_accuracy_plan.md` | S332 master plan for closing 5.9-sigma gap |
+| `verification/sympy/alpha_ccwz_setup.py` | S337 CCWZ Phase 1: generators, embedding, charges, mass matrix |
+| `verification/sympy/alpha_ccwz_one_loop.py` | S341 CCWZ Phase 2: VEV correction, CW potential, C_2 derivation |
+| `verification/sympy/alpha_ccwz_three_loop.py` | S344 CCWZ Phase 3: defect charges, D_3=1, 0.0006 sigma |
+| `verification/sympy/alpha_d3_derivation_attempt.py` | S347 D_3 derivation: 3 routes (VEV, signs, sigma model), C_2 Grassmannian formula |

@@ -303,8 +303,8 @@ print("\n" + "=" * 65)
 print("PART 8: RESIDUAL ANALYSIS")
 print("=" * 65)
 
-# With C = 24/11, the residual is 0.0002 ppm = 3.1e-8 absolute
-# Is this consistent with a three-loop correction?
+# With C_2 = 24/11 [DERIVATION], 2-loop residual: 5.9σ; 3-loop D_3=1: 0.0006σ [CONJ, HRS 5]
+# Is the residual consistent with a three-loop correction?
 
 alpha_val = 1.0 / 137.035999177
 three_loop_scale = alpha_val**3 / float(pi.evalf())**2

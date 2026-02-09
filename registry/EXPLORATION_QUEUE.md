@@ -1,7 +1,7 @@
 # Exploration Queue
 
 **Updated**: 2026-02-09 (S322 quality remediation)
-**Active**: 22 | **Resolved since last engine run**: 6
+**Active**: 21 | **Resolved since last engine run**: 7
 
 <!-- Next ID: EQ-044 -->
 
@@ -23,7 +23,7 @@
 | EQ-012 | Cyclotomic 43 pattern: structural origin of Phi_6(7) | meta | S204/S211/S216/S226/S232/S235/S240/S285 | ESSENTIALLY COMPLETE | LOW | **S240**: Sign DERIVED (Killing form of gl(3,R): compact→positive, non-compact→negative). Magnitude |w_l|=C_2(complementary) remains [CONJECTURE]. Constraint system {w_0=1, sum=9, Frobenius=129, product=-12} uniquely selects formula, but Frobenius+product constraints conjectural. 13/13 PASS. Status: [CONJECTURE with structural support]. Remaining gap: derive Frobenius norm from Born-rule dynamics or find rep-theoretic identity for complementary Casimir coupling. Essentially complete unless new mechanism found. |
 | ~~EQ-013~~ | ~~Dark matter mass: formula + exponent~~ | — | — | RESOLVED | — | Moved to Recently Resolved. |
 | EQ-014 | QCD string tension: lattice 17/24 validation | gauge | S152/S220 | OPEN | LOW | **S220**: Two modern determinations disagree by 5% (Knechtli 445±7 consistent, TUMQCD ~467 in tension). Data insufficient to confirm/falsify. Monitor for continuum-extrapolated Nf=2+1 with <2% error. No longer "quick win." |
-| EQ-015 | Colored pNGB mass from first principles | collider | S210 | OPEN | MEDIUM | Crude 151 GeV, enhanced ~590 GeV, multi-site ~1.7 TeV. Need actual CW with specific composite sector. Score 6.5. |
+| EQ-015 | Colored pNGB mass from first principles | collider | S210/S326/S329 | SUBSTANTIALLY RESOLVED | LOW | **S329**: g_rho = n_d derivation attempted, 6 routes tested, all NEGATIVE for full [DERIVATION]. Best: End(R^{n_d}) counting (N_eff=n_d^2=16 -> g_rho=n_d). Requires large-N c=1 [A-IMPORT]. g_rho=n_d remains [CONJECTURE with structural support], not new IRA. 21/21 PASS. Previous: S326 CW gives m_col=1761 GeV (20/20 PASS). P-022 registered. |
 | EQ-016 | Hom block representations (16+28+28+49) | eval-map | S200 | OPEN | MEDIUM | Identify SM content in each block from eval map. Score 6.0. |
 | EQ-017 | Derive black hole entropy from crystallization | spacetime | IP-list | OPEN | MEDIUM | Create investigation file. Score 5.3. |
 | EQ-018 | b2 < 0 sign from pure axioms (Layer 0) | crystallization | S207 | OPEN | MEDIUM | b2 != 0 [DERIVATION]. Sign remains [CONJECTURE with physical motivation]. Need purely Layer 0 argument. |
@@ -35,7 +35,7 @@
 | EQ-024 | kappa_lambda (triple Higgs coupling) verification | collider | S212 | OPEN | MEDIUM | Likely (1-2xi)/sqrt(1-xi) ~ 0.950 for MCHM4. Must verify for MCHM4 potential specifically. |
 | EQ-025 | Nu_R prediction from spinor embedding | particles | S212 | OPEN | MEDIUM | SO(11) spinor 32 = 16 + 16'. One 16 = 15 SM + nu_R. Structural prediction. Connects to neutrino mass (S167). |
 | ~~EQ-026~~ | ~~Vacuum polarization from tilt Lagrangian~~ | — | — | RESOLVED | — | Moved to Recently Resolved. |
-| EQ-027 | Colored pNGB branching ratios (beta parameter) | collider | S213 | OPEN | MEDIUM | Needed to sharpen HL-LHC scalar leptoquark prediction. |
+| EQ-027 | Colored pNGB branching ratios (beta parameter) | collider | S213/S336 | RESOLVED | — | **S336**: Two multiplets: (2,1/6,3) R-tilde_2 LQ (beta_eff=0.5) + (2,-5/6,3) diquark (no LQ coupling). At beta=0.5, 3rd gen bound ~1220 GeV vs m_col=1761 GeV: SAFE +541 GeV. STRENGTHENS P-022. 24/24 PASS. |
 | EQ-028 | B-meson anomalies (R(D)/R(D*)) | collider | topic | OPEN | LOW | Phase V. Blocked on CKM derivation. May connect to mass-dependent effects. |
 | EQ-029 | 95 GeV scalar excess monitoring | collider | S213 | OPEN | LOW | MONITOR: CMS+ATLAS Run 3 full dataset (2025-2026). Framework says NO. 5-sigma kills AXM_0109. 3.1-sigma combined currently. |
 | EQ-030 | Missing verification scripts (29 count) | quality | S208/S209 | OPEN | LOW | Biggest remaining structural debt. Many in archived investigations. Remove references or create scripts? |
@@ -50,14 +50,14 @@
 | ~~EQ-039~~ | ~~Derive C=24/11 radiative correction~~ | — | — | RESOLVED | — | Moved to Recently Resolved. |
 | EQ-040 | Pi-power self-referential structure: is there a deeper explanation? | constants/pi | S265 | OPEN | LOW |
 | ~~EQ-042~~ | ~~DM-Higgs coupling mechanism~~ | — | — | RESOLVED | — | Moved to Recently Resolved. |
-| EQ-043 | Asymmetric DM: derive n_DM = n_baryon from framework | dark-matter | S318-S322 | PARTIALLY RESOLVED | MEDIUM | **S322**: DM identity RESOLVED -- scalar channel color singlet from Hom(R, R^7) [CONJECTURE]. H-parity (quaternion conjugation Z_2) stabilizes DM. n_DM = n_baryon has STRUCTURAL MECHANISM (shared composite dynamics) but no quantitative derivation. Ratio match 1.5% (1.3 sigma) survives. Remaining: derive n_DM = n_baryon from SO(11) strong dynamics. |
+| EQ-043 | Asymmetric DM: derive n_DM = n_baryon from framework | dark-matter | S318-S339 | OPEN | MEDIUM | **S339**: det-Tr S_4 character argument RETRACTED (wrong group action: row perm, not conjugation). Under conjugation, both det and Tr are trivial rep [THEOREM]. At democratic vacuum, delta(det)=c^3*delta(Tr) -- proportional at first order. All 28 pNGBs accounted for (4 Higgs + 24 colored). det(M) = mass scale, not particle ('t Hooft analogy). DM identity GENUINELY OPEN. Mass formula m_DM=5.11 GeV and Omega ratio (1.3%) SURVIVE (structural). Candidates ruled out: pNGB singlet (=Higgs, S335), det(M) mode (not a particle, S339), composite baryon (~15 TeV), skyrmion (~17 TeV), sigma scalar (~1.35 TeV). Most promising remaining: nu_R from spinor (gauge singlet, stability unclear). |
 | EQ-041 | Derive Landau coefficients (a_3, a_4) for Z_3 confinement potential from framework | gauge/YM | S268/S277/S281/S284 | DEFERRED | LOW | Z_3-invariant Landau potential V = a_2*r^2 + 2*a_3*r^3*cos(3*theta) + a_4*r^4 formalized in S268. **S284**: a_2 = n_d^2*sigma/2 = 8*sigma now [DERIVATION with A-PHYSICAL]. a_3 and a_4 remain free [A-STRUCTURAL]. Would need CW from O-channel tilt dynamics -- essentially the Millennium Prize. Investigation promoted to CANONICAL (L<=1 spectrum) without needing a_3/a_4. Relates to EQ-021. **Blocking condition**: Non-perturbative calculation of O-channel effective potential. Status: DEFERRED indefinitely. |
 
 ## Scored View (Generated by Quality Engine)
 
 | Rank | ID | Score | D | G | F | E | Next Action |
 |------|-----|-------|---|---|---|---|-------------|
-| 1 | EQ-015 | 15.0 | 5 | 4 | 3 | 2 | Full CW with SO(11)/SO(4)xSO(7). y_t=1 resolved (S290). HL-LHC falsifiable. |
+| 1 | EQ-015 | 15.0 | 5 | 4 | 3 | 2 | **SUBSTANTIALLY RESOLVED** (S326). m_col=1761 GeV. P-022 registered. Remaining: g_rho=n_d [CONJECTURE]. |
 | 2 | EQ-011 | 14.0 | 7 | 4 | 3 | 3 | V_0=alpha^4/C (HRS 5). Needs derivation or band structure formalization. |
 | 3 | EQ-043 | 12.0 | 6 | 4 | 3 | 3 | 1.5% match, 1.3 sigma. B-D portal mechanism needed. S320: SU(3) correction affects counting but core survives. |
 | 4 | EQ-012 | 10.0 | 5 | 2 | 2 | 1 | Essentially complete. Derive Frobenius norm constraint. |
@@ -66,7 +66,7 @@
 | 7 | EQ-032 | 7.5 | 5 | 3 | 3 | 3 | MONITOR -- wait for CMB-S4 (~2028). |
 | 8 | EQ-016 | 6.0 | 4 | 3 | 2 | 2 | Identify SM content in each block. |
 | 9 | EQ-025 | 6.0 | 4 | 3 | 2 | 2 | S320 complicates (SU(3)=color). |
-| 10 | EQ-027 | 6.0 | 3 | 4 | 2 | 2 | Coupled to EQ-015. |
+| 10 | EQ-027 | — | — | — | — | — | **RESOLVED** (S336). |
 
 *Scores from Quality Engine Run #10 (2026-02-09). Full justifications: INVESTIGATION_PRIORITIES.md.*
 
@@ -83,6 +83,7 @@
 
 | ID | Question | Origin | Resolved In | Resolution |
 |----|----------|--------|-------------|------------|
+| EQ-027 | Colored pNGB branching ratios (beta parameter) | S213/S336 | S336 | Two multiplets: (2,1/6,3) R-tilde_2 LQ (beta_eff=0.5) + (2,-5/6,3) diquark. beta=0.5 STRENGTHENS P-022 (+541 GeV margin). 24/24 PASS. |
 | EQ-013 | Dark matter mass: formula + exponent | S199/S242/S314-S316 | S316 | Formula C = 5.11 GeV [DERIVATION]. Exponent n_d DERIVED from det(M) on End(R^n_d). Standard Higgs portal EXCLUDED. 70/70 PASS (4 scripts). |
 | EQ-039 | Derive C=24/11 radiative correction | S262-S283/S307 | S307 | ESSENTIALLY COMPLETE. All 3 open questions resolved. Scheme conversion, band structure, dressed predictions. 36/37 PASS. |
 | EQ-042 | DM-Higgs coupling mechanism | S316/S317 | S317 | g_{h,DM}=0 [DERIVATION]. Two independent mechanisms: SU(3) selection + quaternionic orthogonality. 50/50 PASS. |

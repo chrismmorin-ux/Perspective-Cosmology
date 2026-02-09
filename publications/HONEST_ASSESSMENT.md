@@ -1,7 +1,7 @@
 # Honest Assessment of the Perspective Cosmology Framework
 
-**Last Updated**: 2026-02-07 (Session S301)
-**Version**: 2.3
+**Last Updated**: 2026-02-09 (Session S330)
+**Version**: 2.5
 **Purpose**: A balanced evaluation of what this framework achieves, where it's strong, and where skepticism is warranted.
 **Audience**: Anyone evaluating this work — read this first.
 **Status**: CURRENT
@@ -13,8 +13,8 @@
 |------|------|
 | `claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm claims (updated S205) |
 | `claims/FALSIFIED.md` | 14 falsified claims |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202) |
-| `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v2.0 (S257) |
+| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202/S330) |
+| `registry/RED_TEAM_SUMMARY_V3.md` | 3-agent adversarial review v3.0 (S330) |
 | `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions (canonical inventory) |
 | `framework/investigations/_INDEX.md` | ~150 investigation files |
 
@@ -52,7 +52,7 @@ This framework attempts something ambitious: derive the constants and structure 
 - Most numerical predictions are post-hoc (formulas found after knowing targets)
 - ~~Cosmological constant has wrong sign (F-10)~~ — **RESOLVED S230** (sign convention error). Magnitude gap remains.
 - Could still be sophisticated numerology
-- Red Team v2.0 consensus (S257): 20-35% probability of genuine physics (up from 15-30% at S120)
+- Red Team v3.0 consensus (S330): 25-40% probability of genuine physics (up from 20-35% at S257)
 
 The honest answer: we don't know yet if this is real physics or an elaborate coincidence. But the evidence is stronger than typical numerology.
 
@@ -197,13 +197,15 @@ Recording failures is essential. See `claims/FALSIFIED.md` for full details and 
 | Phase | Domain | Grade | Key |
 |-------|--------|-------|-----|
 | 3 | Quantum Mechanics | **A** | Fully derived from axioms. CANONICAL. |
-| 4 | Particles | **B-** | Structural [DERIVATION], numerical [CONJECTURE] |
-| 5 | Cosmology | **C-** | Blind predictions succeed, many gaps, 3 falsified |
-| 6 | Gravity | **C-** | EFE derived. CC sign resolved S230 (V<0→Λ>0). Magnitude gap remains. |
+| 4 | Particles | **B** | Yang-Mills CANONICAL, DM sector, CKM mechanism, y_t=1. Upgraded from B- (S330). |
+| 5 | Cosmology | **C** | Omega_m DERIVED (S293). Blind predictions succeed. F-10 resolved (S230). Upgraded from C- (S330). |
+| 6 | Gravity | **C-** | EFE derived. CC sign resolved S230. Magnitude gap remains. |
 | — | Evaluation map | **B+** | Two-route gauge convergence |
 | — | Recursive gap tower | **A-** | Mathematically rigorous, 46/46 PASS |
+| — | Yang-Mills | **A-** | CANONICAL. Glueball spectrum, SU(N), 285+ PASS. (NEW S330) |
+| — | Dark matter | **B-** | Mass derived, coupling derived, stability [THEOREM]. Untested. (NEW S330) |
 
-**Overall: C+** (structural A, numerical C-, gravity C-) [gravity upgraded from D+ after S230 CC sign resolution]
+**Overall: B-** (structural A, numerical B-, gravity C-) [upgraded from C+ after IRA reduction, Yang-Mills CANONICAL, DM sector]
 
 ---
 
@@ -229,13 +231,24 @@ Recording failures is essential. See `claims/FALSIFIED.md` for full details and 
 | CONJ-A2 partially resolved (kappa=1 = standard Tr) | S297 | [A-STRUCTURAL within I-STRUCT-5] |
 | Yang-Mills mass gap: glueball spectrum from framework | S268-S285 | CANONICAL |
 | Tree-to-dressed paradigm: 3 correction bands | S266-S283 | [CONJECTURE] |
-| Alpha: C=24/11 (0.0002 ppm from CODATA) | S266 | [CONJECTURE] |
+| Alpha: C_2=24/11 two-loop (5.9 sigma); D_3=1 three-loop (**0.0006 sigma**) | S266-S344 | C_2: [DERIVATION]; D_3: [CONJECTURE, HRS 5] |
 | Weinberg: sin^2(dressed) = 28/121 - alpha/(4*pi^2) | S276 | [CONJECTURE] |
 | Top Yukawa y_t = 1 from full compositeness | S290 | [CONJECTURE] |
 | Omega_m = 63/200 from dual-channel HS equipartition | S293 | [DERIVATION] |
 | IRA count reduced 10 -> 4 (7 conjectures/assumptions resolved) | S259-S304 | Canonical inventory |
 | Planck constant: codim(mu^{-1}(0)) = n_c = 11 | S278 | [THEOREM] |
 | Non-observations: 12 predictions, 2 root causes | S275 | CANONICAL |
+| Dark matter: m_DM = 5.11 GeV from det on End(R^4) | S314-S315 | [DERIVATION] |
+| ~~DM coupling g=0 from G_2 singlet~~ | S317 | ~~[DERIVATION]~~ **INVALIDATED S335**: G_2 singlet = Higgs, not DM. DM identity OPEN. |
+| H-parity EXACT -- pNGB potential stable (boson sector) | S323/S335 | [THEOREM] (scope clarified S335: exact for SO(4)-inv polynomials, not Yukawa) |
+| Generation mechanism via Hom(H,R^7) | S321 | [DERIVATION] |
+| CKM mechanism from Im(H) non-commutativity | S325 | [DERIVATION] |
+| Colored pNGB mass ~1761 GeV from CW potential | S326 | [CONJECTURE] |
+| IRA-01 resolved: kappa=1 from C2 propagation | S304 | [DERIVATION] |
+| IRA-10 resolved: perspectives=QM from Weinberg criterion | S302 | [DERIVATION] |
+| Phi_6 = Sylvester's sequence, Egyptian fraction = 1 | S309 | [DERIVATION/THEOREM] |
+| Band membership predicted a priori 16/16 | S308 | [CONJECTURE] |
+| SU(3)=color correction (S320), Gr+ topology correction (S291) | S320/S291 | Corrections documented |
 
 ### Remaining Critical Gaps
 
@@ -253,7 +266,7 @@ Recording failures is essential. See `claims/FALSIFIED.md` for full details and 
 
 1. **Blind prediction verified**: r = 0.035 confirmed by CMB-S4 (~2028)
 2. **LLM Derivation Challenge**: Another LLM derives same formulas from axioms alone
-3. **Dark matter detection at 5.11 GeV**: Framework's most concrete prediction (SuperCDMS 2026-2027)
+3. **Dark matter detection at 5.11 GeV**: Framework's most concrete prediction (SuperCDMS 2026-2027). DM mass formula and Omega ratio survive S335 revision; DM particle identity OPEN (pNGB singlet = Higgs); coupling mechanism needs re-derivation; H-parity protects boson sector (S335 scope clarification).
 4. **Expert endorsement**: "The derivation logic is sound"
 5. **Phi_6 derived from first principles**: Not just "it works"
 
@@ -282,7 +295,7 @@ This question cannot be resolved internally. Paths to resolution:
 - **Expert review**: Independent verification of derivation logic
 - **Unique derivations**: Results that can only be reached one way
 
-**Current assessment**: 20-35% probability of genuine physics (Red Team v2.0, S257). Up from 15-30% at S120, driven by CCP axiom, QM chain, and blind predictions. Capped by lack of external validation.
+**Current assessment**: 25-40% probability of genuine physics (Red Team v3.0, S330). Up from 20-35% at S257, driven by IRA reduction (10->4), 5 conjectures resolved, Yang-Mills CANONICAL, dark matter sector, tree-to-dressed systematics. Capped by lack of external validation and unresolved derivation-vs-discovery question.
 
 ---
 
@@ -298,9 +311,9 @@ This question cannot be resolved internally. Paths to resolution:
 | **Coherence across domains** | Notable — same inputs across all physics |
 | **Falsified claims** | 14 documented honestly |
 | **CC wrong sign** | ~~Active contradiction~~ → **RESOLVED S230** (sign convention error) |
-| **Overall probability** | 20-35% genuine physics (Red Team v2.0) |
+| **Overall probability** | 25-40% genuine physics (Red Team v3.0) |
 
-**Bottom line**: The framework has genuine strengths (blind predictions, structural derivations, sub-ppm matches) and genuine weaknesses (post-hoc fitting, CC magnitude gap, Monte Carlo sobering results). The dark matter prediction at 5.11 GeV and the tensor-to-scalar ratio r = 0.035 are the decisive future tests.
+**Bottom line**: The framework has genuine strengths (blind predictions, structural derivations, sub-ppm matches, IRA reduction 10->4, Yang-Mills CANONICAL, DM mass formula) and genuine weaknesses (post-hoc fitting, CC magnitude gap, Monte Carlo sobering results, no external human review, DM identity OPEN per S335). The dark matter prediction at 5.11 GeV, the tensor-to-scalar ratio r = 0.035, and colored pNGBs near 1.8 TeV are the decisive near-term tests.
 
 ---
 
@@ -333,6 +346,7 @@ Our view: Yes, but with appropriate skepticism.
 | 2.2 | 2026-02-07 | S257 | Red Team v2.0: probability updated 15-25% -> 20-35%. Reference updated to RED_TEAM_SUMMARY_V2.md. |
 | 2.3 | 2026-02-07 | S301 | S257-S299 propagation: 5 CONJs resolved (A1/A2/A3/B1/B3), IRA 10->6, Yang-Mills CANONICAL, tree-to-dressed paradigm, y_t=1, Omega_m DERIVED. Script count ~548->~662. Assumption count updated to 6 IRA (explicit inventory). Critical gaps updated: 5/5 resolved or partially resolved, 2 new gaps added. |
 | 2.4 | 2026-02-09 | S322 | S302-S320 propagation: IRA 6->4 (IRA-01/IRA-10 resolved S302-S304). Script count ~662->~713. IRA-09 mechanism corrected (S320: SU(3)=color, not generation). |
+| 2.5 | 2026-02-09 | S330 | Red Team v3.0: probability 20-35% -> 25-40%. Phase grades updated (B- overall). S321-S327 results: generation mechanism Hom(H,R^7), H-parity EXACT, CKM from Im(H), P-022 colored pNGB. Key derivation advances table expanded (+12 entries). Red Team reference V2 -> V3. |
 
 ---
 

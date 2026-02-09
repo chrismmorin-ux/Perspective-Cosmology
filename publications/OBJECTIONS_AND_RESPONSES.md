@@ -1,7 +1,7 @@
 # Objections and Responses
 
-**Last Updated**: 2026-02-06 (Session S255)
-**Version**: 2.2
+**Last Updated**: 2026-02-09 (Session S324)
+**Version**: 2.5
 **Purpose**: Honest engagement with expected criticisms
 **Audience**: Skeptical physicists evaluating the framework
 **Status**: CURRENT
@@ -14,7 +14,7 @@
 | `publications/HONEST_ASSESSMENT.md` | Balanced self-evaluation |
 | `claims/FALSIFIED.md` | 14 documented failures |
 | `framework/STATISTICAL_ANALYSIS_HONEST.md` | Monte Carlo + P-value analysis |
-| `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v2.0 (S257) |
+| `registry/RED_TEAM_SUMMARY_V2.md` | 3-agent adversarial review v3.0 (S330) |
 | `meta/peer_review_prep.md` | Extended objection analysis |
 
 ## Critical Framework Elements
@@ -23,7 +23,7 @@
 |---------|--------|-----------|
 | Monte Carlo null model (S170) | CANONICAL | Key counter-evidence |
 | Blind predictions (S138b) | CANONICAL | Key supporting evidence |
-| Red Team review v2.0 (S257) | CANONICAL | 20-35% probability estimate |
+| Red Team review v3.0 (S330) | CANONICAL | 25-40% probability estimate |
 | 14 falsified claims | DOCUMENTED | Intellectual honesty record |
 
 ---
@@ -105,7 +105,7 @@ A Monte Carlo null model (S170, 5000 trials) showed:
 **Where physics enters (Layer 2, explicit imports):**
 - Correspondence rules: "n_d = dim(H) corresponds to spacetime dimension" [A-IMPORT]
 - Physical interpretation: "Transitions correspond to time evolution" [A-PHYSICAL]
-- ~2 structural assumptions (e.g., emergent gauge coupling [A-PHYSICAL], crystallization interpretation) — F=C now DERIVED from CCP (AXM_0120, S251)
+- 4 irreducible assumptions (1 structural, 2 physical, 1 import) — reduced from ~10 via resolution campaign S258-S304. See `framework/IRREDUCIBLE_ASSUMPTIONS.md`
 
 **The chain:**
 ```
@@ -117,9 +117,9 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
 **What the audits found:**
 - The axioms are too weak to determine physics alone (PHYSICIST_SUMMARY.md confirms this)
 - To get physics, we must IMPORT structure from known physics
-- ~2 structural assumptions are needed, not zero (reduced from ~3 after CCP derived F=C)
+- 4 irreducible assumptions are needed, not zero (reduced from ~10 via S258-S304 resolution campaign)
 
-**Honest acknowledgment**: The interpretation step is not pure mathematics. The "zero free parameters" claim was incorrect — the honest count is ~2 structural assumptions (down from ~3 after CCP derived F=C in S251).
+**Honest acknowledgment**: The interpretation step is not pure mathematics. The "zero free parameters" claim was incorrect — the honest count is 4 irreducible assumptions (1 structural, 2 physical, 1 import). See `framework/IRREDUCIBLE_ASSUMPTIONS.md`.
 
 ---
 
@@ -140,7 +140,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
    - 2 neutrino mass ratios (S167) — both within 1 sigma
    - These were made BEFORE checking measured values
 
-2. **Formulas with ~3 structural assumptions:**
+2. **Formulas with 4 irreducible assumptions:**
    - 1/alpha = 137 + 4/111 uses only framework dimensions
    - Change ANY input and the formula fails
    - But the formula was found after knowing alpha
@@ -171,7 +171,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
 - No physics PhD
 - No peer review
 - AI-assisted development
-- High prior probability of being wrong (Red Team v2.0 says 20-35%)
+- High prior probability of being wrong (Red Team v3.0 says 25-40%)
 
 **Why it might still be worth looking at:**
 
@@ -210,7 +210,7 @@ The first step ("observation consistency requires no zero-divisors") IS an inter
 
 **What is NOT explained:**
 - Why electromagnetic coupling specifically involves this interface (interpretation, not derivation)
-- Alpha Step 5 (gauge kinetic term from coset geometry) is [CONJECTURE]
+- Alpha Step 5 (gauge kinetic term from coset geometry) is [A-STRUCTURAL within I-STRUCT-5] (S297: kappa=1 = standard Tr convention)
 - Equipartition was RULED OUT (S211-S215); coset geometry is sole remaining path
 
 **Progress since S120:**
@@ -366,7 +366,7 @@ The error was in the T_μν derivation: at the ground state, L(ε*) = -V(ε*) > 
 |-----------|----------|--------|
 | Numerology | Partial | Monte Carlo shows blocks not special; sub-ppm + blind survive |
 | Tried before | Valid | This has numerical predictions + falsifiable tests |
-| Smuggled physics | Important | ~2 structural assumptions (F=C now derived via CCP) |
+| Smuggled physics | Important | 4 irreducible assumptions (1 structural, 2 physical, 1 import) |
 | Post-hoc | Largely valid | 9 blind predictions are counter-evidence |
 | Amateur | Valid | Check the math, not credentials |
 | Why these formulas | Legitimate gap | Schur's lemma progress but [A-PHYSICAL] gap remains |
@@ -403,6 +403,9 @@ We try to follow this. We may still be fooling ourselves. That's why we have tes
 | 2.0 | 2026-02-03 | S227 | Full rewrite. Added Monte Carlo evidence, blind predictions, CC wrong sign objection, updated statistics (548 scripts, 14 falsified, ~3 structural assumptions, P ~ 10^-8 to 10^-7), near-term testable predictions, Schur's lemma progress. |
 | 2.1 | 2026-02-03 | S230 | Objection 11 rewritten: F-10 CC sign resolved (convention error). Summary table updated. Gravity grade D+ → C-. |
 | 2.2 | 2026-02-06 | S255 | CCP (AXM_0120, S251) propagation: F=C now DERIVED, assumption count ~3->~2 across Objections 3 and summary table. |
+| 2.3 | 2026-02-07 | S301 | Red Team v2.0: probability 15-25% -> 20-35%. Script count ~548 -> ~713. |
+| 2.4 | 2026-02-09 | S324 | IRA count ~2 structural -> 4 irreducible (1 structural, 2 physical, 1 import). Alpha Step 5 [CONJECTURE] -> [A-STRUCTURAL]. |
+| 2.5 | 2026-02-09 | S330 | Red Team v3.0: probability 20-35% -> 25-40%. IRA 10->4. |
 
 ---
 

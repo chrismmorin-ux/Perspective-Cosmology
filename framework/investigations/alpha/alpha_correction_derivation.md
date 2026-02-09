@@ -114,8 +114,8 @@ The electromagnetic coupling receives contributions from:
     = 15211/111
     = 137.036036...
 
-Measured: 137.035999084
-Error: 0.27 ppm
+Measured: 137.035999177 (CODATA 2022)
+Error: 0.27 ppm (tree-level)
 ```
 
 ---

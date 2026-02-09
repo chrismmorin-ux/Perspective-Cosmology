@@ -34,6 +34,7 @@
 | `dC_rs_ratio_investigation.md` | cosmology | ACTIVE | mixed | NO | cosmology/ |
 | `dark_sections_and_pi_formula.md` | dark_matter | ARCHIVE | mixed | NO | dark_matter/ |
 | `DARK_SECTOR_AND_GEOMETRY_CONSOLIDATED.md` | dark_matter | CANONICAL | mixed | YES | dark_matter/ |
+| `dark_matter_identity.md` | particles | ACTIVE | mixed | NO | particles/ |
 | `generation_structure.md` | particles | ARCHIVE | 2 | NO | particles/ |
 | `fermion_multiplets_from_division_algebras.md` | particles | ARCHIVE | 2 | NO | particles/ |
 | `koide_formula_connection.md` | particles | ACTIVE | 2 | NO | particles/ |

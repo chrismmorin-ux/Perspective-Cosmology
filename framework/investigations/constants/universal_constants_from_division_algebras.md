@@ -114,7 +114,7 @@ Key evaluations:
 | Quantity | Value |
 |----------|-------|
 | Predicted | 137.036036036... |
-| Measured (CODATA 2018) | 137.035999084(21) |
+| Measured (CODATA 2022) | 137.035999177(21) |
 | Error | **0.27 ppm** |
 
 ### Structure

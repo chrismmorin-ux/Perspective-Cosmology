@@ -27,7 +27,7 @@ The framework produces 35 numerical predictions and 11 structural/qualitative pr
 
 | Prediction | Precision | Trials | Note |
 |-----------|-----------|--------|------|
-| 1/alpha = 137 + 4/111 | 0.27 ppm | ~15 | Formula searched |
+| 1/alpha = 137 + 4/111 | 0.27 ppm (tree); **0.0006 sigma dressed** | ~15 | Formula searched; dressed C_2=24/11 [DERIVATION], D_3=1 [CONJ HRS 5] |
 | m_p/m_e = 1836 + 11/72 | 0.06 ppm | 11,820 | Systematic scan documented |
 | CKM lambda = 9/40 | exact | ~50 | Simple fractions searched |
 | sqrt(sigma) = 8*m_p/17 | 0.35% | ~30 | Pattern match, HRS=6 |
@@ -169,6 +169,12 @@ Using P(data | genuine) = 0.5 (not all predictions would be perfect even if genu
 
 ---
 
+## 5b. Evidence AGAINST (updated)
+
+6. **Structural assumptions**: ~~Phi_6 cyclotomic, n_c=11 as sum, gauge=automorphisms — these are not axiomatically forced and could be chosen to fit.~~ **Partially outdated**: n_c=11 IS axiomatically forced (CCP, S251). Phi_6 connects to Sylvester's sequence (S309). Gauge=automorphisms follows from Pipeline 121->12. The structural assumptions have been substantially reduced (IRA 10->4, S259-S304). The remaining concern is whether the CCP axiom itself was chosen to fit.
+
+---
+
 ## 6. What Actually Matters
 
 ### Evidence FOR the framework (beyond statistics):
@@ -285,3 +291,106 @@ Post-audit: **15-25%** (narrowed, not increased).
 | LLM Challenge | Unknown | Addresses derivation-vs-discovery | Framework not reproducible |
 
 *Verification script: `verification/sympy/phase7_cross_framework_statistics.py` (8/8 PASS)*
+
+---
+
+## 10. Phase 8 Update (Session 330, S258-S327)
+
+**Added**: 2026-02-09, after Red Team v3.0 review
+
+### What Changed Since S202
+
+| Metric | S202 (Phase 7) | S330 (Phase 8) | Change |
+|--------|----------------|----------------|--------|
+| Total numerical predictions | 51 | 63+ | +12 (DM, glueballs, bands, pNGB) |
+| Registered predictions | P-001 to P-021 | P-001 to P-022 | +1 (colored pNGB) |
+| Blind predictions | 9 (6 independent) | 9 (6 independent) | UNCHANGED |
+| Falsified claims | 3 + 11 = 14 | 14 | UNCHANGED (F-10 resolved S230) |
+| Retractions | 0 | 3 (S291, S319, S320) | +3 (documented) |
+| Verification scripts | ~548 | ~713 | +165 |
+| IRAs | 10 | 4 | **-6** (resolved) |
+| Conjectures resolved | 0 | 5 (A1, A2p, A3, B1, B3) | +5 |
+| Blind P-value | 2.5e-7 | 2.5e-7 | UNCHANGED |
+| Monte Carlo | 0.80 | 0.80 (not re-run) | UNCHANGED |
+| CANONICAL investigations | QM, eval map | +Yang-Mills, +non-obs, +Planck h | +3 |
+| Red Team probability | 15-25% (post-audit) | **25-40%** (v3.0) | UP |
+
+### Updated Prediction Inventory (S330)
+
+**New Category B additions (S258-S327)**:
+
+| Prediction | Precision | Session | Derivation quality |
+|-----------|-----------|---------|-------------------|
+| C_2=24/11 two-loop (alpha) | 0.0009 ppm (5.9 sigma) | S266-S344 | [DERIVATION] (defect charges). Three-loop D_3=1: **0.0006 sigma** [CONJ HRS 5] |
+| sin^2(dressed) = 28/121 - alpha/(4*pi^2) | 0.00 sigma | S276 | One-loop coefficient [CONJECTURE] |
+| m_tau/m_mu dressed (Band A) | 1.9 ppm | S307 | Tree-to-dressed [CONJECTURE] |
+| alpha_s dressed (Band A) | 3 ppm | S307 | Tree-to-dressed [CONJECTURE] |
+| m_p/m_e: C=43/7 dressed | 0.22% | S282 | Phi_6 coefficient [CONJECTURE] |
+| Omega_m = 63/200 | EXACT | S293 | Dual-channel HS equipartition [DERIVATION] |
+| m_t(tree) = v/sqrt(2) | 0.82% | S290 | Full compositeness y_t=1 [CONJECTURE] |
+| m_H = 125.13 GeV (chain) | 0.72 sigma | S290 | y_t=1 -> lambda_H [CONJECTURE] |
+| DM mass = 5.11 GeV | untested | S314-315 | det(M) on End(R^4) [DERIVATION] |
+| ~~DM coupling g=0~~ | ~~untested~~ | S317/S335 | ~~G_2 singlet [DERIVATION]~~ **INVALIDATED S335**: G_2 singlet = Higgs. DM identity OPEN. |
+| DM Omega_DM = 0.266 | 0.63% | S318 | Asymmetric DM [CONJECTURE] |
+| m_col = 1761 GeV (pNGB) | untested | S326 | CW potential [CONJECTURE] |
+| Glueball 0++ = 4*sqrt(sigma) | 2-5% | S268-285 | CANONICAL |
+| Glueball spectrum (10+ states) | Band A | S268-285 | CANONICAL |
+| Large-N intercept = 10/3 | 0 free params | S285 | [CONJECTURE] |
+| Cabibbo angle lambda ~ 5/22 | 0.85% | S325 | [SPECULATION] |
+
+Plus 12 non-observations (S275): proton stability, no magnetic monopoles, no extra dimensions, etc.
+
+**New Category D additions (S258-S327)**:
+
+12. H-parity exact -- pNGB potential stable in boson sector (S323/S335) [THEOREM] (scope: SO(4)-inv polynomials; Yukawa outside scope)
+13. 3 generations from Hom(H,R^7) (S321) [DERIVATION]
+14. CKM mechanism from Im(H) non-commutativity (S325) [DERIVATION]
+15. CP violation = 1 phase from quaternion structure (S325) [DERIVATION]
+16. No proton decay (topologically sterile, F-STR-7) (S275) [THEOREM]
+17. Yang-Mills mass gap = n_d * sqrt(sigma) (S268-285) [CANONICAL]
+18. Tree-to-dressed band classification (16/16 a priori) (S308) [CONJECTURE]
+19. Colored pNGBs in SO(11)/[SO(4)xSO(7)] coset (S326) [DERIVATION]
+
+### Updated Independence Analysis (S330)
+
+| Category | Independent | Total | Notes |
+|----------|------------|-------|-------|
+| Searched | 4 | 4 | Unchanged |
+| Derived | 14 | 38+ | +6 independent (DM mass, glueballs, dressed Weinberg, y_t, Omega_m derivation, pNGB) |
+| Blind | 6 | 9 | Unchanged |
+| **Total** | **24** | **51+** | +6 new independent predictions |
+
+### Updated Phase Grades (S330)
+
+| Phase | Domain | Grade | Key change since S202 |
+|-------|--------|-------|----------------------|
+| 3 | QM | **A** | Unchanged. CANONICAL. |
+| 4 | Particles | **B** | Upgraded from B-. Yang-Mills CANONICAL, DM sector, CKM mechanism, y_t=1. |
+| 5 | Cosmology | **C** | Upgraded from C-. Omega_m DERIVED (S293). F-10 resolved (S230). Still gaps. |
+| 6 | Gravity | **C-** | Upgraded from D+. CC sign resolved (S230). Magnitude gap remains. |
+| -- | Eval map | **B+** | Unchanged. |
+| -- | Tower | **A-** | Unchanged. |
+| -- | Yang-Mills | **A-** | **NEW**. CANONICAL. 285+ PASS across 13 scripts. |
+| -- | Dark matter | **C+** | **REVISED S335**. Mass derived, coupling INVALIDATED (G_2 singlet = Higgs), stability scope CLARIFIED (bosons only). DM identity OPEN. |
+
+**Overall: B-** (structural A, numerical B-, gravity C-, dark matter untested)
+
+Upgraded from C+ to B-. Driver: IRA 10->4, Yang-Mills CANONICAL, DM mass formula, Omega_m derived. (Note: DM sector revised S335 -- identity OPEN, coupling invalidated.)
+
+### Updated Key Future Tests
+
+| Test | Timeline | If confirmed | If falsified |
+|------|----------|-------------|--------------|
+| DM at 5.11 GeV | SuperCDMS, 2026-2027 | Strong support for framework | Falsifies P-002 |
+| r = 0.035 | CMB-S4, 2028-2029 | Most significant confirmation | Most significant falsification |
+| Colored pNGB ~1.8 TeV | HL-LHC, 2026-2029 | Supports composite Higgs sector | Constrains g_rho |
+| Normal ordering, m_1=0 | JUNO, 2027 | Confirms 2 blind predictions | Falsifies P-017 |
+| w = -1 | DESI, ongoing | Consistent | Falsifies prediction |
+
+### Updated Probability
+
+Red Team v3.0 (S330): **25-40% genuine physics** (up from 20-35% at S257, up from 15-25% at S202).
+
+The upward revision is driven by structural advances (IRA reduction, conjecture resolutions) and concrete testable predictions (DM, pNGB, glueballs). The Monte Carlo and derivation-vs-discovery concerns remain unchanged.
+
+*This section added S330. No new Monte Carlo or P-value calculation performed. The honest P-value range (10^-8 to 10^-7) remains the best available estimate. The expanded prediction set (63+ total) would benefit from a re-run of the Monte Carlo with sub-ppm testing, but this has not been done.*

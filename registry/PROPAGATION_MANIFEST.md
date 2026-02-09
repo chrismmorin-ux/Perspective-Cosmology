@@ -2,7 +2,7 @@
 
 **Purpose**: Tracks key facts that, when changed, require propagation across the repository.
 **Updated by**: Session workflow (Step 4c) and `/quality-engine` (Phase 7)
-**Last updated**: 2026-02-09 (S321)
+**Last updated**: 2026-02-09 (S339)
 
 ---
 
@@ -29,9 +29,9 @@ count change, formula update), add or update the relevant entry here.
 - **Current value**: **4** (S304)
 - **Grep patterns**: `"6 irreducible"`, `"10 irreducible"`, `"9 irreducible"`, `"8 irreducible"`, `"13 assumptions"`, `"IRA.*1[0-3]"` (in non-session files)
 - **Key files to check**: publications/, claims/, framework/MATHEMATICAL_PERIODIC_TABLE.md, registry/
-- **Status**: ACTIVE (updated Run 10 quality engine, S322)
+- **Status**: COMPLETE (S324: all publications verified clean)
 - **Known stale**: sessions/S259.md (historical — acceptable)
-- **Known current**: IRREDUCIBLE_ASSUMPTIONS.md, HONEST_ASSESSMENT.md, TECHNICAL_SUMMARY.md, THESIS.md, PLAIN_LANGUAGE_DESCRIPTION.md, CLAIM_DEPENDENCIES.md, INDEX.md, MPT (all publications updated S322 v2.4)
+- **Known current**: IRREDUCIBLE_ASSUMPTIONS.md, HONEST_ASSESSMENT.md, TECHNICAL_SUMMARY.md (v2.5, IRA table fixed S324), THESIS.md, PLAIN_LANGUAGE_DESCRIPTION.md (v2.5, S324), OBJECTIONS_AND_RESPONSES.md (v2.4, S324), CLAIM_DEPENDENCIES.md, INDEX.md, MPT
 
 ### PROP-002: S291 Grassmannian Topology Correction
 - **Trigger**: Retraction (symplectic 2-form, level alpha=2)
@@ -43,15 +43,14 @@ count change, formula update), add or update the relevant entry here.
 - **Known stale**: (none remaining after S301 fixes)
 - **Known current**: S291.md, h_topological_step.py, MEMORY.md, planck_constant_investigation.md, h_schubert_state_counting.py, .quality/report.md, sessions/INDEX.md
 
-### PROP-003: Red Team Probability Update (S257)
-- **Trigger**: Assessment change
-- **Old values**: 15-30% (v1.0, S120), 15-25% (some publications)
-- **Current value**: **20-35%** (Red Team v2.0, S257)
-- **Grep patterns**: `"15-30%"`, `"15-25%"`, `"15.*30.*%"` (in non-session, non-archive files)
-- **Key files to check**: publications/, registry/RED_TEAM_SUMMARY.md
-- **Status**: COMPLETE (all publications updated S322)
-- **Known stale**: (none)
-- **Known current**: HONEST_ASSESSMENT.md, RED_TEAM_SUMMARY_V2.md, CLAUDE.md, PLAIN_LANGUAGE_DESCRIPTION.md, OBJECTIONS_AND_RESPONSES.md, PC_INTERPRETIVE_COMPANION.md (fixed S322)
+### PROP-003: Red Team Probability Update (S257 -> S330)
+- **Trigger**: Assessment change (Red Team v3.0)
+- **Old values**: 15-30% (v1.0, S120), 20-35% (v2.0, S257)
+- **Current value**: **25-40%** (Red Team v3.0, S330)
+- **Grep patterns**: `"20-35%"` + "Red Team" or "probability" context (in non-session, non-archive files)
+- **Key files to check**: publications/, registry/, launch/content/, CLAUDE.md
+- **Status**: COMPLETE (S330: all publications verified clean)
+- **Known current**: CLAUDE.md (project root), HONEST_ASSESSMENT.md (v2.5), RED_TEAM_SUMMARY_V3.md, registry/CLAUDE.md, FOR_SKEPTICS.md, STATISTICAL_ANALYSIS_HONEST.md, OBJECTIONS_AND_RESPONSES.md (v2.5), THESIS.md (v2.5), PLAIN_LANGUAGE_DESCRIPTION.md (v2.6), TECHNICAL_SUMMARY.md (v2.6), PC_INTERPRETIVE_COMPANION.md (v0.2)
 
 
 ### PROP-009: Weinberg Chain Complete (S292)
@@ -67,8 +66,8 @@ count change, formula update), add or update the relevant entry here.
 - **Current value**: **~713** (as of Run 10 quality engine)
 - **Grep patterns**: `"~215"`, `"~400"`, `"~500"`, `"~662"` + "scripts" context
 - **Key files to check**: registry/ACHIEVEMENTS_LOG.md, sessions/INDEX.md, publications/
-- **Status**: ACTIVE
-- **Known stale**: (none remaining — publications updated S322)
+- **Status**: COMPLETE (S324: all publications verified clean)
+- **Known stale**: (none)
 - **Known current**: sessions/INDEX.md, HONEST_ASSESSMENT.md, THESIS.md, TECHNICAL_SUMMARY.md, PLAIN_LANGUAGE_DESCRIPTION.md, OBJECTIONS_AND_RESPONSES.md, ACHIEVEMENTS_LOG.md
 
 ### PROP-011: CONJ-A2 Partially Resolved (S297)
@@ -162,6 +161,41 @@ count change, formula update), add or update the relevant entry here.
 - **Grep patterns**: `"8 dark"`, `"16 dark"`, `"dark.*state.*spinor"`, `"Type A.*Type B"` (in non-session files)
 - **Status**: ACTIVE (session records are historical with errata; investigation files checked)
 - **Known stale (acceptable)**: sessions/S319.md (errata added S322), sessions/S317.md, sessions/S318.md (historical)
+
+### PROP-025: DM=pNGB Singlet RETRACTED + sigma_SI INVALIDATED (S335)
+- **Trigger**: Retraction (S322 DM identity + S317 sigma_SI argument)
+- **Old values**: "DM = scalar channel color singlet [CONJECTURE]" (S322), "sigma_SI = 0 from G_2 singlet decoupling [DERIVATION]" (S317)
+- **Current values**: **pNGB color singlet = Higgs doublet** [THEOREM] (4 DOFs exact). DM identity GENUINELY OPEN. sigma_SI=0 argument INVALIDATED (G_2 singlet = Higgs, not DM). H-parity scope CLARIFIED: exact for boson-only operators (FFT theorem correct), NOT for Yukawa-mediated processes.
+- **Grep patterns**: `"DM.*pNGB.*singlet"`, `"scalar channel.*DM"`, `"sigma_SI.*= 0"` + "G_2 singlet" context, `"H-parity.*absolutely stable"` (check scope claims)
+- **Key files to check**: framework/investigations/particles/generation_structure.md, publications/, topics/collider-crystallization.md
+- **Status**: COMPLETE (all non-session files propagated)
+- **Known current**: sessions/S335.md, generation_structure.md, EXPLORATION_QUEUE.md (EQ-043), HONEST_ASSESSMENT.md, TECHNICAL_SUMMARY.md, STATISTICAL_ANALYSIS_HONEST.md, FOR_SKEPTICS.md, LAUNCH_PLAN.md, RED_TEAM_SUMMARY_V3.md, registry/CLAUDE.md, CLAUDE.md (root)
+- **Known stale (acceptable)**: sessions/S322.md, sessions/S317.md, sessions/S323.md, sessions/S330.md (all historical session records)
+
+### PROP-026: det-Tr Decoupling RETRACTED (S339)
+- **Trigger**: Retraction (S335 det-Tr S_4 character argument)
+- **Old values**: "different S_4 characters" (sign vs trivial rep), "det(M) mode" as DM candidate, "det-Tr orthogonality" as sigma_SI mechanism
+- **Current values**: **Both det and Tr are trivial rep under conjugation** [THEOREM]. delta(det) = c^3 * delta(Tr) at first order (proportional, not orthogonal). All 28 pNGBs accounted for (4 Higgs + 24 colored). det(M) = mass **scale**, not particle ('t Hooft analogy). DM carrier: UNKNOWN.
+- **Grep patterns**: `"different S_4 characters"`, `"det mode"`, `"det-Tr orthogonality"`, `"det.*sign rep"`, `"det.*antisymmetric"` (in non-session files)
+- **Key files to check**: framework/investigations/particles/generation_structure.md, verification/sympy/dm_identity_revision.py, registry/EXPLORATION_QUEUE.md, predictions/BLIND_PREDICTIONS.md, predictions/dark_matter_5gev.md, launch/content/FOR_SKEPTICS.md
+- **Status**: ACTIVE (S339)
+- **Known current**: generation_structure.md (corrected S339), dm_identity_revision.py (correction note added), EXPLORATION_QUEUE.md (EQ-043 updated), det_tr_decoupling_analysis.py (source of correction)
+
+### PROP-027: Alpha Prediction 5.9 sigma -> 0.0006 sigma (S344/S347)
+- **Trigger**: Status change (alpha dressed prediction precision, C_2 confidence upgrade)
+- **Old values**: "5.9 sigma", "0.0009 ppm", C_2=24/11 [CONJECTURE]
+- **Current value**: **0.0006 sigma** (three-loop D_3=1, [CONJECTURE HRS 5]). C_2=24/11 upgraded to [DERIVATION]. Full formula: 1/alpha = 15211/111 - (24/11)*alpha^2/pi + alpha^3/pi
+- **Grep patterns**: `"5.9 sigma"`, `"0.0009 ppm"`, `"C_2.*CONJECTURE"`, `"C=24/11.*CONJECTURE"` (in non-session files)
+- **Key files updated (S347)**: claims/TIER_1_SIGNIFICANT.md, claims/UNDENIABLE_CORE.md, publications/TECHNICAL_SUMMARY.md, publications/HONEST_ASSESSMENT.md, publications/THESIS.md, publications/PC_MATHEMATICAL_FOUNDATIONS.md, publications/PLAIN_LANGUAGE_DESCRIPTION.md, launch/content/FOR_SKEPTICS.md, THEORY_STRUCTURE.md, framework/STATISTICAL_ANALYSIS_HONEST.md, framework/investigations/alpha/alpha_accuracy_plan.md, framework/investigations/alpha/alpha_radiative_gap.md (~12 locations), registry/derivations/INDEX.md, registry/derivations/alpha_derivations.md, registry/CLAIM_DEPENDENCIES.md, registry/RED_TEAM_SUMMARY_V3.md, website/src/content/publications/math-foundations.md (3 locations), website/data/predictions.json, website/data/derivation-graph.json, website/scripts/extract-predictions.mjs, 11+ verification scripts (docstrings only)
+- **Status**: COMPLETE (S347). ~35 files updated across source, publications, website, and verification scripts. Session files (S266, S272, S297) are historical records — not updated. Build artifacts (.astro/, dist/) regenerate automatically.
+
+### PROP-024: S325 Dark Quark EW Numbers RETRACTED (S328)
+- **Trigger**: Retraction (HP-014)
+- **Old values**: "dark quarks SU(2)_L singlet [DERIVATION]", "Y=0 preferred [CONJECTURE]"
+- **Current value**: **ALL pNGBs SU(2)_L doublets, Y = +/-1/2** (S328). F=C breaks SO(4)->SU(2)xU(1). Pipeline u(1) = broken generator.
+- **Grep patterns**: `"SU(2)_L singlet"` (in dark quark context), `"Y = 0"` or `"Y=0"` (in dark quark context), `"dark quark.*singlet"` (in non-session files)
+- **Status**: ACTIVE. `generation_structure.md` updated. S325.md is historical (errata in S328.md). Publications may reference old claims.
+- **Known stale (acceptable)**: sessions/S325.md (historical, errata noted in S328)
 
 ---
 

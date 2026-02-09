@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Home" description="What if the laws of physics are mathematically inevitable? A framework deriving 63+ physical constants from division algebra geometry.">
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-950/20 to-gray-950"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-16 text-center">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+        What if the laws of physics are<br class="hidden sm:block" />
+        <span class="text-brand-400">mathematically inevitable?</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+        A framework deriving 63+ physical constants from division algebra geometry.
+        12 match measurements to better than 10 parts per million.
+        14 predictions failed.
+        We estimate a <strong class="text-white">25-40% chance</strong> this is real physics.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="/explore" class="inline-flex items-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors">
+          Explore Predictions
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/publications/math" class="inline-flex items-center px-6 py-3 border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white font-semibold rounded-lg transition-colors">
+          Read the Math
+        </a>
+        <a href="/skeptics" class="inline-flex items-center px-6 py-3 border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white font-semibold rounded-lg transition-colors">
+          Why Be Skeptical
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three-Column Section -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Column 1: What We Claim -->
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+          What We Claim
+        </h2>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>SM gauge group derived from first principles</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>Fine structure constant to <strong class="text-white">0.27 ppm</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>Weinberg angle to <strong class="text-white">3.75 ppm</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>Dark matter mass prediction: <strong class="text-white">5.11 GeV</strong></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>QM derived from observation axioms</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">-</span>
+            <span>Einstein equations from crystallization</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Why You Should Doubt It -->
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 bg-accent-yellow rounded-full"></span>
+          Why You Should Doubt It
+        </h2>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>Author is amateur with AI assistance</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>Building blocks aren't special (Monte Carlo)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>Most predictions are post-hoc</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>Could be sophisticated numerology</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>4 irreducible assumptions remain</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-yellow mt-0.5">-</span>
+            <span>CC magnitude gap unsolved</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Why It Might Be Real -->
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="w-2 h-2 bg-accent-green rounded-full"></span>
+          Why It Might Be Real
+        </h2>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span>9 blind predictions succeeded (<strong class="text-white">P ~ 2.5e-7</strong>)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span>Derives structure, not just numbers</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span><strong class="text-white">713+</strong> verification scripts (99.8% pass)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span>14 failures + 3 retractions documented honestly</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span>Only <strong class="text-white">4 assumptions</strong> for ALL of physics</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent-green mt-0.5">-</span>
+            <span>Concrete falsification criteria</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlight Section: 3 Results Most Worth Checking -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="bg-gradient-to-r from-brand-950/50 to-gray-900 border border-brand-900/50 rounded-2xl p-8 sm:p-12">
+      <h2 class="text-2xl font-bold text-white mb-8 text-center">The 3 results most worth checking</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Alpha -->
+        <div class="text-center">
+          <div class="text-3xl font-mono font-bold text-brand-400 mb-2">1/&alpha;</div>
+          <div class="text-sm text-gray-400 mb-3">Fine structure constant</div>
+          <div class="bg-gray-950/60 rounded-lg p-4 mb-3">
+            <div class="font-mono text-white text-sm">137 + 4/111</div>
+            <div class="text-xs text-gray-500 mt-1">= 15211/111 = 137.036036...</div>
+          </div>
+          <div class="text-accent-green font-semibold text-sm">0.27 ppm from CODATA</div>
+          <a href="/explore" class="text-xs text-brand-400 hover:text-brand-300 mt-2 inline-block">View derivation chain &rarr;</a>
+        </div>
+        <!-- Weinberg -->
+        <div class="text-center">
+          <div class="text-3xl font-mono font-bold text-brand-400 mb-2">sin&sup2;&theta;<sub>W</sub></div>
+          <div class="text-sm text-gray-400 mb-3">Weinberg angle</div>
+          <div class="bg-gray-950/60 rounded-lg p-4 mb-3">
+            <div class="font-mono text-white text-sm">28/121</div>
+            <div class="text-xs text-gray-500 mt-1">= (4&times;7) / 11&sup2; = 0.23140...</div>
+          </div>
+          <div class="text-accent-green font-semibold text-sm">0.10% (tree-level)</div>
+          <a href="/explore" class="text-xs text-brand-400 hover:text-brand-300 mt-2 inline-block">View derivation chain &rarr;</a>
+        </div>
+        <!-- Omega_m -->
+        <div class="text-center">
+          <div class="text-3xl font-mono font-bold text-brand-400 mb-2">&Omega;<sub>m</sub></div>
+          <div class="text-sm text-gray-400 mb-3">Matter density</div>
+          <div class="bg-gray-950/60 rounded-lg p-4 mb-3">
+            <div class="font-mono text-white text-sm">63/200</div>
+            <div class="text-xs text-gray-500 mt-1">= 0.315</div>
+          </div>
+          <div class="text-accent-green font-semibold text-sm">EXACT match to Planck</div>
+          <a href="/explore" class="text-xs text-brand-400 hover:text-brand-300 mt-2 inline-block">View derivation chain &rarr;</a>
+        </div>
+      </div>
+      <p class="text-center text-gray-500 text-sm mt-8">
+        All three use only the integers &#123;4, 7, 11&#125; &mdash; the imaginary dimensions of &#123;H, O&#125;
+        and the crystal dimension n<sub>c</sub> = 1 + 3 + 7. Zero free parameters.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-white">713+</div>
+        <div class="text-xs text-gray-500 mt-1">Verification Scripts</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-white">99.8%</div>
+        <div class="text-xs text-gray-500 mt-1">Pass Rate</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-white">14</div>
+        <div class="text-xs text-gray-500 mt-1">Documented Failures</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-white">4</div>
+        <div class="text-xs text-gray-500 mt-1">Irreducible Assumptions</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Tagline -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-center">
+    <p class="text-xl sm:text-2xl text-gray-400 italic">
+      "25-40% chance this is genuine physics.
+    </p>
+    <p class="text-xl sm:text-2xl text-white font-semibold mt-1">
+      100% chance the math is worth checking."
+    </p>
+    <div class="mt-8">
+      <a href="/skeptics" class="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors">
+        Read the honest assessment
+        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

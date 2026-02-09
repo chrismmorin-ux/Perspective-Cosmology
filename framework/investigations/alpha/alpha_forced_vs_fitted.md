@@ -22,7 +22,7 @@ The conclusion is mixed. Some steps are genuinely forced by mathematical structu
 
 The claim: 1/α = n_d² + n_c² + n_d/(n_c² − n_c + 1) = 137 + 4/111 = 15211/111 ≈ 137.036036
 
-Measured: 137.035999084 (CODATA 2018). Error: 0.27 ppm.
+Measured: 137.035999177 (CODATA 2022). Error: 0.27 ppm (tree-level).
 
 The chain has 8 steps. Each is graded on how forced it is.
 
