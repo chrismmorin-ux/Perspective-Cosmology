@@ -216,10 +216,10 @@ claims/
 
 | For... | See... |
 |--------|--------|
-| Full derivation summary | `registry/derivations_summary.md` |
-| Statistical analysis | `registry/STATISTICAL_SIGNIFICANCE_ANALYSIS.md` |
-| Falsification criteria | `registry/FALSIFICATION_REGISTRY.md` |
 | Verification scripts | `verification/sympy/` |
+| Predictions | `predictions/` |
+| Mathematical foundations | `publications/PC_MATHEMATICAL_FOUNDATIONS.md` |
+| Honest assessment | `publications/HONEST_ASSESSMENT.md` |
 
 ---
 

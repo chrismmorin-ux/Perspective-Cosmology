@@ -1,3 +1,5 @@
+> **Internal Working Document** — This directory contains superseded and deprecated content kept for historical reference. These documents have been replaced by current framework content. For formal content, see `publications/`, `claims/`, and `framework/`.
+
 # Archive Directory
 
 **Updated**: 2026-01-27 (Session 87 cleanup)

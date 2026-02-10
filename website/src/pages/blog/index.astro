@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categories = ['All', 'Results', 'Methodology', 'Comparison', 'Meta'] as const;
+
+const categoryColors: Record<string, string> = {
+  Results: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  Methodology: 'bg-brand-600/20 text-brand-400 border-brand-600/30',
+  Comparison: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  Meta: 'bg-gray-600/20 text-gray-400 border-gray-600/30',
+};
+
+function estimateReadingTime(body: string): number {
+  const words = body.split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 230));
+}
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<BaseLayout title="Blog" description="Updates, results, and reflections from the Perspective Cosmology project.">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">Blog</h1>
+      <p class="text-gray-400 max-w-2xl">
+        Updates, results, and reflections from the Perspective Cosmology project.
+        Follow along as we document what works, what fails, and what we learn.
+      </p>
+    </div>
+
+    {/* Category filter */}
+    <div class="flex flex-wrap gap-2 mb-8" id="category-filters">
+      {categories.map(cat => (
+        <button
+          data-category={cat}
+          class={`text-sm px-3 py-1.5 rounded-full border transition-colors cursor-pointer ${
+            cat === 'All'
+              ? 'bg-white/10 text-white border-white/20'
+              : 'bg-gray-800/50 text-gray-500 border-gray-700 hover:text-gray-300 hover:border-gray-600'
+          }`}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    {/* Post list */}
+    {posts.length === 0 ? (
+      <div class="text-center py-16 text-gray-500">
+        <p class="text-lg mb-2">No posts yet.</p>
+        <p class="text-sm">The first post will be published at launch.</p>
+      </div>
+    ) : (
+      <div class="space-y-6" id="post-list">
+        {posts.map(post => (
+          <article data-category={post.data.category} class="post-card group block border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-colors">
+            <a href={`/blog/${post.slug}`} class="block">
+              <div class="flex items-center gap-3 mb-3">
+                <span class={`text-xs font-semibold px-2.5 py-1 rounded-full border ${categoryColors[post.data.category] || categoryColors.Meta}`}>
+                  {post.data.category}
+                </span>
+                <span class="text-xs text-gray-600">{formatDate(post.data.date)}</span>
+                <span class="text-xs text-gray-600">{estimateReadingTime(post.body ?? '')} min read</span>
+              </div>
+              <h2 class="text-xl font-semibold text-white group-hover:text-brand-400 transition-colors mb-2">
+                {post.data.title}
+              </h2>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                {post.data.description}
+              </p>
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+
+    {/* RSS link */}
+    <div class="mt-12 pt-8 border-t border-gray-800 flex items-center gap-3 text-sm text-gray-500">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+      </svg>
+      <a href="/blog/rss.xml" class="hover:text-gray-300 transition-colors">Subscribe via RSS</a>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('#category-filters button');
+    const cards = document.querySelectorAll('.post-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-category');
+
+        // Update button styles
+        buttons.forEach(b => {
+          b.className = b.className
+            .replace('bg-white/10 text-white border-white/20', '')
+            .replace('bg-gray-800/50 text-gray-500 border-gray-700', '')
+            + (b === btn
+              ? ' bg-white/10 text-white border-white/20'
+              : ' bg-gray-800/50 text-gray-500 border-gray-700');
+        });
+
+        // Filter cards
+        cards.forEach(card => {
+          const el = card as HTMLElement;
+          if (cat === 'All' || card.getAttribute('data-category') === cat) {
+            el.style.display = '';
+          } else {
+            el.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</BaseLayout>

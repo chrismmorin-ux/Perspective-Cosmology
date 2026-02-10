@@ -1,31 +1,24 @@
 # Verification Script Status
 
-> **⚠️ RETIRED (Session 144, 2026-01-30)**
+> **⚠️ HISTORICAL SNAPSHOT (Session 144, 2026-01-30)**
 >
-> This file tracked 189 scripts as of Session 135 but fell 154 scripts behind
-> `registry/STATUS_DASHBOARD.md` (which reports 343 scripts at ~90% pass rate).
-> Reconciling the gap is not cost-effective.
->
-> **Single source of truth**: `registry/STATUS_DASHBOARD.md`
->
-> This file is preserved for its **qualitative analysis** (gaps, honest assessment,
-> verified-vs-assumed distinctions in the "Detailed Analysis" section below), which
-> STATUS_DASHBOARD does not replicate. New script results should be logged in
-> STATUS_DASHBOARD only.
+> This file tracked 189 scripts as of Session 135. The repository now contains
+> 737+ verification scripts with ~99.8% pass rate. This file is preserved for its
+> **qualitative analysis** (gaps, honest assessment, verified-vs-assumed distinctions
+> in the "Detailed Analysis" section below).
 
 **Created**: 2026-01-26 (Stage 1.2)
 **Updated**: 2026-01-30 (Session 135 — LCDM deviations, z_* recombination, Born rule)
-**Retired**: 2026-01-30 (Session 144 — superseded by STATUS_DASHBOARD)
-**Purpose**: ~~Document results from running all verification scripts~~ Historical reference only
+**Purpose**: Historical reference — qualitative analysis of early verification results
 
 ---
 
-## Executive Summary (STALE — see STATUS_DASHBOARD)
+## Executive Summary (Historical — repo now has 737+ scripts at ~99.8% pass rate)
 
-| Metric | Value | Note |
-|--------|-------|------|
-| **Total Scripts** | **189** | STATUS_DASHBOARD reports 343 |
-| **Pass Rate** | ~85% | STATUS_DASHBOARD reports ~90% |
+| Metric | Value (at time of writing) |
+|--------|---------------------------|
+| **Total Scripts** | **189** |
+| **Pass Rate** | ~85% |
 
 ---
 

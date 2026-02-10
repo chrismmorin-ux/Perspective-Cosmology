@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Node / Website build
+node_modules/
+dist/
+.astro/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local config (contains API keys and local paths)
+.claude/settings.local.json
+.env
+config.json
+
+# OS artifacts
+nul
+Thumbs.db
+
+# Temporary / scratch
+*.tmp
+*.bak
+output_temp.txt
+def_files_tmp.txt
+def_refs_tmp.txt
+
+# Development artifacts
+.playwright-mcp/
+
+# Root-level screenshots and plots (development)
+/*.png
+
+# Internal working directories (kept locally, not in public repo)
+sessions/
+registry/
+launch/
+tools/
+topics/
+.quality/
+.auditor/
+meta/
+quarantine/
+explorations/
+docs/

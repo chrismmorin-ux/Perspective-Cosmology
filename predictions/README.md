@@ -97,5 +97,5 @@ These predictions match to better than 10 parts per million or are exact to meas
 ## Cross-References
 
 - `claims/README.md` — Tiered statistical analysis
-- `registry/FALSIFICATION_REGISTRY.md` — What would disprove claims
+- `claims/FALSIFIED.md` — Falsified predictions (documented honestly)
 - `framework/investigations/testable_predictions_master_list.md` — Full technical details

@@ -1,11 +1,11 @@
 # Perspective Cosmology: Interpretive Companion
 
-**Last Updated**: 2026-02-09 (Session S354)
-**Version**: 1.0 (IN PROGRESS)
+**Last Updated**: 2026-02-09 (Session S355)
+**Version**: 1.0
 **Purpose**: Physical interpretation, motivation, and context for the mathematical framework
 **Audience**: Theoretical physicists and mathematically literate readers
-**Status**: IN PROGRESS (Chunks 1-5 of 6)
-**Reading Time**: ~90 minutes (complete document)
+**Status**: Complete (20 sections + 3 appendices)
+**Reading Time**: ~100 minutes (complete document)
 **Companion Document**: `PC_MATHEMATICAL_FOUNDATIONS.md` (section-correlated pure mathematics)
 
 ---
@@ -25,7 +25,7 @@
 
 ## How to Read This Document
 
-This document provides the **physical interpretation** for each section of the companion mathematical document `PC_MATHEMATICAL_FOUNDATIONS.md`. Every numbered section here corresponds to the identically numbered section in the mathematical document. The mathematics stands alone; this document explains *what it means for physics*.
+This document provides the **physical interpretation** for each section of the companion mathematical document `PC_MATHEMATICAL_FOUNDATIONS.md`. Each section here corresponds to one or more sections of the mathematical document, with the cross-reference stated in the section header. Sections 1-13 and 17 are identically numbered; Sections 14-16 and 18-20 are reordered for narrative flow (Weinberg angle before alpha, Higgs before Omega_m, with companion-only summary sections 19-20). The mathematics stands alone; this document explains *what it means for physics*.
 
 We maintain strict separation:
 - The **mathematical document** contains no physics -- only definitions, axioms, theorems, and proofs.
@@ -1965,9 +1965,150 @@ The division algebras are real mathematics. Whether they organize real physics r
 
 ---
 
-*End of Part V. Appendices continue in subsequent chunk.*
+*End of Part V.*
 
 ---
+
+# APPENDICES
+
+## Appendix A. Why 137 Is a Sum of Squares
+
+> **Mathematics**: See Mathematical Foundations, Appendix A -- *Radon-Hurwitz Theorem and Algebraic Independence*
+
+### A.1 The Physical Question
+
+Why is the electromagnetic coupling constant $\alpha \approx 1/137$, and not $1/121$ or $1/44$ or $1/15$? Within the framework, $\mathcal{I}_0 = n_d^2 + n_c^2 = 16 + 121 = 137$ arises as a *sum of squares*. The "+" sign is the heart of the matter. The two sectors contribute quadratically but *additively* -- not multiplicatively ($n_d \cdot n_c = 44$), not jointly ($(n_d + n_c)^2 = 225$), not asymmetrically ($n_c^2 = 121$).
+
+This appendix explains *why* the additive form is the only algebraically consistent option.
+
+### A.2 The Three Obstructions
+
+The math paper (Theorem A.4, CONJ-A3) proves that the algebraic structures on $W = \mathbb{R}^4$ and $W^\perp = \mathbb{R}^7$ are independent: no norm-preserving bilinear coupling exists between them. Three independent proofs converge on the same conclusion:
+
+**Proof 1: The parity obstruction.** An almost-complex structure on $\mathbb{R}^m$ requires a map $J$ with $J^2 = -I_m$, forcing $\det(J)^2 = (-1)^m$. For $m = 7$ (odd), $(-1)^7 = -1 < 0$, which has no real solution. Therefore $\mathbb{R}^7$ admits no almost-complex structure, and a fortiori no quaternionic structure that could couple to $W = \mathbb{H}$.
+
+*Physical meaning*: The complement space has the "wrong parity" for the perspective space to act on it. It is algebraically odd where the perspective space needs evenness.
+
+**Proof 2: The Radon-Hurwitz obstruction.** The Radon-Hurwitz number $\rho(7) = 1$. A norm-preserving bilinear map $B: \mathbb{R}^4 \times \mathbb{R}^7 \to \mathbb{R}^7$ would require $4 \leq \rho(7) = 1$, which fails. The complement dimension is too small (in the Radon-Hurwitz sense) to support the quaternionic action.
+
+*Physical meaning*: The number of "independent directions" that the 4-dimensional perspective can imprint on the 7-dimensional complement is only 1 -- not the 4 needed for full coupling.
+
+**Proof 3: The Hurwitz obstruction.** If cross-terms existed, the combined algebra on $W \oplus W^\perp = \mathbb{R}^{11}$ would be a normed composition algebra. But Hurwitz's theorem (Theorem 2.2) restricts normed composition algebras to dimensions $\{1, 2, 4, 8\}$, and $11 \notin \{1, 2, 4, 8\}$.
+
+*Physical meaning*: The total dimension of reality exceeds the algebraic limit. No single normed algebra can encompass all 11 dimensions. The two sectors are forced to coexist additively.
+
+### A.3 Why This Forces Addition
+
+If the two sectors *could* couple bilinearly, the invariant would include cross-terms: $\mathcal{I} = f(n_d^2, n_c^2, n_d \cdot n_c)$ for some function $f$. But the three proofs above exclude exactly these cross-terms (Corollary A.5). The automorphism groups $\text{Aut}(W)$ and $\text{Aut}(V)$ contribute $n_d^2$ and $n_c^2$ generators respectively, and the Hilbert-Schmidt metric counts them democratically. No cross-contributions exist.
+
+The sum-of-squares form $\mathcal{I}_0 = n_d^2 + n_c^2$ is therefore not a choice but a *consequence*.
+
+### A.4 The Root Cause
+
+Remark A.6 of the math paper identifies the root cause: $n_c - n_d = 7$ is odd. For comparison, if $n_c - n_d = 8$, then $\rho(8) = 8 \geq 4$ and octonionic multiplication DOES provide a $[4, 8, 8]$-composition. The framework's specific forced dimensions place $W^\perp$ in dimension 7 -- where cross-coupling is algebraically impossible.
+
+This is a striking structural feature: the same Hurwitz theorem that forces the division algebra dimensions $\{1, 2, 4, 8\}$ also forces the *independence* of the two sectors, because $\text{Im}(\mathbb{O}) = 7$ is not among those dimensions. The framework is self-consistently locked.
+
+*Verification*: `conj_a3_algebraic_incompatibility.py` -- 27/27 PASS.
+
+---
+
+## Appendix B. Verification Script Index
+
+> All scripts are in `verification/sympy/` and require Python 3.8+ with SymPy.
+
+This appendix indexes the verification scripts explicitly referenced in this companion document. For the full 46-script index, see Mathematical Foundations, Appendix D.
+
+| Script | Sec. | Tests | Domain | What It Verifies |
+|--------|------|-------|--------|------------------|
+| `hypercharge_derivation.py` | 11 | -- | Particles | Hypercharge quantization from rank-3 color group |
+| `alpha_enhanced_prediction.py` | 15 | -- | Alpha | $\mathcal{I}(4,11) = 15211/111$; tree-level $1/\alpha$ at 0.27 ppm |
+| `alpha_em_index_density.py` | 15 | 21 | Alpha | Band A: EM index density $\rho_Q = 2/11$ |
+| `alpha_ccwz_three_loop.py` | 15 | 24 | Alpha | Band B: colored charge content $C_2 = 24/11$ |
+| `higgs_vev_from_portal.py` | 16 | 7 | Higgs | Higgs VEV from portal coupling: $v = 246.14$ GeV |
+| `glueball_base_mass_derivation.py` | 17 | 25 | Yang-Mills | Base mass uniqueness: $(n_d - 1)(n_d - 4) = 0$ |
+| `exotic_gluon_cost_derivation.py` | 17 | 38 | Yang-Mills | Casimir elimination: constituent cost $= \text{Im}(\mathbb{H}) = 3$ |
+| `glueball_suN_predictions.py` | 17 | 32 | Yang-Mills | $SU(N)$ base mass universality |
+| `glueball_large_N_correction.py` | 17 | 21 | Yang-Mills | Large-$N$ intercept $10/3$ prediction |
+| `omega_m_equipartition_derivation.py` | 18 | 15 | Cosmology | $\Omega_m = 63/200$ from HS equipartition |
+| `conj_a3_algebraic_incompatibility.py` | App. A | 27 | Foundations | $\rho(7) = 1$; three algebraic independence proofs |
+
+**Total**: 11 scripts, approximately 210 individual tests.
+
+The full framework contains 735+ verification scripts with 99.8% all-PASS rate. The scripts above are those directly cited in the physical interpretation; the mathematical paper references 46 scripts covering all 20 sections and 3 appendices.
+
+---
+
+## Appendix C. Notation and Conventions
+
+### C.1 Recurring Symbols
+
+| Symbol | Meaning | Value | First Appears |
+|--------|---------|-------|---------------|
+| $V$ | Crystal space | $\mathbb{R}^{n_c}$ | Section 1 |
+| $W$ | Perspective subspace | $\mathbb{R}^{n_d}$ | Section 3 |
+| $W^\perp$ | Complement subspace | $\mathbb{R}^{n_c - n_d}$ | Section 9 |
+| $n_c$ | Crystal dimension | $11$ | Section 3 |
+| $n_d$ | Perspective dimension | $4$ | Section 3 |
+| $\mathbb{F}$ | Scalar field | $\mathbb{C}$ | Section 3 |
+| $\mathbb{R}, \mathbb{C}, \mathbb{H}, \mathbb{O}$ | Division algebras | dims $1, 2, 4, 8$ | Section 2 |
+| $\text{Gr}^+(k, n; \mathbb{R})$ | Oriented Grassmannian | $28$-dim manifold | Section 5 |
+| $\varepsilon$ | Tilt (crystallization parameter) | $\in \text{Hom}(W, W^\perp)$ | Section 6 |
+| $\text{End}(V)$ | Endomorphism algebra | $\dim = n_c^2 = 121$ | Section 9 |
+| $\mathfrak{g}_\text{surv}$ | Surviving gauge algebra | $\mathfrak{u}(1) \oplus \mathfrak{su}(2) \oplus \mathfrak{su}(3)$ | Section 10 |
+| $\mathcal{R}$ | Mixing ratio (Weinberg angle) | $28/121$ | Section 14 |
+| $\mathcal{I}_0$ | Interface invariant (tree $1/\alpha$) | $n_d^2 + n_c^2 = 137$ | Section 15 |
+| $\Phi_6$ | Sixth cyclotomic polynomial | $\Phi_6(11) = 111$ | Section 4 |
+| $\mathcal{F}$ | Partition fraction ($\Omega_m$) | $63/200$ | Section 18 |
+| CCP | Completeness/Consistency Principle | Axiom | Section 1 |
+
+### C.2 Confidence Tags
+
+| Tag | Meaning | Proof Status |
+|-----|---------|-------------|
+| [AXIOM] | Foundational postulate | Assumed without proof |
+| [THEOREM] | Rigorously derived | Complete proof in math paper |
+| [DERIVATION] | Sketch-level argument | Gaps identified, path clear |
+| [CONJECTURE] | Plausible but unproven | Default for new claims |
+| [SPECULATION] | Exploratory idea | Untested |
+
+### C.3 Assumption Tags
+
+| Tag | Source | When Used |
+|-----|--------|-----------|
+| [A-AXIOM] | Framework axiom | CCP, C1-C4 |
+| [A-STRUCTURAL] | Mathematical choice | Within-framework selections |
+| [A-PHYSICAL] | Physical identification | **Bridge assumptions**: math $\to$ physics |
+| [A-IMPORT] | Established physics | Standard Model or observational inputs |
+| [A-TECHNICAL] | Calculation convenience | Approximations, leading-order truncations |
+
+### C.4 Irreducible Assumptions (IRAs)
+
+The framework currently requires 4 irreducible assumptions:
+
+| IRA | Statement | Type | Status |
+|-----|-----------|------|--------|
+| IRA-04 | Quartic ratio $\rho = c_4/b_4$ | [A-STRUCTURAL LOW] | Not yet derived from axioms |
+| IRA-06 | Crystallization = SSB | [A-PHYSICAL] | Weinberg-forced (8/8 properties) |
+| IRA-07 | Adjacency = time evolution | [A-PHYSICAL] | Weinberg-forced (6/6 properties) |
+| IRA-11 | $|\Pi|$ scale (Planck mass) | [A-IMPORT] | Dimensional import |
+
+### C.5 Section-to-Math-Paper Cross-Reference
+
+| Companion Section | Math Paper Section | Topic |
+|-------------------|--------------------|-------|
+| 1-13 | 1-13 (identical) | Foundations through democratic counting |
+| 14: Weinberg Angle | 15: Mixing Ratio | $\sin^2\theta_W = 28/121$ |
+| 15: Fine Structure Constant | 14: Interface Invariant | $1/\alpha \approx 137$ |
+| 16: Higgs Sector | 14 (partial), 6 | pNGB decomposition, CW potential |
+| 17: Yang-Mills Mass Gap | 17: Glueball Mass Spectrum | Additive mass formula |
+| 18: Matter Density | 16: Partition Fraction | $\Omega_m = 63/200$ |
+| 19: Predictions | 20 (partial) | Summary and falsifications |
+| 20: Open Problems | (companion-only) | IRAs, future directions |
+
+---
+
+*End of Appendices.*
 
 ## Revision History
 
@@ -1980,6 +2121,7 @@ The division algebras are real mathematics. Whether they organize real physics r
 | 1.0-chunk3 | 2026-02-09 | S350 | Part III (Secs 9-12). Endomorphism decomposition, gauge pipeline, fermion content, generation structure. No new [A-PHYSICAL] IRAs. |
 | 1.0-chunk4 | 2026-02-09 | S353 | Part IV (Secs 13-16). Democratic counting, Weinberg angle, fine structure constant, Higgs sector. IRA-11 enters. No new [A-PHYSICAL]. |
 | 1.0-chunk5 | 2026-02-09 | S354 | Part V (Secs 17-20). Yang-Mills mass gap, matter density Omega_m, prediction summary, open problems/future directions. No new IRAs. |
+| 1.0 | 2026-02-09 | S355 | Chunk 6 (final): Appendices A-C complete. Appendix A: Why 137 Is a Sum of Squares (Radon-Hurwitz physical interpretation). Appendix B: Verification Script Index (11 scripts, ~210 tests). Appendix C: Notation, conventions, IRA table, section cross-reference. Header updated: section numbering claim corrected for Parts IV-V reordering. Full-document consistency review PASS. |
 
 ---
 

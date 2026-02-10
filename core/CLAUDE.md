@@ -35,5 +35,5 @@ Physics enters at Layer 2 (correspondence rules in `framework/`).
 
 ## Cross-References
 
-- `core/theorems/` ↔ `registry/derivations/`
-- All files ↔ `registry/CLAIM_DEPENDENCIES.md`
+- `core/theorems/` reference formal proofs from `core/axioms/` and `core/definitions/`
+- See `framework/` for physical interpretation of these formal structures

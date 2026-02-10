@@ -168,6 +168,40 @@ The eigenvalue landscape is **simple** (one extremum), **stable** (topologically
 
 ---
 
+## Dyson-Division Algebra Correspondence (S352)
+
+**Verification**: `dyson_division_algebra_correspondence.py` (35/35 PASS)
+
+### End(R^4) Decomposition [THEOREM]
+Under SU(2)_L x SU(2)_R: End(R^4) = (1,1) + (3,1) + (1,3) + (3,3) = 1+3+3+9 = 16.
+- (1,1) = span{I} = trace/Higgs mode
+- (3,1) = span{L_i, L_j, L_k} = left-quaternionic (SU(2)_L adjoint)
+- (1,3) = span{R_i, R_j, R_k} = right-quaternionic (SU(2)_R adjoint)
+- (3,3) = mixed = 9 dim
+
+Quaternionic-linear subspace: End_H(H) = (1,1) + (3,1) = 4 dim = eigenvalue sector.
+
+### Quaternionic Eigenvalue Theorem [THEOREM]
+char poly of L_q = (t^2 - 2Re(q)t + |q|^2)^2. Real eigenvalues ONLY for q in R. The democratic vacuum is the ONLY quaternionic-linear configuration with real eigenvalues.
+
+### (1,3) Antisymmetry [THEOREM]
+R_i, R_j, R_k are antisymmetric matrices. The (1,3) perturbation M = cI + eps*(alpha R_i + beta R_j + gamma R_k) has char poly (t^2 - 2ct + c^2 + eps^2|v|^2)^2 with eigenvalues c +/- i*eps*r (COMPLEX). The quaternionic structure blocks real eigenvalue splitting from these modes.
+
+### Kramers Enhancement [DERIVATION]
+SU(2)_L gauge symmetry forces Kramers degeneracy: eigenvalues in pairs with multiplicity m=2. The inter-pair Vandermonde exponent is beta_base * m^2 = 1 * 4 = 4, matching GSE. This is EXACT because SU(2)_L is gauged. Mass formula stability: D_4 correction suppressed by 1/4.
+
+### Octonionic Sector [DERIVATION]
+G_2 = Aut(O) on R^7: under SU(3) subset G_2, R^7 = 1 + 3 + 3bar. Eigenvalue multiplicities 1+3+3. Effective beta for 3-3bar channel: beta * 3 * 3 = 9.
+
+### beta_eff = m^2 Pattern [CONJECTURE]
+beta_eff = (dim of fundamental color rep)^2:
+- R^1: m=1, beta_eff=1 (trivial)
+- R^4=H: m=2 (SU(2) fund), beta_eff=4
+- R^7~Im(O): m=3 (SU(3) fund), beta_eff=9
+- Pattern terminates at SU(3) -- matches real-world color group
+
+---
+
 ## Sources (Observational Context)
 
 - [Cold dark matter: Controversies on small scales (PNAS)](https://www.pnas.org/doi/10.1073/pnas.1308716112)

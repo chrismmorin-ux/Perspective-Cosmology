@@ -22,4 +22,4 @@ Deep theoretical foundations connecting perspective axioms to known physics.
 
 ## Prime Theory Subdirectory
 
-8 files covering cyclotomic fields, division algebra connections, fourth power theory, prime distribution, and open questions. Use `/prime-expert` for deep analysis.
+8 files covering cyclotomic fields, division algebra connections, fourth power theory, prime distribution, and open questions.

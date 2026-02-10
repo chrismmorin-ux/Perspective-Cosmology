@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DivisionAlgebraVisualizer from '../../components/DivisionAlgebraVisualizer';
+---
+
+<BaseLayout title="Division Algebras" description="Interactive visual guide to the four division algebras (R, C, H, O) and how they connect to spacetime, forces, and physical constants.">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">Division Algebra Visualizer</h1>
+      <p class="text-gray-400 max-w-3xl">
+        Mathematics proves exactly four division algebras exist. This page shows what they are,
+        why they matter, and how every key number in the framework traces back to the
+        dimensions {1, 2, 4, 8}.
+      </p>
+      <p class="text-sm text-gray-600 mt-2">
+        Click any number to see where it appears. Tap the algebra cards for details.
+      </p>
+    </div>
+
+    <DivisionAlgebraVisualizer client:load />
+
+    <div class="mt-12 border-t border-gray-800 pt-8">
+      <h2 class="text-lg font-semibold text-white mb-3">Want to dig deeper?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <a href="/explore" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Prediction Explorer</div>
+          <div class="text-gray-500 mt-1">Browse all 37+ predictions derived from these algebras.</div>
+        </a>
+        <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
+          <div class="text-gray-500 mt-1">Trace the logical steps from axioms to predictions.</div>
+        </a>
+        <a href="/publications/math" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Mathematical Foundations</div>
+          <div class="text-gray-500 mt-1">Full formal treatment with proofs and verification.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

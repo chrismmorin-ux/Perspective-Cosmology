@@ -22,4 +22,4 @@ Framework predictions, both blind (locked before measurement) and post-diction.
 3. Check measurement only after locking
 4. Document result — confirm OR falsify
 
-See `registry/HYPOTHESIS_TESTING_PROTOCOL.md` for full details.
+See `BLIND_PREDICTIONS.md` for documented blind predictions.

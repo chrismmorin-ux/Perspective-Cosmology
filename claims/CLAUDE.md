@@ -24,5 +24,5 @@ Tiered claims organized by precision and significance.
 
 ## Related
 
-- `registry/MASTER_CLAIMS.md` — Full claim registry with dependencies
-- `registry/FALSIFICATION_REGISTRY.md` — What would disprove each claim
+- `FALSIFIED.md` — Falsified claims (falsification is progress)
+- `../predictions/BLIND_PREDICTIONS.md` — Predictions made before measurement lookup
