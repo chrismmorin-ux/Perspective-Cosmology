@@ -1,8 +1,8 @@
 ---
 title: 'Technical Summary'
-description: 'Comprehensive technical overview for physicists'
-version: '3.0'
-lastUpdated: '2026-02-09'
+description: 'Comprehensive technical overview with derivation chains and predictions'
+version: '1.7'
+lastUpdated: '2026-02-10'
 ---
 
 # Technical Summary: Perspective Cosmology

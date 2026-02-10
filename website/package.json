@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "extract-data": "node scripts/extract-predictions.mjs",
-    "sync-publications": "node scripts/sync-publications.mjs"
+    "sync-publications": "node scripts/sync-publications.mjs",
+    "check-sync": "node scripts/check-sync.mjs"
   },
   "dependencies": {
     "astro": "^5.3.0",

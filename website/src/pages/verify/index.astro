@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import VerificationPortal from '../../components/VerificationPortal';
 import verificationData from '../../../data/verification-scripts.json';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
-<BaseLayout title="Verify" description="736+ SymPy verification scripts you can run yourself. Every claim is computationally verified.">
+<BaseLayout title="Verify" description={`${FRAMEWORK.scriptCount} SymPy verification scripts you can run yourself. Every claim is computationally verified.`}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
     <!-- Header -->
     <div class="mb-10">
@@ -12,7 +13,7 @@ import verificationData from '../../../data/verification-scripts.json';
       <p class="text-gray-400 max-w-3xl">
         Every mathematical claim in this framework is backed by a SymPy verification script.
         No calculation appears in documentation without a passing script. Below are curated
-        highlights — the full set of 736+ scripts is available on GitHub.
+        highlights — the full set of {FRAMEWORK.scriptCount} scripts is available on GitHub.
       </p>
     </div>
 
@@ -98,7 +99,7 @@ python alpha_ccwz_three_loop.py</code>
     <div class="mt-12 bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
       <h3 class="text-white font-medium mb-2">Full script repository</h3>
       <p class="text-sm text-gray-500 mb-4">
-        All 736+ verification scripts are open source. Clone the repo and run them all.
+        All {FRAMEWORK.scriptCount} verification scripts are open source. Clone the repo and run them all.
       </p>
       <p class="text-xs text-gray-600">
         GitHub repository link will be available at launch.

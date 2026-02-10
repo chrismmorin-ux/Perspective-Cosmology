@@ -88,7 +88,7 @@ Tree values are algebraic starting points; dressed values include framework-deri
 3. `publications/HONEST_ASSESSMENT.md` -- candid self-evaluation with phase grades
 4. `publications/AI_METHODOLOGY.md` -- the AI-assisted methodology as a replicable protocol
 
-**All materials, scripts, and session records at**: https://github.com/cmorin-perspective/perspective-universe
+**All materials, scripts, and session records at**: https://github.com/chrismmorin-ux/Perspective-Cosmology
 
 **Contact**: christopher.morin@perspectivecosmology.com
 
@@ -96,13 +96,13 @@ Tree values are algebraic starting points; dressed values include framework-deri
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm predictions (9 robust) |
-| `predictions/BLIND_PREDICTIONS.md` | 9 blind predictions (P ~ 2.5 x 10^-7) |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Honest P-value range: 10^-8 to 10^-7 |
-| `publications/HONEST_ASSESSMENT.md` | Self-assessment: 25-40% genuine physics |
-| `claims/FALSIFIED.md` | 14 falsified predictions |
+| Document | Role |
+|----------|------|
+| [Tier 1 Claims](/predictions) | 12 sub-10 ppm predictions (9 robust) |
+| [Blind Predictions](/predictions) | 9 blind predictions (P ~ 2.5 x 10^-7) |
+| [Statistical Analysis](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/STATISTICAL_ANALYSIS_HONEST.md) | Honest P-value range: 10^-8 to 10^-7 |
+| [Honest Assessment](/publications/honest-assessment) | Self-assessment: 25-40% genuine physics |
+| [Falsified Claims](/predictions) | 14 falsified predictions |
 
 ---
 

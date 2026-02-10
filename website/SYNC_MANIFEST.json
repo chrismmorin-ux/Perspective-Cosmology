@@ -1,0 +1,232 @@
+{
+  "$schema": "Mapping of theory source files to website counterparts. Used by check-sync.mjs for drift detection.",
+  "lastUpdated": "S371",
+
+  "dataFiles": {
+    "predictions.json": {
+      "websitePath": "website/data/predictions.json",
+      "sources": [
+        "claims/TIER_1_SIGNIFICANT.md",
+        "claims/TIER_2_STRUCTURAL.md",
+        "claims/TIER_3_SPECULATIVE.md",
+        "claims/FALSIFIED.md",
+        "predictions/BLIND_PREDICTIONS.md"
+      ],
+      "triggerTypes": ["value_change", "new_entry", "status_change", "retraction"],
+      "lastSyncedSession": "S370"
+    },
+    "domain-status.json": {
+      "websitePath": "website/data/domain-status.json",
+      "sources": [
+        "claims/TIER_1_SIGNIFICANT.md",
+        "claims/TIER_2_STRUCTURAL.md",
+        "claims/FALSIFIED.md",
+        "registry/PROPAGATION_MANIFEST.md"
+      ],
+      "triggerTypes": ["status_change", "new_entry", "retraction"],
+      "lastSyncedSession": "S370"
+    },
+    "catalog.json": {
+      "websitePath": "website/data/catalog.json",
+      "sources": [
+        "framework/CRYSTALLIZATION_CATALOG.md",
+        "framework/PRIME_HIERARCHY.md"
+      ],
+      "triggerTypes": ["new_entry", "value_change"],
+      "lastSyncedSession": "S370"
+    },
+    "verification-scripts.json": {
+      "websitePath": "website/data/verification-scripts.json",
+      "sources": [
+        "verification/sympy/"
+      ],
+      "triggerTypes": ["new_script", "script_removed", "pass_rate_change"],
+      "lastSyncedSession": "S370",
+      "special": {
+        "type": "script_count",
+        "directory": "verification/sympy/",
+        "pattern": "*.py",
+        "lastKnownCount": 736
+      }
+    },
+    "derivation-graph.json": {
+      "websitePath": "website/data/derivation-graph.json",
+      "sources": [
+        "framework/DERIVATION_CHAINS.md",
+        "framework/investigations/"
+      ],
+      "triggerTypes": ["new_chain", "chain_update", "retraction"],
+      "lastSyncedSession": "S370"
+    }
+  },
+
+  "publications": {
+    "math-foundations": {
+      "source": "publications/PC_MATHEMATICAL_FOUNDATIONS.md",
+      "dest": "website/src/content/publications/math-foundations.md",
+      "frontmatter": {
+        "title": "Perspective Cosmology: Mathematical Foundations",
+        "description": "Complete, self-contained mathematical development from axioms to consequences"
+      }
+    },
+    "honest-assessment": {
+      "source": "publications/HONEST_ASSESSMENT.md",
+      "dest": "website/src/content/publications/honest-assessment.md",
+      "frontmatter": {
+        "title": "Honest Assessment",
+        "description": "Frank evaluation of what the framework achieves and where it falls short"
+      }
+    },
+    "thesis": {
+      "source": "publications/THESIS.md",
+      "dest": "website/src/content/publications/thesis.md",
+      "frontmatter": {
+        "title": "The Thesis: Physics as Mathematical Necessity",
+        "description": "The central claim in condensed form"
+      }
+    },
+    "technical-summary": {
+      "source": "publications/TECHNICAL_SUMMARY.md",
+      "dest": "website/src/content/publications/technical-summary.md",
+      "frontmatter": {
+        "title": "Technical Summary",
+        "description": "Comprehensive technical overview with derivation chains and predictions"
+      }
+    },
+    "objections-and-responses": {
+      "source": "publications/OBJECTIONS_AND_RESPONSES.md",
+      "dest": "website/src/content/publications/objections-and-responses.md",
+      "frontmatter": {
+        "title": "Objections and Responses",
+        "description": "Engagement with expected criticisms and detailed responses"
+      }
+    },
+    "plain-language": {
+      "source": "publications/PLAIN_LANGUAGE_DESCRIPTION.md",
+      "dest": "website/src/content/publications/plain-language.md",
+      "frontmatter": {
+        "title": "A Plain-Language Description",
+        "description": "Non-specialist description of the framework"
+      }
+    },
+    "physicist-summary": {
+      "source": "publications/PHYSICIST_SUMMARY.md",
+      "dest": "website/src/content/publications/physicist-summary.md",
+      "frontmatter": {
+        "title": "Summary for Physicist Evaluation",
+        "description": "30-minute evaluation document for working physicists"
+      }
+    },
+    "quickstart": {
+      "source": "publications/QUICKSTART.md",
+      "dest": "website/src/content/publications/quickstart.md",
+      "frontmatter": {
+        "title": "Quick Start Guide",
+        "description": "Entry point and reading order guide"
+      }
+    },
+    "peer-review-prep": {
+      "source": "publications/PEER_REVIEW_PREP.md",
+      "dest": "website/src/content/publications/peer-review-prep.md",
+      "frontmatter": {
+        "title": "Peer Review Preparation",
+        "description": "Extended objection analysis prepared for peer review"
+      }
+    }
+  },
+
+  "constants": {
+    "scriptCount": {
+      "value": "736+",
+      "source": "verification/sympy/ (file count)",
+      "usedIn": [
+        "website/src/pages/index.astro",
+        "website/src/layouts/BaseLayout.astro",
+        "website/src/pages/verify/index.astro",
+        "website/src/pages/faq/index.astro",
+        "website/src/pages/skeptics/index.astro",
+        "website/src/pages/about/index.astro",
+        "website/src/pages/contact/index.astro",
+        "website/src/pages/history/index.astro",
+        "website/src/pages/publications/[slug].astro",
+        "website/src/pages/publications/math.astro"
+      ]
+    },
+    "passRate": {
+      "value": "99.8%",
+      "source": "verification/ pass rate analysis",
+      "usedIn": [
+        "website/src/pages/index.astro",
+        "website/src/pages/history/index.astro"
+      ]
+    },
+    "probabilityRange": {
+      "value": "25-40%",
+      "source": "publications/HONEST_ASSESSMENT.md",
+      "usedIn": [
+        "website/src/layouts/BaseLayout.astro",
+        "website/src/pages/index.astro",
+        "website/src/pages/explore/status.astro"
+      ]
+    },
+    "iraCount": {
+      "value": 4,
+      "source": "registry/ IRA inventory",
+      "usedIn": [
+        "website/src/pages/explore/status.astro"
+      ]
+    },
+    "falsifiedCount": {
+      "value": 14,
+      "source": "claims/FALSIFIED.md",
+      "usedIn": [
+        "website/src/pages/index.astro",
+        "website/src/pages/faq/index.astro",
+        "website/src/pages/predictions/index.astro",
+        "website/src/pages/history/index.astro"
+      ]
+    },
+    "blindPredictionCount": {
+      "value": 9,
+      "source": "predictions/BLIND_PREDICTIONS.md",
+      "usedIn": [
+        "website/src/pages/index.astro",
+        "website/src/pages/about/index.astro",
+        "website/src/pages/predictions/index.astro",
+        "website/src/pages/skeptics/index.astro"
+      ]
+    },
+    "sessionCount": {
+      "value": "370+",
+      "source": "sessions/INDEX.md",
+      "usedIn": [
+        "website/src/pages/index.astro",
+        "website/src/pages/faq/index.astro",
+        "website/src/pages/about/index.astro",
+        "website/src/pages/history/index.astro"
+      ]
+    },
+    "overallGrade": {
+      "value": "B-",
+      "source": "publications/HONEST_ASSESSMENT.md",
+      "usedIn": [
+        "website/src/pages/about/index.astro"
+      ]
+    },
+    "domainCount": {
+      "value": 12,
+      "source": "website/data/domain-status.json",
+      "usedIn": [
+        "website/src/pages/explore/index.astro",
+        "website/src/pages/explore/status.astro"
+      ]
+    },
+    "predictionCount": {
+      "value": 45,
+      "source": "website/data/predictions.json",
+      "usedIn": [
+        "website/src/pages/explore/index.astro"
+      ]
+    }
+  }
+}

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
-<BaseLayout title="For Skeptics" description="14 anticipated objections to Perspective Cosmology, addressed honestly. Where criticisms have merit, we acknowledge it.">
+<BaseLayout title="For Skeptics" description={`${FRAMEWORK.falsifiedCount} anticipated objections to Perspective Cosmology, addressed honestly. Where criticisms have merit, we acknowledge it.`}>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
     <h1 class="text-3xl font-bold text-white mb-3">For Skeptics</h1>
     <p class="text-gray-400 mb-4">We anticipate skepticism. This document addresses the most likely objections directly and honestly. Where objections have merit, we acknowledge it. ~15 minute read.</p>
@@ -49,9 +50,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <p class="text-gray-300 text-sm leading-relaxed mb-2">What distinguishes this from typical numerology:</p>
         <ul class="text-gray-400 text-sm space-y-1.5 mb-3">
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">1.</span><span><strong class="text-white">Sub-ppm precision</strong> &mdash; Random matching drops to ~0% below 10 ppm. The framework has 3 sub-ppm and 12 sub-10 ppm matches.</span></li>
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">2.</span><span><strong class="text-white">Blind predictions</strong> &mdash; 9 predictions made BEFORE checking measurements. 6/7 CMB within 1&sigma;, 2/2 neutrino within 1&sigma;. P ~ 2.5&times;10<sup>-7</sup>.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">2.</span><span><strong class="text-white">Blind predictions</strong> &mdash; {FRAMEWORK.blindPredictionCount} predictions made BEFORE checking measurements. 6/7 CMB within 1&sigma;, 2/2 neutrino within 1&sigma;. P ~ 2.5&times;10<sup>-7</sup>.</span></li>
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">3.</span><span><strong class="text-white">Qualitative structure</strong> &mdash; Derives gauge groups, spacetime dimensions, QM formalism, fermion content. Random numbers can't do this.</span></li>
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span><strong class="text-white">14 documented failures</strong> &mdash; Numerologists don't track failures. We do.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span><strong class="text-white">{FRAMEWORK.falsifiedCount} documented failures</strong> &mdash; Numerologists don't track failures. We do.</span></li>
         </ul>
         <p class="text-gray-500 text-xs italic">Honest acknowledgment: We cannot prove this isn't sophisticated numerology. The evidence rests on sub-ppm matches, blind predictions, and structural derivations.</p>
       </div>
@@ -75,9 +76,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <p class="text-accent-yellow text-xs mb-4">Largely valid for most Tier 1 claims</p>
         <p class="text-gray-300 text-sm leading-relaxed mb-3">All 12 sub-10 ppm claims were identified post-hoc. However:</p>
         <ul class="text-gray-400 text-sm space-y-1.5 mb-3">
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">9 blind predictions exist</strong>: 7 CMB (6/7 within 1&sigma;) + 2 neutrino (both within 1&sigma;), made BEFORE checking measurements</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">{FRAMEWORK.blindPredictionCount} blind predictions exist</strong>: 7 CMB (6/7 within 1&sigma;) + 2 neutrino (both within 1&sigma;), made BEFORE checking measurements</span></li>
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">Multiple derivation paths</strong>: DM mass reaches 5.11 GeV from two independent routes. Weinberg angle has on-shell (171/194) AND democratic (28/121) paths.</span></li>
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">14 failures documented</strong>: We're not hiding the denominator.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">{FRAMEWORK.falsifiedCount} failures documented</strong>: We're not hiding the denominator.</span></li>
         </ul>
         <p class="text-gray-500 text-xs italic">Honest acknowledgment: The development WAS iterative. The blind predictions are the strongest counter-evidence.</p>
       </div>
@@ -89,7 +90,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <h2 class="text-white font-semibold mb-1">Objection 4: "Amateur work can't be trusted"</h2>
         <p class="text-accent-yellow text-xs mb-4">Valid concern</p>
         <p class="text-gray-300 text-sm leading-relaxed mb-3">We acknowledge: no physics PhD, no peer review, AI-assisted development, high prior probability of being wrong (25&ndash;40%).</p>
-        <p class="text-gray-300 text-sm leading-relaxed mb-3">Why it might still be worth looking at: Mathematics doesn't care about credentials. Everything is verifiable (~736 scripts, complete derivation chains, no hidden steps). Falsifiable predictions exist (m<sub>DM</sub> = 5.11 GeV, r = 0.035).</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">Why it might still be worth looking at: Mathematics doesn't care about credentials. Everything is verifiable ({FRAMEWORK.scriptCountShort} scripts, complete derivation chains, no hidden steps). Falsifiable predictions exist (m<sub>DM</sub> = 5.11 GeV, r = 0.035).</p>
         <p class="text-white text-sm font-semibold">Our request: Don't believe us. Check the calculations. Test the predictions.</p>
       </div>
     </section>
@@ -132,8 +133,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">1.</span><span>If dark matter is found outside 4.5&ndash;5.7 GeV: we will document the failure</span></li>
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">2.</span><span>If r &ne; 0.035: we will document the failure</span></li>
           <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">3.</span><span>If errors are found: we will correct them publicly</span></li>
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span>All materials available: ~736 scripts, derivations, session logs</span></li>
-          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">5.</span><span>14 failures already documented: we don't hide what doesn't work</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span>All materials available: {FRAMEWORK.scriptCountShort} scripts, derivations, session logs</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">5.</span><span>{FRAMEWORK.falsifiedCount} failures already documented: we don't hide what doesn't work</span></li>
         </ul>
       </div>
     </section>

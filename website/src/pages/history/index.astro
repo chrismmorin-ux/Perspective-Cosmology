@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
-<BaseLayout title="Project History" description="A chronological account of how Perspective Cosmology evolved — discoveries, corrections, and retractions across 370+ sessions.">
+<BaseLayout title="Project History" description={`A chronological account of how Perspective Cosmology evolved — discoveries, corrections, and retractions across ${FRAMEWORK.sessionCount} sessions.`}>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
     <h1 class="text-3xl font-bold text-white mb-3">Project History</h1>
-    <p class="text-gray-400 mb-4">How the framework evolved across 370+ AI-assisted sessions. Discoveries and retractions alike &mdash; because honest science shows its work.</p>
+    <p class="text-gray-400 mb-4">How the framework evolved across {FRAMEWORK.sessionCount} AI-assisted sessions. Discoveries and retractions alike &mdash; because honest science shows its work.</p>
     <p class="text-gray-500 text-sm mb-12">The framework was developed iteratively by a human researcher and Claude (Anthropic) working together. Session numbers (S1, S2, &hellip;) track this progression. Each session is roughly one focused conversation.</p>
 
     <!-- Timeline legend -->
@@ -19,13 +20,25 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <!-- ============================================================ -->
     <!-- PHASE 1: FOUNDATIONS -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <div class="flex items-center gap-3 mb-8">
+    <details class="history-phase mb-6 group" open>
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S1 &ndash; S120</div>
         <h2 class="text-xl font-bold text-white">Foundations</h2>
-      </div>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">6 milestones</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">The framework's earliest sessions established the core idea &mdash; that division algebra dimensions (1, 2, 4, 8) and their imaginary sub-dimensions (3, 7, 11) might encode physical constants &mdash; and immediately tested it against reality. This phase produced the first falsification, the first constant catalog, and the first honest probability assessment.</p>
 
       <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+
+        <!-- S1-S76 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-brand-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S1 &ndash; S76</div>
+          <h3 class="text-white font-semibold text-sm">Early exploration: axioms, division algebras, first derivations</h3>
+          <p class="text-gray-400 text-sm mt-1">The framework's axioms were articulated: a complete static universe U, directed history, and the perspective function. Division algebras (R, C, H, O) emerged as the natural building blocks. Early sessions explored how the dimensional structure dim = {1, 2, 4, 8} might map onto physical quantities. Many early attempts failed &mdash; productively.</p>
+        </div>
 
         <!-- S77 -->
         <div class="relative">
@@ -33,6 +46,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S77</div>
           <h3 class="text-white font-semibold text-sm">n<sub>EW</sub> = 5 falsified (F-2)</h3>
           <p class="text-gray-400 text-sm mt-1">An early attempt to derive electroweak dimension count as 5 was shown to be mathematically impossible given framework constraints. First major systematic falsification &mdash; establishing that the framework can rule things out, not just generate them.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Technical detail</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">The constraint arose from the Frobenius theorem: only dimensions 1, 2, 4, 8 are algebraically permitted. A claimed "5-dimensional electroweak space" had no division algebra embedding, making it structurally impossible within the framework.</p>
+          </details>
         </div>
 
         <!-- S88-90 -->
@@ -41,6 +58,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S88 &ndash; S90</div>
           <h3 class="text-white font-semibold text-sm">First comprehensive constant catalog: 28 derived values</h3>
           <p class="text-gray-400 text-sm mt-1">Quark mass ratios, PMNS mixing angles, and other quantities systematically derived for the first time. Demonstrated the framework could address multiple physics domains, not just one.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What was in the catalog</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">The 28 values spanned: quark mass ratios (6), lepton mass ratios (3), PMNS mixing angles (3), CKM parameters (4), coupling constants (3), cosmological parameters (3), and structural quantities (6). Many of these were later revised or superseded, but the breadth was a signal that the framework had reach beyond a single domain.</p>
+          </details>
         </div>
 
         <!-- S94-96 -->
@@ -57,6 +78,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S104</div>
           <h3 class="text-white font-semibold text-sm">Monte Carlo null model: a sobering reality check</h3>
           <p class="text-gray-400 text-sm mt-1">A flexibility test showed that <strong class="text-white">any</strong> 7-element subset of &#123;1,&hellip;,20&#125; matches 11 physical constants at 1% precision ~80% of the time. The framework's building blocks &#123;1, 2, 4, 8&#125; are not special at percent-level. Evidence must come from sub-ppm precision and structural predictions, not rough matches.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Why this matters</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">This result permanently raised the bar. Any claim based on "the numbers roughly match" became inadmissible. The framework can only claim significance through: (1) sub-ppm precision with zero free parameters, (2) structural predictions (like deriving the gauge group or spacetime dimension), or (3) genuinely blind predictions confirmed by later measurement. This Monte Carlo test remains one of the framework's most important honesty mechanisms.</p>
+          </details>
         </div>
 
         <!-- S115 -->
@@ -73,18 +98,26 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S120</div>
           <h3 class="text-white font-semibold text-sm">Red Team v1.0: 15&ndash;30% probability of genuine physics</h3>
           <p class="text-gray-400 text-sm mt-1">First adversarial self-assessment. Created the formal confidence tagging system (AXIOM / THEOREM / DERIVATION / CONJECTURE / SPECULATION) still used today. Identified 10 irreducible assumptions.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What the Red Team found</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">Key concerns: too many free parameters disguised as "natural choices," insufficient separation between derivation and post-hoc fitting, and no external validation. Key positives: falsifiable predictions exist, the Monte Carlo test was honest, and structural predictions (like spacetime dimension) are hard to fake. The 15&ndash;30% range meant "worth taking seriously, but far from proven."</p>
+          </details>
         </div>
       </div>
-    </section>
+    </details>
 
     <!-- ============================================================ -->
     <!-- PHASE 2: STRUCTURE EMERGES -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <div class="flex items-center gap-3 mb-8">
+    <details class="history-phase mb-6 group">
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S121 &ndash; S230</div>
         <h2 class="text-xl font-bold text-white">Structure Emerges</h2>
-      </div>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">9 milestones</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">The framework's middle period is where it started producing results that are genuinely hard to explain as coincidence. Blind CMB predictions, quantum mechanics derived from axioms alone, and the Weinberg angle derivation all emerged here. So did important falsifications that sharpened what the framework can and cannot do.</p>
 
       <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
 
@@ -94,6 +127,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S124</div>
           <h3 class="text-white font-semibold text-sm">CMB blind prediction protocol</h3>
           <p class="text-gray-400 text-sm mt-1">Formalized pre-committed prediction criteria for CMB observables. Registered predictions for acoustic peaks and spectral parameters before comparing to data &mdash; moving from post-hoc to genuine prediction.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">How blind prediction works</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">The protocol requires: (1) state the framework's prediction with full derivation, (2) lock the prediction in a timestamped file, (3) define what counts as success or failure before looking at data, (4) compare to measurement and record the outcome regardless. This protocol was inspired by the Monte Carlo lesson: only genuine predictions count.</p>
+          </details>
         </div>
 
         <!-- S127-129 -->
@@ -102,6 +139,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S127 &ndash; S129</div>
           <h3 class="text-white font-semibold text-sm">CMB higher peaks falsified (F-7), inflation formulas corrected</h3>
           <p class="text-gray-400 text-sm mt-1">Predictions for CMB peaks &ell;<sub>4</sub>, &ell;<sub>5</sub>, &ell;<sub>6</sub> failed at 12&ndash;19% error. Framework validity boundary identified. Meanwhile, an initial hilltop inflation formula (r = 1 - n<sub>s</sub>) was falsified due to a calculation error, then restored with the correct analysis: n<sub>s</sub> = 193/200, r = 7/200.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What the failure taught us</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">Higher CMB peaks depend on baryon loading and Silk damping &mdash; detailed transfer-function physics that the framework's algebraic approach cannot capture. This established a clear boundary: the framework predicts cosmological parameters but NOT detailed CMB transfer functions. The inflation formula episode showed that honest error-correction (falsify, investigate, correct) is more valuable than getting the right answer the first time.</p>
+          </details>
         </div>
 
         <!-- S138b -->
@@ -110,6 +151,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S138</div>
           <h3 class="text-white font-semibold text-sm">Blind CMB predictions succeed: 6 of 7 within 1&sigma;</h3>
           <p class="text-gray-400 text-sm mt-1">The strongest statistical evidence to date. Pre-committed predictions for cosmological parameters including 100&Omega;<sub>b</sub>h&sup2; (0.77% precision), 100&Omega;<sub>c</sub>h&sup2; (0.34%), and n<sub>s</sub> (0.010%, best) all confirmed.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Full results table</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p class="mb-1">Seven pre-committed predictions against Planck 2018 data:</p>
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li>n<sub>s</sub>: predicted 0.965, measured 0.9649 &pm; 0.0042 &mdash; <strong class="text-accent-green">0.010% off</strong></li>
+                <li>100&Omega;<sub>c</sub>h&sup2;: 0.34% precision &mdash; <strong class="text-accent-green">within 1&sigma;</strong></li>
+                <li>100&Omega;<sub>b</sub>h&sup2;: 0.77% precision &mdash; <strong class="text-accent-green">within 1&sigma;</strong></li>
+                <li>&Omega;<sub>m</sub>: within 1&sigma;</li>
+                <li>&Omega;<sub>&Lambda;</sub>: within 1&sigma;</li>
+                <li>H<sub>0</sub>: within 1&sigma;</li>
+                <li>r (tensor-to-scalar): consistent with upper bounds</li>
+              </ul>
+              <p class="mt-1 text-gray-600">Caveat: the "blind" protocol was internal. No external timestamp server was used.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S170 -->
@@ -126,6 +183,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S185 &ndash; S201</div>
           <h3 class="text-white font-semibold text-sm">Quantum Mechanics derived from axioms alone &mdash; Grade A</h3>
           <p class="text-gray-400 text-sm mt-1">Hilbert space structure, Born rule, and the Schr&ouml;dinger equation all derived from perspective axioms without importing any quantum postulates. The framework's highest-confidence result. Status: <strong class="text-accent-green">CANONICAL</strong>.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Derivation outline</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p>The derivation proceeds through three steps:</p>
+              <ol class="list-decimal pl-4 space-y-0.5 mt-1">
+                <li><strong>Hilbert space</strong>: The perspective function Pi maps U to partial views. The space of all perspectives naturally forms a complex Hilbert space via the CCP axiom (F = C).</li>
+                <li><strong>Born rule</strong>: Probability = |inner product|&sup2; follows from Gleason's theorem applied to the lattice of perspective subspaces. No postulate needed.</li>
+                <li><strong>Schr&ouml;dinger equation</strong>: The adjacency structure on perspectives generates a one-parameter unitary group. Stone's theorem then gives the Schr&ouml;dinger equation with H as the generator.</li>
+              </ol>
+              <p class="mt-1 text-gray-600">Remaining gap: the time = adjacency identification (IRA-07) is an irreducible physical assumption.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S194 -->
@@ -134,6 +203,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S194</div>
           <h3 class="text-white font-semibold text-sm">Crystal dimension n<sub>c</sub> = 11 via two independent paths</h3>
           <p class="text-gray-400 text-sm mt-1">The critical parameter 11 (= 4 + 7 = dim(H) + dim(Im(O))) derived through both CD closure and SO(8) triality arguments. An irreducible gap remains in the final step, honestly documented.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Why 11 matters</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">n<sub>c</sub> = 11 is the single most important parameter in the framework. It determines: dim(End(V)) = 121 = 11&sup2;, the Weinberg angle denominator, the fine structure constant denominator (137 = 4&sup2; + 11&sup2;), and the count of non-Gaussian-norm primes that generate the crystal lattice. Getting this wrong would invalidate most of the framework's predictions.</p>
+          </details>
         </div>
 
         <!-- S217 -->
@@ -150,6 +223,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S222 &ndash; S224</div>
           <h3 class="text-white font-semibold text-sm">Weinberg angle: sin&sup2;(&theta;<sub>W</sub>) = 28/121</h3>
           <p class="text-gray-400 text-sm mt-1">Derived from democratic counting on End(V) with dimension 121 = 11&sup2;. Combined with one-loop dressing: sin&sup2;(&theta;<sub>W</sub>) = 28/121 &minus; &alpha;/(4&pi;&sup2;), matching the measured value at 0.00&sigma;.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Derivation chain</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p>The tree-level value follows from counting: in End(V) with dim = 121, the hypercharge sector occupies 28 = 4 &times; 7 dimensions (n<sub>d</sub> &times; dim(Im(O))). Thus sin&sup2;&theta;<sub>W</sub> = 28/121. The one-loop dressing adds &minus;&alpha;/(4&pi;&sup2;) &asymp; &minus;0.000185, shifting the value from 0.23140 to 0.23122, matching PDG 2024: 0.23121 &pm; 0.00004. Zero free parameters.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S230 -->
@@ -160,16 +239,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <p class="text-gray-400 text-sm mt-1">A reported "wrong sign" for the cosmological constant was traced to a sign convention error in the GR analysis. The sign is now correct; the ~10<sup>111</sup> magnitude gap between prediction and observation remains unresolved.</p>
         </div>
       </div>
-    </section>
+    </details>
 
     <!-- ============================================================ -->
     <!-- PHASE 3: CONSOLIDATION -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <div class="flex items-center gap-3 mb-8">
+    <details class="history-phase mb-6 group">
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S231 &ndash; S310</div>
         <h2 class="text-xl font-bold text-white">Consolidation</h2>
-      </div>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">7 milestones</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">The consolidation phase formalized the framework's axioms, derived the Standard Model gauge group from first principles, and systematically reduced the number of irreducible assumptions from 10 to 4. The Yang-Mills mass gap derivation and matter density parameter both achieved CANONICAL status.</p>
 
       <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
 
@@ -179,6 +262,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S251</div>
           <h3 class="text-white font-semibold text-sm">CCP Axiom formalized; SM gauge group derived</h3>
           <p class="text-gray-400 text-sm mt-1">"Perfection = Maximal Consistency" axiom established, forcing F = C (complex field), n<sub>c</sub> = 11, n<sub>d</sub> = 4. From this, the Standard Model gauge group U(1)&times;SU(2)&times;SU(3) is derived through the pipeline: 121 &rarr; 55 &rarr; 18 &rarr; 12. Generation count = 3 follows from Im(H) decomposition.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">The derivation pipeline</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <ol class="list-decimal pl-4 space-y-0.5">
+                <li>Start with End(V), dim = n<sub>c</sub>&sup2; = 121</li>
+                <li>Antisymmetric part: dim = n<sub>c</sub>(n<sub>c</sub>&minus;1)/2 = 55</li>
+                <li>Subtract Cartan generators and crystallographic constraints: 55 &rarr; 18</li>
+                <li>Decompose 18 = 1 + 3 + 8 + 3 + 3 = U(1) + SU(2) + SU(3) gauge bosons + generation structure</li>
+              </ol>
+              <p class="mt-1 text-gray-600">The 3 generations come from dim(Im(H)) = 3, the quaternionic imaginary dimensions.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S257 -->
@@ -186,7 +281,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
           <div class="text-xs font-mono text-gray-500 mb-1">S257</div>
           <h3 class="text-white font-semibold text-sm">Red Team v2.0: 20&ndash;35% probability</h3>
-          <p class="text-gray-400 text-sm mt-1">Second adversarial assessment. Up from 15&ndash;30%. IRA (irreducible assumptions) still at 10.</p>
+          <p class="text-gray-400 text-sm mt-1">Second adversarial assessment. Up from 15&ndash;30%. IRA (irreducible assumptions) still at 10. Key improvement: structural predictions (gauge group, QM) now on solid footing. Key concern: still no external peer review.</p>
         </div>
 
         <!-- S258-284 -->
@@ -195,6 +290,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S258 &ndash; S284</div>
           <h3 class="text-white font-semibold text-sm">Yang-Mills mass gap &mdash; Grade A-</h3>
           <p class="text-gray-400 text-sm mt-1">Glueball spectrum derived from framework with 285+ verification scripts. Large-N behavior matches: 10/3 + 2/N&sup2;. Status: <strong class="text-accent-green">CANONICAL</strong>.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Why this is significant</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">The Yang-Mills mass gap is one of the Clay Millennium Prize Problems. The framework's approach derives the gap from the base mass parameter n<sub>d</sub> = 4 and the crystal structure, producing a spectrum that matches lattice QCD results. The large-N formula 10/3 + 2/N&sup2; gives the correct leading and subleading behavior. Grade A- (not A) because the approach is non-standard and the connection to rigorous Yang-Mills theory remains to be established by mathematicians.</p>
+          </details>
         </div>
 
         <!-- S266-283 -->
@@ -203,6 +302,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S266 &ndash; S283</div>
           <h3 class="text-white font-semibold text-sm">Tree-to-dressed paradigm: three correction bands</h3>
           <p class="text-gray-400 text-sm mt-1">Systematic treatment of radiative corrections identified three bands (A: one-loop, B: two-loop, C: sub-ppm anomalous dimension). Upgraded sub-ppm numerical matches from "coincidence" to "pattern." Band C remains the most controversial.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">The three bands explained</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li><strong>Band A</strong> (one-loop): &alpha;/&pi; corrections. Well-understood QED/QCD effects. Low controversy.</li>
+                <li><strong>Band B</strong> (two-loop): (&alpha;/&pi;)&sup2; corrections. Standard perturbation theory. Moderate effort to compute.</li>
+                <li><strong>Band C</strong> (anomalous dimension): Sub-ppm corrections from anomalous dimensions of perspective operators. Requires the tree-to-dressed paradigm to be physically meaningful. Controversial because it's a novel mechanism with no independent confirmation.</li>
+              </ul>
+            </div>
+          </details>
         </div>
 
         <!-- S292 -->
@@ -219,6 +328,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S293</div>
           <h3 class="text-white font-semibold text-sm">&Omega;<sub>m</sub> = 63/200 derived from equipartition</h3>
           <p class="text-gray-400 text-sm mt-1">Matter density parameter derived from dual-channel Hilbert space equipartition: 63 dual-role generators out of 200 total. A structural prediction, not a numerical fit.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">The counting argument</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">In the 200-dimensional dual Hilbert space (from the perspective-crystal interaction), 63 generators play a dual role in both matter and radiation channels. Equipartition across all 200 gives &Omega;<sub>m</sub> = 63/200 = 0.315. Planck 2018 measures 0.3153 &pm; 0.0073. The match is within 0.1&sigma; with zero free parameters.</p>
+          </details>
         </div>
 
         <!-- S302-304 -->
@@ -227,18 +340,33 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S302 &ndash; S304</div>
           <h3 class="text-white font-semibold text-sm">IRA inventory finalized: 10 &rarr; 4 irreducible assumptions</h3>
           <p class="text-gray-400 text-sm mt-1">Six former conjectures and assumptions resolved through derivation. Remaining four: quartic ratio &rho; = c<sub>4</sub>/b<sub>4</sub> [structural, low], SSB occurs [physical], time = adjacency [physical], |&Pi;| scale [import].</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">The four remaining assumptions</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <ul class="list-disc pl-4 space-y-0.5">
+                <li><strong>IRA-04</strong>: Quartic ratio &rho; = c<sub>4</sub>/b<sub>4</sub>. A structural parameter in the potential. Graded [A-STRUCTURAL LOW] because it's a mathematical choice, not a physical assumption.</li>
+                <li><strong>IRA-06</strong>: SSB occurs. The framework assumes spontaneous symmetry breaking happens but doesn't derive WHY. Graded [A-PHYSICAL].</li>
+                <li><strong>IRA-07</strong>: Time = adjacency. The identification of the graph-theoretic adjacency relation with physical time. Graded [A-PHYSICAL].</li>
+                <li><strong>IRA-11</strong>: |&Pi;| scale. The overall energy scale of the perspective function. Graded [A-IMPORT] because it's set by matching to one measurement.</li>
+              </ul>
+            </div>
+          </details>
         </div>
       </div>
-    </section>
+    </details>
 
     <!-- ============================================================ -->
     <!-- PHASE 4: EXPLORATION -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <div class="flex items-center gap-3 mb-8">
+    <details class="history-phase mb-6 group">
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S311 &ndash; S370</div>
         <h2 class="text-xl font-bold text-white">Dark Sector & Phenomenology</h2>
-      </div>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">5 milestones</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">With the core framework established, work turned to its most ambitious predictions: dark matter, collider phenomenology, and a final comprehensive Red Team assessment. This phase produced concrete, falsifiable predictions &mdash; and an important retraction when the dark matter candidate turned out to be the Higgs.</p>
 
       <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
 
@@ -248,6 +376,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S314 &ndash; S315</div>
           <h3 class="text-white font-semibold text-sm">Dark matter mass predicted: 5.11 GeV</h3>
           <p class="text-gray-400 text-sm mt-1">m<sub>DM</sub> = m<sub>e</sub>(n<sub>c</sub>&minus;1)<sup>n<sub>d</sub></sup> = 5.11 GeV. A concrete, falsifiable prediction testable by SuperCDMS in 2026&ndash;2027. The formula uses only framework parameters (n<sub>c</sub> = 11, n<sub>d</sub> = 4) and the electron mass.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">The mass formula</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p>m<sub>DM</sub> = m<sub>e</sub> &times; (n<sub>c</sub> &minus; 1)<sup>n<sub>d</sub></sup> = 0.511 MeV &times; 10<sup>4</sup> = 5.11 GeV</p>
+              <p class="mt-1">The mass formula survives even though the particle identity was later retracted. What carries this mass remains the framework's most important open question.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S326 -->
@@ -256,6 +391,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S326</div>
           <h3 class="text-white font-semibold text-sm">Colored pNGB mass: 1761 GeV</h3>
           <p class="text-gray-400 text-sm mt-1">Mass of colored pseudo-Nambu-Goldstone bosons derived via Coleman-Weinberg potential. Current LHC bounds at ~1220 GeV leave a 541 GeV margin. Testable at HL-LHC (reach ~2200 GeV).</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Collider signatures</summary>
+            <p class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">The colored pNGBs decompose into a scalar leptoquark (2, Y=1/6, 3) with &beta;<sub>eff</sub> = 0.5 and an exotic diquark. At HL-LHC energies, these would appear as paired dijet + lepton resonances. The branching ratio prediction &beta;<sub>eff</sub> = 0.5 is itself a falsifiable prediction &mdash; other leptoquark models predict different values.</p>
+          </details>
         </div>
 
         <!-- S330 -->
@@ -264,6 +403,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S330</div>
           <h3 class="text-white font-semibold text-sm">Red Team v3.0: 25&ndash;40% probability</h3>
           <p class="text-gray-400 text-sm mt-1">Third and most thorough adversarial assessment. Improvement driven by: IRA reduced 10 &rarr; 4, Yang-Mills CANONICAL, dark matter sector formalized, tree-to-dressed systematics, and 14 falsified claims honestly documented. Remaining challenges: derivation vs. discovery unresolved, no external peer review, sub-ppm matches post-hoc.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">Grade breakdown</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p>Overall grade: <strong>B-</strong></p>
+              <ul class="list-disc pl-4 space-y-0.5 mt-1">
+                <li>Strengths: mathematical coherence, honest falsification record, concrete predictions, zero free parameters in key results</li>
+                <li>Weaknesses: no external peer review, derivation-vs-discovery problem unresolved, the framework was developed knowing the answers</li>
+                <li>The 25&ndash;40% range means: "genuinely interesting and worth checking, but not yet credible as established physics"</li>
+              </ul>
+            </div>
+          </details>
         </div>
 
         <!-- S335 -->
@@ -272,6 +422,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs font-mono text-gray-500 mb-1">S335</div>
           <h3 class="text-white font-semibold text-sm">Dark matter identity retracted &mdash; genuinely open</h3>
           <p class="text-gray-400 text-sm mt-1">The proposed DM candidate (pNGB color singlet) was shown to be identical to the Higgs doublet &mdash; no leftover particle for dark matter. Sessions S317 and S322 invalidated; S323 (H-parity theorem) scope narrowed. The mass formula survives, but <strong class="text-white">what carries that mass remains an open question</strong>. An example of honest correction over ego.</p>
+          <details class="mt-2">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What went wrong and what survived</summary>
+            <div class="text-gray-500 text-xs mt-1 pl-3 border-l border-gray-800">
+              <p><strong>Retracted</strong>: The identification of the pNGB color singlet as a dark matter candidate. The singlet IS the Higgs doublet &mdash; there's no extra particle.</p>
+              <p class="mt-1"><strong>Survived</strong>: The mass formula m<sub>DM</sub> = 5.11 GeV, the colored pNGB predictions, and the overall dark sector structure. The framework predicts a dark matter mass but currently cannot identify what particle carries it.</p>
+              <p class="mt-1"><strong>Current candidate</strong>: det(M) &ne; 0 sector &mdash; but this remains [CONJECTURE] status.</p>
+            </div>
+          </details>
         </div>
 
         <!-- S336 -->
@@ -282,36 +440,45 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <p class="text-gray-400 text-sm mt-1">Colored pNGB representation decomposed into two multiplets: a scalar leptoquark (2, Y=1/6, 3) with &beta;<sub>eff</sub> = 0.5, and an exotic diquark. Concrete predictions for HL-LHC searches.</p>
         </div>
       </div>
-    </section>
+    </details>
 
     <!-- ============================================================ -->
     <!-- PHASE 5: PUBLIC RELEASE -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <div class="flex items-center gap-3 mb-8">
+    <details class="history-phase mb-6 group" open>
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S370+</div>
         <h2 class="text-xl font-bold text-white">Public Release</h2>
-      </div>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">February 2026</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">After 370+ sessions of development, testing, and honest self-assessment, the framework was made publicly available with full verification infrastructure.</p>
 
       <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
         <div class="relative">
           <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-brand-400 ring-4 ring-gray-950"></span>
           <div class="text-xs font-mono text-gray-500 mb-1">S370 &mdash; February 2026</div>
           <h3 class="text-white font-semibold text-sm">Official public release</h3>
-          <p class="text-gray-400 text-sm mt-1">Framework published with 736+ verification scripts (99.9% run rate, ~99.8% pass rate), complete derivation chains, 14 documented falsifications, and an honest 25&ndash;40% self-assessment. Everything open, everything verifiable.</p>
+          <p class="text-gray-400 text-sm mt-1">Framework published with {FRAMEWORK.scriptCount} verification scripts ({FRAMEWORK.runRate} run rate, ~{FRAMEWORK.passRate} pass rate), complete derivation chains, {FRAMEWORK.falsifiedCount} documented falsifications, and an honest {FRAMEWORK.probabilityRangeNdash} self-assessment. Everything open, everything verifiable.</p>
         </div>
       </div>
-    </section>
+    </details>
 
     <!-- ============================================================ -->
     <!-- FALSIFICATION RECORD -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-        <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-        The Falsification Record
-      </h2>
-      <p class="text-gray-400 text-sm mb-6">Good science shows its failures. These are the framework's documented falsifications, deprecations, and withdrawals.</p>
+    <details class="history-phase mb-6 group">
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+          The Falsification Record
+        </h2>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">{FRAMEWORK.falsifiedCount} entries</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">Good science shows its failures. These are the framework's documented falsifications, deprecations, and withdrawals. Each one made the framework stronger by narrowing the space of possible claims.</p>
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -336,17 +503,26 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           </tbody>
         </table>
       </div>
-    </section>
+
+      <div class="mt-6 bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+        <p class="text-gray-400 text-sm"><strong class="text-white">Why document failures?</strong> A framework that never fails is either trivial or dishonest. Each falsification narrows the space of viable claims and builds confidence that surviving results are genuine. The ratio of falsified to surviving claims (~14 falsified vs ~63 surviving) is itself a measure of the framework's discriminating power.</p>
+      </div>
+    </details>
 
     <!-- ============================================================ -->
     <!-- VERIFICATION GROWTH -->
     <!-- ============================================================ -->
-    <section class="mb-16">
-      <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-        <span class="w-2 h-2 bg-brand-400 rounded-full"></span>
-        Verification Infrastructure Growth
-      </h2>
-      <p class="text-gray-400 text-sm mb-6">Every claim backed by computation. Script count over time:</p>
+    <details class="history-phase mb-6 group">
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <span class="w-2 h-2 bg-brand-400 rounded-full"></span>
+          Verification Infrastructure Growth
+        </h2>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">{FRAMEWORK.scriptCount} scripts</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">Every claim backed by computation. The cardinal rule: no calculation in markdown without a verification script. Here's how the script count grew:</p>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
         <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
@@ -370,38 +546,61 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <div class="text-xs text-gray-500 mt-1">S304</div>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-          <div class="text-xl font-bold text-brand-400 font-mono">736+</div>
+          <div class="text-xl font-bold text-brand-400 font-mono">{FRAMEWORK.scriptCount}</div>
           <div class="text-xs text-gray-500 mt-1">Now</div>
         </div>
       </div>
-    </section>
+
+      <div class="mt-6 bg-gray-900/50 border border-gray-800 rounded-lg p-4">
+        <p class="text-gray-400 text-sm"><strong class="text-white">The verification philosophy:</strong> SymPy scripts are the ground truth. If a mathematical claim isn't backed by a script that outputs PASS, it doesn't get documented. This rule was established at S120 and has been followed rigorously since. Current run rate: {FRAMEWORK.runRate} with ~{FRAMEWORK.passRate} pass rate.</p>
+      </div>
+    </details>
 
     <!-- ============================================================ -->
     <!-- WHAT'S NEXT -->
     <!-- ============================================================ -->
-    <section class="mb-8">
-      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
-        Near-Term Tests (2026&ndash;2028)
-      </h2>
+    <details class="history-phase mb-8 group" open>
+      <summary class="flex items-center gap-3 mb-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+          Near-Term Tests (2026&ndash;2028)
+        </h2>
+        <span class="text-xs text-gray-600 ml-auto hidden sm:inline">3 predictions</span>
+      </summary>
+
+      <p class="text-gray-400 text-sm mb-6 ml-7">The framework lives or dies by experimental tests. These three predictions are concrete, falsifiable, and testable within the next few years.</p>
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-2">Dark matter at 5.11 GeV</h3>
           <p class="text-gray-400 text-sm">SuperCDMS WIMP search. The most decisive near-term test of the framework.</p>
           <p class="text-xs text-gray-600 mt-3">Expected: 2026&ndash;2027</p>
+          <details class="mt-3">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What to look for</summary>
+            <p class="text-gray-500 text-xs mt-1">SuperCDMS HVeV detectors have threshold sensitivity down to ~1 GeV. A signal at 5.11 GeV with the predicted cross-section would be strong confirmation. A null result at full exposure would seriously challenge the mass formula (though the interaction mechanism is model-dependent).</p>
+          </details>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-2">Colored pNGBs at ~1.76 TeV</h3>
           <p class="text-gray-400 text-sm">HL-LHC leptoquark searches with &beta;<sub>eff</sub> = 0.5. Current bounds at ~1.22 TeV.</p>
           <p class="text-xs text-gray-600 mt-3">Expected: 2027&ndash;2028</p>
+          <details class="mt-3">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What to look for</summary>
+            <p class="text-gray-500 text-xs mt-1">HL-LHC will reach ~2200 GeV for pair-produced leptoquarks. The framework predicts a scalar leptoquark at 1761 GeV with equal branching to charged-lepton+jet and neutrino+jet (&beta;<sub>eff</sub> = 0.5). Both the mass and branching ratio are independent predictions.</p>
+          </details>
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-2">Tensor-to-scalar ratio r = 0.035</h3>
           <p class="text-gray-400 text-sm">CMB-S4 and future missions. Tests the hilltop inflation derivation.</p>
           <p class="text-xs text-gray-600 mt-3">Expected: ~2028+</p>
+          <details class="mt-3">
+            <summary class="text-xs text-gray-600 cursor-pointer hover:text-gray-400">What to look for</summary>
+            <p class="text-gray-500 text-xs mt-1">CMB-S4 is projected to reach &sigma;(r) &asymp; 0.003. The framework predicts r = 7/200 = 0.035, well above the detection threshold. A measurement significantly different from 0.035 (say r &lt; 0.01 or r &gt; 0.06) would falsify the hilltop inflation derivation.</p>
+          </details>
         </div>
       </div>
-    </section>
+    </details>
 
     <div class="text-center text-xs text-gray-600 mt-12">
       <p>This history is compiled from session records and internal documentation.</p>

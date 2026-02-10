@@ -19,14 +19,14 @@ lastUpdated: '2026-02-09'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `PC_MATHEMATICAL_FOUNDATIONS.md` | Pure mathematical development (v1.0, 2133 lines) |
-| `HONEST_ASSESSMENT.md` | Candid self-evaluation |
-| `../claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm predictions with caveats |
-| `../claims/FALSIFIED.md` | 14 failed predictions |
-| `../framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 remaining irreducible assumptions |
-| `../registry/RED_TEAM_SUMMARY_V3.md` | Adversarial review: 25-40% probability |
+| Document | Role |
+|----------|------|
+| [Mathematical Foundations](/publications/math) | Pure mathematical development (v1.0, 2133 lines) |
+| [Honest Assessment](/publications/honest-assessment) | Candid self-evaluation |
+| [Tier 1 Claims](/predictions) | 12 sub-10 ppm predictions with caveats |
+| [Falsified Claims](/predictions) | 14 failed predictions |
+| [Irreducible Assumptions](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/IRREDUCIBLE_ASSUMPTIONS.md) | 4 remaining irreducible assumptions |
+| [Red Team Summary v3.0](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/registry/RED_TEAM_SUMMARY_V3.md) | Adversarial review: 25-40% probability |
 
 ---
 

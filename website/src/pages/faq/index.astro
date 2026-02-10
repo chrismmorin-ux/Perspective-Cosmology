@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
 <BaseLayout title="FAQ" description="Frequently asked questions about Perspective Cosmology — what it is, what it claims, and how to engage.">
@@ -32,7 +33,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-3">Who made this?</h3>
-          <p class="text-gray-300 text-sm leading-relaxed">Christopher M Morin &mdash; an amateur with an applied mathematics background, no physics PhD, and no university affiliation. The work uses AI assistance (Claude, Anthropic) extensively across 370+ sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail.</p>
+          <p class="text-gray-300 text-sm leading-relaxed">Christopher M Morin &mdash; an amateur with an applied mathematics background, no physics PhD, and no university affiliation. The work uses AI assistance (Claude, Anthropic) extensively across {FRAMEWORK.sessionCount} sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail.</p>
         </div>
       </div>
     </section>
@@ -82,7 +83,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <div class="space-y-6">
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-3">What has this gotten wrong?</h3>
-          <p class="text-gray-300 text-sm leading-relaxed">14 predictions have been falsified, including 3 formal retractions (a Grassmannian topology error, an SU(3) misidentification, and a dark states prediction). These are documented alongside the successes. We record failures because that is how science works.</p>
+          <p class="text-gray-300 text-sm leading-relaxed">{FRAMEWORK.falsifiedCount} predictions have been falsified, including {FRAMEWORK.retractionCount} formal retractions (a Grassmannian topology error, an SU(3) misidentification, and a dark states prediction). These are documented alongside the successes. We record failures because that is how science works.</p>
         </div>
 
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
@@ -127,7 +128,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         </div>
         <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h3 class="text-white font-semibold mb-2">Developers</h3>
-          <p class="text-gray-400 text-sm">736+ verification scripts are the backbone of credibility. Spot-check for correctness, run independently, identify edge cases.</p>
+          <p class="text-gray-400 text-sm">{FRAMEWORK.scriptCount} verification scripts are the backbone of credibility. Spot-check for correctness, run independently, identify edge cases.</p>
         </div>
       </div>
     </section>

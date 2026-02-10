@@ -1,8 +1,8 @@
 ---
-title: 'Plain Language Description'
+title: 'A Plain-Language Description'
 description: 'Non-specialist description of the framework'
-version: '3.0'
-lastUpdated: '2026-02-09'
+version: '1.6'
+lastUpdated: '2026-02-10'
 ---
 
 # Perspective Cosmology — A Plain-Language Description

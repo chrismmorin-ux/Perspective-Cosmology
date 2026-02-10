@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
-<BaseLayout title="Predictions" description="Bold structural claims, 9 blind predictions, 14 falsified claims, and 8 testable predictions with explicit falsification criteria.">
+<BaseLayout title="Predictions" description={`Bold structural claims, ${FRAMEWORK.blindPredictionCount} blind predictions, ${FRAMEWORK.falsifiedCount} falsified claims, and ${FRAMEWORK.testablePredictionCount} testable predictions with explicit falsification criteria.`}>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
     <h1 class="text-3xl font-bold text-white mb-3">Predictions Registry</h1>
     <p class="text-gray-400 mb-10">Blind predictions locked before measurement, falsified claims documented honestly, and upcoming experimental tests.</p>
@@ -10,19 +11,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <!-- Stats -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-accent-green">9</div>
+        <div class="text-2xl font-bold text-accent-green">{FRAMEWORK.blindPredictionCount}</div>
         <div class="text-xs text-gray-500 mt-1">Blind Predictions</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-white">12</div>
+        <div class="text-2xl font-bold text-white">{FRAMEWORK.tier1Count}</div>
         <div class="text-xs text-gray-500 mt-1">Sub-10 ppm</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-red-400">14</div>
+        <div class="text-2xl font-bold text-red-400">{FRAMEWORK.falsifiedCount}</div>
         <div class="text-xs text-gray-500 mt-1">Falsified</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-brand-400">8</div>
+        <div class="text-2xl font-bold text-brand-400">{FRAMEWORK.testablePredictionCount}</div>
         <div class="text-xs text-gray-500 mt-1">Testable Now</div>
       </div>
     </div>
@@ -188,7 +189,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <section class="mb-12">
       <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
         <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-        Falsified Claims (14 total)
+        Falsified Claims ({FRAMEWORK.falsifiedCount} total)
       </h2>
       <p class="text-gray-400 text-sm mb-4">Recording failures is essential. We don't hide what doesn't work.</p>
       <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
@@ -214,7 +215,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <!-- CTA -->
     <div class="text-center">
       <a href="/explore" class="inline-flex items-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors">
-        Browse All 45 Predictions
+        Browse All {FRAMEWORK.predictionCount} Predictions
         <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </a>
       <p class="text-gray-600 text-xs mt-4">Interactive explorer with filtering by tier, domain, status, and blind prediction flag.</p>

@@ -4,18 +4,20 @@ import PredictionExplorer from '../../components/PredictionExplorer';
 import DomainStatusExplorer from '../../components/DomainStatusExplorer';
 import PrimeTable from '../../components/PrimeTable';
 import CrystallizationCatalog from '../../components/CrystallizationCatalog';
+import PerspectiveMathExplorer from '../../components/PerspectiveMathExplorer';
 import predictions from '../../../data/predictions.json';
 import domainStatusData from '../../../data/domain-status.json';
 import catalogData from '../../../data/catalog.json';
+import { FRAMEWORK } from '../../data/constants';
 ---
 
-<BaseLayout title="Explore" description="Explore 45 predictions, 12 physics domains, the Periodic Table of Primes, and Crystallization Catalogue — all derived from division algebra geometry.">
+<BaseLayout title="Explore" description={`Explore ${FRAMEWORK.predictionCount} predictions, ${FRAMEWORK.domainCount} physics domains, the Periodic Table of Primes, and Crystallization Catalogue — all derived from division algebra geometry.`}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
     <div class="mb-10">
       <h1 class="text-3xl font-bold text-white mb-3">Explore the Framework</h1>
       <p class="text-gray-400 max-w-3xl">
-        Three views into the same structure: domain health across 12 physics areas,
-        the algebraic building blocks, and 45 individual predictions you can filter and verify.
+        Four views into the same structure: domain health across {FRAMEWORK.domainCount} physics areas,
+        the algebraic building blocks, the recursive gap tower, and {FRAMEWORK.predictionCount} individual predictions you can filter and verify.
       </p>
     </div>
 
@@ -29,7 +31,7 @@ import catalogData from '../../../data/catalog.json';
               <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
               <h2 class="text-lg font-bold text-white">Framework Status by Domain</h2>
             </div>
-            <p class="text-gray-500 text-sm mt-1 ml-5">Health dashboard across 12 physics domains — prediction counts, experiments, and confidence levels.</p>
+            <p class="text-gray-500 text-sm mt-1 ml-5">Health dashboard across {FRAMEWORK.domainCount} physics domains — prediction counts, experiments, and confidence levels.</p>
           </div>
           <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -106,7 +108,26 @@ import catalogData from '../../../data/catalog.json';
         </div>
       </details>
 
-      <!-- Section 3: Prediction Explorer -->
+      <!-- Section 3: Perspective Mathematics / Recursive Gap Tower -->
+      <details class="group border border-gray-800 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between cursor-pointer bg-gray-900/50 px-6 py-5 hover:bg-gray-800/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
+              <h2 class="text-lg font-bold text-white">Perspective Mathematics: The Recursive Gap Tower</h2>
+            </div>
+            <p class="text-gray-500 text-sm mt-1 ml-5">What happens when perspective examines its own blind spot? A finite tower terminating at Im(C) — 185/185 tests PASS.</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-6 py-6 border-t border-gray-800">
+          <PerspectiveMathExplorer client:load />
+        </div>
+      </details>
+
+      <!-- Section 4: Prediction Explorer -->
       <details class="group border border-gray-800 rounded-xl overflow-hidden" open>
         <summary class="flex items-center justify-between cursor-pointer bg-gray-900/50 px-6 py-5 hover:bg-gray-800/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
           <div class="flex-1 min-w-0">
@@ -114,7 +135,7 @@ import catalogData from '../../../data/catalog.json';
               <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
               <h2 class="text-lg font-bold text-white">Prediction Explorer</h2>
             </div>
-            <p class="text-gray-500 text-sm mt-1 ml-5">Browse all 45 predictions — filter by tier, domain, status, or blind prediction flag.</p>
+            <p class="text-gray-500 text-sm mt-1 ml-5">Browse all {FRAMEWORK.predictionCount} predictions — filter by tier, domain, status, or blind prediction flag.</p>
           </div>
           <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -159,9 +180,9 @@ import catalogData from '../../../data/catalog.json';
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
           <div class="text-gray-500 mt-1">Trace any prediction back to its axioms step by step.</div>
         </a>
-        <a href="/explore/perspective" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
-          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Perspective Mathematics</div>
-          <div class="text-gray-500 mt-1">The recursive gap tower and the mathematics of self-reference.</div>
+        <a href="/explore/status" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Framework Status</div>
+          <div class="text-gray-500 mt-1">Compact overview of domain health and verification counts.</div>
         </a>
       </div>
     </div>

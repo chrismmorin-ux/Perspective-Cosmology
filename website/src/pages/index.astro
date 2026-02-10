@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../data/constants';
 ---
 
 <BaseLayout title="Home" description="What if the laws of physics are mathematically inevitable? A framework deriving 63+ physical constants from division algebra geometry.">
@@ -18,9 +19,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         with zero free parameters, the framework derives dozens of physical constants.
       </p>
       <p class="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-        12 match measurements to better than 10 parts per million.
-        14 predictions failed.
-        We estimate a <strong class="text-gray-300">25-40% chance</strong> this is real physics.
+        {FRAMEWORK.tier1Count} match measurements to better than 10 parts per million.
+        {FRAMEWORK.falsifiedCount} predictions failed.
+        We estimate a <strong class="text-gray-300">{FRAMEWORK.probabilityRange} chance</strong> this is real physics.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="/explore" class="inline-flex items-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors">
@@ -37,8 +38,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
-  <!-- What It Is -->
+  <!-- Where Did It Come From -->
   <section class="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-8">
+    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+      <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+      Where Did It Come From?
+    </h2>
+    <p class="text-gray-300 text-sm leading-relaxed mb-3">
+      This started with a number. Every physicist knows 137 &mdash; the reciprocal of the fine structure constant &mdash; but nobody knows <em class="text-white">why</em> it has that value. Over {FRAMEWORK.sessionCount} sessions working with Claude (Anthropic's AI), an amateur with no physics degree explored what happens when you take that question seriously: what if 137&nbsp;=&nbsp;4<sup>2</sup>&nbsp;+&nbsp;11<sup>2</sup> isn't a coincidence, but a consequence of the only number systems where division always works?
+    </p>
+    <p class="text-gray-400 text-sm leading-relaxed">
+      The result is either a genuine mathematical framework for physics or very elaborate numerology. The full story &mdash; the process, the failures, and why the uncertainty is the point &mdash; is in the blog post.
+      <a href="/blog/how-i-used-ai-to-explore-a-theory-of-everything" class="text-brand-400 hover:text-brand-300 ml-1">Read the origin story &rarr;</a>
+    </p>
+  </section>
+
+  <!-- What It Is -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-8">
     <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
       <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
       What It Is
@@ -47,7 +63,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Perspective Cosmology is a speculative mathematical framework that starts from a single question: <em class="text-white">what is the minimum structure required for observation to exist?</em> The answer turns out to require division algebras &mdash; four special number systems (dimensions 1, 2, 4, 8) that are the only ones where division always works. From those algebras and a consistency principle, the framework derives two integers: crystal dimension n<sub>c</sub>&nbsp;=&nbsp;11 and defect dimension n<sub>d</sub>&nbsp;=&nbsp;4. Everything else &mdash; the Standard Model gauge group, three generations of fermions, 3+1 spacetime, quantum mechanics, Einstein's equations, and 63+ physical constants &mdash; follows from those two numbers alone.
     </p>
     <p class="text-gray-400 text-sm leading-relaxed">
-      This is amateur work, built with AI assistance over 370+ sessions. It has not been peer-reviewed. We estimate a 25&ndash;40% probability it captures genuine physics.
+      This is amateur work, built with AI assistance over {FRAMEWORK.sessionCount} sessions. It has not been peer-reviewed. We estimate a {FRAMEWORK.probabilityRangeNdash} probability it captures genuine physics.
       <a href="/publications/executive-summary" class="text-brand-400 hover:text-brand-300 ml-1">Read the full executive summary &rarr;</a>
     </p>
   </section>
@@ -62,10 +78,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       The formal derivations live in the <a href="/publications/math" class="text-brand-400 hover:text-brand-300">Mathematical Foundations</a> paper, which builds from axioms through theorems to predictions with full proof chains. For a guided 30-minute evaluation, start with the <a href="/publications/physicist-summary" class="text-brand-400 hover:text-brand-300">Physicist Summary</a>. The <a href="/publications/technical-summary" class="text-brand-400 hover:text-brand-300">Technical Summary</a> covers every derivation chain and all 63+ predictions in one document.
     </p>
     <p class="text-gray-300 text-sm leading-relaxed mb-3">
-      For interactive exploration: the <a href="/explore/algebra" class="text-brand-400 hover:text-brand-300">Division Algebra</a> page walks through how dimensions &#123;1, 2, 4, 8&#125; generate the framework's key numbers. The <a href="/explore/catalog" class="text-brand-400 hover:text-brand-300">Framework Catalog</a> maps every prime to a physical constant and catalogues all 17 crystallization types. The <a href="/explore/derivations" class="text-brand-400 hover:text-brand-300">Derivation Chain Viewer</a> lets you trace any prediction back to its axioms step by step.
+      For interactive exploration: the <a href="/explore/algebra" class="text-brand-400 hover:text-brand-300">Division Algebra</a> page walks through how dimensions &#123;1, 2, 4, 8&#125; generate the framework's key numbers. The <a href="/explore/catalog" class="text-brand-400 hover:text-brand-300">Framework Catalog</a> maps every prime to a physical constant and catalogues all 17 crystallization types. The <a href="/explore/perspective" class="text-brand-400 hover:text-brand-300">Recursive Gap Tower</a> shows what happens when perspective examines its own blind spot &mdash; a finite cascade through the division algebras terminating at Im(C). The <a href="/explore/derivations" class="text-brand-400 hover:text-brand-300">Derivation Chain Viewer</a> lets you trace any prediction back to its axioms step by step.
     </p>
     <p class="text-gray-400 text-sm leading-relaxed">
       Every numerical claim is backed by a SymPy verification script &mdash; <a href="/verify" class="text-brand-400 hover:text-brand-300">browse them here</a>, or clone the repo and run them yourself. The <a href="/explore" class="text-brand-400 hover:text-brand-300">Prediction Explorer</a> lets you filter all 63+ predictions by precision, domain, and derivation status.
+    </p>
+  </section>
+
+  <!-- The Methodology -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-8">
+    <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+      <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+      The Methodology
+    </h2>
+    <p class="text-gray-300 text-sm leading-relaxed mb-3">
+      This project uses Claude (Anthropic) as an exploration partner, not an oracle. Every claim goes through a three-layer defense: computational verification (736+ SymPy scripts), multi-path cross-checks, and semantic consistency audits. A hallucination audit (S287) found that 3% of AI-generated references were fabricated and identified 14 distinct error patterns &mdash; all now documented and remediated. Three formal adversarial reviews have stress-tested every major claim.
+    </p>
+    <p class="text-gray-400 text-sm leading-relaxed">
+      The full methodology &mdash; session protocols, confidence tagging, the hallucination incident catalog, and recommendations for other AI-assisted research &mdash; is documented in detail.
+      <a href="/publications/ai-methodology" class="text-brand-400 hover:text-brand-300 ml-1">Read the AI methodology &rarr;</a>
     </p>
   </section>
 
@@ -149,7 +180,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <ul class="space-y-3 text-sm text-gray-300">
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
-            <span>9 blind predictions succeeded (<strong class="text-white">P ~ 2.5e-7</strong>)</span>
+            <span>{FRAMEWORK.blindPredictionCount} blind predictions succeeded (<strong class="text-white">P ~ {FRAMEWORK.blindPValue}</strong>)</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
@@ -157,15 +188,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </li>
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
-            <span><strong class="text-white">736+</strong> verification scripts (99.8% pass)</span>
+            <span><strong class="text-white">{FRAMEWORK.scriptCount}</strong> verification scripts ({FRAMEWORK.passRate} pass)</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
-            <span>14 failures + 3 retractions documented honestly</span>
+            <span>{FRAMEWORK.falsifiedCount} failures + {FRAMEWORK.retractionCount} retractions documented honestly</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
-            <span>Only <strong class="text-white">4 assumptions</strong> for ALL of physics</span>
+            <span>Only <strong class="text-white">{FRAMEWORK.iraCount} assumptions</strong> for ALL of physics</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-accent-green mt-0.5">-</span>
@@ -230,19 +261,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-white">736+</div>
+        <div class="text-2xl font-bold text-white">{FRAMEWORK.scriptCount}</div>
         <div class="text-xs text-gray-500 mt-1">Verification Scripts</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-white">99.8%</div>
+        <div class="text-2xl font-bold text-white">{FRAMEWORK.passRate}</div>
         <div class="text-xs text-gray-500 mt-1">Pass Rate</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-white">14</div>
+        <div class="text-2xl font-bold text-white">{FRAMEWORK.falsifiedCount}</div>
         <div class="text-xs text-gray-500 mt-1">Documented Failures</div>
       </div>
       <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-white">4</div>
+        <div class="text-2xl font-bold text-white">{FRAMEWORK.iraCount}</div>
         <div class="text-xs text-gray-500 mt-1">Irreducible Assumptions</div>
       </div>
     </div>
@@ -251,7 +282,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Footer Tagline -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 text-center">
     <p class="text-xl sm:text-2xl text-gray-400 italic">
-      "25-40% chance this is genuine physics.
+      "{FRAMEWORK.probabilityRange} chance this is genuine physics.
     </p>
     <p class="text-xl sm:text-2xl text-white font-semibold mt-1">
       100% chance the math is worth checking."

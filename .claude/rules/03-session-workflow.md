@@ -47,6 +47,7 @@ If topic file exists: append new results, rewrite "Open Paths", add session to l
 - **Formalization queue**: Triage PENDING items -- formalize now or DEFER with target session
 - **Exploration queue**: Add new open questions, resolve answered ones, update BLOCKED items
 - **Propagation manifest**: If session produced status changes, retractions, count changes, formula changes -- update `registry/PROPAGATION_MANIFEST.md`
+- **Website impact**: Did this session modify `claims/`, `predictions/`, `publications/`, `verification/sympy/`, or registry status files? If yes, add a one-line note to the session file: `Website: [file] potentially stale ([reason])`. No scripts run -- just flag for next website update. Run `npm run check-sync` from `website/` to see full drift status.
 
 ### Step 5: Summarize
 ```

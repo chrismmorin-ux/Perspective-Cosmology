@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { FRAMEWORK } from '../data/constants';
 
 interface Props {
   title: string;
@@ -41,7 +42,6 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
           <a href="/skeptics" class={p.startsWith('/skeptics') ? active : inactive}>For Skeptics</a>
           <a href="/predictions" class={p.startsWith('/predictions') ? active : inactive}>Predictions</a>
           <a href="/verify" class={p.startsWith('/verify') ? active : inactive}>Verify</a>
-          <a href="/history" class={p.startsWith('/history') ? active : inactive}>History</a>
           <a href="/about" class={p.startsWith('/about') ? active : inactive}>About</a>
           <a href="/faq" class={p.startsWith('/faq') ? active : inactive}>FAQ</a>
           <a href="/blog" class={p.startsWith('/blog') ? active : inactive}>Blog</a>
@@ -60,7 +60,6 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
         <a href="/skeptics" class={p.startsWith('/skeptics') ? mActive : mInactive}>For Skeptics</a>
         <a href="/predictions" class={p.startsWith('/predictions') ? mActive : mInactive}>Predictions</a>
         <a href="/verify" class={p.startsWith('/verify') ? mActive : mInactive}>Verify</a>
-        <a href="/history" class={p.startsWith('/history') ? mActive : mInactive}>History</a>
         <a href="/about" class={p.startsWith('/about') ? mActive : mInactive}>About</a>
         <a href="/faq" class={p.startsWith('/faq') ? mActive : mInactive}>FAQ</a>
         <a href="/blog" class={p.startsWith('/blog') ? mActive : mInactive}>Blog</a>
@@ -78,7 +77,7 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
         <div>
           <h3 class="text-white font-semibold mb-3">Perspective Cosmology</h3>
           <p>Speculative mathematical framework exploring division algebra geometry and physical constants.</p>
-          <p class="mt-2 text-gray-600">25-40% chance this is genuine physics.<br/>100% chance the math is worth checking.</p>
+          <p class="mt-2 text-gray-600">{FRAMEWORK.probabilityRange} chance this is genuine physics.<br/>100% chance the math is worth checking.</p>
         </div>
         <div>
           <h3 class="text-white font-semibold mb-3">Resources</h3>
@@ -86,6 +85,7 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
             <li><a href="/publications" class="hover:text-gray-300">Publications</a></li>
             <li><a href="/verify" class="hover:text-gray-300">Verification Scripts</a></li>
             <li><a href="/predictions" class="hover:text-gray-300">Predictions Registry</a></li>
+            <li><a href="/history" class="hover:text-gray-300">Project History</a></li>
             <li><a href="/skeptics" class="hover:text-gray-300">For Skeptics</a></li>
           </ul>
         </div>
@@ -101,7 +101,7 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
         </div>
       </div>
       <div class="mt-8 pt-8 border-t border-gray-800 text-center text-xs text-gray-600">
-        <p>This work was developed with AI assistance (Claude, Anthropic). All mathematical claims are computationally verified via 736+ SymPy scripts.</p>
+        <p>This work was developed with AI assistance (Claude, Anthropic). All mathematical claims are computationally verified via {FRAMEWORK.scriptCount} SymPy scripts.</p>
         <p class="mt-1">Speculative amateur work. Not peer-reviewed.</p>
       </div>
     </div>
