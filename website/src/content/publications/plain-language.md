@@ -265,7 +265,6 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 
 | Interest | Start Here |
 |----------|------------|
-| Quick start and reading order | [Quick Start Guide](/publications/quickstart) |
 | Full technical thesis | [Thesis](/publications/thesis) |
 | Honest self-critique | [Honest Assessment](/publications/honest-assessment) |
 | Anticipated objections | [Objections and Responses](/publications/objections-and-responses) |

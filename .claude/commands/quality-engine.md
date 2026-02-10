@@ -490,7 +490,6 @@ For each entry in `constants`:
 | predictions.json | STALE | claims/TIER_1_SIGNIFICANT.md changed since last sync |
 | domain-status.json | OK | — |
 | ... | ... | ... |
-| Publication: quickstart | STALE | Source updated S372, website from S370 |
 | Constant: scriptCount | DRIFT | Actual: 740, constants.ts: 737+ |
 
 Website sync: [N] stale data files, [M] stale publications, [K] constant mismatches

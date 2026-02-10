@@ -117,14 +117,6 @@
         "description": "30-minute evaluation document for working physicists"
       }
     },
-    "quickstart": {
-      "source": "publications/QUICKSTART.md",
-      "dest": "website/src/content/publications/quickstart.md",
-      "frontmatter": {
-        "title": "Quick Start Guide",
-        "description": "Entry point and reading order guide"
-      }
-    },
     "peer-review-prep": {
       "source": "publications/PEER_REVIEW_PREP.md",
       "dest": "website/src/content/publications/peer-review-prep.md",

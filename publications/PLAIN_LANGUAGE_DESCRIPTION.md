@@ -258,7 +258,6 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 
 | Interest | Start Here |
 |----------|------------|
-| Quick start and reading order | `publications/QUICKSTART.md` |
 | Common questions answered | `publications/FAQ.md` |
 | Full technical thesis | `publications/THESIS.md` |
 | Honest self-critique | `publications/HONEST_ASSESSMENT.md` |

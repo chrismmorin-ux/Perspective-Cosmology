@@ -23,12 +23,11 @@ All new documents in this directory MUST use `TEMPLATE.md` as a starting point. 
 | `PLAIN_LANGUAGE_DESCRIPTION.md` | General public | Non-specialist description | ~10 min |
 | `PHYSICIST_SUMMARY.md` | Physicists | 30-minute evaluation document | ~30 min |
 | `PEER_REVIEW_PREP.md` | Reviewers | Extended objection analysis for peer review | ~20 min |
-| `QUICKSTART.md` | New readers | Entry point and reading order guide | ~5 min |
 | `TEMPLATE.md` | Internal | Standard template for new publications | — |
 
 ## Reading Order
 
-1. **Quick overview**: `PLAIN_LANGUAGE_DESCRIPTION.md` or `QUICKSTART.md`
+1. **Quick overview**: `PLAIN_LANGUAGE_DESCRIPTION.md`
 2. **Self-evaluation**: `HONEST_ASSESSMENT.md`
 3. **Core argument**: `THESIS.md`
 4. **Technical detail**: `TECHNICAL_SUMMARY.md`
