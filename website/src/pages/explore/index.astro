@@ -1,61 +1,156 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PredictionExplorer from '../../components/PredictionExplorer';
+import DomainStatusExplorer from '../../components/DomainStatusExplorer';
+import PrimeTable from '../../components/PrimeTable';
+import CrystallizationCatalog from '../../components/CrystallizationCatalog';
 import predictions from '../../../data/predictions.json';
+import domainStatusData from '../../../data/domain-status.json';
+import catalogData from '../../../data/catalog.json';
 ---
 
-<BaseLayout title="Explore Predictions" description="Interactive prediction explorer: 45 predictions derived from division algebra geometry, filterable by tier, domain, and status.">
+<BaseLayout title="Explore" description="Explore 45 predictions, 12 physics domains, the Periodic Table of Primes, and Crystallization Catalogue — all derived from division algebra geometry.">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
     <div class="mb-10">
-      <h1 class="text-3xl font-bold text-white mb-3">Prediction Explorer</h1>
+      <h1 class="text-3xl font-bold text-white mb-3">Explore the Framework</h1>
       <p class="text-gray-400 max-w-3xl">
-        Browse all predictions derived from division algebra geometry. Filter by tier, domain, status, or blind prediction flag. Sort by precision to see the most accurate results first.
+        Three views into the same structure: domain health across 12 physics areas,
+        the algebraic building blocks, and 45 individual predictions you can filter and verify.
       </p>
     </div>
 
-    <PredictionExplorer client:load predictions={predictions} />
+    <div class="space-y-4">
 
-    <div class="mt-12 border-t border-gray-800 pt-8">
-      <h2 class="text-lg font-semibold text-white mb-3">Understanding the tiers</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-        <div class="flex items-start gap-2">
-          <span class="w-2 h-2 mt-1.5 rounded-full bg-emerald-400 shrink-0"></span>
-          <div>
-            <div class="text-white font-medium">Tier 1</div>
-            <div class="text-gray-500">Sub-10 ppm precision. The strongest results.</div>
+      <!-- Section 1: Framework Status by Domain -->
+      <details class="group border border-gray-800 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between cursor-pointer bg-gray-900/50 px-6 py-5 hover:bg-gray-800/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
+              <h2 class="text-lg font-bold text-white">Framework Status by Domain</h2>
+            </div>
+            <p class="text-gray-500 text-sm mt-1 ml-5">Health dashboard across 12 physics domains — prediction counts, experiments, and confidence levels.</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-6 py-6 border-t border-gray-800">
+          <DomainStatusExplorer client:load data={domainStatusData} />
+          <div class="mt-8">
+            <h3 class="text-sm font-semibold text-white mb-3">Status categories</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Strong</span> — sub-10 ppm</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Testable</span> — awaiting test</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Active</span> — ongoing</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Developing</span> — percent-level</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Structural</span> — math only</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Open</span> — unresolved</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="flex items-start gap-2">
-          <span class="w-2 h-2 mt-1.5 rounded-full bg-yellow-400 shrink-0"></span>
+      </details>
+
+      <!-- Section 2: Framework Catalog -->
+      <details class="group border border-gray-800 rounded-xl overflow-hidden">
+        <summary class="flex items-center justify-between cursor-pointer bg-gray-900/50 px-6 py-5 hover:bg-gray-800/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
+              <h2 class="text-lg font-bold text-white">Periodic Table of Primes & Crystallization Catalogue</h2>
+            </div>
+            <p class="text-gray-500 text-sm mt-1 ml-5">5-tier prime hierarchy from division algebra dimensions, plus 17 crystallization types governing all of physics.</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-6 py-6 border-t border-gray-800 space-y-12">
           <div>
-            <div class="text-white font-medium">Tier 2</div>
-            <div class="text-gray-500">10-10,000 ppm. Solid but less precise.</div>
+            <h3 class="text-xl font-bold text-white mb-2">Periodic Table of Primes</h3>
+            <p class="text-gray-400 text-sm mb-6 max-w-3xl">
+              Framework dimensions {1, 2, 3, 4, 7, 8, 11} generate primes at five tiers of algebraic complexity.
+              Ten Tier 2 primes (a&sup2; + b&sup2;) are each mapped to physical constants.
+            </p>
+            <PrimeTable client:load
+              primes={catalogData.primes}
+              dimensions={catalogData.dimensions}
+              primeTiers={catalogData.primeTiers} />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white mb-2">Crystallization Catalogue</h3>
+            <p class="text-gray-400 text-sm mb-6 max-w-3xl">
+              Seventeen types of crystallization (C1-C17), all governed by a single order parameter
+              and a shared potential. Click any type card to expand.
+            </p>
+            <CrystallizationCatalog client:load data={catalogData.crystallization} />
           </div>
         </div>
-        <div class="flex items-start gap-2">
-          <span class="w-2 h-2 mt-1.5 rounded-full bg-orange-400 shrink-0"></span>
-          <div>
-            <div class="text-white font-medium">Tier 3</div>
-            <div class="text-gray-500">Percent-level. Interesting but inconclusive.</div>
+      </details>
+
+      <!-- Section 3: Prediction Explorer -->
+      <details class="group border border-gray-800 rounded-xl overflow-hidden" open>
+        <summary class="flex items-center justify-between cursor-pointer bg-gray-900/50 px-6 py-5 hover:bg-gray-800/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+              <h2 class="text-lg font-bold text-white">Prediction Explorer</h2>
+            </div>
+            <p class="text-gray-500 text-sm mt-1 ml-5">Browse all 45 predictions — filter by tier, domain, status, or blind prediction flag.</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-500 shrink-0 ml-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-6 py-6 border-t border-gray-800">
+          <PredictionExplorer client:load predictions={predictions} />
+          <div class="mt-8">
+            <h3 class="text-sm font-semibold text-white mb-3">Understanding the tiers</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Tier 1</span> — sub-10 ppm</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Tier 2</span> — 10-10k ppm</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Tier 3</span> — percent-level</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0"></span>
+                <span class="text-gray-400"><span class="text-white">Falsified</span> — documented failures</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="flex items-start gap-2">
-          <span class="w-2 h-2 mt-1.5 rounded-full bg-red-400 shrink-0"></span>
-          <div>
-            <div class="text-white font-medium">Falsified</div>
-            <div class="text-gray-500">Documented failures. Kept for honesty.</div>
-          </div>
-        </div>
-      </div>
+      </details>
+
     </div>
 
     <div class="mt-12 border-t border-gray-800 pt-8">
       <h2 class="text-lg font-semibold text-white mb-3">More to explore</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-        <a href="/explore/catalog" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
-          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Framework Catalog</div>
-          <div class="text-gray-500 mt-1">Periodic Table of Primes and the 9-type Crystallization Catalogue.</div>
-        </a>
         <a href="/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Division Algebras</div>
           <div class="text-gray-500 mt-1">Interactive guide to R, C, H, O and how their dimensions generate all key numbers.</div>
@@ -63,10 +158,6 @@ import predictions from '../../../data/predictions.json';
         <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
           <div class="text-gray-500 mt-1">Trace any prediction back to its axioms step by step.</div>
-        </a>
-        <a href="/explore/status" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
-          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Framework Status</div>
-          <div class="text-gray-500 mt-1">Health dashboard across 12 physics domains.</div>
         </a>
         <a href="/explore/perspective" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Perspective Mathematics</div>
