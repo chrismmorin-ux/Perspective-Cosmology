@@ -16,15 +16,15 @@ lastUpdated: '2026-02-10'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `claims/TIER_1_SIGNIFICANT.md` | Full Tier 1 claim details with derivation chains |
-| `claims/FALSIFIED.md` | 14 falsified claims with lessons |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202/S330) |
-| `framework/layer_0_pure_axioms.md` | Pure axioms (Layer 0) |
-| `framework/layer_2_correspondence.md` | Physics imports catalog |
-| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions (canonical inventory) |
-| `framework/investigations/_INDEX.md` | ~150 investigation files |
+| Document | Role |
+|----------|------|
+| [Tier 1 Claims](/predictions) | Full Tier 1 claim details with derivation chains |
+| [Falsified Claims](/predictions) | 14 falsified claims with lessons |
+| [Statistical Analysis](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/STATISTICAL_ANALYSIS_HONEST.md) | Canonical P-value analysis (S170/S202/S330) |
+| [Pure Axioms](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/layer_0_pure_axioms.md) | Pure axioms (Layer 0) |
+| [Layer 2 Correspondence](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/layer_2_correspondence.md) | Physics imports catalog |
+| [Irreducible Assumptions](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/IRREDUCIBLE_ASSUMPTIONS.md) | 4 irreducible assumptions (canonical inventory) |
+| [Investigations Index](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/investigations/_INDEX.md) | ~150 investigation files |
 
 ## Critical Framework Elements
 

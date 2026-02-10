@@ -16,14 +16,14 @@ lastUpdated: '2026-02-10'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `publications/THESIS.md` | Central thesis document |
-| `publications/HONEST_ASSESSMENT.md` | Balanced self-evaluation |
-| `publications/FAQ.md` | Frequently asked questions |
-| `publications/EXECUTIVE_SUMMARY.md` | One-page overview |
-| `claims/README.md` | Claims tiering system |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Statistical analysis |
+| Document | Role |
+|----------|------|
+| [The Thesis](/publications/thesis) | Central thesis document |
+| [Honest Assessment](/publications/honest-assessment) | Balanced self-evaluation |
+| [FAQ](/faq) | Frequently asked questions |
+| [Executive Summary](/publications/executive-summary) | One-page overview |
+| [Predictions Registry](/predictions) | Claims tiering system |
+| [Statistical Analysis](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/STATISTICAL_ANALYSIS_HONEST.md) | Statistical analysis |
 
 ## Critical Framework Elements
 

@@ -16,15 +16,15 @@ lastUpdated: '2026-02-10'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `publications/HONEST_ASSESSMENT.md` | Canonical self-evaluation (read this next) |
-| `publications/TECHNICAL_SUMMARY.md` | Full technical details (~20 min) |
-| `claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm claims |
-| `claims/FALSIFIED.md` | 14 falsified claims |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis |
-| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions |
-| `registry/RED_TEAM_SUMMARY_V3.md` | 3-agent adversarial review (S330) |
+| Document | Role |
+|----------|------|
+| [Honest Assessment](/publications/honest-assessment) | Canonical self-evaluation (read this next) |
+| [Technical Summary](/publications/technical-summary) | Full technical details (~20 min) |
+| [Tier 1 Claims](/predictions) | 12 sub-10 ppm claims |
+| [Falsified Claims](/predictions) | 14 falsified claims |
+| [Statistical Analysis](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/STATISTICAL_ANALYSIS_HONEST.md) | Canonical P-value analysis |
+| [Irreducible Assumptions](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/IRREDUCIBLE_ASSUMPTIONS.md) | 4 irreducible assumptions |
+| [Red Team Summary v3.0](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/registry/RED_TEAM_SUMMARY_V3.md) | 3-agent adversarial review (S330) |
 
 ## Critical Framework Elements
 

@@ -16,13 +16,13 @@ lastUpdated: '2026-02-10'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `publications/HONEST_ASSESSMENT.md` | Balanced self-evaluation |
-| `publications/TECHNICAL_SUMMARY.md` | Full technical details |
-| `claims/TIER_1_SIGNIFICANT.md` | Sub-10 ppm claims |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis |
-| `framework/layer_0_pure_axioms.md` | Pure axioms (Layer 0) |
+| Document | Role |
+|----------|------|
+| [Honest Assessment](/publications/honest-assessment) | Balanced self-evaluation |
+| [Technical Summary](/publications/technical-summary) | Full technical details |
+| [Tier 1 Claims](/predictions) | Sub-10 ppm claims |
+| [Statistical Analysis](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/STATISTICAL_ANALYSIS_HONEST.md) | Canonical P-value analysis |
+| [Pure Axioms](https://github.com/chrismmorin-ux/Perspective-Cosmology/blob/main/framework/layer_0_pure_axioms.md) | Pure axioms (Layer 0) |
 
 ## Critical Framework Elements
 
