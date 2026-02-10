@@ -16,13 +16,13 @@ lastUpdated: '2026-02-09'
 
 ## Key References
 
-| File | Role |
-|------|------|
-| `publications/PLAIN_LANGUAGE_DESCRIPTION.md` | Non-specialist overview |
-| `publications/HONEST_ASSESSMENT.md` | Candid self-evaluation |
-| `publications/THESIS.md` | Central claim in condensed form |
-| `publications/TECHNICAL_SUMMARY.md` | Full technical overview |
-| `publications/FAQ.md` | Frequently asked questions |
+| Document | Role |
+|----------|------|
+| [Plain Language Description](/publications/plain-language) | Non-specialist overview |
+| [Honest Assessment](/publications/honest-assessment) | Candid self-evaluation |
+| [Thesis](/publications/thesis) | Central claim in condensed form |
+| [Technical Summary](/publications/technical-summary) | Full technical overview |
+| [FAQ](/faq) | Frequently asked questions |
 
 ## Critical Framework Elements
 
@@ -61,36 +61,36 @@ The framework's own adversarial review gives it a 25-40% chance of being genuine
 
 | Step | Document | What You'll Learn |
 |------|----------|-------------------|
-| 1 | **Plain Language Description** | What the framework claims, no jargon |
-| 2 | **FAQ** | Common questions answered |
-| 3 | **Honest Assessment** | Where it succeeds and where it fails |
+| 1 | [Plain Language Description](/publications/plain-language) | What the framework claims, no jargon |
+| 2 | [FAQ](/faq) | Common questions answered |
+| 3 | [Honest Assessment](/publications/honest-assessment) | Where it succeeds and where it fails |
 
 ### Path B: Physicist (~90 min)
 
 | Step | Document | What You'll Learn |
 |------|----------|-------------------|
-| 1 | **Thesis** | The core argument in 10 minutes |
-| 2 | **Technical Summary** | Full derivation chains, all predictions |
-| 3 | **Physicist Summary** | 30-minute evaluation with all key derivations |
-| 4 | **Objections and Responses** | Anticipated criticisms and honest replies |
-| 5 | **Honest Assessment** | Statistics, failures, probability estimate |
+| 1 | [Thesis](/publications/thesis) | The core argument in 10 minutes |
+| 2 | [Technical Summary](/publications/technical-summary) | Full derivation chains, all predictions |
+| 3 | [Physicist Summary](/publications/physicist-summary) | 30-minute evaluation with all key derivations |
+| 4 | [For Skeptics](/skeptics) | Anticipated criticisms and honest replies |
+| 5 | [Honest Assessment](/publications/honest-assessment) | Statistics, failures, probability estimate |
 
 ### Path C: Skeptic (~45 min)
 
 | Step | Document | What You'll Learn |
 |------|----------|-------------------|
-| 1 | **Objections and Responses** | 14 criticisms addressed directly |
-| 2 | **Honest Assessment** | Monte Carlo evidence, blind predictions |
-| 3 | **Technical Summary** | Verify the claims yourself |
+| 1 | [For Skeptics](/skeptics) | 14 criticisms addressed directly |
+| 2 | [Honest Assessment](/publications/honest-assessment) | Monte Carlo evidence, blind predictions |
+| 3 | [Technical Summary](/publications/technical-summary) | Verify the claims yourself |
 
 ### Path D: Developer / Verifier (~2 hours)
 
 | Step | Document | What You'll Learn |
 |------|----------|-------------------|
-| 1 | **AI Methodology** | How AI was used, verification infrastructure |
-| 2 | **Landscape Comparison** | How this compares to other approaches |
-| 3 | `verification/sympy/` | Run the ~736 verification scripts yourself |
-| 4 | `framework/IRREDUCIBLE_ASSUMPTIONS.md` | The 4 assumptions that can't be removed |
+| 1 | AI Methodology | How AI was used, verification infrastructure |
+| 2 | Landscape Comparison | How this compares to other approaches |
+| 3 | [Verification Scripts](/verify) | Run the ~736 verification scripts yourself |
+| 4 | [Predictions](/predictions) | The 4 assumptions that can't be removed |
 
 ---
 
@@ -125,10 +125,10 @@ H_0      = 337/5           (67.4, exact within Planck errors)
 
 ## How to Verify
 
-1. **Check the math**: Every calculation has a SymPy script in `verification/sympy/`
-2. **Read the failures**: `claims/FALSIFIED.md` lists 14 documented failures
-3. **Test the statistics**: `framework/STATISTICAL_ANALYSIS_HONEST.md` has the Monte Carlo analysis
-4. **Inspect assumptions**: `framework/IRREDUCIBLE_ASSUMPTIONS.md` lists all 4 irreducible assumptions
+1. **Check the math**: Every calculation has a SymPy script — browse them on the [Verification](/verify) page
+2. **Read the failures**: The [Honest Assessment](/publications/honest-assessment) documents 14 failures
+3. **Test the statistics**: The [Honest Assessment](/publications/honest-assessment) includes the Monte Carlo analysis
+4. **Browse predictions**: The [Predictions](/predictions) page catalogs all claims with precision data
 5. **Wait for experiments**: Dark matter at 5.11 GeV (SuperCDMS 2026-2027), r = 0.035 (CMB-S4 ~2028)
 
 ---
@@ -167,19 +167,17 @@ If these fail, the framework is wrong and we'll document why.
 
 | Document | Audience | Reading Time |
 |----------|----------|-------------|
-| Plain Language Description | General public | ~15 min |
-| FAQ | Everyone | ~5 min |
-| Thesis | Academic | ~10 min |
-| Honest Assessment | Everyone | ~15 min |
-| Technical Summary | Physicists | ~20 min |
-| Objections and Responses | Skeptics | ~15 min |
-| Physicist Summary | Physicists | ~30 min |
-| Mathematical Foundations | Mathematicians | ~60 min |
-| Interpretive Companion | Physicists | ~60 min |
-| Perspective Mathematics | Mathematicians | ~20 min |
+| [Plain Language Description](/publications/plain-language) | General public | ~15 min |
+| [FAQ](/faq) | Everyone | ~5 min |
+| [Thesis](/publications/thesis) | Academic | ~10 min |
+| [Honest Assessment](/publications/honest-assessment) | Everyone | ~15 min |
+| [Technical Summary](/publications/technical-summary) | Physicists | ~20 min |
+| [For Skeptics](/skeptics) | Skeptics | ~15 min |
+| [Physicist Summary](/publications/physicist-summary) | Physicists | ~30 min |
+| [Mathematical Foundations](/publications/math) | Mathematicians | ~60 min |
+| [Interpretive Companion](/publications/interpretive-companion) | Physicists | ~60 min |
 | AI Methodology | Developers | ~20 min |
-| Landscape Comparison | Researchers | ~15 min |
-| Executive Summary | Everyone | ~5 min |
+| [Executive Summary](/publications/executive-summary) | Everyone | ~5 min |
 
 ---
 
