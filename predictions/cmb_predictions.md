@@ -14,7 +14,7 @@ The crystallization framework predicts 12 CMB observables using **zero free para
 
 | Tier | Observable | Precision | Count |
 |------|------------|-----------|-------|
-| **EXACT** | ℓ₁, z_rec | 0% | 2 |
+| **Within 1-sigma** | ℓ₁, z_rec | 0% | 2 |
 | **Sub-0.5%** | n_s, ℓ₂, ℓ_D | 0.14-0.21% | 3 |
 | **Sub-2%** | δT/T, σ₈, ℓ₃, Y_p, D/H, Li-7 | 0.4-2% | 6 |
 | **Prediction** | r (tensor/scalar) | Below detection | 1 |
@@ -25,7 +25,7 @@ The crystallization framework predicts 12 CMB observables using **zero free para
 
 | Observable | Formula | Framework | Predicted | Measured | Error | Tier |
 |------------|---------|-----------|-----------|----------|-------|------|
-| **ℓ₁** | 2×n_c×(n_c-1) | 2×11×10 | 220 | 220 | EXACT | 1 |
+| **ℓ₁** | 2×n_c×(n_c-1) | 2×11×10 | 220 | 220 | within 1-sigma | 1 |
 | **z_rec** | 10×(n_c(n_c-1)-1) | 10×109 | 1090 | 1089.8 | 0.02% | 1 |
 | **n_s** | 1 - Im_O/200 | 193/200 | 0.965 | 0.9649 | 0.01% | 2 |
 | **ℓ₂** | ℓ₁×2n_c/(n_c-C) | 220×22/9 | 537.8 | 537.5 | 0.05% | 2 |
@@ -42,7 +42,7 @@ The crystallization framework predicts 12 CMB observables using **zero free para
 
 ## Individual Derivations
 
-### 1. First Acoustic Peak: ℓ₁ = 220 [EXACT]
+### 1. First Acoustic Peak: ℓ₁ = 220 [within 1-sigma]
 
 **Confidence**: [THEOREM] — Follows from n_c with no freedom
 
@@ -64,7 +64,7 @@ The first acoustic peak encodes the fundamental crystallization resonance:
 - Standing waves on the crystallization boundary have nodes at angular scale ℓ₁
 
 **Measured**: 220.0 ± 0.5 (Planck 2018)
-**Error**: EXACT (prediction = central value)
+**Error**: within 1-sigma (prediction matches central value)
 
 **What Would Falsify**: If ℓ₁ measured at any value other than 220.
 
@@ -72,7 +72,7 @@ The first acoustic peak encodes the fundamental crystallization resonance:
 
 ---
 
-### 2. Recombination Redshift: z_rec = 1090 [EXACT]
+### 2. Recombination Redshift: z_rec = 1090 [within 1-sigma]
 
 **Confidence**: [THEOREM] — Integer prediction from geometry
 

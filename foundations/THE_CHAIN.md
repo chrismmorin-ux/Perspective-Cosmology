@@ -194,9 +194,9 @@ The dimensionless constants of physics are ratios of {1, 2, 4, 8} and their comb
 | 1/α | 137 + 4/111 = 4² + 11² + correction | 0.27 ppm |
 | m_p/m_e | 1836 + 11/72 | 0.06 ppm |
 | cos(θ_W) | 171/194 | 3.75 ppm |
-| H₀ | 337/5 = (3⁴+4⁴)/5 | EXACT |
-| Ω_Λ | 137/200 | EXACT |
-| Ω_m | 63/200 | EXACT |
+| H₀ | 337/5 = (3⁴+4⁴)/5 | within 1-sigma |
+| Ω_Λ | 137/200 | within 1-sigma |
+| Ω_m | 63/200 | within 1-sigma |
 
 **Document**: `constants_from_dimensions.md` (TODO)
 

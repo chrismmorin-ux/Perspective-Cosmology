@@ -509,7 +509,7 @@ print(f"""
   {'Gauge group involved':<35} {'U(1)_EM (all charges)':<25} {'SU(2)_L (weak isospin)':<25}
   {'Algebraic source':<35} {'colored pNGB count':<25} {'defect space dimension':<25}
   {'Loop order':<35} {'two-loop (alpha^2)':<25} {'one-loop (alpha)':<25}
-  {'Precision':<35} {'2-loop: 0.0009 ppm (5.9 σ); 3-loop D_3=1: 0.0006 σ [CONJ]':<25} {'0.5 ppm (~0 sigma)':<25}
+  {'Precision':<35} {'2-loop: 0.0009 ppm (5.9 sigma); 3-loop D_3=1: 0.0006 sigma [CONJ]':<25} {'0.5 ppm (~0 sigma)':<25}
   {'T_3 double-trace analog':<35} {'(matches: 24/11)':<25} {'(fails: 6/11 != C_W)':<25}
 """)
 

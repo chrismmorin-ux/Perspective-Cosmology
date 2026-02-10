@@ -19,7 +19,7 @@ All new documents in this directory MUST use `TEMPLATE.md` as a starting point. 
 | `HONEST_ASSESSMENT.md` | Everyone | Candid self-evaluation — read first | ~15 min |
 | `THESIS.md` | Academic | Central claim in condensed form | ~10 min |
 | `TECHNICAL_SUMMARY.md` | Physicists | Full technical overview | ~20 min |
-| `OBJECTIONS_AND_RESPONSES.md` | Skeptics | 11 anticipated criticisms and responses | ~15 min |
+| `OBJECTIONS_AND_RESPONSES.md` | Skeptics | 14 anticipated criticisms and responses | ~15 min |
 | `PLAIN_LANGUAGE_DESCRIPTION.md` | General public | Non-specialist description | ~10 min |
 | `PHYSICIST_SUMMARY.md` | Physicists | 30-minute evaluation document | ~30 min |
 | `PEER_REVIEW_PREP.md` | Reviewers | Extended objection analysis for peer review | ~20 min |

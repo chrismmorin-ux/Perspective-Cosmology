@@ -25,7 +25,7 @@
 | Element | Status | Relevance to This Document |
 |---------|--------|---------------------------|
 | Hallucination Log (14 incidents) | CURRENT | Concrete examples of caught errors |
-| Verification infrastructure (735+ scripts) | CURRENT | Primary defense layer |
+| Verification infrastructure (736+ scripts) | CURRENT | Primary defense layer |
 | Red Team v3.0 (S330) | CURRENT | Adversarial self-assessment protocol |
 | LLM Challenge v1-v3 (S128-S261) | CURRENT | External reproducibility tests |
 
@@ -77,7 +77,7 @@ CLAIM -> Write SymPy script -> RUN script -> Confirm PASS -> THEN document
 
 The order is non-negotiable. The script is written *before* the claim is recorded, not after. This prevents the common failure mode where a plausible-looking result gets documented and then never verified.
 
-**Script standards** (enforced across 735+ scripts):
+**Script standards** (enforced across 736+ scripts):
 - Explicit assumption section listing every input with its derivation chain tag
 - Computation using exact arithmetic (`sympy.Rational`, not floating point)
 - Comparison to measured values using CODATA 2022 (`framework_constants.py`)
@@ -156,7 +156,7 @@ Every new derivation is scored:
 
 ### 3.1 Scale
 
-The project maintains **735+ verification scripts** in `verification/sympy/`, covering:
+The project maintains **736+ verification scripts** in `verification/sympy/`, covering:
 
 | Domain | Scripts | Examples |
 |--------|---------|----------|

@@ -1,3 +1,10 @@
+---
+title: 'Interpretive Companion'
+description: 'Physical interpretation and context for the mathematical framework'
+version: '1.0'
+lastUpdated: '2026-02-09'
+---
+
 # Perspective Cosmology: Interpretive Companion
 
 **Last Updated**: 2026-02-09 (Session S355)

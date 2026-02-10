@@ -326,7 +326,7 @@ Post-audit: **15-25%** (narrowed, not increased).
 | m_tau/m_mu dressed (Band A) | 1.9 ppm | S307 | Tree-to-dressed [CONJECTURE] |
 | alpha_s dressed (Band A) | 3 ppm | S307 | Tree-to-dressed [CONJECTURE] |
 | m_p/m_e: C=43/7 dressed | 0.22% | S282 | Phi_6 coefficient [CONJECTURE] |
-| Omega_m = 63/200 | EXACT | S293 | Dual-channel HS equipartition [DERIVATION] |
+| Omega_m = 63/200 | within 1-sigma | S293 | Dual-channel HS equipartition [DERIVATION] |
 | m_t(tree) = v/sqrt(2) | 0.82% | S290 | Full compositeness y_t=1 [CONJECTURE] |
 | m_H = 125.13 GeV (chain) | 0.72 sigma | S290 | y_t=1 -> lambda_H [CONJECTURE] |
 | DM mass = 5.11 GeV | untested | S314-315 | det(M) on End(R^4) [DERIVATION] |

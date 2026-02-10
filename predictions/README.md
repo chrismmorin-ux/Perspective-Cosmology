@@ -15,10 +15,10 @@ These predictions match to better than 10 parts per million or are exact to meas
 | 1/α = 137 + 4/111 | 0.27 ppm | `sub_ppm_predictions.md` |
 | m_p/m_e = 1836 + 11/72 | 0.06 ppm | `sub_ppm_predictions.md` |
 | cos(θ_W) = 171/194 | 3.75 ppm | `sub_ppm_predictions.md` |
-| H₀ = 337/5 | EXACT | `exact_predictions.md` |
-| Ω_Λ = 137/200 | EXACT | `exact_predictions.md` |
-| Ω_m = 63/200 | EXACT | `exact_predictions.md` |
-| ℓ₁ = 220 | EXACT | `exact_predictions.md` |
+| H₀ = 337/5 | within 1-sigma | `exact_predictions.md` |
+| Ω_Λ = 137/200 | within 1-sigma | `exact_predictions.md` |
+| Ω_m = 63/200 | within 1-sigma | `exact_predictions.md` |
+| ℓ₁ = 220 | within 1-sigma | `exact_predictions.md` |
 
 **Statistical significance**: Random matching probability < 0.1%
 

@@ -14,7 +14,7 @@ This mathematical framework makes **specific, falsifiable predictions** derived 
 
 ---
 
-## EXACT Predictions (Zero Free Parameters)
+## Framework Predictions (Zero Free Parameters)
 
 | Observable | Prediction | Measured | Formula |
 |------------|------------|----------|---------|

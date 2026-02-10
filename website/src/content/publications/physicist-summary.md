@@ -1,3 +1,10 @@
+---
+title: 'Summary for Physicist Evaluation'
+description: 'A 30-minute evaluation document for professional physicists'
+version: '3.0'
+lastUpdated: '2026-02-09'
+---
+
 # Perspective Cosmology: Summary for Physicist Evaluation
 
 **Last Updated**: 2026-02-09 (Session S367)

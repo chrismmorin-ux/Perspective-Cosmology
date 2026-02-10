@@ -1,3 +1,10 @@
+---
+title: 'Quickstart Guide'
+description: 'Entry point and reading order guide'
+version: '3.0'
+lastUpdated: '2026-02-09'
+---
+
 # Quick Start Guide
 
 **Last Updated**: 2026-02-09 (Session S369)

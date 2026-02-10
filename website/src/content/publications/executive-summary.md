@@ -1,3 +1,10 @@
+---
+title: 'Executive Summary'
+description: 'Two-page overview for first contact with the framework'
+version: '1.0'
+lastUpdated: '2026-02-09'
+---
+
 # Perspective Cosmology: Executive Summary
 
 **Last Updated**: 2026-02-09 (Session S357)

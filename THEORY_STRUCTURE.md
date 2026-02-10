@@ -338,7 +338,7 @@ These follow rigorously from the postulates.
 
 | Parameter | Formula | Predicted | Measured | Accuracy |
 |-----------|---------|-----------|----------|----------|
-| λ (Cabibbo) | Im_H²/(5×dim(O)) | 9/40 = 0.225 | 0.2265 | **EXACT** |
+| λ (Cabibbo) | Im_H²/(5×dim(O)) | 9/40 = 0.225 | 0.2265 | **0.66%** |
 | |V_cb| | 2/Im_O² | 2/49 = 0.0408 | 0.0408 | **~0%** |
 | **|V_ub|** | 1/(137+n_c²+n_d) | **1/262 = 0.00382** | 0.00382 | **0.08%** |
 | **δ_CKM** | π×dim(O)/(Im_H×Im_O) | **π×8/21 = 1.197 rad** | 1.196 rad | **0.07%** |
@@ -600,18 +600,18 @@ Powers of 2 (2^0, 2^1, 2^2, 2^3) may be special because 2 is the first prime.
 | PMNS sin²θ₂₃ | 4/7 | 0.10% |
 | PMNS sin²θ₁₂ | 10/33 | 0.01% |
 | PMNS sin²θ₁₃ | 1/44 | 3.2% |
-| CKM λ | 9/40 | **EXACT** |
+| CKM λ | 9/40 | **0.66%** |
 | Koide θ | π×73/99 | 0.006% |
 | Koide M | v/784 | 0.07% |
 | Higgs v | M_Pl × α^8 × √(44/7) | 0.034% |
 | Glueball ratio | 113/62 | 0.004% |
 
-### A.3 Exact Results (No Free Parameters)
-- Koide Q = 2/3 (EXACT from dim(C)/Im_H)
-- CKM λ = 9/40 = 0.225 (EXACT match)
-- Chirality = Left-handed (EXACT from T1)
-- Gauge group = U(1) × SU(2) × SU(3) (EXACT from Aut(C×H×O))
-- Fermion count = 15 per generation (EXACT)
+### A.3 Framework-Predicted Results (No Free Parameters)
+- Koide Q = 2/3 (from dim(C)/Im_H — matches measured value)
+- CKM λ = 9/40 = 0.225 (framework-predicted, measured 0.2265, 0.66%)
+- Chirality = Left-handed (from T1)
+- Gauge group = U(1) × SU(2) × SU(3) (from Aut(C×H×O))
+- Fermion count = 15 per generation (structural)
 
 **Session 87 Addition: CKM matrix COMPLETE** — |V_ub| and δ_CKM derived
 

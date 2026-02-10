@@ -8,7 +8,7 @@
 
 ## The Prediction
 
-> **CMB Hubble constant: H₀ = 337/5 = 67.4 km/s/Mpc (EXACT)**
+> **CMB Hubble constant: H₀ = 337/5 = 67.4 km/s/Mpc (within 1-sigma)**
 > **Local Hubble constant: H₀ × 13/12 = 72.9 km/s/Mpc**
 > **Tension ratio: 13/12 = 1.0833**
 
@@ -50,7 +50,7 @@ Why 5?
 - H₀ = 137/5 + O × 5 = 27.4 + 40 = 67.4 (decomposes into EM + gravitational)
 
 **Measured**: 67.4 ± 0.5 km/s/Mpc (Planck 2018 CMB)
-**Predicted**: 337/5 = 67.4 km/s/Mpc **EXACT**
+**Predicted**: 337/5 = 67.4 km/s/Mpc **(within 1-sigma)**
 
 ---
 
@@ -91,7 +91,7 @@ Result: 8.3% enhancement in local H₀.
 
 | Quantity | Formula | Predicted | Measured | Error |
 |----------|---------|-----------|----------|-------|
-| H₀ (CMB) | 337/5 | 67.4 | 67.4 ± 0.5 | **EXACT** |
+| H₀ (CMB) | 337/5 | 67.4 | 67.4 ± 0.5 | **within 1-sigma** |
 | H₀ (local) | 337/5 × 13/12 | 72.9 | 73.0 ± 1.0 | 0.14% |
 | Tension ratio | 13/12 | 1.0833 | 1.083 | **MATCHES** |
 
@@ -242,7 +242,7 @@ The scalar mode (R = 1) adds one extra "dimension's worth" of expansion to the 1
 
 The Hubble tension is a **prediction** of the framework, not a problem to solve:
 
-1. **CMB H₀ = 337/5 = 67.4**: The crystallization boundary value (EXACT)
+1. **CMB H₀ = 337/5 = 67.4**: The crystallization boundary value (within 1-sigma)
 2. **Local H₀ = 67.4 × 13/12 = 72.9**: Interior stress enhancement
 3. **Ratio = 13/12**: From (H + O + R) / (H + O) = 13/12
 

@@ -1,0 +1,267 @@
+{
+  "dimensions": [
+    { "value": 1, "algebra": "dim(R)", "meaning": "Real unit" },
+    { "value": 2, "algebra": "dim(C)", "meaning": "Complex structure" },
+    { "value": 3, "algebra": "Im(H)", "meaning": "Generation / flavor" },
+    { "value": 4, "algebra": "dim(H)", "meaning": "Quaternion / defect" },
+    { "value": 7, "algebra": "Im(O)", "meaning": "Imaginary octonion" },
+    { "value": 8, "algebra": "dim(O)", "meaning": "Octonion / color" },
+    { "value": 11, "algebra": "n_c", "meaning": "Crystal dimension" }
+  ],
+  "primes": [
+    {
+      "value": 2, "a": 1, "b": 1,
+      "algebraA": "R", "algebraB": "R",
+      "meaningA": "Real unit", "meaningB": "Real unit",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 5, "a": 1, "b": 2,
+      "algebraA": "R", "algebraB": "C",
+      "meaningA": "Real unit", "meaningB": "Complex structure",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 13, "a": 2, "b": 3,
+      "algebraA": "C", "algebraB": "H",
+      "meaningA": "Complex structure", "meaningB": "Generation / flavor",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 17, "a": 1, "b": 4,
+      "algebraA": "R", "algebraB": "H",
+      "meaningA": "Real unit", "meaningB": "Quaternion / defect",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 53, "a": 2, "b": 7,
+      "algebraA": "C", "algebraB": "O",
+      "meaningA": "Complex structure", "meaningB": "Imaginary octonion",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 73, "a": 3, "b": 8,
+      "algebraA": "H", "algebraB": "O",
+      "meaningA": "Generation / flavor", "meaningB": "Octonion / color",
+      "status": "mapped",
+      "constant": "Koide angle",
+      "formula": "theta = pi * 73/99",
+      "precision": "0.006%",
+      "physics": "Lepton mass hierarchy",
+      "interpretation": "Im(H)^2 + dim(O)^2 encodes generation + color"
+    },
+    {
+      "value": 113, "a": 7, "b": 8,
+      "algebraA": "O", "algebraB": "O",
+      "meaningA": "Imaginary octonion", "meaningB": "Octonion / color",
+      "status": "unmapped",
+      "constant": null, "formula": null, "precision": null
+    },
+    {
+      "value": 137, "a": 4, "b": 11,
+      "algebraA": "H", "algebraB": "Crystal",
+      "meaningA": "Quaternion / defect", "meaningB": "Crystal dimension",
+      "status": "mapped",
+      "constant": "Fine structure constant",
+      "formula": "1/alpha ~ 137.036 = n_d^2 + n_c^2 + corrections",
+      "precision": "0.026% from integer",
+      "physics": "Electromagnetic coupling",
+      "interpretation": "dim(H)^2 + n_c^2 bridges spacetime to crystal"
+    }
+  ],
+  "crystallization": {
+    "orderParameter": {
+      "symbol": "\u03b5",
+      "groundState": "\u03b5* = \u03b1\u00b2 \u2248 10\u207b\u2075",
+      "states": [
+        { "eps": "0", "label": "Pure Crystal", "physics": "No physics. Pre-Big-Bang.", "color": "#bc8cff" },
+        { "eps": "\u226a \u03b5*", "label": "Near-Symmetric", "physics": "Inflation era", "color": "#58a6ff" },
+        { "eps": "\u2248 \u03b5*", "label": "Ground State", "physics": "Normal physics (our universe)", "color": "#3fb950" },
+        { "eps": "> \u03b5*", "label": "Excited", "physics": "High-energy processes", "color": "#d29922" },
+        { "eps": "\u2192 0", "label": "De-crystallization", "physics": "Black hole singularity", "color": "#f85149" }
+      ]
+    },
+    "types": [
+      {
+        "id": "C1", "name": "Cosmic Crystallization",
+        "direction": "Forward", "scale": "Universe", "mechanism": "Potential-driven",
+        "color": "#1565C0", "borderColor": "#42A5F5",
+        "before": "\u03b5 = 0", "after": "\u03b5 = \u03b5*",
+        "summary": "The Big Bang as nucleation from pristine crystal to imperfect ground state.",
+        "keyFormula": "V(\u03b5) = V\u2080(1 \u2212 \u03b5\u00b2/\u03bc\u00b2)",
+        "signatures": [
+          { "observable": "n_s", "predicted": "0.965", "measured": "0.9649 \u00b1 0.0042", "error": "<1\u03c3" },
+          { "observable": "r", "predicted": "0.035", "measured": "<0.036", "error": "Within limit" },
+          { "observable": "N (e-folds)", "predicted": "52", "measured": "45\u201370", "error": "Within range" }
+        ],
+        "scripts": 3, "testsPass": 27, "testsTotal": 29,
+        "confidence": "derivation"
+      },
+      {
+        "id": "C2", "name": "Symmetry Breaking",
+        "direction": "Forward", "scale": "Universe\u2013Particle", "mechanism": "Symmetry",
+        "color": "#6A1B9A", "borderColor": "#AB47BC",
+        "before": "SO(11)", "after": "SO(4)\u00d7SU(3)",
+        "summary": "SO(11) breaks into spacetime \u00d7 internal via division algebra boundaries.",
+        "keyFormula": "41 Goldstones: 28 + 7 + 6 + 2 \u2212 2(adj)",
+        "signatures": [
+          { "observable": "Spacetime dim", "predicted": "4", "measured": "4", "error": "0%" },
+          { "observable": "Color group", "predicted": "SU(3)", "measured": "SU(3)", "error": "Exact" },
+          { "observable": "Goldstones", "predicted": "41", "measured": "(structural)", "error": "\u2014" }
+        ],
+        "scripts": 11, "testsPass": 171, "testsTotal": 172,
+        "confidence": "derivation"
+      },
+      {
+        "id": "C3", "name": "Tilt Dynamics",
+        "direction": "Forward+Osc", "scale": "All", "mechanism": "Potential",
+        "color": "#E65100", "borderColor": "#FF8F00",
+        "before": "Tilt fluctuations", "after": "Equilibrium",
+        "summary": "The tilt matrix settles into its ground state via Mexican hat potential.",
+        "keyFormula": "W = \u2212a g(\u03c6)|\u03b5|\u00b2 + b|\u03b5|\u2074",
+        "signatures": [
+          { "observable": "n_d = 4 (from 2^n = n\u00b2)", "predicted": "4", "measured": "4", "error": "0%" },
+          { "observable": "137 = n_d\u00b2 + n_c\u00b2", "predicted": "137", "measured": "1/\u03b1", "error": "Exact" }
+        ],
+        "scripts": 7, "testsPass": 64, "testsTotal": 64,
+        "confidence": "derivation"
+      },
+      {
+        "id": "C4", "name": "Quantum Measurement",
+        "direction": "Forward", "scale": "Quantum", "mechanism": "Noise-driven",
+        "color": "#00838F", "borderColor": "#4DD0E1",
+        "before": "Superposition", "after": "Eigenstate",
+        "summary": "Wavefunction collapse as crystallization: Born rule emerges from geometry.",
+        "keyFormula": "P(k) = |c_k|\u00b2 (Born rule derived)",
+        "signatures": [
+          { "observable": "Born rule", "predicted": "P = |c|\u00b2", "measured": "Confirmed", "error": "0%" },
+          { "observable": "Bell/CHSH", "predicted": "2\u221a2", "measured": "2\u221a2", "error": "0%" },
+          { "observable": "Born violations", "predicted": "~ \u03b1\u00b2 \u2248 10\u207b\u2075", "measured": "Not tested", "error": "Prediction" }
+        ],
+        "scripts": 9, "testsPass": 113, "testsTotal": 113,
+        "confidence": "derivation"
+      },
+      {
+        "id": "C5", "name": "Black Holes",
+        "direction": "Reverse", "scale": "Astrophysical", "mechanism": "Potential",
+        "color": "#B71C1C", "borderColor": "#EF5350",
+        "before": "\u03b5 = \u03b5*", "after": "\u03b5 \u2192 0",
+        "summary": "Black holes as de-crystallization: tilt returns to zero at singularity.",
+        "keyFormula": "S = A/(4 L_Pl\u00b2), r_crit = 137 L_Pl",
+        "signatures": [
+          { "observable": "S_BH = A/4", "predicted": "A/(4 L_Pl\u00b2)", "measured": "Standard", "error": "0%" },
+          { "observable": "T_Hawking", "predicted": "Standard", "measured": "Standard", "error": "0%" },
+          { "observable": "GW echoes", "predicted": "None (R ~ 0)", "measured": "LIGO non-detect", "error": "Consistent" }
+        ],
+        "scripts": 5, "testsPass": 60, "testsTotal": 60,
+        "confidence": "derivation"
+      },
+      {
+        "id": "C6", "name": "Forces / Boundaries",
+        "direction": "Forward", "scale": "Particle\u2013Astro", "mechanism": "Boundary",
+        "color": "#2E7D32", "borderColor": "#66BB6A",
+        "before": "Vacuum fluctuations", "after": "Reduced modes",
+        "summary": "Gauge forces as boundary-induced crystallization. Casimir, QCD confinement.",
+        "keyFormula": "F = \u2212\u03c0\u00b2/(240a\u2074), \u221a\u03c3 = 8m_p/17",
+        "signatures": [
+          { "observable": "Casimir force", "predicted": "Standard", "measured": "Confirmed", "error": "0%" },
+          { "observable": "sin\u00b2\u03b8_W(eff)", "predicted": "28/121", "measured": "0.23153", "error": "\u22120.78\u03c3" },
+          { "observable": "b\u2080(SU(3), N_f=6)", "predicted": "7 = Im_O", "measured": "7", "error": "0%" },
+          { "observable": "\u221a\u03c3", "predicted": "441.5 MeV", "measured": "~440 MeV", "error": "0.35%" }
+        ],
+        "scripts": 7, "testsPass": 109, "testsTotal": 112,
+        "confidence": "conjecture"
+      },
+      {
+        "id": "C7", "name": "Cosmological Phases",
+        "direction": "Forward", "scale": "Cosmological", "mechanism": "Potential",
+        "color": "#4527A0", "borderColor": "#7E57C2",
+        "before": "Post-inflation", "after": "Phase transitions",
+        "summary": "Cosmological evolution as sequential crystallization through g(\u03c6) epochs.",
+        "keyFormula": "\u03a9_\u039b = 0.685, g(\u03c6_CMB) = 5/6",
+        "signatures": [
+          { "observable": "\u03a9_\u039b", "predicted": "0.685", "measured": "0.685 \u00b1 0.007", "error": "<1\u03c3" },
+          { "observable": "n_s", "predicted": "0.965", "measured": "0.9649", "error": "<1\u03c3" },
+          { "observable": "sin\u00b2\u03b8_W(M_Z)", "predicted": "0.231", "measured": "0.23122", "error": "0.1%" },
+          { "observable": "\u2113\u2082 (\u03c6_odd = 3/11)", "predicted": "~537", "measured": "~537", "error": "~0.4%" }
+        ],
+        "scripts": 7, "testsPass": 53, "testsTotal": 55,
+        "confidence": "conjecture"
+      },
+      {
+        "id": "C8", "name": "Photon Emission",
+        "direction": "Forward", "scale": "Quantum/Particle", "mechanism": "Emission",
+        "color": "#F9A825", "borderColor": "#FDD835",
+        "before": "Higher tilt", "after": "Lower tilt + photon",
+        "summary": "Photon emission as C-channel crystallization step. Produces \u03b1 = 1/137.",
+        "keyFormula": "\u03b1\u207b\u00b9 = 137 + 4/111 = n_d\u00b2 + n_c\u00b2 + n_d/\u03a6\u2086(n_c)",
+        "signatures": [
+          { "observable": "\u03b1\u207b\u00b9 (integer part)", "predicted": "137 = N_I", "measured": "137", "error": "Exact" },
+          { "observable": "\u03b1(Thomson)", "predicted": "111/15211", "measured": "1/137.036...", "error": "~0.3 ppm" }
+        ],
+        "scripts": 3, "testsPass": 47, "testsTotal": 47,
+        "confidence": "conjecture"
+      },
+      {
+        "id": "C9", "name": "Mass Freezing",
+        "direction": "Static", "scale": "Particle", "mechanism": "Symmetry",
+        "color": "#AD1457", "borderColor": "#F06292",
+        "before": "Massless", "after": "Massive particles",
+        "summary": "Particle masses freeze in via EWSB crystallization. 15 fermions, 3 generations.",
+        "keyFormula": "m_H = v \u00d7 121/238 = 125.22 GeV",
+        "signatures": [
+          { "observable": "Fermions/gen", "predicted": "15", "measured": "15", "error": "0%" },
+          { "observable": "Generations", "predicted": "3", "measured": "3", "error": "0%" },
+          { "observable": "m_p/m_e", "predicted": "1836 + 11/72", "measured": "1836.153", "error": "19 ppm" },
+          { "observable": "m_H", "predicted": "125.22 GeV", "measured": "125.25 GeV", "error": "0.057%" },
+          { "observable": "y_t = 120/121", "predicted": "0.9917", "measured": "0.9916", "error": "145 ppm" }
+        ],
+        "scripts": 0, "testsPass": 0, "testsTotal": 0,
+        "confidence": "conjecture"
+      }
+    ],
+    "chains": [
+      {
+        "name": "Universe History",
+        "sequence": ["C1", "C2", "C7", "C3"],
+        "description": "Big Bang \u2192 symmetry breaking \u2192 cosmological phases \u2192 tilt dynamics",
+        "color": "#58a6ff"
+      },
+      {
+        "name": "Quantum Measurement",
+        "sequence": ["C4", "C8"],
+        "description": "Collapse selects eigenstate \u2192 photon emission",
+        "color": "#3fb950"
+      },
+      {
+        "name": "Stellar Collapse",
+        "sequence": ["C1", "C7", "C3", "C5"],
+        "description": "Forward crystallization \u2192 black hole de-crystallization",
+        "color": "#f85149"
+      },
+      {
+        "name": "Collider Process",
+        "sequence": ["C8", "C6", "C4", "C8"],
+        "description": "Inject \u2192 confine \u2192 collapse \u2192 emit",
+        "color": "#d29922"
+      },
+      {
+        "name": "EWSB",
+        "sequence": ["C2", "C9", "C8"],
+        "description": "Eigenvalue partitioning \u2192 mass freeze \u2192 Higgs emission",
+        "color": "#bc8cff"
+      },
+      {
+        "name": "Particle Creation",
+        "sequence": ["C7", "C9", "C8"],
+        "description": "Phase transition \u2192 mass freeze \u2192 emission",
+        "color": "#39d2c0"
+      }
+    ]
+  }
+}

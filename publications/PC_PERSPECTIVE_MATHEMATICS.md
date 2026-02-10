@@ -1,10 +1,10 @@
 # Perspective Cosmology: The Mathematics of Perspective
 
-**Last Updated**: 2026-02-09 (Session S364)
-**Version**: 0.6 (Chunk 2 of 3)
+**Last Updated**: 2026-02-09 (Session S365)
+**Version**: 1.0
 **Purpose**: Self-contained mathematical treatment of perspective applied to its own incompleteness
 **Audience**: Mathematicians and mathematical physicists
-**Status**: IN PROGRESS (Sections 1-4 complete; Sections 5-6 pending)
+**Status**: COMPLETE (6 sections, 185/185 verification tests PASS)
 **Companion Document**: `PC_MATHEMATICAL_FOUNDATIONS.md` (the V_Crystal development)
 
 ---
@@ -418,12 +418,179 @@ The one direction that perspective can never access is the one direction without
 
 ---
 
-<!-- CHUNK 2 END — Sections 5-6 to be written in subsequent session -->
-<!-- Chunk 3: Sections 5 (Epistemic Boundary) and 6 (Relationship to V_Crystal Mathematics) + final review -->
+# Section 5. The Epistemic Boundary
+
+Sections 1-4 established a collection of mathematical results ranging from rigorous theorems to derivation-level arguments. This section classifies every result by confidence level, identifies the weakest links in the logical chain, and draws the boundary between what the mathematics establishes and what it does not.
+
+## 5.1 Classification of Results
+
+### Theorems (Rigorous)
+
+The following results are mathematical theorems — they follow from the stated axioms by standard methods, with no gaps in the reasoning. Each has been verified computationally.
+
+| Label | Name | Statement (abbreviated) | Script |
+|-------|------|------------------------|--------|
+| P.1 | Symmetry Breaking | $V = V_\pi \oplus V_\pi^\perp$ | `evaluation_induced_perspective.py` |
+| THM_0410 | Self-Inaccessibility | $\pi(v) = 0$ for all $v \in G_\pi$ | `self_inaccessibility_proof.py` |
+| THM_04A7 | Self-Model Incompleteness | $M_\pi$ cannot represent structure of $G_\pi$ | `self_model_incompleteness.py` |
+| THM_04AC | Evaluation-Induced Perspective | Perspectives exist iff $\dim \geq 2$ | `evaluation_induced_perspective.py` |
+| 2.2 | Finite Termination | Every tower terminates in finitely many steps | `recursive_gap_tower.py` |
+| 2.3 (THM_04B0) | Universal Termination | All 512 towers from $\dim = 11$ terminate at gap $\dim = 1$ | `recursive_gap_tower.py` |
+| 2.6 (structure) | DA Cascade Structure | With rank $n_d = 4$: gaps are $7, 3, 1$ | `recursive_gap_tower.py` |
+| 2.7 | Dimensional Conservation | $4 + 4 + 2 + 1 = 11$; $7 + 3 + 1 = 11$ | `recursive_gap_tower.py` |
+| 2.8 | Shrinking Peek | Terminal gap $= 1/n_c$ of $V$ | `recursive_gap_tower.py` |
+| 2.11 | Level 2 Rank | At $\dim = 3$, rank $\in \{1, 2\}$; both terminate at gap 1 | `recursive_gap_tower.py` |
+| 3.2 | Half-Negation | $i^2 = -1$; $\langle i \rangle = \mathbb{Z}_4$ | `imc_irreducible_element.py` |
+| 3.3 | Self-Ejection | $\text{Im} \times \text{Im} \to \text{Re}$ | `imc_irreducible_element.py` |
+| 3.4 | $\mathbb{Z}_2$ Indistinguishability | $\text{Aut}(\mathbb{C}/\mathbb{R}) = \mathbb{Z}_2$; $i, -i$ algebraically indistinguishable | `imc_irreducible_element.py` |
+| 3.5 | Phase Unitarity | $|e^{i\theta}|^2 = 1$ always | `imc_irreducible_element.py` |
+| 3.6 | Lie Algebra Generation | $\exp: \text{Im}(\mathbb{C}) \to U(1)$; $\pi_1(U(1)) = \mathbb{Z}$ | `imc_irreducible_element.py` |
+| 4.1 (THM_04B1a) | Permanent Inaccessibility | $\dim(\text{Im}(\mathbb{C})) = 1 < 2$: no perspective possible | `imc_necessity_consequences.py` |
+| 4.2 (THM_04B1b1) | Unitarity Requires $i$ | $e^{-isH}$ unitary; $e^{-sH}$ not | `imc_necessity_consequences.py` |
+| 4.3 (THM_04B1b2) | Uncertainty Requires $i$ | Robertson bound trivial over $\mathbb{R}$ | `imc_necessity_consequences.py` |
+| 4.4 (THM_04B1b3) | Interference Requires $i$ | Cross term $2\cos\theta$ requires continuous phase | `imc_necessity_consequences.py` |
+| 4.5 | Non-Removability | Removing $\text{Im}(\mathbb{C})$ collapses all three simultaneously | `imc_necessity_consequences.py` |
+| 4.6 | Uniqueness of $\text{Im}(\mathbb{C})$ | Only $\dim(\text{Im}) = 1$ among division algebras | `imc_necessity_consequences.py` |
+
+### Derivations (Sketch-Level)
+
+These results have clear arguments but contain gaps — either an axiom's applicability at a new level requires justification, or the argument invokes a principle (CCP, maximality) whose force is not fully formalized.
+
+| Label | Name | Gap | Confidence |
+|-------|------|-----|------------|
+| 2.6 (rank selection) | DA Cascade Rank | CCP maximality selects $k = 4$ over $k = 2, 1$ | [DERIVATION] |
+| 2.9 | Level 0 Rank | $G_2$ irreducibility eliminates $k = 2$; CCP selects $k = 4$ | [DERIVATION] |
+| 2.10 | Level 1 Rank | Frobenius inheritance at meta-levels; CCP maximality | [DERIVATION] |
+| 2.13 | Top-Down = Bottom-Up | Identification of gap sequence with CD cascade | [DERIVATION] |
+| 3.8 (THM_04B2) | The Seed | CCP forcing CD extension at each step | [DERIVATION] |
+
+### Conjectures
+
+| Label | Name | Status | Confidence |
+|-------|------|--------|------------|
+| 2.8 (Tower B) | Meta-Theory Tower | Requires framework to encode arithmetic; Godel applies | [CONJECTURE] |
+| 2.12 | AXM_0117 at meta-levels | Maximality at each tower level is assumed, not proven | [CONJECTURE] |
+
+### Beyond Scope
+
+**Consciousness.** The mathematics of Section 4 — that $\text{Im}(\mathbb{C})$ is permanently inaccessible to perspective, yet necessary for perspective to function — has an obvious resonance with philosophical discussions of consciousness and the "hard problem." This document makes no such claim. The mathematics stands on its own. The paradox of Section 4.7 is a mathematical statement about projections on finite-dimensional inner product spaces. It does not require, imply, or benefit from any interpretation involving consciousness.
+
+## 5.2 The Weakest Links
+
+Three assumptions carry disproportionate weight in the logical chain:
+
+**Link 1: CCP forcing the Cayley-Dickson cascade (AXM_0120).** The Consistency-Completeness Principle asserts that $V$ contains all consistent algebraic structure. This is the engine that drives $\mathbb{C} \to \mathbb{H} \to \mathbb{O}$ in the seed argument (Theorem 3.8) and forces $n_c = 11$. The axiom is well-defined, but its *scope* is debatable: does "all consistent structure" necessarily include the next Cayley-Dickson double? If CCP is weakened to require only existing structures (not their extensions), the cascade does not proceed, and $n_c$ is not forced. **Without CCP, the tower still terminates at $\dim = 1$ (Theorem 2.3), but the specific identification of gaps with division algebra imaginary parts depends on $n_c = 11$, which depends on CCP.**
+
+**Link 2: Maximality at meta-levels (AXM_0117 applied recursively).** The rank selection at Levels 0 and 1 (Theorems 2.9-2.10) invokes maximality: among valid ranks $\{1, 2, 4\}$, CCP selects $k = 4$. Without maximality, alternative cascades exist (e.g., $11 \to 10 \to 9 \to \cdots \to 2 \to 1$). But by Theorem 2.3, all alternatives still terminate at $\dim = 1$. Maximality selects the *specific* cascade; the terminal result is universal.
+
+**Link 3: The bridge from "dimension 1" to "$\text{Im}(\mathbb{C})$ with all its properties."** The tower proves that the terminal gap has dimension 1. The identification of this 1-dimensional space with $\text{Im}(\mathbb{C})$ — rather than an arbitrary copy of $\mathbb{R}$ — rests on the Cayley-Dickson structure forced by CCP. If the gap inherits division algebra structure from $V$, it is $\text{Im}(\mathbb{C})$; if it is merely an abstract 1-dimensional subspace, the five properties of Section 3 do not follow.
+
+**Remark 5.1 (Hierarchy of Claims).** The results form a strict hierarchy of certainty:
+
+$$\underbrace{\text{Terminal gap has }\dim = 1}_{\text{[THEOREM]}} \;\supset\; \underbrace{\text{Terminal gap is Im}(\mathbb{C})}_{\text{[DERIVATION]}} \;\supset\; \underbrace{\text{Specific cascade is } 7 \to 3 \to 1}_{\text{[DERIVATION]}}$$
+
+Each layer depends on all previous layers plus additional assumptions. The outermost claim (dim = 1) is the most robust; the innermost (specific cascade) is the most assumption-dependent.
+
+## 5.3 The Derivation vs. Discovery Problem
+
+The central meta-question of the framework: **is this mathematics discovering pre-existing structure, or constructing it?**
+
+CCP (AXM_0120) asserts that all consistent structure exists. This is a *completeness axiom* — it closes the crystal under algebraic consistency. The consequences (division algebra cascade, $n_c = 11$, five properties of $\text{Im}(\mathbb{C})$) follow deductively once CCP is granted. But CCP itself is not derived; it is posited. The question becomes: is CCP a reasonable axiom, or an unreasonable one?
+
+Arguments that CCP is reasonable:
+- It is analogous to the axiom of completeness for $\mathbb{R}$ (which asserts the existence of all least upper bounds)
+- It is weaker than arbitrary existence claims: only *consistent* structure is posited
+- Its consequences are falsifiable: if $n_c = 11$ leads to contradictions, CCP is wrong
+
+Arguments that CCP may be too strong:
+- It conflates mathematical consistency with physical existence
+- "All consistent algebraic structure" is a large ontological commitment
+- The same principle applied to other base axioms might produce different consequences
+
+This document does not resolve the derivation vs. discovery problem. It states it clearly as an open question. The mathematics of Sections 1-4 follows from the axioms; whether the axioms describe reality is a separate question that this document does not address.
+
+## 5.4 What Would Falsify the Mathematical Claims
+
+The theorems of Sections 1-4 are mathematical truths conditional on the axioms. They cannot be "falsified" experimentally. But they can be checked:
+
+**Computational falsification.** Every theorem has a verification script. Finding a bug in any script — a test that should fail but passes, or a counterexample to a stated universal — would invalidate the corresponding theorem. All 185 tests across 7 scripts currently pass.
+
+**Logical falsification.** Finding an error in a proof — a step that does not follow, a hidden assumption, an incorrect application of a standard theorem — would invalidate the result. Every proof has been reviewed for logical correctness.
+
+**Axiom falsification.** Finding that the axioms (C1-C4, CCP) are mutually inconsistent would invalidate the entire framework. No inconsistency has been found, but the axiom system has not been formally verified (e.g., by a proof assistant).
+
+**What cannot be falsified here.** Whether the mathematics of perspective corresponds to physics is not a mathematical question. The companion paper (MF) derives physical predictions; those predictions are experimentally falsifiable. This document's mathematics is independent of whether those predictions hold.
 
 ---
 
-## Verification Summary (Sections 1-4)
+# Section 6. Relationship to V_Crystal Mathematics
+
+## 6.1 Complementary Directions
+
+The companion paper (*Mathematical Foundations*, hereafter MF) follows V_Crystal **forward**: from axioms through division algebra classification, Grassmannian geometry, crystallization dynamics, gauge group emergence, and numerical predictions across 20 sections and 4 appendices. It answers: **given $V$ with $n_c = 11$ and a perspective with $n_d = 4$, what follows?**
+
+This document follows perspective **inward**: it asks what happens when perspective examines its own blind spot. The answer is a three-level tower whose gaps trace the division algebras in reverse, terminating at $\text{Im}(\mathbb{C})$ — a single direction that is both necessary and permanently inaccessible. It answers: **what can perspective learn about itself, and what can it never learn?**
+
+The two directions are not redundant. MF builds the mathematical stage; this document examines the act of looking. MF derives consequences from the crystal's structure; this document derives consequences from perspective's limitations.
+
+## 6.2 Cross-Reference Map
+
+| This Document | MF Section | Connection |
+|---------------|------------|------------|
+| **1.1** Primitives | **1** Primitives and Axioms | Same axioms: C1-C4, P1-P4, CCP (AXM_0120) |
+| **1.3** Symmetry Breaking (P.1) | **1.4** Perspective axioms | Same decomposition $V = V_\pi \oplus V_\pi^\perp$ |
+| **1.5** Evaluation Map (THM_04AC) | **7** Evaluation Map | Same theorem; MF emphasizes rank selection, this document emphasizes dim $\geq 2$ |
+| **2.2** Recursive Tower | — | **New**: recursive self-examination not in MF |
+| **2.3** Universal Termination (THM_04B0) | — | **New**: exhaustive 512-path enumeration not in MF |
+| **2.4** Division Algebra Cascade | **2** DA Classification | Gap dims $= \text{Im}(\mathbb{O}), \text{Im}(\mathbb{H}), \text{Im}(\mathbb{C})$; MF classifies DAs, this document finds them as gaps |
+| **2.5** Dimensional Conservation | **3.1** Crystal Dimension ($n_c = 11$) | Same identity $1 + 3 + 7 = 11$; different derivation routes |
+| **2.6** Meta-Level Ranks | **3.2** Perspective Dimension ($n_d = 4$) | Frobenius constraint at each tower level |
+| **2.7** Top-Down = Bottom-Up | **2.2** Cayley-Dickson Boundary | Hurwitz termination as CD stopping criterion |
+| **3.2-3.6** Five Properties of $\text{Im}(\mathbb{C})$ | **3.3** Scalar Field ($\mathbb{F} = \mathbb{C}$) | MF proves $\mathbb{F} = \mathbb{C}$; this document characterizes $\text{Im}(\mathbb{C})$ structurally |
+| **3.8** The Seed (THM_04B2) | **3.1** $n_c$ forcing | Same conclusion ($n_c = 11$) from opposite starting point |
+| **4.1** Permanent Inaccessibility | — | **New**: structural impossibility not in MF |
+| **4.2** Unitarity Requires $i$ | **18** Hilbert Space Structure | MF derives Hilbert space; this document proves $i$ is essential |
+| **4.3-4.4** Uncertainty and Interference | **18.4** Born Rule | MF derives the Born rule; this document shows $i$ is the mechanism |
+| **4.5** Non-Removability | — | **New**: all-or-nothing collapse not in MF |
+
+## 6.3 What This Document Adds
+
+Five contributions are entirely absent from MF:
+
+1. **The recursive gap tower (Tower A).** MF uses the division algebras as given (forced by CCP + Hurwitz). This document shows that recursive self-examination *discovers* them, in reverse order, as successive blind spots.
+
+2. **The self-referential analysis.** MF asks "what does the crystal contain?" This document asks "what can a perspective learn about the crystal, and about itself?" The answer — that self-knowledge is structurally limited — is a new result.
+
+3. **The paradox (Remark 4.7).** The precise statement that $\text{Im}(\mathbb{C})$ is simultaneously necessary for perspective and permanently inaccessible to it does not appear in MF. It is a consequence of combining MF's $\mathbb{F} = \mathbb{C}$ theorem with this document's inaccessibility theorem.
+
+4. **The seed argument (Theorem 3.8).** MF builds $n_c = 11$ from the top: CCP forces all division algebras, their imaginary parts span $V$. The seed argument builds from the bottom: $\text{Im}(\mathbb{C})$ alone, plus CCP, forces $n_c = 11$ and $n_d = 4$. These are the same result, but the seed formulation reveals that a single imaginary direction contains the entire framework in embryo.
+
+5. **The epistemic boundary (Section 5).** MF includes confidence tags on individual theorems but does not contain a systematic classification of what is proven, what is derived, and what is conjectured. This document's Section 5 provides that classification for the perspective-specific results.
+
+## 6.4 Theorem Correspondence
+
+| This Document | MF Equivalent | Relationship |
+|---------------|---------------|-------------|
+| P.1 (Symmetry Breaking) | MF 1.4 (Perspective def) | Identical |
+| THM_04AC (Eval Map) | MF Theorem 7.1 | Identical; different emphasis |
+| THM_04B0 (Universal Termination) | — | No MF equivalent |
+| THM_04B1a (Inaccessibility) | — | No MF equivalent |
+| THM_04B1b (Necessity) | MF Theorem 3.5 ($\mathbb{F} = \mathbb{C}$) | THM_04B1b explains *why* $\mathbb{F} = \mathbb{C}$ matters |
+| THM_04B2 (Seed) | MF Theorem 3.1 ($n_c = 11$) | Same conclusion, reverse direction |
+
+## 6.5 Reading Order
+
+For a reader encountering both documents:
+
+**Option A (Forward then Inward).** Read MF first (axioms $\to$ predictions), then this document (perspective $\to$ paradox). This is the natural order: understand what the framework derives, then understand why the derivation has an irreducible limit.
+
+**Option B (Inward then Forward).** Read this document first (perspective, tower, $\text{Im}(\mathbb{C})$), then MF (the full development). This order foregrounds the conceptual core — that perspective necessarily has blind spots, and these blind spots are the division algebras — before developing the consequences.
+
+Either order is self-contained. Cross-references are provided in both directions.
+
+---
+
+## Verification Summary
 
 | Script | Tests | Status | Sections | What It Verifies |
 |--------|-------|--------|----------|------------------|
@@ -435,7 +602,7 @@ The one direction that perspective can never access is the one direction without
 | `imc_irreducible_element.py` | 67/67 | PASS | 3 | Five properties, seed argument, tower universality |
 | `imc_necessity_consequences.py` | 46/46 | PASS | 4 | Necessity of $\text{Im}(\mathbb{C})$ for QM features |
 
-**Total for Sections 1-4**: 185/185 PASS
+**Total**: 185/185 PASS across 7 scripts. Sections 5-6 are meta-analysis and cross-referencing; no new computational claims are made.
 
 ---
 

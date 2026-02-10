@@ -1,3 +1,10 @@
+---
+title: 'The Thesis: Physics as Mathematical Necessity'
+description: 'Central claim of the framework — a 5-minute overview'
+version: '3.0'
+lastUpdated: '2026-02-09'
+---
+
 # The Thesis: Physics as Mathematical Necessity
 
 **Last Updated**: 2026-02-09 (Session S367)

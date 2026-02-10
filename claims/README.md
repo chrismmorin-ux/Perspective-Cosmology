@@ -33,10 +33,10 @@ A flexibility test (Session 104) established statistical baselines:
 
 | Claim | Formula | Precision | Notes |
 |-------|---------|-----------|-------|
-| H₀ | 337/5 = 67.4 km/s/Mpc | **EXACT** | |
-| Ω_Λ | 137/200 = 0.685 | **EXACT** | ⚠ Conflicts with 13/19 (S94) |
-| Ω_m | 63/200 = 0.315 | **EXACT** | ⚠ Conflicts with 6/19 (S94) |
-| ℓ₁ (CMB) | 220 | **EXACT** | |
+| H₀ | 337/5 = 67.4 km/s/Mpc | **within 1-sigma** | |
+| Ω_Λ | 137/200 = 0.685 | **within 1-sigma** | ⚠ Conflicts with 13/19 (S94) |
+| Ω_m | 63/200 = 0.315 | **within 1-sigma** | ⚠ Conflicts with 6/19 (S94) |
+| ℓ₁ (CMB) | 220 | **within 1-sigma** | |
 | m_p/m_e | 1836 + 11/72 | 0.06 ppm | |
 | 1/α | 137 + 4/111 | 0.27 ppm | F=C circularity (CR-041) |
 | v/m_p | 11284/43 | 1.63 ppm | ✱ Promoted S204 |
@@ -44,7 +44,7 @@ A flexibility test (Session 104) established statistical baselines:
 | cos(θ_W) | 171/194 | 3.75 ppm | ⚠ m_W-sensitive |
 | m_μ/m_e | 8891/43 | 4.1 ppm | ✱ Promoted S205 |
 | W/Ξ⁻ | 139×7/16 | 6.35 ppm | |
-| z_rec | 10×109 | 0.02% | EXACT integer |
+| z_rec | 10×109 | 0.02% | framework-predicted integer |
 
 ---
 
@@ -143,7 +143,7 @@ Sub-10 ppm matches are individually significant. Percent-level matches gain sign
 
 ### The Framework's Honest Claim
 
-> **12 constants** at sub-10 ppm (4 EXACT, 3 with caveats) — individually remarkable
+> **12 constants** at sub-10 ppm (4 within 1-sigma, 3 with caveats) — individually remarkable
 > **16 constants** at 10-10000 ppm — possibly significant (includes Li-7 puzzle solution)
 > **~40 constants** at 0.1-5% — individually weak, collectively notable
 > **Qualitative structure** — SM gauge groups, Einstein equations, 3+1 dimensions, 3 generations
@@ -187,7 +187,7 @@ Sub-10 ppm matches are individually significant. Percent-level matches gain sign
 
 The Perspective Cosmology framework:
 
-1. **Has 12 extraordinary matches** at sub-10 ppm (4 EXACT, 3 with caveats) that deserve explanation
+1. **Has 12 extraordinary matches** at sub-10 ppm (4 within 1-sigma, 3 with caveats) that deserve explanation
 2. **Has 16 suggestive matches** at 10-10000 ppm (includes Li-7 puzzle solution and 3 demoted from Tier 1)
 3. **Has ~41 broader predictions** at 0.1-5% (individually weak, collectively coherent)
 4. **Derives qualitative structure**: SM gauge groups, Einstein equations, 3+1 spacetime, 3 generations

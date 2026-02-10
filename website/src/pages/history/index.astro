@@ -1,0 +1,411 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Project History" description="A chronological account of how Perspective Cosmology evolved — discoveries, corrections, and retractions across 370+ sessions.">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+    <h1 class="text-3xl font-bold text-white mb-3">Project History</h1>
+    <p class="text-gray-400 mb-4">How the framework evolved across 370+ AI-assisted sessions. Discoveries and retractions alike &mdash; because honest science shows its work.</p>
+    <p class="text-gray-500 text-sm mb-12">The framework was developed iteratively by a human researcher and Claude (Anthropic) working together. Session numbers (S1, S2, &hellip;) track this progression. Each session is roughly one focused conversation.</p>
+
+    <!-- Timeline legend -->
+    <div class="flex flex-wrap gap-4 text-xs mb-10">
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-accent-green"></span> Discovery / Derivation</span>
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-accent-yellow"></span> Reality Check / Audit</span>
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-400"></span> Falsification / Retraction</span>
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-brand-400"></span> Infrastructure / Methodology</span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 1: FOUNDATIONS -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S1 &ndash; S120</div>
+        <h2 class="text-xl font-bold text-white">Foundations</h2>
+      </div>
+
+      <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+
+        <!-- S77 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-red-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S77</div>
+          <h3 class="text-white font-semibold text-sm">n<sub>EW</sub> = 5 falsified (F-2)</h3>
+          <p class="text-gray-400 text-sm mt-1">An early attempt to derive electroweak dimension count as 5 was shown to be mathematically impossible given framework constraints. First major systematic falsification &mdash; establishing that the framework can rule things out, not just generate them.</p>
+        </div>
+
+        <!-- S88-90 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S88 &ndash; S90</div>
+          <h3 class="text-white font-semibold text-sm">First comprehensive constant catalog: 28 derived values</h3>
+          <p class="text-gray-400 text-sm mt-1">Quark mass ratios, PMNS mixing angles, and other quantities systematically derived for the first time. Demonstrated the framework could address multiple physics domains, not just one.</p>
+        </div>
+
+        <!-- S94-96 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S94 &ndash; S96</div>
+          <h3 class="text-white font-semibold text-sm">Cosmology breakthrough: initial &Omega;<sub>&Lambda;</sub>, &Omega;<sub>m</sub>, &Omega;<sub>b</sub></h3>
+          <p class="text-gray-400 text-sm mt-1">First framework predictions for cosmological density parameters. Later revised as understanding deepened, but this moment showed the framework might apply beyond particle physics.</p>
+        </div>
+
+        <!-- S104 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S104</div>
+          <h3 class="text-white font-semibold text-sm">Monte Carlo null model: a sobering reality check</h3>
+          <p class="text-gray-400 text-sm mt-1">A flexibility test showed that <strong class="text-white">any</strong> 7-element subset of &#123;1,&hellip;,20&#125; matches 11 physical constants at 1% precision ~80% of the time. The framework's building blocks &#123;1, 2, 4, 8&#125; are not special at percent-level. Evidence must come from sub-ppm precision and structural predictions, not rough matches.</p>
+        </div>
+
+        <!-- S115 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S115</div>
+          <h3 class="text-white font-semibold text-sm">Three cosmological parameters simultaneously: H<sub>0</sub> = 337/5, &Omega;<sub>&Lambda;</sub> = 137/200, &Omega;<sub>m</sub> = 63/200</h3>
+          <p class="text-gray-400 text-sm mt-1">All three values fall within 1&sigma; of measurement. Finding one match is easy; finding three simultaneously from the same integer inputs is harder to dismiss.</p>
+        </div>
+
+        <!-- S120 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S120</div>
+          <h3 class="text-white font-semibold text-sm">Red Team v1.0: 15&ndash;30% probability of genuine physics</h3>
+          <p class="text-gray-400 text-sm mt-1">First adversarial self-assessment. Created the formal confidence tagging system (AXIOM / THEOREM / DERIVATION / CONJECTURE / SPECULATION) still used today. Identified 10 irreducible assumptions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 2: STRUCTURE EMERGES -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S121 &ndash; S230</div>
+        <h2 class="text-xl font-bold text-white">Structure Emerges</h2>
+      </div>
+
+      <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+
+        <!-- S124 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-brand-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S124</div>
+          <h3 class="text-white font-semibold text-sm">CMB blind prediction protocol</h3>
+          <p class="text-gray-400 text-sm mt-1">Formalized pre-committed prediction criteria for CMB observables. Registered predictions for acoustic peaks and spectral parameters before comparing to data &mdash; moving from post-hoc to genuine prediction.</p>
+        </div>
+
+        <!-- S127-129 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-red-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S127 &ndash; S129</div>
+          <h3 class="text-white font-semibold text-sm">CMB higher peaks falsified (F-7), inflation formulas corrected</h3>
+          <p class="text-gray-400 text-sm mt-1">Predictions for CMB peaks &ell;<sub>4</sub>, &ell;<sub>5</sub>, &ell;<sub>6</sub> failed at 12&ndash;19% error. Framework validity boundary identified. Meanwhile, an initial hilltop inflation formula (r = 1 - n<sub>s</sub>) was falsified due to a calculation error, then restored with the correct analysis: n<sub>s</sub> = 193/200, r = 7/200.</p>
+        </div>
+
+        <!-- S138b -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S138</div>
+          <h3 class="text-white font-semibold text-sm">Blind CMB predictions succeed: 6 of 7 within 1&sigma;</h3>
+          <p class="text-gray-400 text-sm mt-1">The strongest statistical evidence to date. Pre-committed predictions for cosmological parameters including 100&Omega;<sub>b</sub>h&sup2; (0.77% precision), 100&Omega;<sub>c</sub>h&sup2; (0.34%), and n<sub>s</sub> (0.010%, best) all confirmed.</p>
+        </div>
+
+        <!-- S170 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S170</div>
+          <h3 class="text-white font-semibold text-sm">Monte Carlo confirmation: evidence is structural, not numerical</h3>
+          <p class="text-gray-400 text-sm mt-1">A full null model simulation confirmed that percent-level matches are NOT significant. The framework's evidence comes from sub-ppm precision and from deriving qualitative structures (gauge groups, spacetime dimension, QM itself).</p>
+        </div>
+
+        <!-- S185-201 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S185 &ndash; S201</div>
+          <h3 class="text-white font-semibold text-sm">Quantum Mechanics derived from axioms alone &mdash; Grade A</h3>
+          <p class="text-gray-400 text-sm mt-1">Hilbert space structure, Born rule, and the Schr&ouml;dinger equation all derived from perspective axioms without importing any quantum postulates. The framework's highest-confidence result. Status: <strong class="text-accent-green">CANONICAL</strong>.</p>
+        </div>
+
+        <!-- S194 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S194</div>
+          <h3 class="text-white font-semibold text-sm">Crystal dimension n<sub>c</sub> = 11 via two independent paths</h3>
+          <p class="text-gray-400 text-sm mt-1">The critical parameter 11 (= 4 + 7 = dim(H) + dim(Im(O))) derived through both CD closure and SO(8) triality arguments. An irreducible gap remains in the final step, honestly documented.</p>
+        </div>
+
+        <!-- S217 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S217</div>
+          <h3 class="text-white font-semibold text-sm">Democratic Bilinear Principle unifies gauge couplings</h3>
+          <p class="text-gray-400 text-sm mt-1">&xi; = 4/121 and sin&sup2;(&theta;<sub>W</sub>) = 28/121 unified via Schur's lemma applied to End(V) = 121. A single structural principle producing two previously separate results.</p>
+        </div>
+
+        <!-- S222-224 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S222 &ndash; S224</div>
+          <h3 class="text-white font-semibold text-sm">Weinberg angle: sin&sup2;(&theta;<sub>W</sub>) = 28/121</h3>
+          <p class="text-gray-400 text-sm mt-1">Derived from democratic counting on End(V) with dimension 121 = 11&sup2;. Combined with one-loop dressing: sin&sup2;(&theta;<sub>W</sub>) = 28/121 &minus; &alpha;/(4&pi;&sup2;), matching the measured value at 0.00&sigma;.</p>
+        </div>
+
+        <!-- S230 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-red-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S230</div>
+          <h3 class="text-white font-semibold text-sm">Cosmological constant sign error resolved (F-10)</h3>
+          <p class="text-gray-400 text-sm mt-1">A reported "wrong sign" for the cosmological constant was traced to a sign convention error in the GR analysis. The sign is now correct; the ~10<sup>111</sup> magnitude gap between prediction and observation remains unresolved.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 3: CONSOLIDATION -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S231 &ndash; S310</div>
+        <h2 class="text-xl font-bold text-white">Consolidation</h2>
+      </div>
+
+      <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+
+        <!-- S251 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S251</div>
+          <h3 class="text-white font-semibold text-sm">CCP Axiom formalized; SM gauge group derived</h3>
+          <p class="text-gray-400 text-sm mt-1">"Perfection = Maximal Consistency" axiom established, forcing F = C (complex field), n<sub>c</sub> = 11, n<sub>d</sub> = 4. From this, the Standard Model gauge group U(1)&times;SU(2)&times;SU(3) is derived through the pipeline: 121 &rarr; 55 &rarr; 18 &rarr; 12. Generation count = 3 follows from Im(H) decomposition.</p>
+        </div>
+
+        <!-- S257 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S257</div>
+          <h3 class="text-white font-semibold text-sm">Red Team v2.0: 20&ndash;35% probability</h3>
+          <p class="text-gray-400 text-sm mt-1">Second adversarial assessment. Up from 15&ndash;30%. IRA (irreducible assumptions) still at 10.</p>
+        </div>
+
+        <!-- S258-284 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S258 &ndash; S284</div>
+          <h3 class="text-white font-semibold text-sm">Yang-Mills mass gap &mdash; Grade A-</h3>
+          <p class="text-gray-400 text-sm mt-1">Glueball spectrum derived from framework with 285+ verification scripts. Large-N behavior matches: 10/3 + 2/N&sup2;. Status: <strong class="text-accent-green">CANONICAL</strong>.</p>
+        </div>
+
+        <!-- S266-283 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S266 &ndash; S283</div>
+          <h3 class="text-white font-semibold text-sm">Tree-to-dressed paradigm: three correction bands</h3>
+          <p class="text-gray-400 text-sm mt-1">Systematic treatment of radiative corrections identified three bands (A: one-loop, B: two-loop, C: sub-ppm anomalous dimension). Upgraded sub-ppm numerical matches from "coincidence" to "pattern." Band C remains the most controversial.</p>
+        </div>
+
+        <!-- S292 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S292</div>
+          <h3 class="text-white font-semibold text-sm">Emergent gauge coupling resolved (CONJ-A1)</h3>
+          <p class="text-gray-400 text-sm mt-1">Gauge coupling derived via WSR + Schur + finiteness, no longer an imported assumption. One of the key steps in reducing irreducible assumptions from 10 to 4.</p>
+        </div>
+
+        <!-- S293 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S293</div>
+          <h3 class="text-white font-semibold text-sm">&Omega;<sub>m</sub> = 63/200 derived from equipartition</h3>
+          <p class="text-gray-400 text-sm mt-1">Matter density parameter derived from dual-channel Hilbert space equipartition: 63 dual-role generators out of 200 total. A structural prediction, not a numerical fit.</p>
+        </div>
+
+        <!-- S302-304 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-brand-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S302 &ndash; S304</div>
+          <h3 class="text-white font-semibold text-sm">IRA inventory finalized: 10 &rarr; 4 irreducible assumptions</h3>
+          <p class="text-gray-400 text-sm mt-1">Six former conjectures and assumptions resolved through derivation. Remaining four: quartic ratio &rho; = c<sub>4</sub>/b<sub>4</sub> [structural, low], SSB occurs [physical], time = adjacency [physical], |&Pi;| scale [import].</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 4: EXPLORATION -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S311 &ndash; S370</div>
+        <h2 class="text-xl font-bold text-white">Dark Sector & Phenomenology</h2>
+      </div>
+
+      <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+
+        <!-- S314-315 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S314 &ndash; S315</div>
+          <h3 class="text-white font-semibold text-sm">Dark matter mass predicted: 5.11 GeV</h3>
+          <p class="text-gray-400 text-sm mt-1">m<sub>DM</sub> = m<sub>e</sub>(n<sub>c</sub>&minus;1)<sup>n<sub>d</sub></sup> = 5.11 GeV. A concrete, falsifiable prediction testable by SuperCDMS in 2026&ndash;2027. The formula uses only framework parameters (n<sub>c</sub> = 11, n<sub>d</sub> = 4) and the electron mass.</p>
+        </div>
+
+        <!-- S326 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S326</div>
+          <h3 class="text-white font-semibold text-sm">Colored pNGB mass: 1761 GeV</h3>
+          <p class="text-gray-400 text-sm mt-1">Mass of colored pseudo-Nambu-Goldstone bosons derived via Coleman-Weinberg potential. Current LHC bounds at ~1220 GeV leave a 541 GeV margin. Testable at HL-LHC (reach ~2200 GeV).</p>
+        </div>
+
+        <!-- S330 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-yellow ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S330</div>
+          <h3 class="text-white font-semibold text-sm">Red Team v3.0: 25&ndash;40% probability</h3>
+          <p class="text-gray-400 text-sm mt-1">Third and most thorough adversarial assessment. Improvement driven by: IRA reduced 10 &rarr; 4, Yang-Mills CANONICAL, dark matter sector formalized, tree-to-dressed systematics, and 14 falsified claims honestly documented. Remaining challenges: derivation vs. discovery unresolved, no external peer review, sub-ppm matches post-hoc.</p>
+        </div>
+
+        <!-- S335 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-red-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S335</div>
+          <h3 class="text-white font-semibold text-sm">Dark matter identity retracted &mdash; genuinely open</h3>
+          <p class="text-gray-400 text-sm mt-1">The proposed DM candidate (pNGB color singlet) was shown to be identical to the Higgs doublet &mdash; no leftover particle for dark matter. Sessions S317 and S322 invalidated; S323 (H-parity theorem) scope narrowed. The mass formula survives, but <strong class="text-white">what carries that mass remains an open question</strong>. An example of honest correction over ego.</p>
+        </div>
+
+        <!-- S336 -->
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-accent-green ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S336</div>
+          <h3 class="text-white font-semibold text-sm">Leptoquark phenomenology: branching ratios and LHC signatures</h3>
+          <p class="text-gray-400 text-sm mt-1">Colored pNGB representation decomposed into two multiplets: a scalar leptoquark (2, Y=1/6, 3) with &beta;<sub>eff</sub> = 0.5, and an exotic diquark. Concrete predictions for HL-LHC searches.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PHASE 5: PUBLIC RELEASE -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="text-xs font-mono text-brand-400 bg-brand-950/50 border border-brand-900/50 rounded-full px-3 py-1">S370+</div>
+        <h2 class="text-xl font-bold text-white">Public Release</h2>
+      </div>
+
+      <div class="relative border-l-2 border-gray-800 ml-3 space-y-8 pl-8">
+        <div class="relative">
+          <span class="absolute -left-[2.55rem] top-1.5 w-3 h-3 rounded-full bg-brand-400 ring-4 ring-gray-950"></span>
+          <div class="text-xs font-mono text-gray-500 mb-1">S370 &mdash; February 2026</div>
+          <h3 class="text-white font-semibold text-sm">Official public release</h3>
+          <p class="text-gray-400 text-sm mt-1">Framework published with 736+ verification scripts (99.9% run rate, ~99.8% pass rate), complete derivation chains, 14 documented falsifications, and an honest 25&ndash;40% self-assessment. Everything open, everything verifiable.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FALSIFICATION RECORD -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+        <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+        The Falsification Record
+      </h2>
+      <p class="text-gray-400 text-sm mb-6">Good science shows its failures. These are the framework's documented falsifications, deprecations, and withdrawals.</p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-800">
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">ID</th>
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Claim</th>
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Error</th>
+              <th class="text-left text-gray-400 font-medium py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-300">
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-1</td><td class="py-2 pr-4">sin&sup2;(&theta;<sub>W</sub>) = 2/25</td><td class="py-2 pr-4 text-gray-500">65% error</td><td class="py-2 text-red-400">Falsified</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-2</td><td class="py-2 pr-4">n<sub>EW</sub> = 5</td><td class="py-2 pr-4 text-gray-500">Mathematically impossible</td><td class="py-2 text-red-400">Falsified</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-3</td><td class="py-2 pr-4">&alpha; at GUT scale</td><td class="py-2 pr-4 text-gray-500">Framework only works at low energy</td><td class="py-2 text-red-400">Falsified</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-5</td><td class="py-2 pr-4">sin&sup2;(&theta;<sub>W</sub>) = 3/8 at GUT</td><td class="py-2 pr-4 text-gray-500">Imported, not derived</td><td class="py-2 text-red-400">Falsified</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-6</td><td class="py-2 pr-4">r = 1 &minus; n<sub>s</sub> (initial)</td><td class="py-2 pr-4 text-gray-500">&phi;<sub>CMB</sub> error; corrected</td><td class="py-2 text-accent-yellow">Corrected</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-7</td><td class="py-2 pr-4">CMB higher peaks &ell;<sub>4,5,6</sub></td><td class="py-2 pr-4 text-gray-500">12&ndash;19% error</td><td class="py-2 text-red-400">Falsified</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-red-400">F-10</td><td class="py-2 pr-4">CC sign "wrong"</td><td class="py-2 pr-4 text-gray-500">Sign convention error</td><td class="py-2 text-accent-yellow">Corrected</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 font-mono text-gray-500">D-1&ndash;4</td><td class="py-2 pr-4">Various deprecated claims</td><td class="py-2 pr-4 text-gray-500">Superseded by better derivations</td><td class="py-2 text-gray-500">Deprecated</td></tr>
+            <tr><td class="py-2 pr-4 font-mono text-gray-500">W-1</td><td class="py-2 pr-4">DM = pNGB color singlet</td><td class="py-2 pr-4 text-gray-500">Singlet = Higgs doublet</td><td class="py-2 text-gray-500">Withdrawn</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- VERIFICATION GROWTH -->
+    <!-- ============================================================ -->
+    <section class="mb-16">
+      <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-400 rounded-full"></span>
+        Verification Infrastructure Growth
+      </h2>
+      <p class="text-gray-400 text-sm mb-6">Every claim backed by computation. Script count over time:</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-white font-mono">~50</div>
+          <div class="text-xs text-gray-500 mt-1">S120</div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-white font-mono">~100</div>
+          <div class="text-xs text-gray-500 mt-1">S170</div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-white font-mono">~300</div>
+          <div class="text-xs text-gray-500 mt-1">S220</div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-white font-mono">~400</div>
+          <div class="text-xs text-gray-500 mt-1">S284</div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-white font-mono">~548</div>
+          <div class="text-xs text-gray-500 mt-1">S304</div>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-center">
+          <div class="text-xl font-bold text-brand-400 font-mono">736+</div>
+          <div class="text-xs text-gray-500 mt-1">Now</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- WHAT'S NEXT -->
+    <!-- ============================================================ -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        Near-Term Tests (2026&ndash;2028)
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Dark matter at 5.11 GeV</h3>
+          <p class="text-gray-400 text-sm">SuperCDMS WIMP search. The most decisive near-term test of the framework.</p>
+          <p class="text-xs text-gray-600 mt-3">Expected: 2026&ndash;2027</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Colored pNGBs at ~1.76 TeV</h3>
+          <p class="text-gray-400 text-sm">HL-LHC leptoquark searches with &beta;<sub>eff</sub> = 0.5. Current bounds at ~1.22 TeV.</p>
+          <p class="text-xs text-gray-600 mt-3">Expected: 2027&ndash;2028</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Tensor-to-scalar ratio r = 0.035</h3>
+          <p class="text-gray-400 text-sm">CMB-S4 and future missions. Tests the hilltop inflation derivation.</p>
+          <p class="text-xs text-gray-600 mt-3">Expected: ~2028+</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="text-center text-xs text-gray-600 mt-12">
+      <p>This history is compiled from session records and internal documentation.</p>
+      <p class="mt-1">Speculative amateur work. Not peer-reviewed.</p>
+    </div>
+  </div>
+</BaseLayout>

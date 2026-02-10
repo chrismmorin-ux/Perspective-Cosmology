@@ -14,7 +14,7 @@
 | `publications/THESIS.md` | The central claim in condensed form |
 | `publications/PLAIN_LANGUAGE_DESCRIPTION.md` | Non-specialist explanation |
 | `publications/HONEST_ASSESSMENT.md` | Candid self-evaluation |
-| `publications/OBJECTIONS_AND_RESPONSES.md` | 11 anticipated criticisms addressed in depth |
+| `publications/OBJECTIONS_AND_RESPONSES.md` | 14 anticipated criticisms addressed in depth |
 | `publications/LANDSCAPE_COMPARISON.md` | Comparison with string theory, LQG, NCG, and others |
 | `publications/AI_METHODOLOGY.md` | How AI was used and how hallucinations are caught |
 
@@ -36,7 +36,7 @@ Maybe. The framework's own adversarial review (a three-critic Red Team, Session 
 
 ### Who made this?
 
-Christopher M Morin --- an amateur with an applied mathematics background, no physics PhD, and no university affiliation. The work uses AI assistance (Claude, Anthropic) extensively across 330+ sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail and positioned as a replicable protocol. See `publications/AI_METHODOLOGY.md`.
+Christopher M Morin --- an amateur with an applied mathematics background, no physics PhD, and no university affiliation. The work uses AI assistance (Claude, Anthropic) extensively across 370+ sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail and positioned as a replicable protocol. See `publications/AI_METHODOLOGY.md`.
 
 ---
 
@@ -101,7 +101,7 @@ The framework predicts specific values for quantities that specific experiments 
 
 ### I'm a developer or data scientist. What would help?
 
-The 713+ verification scripts are the backbone of the framework's credibility. A developer who spot-checks scripts for correctness, runs them independently, identifies edge cases, or improves the test infrastructure provides direct value. The website's interactive tools (prediction explorer, derivation chain viewer) are also open to contributions.
+The 736+ verification scripts are the backbone of the framework's credibility. A developer who spot-checks scripts for correctness, runs them independently, identifies edge cases, or improves the test infrastructure provides direct value. The website's interactive tools (prediction explorer, derivation chain viewer) are also open to contributions.
 
 ### What kind of criticism is most useful?
 
@@ -117,7 +117,7 @@ Yes. We are actively seeking collaborators, especially professional physicists o
 
 ### How can I check the math myself?
 
-Three formulas you can verify in 30 seconds with any calculator: (1) 1/alpha = 137 + 4/111 = 15211/111 = 137.036036... vs measured 137.035999. (2) sin^2(theta_W) = 28/121 = 0.231405... vs measured 0.23122. (3) Omega_m = 63/200 = 0.315 vs Planck 2018: 0.315. For deeper verification: clone the repository and run any of the 713+ SymPy scripts --- each states its assumptions, performs exact arithmetic, and reports PASS/FAIL.
+Three tree-level formulas you can verify in 30 seconds: (1) 1/alpha tree = 15211/111 = 137.036036 (0.27 ppm from CODATA). (2) sin^2(theta_W) tree = 28/121 = 0.23140 (0.08% from PDG). (3) Omega_m = 63/200 = 0.315 (exact match to Planck 2018). With framework-derived radiative corrections (rational coefficients, no free parameters): 1/alpha dressed = 137.035999177 (0.0006 sigma); sin^2 dressed = 0.23122 (0.00 sigma). For deeper verification: clone the repository and run any of the 736+ SymPy scripts --- each states its assumptions, performs exact arithmetic, and reports PASS/FAIL.
 
 ### Where should I start reading?
 
@@ -142,7 +142,7 @@ Depends on who you are:
 
 ---
 
-*This work was developed by Christopher M Morin with AI assistance (Claude, Anthropic). All mathematical claims are computationally verified via 713+ SymPy scripts. The AI-assisted methodology is documented in `publications/AI_METHODOLOGY.md`.*
+*This work was developed by Christopher M Morin with AI assistance (Claude, Anthropic). All mathematical claims are computationally verified via 736+ SymPy scripts. The AI-assisted methodology is documented in `publications/AI_METHODOLOGY.md`.*
 
 *Status: Speculative theoretical framework. Not peer-reviewed. Amateur work with AI assistance.*
 *Affiliation: Amateur researcher with AI assistance*

@@ -1,3 +1,10 @@
+---
+title: 'Technical Summary'
+description: 'Comprehensive technical overview for physicists'
+version: '3.0'
+lastUpdated: '2026-02-09'
+---
+
 # Technical Summary: Perspective Cosmology
 
 **Last Updated**: 2026-02-09 (Session S368)

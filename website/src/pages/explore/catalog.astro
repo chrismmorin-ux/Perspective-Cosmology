@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrimeTable from '../../components/PrimeTable';
+import CrystallizationCatalog from '../../components/CrystallizationCatalog';
+import catalogData from '../../../data/catalog.json';
+---
+
+<BaseLayout title="Framework Catalog" description="Periodic Table of Primes and Crystallization Catalogue: the complete reference for framework structures derived from division algebra dimensions.">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">Framework Catalog</h1>
+      <p class="text-gray-400 max-w-3xl">
+        Two reference artifacts in one place: the <strong class="text-white">Periodic Table of Primes</strong> generated
+        from division algebra dimensions, and the <strong class="text-white">Crystallization Catalogue</strong> describing
+        how one dynamical principle manifests across all of physics.
+      </p>
+      <p class="text-sm text-gray-600 mt-2">
+        Hover over grid cells for decomposition details. Click mapped primes or type cards to expand.
+      </p>
+    </div>
+
+    <!-- Section 1: Periodic Table of Primes -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-2">Periodic Table of Primes</h2>
+      <p class="text-gray-400 text-sm mb-6 max-w-3xl">
+        Every prime expressible as a&sup2; + b&sup2; where a, b are framework dimensions
+        {1, 2, 3, 4, 7, 8, 11}. Eight primes emerge. Two are already mapped to
+        physical constants; the rest are prediction candidates.
+      </p>
+      <PrimeTable client:load primes={catalogData.primes} dimensions={catalogData.dimensions} />
+    </section>
+
+    <!-- Section 2: Crystallization Catalogue -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-2">Crystallization Catalogue</h2>
+      <p class="text-gray-400 text-sm mb-6 max-w-3xl">
+        Nine types of crystallization (C1-C9), all governed by a single order parameter
+        and a shared potential. Click any type card to see its formula, experimental
+        signatures, and verification status.
+      </p>
+      <CrystallizationCatalog client:load data={catalogData.crystallization} />
+    </section>
+
+    <!-- Footer nav -->
+    <div class="border-t border-gray-800 pt-8">
+      <h2 class="text-lg font-semibold text-white mb-3">Related pages</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <a href="/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Division Algebras</div>
+          <div class="text-gray-500 mt-1">Interactive guide to R, C, H, O and how their dimensions generate all key numbers.</div>
+        </a>
+        <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
+          <div class="text-gray-500 mt-1">Trace the logical steps from axioms to predictions.</div>
+        </a>
+        <a href="/explore" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Prediction Explorer</div>
+          <div class="text-gray-500 mt-1">Browse all 45+ predictions with filters and precision data.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
