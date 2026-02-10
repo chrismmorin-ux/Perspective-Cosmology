@@ -16,18 +16,17 @@ Sessions register here at start, deregister at end.
 
 | Session | Focus | Started | Last Updated | Status |
 |---------|-------|---------|--------------|--------|
-| S373 | PEER_REVIEW_PREP.md full rewrite | 2026-02-10 | 2026-02-10 | Active |
 ---
 
 ## Recently Completed (last 5)
 
 | Session | Focus | Completed | Handoff Notes |
 |---------|-------|-----------|---------------|
+| S376 | Gravity grade strengthening + blind predictions | 2026-02-10 | 8 blind predictions (P-024 to P-031) formalized. 8/8 consistent with data. Torsion=0 DERIVED (novel). alpha_BD ~ 10^-31. 28/28 PASS. Grade C- strengthened. |
+| S375 | Composite resonance RGE (vacuum stability) | 2026-02-10 | S374 tension RESOLVED. pNGB bounded [DERIVATION]. Partners 6x worse. C_rho=0.92 (O(1)). 18/18 PASS. No new IRAs. |
+| S374 | Vacuum stability blind prediction (EQ-033) | 2026-02-10 | UNSTABLE vacuum (lambda -> -0.17). Low-energy inconsistency: m_t 16%, m_H 22% off. Genuine tension with y_t(f)=1. P-023 locked. 13/15 PASS. |
+| S373 | DM carrier: protective symmetry search + IRA-12 | 2026-02-10 | All 4 attack vectors closed. No framework-native Z_2. IRA-12 ADDED: y_{nu,1}=0 [A-PHYSICAL]. IRA 4->5. nu_R = DM carrier. Rank-2 seesaw (m_1=0). 18/18+9/9 PASS. |
 | S372 | DM carrier identity (nu_R) + vacuum stability scoping | 2026-02-10 | CONDITIONAL: nu_R is unique candidate but stability/neutrino-mass tension is 10.7 OOM (fatal without +1 assumption). Resolution A (decoupled 1st gen, IRA 4->5) most economical. Vacuum stability (EQ-033) scoped: all inputs ready, next physics session. 14/14 PASS. |
-| S371 | Public materials consistency/accuracy audit | 2026-02-09 | 8 CRITICAL + ~15 MAJOR issues fixed across 20+ files. Tree/dressed presentation fixed on homepage + all entry-point docs. Coset, Aut(C), ghost axiom, section numbering, script counts all fixed. Remaining: 3 broken links, 5 placeholder pages, accessibility. |
-| S370 | Launch audit + W11 + O6 publish | 2026-02-09 | W11 COMPLETE: /explore/perspective (tower cascade, Im_C properties, epistemic boundary). 20 KB (5.5 KB gzip). O6 PUBLISHED: final pass, F-6 fix, closing links. C5 status updated. Launch audit: 22/32 done, 10 remaining. |
-| S369 | Launch C5c: PLAIN_LANGUAGE + QUICKSTART v3.0 | 2026-02-09 | Both v3.0 COMPLETE. PLD: +4 new sections (YM, generations, cosmology/DM, tree-to-dressed), phase grades, full pub list. QS: +phase grades, Physicist Summary, colored pNGB. |
-| S368 | Launch C5b: TECHNICAL_SUMMARY + OBJECTIONS v3.0 | 2026-02-09 | Both v3.0 COMPLETE. DM section added, 3 new objections, phase grades updated. |
 ---
 
 *Full archive: `archive/sessions/completed_sessions_log.md`*

@@ -525,6 +525,226 @@ symmetry is algebraically EXACT. Mass ratios require crystallization dynamics.
 
 ---
 
+## Tier 6: Vacuum Stability Prediction — Session 374
+
+### P-023: Electroweak Vacuum Stability (EQ-033)
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Electroweak vacuum stability (stable/metastable/unstable) |
+| **Framework Prediction** | **UNSTABLE** — lambda crosses zero at mu ~ 5 x 10^5 GeV |
+| **lambda_min** | -0.174 at mu ~ 1.7 x 10^17 GeV |
+| **Bounce action** | ~151 (tunneling rate >> H_0) |
+| **SM Expectation** | METASTABLE (lambda crosses zero at ~10^10 GeV, but lifetime >> universe age) |
+| **Agreement with SM** | **DISAGREES** — framework is DEEPLY unstable, far worse than SM |
+| **Framework Inputs** | y_t(f) = 1 [CONJECTURE, S290], lambda(f) = 125/968 [CONJECTURE, S179] |
+| **Key Physics** | y_t(f)=1 is ~19% larger than SM y_t(f)~0.84; -6*y_t^4 term dominates |
+| **Derivation** | `vacuum_stability_rge_blind.py` (13/15 PASS) |
+| **Registered** | 2026-02-10 (Session 374) |
+
+**LOW-ENERGY INCONSISTENCY**: Running framework BCs (y_t(f)=1, lambda(f)=125/968) DOWN to m_t with pure SM RGE gives m_t(MSbar) ~ 190 GeV (16% off) and m_H ~ 153 GeV (22% off). This indicates either: (a) framework BCs need modification, (b) significant threshold corrections between m_t and f, or (c) modified running from composite resonances.
+
+**SM BASELINE CAVEAT**: Our 2-loop RGE calculation gives SM as STABLE (lambda_min = +0.022) rather than the known borderline METASTABLE. This is due to matching/coefficient precision limitations (the SM stability boundary is extremely sensitive to 3-loop effects). The framework conclusion is unaffected: lambda reaches -0.17 (far from the ±0.02 uncertainty window).
+
+**FALSIFICATION COMMITMENT**: If a mechanism is found within the framework that:
+1. Provides large (~15%) threshold corrections to y_t between f and m_t, AND
+2. Restores low-energy consistency (m_t, m_H correct), AND
+3. Keeps lambda > 0 up to M_Planck
+then the UNSTABLE verdict is superseded. Without such a mechanism, the framework BCs y_t(f)=1 and lambda(f)=125/968 are IN TENSION with vacuum stability.
+
+**Interpretation**: This is a GENUINE TENSION in the framework. The same y_t=1 that gave a nice structural derivation (S290) and closed the Higgs mass chain (S179) produces a deeply unstable vacuum when run to high scales. Resolution requires either: (A) composite resonance contributions to RGE above f that stabilize lambda, or (B) revision of y_t(f)=1 or lambda(f)=125/968.
+
+---
+
+## Tier 7: Gravitational Sector Predictions — Session 376
+
+**Protocol**: All 8 predictions below were derived from framework quantities
+(n_d=4, alpha=1/137, M_Pl) using `gravity_blind_predictions.py` BEFORE
+looking up measurements. Predictions locked in commit 9b2a666 (2026-02-10).
+
+**Imports required**: M_Pl = 1.22 x 10^19 GeV [A-IMPORT], Lovelock theorem [I-MATH],
+Fierz-Pauli uniqueness [I-MATH]. All other inputs are framework-derived.
+
+**Derivation basis**: n_d=4 from Frobenius (THM_0484) + Goldstone crystallization
+construction (S102) + Lovelock theorem -> EFE. Scalar mode delta_eps from
+crystallization potential. Torsion=0 from embedding geometry.
+
+---
+
+### P-024: GW Polarization Count
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Number of gravitational wave polarization modes |
+| **Framework Prediction** | N_pol = n_d(n_d-3)/2 = 2 (plus and cross) |
+| **Method** | TT decomposition of linearized h_{mu nu} in n_d=4 |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If non-GR polarization modes (vector or scalar) are confirmed at >5 sigma, this prediction is falsified.
+
+### RESULT:
+**Measured**: No non-GR modes detected (LVK GWTC-3, arXiv:2112.06861)
+**Status**: **CONSISTENT** — Log Bayes factors favor pure tensor for all O3 events
+
+---
+
+### P-025: Graviton Mass
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Graviton mass m_g |
+| **Framework Prediction** | m_g = 0 (exactly) |
+| **Method** | Goldstone shift symmetry -> linearized diffeomorphism invariance -> Fierz-Pauli |
+| **Note** | Stronger than GR: m_g=0 is DERIVED from gauge symmetry, not assumed |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If graviton mass m_g > 0 is established at >5 sigma, this prediction is falsified.
+
+### RESULT:
+**Measured**: m_g < 1.76 x 10^-23 eV/c^2 (90% CL, PDG 2024)
+**Status**: **CONSISTENT** — predicted 0 is within experimental bound
+
+---
+
+### P-026: PPN Parameter gamma
+
+| Field | Value |
+|-------|-------|
+| **Observable** | PPN gamma (light deflection / Shapiro delay parameter) |
+| **Framework Prediction** | gamma = 1 - O(10^-31) |
+| **Specific Value** | gamma - 1 = -3.8 x 10^-31 (from alpha_BD = 1.9 x 10^-31) |
+| **Method** | Scalar mode delta_eps mediates Yukawa correction; alpha_BD = g_s^2/(4*pi*m_eps^2) |
+| **Note** | Framework-specific: GR predicts gamma=1 exactly; crystallization gives specific tiny deviation |
+| **Derivation** | `gravity_blind_predictions.py`, `scalar_graviton_mode.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If gamma - 1 is measured to be nonzero at a level ABOVE 10^-31, this would constrain the scalar mode properties. Current precision (10^-5) is 26 OOM away from testing this.
+
+### RESULT:
+**Measured**: gamma - 1 = (2.1 +/- 2.3) x 10^-5 (Bertotti+ 2003, Cassini)
+**Error**: Framework deviation is ~10^26 below measurement uncertainty
+**Status**: **CONSISTENT** — prediction indistinguishable from GR at current precision
+
+---
+
+### P-027: PPN Parameter beta
+
+| Field | Value |
+|-------|-------|
+| **Observable** | PPN beta (perihelion precession / nonlinearity parameter) |
+| **Framework Prediction** | beta = 1 - O(10^-62) |
+| **Method** | Nonlinear correction ~ alpha_BD^2; even more suppressed than gamma |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: Same as P-026 — current measurements cannot probe this level.
+
+### RESULT:
+**Measured**: beta - 1 = (6.2 +/- 7.2) x 10^-5 (Biskupek+ 2021, LLR)
+**Status**: **CONSISTENT**
+
+---
+
+### P-028: GW Speed Ratio
+
+| Field | Value |
+|-------|-------|
+| **Observable** | c_gw / c (gravitational wave speed relative to light) |
+| **Framework Prediction** | c_gw / c = 1 (exactly) |
+| **Method** | Massless metric perturbation (m_g=0 derived) on Lorentzian background |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If c_gw/c != 1 is established at >5 sigma, this prediction is falsified.
+
+### RESULT:
+**Measured**: -3 x 10^-15 < c_gw/c - 1 < +7 x 10^-16 (GW170817, arXiv:1710.05834)
+**Status**: **CONSISTENT** — predicted 0 is well within bound
+
+---
+
+### P-029: Spacetime Torsion
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Spacetime torsion tensor T^rho_{mu nu} |
+| **Framework Prediction** | T = 0 (identically) — **DERIVED, not assumed** |
+| **Method** | Goldstone embedding: d_mu d_nu phi^a = d_nu d_mu phi^a (partial derivatives commute) |
+| **Note** | **GENUINELY NOVEL**: GR assumes T=0 (Levi-Civita axiom); crystallization proves it as a theorem |
+| **Derivation** | `gravity_blind_predictions.py`, `torsion_from_crystallization.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If spacetime torsion is detected at levels above Planck-suppressed (~10^-35 m), this prediction is falsified. Current bounds: ~5 x 10^-22 m^-1 (SME constraints, Kostelecky+ 2008).
+
+### RESULT:
+**Measured**: 19/24 torsion components < ~10^-31 GeV (~5 x 10^-22 m^-1) (arXiv:0712.4393)
+**Status**: **CONSISTENT** — T=0 trivially satisfies all bounds
+
+---
+
+### P-030: Dipole Gravitational Radiation
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Dipole gravitational radiation power |
+| **Framework Prediction** | P_dipole = 0 (exact for spin-2 sector) |
+| **Scalar Correction** | O(alpha_BD) ~ O(10^-31) relative to quadrupole (unmeasurable) |
+| **Method** | Derived gauge symmetry -> conservation law -> dipole forbidden |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If significant dipole radiation is detected in binary pulsar systems, this prediction is falsified.
+
+### RESULT:
+**Measured**: Orbital decay consistent with GR quadrupole; alpha_0^2 < 2 x 10^-5 (Freire+ 2012, arXiv:1205.1450)
+**Framework**: alpha_BD = 1.9 x 10^-31 is ~10^26 below pulsar bound
+**Status**: **CONSISTENT**
+
+---
+
+### P-031: Nordtvedt Parameter eta
+
+| Field | Value |
+|-------|-------|
+| **Observable** | Nordtvedt parameter eta (Strong Equivalence Principle) |
+| **Framework Prediction** | eta = O(10^-31) (effectively 0) |
+| **Method** | Universal metric coupling from single Goldstone construction |
+| **Note** | SEP is DERIVED from framework (universal coupling), not assumed as in GR |
+| **Derivation** | `gravity_blind_predictions.py` |
+| **Registered** | 2026-02-10 (Session 376) |
+
+**FALSIFICATION COMMITMENT**: If eta is measured nonzero at levels above 10^-31, the scalar mode properties are constrained. Current precision (~10^-4) is 27 OOM away.
+
+### RESULT:
+**Measured**: eta = (-0.6 +/- 5.2) x 10^-4 (Hofmann+ 2010, LLR)
+**Updated**: |eta| < 7 x 10^-5 (Biskupek+ 2021)
+**Status**: **CONSISTENT**
+
+---
+
+### Session 376 Summary
+
+| ID | Observable | Predicted | Measured | Status |
+|----|-----------|-----------|---------|--------|
+| P-024 | GW polarizations | 2 (tensor) | No non-GR modes (GWTC-3) | CONSISTENT |
+| P-025 | Graviton mass | 0 (exact) | < 1.76e-23 eV (PDG) | CONSISTENT |
+| P-026 | PPN gamma | 1 - O(10^-31) | 1 + (2.1+/-2.3)e-5 (Cassini) | CONSISTENT |
+| P-027 | PPN beta | 1 - O(10^-62) | 1 + (6.2+/-7.2)e-5 (LLR) | CONSISTENT |
+| P-028 | GW speed | c_gw/c = 1 | |delta| < 3e-15 (GW170817) | CONSISTENT |
+| P-029 | Torsion | T = 0 (derived) | < ~5e-22 m^-1 (SME) | CONSISTENT |
+| P-030 | Dipole radiation | 0 (exact) | alpha_0^2 < 2e-5 (pulsars) | CONSISTENT |
+| P-031 | Nordtvedt eta | O(10^-31) | (-0.6+/-5.2)e-4 (LLR) | CONSISTENT |
+
+**Score**: 8/8 CONSISTENT with all experimental bounds.
+
+**Honest assessment**: Most predictions are "same as GR" — expected since EFE is derived via Lovelock from n_d=4. The genuinely novel result is P-029 (torsion=0 derived as theorem, not assumed). P-026/P-027 give framework-specific values for alpha_BD ~ 10^-31 (untestable at current precision, 26 OOM below Cassini). P-031 derives SEP rather than assuming it. These predictions demonstrate internal consistency of the gravity sector, but do NOT by themselves raise the grade — core gaps (M_Pl imported, CC magnitude, 2-derivative truncation) remain unchanged.
+
+**Script**: `verification/sympy/gravity_blind_predictions.py` — **28/28 PASS** (20 derivation + 8 measurement comparison)
+
+---
+
 ## Version History
 
 | Date | Change | Reason |
@@ -536,6 +756,8 @@ symmetry is algebraically EXACT. Mass ratios require crystallization dynamics.
 | 2026-02-02 | P-006 updated: 117/121 -> 193/200 (hilltop derivation, CR-071) | Auditor Phase 5 |
 | 2026-02-09 | Added P-022 (colored pNGB mass) | Session 326 EQ-015 resolution |
 | 2026-02-09 | P-002 v2: canonical formula, coupling UNKNOWN | Session 339 det-Tr correction |
+| 2026-02-10 | Added P-023 (vacuum stability blind prediction) | Session 374 EQ-033 |
+| 2026-02-10 | Added P-024 through P-031 (8 gravity sector predictions) | Session 376 gravity strengthening |
 
 ---
 
