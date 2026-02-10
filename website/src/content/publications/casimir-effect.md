@@ -173,7 +173,9 @@ The framework reduces the cosmological constant overcounting from 10^120 to 10^1
 
 **Confidence**: [DERIVATION]
 
-Some quantum gravity models predict "echoes" in gravitational wave signals from black hole mergers, caused by partially reflective barriers near the horizon. The framework makes a sharp negative prediction:
+**Important distinction**: LIGO has detected gravitational waves -- the primary signals from black hole and neutron star mergers. That is established physics and is not what this prediction is about. Gravitational wave *echoes* are a separate, hypothetical phenomenon: repeating secondary signals that would arrive *after* the main merger signal, caused by gravitational waves bouncing back and forth between a reflective barrier near the horizon and the light-ring potential barrier outside. Some quantum gravity models predict these echoes; the framework predicts they should not exist.
+
+The argument: if the tilt field creates a barrier near the horizon, its width is set by the tilt Compton wavelength:
 
 ```
 Tilt barrier width:     l_tilt ~ 9.2 x 10^-32 m
@@ -182,11 +184,13 @@ Ratio:                  lambda_GW / l_tilt ~ 10^37
 Reflection coefficient: R ~ exp(-10^37) ~ 0
 ```
 
-**Prediction**: No GW echoes from tilt physics at any astrophysical scale. The tilt barrier is 37 orders of magnitude too narrow to reflect gravitational waves.
+The tilt barrier is 37 orders of magnitude too narrow to reflect kilometer-wavelength gravitational waves. No reflection means no echoes.
 
-Current status: LIGO/Virgo non-detection of echoes is **consistent** with this prediction.
+**Prediction**: No post-merger gravitational wave echoes from tilt physics at any astrophysical scale.
 
-**Falsification**: Detection of GW echoes with structure matching tilt-scale physics would challenge the framework's vacuum model.
+Current status: LIGO/Virgo/KAGRA have actively searched for echoes across the O3 and O4 observing runs (including high-SNR events like GW231226 and GW250114) and have found no confirmed detection. This is **consistent** with the framework's prediction.
+
+**Falsification**: Confirmed detection of post-merger GW echoes with structure matching a near-horizon reflective barrier would challenge the framework's vacuum model.
 
 ---
 
