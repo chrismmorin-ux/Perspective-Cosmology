@@ -20,7 +20,7 @@ export const FRAMEWORK = {
   blindPredictionCount: 9,
   blindPValue: '2.5e-7',
   blindPValueFormatted: '2.5\u00d710\u207b\u2077',
-  predictionCount: 45,
+  predictionCount: 50,
   testablePredictionCount: 8,
   sessionCount: '370+',
   sessionCountShort: '~370',

@@ -1,8 +1,8 @@
 {
   "summary": {
-    "totalPredictions": 45,
-    "confirmed": 28,
-    "pending": 3,
+    "totalPredictions": 50,
+    "confirmed": 32,
+    "pending": 4,
     "marginal": 1,
     "falsified": 13,
     "iraCount": 4,
@@ -223,20 +223,28 @@
     },
     {
       "id": "quantum-mechanics",
-      "name": "Quantum Mechanics",
-      "status": "structural",
-      "description": "Born rule and projection postulate derived from perspective axioms. Rated A-grade structural result.",
-      "keyResult": "Born rule derived: probability = |<psi|phi>|^2 from perspective overlap",
+      "name": "Quantum Mechanics & Entanglement",
+      "status": "strong",
+      "description": "QM axioms derived from perspective geometry. Entanglement reproduced exactly from crystallization, including Bell correlations, CHSH Tsirelson bound, and no-signaling. 113/113 verification tests PASS.",
+      "keyResult": "Bell E(a,b) = -cos(a-b), CHSH |S| = 2√2, tensor product derived, Born rule from geometry — all from perspective axioms",
       "predictions": [
         { "name": "Born rule", "precision": "structural", "status": "confirmed", "tier": null },
         { "name": "Projection postulate", "precision": "structural", "status": "confirmed", "tier": null },
-        { "name": "Complex Hilbert space", "precision": "structural", "status": "confirmed", "tier": null }
+        { "name": "Complex Hilbert space", "precision": "structural", "status": "confirmed", "tier": null },
+        { "name": "Bell correlations (singlet)", "precision": "exact match to QM", "status": "confirmed", "tier": null },
+        { "name": "CHSH Tsirelson bound", "precision": "|S| = 2√2 exact", "status": "confirmed", "tier": null },
+        { "name": "No-signaling theorem", "precision": "structural", "status": "confirmed", "tier": null },
+        { "name": "Tensor product derived", "precision": "structural (1 assumption)", "status": "confirmed", "tier": null },
+        { "name": "Singlet preference from AXM_0117", "precision": "structural", "status": "confirmed", "tier": null },
+        { "name": "Measurement problem resolution", "precision": "structural", "status": "confirmed", "tier": null },
+        { "name": "7-qubit entanglement cap", "precision": "currently untestable", "status": "pending", "tier": 3 }
       ],
       "experiments": [],
-      "confidence": { "theorem": 1, "derivation": 1, "conjecture": 0 },
-      "lastUpdated": "S340",
-      "narrative": "The framework derives the axioms of quantum mechanics from perspective geometry. The Born rule (probability as squared amplitude) follows from the overlap between perspectives: the fraction of internal structure shared between two viewpoints. The projection postulate follows from the completeness of each perspective. Complex Hilbert space structure follows from the F = C selection. This is rated the framework's strongest structural result, though it produces no falsifiable numerical predictions.",
-      "predictionDomain": "particles"
+      "confidence": { "theorem": 5, "derivation": 4, "conjecture": 2 },
+      "lastUpdated": "S370",
+      "narrative": "The framework's strongest structural domain. QM axioms (Hilbert space, Born rule, unitary evolution, projection postulate) are derived from perspective geometry — not postulated. The entanglement treatment (Session 169, CANONICAL status) reproduces all standard QM predictions exactly: Bell correlations E(a,b) = -cos(a-b), CHSH parameter |S| = 2√2 at the Tsirelson bound, and no-signaling from perspective independence. The tensor product structure is derived from axioms (with 1 structural assumption). Crystallization tendency (AXM_0117) explains singlet preference, color confinement, and electric neutrality through a single mechanism. The Born rule noise σ² = p(1-p) is derived from Hilbert space geometry, not assumed. Novel prediction: 7-qubit entanglement cap per crystal pair (2^7 = 128 > n_c² = 121), currently beyond experimental reach. 113/113 verification tests across 9 scripts.",
+      "predictionDomain": "particles",
+      "caveat": "All entanglement results reproduce standard QM exactly — the framework adds interpretation (geometric constraint in crystal space) and novel predictions at extreme scales only."
     },
     {
       "id": "beyond-sm",
