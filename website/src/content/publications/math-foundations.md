@@ -1,8 +1,8 @@
 ---
 title: 'Perspective Cosmology: Mathematical Foundations'
 description: 'Complete, self-contained mathematical development from axioms to consequences'
-version: '1.0'
-lastUpdated: '2026-02-09'
+version: '1.3'
+lastUpdated: '2026-02-10'
 ---
 
 # Perspective Cosmology: Mathematical Foundations
@@ -1321,15 +1321,17 @@ with $C = 24/11$, has a unique positive real solution:
 
 $$\mathcal{I}_{\text{dressed}} = 137.035999053\ldots$$
 
-Two-loop deviation from CODATA 2022: 0.0009 ppm ($5.9\sigma$). With $C_2 = 24/11$ upgraded to [DERIVATION] via defect charge selection theorem (Theorem 14.16b) and $D_3 = 1$ three-loop correction [CONJECTURE, HRS 5], the gap reduces to 0.0001 ppb ($0.0006\sigma$).
+Deviation from CODATA 2022: 0.0009 ppm ($5.9\sigma$). The coefficient $C_2 = 24/11$ is upgraded to [DERIVATION] (S341-S344): defect charge selection theorem $[T_X, T_{a,4}] = 0$ for all Higgs pNGBs on the coset SO(11)/SO(4)$\times$SO(7).
 
-**Theorem 14.16b (Three-loop dressed invariant, S344).** [CONJECTURE, HRS 5] Adding the three-loop correction $D_3 \cdot \alpha^3/\pi$ with $D_3 = 1$ (from VEV mode counting: $N_{\text{physical Higgs}} = 1$ after EWSB):
-$$\frac{1}{\alpha_{\text{dressed}}} = \frac{15211}{111} - \frac{24}{11}\frac{\alpha^2}{\pi} + \frac{\alpha^3}{\pi} = 137.035999177\ldots$$
-Gap from CODATA 2022: 0.0001 ppb ($0.0006\sigma$). $C_2$ is derived; $D_3$ remains conjectural.
+**Theorem 14.16b (Three-loop dressed, S344).** [CONJECTURE, HRS 5] Including the three-loop coefficient $D_3 = 1$ (candidate origin: $N_{\text{VEV}} = 1$, the single VEV direction in the Higgs sector):
 
-**Remark 14.17.** $C_2 = 24/11$ is tagged [DERIVATION] following the defect charge selection theorem: $[T_X, T_{a,4}] = 0$ for all Higgs pNGBs forces $\text{sum}(Q^2)_{\text{colored}} = 12 = k(n-k-1)/2$, giving $C_2 = k(n-k-1)/n = 24/11$ (Grassmannian formula). The tree-level result (Theorem 14.10, tagged [DERIVATION]) does not depend on this.
+$$\frac{1}{\alpha} = \frac{15211}{111} - \frac{24}{11}\frac{\alpha^2}{\pi} + \frac{\alpha^3}{\pi} = 137.035999177\ldots$$
 
-*Verification*: `alpha_em_index_density.py` -- 21/21 PASS; `alpha_coefficient_24_11_analysis.py` -- 11/11 PASS
+Deviation from CODATA 2022: **0.0001 ppb ($0.0006\sigma$)**. All coefficients are rational in the $D_n$ basis.
+
+**Remark 14.17.** The two-loop coefficient $C_2 = 24/11$ is [DERIVATION] from the CCWZ formalism on the coset. The three-loop coefficient $D_3 = 1$ is [CONJECTURE, HRS 5]: three independent routes (VEV counting, alternating signs, Grassmannian structure) converge on $D_3 = 1$ but do not prove it (S347). The tree-level result (Theorem 14.10) does not depend on either correction.
+
+*Verification*: `alpha_em_index_density.py` -- 21/21 PASS; `alpha_ccwz_three_loop.py` -- 24/24 PASS; `alpha_d3_derivation_attempt.py` -- 23/23 PASS
 
 ### 14.7 Derivation Chain Summary
 
@@ -1854,7 +1856,7 @@ This three-step criterion correctly classifies all 16 framework predictions: 16/
 
 $$\mathcal{I}_{\text{dressed}} = \frac{15211}{111} - \frac{24}{11} \cdot \frac{\alpha^2}{\pi} = 137.035999053\ldots$$
 
-Two-loop gap from CODATA 2022: 0.0009 ppm ($5.9\sigma$). The coefficient $C_2 = 24/11$ [DERIVATION] arises from the defect charge selection theorem: $[T_X, T_{a,4}] = 0$ for all Higgs pNGBs forces $C_2 = k(n-k-1)/n = 24/11$ (Grassmannian formula, Theorem 14.16b). With $D_3 = 1$ three-loop [CONJECTURE, HRS 5]: 0.0001 ppb ($0.0006\sigma$).
+Two-loop gap from CODATA 2022: 0.0009 ppm ($5.9\sigma$). The coefficient $C_2 = 24/11$ arises from the EM index density $\rho_{\text{EM}} = \text{Tr}(Q^2)/n_c = 2/11$ (Theorem 14.12) via the double-trace formula $C_2 = 12\rho_{\text{EM}} \cdot \dim(\mathbb{C})$ (Theorem 14.15), upgraded to [DERIVATION] via defect charge selection (S344). Including $D_3 = 1$ [CONJECTURE]: three-loop gap is **$0.0006\sigma$**.
 
 ### 20.5 The Mixing Ratio Dressed
 
@@ -1894,7 +1896,7 @@ The following significant problems remain unresolved within the framework:
 
 **Problem 20.11 (Band D: QCD corrections).** Quantities with dominant $\mathfrak{su}(3)$ corrections (quark mass ratios, CKM matrix elements) have tree-level gaps $> 1\%$. A systematic "strong dressing" paradigm with coefficients from the $\mathfrak{su}(3)$ representation theory has not been developed.
 
-**Problem 20.12 (Higher-loop corrections).** PARTIALLY RESOLVED. $C_2 = 24/11$ derived from defect charge selection theorem [DERIVATION]. $D_3 = 1$ from VEV mode counting [CONJECTURE, HRS 5] reduces $1/\alpha$ gap from 5.9 sigma to 0.0006 sigma. Remaining: derive $D_3$ rigorously from CCWZ three-loop Coleman-Weinberg; compute higher-loop corrections for $\sin^2\theta_W$ (0.5 ppm residual).
+**Problem 20.12 (Higher-loop corrections).** ~~Band C residuals (0.0009 ppm for $1/\alpha$) may encode three-loop corrections.~~ **PARTIALLY RESOLVED** (S344/S347): $D_3 = 1$ closes the alpha gap to $0.0006\sigma$ [CONJECTURE, HRS 5]. Deriving $D_3$ from the composite sector (e.g., 2-loop CW potential on the coset) remains open. The Weinberg angle residual (0.5 ppm for $\sin^2\theta_W$) is within measurement error and does not require further correction.
 
 ---
 

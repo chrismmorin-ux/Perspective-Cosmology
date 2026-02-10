@@ -85,8 +85,8 @@ Tree values are algebraic starting points; dressed values include framework-deri
 **Technical reading order**:
 1. *Perspective Cosmology: Mathematical Foundations* -- full axiomatic development (2139 lines, 46 verification scripts)
 2. *Interpretive Companion* -- physical interpretation and predictions (2131 lines)
-3. `publications/HONEST_ASSESSMENT.md` -- candid self-evaluation with phase grades
-4. `publications/AI_METHODOLOGY.md` -- the AI-assisted methodology as a replicable protocol
+3. [Honest Assessment](/publications/honest-assessment) -- candid self-evaluation with phase grades
+4. [AI Methodology](/publications/ai-methodology) -- the AI-assisted methodology as a replicable protocol
 
 **All materials, scripts, and session records at**: https://github.com/chrismmorin-ux/Perspective-Cosmology
 

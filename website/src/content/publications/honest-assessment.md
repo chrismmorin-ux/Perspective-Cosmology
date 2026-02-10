@@ -16,14 +16,14 @@ lastUpdated: '2026-02-10'
 
 ## Key References
 
-| File | Role |
+| Document | Role |
 |------|------|
-| `claims/TIER_1_SIGNIFICANT.md` | 12 sub-10 ppm claims (updated S205) |
-| `claims/FALSIFIED.md` | 14 falsified claims |
-| `framework/STATISTICAL_ANALYSIS_HONEST.md` | Canonical P-value analysis (S170/S202/S330) |
-| `registry/RED_TEAM_SUMMARY_V3.md` | 3-agent adversarial review v3.0 (S330) |
-| `framework/IRREDUCIBLE_ASSUMPTIONS.md` | 4 irreducible assumptions (canonical inventory) |
-| `framework/investigations/_INDEX.md` | ~150 investigation files |
+| [Explore Predictions](/explore) | 12 sub-10 ppm claims, full prediction catalog |
+| 14 falsified claims | Documented in detail below |
+| Statistical analysis | Canonical P-value analysis (S170/S202/S330) |
+| Red Team v3.0 | 3-agent adversarial review (S330) |
+| 4 irreducible assumptions | Canonical inventory (detailed below) |
+| ~150 investigation files | In-depth derivation analyses |
 
 ## Critical Framework Elements
 

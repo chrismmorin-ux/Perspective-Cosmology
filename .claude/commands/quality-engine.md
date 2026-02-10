@@ -455,6 +455,54 @@ Check that recent sessions followed propagation protocol:
 - Were key cross-references updated in the same session?
 - Flag sessions that made major changes without propagation notes
 
+### 7.7 Website Sync Status
+
+Detect drift between theory source files and the deployed website. Uses `website/SYNC_MANIFEST.json`
+as the source of truth for what feeds what.
+
+**Reference file**: `website/SYNC_MANIFEST.json` — maps theory sources to website data files,
+publications, and constants.
+
+#### Data File Drift
+For each entry in `dataFiles`:
+- Compare `git log -1 --format=%ci` of each source file vs the website data file
+- If ANY source is newer than the website file → **STALE**
+- Special case: `verification-scripts.json` — count `verification/sympy/*.py` files and compare
+  to `special.lastKnownCount` in the manifest
+
+#### Publication Sync
+For each entry in `publications`:
+- Check if dest file exists → if not, **UNSYNCED**
+- Compare git modification dates of source vs dest
+- If source is newer → **STALE**
+
+#### Constants Drift
+For each entry in `constants`:
+- Read current value from `website/src/data/constants.ts`
+- Cross-check against the source file listed in the manifest
+- Flag any mismatches (e.g., script count changed but constants.ts not updated)
+
+#### Report Format
+```markdown
+#### Website Sync Status
+| Component | Status | Details |
+|-----------|--------|---------|
+| predictions.json | STALE | claims/TIER_1_SIGNIFICANT.md changed since last sync |
+| domain-status.json | OK | — |
+| ... | ... | ... |
+| Publication: quickstart | STALE | Source updated S372, website from S370 |
+| Constant: scriptCount | DRIFT | Actual: 740, constants.ts: 737+ |
+
+Website sync: [N] stale data files, [M] stale publications, [K] constant mismatches
+Remediation: Run `npm run check-sync` from website/ for full details, then `npm run sync-publications`
+```
+
+**Severity**:
+- CRITICAL: Constants (scriptCount, passRate, probabilityRange) wrong on live site
+- HIGH: Data files stale (predictions, domain-status) — affects interactive pages
+- MEDIUM: Publications stale — informational pages out of date
+- LOW: Manifest metadata out of date (lastSyncedSession, lastKnownCount)
+
 ---
 
 ## Report Format
@@ -476,7 +524,7 @@ Write to `.quality/report.md`:
 - Phase 4: [N] investigations scored
 - Phase 5 (Lifecycle): [N] files flagged ([M] READY for archive, [K] BLOCKED pending migration)
 - Phase 6 (Hallucination): Script health [pass%], [N] precision flags, [M] tag downgrades, [K] circularity warnings
-- Phase 7 (Propagation): [N] manifest entries, [M] stale references, completeness [X]%
+- Phase 7 (Propagation): [N] manifest entries, [M] stale references, completeness [X]%. Website: [N] stale data, [M] stale pubs, [K] constant drifts
 
 ## Critical Issues (Must Fix)
 [Top 5 most impactful issues]
@@ -531,6 +579,9 @@ Write to `.quality/report.md`:
 #### Session Compliance
 [Recent sessions checked for propagation protocol adherence]
 
+#### Website Sync Status
+[Data file drift, publication sync, constants drift — from SYNC_MANIFEST.json]
+
 ### Phase 5: File Lifecycle
 #### Superseded Content
 [files with outdated/corrected information]
@@ -559,7 +610,7 @@ After writing the report, append a summary line to `.quality/history.md`:
 
 ```markdown
 ## Run [N] — [date]
-Issues: [total]. Structural: [n] ([m] fixed). Content: [n]. Consistency: [n]. Lifecycle: [n] ([m] READY, [k] BLOCKED). Hallucination: [n] flags, scripts [pass%]. Propagation: [n] entries, [m] stale, completeness [x]%. Top priority: [name].
+Issues: [total]. Structural: [n] ([m] fixed). Content: [n]. Consistency: [n]. Lifecycle: [n] ([m] READY, [k] BLOCKED). Hallucination: [n] flags, scripts [pass%]. Propagation: [n] entries, [m] stale, completeness [x]%. Website: [n] stale data, [m] stale pubs, [k] constant drifts. Top priority: [name].
 ```
 
 ## Subagent Usage
@@ -578,10 +629,11 @@ Use Task tool with subagent_type for parallel scanning:
   - Agent 2 (Explore): Precision language scan — grep for "EXACT", "0.00 sigma", "predicts", hidden parameter patterns (6.2)
   - Agent 3 (Explore): Confidence tag validation + circularity detection — trace THEOREM dependency chains, check for cycles (6.4, 6.5)
   - Then sequentially: HRS scoring for top 10 claims (6.6) and new pattern detection from recent sessions (6.7)
-- Phase 7: Launch 2 agents in parallel:
+- Phase 7: Launch 3 agents in parallel:
   - Agent 1 (Explore): Trigger detection — scan last 10 session files for status changes, retractions, count changes, resolutions (7.1)
   - Agent 2 (Explore): Manifest validation — read PROPAGATION_MANIFEST.md, grep for old values across repo, classify hits as STALE/HISTORICAL/QUALIFIED (7.2, 7.3)
-  - Then sequentially: Compute completeness scores (7.4), generate propagation checklist (7.5), check session compliance (7.6)
+  - Agent 3 (Bash): Website sync check — run `npm run check-sync` from `website/` directory and capture output. Parse results for data file drift, publication staleness, script count mismatches (7.7)
+  - Then sequentially: Compute completeness scores (7.4), generate propagation checklist (7.5), check session compliance (7.6), integrate website sync results into report
 
 Keep main context clean — subagents do the heavy lifting. Collect their results and synthesize into the report.
 

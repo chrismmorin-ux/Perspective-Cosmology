@@ -46,7 +46,7 @@
         "type": "script_count",
         "directory": "verification/sympy/",
         "pattern": "*.py",
-        "lastKnownCount": 736
+        "lastKnownCount": 737
       }
     },
     "derivation-graph.json": {

@@ -7,8 +7,8 @@
  * Source mapping: see website/SYNC_MANIFEST.json for where each value comes from.
  */
 export const FRAMEWORK = {
-  scriptCount: '736+',
-  scriptCountShort: '~736',
+  scriptCount: '737+',
+  scriptCountShort: '~737',
   passRate: '99.8%',
   runRate: '99.9%',
   probabilityRange: '25-40%',

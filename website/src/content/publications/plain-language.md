@@ -265,19 +265,17 @@ Whether this is a genuine insight into the structure of reality or an elaborate 
 
 | Interest | Start Here |
 |----------|------------|
-| Quick start and reading order | `publications/QUICKSTART.md` |
-| Common questions answered | `publications/FAQ.md` |
-| Full technical thesis | `publications/THESIS.md` |
-| Honest self-critique | `publications/HONEST_ASSESSMENT.md` |
-| Anticipated objections | `publications/OBJECTIONS_AND_RESPONSES.md` |
-| Technical overview | `publications/TECHNICAL_SUMMARY.md` |
-| Mathematical foundations | `publications/PC_PERSPECTIVE_MATHEMATICS.md` |
-| 30-minute physicist evaluation | `publications/PHYSICIST_SUMMARY.md` |
-| How AI was used | `publications/AI_METHODOLOGY.md` |
-| Comparison to other approaches | `publications/LANDSCAPE_COMPARISON.md` |
-| One-page overview | `publications/EXECUTIVE_SUMMARY.md` |
-| Tiered claims | `claims/README.md` |
-| Verification scripts | `verification/sympy/` (~736 scripts) |
+| Quick start and reading order | [Quick Start Guide](/publications/quickstart) |
+| Full technical thesis | [Thesis](/publications/thesis) |
+| Honest self-critique | [Honest Assessment](/publications/honest-assessment) |
+| Anticipated objections | [Objections and Responses](/publications/objections-and-responses) |
+| Technical overview | [Technical Summary](/publications/technical-summary) |
+| Mathematical foundations | [Perspective Mathematics](/publications/perspective-mathematics) |
+| 30-minute physicist evaluation | [Physicist Summary](/publications/physicist-summary) |
+| How AI was used | [AI Methodology](/publications/ai-methodology) |
+| Comparison to other approaches | [Landscape Comparison](/publications/landscape-comparison) |
+| One-page overview | [Executive Summary](/publications/executive-summary) |
+| Explore all predictions | [Prediction Catalog](/explore) |
 
 ---
 
