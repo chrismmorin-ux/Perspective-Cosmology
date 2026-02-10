@@ -31,6 +31,9 @@ const DOMAIN_LABELS: Record<string, string> = {
   cmb: 'CMB',
   electroweak: 'Electroweak',
   gravity: 'Gravity',
+  gauge: 'Gauge/Topology',
+  structural: 'Structural',
+  bbn: 'BBN',
 };
 
 const STATUS_LABELS: Record<string, string> = {

@@ -4,7 +4,7 @@ import PredictionExplorer from '../../components/PredictionExplorer';
 import predictions from '../../../data/predictions.json';
 ---
 
-<BaseLayout title="Explore Predictions" description="Interactive prediction explorer: 37 predictions derived from division algebra geometry, filterable by tier, domain, and status.">
+<BaseLayout title="Explore Predictions" description="Interactive prediction explorer: 45 predictions derived from division algebra geometry, filterable by tier, domain, and status.">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
     <div class="mb-10">
       <h1 class="text-3xl font-bold text-white mb-3">Prediction Explorer</h1>
@@ -48,9 +48,12 @@ import predictions from '../../../data/predictions.json';
         </div>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-6 flex flex-wrap gap-4">
         <a href="/explore/status" class="inline-flex items-center gap-2 text-sm text-brand-400 hover:text-brand-300">
           See framework status by physics domain &rarr;
+        </a>
+        <a href="/explore/catalog" class="inline-flex items-center gap-2 text-sm text-brand-400 hover:text-brand-300">
+          Periodic Table of Primes &amp; Crystallization Catalogue &rarr;
         </a>
       </div>
     </div>
