@@ -2,12 +2,156 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About" description="The story behind Perspective Cosmology and an honest assessment.">
+<BaseLayout title="About" description="An honest assessment of Perspective Cosmology — what's remarkable, what requires caution, and how to evaluate it.">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-    <h1 class="text-3xl font-bold text-white mb-4">About</h1>
-    <p class="text-gray-400 mb-8">The story behind Perspective Cosmology, the author, and an honest self-assessment.</p>
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center text-gray-500">
-      <p class="text-lg">About page coming soon.</p>
+    <h1 class="text-3xl font-bold text-white mb-3">About This Project</h1>
+    <p class="text-gray-400 mb-10">A balanced evaluation of what this framework achieves, where it's strong, and where skepticism is warranted. ~10 minute read.</p>
+
+    <!-- Big Picture -->
+    <section class="mb-12">
+      <div class="bg-gradient-to-r from-brand-950/50 to-gray-900 border border-brand-900/50 rounded-2xl p-8">
+        <h2 class="text-xl font-bold text-white mb-6">The Big Picture</h2>
+        <p class="text-gray-300 text-sm leading-relaxed mb-6">This framework attempts something ambitious: derive the constants and structure of physics from division algebra geometry alone. After ~370 sessions and ~736 verification scripts (99.9% run rate), the results are mixed but intriguing.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-accent-green font-semibold text-sm mb-3">What's genuinely remarkable</h3>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>12 sub-10 ppm numerical predictions from integers only</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>SM gauge group, fermion content, 3 generations derived</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>Quantum mechanics derived from axioms (grade A)</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>Einstein's equations emerge from crystallization</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>9 blind predictions succeeded (P ~ 2.5e-7)</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-green mt-0.5">-</span><span>All using only {1, 2, 4, 8} and their combinations</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-accent-yellow font-semibold text-sm mb-3">What requires caution</h3>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>4 irreducible assumptions remain</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>Most numerical predictions are post-hoc</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>Building blocks not special at percent-level (Monte Carlo)</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>Could still be sophisticated numerology</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>No peer review or external validation</span></li>
+              <li class="flex items-start gap-2"><span class="text-accent-yellow mt-0.5">-</span><span>Red Team v3.0: 25&ndash;40% probability of genuine physics</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What Makes This Different -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        What Makes This Different from Numerology
+      </h2>
+      <div class="space-y-4">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Constrained inputs</h3>
+          <p class="text-gray-400 text-sm">Only division algebra dimensions {1, 2, 4, 8} and derived quantities (n<sub>d</sub> = 4, n<sub>c</sub> = 11). No cherry-picking &mdash; the same numbers must work for everything. But: a Monte Carlo null model showed ANY 7-element subset of &#123;1,&hellip;,20&#125; matches 11 constants at 1% precision ~80% of the time. <strong class="text-white">The building blocks are NOT special at percent-level.</strong></p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Structure, not just numbers</h3>
+          <p class="text-gray-400 text-sm">The framework derives U(1)&times;SU(2)&times;SU(3) gauge group, 15 fermions per generation, 3 generations, 3+1 spacetime dimensions, Lorentz signature, Hilbert space + Born rule. These qualitative results cannot be produced by random number matching.</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Coherence across domains</h3>
+          <p class="text-gray-400 text-sm">The same framework with the same inputs explains particle physics, cosmology, CMB, gravity, and quantum mechanics. Finding one formula that matches one constant is easy. Finding a coherent framework for all of physics with the same inputs is hard.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase Grades -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        Framework Grades
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-800">
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Domain</th>
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Grade</th>
+              <th class="text-left text-gray-400 font-medium py-2">Key Result</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-300">
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Quantum Mechanics</td><td class="py-2 pr-4 font-mono text-accent-green">A</td><td class="py-2">Fully derived from axioms. CANONICAL.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Yang-Mills</td><td class="py-2 pr-4 font-mono text-accent-green">A-</td><td class="py-2">Glueball spectrum, SU(N), 285+ PASS.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Recursive Gap Tower</td><td class="py-2 pr-4 font-mono text-accent-green">A-</td><td class="py-2">Mathematically rigorous, 46/46 PASS.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Evaluation Map</td><td class="py-2 pr-4 font-mono text-white">B+</td><td class="py-2">Two-route gauge convergence.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Particles</td><td class="py-2 pr-4 font-mono text-white">B</td><td class="py-2">Yang-Mills CANONICAL, DM sector, CKM mechanism.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Dark Matter</td><td class="py-2 pr-4 font-mono text-accent-yellow">B-</td><td class="py-2">Mass derived, coupling derived. Untested.</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Cosmology</td><td class="py-2 pr-4 font-mono text-accent-yellow">C</td><td class="py-2">&Omega;<sub>m</sub> derived. Blind predictions succeed.</td></tr>
+            <tr><td class="py-2 pr-4">Gravity</td><td class="py-2 pr-4 font-mono text-red-400">C-</td><td class="py-2">EFE derived. CC magnitude gap remains.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-gray-500 text-xs mt-3">Overall: <strong class="text-white">B-</strong> (structural A, numerical B-, gravity C-)</p>
+    </section>
+
+    <!-- The Author -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        The Author
+      </h2>
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <p class="text-gray-300 text-sm leading-relaxed mb-3"><strong class="text-white">Christopher M Morin</strong> &mdash; amateur researcher with an applied mathematics background, no physics PhD, and no university affiliation.</p>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">This work uses AI assistance (Claude, Anthropic) extensively across 370+ sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail and positioned as a replicable protocol.</p>
+        <p class="text-gray-400 text-sm leading-relaxed">Mathematics doesn't care about credentials. If 1/&alpha; = 137 + 4/111, it's either right or wrong regardless of who found it. Everything is verifiable: ~736 verification scripts, complete derivation chains, no hidden steps.</p>
+      </div>
+    </section>
+
+    <!-- Derivation vs Discovery -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-accent-yellow rounded-full"></span>
+        The Derivation vs. Discovery Problem
+      </h2>
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <blockquote class="text-gray-300 italic text-sm border-l-2 border-brand-500 pl-4 mb-4">Were these formulas DERIVED from first principles, or DISCOVERED by searching and then justified?</blockquote>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">This question cannot be resolved internally. Paths to resolution:</p>
+        <ul class="text-gray-400 text-sm space-y-1">
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span>Another AI independently derives the same numbers from axioms alone</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span>Blind predictions confirmed by experiment</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span>Independent expert verification of derivation logic</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- How to Evaluate -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        How to Evaluate This
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">For skeptical physicists</h3>
+          <ol class="text-gray-400 text-sm space-y-1.5 list-decimal list-inside">
+            <li>Start with the Monte Carlo &mdash; building blocks are NOT special</li>
+            <li>Then look at blind predictions &mdash; these ARE significant</li>
+            <li>Check the structural derivations (gauge groups, QM chain)</li>
+            <li>Verify the 3 sub-ppm formulas independently</li>
+          </ol>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">For the curious</h3>
+          <ol class="text-gray-400 text-sm space-y-1.5 list-decimal list-inside">
+            <li>Focus on qualitative derivations (gauge groups, Einstein equations)</li>
+            <li>Understand the division algebra constraints</li>
+            <li>Browse the <a href="/explore" class="text-brand-400 hover:text-brand-300">Prediction Explorer</a></li>
+            <li>Read the <a href="/faq" class="text-brand-400 hover:text-brand-300">FAQ</a> for quick answers</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="text-center text-xs text-gray-600 mt-12">
+      <p>Speculative amateur work. Not peer-reviewed.</p>
     </div>
   </div>
 </BaseLayout>

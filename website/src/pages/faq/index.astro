@@ -2,13 +2,168 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="FAQ" description="Frequently asked questions about Perspective Cosmology.">
+<BaseLayout title="FAQ" description="Frequently asked questions about Perspective Cosmology — what it is, what it claims, and how to engage.">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-    <h1 class="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h1>
-    <p class="text-gray-400 mb-8">Common questions about the framework, methodology, and how to evaluate the claims.</p>
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center text-gray-500">
-      <p class="text-lg">FAQ page coming soon.</p>
-      <p class="mt-2 text-sm">Content source: FAQ.md (pending Phase 1 deliverable C6)</p>
+    <h1 class="text-3xl font-bold text-white mb-3">Frequently Asked Questions</h1>
+    <p class="text-gray-400 mb-10">The fastest way for a newcomer to understand what this is, what it claims, and how to engage. ~5 minute read.</p>
+
+    <!-- The Basics -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        The Basics
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What is Perspective Cosmology?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">A speculative mathematical framework that asks: <em>What is the minimum mathematical structure required for observation to exist?</em> It claims the answer forces the Standard Model of particle physics, general relativity, 3+1 spacetime dimensions, and specific values of fundamental constants. It was built by an amateur researcher with AI assistance. It has not been peer-reviewed.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What does it claim?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">(1) Consistent observation requires division algebras &mdash; four special number systems with dimensions 1, 2, 4, 8 &mdash; and this is a proven theorem, not a choice. (2) A selection principle called the Consistent Completeness Principle (CCP) forces two integers: crystal dimension n<sub>c</sub> = 11 and defect dimension n<sub>d</sub> = 4. (3) From those two integers alone, the framework derives the gauge group of the Standard Model, quantum mechanics, Einstein's equations, three generations of fermions, and 63+ physical constants including the fine structure constant to 0.27 parts per million.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">Is this real physics?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">Maybe. The framework's own adversarial review (a three-critic Red Team) estimates a <strong class="text-white">25&ndash;40% probability</strong> that this captures genuine physics. A Monte Carlo test showed the building blocks are not statistically special at percent-level precision. Most numerical matches were found <em>after</em> knowing the measured values. But 9 blind predictions (made before checking measurements) succeeded, with a combined P-value of ~2.5 &times; 10<sup>-7</sup>. We genuinely do not know if this is an elaborate coincidence or a real insight.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">Who made this?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">Christopher M Morin &mdash; an amateur with an applied mathematics background, no physics PhD, and no university affiliation. The work uses AI assistance (Claude, Anthropic) extensively across 370+ sessions. The AI-assisted methodology, including hallucination defense and verification infrastructure, is documented in detail.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Math -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        The Math
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What are division algebras, and why do they matter?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">Division algebras are number systems where you can always divide (no two nonzero elements multiply to give zero). The Frobenius-Hurwitz theorem (1877/1898) proves that exactly four exist over the real numbers: the reals (dimension 1), complex numbers (2), quaternions (4), and octonions (8). The framework claims these are the mathematical DNA of physics &mdash; spacetime is 4-dimensional because the quaternions are the largest associative division algebra, and the forces of nature arise from the symmetry groups of the others.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What is the CCP?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">The Consistent Completeness Principle is the framework's central axiom. It requires that the mathematical structure describing perspectives on a complete object be <em>maximally consistent</em> &mdash; the largest structure that avoids contradictions. This replaces a choice (which algebra? which field? which dimension?) with a derivation: CCP forces the complex field F = C, forces crystal dimension n<sub>c</sub> = 11, and forces defect dimension n<sub>d</sub> = 4. Everything downstream follows from those forced values.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What predictions does it make?</h3>
+          <div class="text-gray-300 text-sm leading-relaxed">
+            <p class="font-medium text-white mb-2">Already testable:</p>
+            <ul class="list-disc list-inside space-y-1 mb-3 text-gray-400">
+              <li>Dark matter mass: <strong class="text-white">5.11 GeV</strong> (SuperCDMS, 2026&ndash;2027)</li>
+              <li>Tensor-to-scalar ratio: <strong class="text-white">r = 0.035</strong> (CMB-S4, ~2028)</li>
+              <li>Neutrino mass ordering: normal, with m<sub>1</sub> = 0 (JUNO, ~2027)</li>
+              <li>Dark energy equation of state: w = -1 exactly (DESI, ongoing)</li>
+              <li>No 95 GeV scalar particle (LHC Run 3, now)</li>
+            </ul>
+            <p class="text-gray-400">Each prediction has explicit falsification criteria. If r &ne; 0.035 or dark matter is found outside 4.5&ndash;5.7 GeV, the framework is wrong and we will document why.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest Assessment -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-accent-yellow rounded-full"></span>
+        Honest Assessment
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What has this gotten wrong?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">14 predictions have been falsified, including 3 formal retractions (a Grassmannian topology error, an SU(3) misidentification, and a dark states prediction). These are documented alongside the successes. We record failures because that is how science works.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">How is this different from string theory, loop quantum gravity, or other programs?</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">Every unification program must <em>choose</em> something: string theory chooses a compactification, LQG chooses how to couple matter, Connes' NCG chooses a spectral triple. The framework's claim is that CCP replaces choice with derivation. Whether that claim holds is unproven.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-3">What would prove this wrong?</h3>
+          <div class="text-gray-300 text-sm leading-relaxed">
+            <ul class="list-disc list-inside space-y-1 text-gray-400">
+              <li><strong class="text-white">r</strong> measured outside 0.025&ndash;0.045 by CMB-S4 kills the inflation derivation</li>
+              <li><strong class="text-white">Dark matter</strong> excluded at 4.5&ndash;5.7 GeV by SuperCDMS kills the mass formula</li>
+              <li><strong class="text-white">95 GeV scalar</strong> confirmed at 5&sigma; kills axiom AXM_0109</li>
+              <li><strong class="text-white">Neutrino mass ordering</strong> measured as inverted by JUNO kills P-017</li>
+            </ul>
+            <p class="mt-2 text-gray-400">Each of these is a clean kill, not a "we can adjust" situation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Engage -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-accent-green rounded-full"></span>
+        How to Engage
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Mathematicians</h3>
+          <p class="text-gray-400 text-sm">Examine derivation chains for logical gaps, particularly the pipeline from End(R<sup>11</sup>) = 121 dimensions to the 12-dimensional gauge algebra, and the CCP axiom itself.</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Physicists</h3>
+          <p class="text-gray-400 text-sm">Adversarial criticism wanted. Where do derivation chains break? Where do hidden assumptions lurk? The objection we haven't thought of yet is the most valuable.</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Experimentalists</h3>
+          <p class="text-gray-400 text-sm">The framework predicts specific values for SuperCDMS, CMB-S4, JUNO, DESI, Belle II, and HL-LHC. Are the precision and falsification criteria realistic?</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h3 class="text-white font-semibold mb-2">Developers</h3>
+          <p class="text-gray-400 text-sm">736+ verification scripts are the backbone of credibility. Spot-check for correctness, run independently, identify edge cases.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Check the Math -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 bg-brand-500 rounded-full"></span>
+        Check the Math Yourself
+      </h2>
+
+      <div class="bg-gradient-to-r from-brand-950/50 to-gray-900 border border-brand-900/50 rounded-xl p-6">
+        <p class="text-gray-300 text-sm mb-4">Three tree-level formulas you can verify in 30 seconds:</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-sm">
+          <div class="bg-gray-950/60 rounded-lg p-4">
+            <div class="text-white">1/&alpha; = 15211/111</div>
+            <div class="text-gray-500 mt-1">= 137.036036...</div>
+            <div class="text-accent-green text-xs mt-1">0.27 ppm from CODATA</div>
+          </div>
+          <div class="bg-gray-950/60 rounded-lg p-4">
+            <div class="text-white">sin&sup2;&theta;<sub>W</sub> = 28/121</div>
+            <div class="text-gray-500 mt-1">= 0.23140...</div>
+            <div class="text-accent-green text-xs mt-1">0.08% from PDG</div>
+          </div>
+          <div class="bg-gray-950/60 rounded-lg p-4">
+            <div class="text-white">&Omega;<sub>m</sub> = 63/200</div>
+            <div class="text-gray-500 mt-1">= 0.315</div>
+            <div class="text-accent-green text-xs mt-1">Exact match to Planck 2018</div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-xs mt-4">For deeper verification: clone the repository and run any of the 736+ SymPy scripts &mdash; each states its assumptions, performs exact arithmetic, and reports PASS/FAIL.</p>
+      </div>
+    </section>
+
+    <div class="text-center text-xs text-gray-600 mt-12">
+      <p>Speculative amateur work. Not peer-reviewed.</p>
     </div>
   </div>
 </BaseLayout>

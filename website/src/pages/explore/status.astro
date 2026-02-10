@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DomainStatusExplorer from '../../components/DomainStatusExplorer';
+import domainStatusData from '../../../data/domain-status.json';
+---
+
+<BaseLayout title="Framework Status" description="Physics domain status dashboard: 12 domains from fine-structure constant to quantum mechanics, with prediction counts, experiment timelines, and confidence ratings.">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">Framework Status by Domain</h1>
+      <p class="text-gray-400 max-w-3xl">
+        Overview of framework health across 12 physics domains. Each card shows prediction counts,
+        experimental tests, and confidence levels. Based on Red Team v3.0 assessment (S330).
+      </p>
+      <p class="text-xs text-gray-600 mt-2">
+        25-40% probability of genuine physics. 4 irreducible assumptions remain. All results are speculative.
+      </p>
+    </div>
+
+    <DomainStatusExplorer client:load data={domainStatusData} />
+
+    <div class="mt-12 border-t border-gray-800 pt-8">
+      <h2 class="text-lg font-semibold text-white mb-3">Status categories</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Strong</div>
+            <div class="text-gray-500">Sub-10 ppm precision, multiple confirmations.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-cyan-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Testable</div>
+            <div class="text-gray-500">Specific predictions awaiting experimental test.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-yellow-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Active</div>
+            <div class="text-gray-500">Good results with ongoing development.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-orange-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Developing</div>
+            <div class="text-gray-500">Percent-level results, work in progress.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-purple-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Structural</div>
+            <div class="text-gray-500">Mathematical structure derived, limited numerics.</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="w-2 h-2 mt-1.5 rounded-full bg-gray-400 shrink-0"></span>
+          <div>
+            <div class="text-white font-medium">Open</div>
+            <div class="text-gray-500">Major unresolved problems or falsified attempts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-4 text-sm">
+      <a href="/explore" class="text-brand-400 hover:text-brand-300">
+        &larr; Prediction Explorer
+      </a>
+      <a href="/explore/derivations" class="text-brand-400 hover:text-brand-300">
+        Derivation Chains &rarr;
+      </a>
+      <a href="/explore/algebra" class="text-brand-400 hover:text-brand-300">
+        Division Algebra &rarr;
+      </a>
+    </div>
+  </div>
+</BaseLayout>

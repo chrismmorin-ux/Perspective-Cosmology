@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PerspectiveMathExplorer from '../../components/PerspectiveMathExplorer';
+---
+
+<BaseLayout title="Perspective Mathematics" description="Interactive exploration of the recursive gap tower, the irreducible element Im(C), and the epistemic boundary of perspective applied to its own incompleteness.">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-3">The Mathematics of Perspective</h1>
+      <p class="text-gray-400 max-w-3xl">
+        What happens when perspective examines its own blind spot? A finite recursive tower
+        whose gaps trace the division algebras in reverse, terminating at a single direction
+        that no perspective can access — yet without which no perspective can function.
+      </p>
+      <p class="text-sm text-gray-600 mt-2">
+        Step through the tower cascade, explore the five properties of Im(C), and see exactly
+        where the boundary between theorem and conjecture lies.
+      </p>
+    </div>
+
+    <PerspectiveMathExplorer client:load />
+
+    <div class="mt-12 border-t border-gray-800 pt-8">
+      <h2 class="text-lg font-semibold text-white mb-3">Related explorations</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+        <a href="/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Division Algebras</div>
+          <div class="text-gray-500 mt-1">The four algebras whose dimensions generate the framework.</div>
+        </a>
+        <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
+          <div class="text-gray-500 mt-1">Trace any prediction back to its axioms step by step.</div>
+        </a>
+        <a href="/explore" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Prediction Explorer</div>
+          <div class="text-gray-500 mt-1">Browse all 37+ predictions with precision tiers.</div>
+        </a>
+        <a href="/publications/math" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+          <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Full Paper</div>
+          <div class="text-gray-500 mt-1">Complete formal treatment with proofs (609 lines).</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -2,13 +2,145 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="For Skeptics" description="The most efficient path to evaluate this framework in 5 minutes.">
+<BaseLayout title="For Skeptics" description="14 anticipated objections to Perspective Cosmology, addressed honestly. Where criticisms have merit, we acknowledge it.">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-    <h1 class="text-3xl font-bold text-white mb-4">For Skeptics</h1>
-    <p class="text-gray-400 mb-8">The most efficient path to evaluate this framework. ~7 minute read.</p>
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center text-gray-500">
-      <p class="text-lg">Full content rendering coming soon.</p>
-      <p class="mt-2 text-sm">Content source: FOR_SKEPTICS.md (v2.0)</p>
+    <h1 class="text-3xl font-bold text-white mb-3">For Skeptics</h1>
+    <p class="text-gray-400 mb-4">We anticipate skepticism. This document addresses the most likely objections directly and honestly. Where objections have merit, we acknowledge it. ~15 minute read.</p>
+    <p class="text-gray-600 text-sm mb-10 italic">"The first principle is that you must not fool yourself &mdash; and you are the easiest person to fool." &mdash; Richard Feynman</p>
+
+    <!-- Summary Table -->
+    <section class="mb-12">
+      <h2 class="text-lg font-bold text-white mb-4">At a Glance</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-800">
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Objection</th>
+              <th class="text-left text-gray-400 font-medium py-2 pr-4">Validity</th>
+              <th class="text-left text-gray-400 font-medium py-2">Our Response</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-300">
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Just numerology</td><td class="py-2 pr-4 text-accent-yellow">Partial</td><td class="py-2 text-gray-400">Monte Carlo shows blocks not special; sub-ppm + blind survive</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Tried before</td><td class="py-2 pr-4 text-accent-yellow">Valid</td><td class="py-2 text-gray-400">This has numerical predictions + falsifiable tests</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Smuggled physics</td><td class="py-2 pr-4 text-red-400">Important</td><td class="py-2 text-gray-400">4 irreducible assumptions remain, not zero</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Post-hoc fitting</td><td class="py-2 pr-4 text-accent-yellow">Largely valid</td><td class="py-2 text-gray-400">9 blind predictions are counter-evidence</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Amateur work</td><td class="py-2 pr-4 text-accent-yellow">Valid concern</td><td class="py-2 text-gray-400">Check the math, not credentials</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Why these formulas?</td><td class="py-2 pr-4 text-accent-yellow">Legitimate gap</td><td class="py-2 text-gray-400">Schur's lemma progress but gap remains</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Ignores QFT</td><td class="py-2 pr-4 text-accent-yellow">Partial</td><td class="py-2 text-gray-400">Tree-to-dressed paradigm gives boundary conditions</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Too perfect</td><td class="py-2 pr-4 text-accent-yellow">Suspicious</td><td class="py-2 text-gray-400">Triple-formula largely resolved; CC magnitude gap</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Nothing genuinely new</td><td class="py-2 pr-4 text-accent-yellow">Partial</td><td class="py-2 text-gray-400">8+ testable predictions, 9 blind successes</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">Foundational claim</td><td class="py-2 pr-4 text-red-400">Deepest issue</td><td class="py-2 text-gray-400">Axioms constrain less than originally claimed</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">CC wrong sign</td><td class="py-2 pr-4 text-accent-green">Resolved</td><td class="py-2 text-gray-400">Sign convention error corrected; magnitude gap remains</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">DM too convenient</td><td class="py-2 pr-4 text-accent-yellow">Legitimate</td><td class="py-2 text-gray-400">Structural derivation, testable at SuperCDMS</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4">IRA reduction semantic</td><td class="py-2 pr-4 text-accent-yellow">Valid point</td><td class="py-2 text-gray-400">Weinberg criterion = standard physics meta-assumption</td></tr>
+            <tr><td class="py-2 pr-4">Corrections show fragility</td><td class="py-2 pr-4 text-accent-yellow">Partially valid</td><td class="py-2 text-gray-400">Self-correction is strength; frequency notable</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Objection 1 -->
+    <section class="mb-8">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-1">Objection 1: "This is just numerology"</h2>
+        <p class="text-accent-yellow text-xs mb-4">Partially valid &mdash; this is the most important objection</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">A Monte Carlo null model (5000 trials) showed: ANY 7-element subset of &#123;1,&hellip;,20&#125; matches 11 physics constants at 1% precision ~80% of the time. At 0.1%, the framework is exactly average (51st percentile). <strong class="text-white">The building blocks are NOT special at percent-level.</strong></p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-2">What distinguishes this from typical numerology:</p>
+        <ul class="text-gray-400 text-sm space-y-1.5 mb-3">
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">1.</span><span><strong class="text-white">Sub-ppm precision</strong> &mdash; Random matching drops to ~0% below 10 ppm. The framework has 3 sub-ppm and 12 sub-10 ppm matches.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">2.</span><span><strong class="text-white">Blind predictions</strong> &mdash; 9 predictions made BEFORE checking measurements. 6/7 CMB within 1&sigma;, 2/2 neutrino within 1&sigma;. P ~ 2.5&times;10<sup>-7</sup>.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">3.</span><span><strong class="text-white">Qualitative structure</strong> &mdash; Derives gauge groups, spacetime dimensions, QM formalism, fermion content. Random numbers can't do this.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span><strong class="text-white">14 documented failures</strong> &mdash; Numerologists don't track failures. We do.</span></li>
+        </ul>
+        <p class="text-gray-500 text-xs italic">Honest acknowledgment: We cannot prove this isn't sophisticated numerology. The evidence rests on sub-ppm matches, blind predictions, and structural derivations.</p>
+      </div>
+    </section>
+
+    <!-- Objection 3 -->
+    <section class="mb-8">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-1">Objection 2: "The axioms smuggle in physics"</h2>
+        <p class="text-red-400 text-xs mb-4">Important &mdash; the most important objection</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">The 13 Layer 0 axioms are pure linear algebra: an inner product space with orthonormal basis and orthogonal projection operators. Physics enters at Layer 2 through explicit correspondence rules. <strong class="text-white">4 irreducible assumptions remain</strong> (1 structural, 2 physical, 1 import) &mdash; reduced from ~10 via resolution campaign.</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">The chain: <span class="font-mono text-xs text-gray-400">Observation consistency -> no zero-divisors -> division algebras -> {1,2,4,8}</span></p>
+        <p class="text-gray-500 text-xs italic">Honest acknowledgment: The interpretation step is not pure mathematics. The "zero free parameters" claim was incorrect &mdash; the honest count is 4 irreducible assumptions.</p>
+      </div>
+    </section>
+
+    <!-- Objection 4 -->
+    <section class="mb-8">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-1">Objection 3: "Post-hoc fitting"</h2>
+        <p class="text-accent-yellow text-xs mb-4">Largely valid for most Tier 1 claims</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">All 12 sub-10 ppm claims were identified post-hoc. However:</p>
+        <ul class="text-gray-400 text-sm space-y-1.5 mb-3">
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">9 blind predictions exist</strong>: 7 CMB (6/7 within 1&sigma;) + 2 neutrino (both within 1&sigma;), made BEFORE checking measurements</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">Multiple derivation paths</strong>: DM mass reaches 5.11 GeV from two independent routes. Weinberg angle has on-shell (171/194) AND democratic (28/121) paths.</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">-</span><span><strong class="text-white">14 failures documented</strong>: We're not hiding the denominator.</span></li>
+        </ul>
+        <p class="text-gray-500 text-xs italic">Honest acknowledgment: The development WAS iterative. The blind predictions are the strongest counter-evidence.</p>
+      </div>
+    </section>
+
+    <!-- Objection 5 -->
+    <section class="mb-8">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-1">Objection 4: "Amateur work can't be trusted"</h2>
+        <p class="text-accent-yellow text-xs mb-4">Valid concern</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">We acknowledge: no physics PhD, no peer review, AI-assisted development, high prior probability of being wrong (25&ndash;40%).</p>
+        <p class="text-gray-300 text-sm leading-relaxed mb-3">Why it might still be worth looking at: Mathematics doesn't care about credentials. Everything is verifiable (~736 scripts, complete derivation chains, no hidden steps). Falsifiable predictions exist (m<sub>DM</sub> = 5.11 GeV, r = 0.035).</p>
+        <p class="text-white text-sm font-semibold">Our request: Don't believe us. Check the calculations. Test the predictions.</p>
+      </div>
+    </section>
+
+    <!-- Testable Predictions -->
+    <section class="mb-8">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-1">Objection 5: "What does this actually predict?"</h2>
+        <p class="text-accent-yellow text-xs mb-4">We have genuine testable predictions</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm mt-2">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="text-left text-gray-400 font-medium py-2 pr-3">Prediction</th>
+                <th class="text-left text-gray-400 font-medium py-2 pr-3">Value</th>
+                <th class="text-left text-gray-400 font-medium py-2 pr-3">Timeline</th>
+                <th class="text-left text-gray-400 font-medium py-2">If falsified</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Dark matter mass</td><td class="py-2 pr-3 font-mono">5.11 GeV</td><td class="py-2 pr-3">SuperCDMS 2026-27</td><td class="py-2 text-red-400">Kills mass formula</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Tensor-to-scalar ratio</td><td class="py-2 pr-3 font-mono">r = 0.035</td><td class="py-2 pr-3">CMB-S4 ~2028</td><td class="py-2 text-red-400">Most significant test</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">95 GeV scalar</td><td class="py-2 pr-3 font-mono">NO</td><td class="py-2 pr-3">LHC Run 3</td><td class="py-2 text-red-400">Kills AXM_0109</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Neutrino ordering</td><td class="py-2 pr-3 font-mono">Normal, m<sub>1</sub>=0</td><td class="py-2 pr-3">JUNO ~2027</td><td class="py-2 text-red-400">Kills P-017</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Dark energy EOS</td><td class="py-2 pr-3 font-mono">w = -1 exact</td><td class="py-2 pr-3">DESI ongoing</td><td class="py-2 text-red-400">Falsifies</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Higgs coupling</td><td class="py-2 pr-3 font-mono">&kappa;<sub>V</sub> = 0.983</td><td class="py-2 pr-3">FCC-ee</td><td class="py-2 text-red-400">Falsifies</td></tr>
+              <tr class="border-b border-gray-800/50"><td class="py-2 pr-3">Triple Higgs</td><td class="py-2 pr-3 font-mono">&kappa;<sub>&lambda;</sub> = 0.9497</td><td class="py-2 pr-3">HL-LHC</td><td class="py-2 text-red-400">Falsifies</td></tr>
+              <tr><td class="py-2 pr-3">Colored pNGBs</td><td class="py-2 pr-3 font-mono">~1761 GeV</td><td class="py-2 pr-3">HL-LHC 2026-29</td><td class="py-2 text-red-400">Weakens composite sector</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Commitment -->
+    <section class="mb-8">
+      <div class="bg-gradient-to-r from-brand-950/50 to-gray-900 border border-brand-900/50 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-4">Our Commitment</h2>
+        <ul class="text-gray-300 text-sm space-y-2">
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">1.</span><span>If dark matter is found outside 4.5&ndash;5.7 GeV: we will document the failure</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">2.</span><span>If r &ne; 0.035: we will document the failure</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">3.</span><span>If errors are found: we will correct them publicly</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">4.</span><span>All materials available: ~736 scripts, derivations, session logs</span></li>
+          <li class="flex items-start gap-2"><span class="text-brand-400 mt-0.5">5.</span><span>14 failures already documented: we don't hide what doesn't work</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="text-center text-xs text-gray-600 mt-12">
+      <p>We try to follow Feynman's principle. We may still be fooling ourselves. That's why we have testable predictions.</p>
+      <p class="mt-1">Speculative amateur work. Not peer-reviewed.</p>
     </div>
   </div>
 </BaseLayout>

@@ -2,13 +2,72 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Contact" description="How to reach us, report errors, or collaborate.">
+<BaseLayout title="Contact" description="How to reach us, report errors, or collaborate on Perspective Cosmology.">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-    <h1 class="text-3xl font-bold text-white mb-4">Contact</h1>
-    <p class="text-gray-400 mb-8">We welcome criticism, error reports, and collaboration inquiries.</p>
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center text-gray-500">
-      <p class="text-lg">Contact page coming soon.</p>
-      <p class="mt-2 text-sm">Will include email, GitHub issues link, and collaboration guidelines.</p>
+    <h1 class="text-3xl font-bold text-white mb-3">Contact</h1>
+    <p class="text-gray-400 mb-10">We welcome criticism, error reports, and collaboration inquiries.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-3">Report an Error</h2>
+        <p class="text-gray-400 text-sm mb-4">Found a mathematical error, logical gap, incorrect measurement value, or broken cross-reference?</p>
+        <a href="https://github.com/chrismmorin-ux/Perspective-Universe/issues" class="inline-flex items-center text-sm text-brand-400 hover:text-brand-300">
+          Open a GitHub Issue
+          <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <div class="mt-4 text-xs text-gray-600">
+          <p>Please include:</p>
+          <ul class="list-disc list-inside mt-1 space-y-0.5">
+            <li>The specific file and line number</li>
+            <li>What you believe is incorrect</li>
+            <li>The correction or reference supporting your finding</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-3">Collaborate</h2>
+        <p class="text-gray-400 text-sm mb-4">We are actively seeking collaborators, especially professional physicists or mathematicians willing to scrutinize specific derivation chains.</p>
+        <p class="text-gray-400 text-sm">Collaboration can range from a single email pointing out an error to ongoing joint investigation of open problems. We are open to co-authorship on any result that emerges from collaborative work.</p>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-3">Run the Verification Scripts</h2>
+        <p class="text-gray-400 text-sm mb-3">The primary way to engage with this work is to run the 736+ SymPy verification scripts independently.</p>
+        <div class="bg-gray-950 rounded-lg p-4 font-mono text-xs text-gray-400">
+          <div><span class="text-gray-600"># Requirements</span></div>
+          <div>pip install sympy</div>
+          <div class="mt-2"><span class="text-gray-600"># Run a specific verification</span></div>
+          <div>python verification/sympy/alpha_enhanced_prediction.py</div>
+        </div>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 class="text-white font-semibold mb-3">What Criticism Helps Most</h2>
+        <ul class="text-gray-400 text-sm space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">1.</span>
+            <span><strong class="text-white">Mathematical errors</strong> in derivation chains</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">2.</span>
+            <span><strong class="text-white">Hidden assumptions</strong> we haven't identified</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">3.</span>
+            <span><strong class="text-white">Alternative explanations</strong> for the numerical matches</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-brand-400 mt-0.5">4.</span>
+            <span><strong class="text-white">Statistical critiques</strong> of the P-value calculation</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
+      <p class="text-gray-500 text-sm">This is speculative, amateur, AI-assisted theoretical work. It carries a self-assessed <strong class="text-white">25&ndash;40% probability</strong> of constituting genuine physics. Please engage with appropriate skepticism.</p>
+      <p class="text-gray-600 text-xs mt-2">Be respectful, be specific, be honest. Mathematical criticism is welcome and encouraged &mdash; that's how science works.</p>
     </div>
   </div>
 </BaseLayout>
