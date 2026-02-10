@@ -198,7 +198,7 @@
       "experiments": [],
       "confidence": { "theorem": 1, "derivation": 2, "conjecture": 0 },
       "lastUpdated": "S352",
-      "narrative": "SU(3) color symmetry is derived as G_2 (octonion automorphisms) breaking to SU(3) when a preferred direction is chosen by the complex structure. The Yang-Mills mass gap derivation is rated CANONICAL by the quality engine, with base mass scale n_d = 4 and large-N behavior 10/3 + 2/N^2. Two hadron mass ratio predictions reach Tier 1 precision, though the Xi0/d-quark ratio has illusory precision due to ~10% d-quark mass uncertainty.",
+      "narrative": "SU(3) color symmetry is derived as G_2 (octonion automorphisms) breaking to SU(3) when a preferred direction is chosen by the complex structure. The Yang-Mills mass gap derivation is rated CANONICAL (285/287 tests, 13 scripts), with base mass scale n_d = 4 and large-N formula 10/3 + 2/N^2 (chi^2 = 0.47, zero free parameters). The full L<=1 glueball spectrum matches lattice QCD at ~4% average error. See the full Yang-Mills publication for SU(N) universality, confinement mechanism, and transition order systematics. Two hadron mass ratio predictions reach Tier 1 precision, though the Xi0/d-quark ratio has illusory precision due to ~10% d-quark mass uncertainty.",
       "predictionDomain": "particles"
     },
     {
@@ -217,7 +217,7 @@
       "experiments": [],
       "confidence": { "theorem": 0, "derivation": 1, "conjecture": 0 },
       "lastUpdated": "S352",
-      "narrative": "Gravity is the framework's weakest domain. While Einstein field equations have been derived from the perspective gamma-structure at the level of [DERIVATION], all five quantitative gravity predictions have been falsified: G from perspective count (~50% error), Planck length (~10x error), Bekenstein-Hawking factor (proportionality only), and h(gamma) (withdrawn as untestable). The cosmological constant magnitude gap (~10^111) remains the largest unsolved problem.",
+      "narrative": "Gravity is the framework's weakest domain for quantitative predictions, with all five original attempts falsified. However, the horizon physics investigation (CANONICAL, 128/128 tests) provides structural insights: BH entropy factor 4 = n_d (quaternion), Hawking temperature factor 8 = C x H = O (octonion), and prime 13 unification of dark energy fraction, Hubble tension, and de Sitter temperature. These identify the algebraic meaning of known GR factors but do not produce new quantitative predictions. The cosmological constant magnitude gap (~10^111) remains the largest unsolved problem.",
       "predictionDomain": "gravity",
       "caveat": "All 5 quantitative gravity predictions falsified. CC magnitude gap ~10^111."
     },
