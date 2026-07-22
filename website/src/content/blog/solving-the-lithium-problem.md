@@ -77,9 +77,7 @@ The verification script (`lithium7_crystallization.py`) confirms all dimensional
 
 This result has [DERIVATION] confidence. It's not a rigorous theorem -- the mechanism (crystallization enhancement of nuclear reactions) is physically motivated but not derived from first principles of nuclear physics. The factor 3 is compelling, but could be numerological coincidence (there are only a few small integers it could be).
 
-The strongest version of this result would be a calculation showing that crystallization dynamics in the early universe genuinely enhance the Li-7 destruction reaction by a factor that works out to Im(H). That calculation hasn't been done. What we have is the right answer with the right structure from the right framework.
-
-Still -- a 30-year problem, a factor of 3, and a framework that says "the factor IS 3." Sometimes the simplest explanation is worth taking seriously.
+The strongest version of this result would be a calculation showing that crystallization dynamics in the early universe genuinely enhance the Li-7 destruction reaction by a factor that works out to Im(H). That calculation hasn't been done. What we have is the right answer with the right structure from the right framework.give m
 
 ## Verification
 

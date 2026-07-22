@@ -14,7 +14,7 @@ An assumption is **irreducible** if:
 2. It is NEEDED by at least one active derivation chain
 3. It is not a consequence of another assumption on this list
 
-This list supersedes the approximate "13 assumptions" count from S256, which was never explicitly enumerated. Post-S321 count: **4 irreducible assumptions** (1 [A-STRUCTURAL], 0 [CONJECTURE], 2 [A-PHYSICAL], 1 [A-IMPORT], 0 [A-INTERPRETATION]). IRA-01 RESOLVED (S304): kappa=1 derived from C2 propagation + I-STRUCT-5 democracy across blocks + full compositeness. IRA-08 RESOLVED (S299): derived from IRA-06. IRA-09 RESOLVED (S321): Hom(H,R^7) decomposition gives 3 generation channels; Weinberg-forced (S299 resolution retracted S320: SU(3)=color). IRA-10 RESOLVED (S302): all 7 QM defining properties derived without IRA-10; Weinberg criterion forces identification. IRA-06 and IRA-07 survive as independent but are Weinberg-forced.
+This list supersedes the approximate "13 assumptions" count from S256, which was never explicitly enumerated. Post-S373 count: **5 irreducible assumptions** (1 [A-STRUCTURAL], 0 [CONJECTURE], 3 [A-PHYSICAL], 1 [A-IMPORT], 0 [A-INTERPRETATION]). IRA-12 ADDED (S373): 1st-gen nu_R Dirac decoupling (y_{nu,1}=0), stabilizing nu_R as DM carrier. S373 exhaustive search proved no framework-native protective symmetry exists (4 attack vectors closed). IRA-01 RESOLVED (S304): kappa=1 derived from C2 propagation + I-STRUCT-5 democracy across blocks + full compositeness. IRA-08 RESOLVED (S299): derived from IRA-06. IRA-09 RESOLVED (S321): Hom(H,R^7) decomposition gives 3 generation channels; Weinberg-forced (S299 resolution retracted S320: SU(3)=color). IRA-10 RESOLVED (S302): all 7 QM defining properties derived without IRA-10; Weinberg criterion forces identification. IRA-06 and IRA-07 survive as independent but are Weinberg-forced.
 
 ---
 
@@ -276,6 +276,47 @@ By the Weinberg criterion (same as IRA-08/09 in S299): structural isomorphism fo
 
 ---
 
+### Tier 5: Dark Matter
+
+#### IRA-12: 1st-gen nu_R Dirac decoupling [A-PHYSICAL]
+
+**Type**: [A-PHYSICAL]
+**Impact**: MEDIUM — determines DM carrier identity and stability
+**Statement**: The 1st-generation right-handed neutrino has zero Dirac Yukawa coupling with active neutrinos: y_{nu,1} = 0 exactly.
+**What's proven** (S372-S373):
+- nu_R is the UNIQUE framework-native gauge-singlet fermion (16 = 15 SM + 1 nu_R) [THEOREM, S372]
+- Mass formula m_DM = m_e x det(M) = 5.11 GeV [DERIVATION, S372]
+- Asymmetric DM: Omega_c/Omega_b = m_DM/m_p = 5.45 (1.2% from observed 5.38) [DERIVATION]
+- Stability/neutrino-mass tension: theta_seesaw/theta_stability ~ 10^{10.7} [DERIVATION, S372]
+- Exhaustive protective symmetry search (4 attack vectors, S373):
+  1. Cartan involution: Z_4 on spinors, not Z_2 (sigma^2 = -1 for q=7) [THEOREM]
+  2. Im(H) epsilon-Yukawa: mechanism exists but protects WRONG generation (3rd, not 1st) [DERIVATION]
+  3. Morse/topological: protects mass value, not stability [THEOREM]
+  4. Split seesaw: no threshold exists [DERIVATION]
+- **No framework-native symmetry protects 1st-gen nu_R** [THEOREM, S373]
+**What remains**: y_{nu,1} = 0 is stated, not derived. NOT Weinberg-forced (no structural argument requires it). This is the weakest assumption in the active inventory.
+**Consequences** [DERIVATION]:
+1. nu_R absolutely stable (theta_1 = 0, lifetime = infinity)
+2. Rank-2 seesaw: one massless active neutrino (m_1 = 0)
+3. sigma_SI = 0 (below all planned direct detection experiments)
+4. Two active neutrino masses from 2nd/3rd gen seesaw (m_2 = 8.7 meV, m_3 = 49.5 meV, sum = 58.2 meV)
+**Falsification**: (a) DM-nucleon scattering detected, (b) m_1 != 0 measured, (c) Omega_c/Omega_b incompatible with 5.45, (d) nu_R visible decay at colliders
+**Resolving conjecture**: ATTEMPTED S377. 8 dissolution routes exhaustively tested, ALL CLOSED:
+  1. Coset rep theory: unique SO(11) spinor-spinor-coset invariant, generation-blind [THEOREM]
+  2. Partial compositeness mixing: full compositeness (sin(theta)=1) eliminates hierarchy mechanism [CLOSED]
+  3. Composite sector Y_*: determined by unique SO(11) invariant (gen-blind) [CLOSED]
+  4. Epsilon-Yukawa (Im(H)): protects gen-3 (VEV-aligned), not gen-1 [DERIVATION, S373]
+  5. NLO higher-dim operators: give O(v^2/f^2) ~ 3% suppression, not exact zero [CLOSED]
+  6. Composite matching at f: m_DM from asymmetric relation, decoupled from Higgs sector [CLOSED]
+  7. Anomaly-based: no anomalous discrete symmetry (S373 AV1: Z_4 not Z_2) [THEOREM]
+  8. Different reps per generation: contradicts framework (all gens in same spinor 32) [CLOSED]
+  No further dissolution routes identified. IRA-12 is CONFIRMED IRREDUCIBLE at the representation-theory level.
+**Depends on**: IRA-06 (SSB gives the composite Higgs framework), IRA-07 (time evolution gives seesaw dynamics)
+**Used by**: DM mass prediction, asymmetric DM ratio, neutrino mass spectrum, direct detection prediction
+**Verification**: `ira_12_nu_R_decoupling.py` (9/9 PASS), `dm_protective_symmetry_search.py` (18/18 PASS), `dm_carrier_nu_R_derivation.py` (14/14 PASS), `ira12_mchm4_dissolution_attempt.py` (21/21 PASS)
+
+---
+
 ## Dependency Map
 
 ```
@@ -320,6 +361,13 @@ IRA-10 RESOLVED (S302) -- derived from IRA-06 + IRA-07 + THM_0491/0494/0493/0485
 
 IRA-11 (|Pi| scale) [A-IMPORT]
   |-- standalone (cosmological input)
+
+IRA-12 (1st-gen nu_R decoupling) [A-PHYSICAL]
+  |-- depends on IRA-06 (composite Higgs framework from SSB)
+  |-- depends on IRA-07 (time evolution gives seesaw dynamics)
+  |-- NOT Weinberg-forced (weakest assumption in inventory)
+  |-- S373: exhaustive search proved no framework-native Z_2
+  |-- Buys: DM carrier identity, asymmetric DM, rank-2 seesaw, sigma_SI = 0
 ```
 
 ---
@@ -330,10 +378,10 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 |------|-------|-----|-------|
 | [CONJECTURE] | 0 | — | (None remaining) |
 | [A-STRUCTURAL] | 1 | IRA-04 | Quartic ratio (S298). IRA-01 RESOLVED S304 (C2 propagation). |
-| [A-PHYSICAL] | 2 | IRA-06, IRA-07 | Both Weinberg-forced (S299). IRA-08/09/10 resolved as derived. |
+| [A-PHYSICAL] | 3 | IRA-06, IRA-07, IRA-12 | IRA-06/07 Weinberg-forced (S299). IRA-12 NOT Weinberg-forced (S373). |
 | [A-INTERPRETATION] | 0 | — | IRA-10 RESOLVED S302: all 7 QM properties derived without it. Tier ELIMINATED. |
 | [A-IMPORT] | 1 | IRA-11 | Cosmological observation |
-| **Total** | **4** | | IRA-01 RESOLVED S304 (C2 propagation + democracy). Count 5 -> 4. |
+| **Total** | **5** | | IRA-12 ADDED S373 (nu_R decoupling). Count 4 -> 5. |
 
 ---
 
@@ -352,6 +400,7 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 | 7 | ~~IRA-10~~ | **RESOLVED** (S302) | Weinberg criterion | — | All 7 QM properties derived without IRA-10. Same mechanism as IRA-08/09. |
 | — | IRA-06/07 | Weinberg-forced but irreducible | Structural isomorphism leaves no alternative | — | Meta-assumption of mathematical physics |
 | — | IRA-11 | Import | Would require cosmological derivation | Out of scope |  |
+| 8 | IRA-12 | y_{nu,1} = 0 | Partial compositeness construction or anomaly analysis | MEDIUM | ADDED S373. Dissolution ATTEMPTED S377: 8 routes tested, all CLOSED. CONFIRMED IRREDUCIBLE at rep-theory level. NOT Weinberg-forced. Weakest active IRA. |
 
 ---
 
@@ -365,4 +414,4 @@ IRA-11 (|Pi| scale) [A-IMPORT]
 
 ---
 
-*Version 6.0 (S321). IRA-09 RESOLVED via Hom(H,R^7) decomposition: 3 independent R^7 channels from Im(H)=3, Weinberg-forced. S299 resolution (SU(3) branching) remains retracted (S320: SU(3)=color). New resolution is structurally different: uses tilt field decomposition, not group branching. IRA count remains 4. See `generation_mechanism_formalization.py` (37/37 PASS). Supersedes v5.0 (S320).*
+*Version 7.1 (S377). IRA-12 dissolution ATTEMPTED via MCHM4 spinorial embedding: 8 routes tested (coset rep theory, partial compositeness, composite Y_*, epsilon-Yukawa, NLO, composite matching, anomaly, different reps), ALL CLOSED. IRA-12 CONFIRMED IRREDUCIBLE at representation-theory level. IRA count UNCHANGED at 5. See `ira12_mchm4_dissolution_attempt.py` (21/21 PASS). Supersedes v7.0 (S373).*
