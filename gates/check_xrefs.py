@@ -45,7 +45,7 @@ import subprocess
 import sys
 import tempfile
 
-LEDGER = "verification/gates/xref-baseline.json"
+LEDGER = "gates/xref-baseline.json"
 
 TEXT_EXT = {".md", ".markdown"}
 # A reference is only interesting if it points at something file-shaped.
@@ -93,6 +93,15 @@ def is_candidate(ref: str) -> bool:
     return ext in REF_EXT
 
 
+#: Documents moved wholesale into quarantine/ were authored when the repository
+#: root WAS their root, so a root-relative citation like `core/THM_0491.md` is
+#: still correct relative to quarantine/. Resolving those only against the new
+#: root would report ~1,550 breakages that the restructure invented and the
+#: authors never wrote -- which would poison the ledger with defects nobody can
+#: fix, and a ledger full of unfixable entries is one nobody reads.
+RELOCATED_ROOTS = ("quarantine/",)
+
+
 def resolve(ref: str, from_file: str, root: str) -> bool:
     """True if `ref`, cited inside `from_file`, names something that exists."""
     base = ref.strip().split("#", 1)[0].split("?", 1)[0]
@@ -104,6 +113,10 @@ def resolve(ref: str, from_file: str, root: str) -> bool:
     else:
         cands.append(os.path.join(os.path.dirname(from_file), base))
         cands.append(os.path.join(root, base))
+        rel = os.path.relpath(from_file, root).replace("\\", "/")
+        for prefix in RELOCATED_ROOTS:
+            if rel.startswith(prefix):
+                cands.append(os.path.join(root, prefix, base))
     return any(os.path.exists(os.path.normpath(c)) for c in cands)
 
 

@@ -45,6 +45,12 @@ topics/
 .quality/
 .auditor/
 meta/
-quarantine/
 explorations/
 docs/
+
+# quarantine/ is deliberately NOT ignored (ADR-070).
+# The prior entry treated it as local scratch. The reattack quarantine is
+# the opposite: tracked, versioned, provenance-preserving. Content is made
+# UNCITEABLE by a gate, never invisible by an ignore rule -- a corpus you
+# cannot see is a corpus you cannot audit, and it silently stops existing
+# for every consumer but the one machine holding the working copy.
