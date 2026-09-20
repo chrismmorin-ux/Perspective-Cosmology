@@ -1167,6 +1167,77 @@ function runGate(args) {
     process.exit(1);
   }
 
+  // Step 1d-roster: NO SPRINT BEFORE THE WHOLE SYSTEM HAS BEEN LOOKED AT.
+  //
+  // Founder mandate, 2026-09-20 (perspective-cosmology, MIS-001 REPEAT). Every
+  // installed program must have run at least one cadenced protocol before ANY
+  // sprint composes. Not "every critical program" -- every one.
+  //
+  // Why this exists. Adoption installs a roster (11 programs here) and marks
+  // most of them `dormant`. The Step 1d scan below could not see them, twice
+  // over: it `continue`s on `on_stale.block_sprint !== true` (7 of 11 declare
+  // false), and its never-run branch is fenced to `tier active|critical` (1 of
+  // 11). So the entire install was gated by ONE program. A session cleared that
+  // one program, the gate went green, compose found an empty queue -- and the
+  // session filled the vacuum by proposing research work off a backlog that
+  // predated the adoption and had never been re-approved. That is the failure
+  // this block ends. A gate that one protocol run can open is not a gate.
+  //
+  // Clearing it IS the review: to open this you must actually run all eleven,
+  // and those runs are what put real findings in the queue. The second exit is
+  // equally honest -- if a program does not belong in this repo, delete it (or
+  // set monitor_only) rather than performing a run to satisfy a checkbox. That
+  // second exit is INV-F1 (No Unnecessary Burden) doing its job.
+  //
+  // Deliberately NO --override flag. Every other block in this file has one;
+  // this one must not, because "the session talked itself past the gate" is the
+  // precise defect being fixed. Reviewing eleven programs is cheap. Skipping
+  // the review cost a whole session of invented work.
+  if (fs.existsSync(programsDir)) {
+    const unreviewed = [];
+    for (const f of fs.readdirSync(programsDir)) {
+      if (!/^prog-.+\.yaml$/.test(f) || f === 'prog-template.yaml') continue;
+      const r = readYAMLFile(path.join(programsDir, f));
+      if (!r.ok || !r.data) continue;
+      const d = r.data;
+      if (d.monitor_only === true) continue;
+      const protos = d.protocols || {};
+      const cadenced = Object.entries(protos).filter(
+        ([, p]) => p && typeof p.cadence_days === 'number' && p.cadence_days > 0
+      );
+      if (cadenced.length === 0) continue;
+      const everRun = cadenced.some(([pname, p]) => (
+        p.last_run_date
+        || (d.last_run_by_protocol && d.last_run_by_protocol[pname] && d.last_run_by_protocol[pname].date)
+        || d.last_run_date
+        || null
+      ));
+      if (!everRun) {
+        unreviewed.push({
+          program: d.id || f.replace(/^prog-|\.yaml$/g, ''),
+          tier: d.tier || 'unknown',
+          protocols: cadenced.map(([pname]) => pname),
+        });
+      }
+    }
+    if (unreviewed.length > 0) {
+      // ONE entry for the whole batch, never one per program: the founder
+      // decides the roster in a single pass, and a per-program block would
+      // cost N gate->run->gate round trips to walk down (WS-568 precedent).
+      result.sprint_blocks.push({
+        reason: 'roster-first-run-required',
+        scope: 'all-installed-programs',
+        installed: installed,
+        unreviewed_count: unreviewed.length,
+        programs: unreviewed,
+        hint: `${unreviewed.length} of ${installed} installed programs have never run. `
+          + `No sprint composes until the whole system has been reviewed. `
+          + `For each: run it (/pulse run <program> <protocol> --completed) or, if it does not `
+          + `belong in this repo, remove the program file. There is no override for this block.`,
+      });
+    }
+  }
+
   // Step 1d: scan blocking programs (block_sprint: true; skip monitor_only).
   // WS-349 / FIND-231 fix: previously checked p.block_sprint at the protocol
   // level, but block_sprint is only declared at acc.on_stale.block_sprint
