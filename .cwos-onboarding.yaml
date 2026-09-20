@@ -1,0 +1,2734 @@
+# CWOS Progressive Onboarding State
+# Created by /adopt. Claude reads this silently during orientation.
+# The user never sees or edits this file directly.
+
+schema_version: "3"        # Bumped from "2" by WS-250/WS-253 (ADR-035 archetype + stage + override fields). Readers tolerate v2 files (new fields default to null).
+started_at: "2026-09-20T20:02:52.819Z"
+repo_archetype: research-mathematical
+                           # Legacy tech-stack tag — drives default scope patterns (kit/scripts/lib/archetype-patterns.js). Separate concept from `archetype` below.
+# adoption_level retired (WS-438 / ADR-016): the capabilities block is canonical.
+# Existing repos that still carry adoption_level are read via capability-map.js
+# dual-read (resolveEnabledCapabilities); new installs no longer write it.
+platform: win32
+repo_goal: null            # One-sentence outcome captured by /adopt Step 3c. Read by first-touch commands to satisfy the FRS Value dimension (ADR-015).
+
+# WS-321 — Genesis adoption phase.
+# Top-level field gating dormant-mode behavior. Distinct from `milestones` map below
+# (which tracks M1–M5 promotion checks). Set to "M0" by /genesis; flipped to "M1"
+# by /intend after ignition completes. Default ships as M1 (preserves /adopt path —
+# /adopt skips M0 entirely).
+# Readers gate behavior on this field: /status renders dormant section + suppresses
+# standard sections when M0; /welcome exits silently when M0; /session-start renders
+# lean briefing when M0; /next refuses when M0.
+# Valid: M0 | M1 | M2 | M3 | M4 | M5
+adoption_phase: M1
+
+# WS-321 — Dormant-mode block.
+# Populated by /genesis at scaffold time. Read by /status (for dormant section)
+# and /session-start Step 0c (intention.md edit-detection fallback).
+# The three integrity flags (kit_files_installed, capture_buffer_present,
+# intention_template_present) are NOT completion checks — they are integrity
+# assertions. /status warns "dormant infrastructure damaged" if any goes false
+# post-install. M0→M1 transition is event-driven (founder declares), not
+# check-completion driven; that's why M0 is not in the milestones[] map below.
+m0_dormant:
+  entered_at: null               # ISO timestamp set by /genesis
+  exited_at: null                # set by cwos-genesis-ignite.js apply
+  exit_trigger: null             # "intend_command" | "intention_md_edit_detected" | null
+  capture_buffer_path: ".claude/workstream/events/current.jsonl"
+  intention_content_hash: null   # SHA-256 of intention.md non-comment content; updated by /session-start Step 0c
+  kit_files_installed: false     # integrity flag — true after /genesis scaffold completes
+  capture_buffer_present: false  # integrity flag — events/ dir exists with valid header
+  intention_template_present: false  # integrity flag — system/intention.md is placeholder template
+
+# ADR-035 identity archetype (NEW — WS-250).
+# Drives bundle selection (kit/scripts/cwos-adopt-archetype.js) and tier defaults (kit/scripts/lib/tier-mapper.js).
+# Orthogonal to `repo_archetype` above (which is the tech-stack tag); both fields coexist.
+# Valid: A1 | A2 | A3 | A4 | A5 | NONE
+archetype: null
+declared_archetype: null   # Founder-confirmed value during /adopt Step 4b. == archetype unless founder later overrides.
+detected_archetype: null   # Auto-detected from /adopt Step 3 signals. Informational; declaration is canonical.
+
+# ADR-035 lifecycle stage (NEW — WS-250).
+# Drives per-program tier defaults via kit/scripts/lib/tier-mapper.js.
+# Hybrid declared+detected — WS-251 will add detection logic; this sprint only seeds the field.
+# Valid: S1 | S2 | S3 | S4 | S5 | N1 | N2 | N3
+stage: null
+declared_stage: null       # Founder-confirmed value during /adopt Step 4c. Defaults to archetypes.yaml#archetype_entry_stages[archetype].
+detected_stage: null       # Set by /audit (WS-251). Result of cwos-stage-detect.js scan; informational unless > declared.
+last_recorded_stage: null  # Set by /session-end. /session-start Step 3d compares against current stage to detect cross-session transitions and surface a one-line prompt.
+
+# Archetype declaration history (NEW — WS-252).
+# Appended by /archetype re when the founder migrates between archetypes.
+# Each entry archives the prior archetype declaration. Latest entry is the
+# most recently archived; the active archetype is `archetype:` above.
+# Schema: [{ archetype: "A5", declared_at: "...", archived_at: "...", reason: "..." }]
+archetype_history: []
+
+# Per-consequence override mechanism (NEW — WS-253, ADR-035 Stage 4 condition #2).
+# Founder can opt out of archetype-derived programs or override their tier.
+# Schema documented in docs/ARCHETYPES.md "Per-consequence override" section.
+# Read by kit/scripts/lib/tier-mapper.js (applyProgramOptOuts + applyTierOverrides).
+archetype_overrides:
+  programs: []   # [{ id: "prog-X", status: "opted-out" | "opted-in", reason: "..." }] — any other status is an ERROR (WS-599)
+  tiers: []      # [{ program_id: "prog-Y", override_tier: "critical|active|watch|dormant", reason: "..." }]
+  # Per-AXIS override (WS-599): occupy a coordinate the archetype grid doesn't
+  # name — e.g. { sensitivity: "Regulated" } on an archetype whose cell says
+  # Public-no-PII. Valid axes/values: kit/data/archetypes.yaml#axes. Unknown
+  # names/values are an ERROR, not a silent no-op. Works with archetype: NONE
+  # too — that is the manual per-axis declaration ARCHETYPES.md describes.
+  axes: {}       # { output: "...", sensitivity: "...", verification: "..." }
+
+# Resolved bundle (NEW — WS-250). Output of cwos-adopt-archetype.js.
+# Cached for /audit + /pulse readers; canonically derivable from (archetype, stage, archetype_overrides).
+archetype_bundle_resolved:
+  programs: []
+  engines: []
+  personas: []
+  tiers: {}      # { "prog-X": "watch", "prog-Y": "critical", ... }
+  resolved_at: null
+
+# Claim-domain detection (written by /adopt Step 2h)
+# Non-empty values trigger conditional install of prog-claims-policy + docs/claims/ templates.
+# Valid entries: clinical | legal | financial | scientific
+# Multi-domain repos list all detected. Empty list means no claim-domain signals detected.
+repo_claims: []
+# True when /adopt detected an AI-as-judge / rubric-grader / simulated-reviewer pattern.
+# Triggers conditional install of docs/claims/evaluator-validation-plan.md.draft.
+has_ai_evaluator: false
+
+# Capability state (ADR-016)
+# User-owned dimension that governs /next scoring and /discover surfaces.
+# Five capabilities mirror kit/MANIFEST.yaml install groups.
+# State enum: enabled | intended | declined | unconfigured
+#   - enabled:      user accepted, setup complete   → items score normally
+#   - intended:     user said yes, setup pending    → setup items boosted, staleness raises priority
+#   - declined:     user said no                    → items suppressed entirely
+#   - unconfigured: user not yet asked              → default scoring until /discover runs
+# /adopt seeds all five as unconfigured, then flips `core` to enabled before exit.
+# /discover writes captured_at and note when state moves out of unconfigured.
+capabilities:
+  core:
+    state: enabled
+    captured_at: "2026-09-20T20:02:52.819Z"
+    note: null
+  workstream:
+    state: enabled
+    captured_at: "2026-09-20T20:02:52.819Z"
+    note: null
+  engines:
+    state: enabled
+    captured_at: "2026-09-20T20:02:52.819Z"
+    note: null
+  governance:
+    state: enabled
+    captured_at: "2026-09-20T20:02:52.819Z"
+    note: null
+  autonomous:
+    state: unconfigured
+    captured_at: null
+    note: null
+
+# Deferred Installation Manifest
+# Commands are grouped and installed on first use. The preamble's Progressive
+# Onboarding section triggers installation when the user needs a capability.
+# Each group installs its commands + any dependencies (personas, scaffolding).
+deferred_commands:
+  core:
+    level: L1
+    commands: [status, session-start, session-end, welcome, discover]
+    dependencies: []
+    installed: true
+  workstream:
+    level: L2
+    commands: [next, workstream]
+    dependencies:
+      - directory: .claude/workstream
+        scaffolding: [config.yaml, queue-index.yaml, findings-index.yaml, engines/registry.yaml, programs/registry.yaml]
+        # WORKSTREAM_SUBDIRS in cwos-adopt-install.js is the authoritative
+        # list; this manifest entry exists for documentation parity.
+        subdirs: [queue, queue/archive, findings, findings/archive, engines, programs, enhancements, readiness, sprints, runs, evidence, governance]
+      - files_from: kit/templates/system
+        targets: [invariants.md, constraints.md, decisions.md, failures.md, context.md, scoring.md]
+    installed: true
+  engines:
+    level: L3
+    commands: [engine, build-engine]
+    dependencies:
+      # Personas (core + domain) are now tracked in kit/MANIFEST.yaml
+      # and installed automatically as part of the engines group.
+      - engines_from: engines/standard
+      - rules_from: kit/templates/rules
+    installed: true
+  governance:
+    level: L4
+    commands: [pulse, audit]
+    dependencies: []
+    installed: false
+  autonomous:
+    level: L5
+    commands: [plan, verify, decide, autopilot]
+    dependencies: []
+    installed: false
+
+# Deferred Tool Installation
+# Tools from docs/TOOL-CATALOG.md, assessed during /adopt Step 3b.
+# Each tool has a detection trigger; /adopt populates this section based on
+# which triggers matched. Tools are installed at their declared milestone.
+# "repo_has_better" means the repo already built this tool more sophisticatedly
+# than the CWOS template — CWOS learns from the repo instead of installing.
+deferred_tools:
+  # Populated by /adopt Step 3b. Example:
+  # - id: T1-01
+  #   name: Assumption Register
+  #   milestone: m2
+  #   status: pending          # pending | installed | repo_has_better | skipped
+  #   template: kit/templates/system/assumptions.md
+  #   repo_existing: null      # path to repo's existing version, if any
+  #   notes: null              # e.g., "Migrate from constraints.md Working Assumptions"
+
+milestones:
+
+  m1_core_install:
+    description: "Core kit installed — preamble, onboard-check, system skeleton, version stamps."
+    done_looks_like: "CLAUDE.md preamble, system/state.md, .cwos-version, and fleet registration all in place."
+    status: complete        # pending | in_progress | complete | skipped
+    completed_at: "2026-09-20T20:02:52.819Z"
+    checks:
+      preamble_installed: true
+      onboard_check_installed: true
+      feedback_installed: true
+      state_template_created: true
+      gitignore_allows_system: false
+      cwos_version_written: true
+      fleet_registered: true
+
+  m2_system_population:
+    description: "System populated — vital signs wired to real commands, invariants and constraints captured, business context recorded."
+    done_looks_like: "state.md vital signs run real commands; invariants.md, constraints.md, and context.md have real rows (no template placeholders)."
+    status: pending
+    completed_at: null
+    checks:
+      vital_signs_configured: false    # state.md has real commands, no placeholders
+      vital_signs_passing: false       # at least 1 check ran successfully
+      invariants_populated: false      # at least 1 real invariant (not template placeholder)
+      constraints_populated: false     # at least 1 real constraint
+      context_has_active_item: false   # at least 1 active business context item
+      config_customized: false         # .cwos-config.yaml reviewed and adjusted by user
+    # Suggestions follow understanding-first pattern:
+    # [what you have] + [what the gap is] + [what this enables] + [ask]
+    suggestions:
+      - "Your project has tests and a build process, but right now there's no way to know when they break between sessions. Health monitoring watches for that automatically — takes about 2 minutes to set up. Want me to do it?"
+      - "Your codebase has patterns and rules that should always hold — like 'never commit API keys' or 'all routes need auth.' Right now those rules live in your head. Writing them down means I can check them for you automatically. Want me to find the obvious ones?"
+      - "I can be more helpful when I know what you're working toward — deadlines, customer issues, goals. Right now I'm guessing at priority. A quick context update changes that. What's top of mind for you?"
+      - "Your .cwos-config.yaml controls how much structure I apply — sprint sizes, engine output detail, session ceremony. The defaults are sensible, but a quick review lets you tune CWOS to how you actually work. Want to walk through it?"
+
+  m3_workstream_active:
+    description: "Workstream active — queue holds real items, programs scoped to real file paths, user has seen programs introduced."
+    done_looks_like: "queue-index.yaml has at least 3 items; at least one program's scope.file_patterns matches real files in the repo."
+    status: pending
+    completed_at: null
+    checks:
+      queue_has_items: false           # at least 3 real work items in queue/
+      queue_index_valid: false         # index count matches file count
+      programs_scope_valid: false      # at least 1 program's file_patterns match real files
+      programs_introduced: false       # user has seen the program introduction (set by onboard-check 4c)
+    suggestions:
+      - "I've been finding things that could use attention — TODOs, potential bugs, improvements. But without a queue, those observations disappear between sessions. Setting up a work queue means when you ask 'what's next?', I can give you the highest-impact answer. This also enables **programs** — permanent monitors that watch key areas of your project (security, code quality, your domain logic) so nothing drifts silently. Want me to create a starter queue from what I see?"
+      - "Your programs are installed but could be calibrated more precisely. I can run a quick analysis to customize each one to your specific project — verify file scopes, tailor the domain correctness program to your actual business logic, and run initial baseline checks. One-time setup, about 5 minutes. Want me to do it?"
+
+  m4_first_engine_run:
+    description: "First deep engine run complete — findings pipeline active, registry validated."
+    done_looks_like: "runs/ has at least 1 RUN entry; findings/ has at least 1 FIND entry; every registered engine's skill_path points to a real file."
+    status: pending
+    completed_at: null
+    checks:
+      engine_run_completed: false      # at least 1 RUN-*.yaml exists
+      findings_exist: false            # at least 1 FIND-*.yaml exists
+      engine_registry_valid: false     # all registry skill_paths point to real files
+    suggestions:
+      - "Your system is set up and your queue is active. The next step is a deep analysis — multiple expert perspectives examine your codebase for real issues you might not see. This is where CWOS shifts from organizing your work to actively finding problems before they find you. It takes about 5 minutes and doesn't change any code. Want to try it?"
+      - "I found some engine entries pointing to missing files — this means certain analyses would fail silently. Let me clean those up so everything works when you need it."
+
+  m5_steady_state:
+    description: "Steady state — every active program has been audited and session handoffs are routine."
+    done_looks_like: "Every active program has last_run.date set; at least 1 session file has non-empty handoff_notes."
+    status: pending
+    completed_at: null
+    checks:
+      all_programs_audited: false      # every active program has last_run.date != null
+      session_handoff_written: false   # at least 1 session with handoff notes
+    suggestions:
+      - "You're nearly at steady state — the point where CWOS fades into the background and just works. A few programs haven't had their first audit yet, which means there are parts of your codebase I haven't examined deeply. One quick run fills those gaps. Want me to do it?"
+      - "The last piece is a session handoff — notes that help you (or me) pick up exactly where you left off next time. It's a small thing that prevents the 'wait, what was I doing?' problem. Want to wrap up this session with handoff notes?"
+
+# Archetype-specific requirements
+# /adopt adjusts these based on repo_archetype
+# Defaults per archetype:
+#   saas                  → min_programs: 3, min_invariants: 3, required_engines: [eng-engine, health-check, financial-audit]
+#   frontend              → min_programs: 2, min_invariants: 2, required_engines: [eng-engine, health-check, ux-audit]
+#   data-platform         → min_programs: 2, min_invariants: 2, required_engines: [eng-engine, health-check]
+#   dev-tool              → min_programs: 1, min_invariants: 1, required_engines: [eng-engine, health-check]
+#   research              → min_programs: 1, min_invariants: 1, required_engines: [eng-engine]
+#   research-clinical     → min_programs: 3, min_invariants: 4, required_engines: [eng-engine, health-check] — claims-policy mandatory; stricter invariant floor due to evidence requirements
+#   research-mathematical → min_programs: 2, min_invariants: 3, required_engines: [eng-engine] — anti-hallucination elevated
+#   research-empirical    → min_programs: 2, min_invariants: 2, required_engines: [eng-engine, health-check] — data-provenance mandatory
+#   api-service           → min_programs: 2, min_invariants: 2, required_engines: [eng-engine, health-check]
+archetype_requirements:
+  min_programs: 1
+  min_invariants: 1
+  required_engines: []     # populated by /adopt based on repo_archetype
+
+# Platform notes (populated by /adopt if platform-specific concerns detected)
+platform_notes: []
+# Examples:
+#   - "OneDrive sync may lock files. Commands should not use set -euo pipefail."
+#   - "Windows Git Bash: use Python for datetime operations, not GNU date."
+
+# Friction encountered during onboarding (copied to .cwos-feedback.yaml)
+friction_log: []
+
+# --- cwos-adopt-install deferred_file_manifest ---
+# Generated: 2026-09-20T20:02:52.819Z
+# Total deferred files: 406
+deferred_file_manifest:
+  # core
+  - source: kit/commands/status.md
+    destination: .claude/commands/status.md
+    level: L1
+    install_group: core
+    impact: System health dashboard
+    merge_strategy: overwrite
+  - source: kit/commands/git.md
+    destination: .claude/commands/git.md
+    level: L1
+    install_group: core
+    impact: "The founder's single answer to any git question — the session re-derives the repo's policy and acts instead of handing him a technical call"
+    merge_strategy: overwrite
+  - source: kit/commands/session-start.md
+    destination: .claude/commands/session-start.md
+    level: L1
+    install_group: core
+    impact: Full session orientation with state loading
+    merge_strategy: overwrite
+  - source: kit/commands/session-end.md
+    destination: .claude/commands/session-end.md
+    level: L1
+    install_group: core
+    impact: Clean session close with state updates and handoff notes
+    merge_strategy: overwrite
+  - source: kit/commands/welcome.md
+    destination: .claude/commands/welcome.md
+    level: L1
+    install_group: core
+    impact: First-session guided walkthrough
+    merge_strategy: overwrite
+  - source: kit/commands/discover.md
+    destination: .claude/commands/discover.md
+    level: L1
+    install_group: core
+    impact: Capability interview — flips workstream/engines/governance/autonomous from unconfigured to enabled/intended/declined; also probes external repos
+    merge_strategy: overwrite
+  - source: kit/commands/genesis.md
+    destination: .claude/commands/genesis.md
+    level: L1
+    install_group: core
+    impact: Scaffold CWOS into a brand-new empty repo in dormant mode (M0) — sibling to /adopt
+    merge_strategy: overwrite
+  - source: kit/commands/intend.md
+    destination: .claude/commands/intend.md
+    level: L1
+    install_group: core
+    impact: Declare intention and ignite a dormant repo (M0 → M1)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-utils.js
+    destination: kit/scripts/lib/cwos-utils.js
+    level: L1
+    install_group: core
+    impact: "Shared utilities for all CWOS scripts — YAML parser, file I/O, date math"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/preflight.js
+    destination: kit/scripts/lib/preflight.js
+    level: L1
+    install_group: core
+    impact: Preflight checks loaded by every script entry point
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/worktree-guard.js
+    destination: kit/scripts/lib/worktree-guard.js
+    level: L1
+    install_group: core
+    impact: Refuses workstream-state writes from a linked git worktree
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/kit-artifacts.js
+    destination: kit/scripts/lib/kit-artifacts.js
+    level: L1
+    install_group: core
+    impact: Resolves kit-owned artifact paths from .cwos-config.yaml declarations instead of hardcoding or searching (WS-703)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/events.js
+    destination: kit/scripts/core/events.js
+    level: L1
+    install_group: core
+    impact: Event log writer — canonical append-only event store
+    merge_strategy: overwrite
+  - source: kit/scripts/core/state-store.js
+    destination: kit/scripts/core/state-store.js
+    level: L1
+    install_group: core
+    impact: "State store materializer — derives state/*.json from event log"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/canonical-json.js
+    destination: kit/scripts/core/canonical-json.js
+    level: L1
+    install_group: core
+    impact: Canonical JSON serialization + event hashing
+    merge_strategy: overwrite
+  - source: kit/scripts/core/chain-anchors.js
+    destination: kit/scripts/core/chain-anchors.js
+    level: L1
+    install_group: core
+    impact: Event chain anchor maintenance
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-capture.js
+    destination: kit/scripts/cwos-capture.js
+    level: L1
+    install_group: core
+    impact: "Records decisions and friction at the moment they happen, so they survive a session that never closes"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-mistake.js
+    destination: kit/scripts/cwos-mistake.js
+    level: L1
+    install_group: core
+    impact: "Logs a mistake in one breath, classified by how it will be enforced -- so a lesson lands at a boundary a machine can hold, not in prose nobody rereads"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-feedback-view.js
+    destination: kit/scripts/cwos-feedback-view.js
+    level: L1
+    install_group: core
+    impact: "Regenerates .cwos-feedback.yaml from the event log — the file is a view, not a store"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cli.js
+    destination: kit/scripts/lib/cli.js
+    level: L1
+    install_group: core
+    impact: Shared CLI arg/flag parsing — required by cwos-session-register / -recovery / -vitals
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-migrate-watch.js
+    destination: kit/scripts/cwos-migrate-watch.js
+    level: L1
+    install_group: core
+    impact: Pending-migration detection — /status renders its migration line from this
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-exception-sunset-check.js
+    destination: kit/scripts/cwos-exception-sunset-check.js
+    level: L1
+    install_group: core
+    impact: ADR-050 exception sunset signal — /session-start Step 0b fires the exception_sunset signal from it
+    merge_strategy: overwrite
+  - source: kit/data/archetypes.yaml
+    destination: kit/data/archetypes.yaml
+    level: L1
+    install_group: core
+    impact: Archetype definitions and axes — required by every archetype/stage command
+    merge_strategy: overwrite
+  - source: kit/data/stages.yaml
+    destination: kit/data/stages.yaml
+    level: L1
+    install_group: core
+    impact: Stage definitions and per-archetype entry stages — required by every archetype/stage command
+    merge_strategy: overwrite
+  - source: kit/data/stage-detection-signals.yaml
+    destination: kit/data/stage-detection-signals.yaml
+    level: L1
+    install_group: core
+    impact: "Repo signals that infer a project's stage — read by /stage detect"
+    merge_strategy: overwrite
+  - source: kit/data/constitutional-detector-corpus.yaml
+    destination: kit/data/constitutional-detector-corpus.yaml
+    level: L1
+    install_group: core
+    impact: Detector corpus scoring a repo against its intention.md — read by /audit constitutional and /verify
+    merge_strategy: overwrite
+  # workstream
+  - source: kit/commands/next.md
+    destination: .claude/commands/next.md
+    level: L2
+    install_group: workstream
+    impact: Sprint-based work composition and execution
+    merge_strategy: overwrite
+  - source: kit/commands/workstream.md
+    destination: .claude/commands/workstream.md
+    level: L2
+    install_group: workstream
+    impact: "Project coordination — sessions, queue, findings, pipelines"
+    merge_strategy: overwrite
+  - source: kit/commands/stage.md
+    destination: .claude/commands/stage.md
+    level: L2
+    install_group: workstream
+    impact: Stage axis of ADR-035 — declare/transition/view; cascades tier defaults across programs
+    merge_strategy: overwrite
+  - source: kit/commands/archetype.md
+    destination: .claude/commands/archetype.md
+    level: L2
+    install_group: workstream
+    impact: Archetype axis of ADR-035 — declare/migrate/view; drives which programs/engines/personas install
+    merge_strategy: overwrite
+  - source: kit/commands/kit-upgrade.md
+    destination: .claude/commands/kit-upgrade.md
+    level: L2
+    install_group: workstream
+    impact: "Safely upgrade this repo's kit — dry-run diff, snapshot, validation gate, auto-rollback"
+    merge_strategy: overwrite
+  - source: kit/templates/system/invariants.md
+    destination: system/invariants.md
+    level: L2
+    install_group: workstream
+    impact: Project rules that must always hold
+    merge_strategy: overwrite
+  - source: kit/templates/system/constraints.md
+    destination: system/constraints.md
+    level: L2
+    install_group: workstream
+    impact: Hard boundaries and assumptions
+    merge_strategy: overwrite
+  - source: kit/templates/system/decisions.md
+    destination: system/decisions.md
+    level: L2
+    install_group: workstream
+    impact: ADR-style decision log
+    merge_strategy: overwrite
+  - source: kit/templates/system/failures.md
+    destination: system/failures.md
+    level: L2
+    install_group: workstream
+    impact: Known failure modes and mitigations
+    merge_strategy: overwrite
+  - source: kit/templates/system/context.md
+    destination: system/context.md
+    level: L2
+    install_group: workstream
+    impact: "Active business context — deadlines, risks, opportunities"
+    merge_strategy: overwrite
+  - source: kit/templates/system/scoring.md
+    destination: system/scoring.md
+    level: L2
+    install_group: workstream
+    impact: RICE scoring rubric for work prioritization
+    merge_strategy: overwrite
+  - source: kit/templates/system/context-examples.md
+    destination: system/context-examples.md
+    level: L2
+    install_group: workstream
+    impact: Plain-language examples for filling in context
+    merge_strategy: overwrite
+  - source: kit/templates/system/founders-playbook.md
+    destination: system/founders-playbook.md
+    level: L2
+    install_group: workstream
+    impact: Daily/weekly/monthly operating rhythms
+    merge_strategy: overwrite
+  - source: kit/templates/rules/testing-strategy.md
+    destination: .claude/rules/testing-strategy.md
+    level: L2
+    install_group: workstream
+    impact: Testing approach and coverage targets
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/config.yaml
+    destination: .claude/workstream/config.yaml
+    level: L2
+    install_group: workstream
+    impact: "Workstream configuration — ID counters, thresholds, sprint settings"
+    merge_strategy: additive
+  - source: kit/templates/workstream/queue-index.yaml
+    destination: .claude/workstream/queue-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Fast-scan index of all work items
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/findings-index.yaml
+    destination: .claude/workstream/findings-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Fast-scan index of all findings
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/enhancements-index.yaml
+    destination: .claude/workstream/enhancements-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Index of artifact enhancements
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/readiness-index.yaml
+    destination: .claude/workstream/readiness-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Index of readiness reports
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/sprint-index.yaml
+    destination: .claude/workstream/sprint-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Sprint tracking index
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/sprint-template.yaml
+    destination: .claude/workstream/sprint-template.yaml
+    level: L2
+    install_group: workstream
+    impact: Sprint YAML schema template
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/shadow-index.yaml
+    destination: .claude/workstream/shadow-index.yaml
+    level: L2
+    install_group: workstream
+    impact: Shadow backlog index for non-YAML backlogs
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/usage.yaml
+    destination: .claude/workstream/usage.yaml
+    level: L2
+    install_group: workstream
+    impact: Command usage telemetry
+    merge_strategy: additive
+  - source: kit/templates/workstream/system-summary.yaml
+    destination: .claude/workstream/system-summary.yaml
+    level: L2
+    install_group: workstream
+    impact: Pre-computed system state cache
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/CONCURRENCY.md
+    destination: .claude/workstream/CONCURRENCY.md
+    level: L2
+    install_group: workstream
+    impact: Session locking and concurrency protocol
+    merge_strategy: overwrite
+  - source: kit/scripts/package.json
+    destination: kit/scripts/package.json
+    level: L2
+    install_group: workstream
+    impact: "Scopes kit/scripts/** as CommonJS in ESM adopter repos (type:module) — without it every CWOS script crashes at load"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-orchestrate.js
+    destination: kit/scripts/lib/cwos-orchestrate.js
+    level: L2
+    install_group: workstream
+    impact: Shared library for command pre/post-phase scripts — context bundle emitter
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-program-registry.js
+    destination: kit/scripts/lib/cwos-program-registry.js
+    level: L2
+    install_group: workstream
+    impact: "Shared library for materializing programs/registry.yaml from prog-*.yaml — used by adopt-install Phase 3d, pulse escalate, and audit drift detection (INV-052)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-engines-registry.js
+    destination: kit/scripts/lib/cwos-engines-registry.js
+    level: L2
+    install_group: workstream
+    impact: "Shared library for materializing engines/registry.yaml from installed .claude/commands/*.md — used by adopt-install Phase 3e, engines-registry-sync CLI, and audit drift detection"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-finding-promote.js
+    destination: kit/scripts/lib/cwos-finding-promote.js
+    level: L2
+    install_group: workstream
+    impact: Shared library for auto-promoting findings → queue items based on .cwos-config.yaml priority.auto_promote rules — used by cwos-reconcile Phase 2k
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/id-allocator.js
+    destination: kit/scripts/lib/id-allocator.js
+    level: L2
+    install_group: workstream
+    impact: Lock+scan+reserve allocator for WS/SPR/FIND/INV/ADR ids (WS-574) — required by cwos-finding-promote.js and cwos-next.js allocate-ws-id
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/remote-ids.js
+    destination: kit/scripts/lib/remote-ids.js
+    level: L2
+    install_group: workstream
+    impact: "Reads ids already published on the remote-tracking ref, plus a throttled best-effort fetch (issue #26) — required by lib/id-allocator.js so a node that is behind its remote mints above ids it has not pulled"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/id-collision.js
+    destination: kit/scripts/lib/id-collision.js
+    level: L2
+    install_group: workstream
+    impact: "Detects and repairs WS ids minted locally that the remote assigned to different work (issue #26) — required by cwos-verify.js INV-093 and cwos-id-collision.js"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-id-collision.js
+    destination: kit/scripts/cwos-id-collision.js
+    level: L2
+    install_group: workstream
+    impact: "CLI: report, or with --repair fix, cross-node WS id collisions so the repo can pull again (issue #26) — the command INV-093 names in its failure text"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-doc-invocation-lint.js
+    destination: kit/scripts/cwos-doc-invocation-lint.js
+    level: L2
+    install_group: workstream
+    impact: "Verifies that CLI invocations appearing in prose actually parse (WS-575) — catches docs prescribing flags a script does not accept, which ADR-063 makes fatal only at runtime"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/shell-safe.js
+    destination: kit/scripts/lib/shell-safe.js
+    level: L2
+    install_group: workstream
+    impact: Safe shell/git command runner with argument validation
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/lock.js
+    destination: kit/scripts/lib/lock.js
+    level: L2
+    install_group: workstream
+    impact: File locking primitives for concurrent script safety
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/kit-version.js
+    destination: kit/scripts/lib/kit-version.js
+    level: L2
+    install_group: workstream
+    impact: Canonical .cwos-version resolution + semver comparison (WS-547)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/capability-map.js
+    destination: kit/scripts/lib/capability-map.js
+    level: L2
+    install_group: workstream
+    impact: Capability ↔ legacy-level mapping (ADR-016 shim)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/capability-detect.js
+    destination: kit/scripts/lib/capability-detect.js
+    level: L2
+    install_group: workstream
+    impact: Detect enabled capabilities from .cwos-onboarding.yaml
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/auto-resolved.js
+    destination: kit/scripts/lib/auto-resolved.js
+    level: L2
+    install_group: workstream
+    impact: Auto-resolution helpers for findings and work items
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/item-closure.js
+    destination: kit/scripts/lib/item-closure.js
+    level: L2
+    install_group: workstream
+    impact: Shared closure side effects (calibration + friction announce) for both the sprint and standalone close paths
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/archetype-patterns.js
+    destination: kit/scripts/lib/archetype-patterns.js
+    level: L2
+    install_group: workstream
+    impact: "Archetype pattern definitions for /adopt, /archetype, /onboard-check"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/tier-mapper.js
+    destination: kit/scripts/lib/tier-mapper.js
+    level: L2
+    install_group: workstream
+    impact: Stage/tier mapping used by /stage and /archetype
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-corpus-hash.js
+    destination: kit/scripts/lib/cwos-corpus-hash.js
+    level: L2
+    install_group: workstream
+    impact: Constitutional-audit corpus hash computation
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cross-branch-closures.js
+    destination: kit/scripts/lib/cross-branch-closures.js
+    level: L2
+    install_group: workstream
+    impact: "Lets the ADR-045 drift healer see item_closed events that exist in git objects on refs not merged into HEAD. In a repo that TRACKS its event log the log forks with the branch, so closures committed on a side branch are invisible from main -- ServeYourNote's /next composed SPR-034 from eight items of which five were already shipped, while the healer reported drift_detected:false. Detect-and-block only: an unmerged branch is never authority to close an item (WS-694)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-tripwires.js
+    destination: kit/scripts/lib/cwos-tripwires.js
+    level: L2
+    install_group: workstream
+    impact: Deferred-scope tripwires evaluation (WS-322)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-reconcile-core.js
+    destination: kit/scripts/lib/cwos-reconcile-core.js
+    level: L2
+    install_group: workstream
+    impact: Reconciliation engine core — used by cwos-reconcile and reducers
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/kit-divergence.js
+    destination: kit/scripts/lib/kit-divergence.js
+    level: L2
+    install_group: workstream
+    impact: "Reports kit-owned files this repo changed since install, for the hub divergence lane (WS-814)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/state-queue-summary.js
+    destination: kit/scripts/lib/state-queue-summary.js
+    level: L2
+    install_group: workstream
+    impact: Regenerates the state.md Queue Summary from queue-index.yaml (WS-700) — used by cwos-reconcile and cwos-state
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/repo-snapshot.js
+    destination: kit/scripts/lib/repo-snapshot.js
+    level: L2
+    install_group: workstream
+    impact: Pre-mutation snapshot/restore — required by cwos-kit-upgrade.js and cwos-adopt-install.js (WS-503)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/sync-paths.js
+    destination: kit/scripts/lib/sync-paths.js
+    level: L2
+    install_group: workstream
+    impact: Cloud-sync path detection shared by DEV-INV-002 and the /adopt pre-flight (WS-503)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/composition.js
+    destination: kit/scripts/core/composition.js
+    level: L2
+    install_group: workstream
+    impact: Command-id composition + envelope construction
+    merge_strategy: overwrite
+  - source: kit/scripts/core/health-scoring.js
+    destination: kit/scripts/core/health-scoring.js
+    level: L2
+    install_group: workstream
+    impact: Program health scoring algorithm (shared by /pulse and /score)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/telemetry.js
+    destination: kit/scripts/core/telemetry.js
+    level: L2
+    install_group: workstream
+    impact: Telemetry event capture + rotation
+    merge_strategy: overwrite
+  - source: kit/scripts/core/rebalance.js
+    destination: kit/scripts/core/rebalance.js
+    level: L2
+    install_group: workstream
+    impact: Queue rebalancer — sprint/backlog re-prioritization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/render-events.js
+    destination: kit/scripts/core/render-events.js
+    level: L2
+    install_group: workstream
+    impact: Human-readable event log renderer
+    merge_strategy: overwrite
+  - source: kit/scripts/core/snapshot-diff.js
+    destination: kit/scripts/core/snapshot-diff.js
+    level: L2
+    install_group: workstream
+    impact: State snapshot diff utility
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-baseline.js
+    destination: kit/scripts/core/cwos-baseline.js
+    level: L2
+    install_group: workstream
+    impact: Baseline state snapshot writer
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-catch-state.js
+    destination: kit/scripts/core/cwos-catch-state.js
+    level: L2
+    install_group: workstream
+    impact: Catch-state classifier (ADR-040)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-catch-state-catalog.js
+    destination: kit/scripts/core/cwos-catch-state-catalog.js
+    level: L2
+    install_group: workstream
+    impact: Catch-state rule catalog
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-events-fsck.js
+    destination: kit/scripts/core/cwos-events-fsck.js
+    level: L2
+    install_group: workstream
+    impact: Event log integrity check
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-replay.js
+    destination: kit/scripts/core/cwos-replay.js
+    level: L2
+    install_group: workstream
+    impact: Event-log replay engine — rebuilds state from events
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/envelope.js
+    destination: kit/scripts/core/reducers/envelope.js
+    level: L2
+    install_group: workstream
+    impact: Envelope reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/findings.js
+    destination: kit/scripts/core/reducers/findings.js
+    level: L2
+    install_group: workstream
+    impact: Findings reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/sprints.js
+    destination: kit/scripts/core/reducers/sprints.js
+    level: L2
+    install_group: workstream
+    impact: Sprints reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/vital-signs.js
+    destination: kit/scripts/core/reducers/vital-signs.js
+    level: L2
+    install_group: workstream
+    impact: Vital signs reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/workstream.js
+    destination: kit/scripts/core/reducers/workstream.js
+    level: L2
+    install_group: workstream
+    impact: Workstream/queue reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/defer-translators/index.js
+    destination: kit/scripts/core/defer-translators/index.js
+    level: L2
+    install_group: workstream
+    impact: Defer-translator registry index
+    merge_strategy: overwrite
+  - source: kit/scripts/core/defer-translators/engine-rule.js
+    destination: kit/scripts/core/defer-translators/engine-rule.js
+    level: L2
+    install_group: workstream
+    impact: Engine-rule defer translator
+    merge_strategy: overwrite
+  - source: kit/scripts/core/defer-translators/session.js
+    destination: kit/scripts/core/defer-translators/session.js
+    level: L2
+    install_group: workstream
+    impact: Session defer translator
+    merge_strategy: overwrite
+  - source: kit/scripts/core/defer-translators/staleness.js
+    destination: kit/scripts/core/defer-translators/staleness.js
+    level: L2
+    install_group: workstream
+    impact: Staleness defer translator
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/event-v1.schema.json
+    destination: kit/scripts/core/schemas/event-v1.schema.json
+    level: L2
+    install_group: workstream
+    impact: Event schema v1
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/event-v2.schema.json
+    destination: kit/scripts/core/schemas/event-v2.schema.json
+    level: L2
+    install_group: workstream
+    impact: Event schema v2
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/telemetry-v1.schema.json
+    destination: kit/scripts/core/schemas/telemetry-v1.schema.json
+    level: L2
+    install_group: workstream
+    impact: Telemetry schema v1
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/capture-buffer/conversation_summary.json
+    destination: kit/scripts/core/schemas/payloads/capture-buffer/conversation_summary.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: conversation_summary"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/capture-buffer/file_dropped.json
+    destination: kit/scripts/core/schemas/payloads/capture-buffer/file_dropped.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: file_dropped"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/capture-buffer/implicit_decision.json
+    destination: kit/scripts/core/schemas/payloads/capture-buffer/implicit_decision.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: implicit_decision"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/capture-buffer/intention_edit.json
+    destination: kit/scripts/core/schemas/payloads/capture-buffer/intention_edit.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: intention_edit"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/capture-buffer/note_added.json
+    destination: kit/scripts/core/schemas/payloads/capture-buffer/note_added.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: note_added"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/asn_validated.json
+    destination: kit/scripts/core/schemas/payloads/envelope/asn_validated.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: asn_validated"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/adopt_step_answered.json
+    destination: kit/scripts/core/schemas/payloads/envelope/adopt_step_answered.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: adopt_step_answered (WS-433 single-question /adopt step-gate)"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/command_completed.json
+    destination: kit/scripts/core/schemas/payloads/envelope/command_completed.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: command_completed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/command_failed.json
+    destination: kit/scripts/core/schemas/payloads/envelope/command_failed.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: command_failed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/command_started.json
+    destination: kit/scripts/core/schemas/payloads/envelope/command_started.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: command_started"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/command_telemetry_stamped.json
+    destination: kit/scripts/core/schemas/payloads/envelope/command_telemetry_stamped.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: command_telemetry_stamped"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/genesis_ignition_consumed.json
+    destination: kit/scripts/core/schemas/payloads/envelope/genesis_ignition_consumed.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: genesis_ignition_consumed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/vital-signs/invariants-stamped.json
+    destination: kit/scripts/core/schemas/payloads/vital-signs/invariants-stamped.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: invariants-stamped"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/vital-signs/reconcile-refresh.json
+    destination: kit/scripts/core/schemas/payloads/vital-signs/reconcile-refresh.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: reconcile-refresh (vital-signs)"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/vital-signs/score-updated.json
+    destination: kit/scripts/core/schemas/payloads/vital-signs/score-updated.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: score-updated"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/vital-signs/state-regenerated.json
+    destination: kit/scripts/core/schemas/payloads/vital-signs/state-regenerated.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: state-regenerated"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/fleet-scanned.json
+    destination: kit/scripts/core/schemas/payloads/workstream/fleet-scanned.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: fleet-scanned"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/fleet-maintenance-swept.json
+    destination: kit/scripts/core/schemas/payloads/workstream/fleet-maintenance-swept.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: fleet-maintenance-swept (ADR-066)"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/inventory-rebuilt.json
+    destination: kit/scripts/core/schemas/payloads/workstream/inventory-rebuilt.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: inventory-rebuilt"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/item-archived.json
+    destination: kit/scripts/core/schemas/payloads/workstream/item-archived.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: item-archived"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/migration-indexes-rebuilt.json
+    destination: kit/scripts/core/schemas/payloads/workstream/migration-indexes-rebuilt.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: migration-indexes-rebuilt"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/reconcile-refresh.json
+    destination: kit/scripts/core/schemas/payloads/workstream/reconcile-refresh.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: reconcile-refresh (workstream)"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/workstream/score-window-rebalanced.json
+    destination: kit/scripts/core/schemas/payloads/workstream/score-window-rebalanced.json
+    level: L2
+    install_group: workstream
+    impact: "Payload schema: score-window-rebalanced"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-index.js
+    destination: kit/scripts/cwos-index.js
+    level: L2
+    install_group: workstream
+    impact: Fast index rebuild — replaces LLM-driven YAML scanning
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-state.js
+    destination: kit/scripts/cwos-state.js
+    level: L2
+    install_group: workstream
+    impact: Vital signs check — runs Check Commands from state.md
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-gc.js
+    destination: kit/scripts/cwos-gc.js
+    level: L2
+    install_group: workstream
+    impact: Garbage collection — archives old done items and resolved findings
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-status-pre.js
+    destination: kit/scripts/cwos-status-pre.js
+    level: L2
+    install_group: workstream
+    impact: Pre-phase for /status — gathers all dashboard data in 10ms
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-inventory.js
+    destination: kit/scripts/cwos-inventory.js
+    level: L2
+    install_group: workstream
+    impact: Inventory verifier — catches stale counts in state.md before engines read them
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-sim-run.js
+    destination: kit/scripts/cwos-sim-run.js
+    level: L2
+    install_group: workstream
+    impact: Simulation runner — deterministic scenario scaffold and assertion validation
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-adopt-install.js
+    destination: kit/scripts/cwos-adopt-install.js
+    level: L2
+    install_group: workstream
+    impact: Deterministic install — file copy phase of /adopt in <100ms; runs .cwos/scripts → kit/scripts migration on kit-v3.6.0 upgrades
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-event.js
+    destination: kit/scripts/cwos-event.js
+    level: L2
+    install_group: workstream
+    impact: Append command/envelope/shadow events to the event log (every command uses this)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-state-store.js
+    destination: kit/scripts/cwos-state-store.js
+    level: L2
+    install_group: workstream
+    impact: "State-store CLI — query materialized state/*.json views"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-workstream-snapshot.js
+    destination: kit/scripts/cwos-workstream-snapshot.js
+    level: L2
+    install_group: workstream
+    impact: "Deterministic JSON snapshot for runtime consumption — bundles state/*.json + recent events so containerized app code can read CWOS state. Reference Python helper at kit/templates/runtime/cwos_snapshot.py; pattern doc at docs/cwos-runtime-pattern.md"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-reconcile.js
+    destination: kit/scripts/cwos-reconcile.js
+    level: L2
+    install_group: workstream
+    impact: "Reconcile state-store from events (called by /session-end, /autopilot, /engine)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-item.js
+    destination: kit/scripts/cwos-item.js
+    level: L2
+    install_group: workstream
+    impact: "Item lifecycle CLI: add/done/defer/dismiss/restore/show with mandatory rationale (called by /workstream)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-inbox-drain.js
+    destination: kit/scripts/cwos-inbox-drain.js
+    level: L2
+    install_group: workstream
+    impact: "Pull work items HomeBase addressed to this repo into its own queue, with its own ids and schema (WS-612)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-classify.js
+    destination: kit/scripts/cwos-classify.js
+    level: L2
+    install_group: workstream
+    impact: Work-item classifier (just-do-it vs design-first) — required by cwos-next.js
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-staleness.js
+    destination: kit/scripts/cwos-staleness.js
+    level: L2
+    install_group: workstream
+    impact: Staleness detector for queue items and findings
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-session-recovery.js
+    destination: kit/scripts/cwos-session-recovery.js
+    level: L2
+    install_group: workstream
+    impact: Abandoned-session recovery (called by /session-start)
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/session-liveness.js
+    destination: kit/scripts/lib/session-liveness.js
+    level: L2
+    install_group: workstream
+    impact: "One verdict on whether a session's process is gone — a dead PID is proof, a live one is not"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-session-register.js
+    destination: kit/scripts/cwos-session-register.js
+    level: L2
+    install_group: workstream
+    impact: "Automatic session registration + concurrent-session warning (SessionStart hook, WS-533)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-state-autocommit.js
+    destination: kit/scripts/cwos-state-autocommit.js
+    level: L2
+    install_group: workstream
+    impact: "Auto-commits leftover workstream/system state at SessionStart, so the durable record no longer depends on /session-end (~12% run rate)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-claims.js
+    destination: kit/scripts/lib/cwos-claims.js
+    level: L2
+    install_group: workstream
+    impact: "Session identity, liveness, and work-item claims (WS-533)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/fleet-nodes.js
+    destination: kit/scripts/lib/fleet-nodes.js
+    level: L2
+    install_group: workstream
+    impact: Fleet node registry resolution — required by cwos-genesis-scaffold + DEV-INV-007
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-kit-dirs.js
+    destination: kit/scripts/lib/cwos-kit-dirs.js
+    level: L2
+    install_group: workstream
+    impact: Kit directory resolution — required by cwos-adopt-install + cwos-migrate
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-bundle-validate.js
+    destination: kit/scripts/lib/cwos-bundle-validate.js
+    level: L2
+    install_group: workstream
+    impact: Bundle validation — required by cwos-adopt-install (L2) and cwos-verify (L4); pinned to the earlier
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-closure-backfill.js
+    destination: kit/scripts/cwos-closure-backfill.js
+    level: L2
+    install_group: workstream
+    impact: "Recovers closure provenance dropped by the WS-561 presence-guard, from the event log only"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-plan-scan.js
+    destination: kit/scripts/cwos-plan-scan.js
+    level: L2
+    install_group: workstream
+    impact: Plan-mode scanner for /session-start
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-registry-sync.js
+    destination: kit/scripts/cwos-registry-sync.js
+    level: L2
+    install_group: workstream
+    impact: Registry sync for /session-start
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-session-vitals.js
+    destination: kit/scripts/cwos-session-vitals.js
+    level: L2
+    install_group: workstream
+    impact: Session vitals capture
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-catch-state-hook.js
+    destination: kit/scripts/cwos-catch-state-hook.js
+    level: L2
+    install_group: workstream
+    impact: UserPromptSubmit hook (ADR-040) — catch-state classification
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-stop-telemetry.js
+    destination: kit/scripts/cwos-stop-telemetry.js
+    level: L2
+    install_group: workstream
+    impact: Stop hook — flush telemetry on session end
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-heartbeat.js
+    destination: kit/scripts/cwos-heartbeat.js
+    level: L2
+    install_group: workstream
+    impact: Session heartbeat for abandoned-session detection
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-git.js
+    destination: kit/scripts/cwos-git.js
+    level: L2
+    install_group: workstream
+    impact: "Session-scoped staging + per-file ownership (WS-564) — stages only this session's files, guards tree-wide sweeps, isolates unattended runs in a worktree"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-bypass-log.js
+    destination: kit/scripts/cwos-bypass-log.js
+    level: L2
+    install_group: workstream
+    impact: Bypass-event logger (called by git post-commit hook on --no-verify)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-disposition-nudge.js
+    destination: kit/scripts/cwos-disposition-nudge.js
+    level: L2
+    install_group: workstream
+    impact: SessionStart hook — surface findings missing dispositions (WS-293)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-feedback-capture.js
+    destination: kit/scripts/cwos-feedback-capture.js
+    level: L2
+    install_group: workstream
+    impact: Feedback capture writer (called by /feedback)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-migrate.js
+    destination: kit/scripts/cwos-migrate.js
+    level: L2
+    install_group: workstream
+    impact: Schema migration runner
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-kit-upgrade.js
+    destination: kit/scripts/cwos-kit-upgrade.js
+    level: L2
+    install_group: workstream
+    impact: "Kit upgrade orchestrator — dry-run/diff, snapshot, validation gate, auto-rollback (backs /kit-upgrade)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-hash-manifest.js
+    destination: kit/scripts/cwos-hash-manifest.js
+    level: L2
+    install_group: workstream
+    impact: Generates the per-version kit file-hash baseline used to detect locally hand-edited kit files
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-manifest-deps-validate.js
+    destination: kit/scripts/cwos-manifest-deps-validate.js
+    level: L2
+    install_group: workstream
+    impact: INV-064 validator — verifies the kit ships every module its scripts require (WS-544)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-command-deps-validate.js
+    destination: kit/scripts/cwos-command-deps-validate.js
+    level: L2
+    install_group: workstream
+    impact: INV-073 validator — verifies the kit ships every script its commands invoke (WS-639)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-invariant-register-validate.js
+    destination: kit/scripts/cwos-invariant-register-validate.js
+    level: L2
+    install_group: workstream
+    impact: INV-074 validator — verifies the invariant register and the enforcement are the same list (WS-641)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-kit-health.js
+    destination: kit/scripts/cwos-kit-health.js
+    level: L2
+    install_group: workstream
+    impact: Deterministic install-health JSON — /status Step 0d and /session-start render their Kit Health from it
+    merge_strategy: overwrite
+  - source: kit/scripts/core/cwos-choice-point.js
+    destination: kit/scripts/core/cwos-choice-point.js
+    level: L2
+    install_group: workstream
+    impact: "Corrective-engine offers on plan-first sprint items (/next, WS-479)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-declaration-liveness.js
+    destination: kit/scripts/cwos-declaration-liveness.js
+    level: L2
+    install_group: workstream
+    impact: INV-068 validator — verifies every mechanism the kit declares has a live consumer (WS-562)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-baseline-coverage.js
+    destination: kit/scripts/cwos-baseline-coverage.js
+    level: L2
+    install_group: workstream
+    impact: "INV-084 validator — every released kit-v* tag has a usable hash baseline, so release steps 2 and 3 cannot come apart (WS-610)"
+    merge_strategy: overwrite
+  - source: kit/declarations.yaml
+    destination: kit/declarations.yaml
+    level: L2
+    install_group: workstream
+    impact: "Registry of declared mechanisms and their obliged consumers, enforced by INV-068 (WS-562)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-registry-paths.js
+    destination: kit/scripts/lib/cwos-registry-paths.js
+    level: L2
+    install_group: workstream
+    impact: Registry path-resolution validator (skill_path/procedure/extends file-exists loop) — used by the upgrade gate
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-genesis-scaffold.js
+    destination: kit/scripts/cwos-genesis-scaffold.js
+    level: L2
+    install_group: workstream
+    impact: Genesis scaffold — empty-repo bootstrap (called by /genesis)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-genesis-ignite.js
+    destination: kit/scripts/cwos-genesis-ignite.js
+    level: L2
+    install_group: workstream
+    impact: Genesis ignite — dormant→active transition (called by /intend)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-stage.js
+    destination: kit/scripts/cwos-stage.js
+    level: L2
+    install_group: workstream
+    impact: Stage management (called by /stage)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-stage-detect.js
+    destination: kit/scripts/cwos-stage-detect.js
+    level: L2
+    install_group: workstream
+    impact: Stage detection scanner (called by /stage)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-rearchetype.js
+    destination: kit/scripts/cwos-rearchetype.js
+    level: L2
+    install_group: workstream
+    impact: Archetype migration (called by /archetype)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-adopt-archetype.js
+    destination: kit/scripts/cwos-adopt-archetype.js
+    level: L2
+    install_group: workstream
+    impact: "Archetype application (called by /adopt, /archetype)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-scope-check.js
+    destination: kit/scripts/cwos-scope-check.js
+    level: L2
+    install_group: workstream
+    impact: Onboarding scope checker (called by /onboard-check)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-backfill-capability.js
+    destination: kit/scripts/cwos-backfill-capability.js
+    level: L2
+    install_group: workstream
+    impact: One-time capability backfill migration
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-program-schema-validate.js
+    destination: kit/scripts/cwos-program-schema-validate.js
+    level: L2
+    install_group: workstream
+    impact: Program YAML schema validator
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-protocol-cadence-check.js
+    destination: kit/scripts/cwos-protocol-cadence-check.js
+    level: L2
+    install_group: workstream
+    impact: Protocol cadence enforcement (called by /pulse)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-device-health.js
+    destination: kit/scripts/cwos-device-health.js
+    level: L2
+    install_group: workstream
+    impact: Device-health runner — invariant + best-practice detectors
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/lib/detector-base.js
+    destination: kit/scripts/device-health/lib/detector-base.js
+    level: L2
+    install_group: workstream
+    impact: Device-health detector base contract
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/lib/win-shell.js
+    destination: kit/scripts/device-health/lib/win-shell.js
+    level: L2
+    install_group: workstream
+    impact: Windows PowerShell helpers for device-health detectors
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-001-disk-free.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-001-disk-free.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: disk free space"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-002-sync-paths.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-002-sync-paths.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: sync path conflicts"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-003-uncommitted-unpushed.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-003-uncommitted-unpushed.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: uncommitted/unpushed work"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-004-code-folder-not-git.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-004-code-folder-not-git.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: code folders not under git"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-005-memory-backup.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-005-memory-backup.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: memory backup configured"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-006-long-paths-enabled.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-006-long-paths-enabled.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: Windows long-paths enabled"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-007-fleet-registry-consistency.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-007-fleet-registry-consistency.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: fleet registry consistency"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-INV-008-path-length.js
+    destination: kit/scripts/device-health/detectors/DEV-INV-008-path-length.js
+    level: L2
+    install_group: workstream
+    impact: "Device invariant: per-path length check"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-001-node-version-manager.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-001-node-version-manager.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: node version manager installed"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-002-repo-roots.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-002-repo-roots.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: repo roots in canonical locations"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-003-docker-vhdx-bloat.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-003-docker-vhdx-bloat.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: Docker VHDX bloat check"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-004-package-cache-size.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-004-package-cache-size.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: package cache size"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-005-repo-staleness.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-005-repo-staleness.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: repo staleness"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-006-branch-sprawl.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-006-branch-sprawl.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: branch sprawl"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-007-claude-transcript-retention.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-007-claude-transcript-retention.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: Claude transcript retention"
+    merge_strategy: overwrite
+  - source: kit/scripts/device-health/detectors/DEV-BP-008-dev-drive-presence.js
+    destination: kit/scripts/device-health/detectors/DEV-BP-008-dev-drive-presence.js
+    level: L2
+    install_group: workstream
+    impact: "Device best-practice: dev drive present"
+    merge_strategy: overwrite
+  - source: kit/scripts/install-git-hooks.sh
+    destination: kit/scripts/install-git-hooks.sh
+    level: L2
+    install_group: workstream
+    impact: Git hook installer (run once per clone)
+    merge_strategy: overwrite
+  # engines
+  - source: kit/commands/engine.md
+    destination: .claude/commands/engine.md
+    level: L3
+    install_group: engines
+    impact: Run named engines for structured analysis
+    merge_strategy: overwrite
+  - source: kit/commands/build-engine.md
+    destination: .claude/commands/build-engine.md
+    level: L3
+    install_group: engines
+    impact: Create custom engines via guided wizard
+    merge_strategy: overwrite
+  - source: personas/core/architect.md
+    destination: .claude/agents/architect.md
+    level: L3
+    install_group: engines
+    impact: "Architecture, invariants, coupling, module boundaries"
+    merge_strategy: overwrite
+  - source: personas/core/senior-engineer.md
+    destination: .claude/agents/senior-engineer.md
+    level: L3
+    install_group: engines
+    impact: "Code quality, testing, maintainability"
+    merge_strategy: overwrite
+  - source: personas/core/failure-engineer.md
+    destination: .claude/agents/failure-engineer.md
+    level: L3
+    install_group: engines
+    impact: "Failure modes, edge cases, cascading failures"
+    merge_strategy: overwrite
+  - source: personas/core/performance-engineer.md
+    destination: .claude/agents/performance-engineer.md
+    level: L3
+    install_group: engines
+    impact: "Latency, throughput, resource usage, scalability"
+    merge_strategy: overwrite
+  - source: personas/core/security-engineer.md
+    destination: .claude/agents/security-engineer.md
+    level: L3
+    install_group: engines
+    impact: "Attack surface, trust boundaries, data protection"
+    merge_strategy: overwrite
+  - source: personas/core/product-ux.md
+    destination: .claude/agents/product-ux.md
+    level: L3
+    install_group: engines
+    impact: "User experience, accessibility, usability"
+    merge_strategy: overwrite
+  - source: personas/core/cross-critic.md
+    destination: .claude/agents/cross-critic.md
+    level: L3
+    install_group: engines
+    impact: "Cross-critique: contradictions, blind spots, broken assumptions"
+    merge_strategy: overwrite
+  - source: personas/core/facilitator.md
+    destination: .claude/agents/facilitator.md
+    level: L3
+    install_group: engines
+    impact: "Synthesis, conflict resolution, ranked output"
+    merge_strategy: overwrite
+  - source: personas/domain/financial-auditor.md
+    destination: .claude/agents/financial-auditor.md
+    level: L3
+    install_group: engines
+    impact: "Financial precision, reconciliation — used by financial-audit engine"
+    merge_strategy: overwrite
+  - source: personas/domain/legal-guardian.md
+    destination: .claude/agents/legal-guardian.md
+    level: L3
+    install_group: engines
+    impact: "Legal risk, privacy, compliance — used by legal-safety engine"
+    merge_strategy: overwrite
+  - source: personas/domain/mission-advocate.md
+    destination: .claude/agents/mission-advocate.md
+    level: L3
+    install_group: engines
+    impact: "Mission alignment, impact — used by traction, business-engine"
+    merge_strategy: overwrite
+  - source: personas/domain/research-scientist.md
+    destination: .claude/agents/research-scientist.md
+    level: L3
+    install_group: engines
+    impact: "Falsifiability, rigor — used by research-review engine"
+    merge_strategy: overwrite
+  - source: personas/domain/community-voice.md
+    destination: .claude/agents/community-voice.md
+    level: L3
+    install_group: engines
+    impact: "Accessibility, trust, end-user advocacy — used by design-audit"
+    merge_strategy: overwrite
+  - source: personas/domain/business-strategist.md
+    destination: .claude/agents/business-strategist.md
+    level: L3
+    install_group: engines
+    impact: "Market positioning, feature ROI — used by business-engine, decision-enhance"
+    merge_strategy: overwrite
+  - source: personas/domain/data-strategist.md
+    destination: .claude/agents/data-strategist.md
+    level: L3
+    install_group: engines
+    impact: "Data integrity, pipeline health — used by engine-briefing"
+    merge_strategy: overwrite
+  - source: personas/domain/product-owner.md
+    destination: .claude/agents/product-owner.md
+    level: L3
+    install_group: engines
+    impact: "User value, feature completeness — used by /plan deliberation"
+    merge_strategy: overwrite
+  - source: personas/domain/operations-engineer.md
+    destination: .claude/agents/operations-engineer.md
+    level: L3
+    install_group: engines
+    impact: "Reliability, monitoring — used by health-check, incident-response"
+    merge_strategy: overwrite
+  - source: personas/domain/strategic-thinker.md
+    destination: .claude/agents/strategic-thinker.md
+    level: L3
+    install_group: engines
+    impact: "ROI, strategic alignment — used by traction, business-engine"
+    merge_strategy: overwrite
+  - source: personas/domain/evolution-analyst.md
+    destination: .claude/agents/evolution-analyst.md
+    level: L3
+    install_group: engines
+    impact: "Quality trends, calibration drift — used by product-ideation, meta-engine"
+    merge_strategy: overwrite
+  - source: personas/domain/fleet-strategist.md
+    destination: .claude/agents/fleet-strategist.md
+    level: L3
+    install_group: engines
+    impact: "Cross-repo patterns, portfolio balance — used by cross-repo-insight"
+    merge_strategy: overwrite
+  - source: personas/domain/operator-experience-designer.md
+    destination: .claude/agents/operator-experience-designer.md
+    level: L3
+    install_group: engines
+    impact: Operator surface UX — used by design-audit engine
+    merge_strategy: overwrite
+  - source: personas/domain/developer-experience-designer.md
+    destination: .claude/agents/developer-experience-designer.md
+    level: L3
+    install_group: engines
+    impact: Builder surface UX — used by design-audit engine
+    merge_strategy: overwrite
+  - source: personas/domain/ai-interaction-designer.md
+    destination: .claude/agents/ai-interaction-designer.md
+    level: L3
+    install_group: engines
+    impact: AI-conversation surface UX — used by design-audit engine (CWOS-unique)
+    merge_strategy: overwrite
+  - source: kit/templates/rules/performance-baseline.md
+    destination: .claude/rules/performance-baseline.md
+    level: L3
+    install_group: engines
+    impact: Performance standards and monitoring
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/optimization-index.yaml
+    destination: .claude/workstream/optimization-index.yaml
+    level: L3
+    install_group: engines
+    impact: Self-improvement signal tracking — engines accumulate feedback about their own effectiveness
+    merge_strategy: additive
+  - source: kit/templates/workstream/engine-noise-signals.yaml
+    destination: .claude/workstream/engine-noise-signals.yaml
+    level: L3
+    install_group: engines
+    impact: "One-shot noise suppression signals — 'few/none' feedback auto-suppresses low-priority findings on next run"
+    merge_strategy: additive
+  - source: kit/templates/founder-glossary.yaml
+    destination: .claude/workstream/founder-glossary.yaml
+    level: L3
+    install_group: engines
+    impact: Curated terms whose unexplained use in briefings triggers a jargon finding (P2 enforcement)
+    merge_strategy: additive
+  - source: kit/templates/workstream/engines/registry.yaml
+    destination: .claude/workstream/engines/registry.yaml
+    level: L3
+    install_group: engines
+    impact: Engine registry — declares available engines and their interfaces
+    merge_strategy: additive
+  - source: engines/styles/catalog.yaml
+    destination: .claude/workstream/engines/styles/catalog.yaml
+    level: L3
+    install_group: engines
+    impact: "Style catalog — reasoning, output, and tone options for engine runs"
+    merge_strategy: overwrite
+  - source: engines/styles/signals.yaml
+    destination: .claude/workstream/engines/styles/signals.yaml
+    level: L3
+    install_group: engines
+    impact: Context signals — adaptive style recommendations based on project state
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/dispatch.md
+    destination: .claude/workstream/engines/styles/reasoning/dispatch.md
+    level: L3
+    install_group: engines
+    impact: Default reasoning style — standard expert roundtable
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/pre-mortem.md
+    destination: .claude/workstream/engines/styles/reasoning/pre-mortem.md
+    level: L3
+    install_group: engines
+    impact: Pre-mortem reasoning — work backward from imagined failure
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/dialectical.md
+    destination: .claude/workstream/engines/styles/reasoning/dialectical.md
+    level: L3
+    install_group: engines
+    impact: Dialectical reasoning — thesis vs. antithesis with synthesis
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/five-whys.md
+    destination: .claude/workstream/engines/styles/reasoning/five-whys.md
+    level: L3
+    install_group: engines
+    impact: Five whys reasoning — drill from symptom to root cause
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/delphi.md
+    destination: .claude/workstream/engines/styles/reasoning/delphi.md
+    level: L3
+    install_group: engines
+    impact: Delphi method — independent assessment then revision
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/progressive-deepening.md
+    destination: .claude/workstream/engines/styles/reasoning/progressive-deepening.md
+    level: L3
+    install_group: engines
+    impact: Progressive deepening — broad survey then targeted deep dives
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/inversion.md
+    destination: .claude/workstream/engines/styles/reasoning/inversion.md
+    level: L3
+    install_group: engines
+    impact: Inversion reasoning — find failure recipes already baking
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/competing-hypotheses.md
+    destination: .claude/workstream/engines/styles/reasoning/competing-hypotheses.md
+    level: L3
+    install_group: engines
+    impact: Competing hypotheses — evidence matrix to eliminate wrong theories
+    merge_strategy: overwrite
+  - source: engines/styles/reasoning/scenario-planning.md
+    destination: .claude/workstream/engines/styles/reasoning/scenario-planning.md
+    level: L3
+    install_group: engines
+    impact: Scenario planning — stress-test against plausible futures
+    merge_strategy: overwrite
+  - source: engines/styles/output/executive.md
+    destination: .claude/workstream/engines/styles/output/executive.md
+    level: L3
+    install_group: engines
+    impact: "Default output — executive briefing, bottom line up front"
+    merge_strategy: overwrite
+  - source: engines/styles/output/progressive-disclosure.md
+    destination: .claude/workstream/engines/styles/output/progressive-disclosure.md
+    level: L3
+    install_group: engines
+    impact: Progressive disclosure — three layers of depth
+    merge_strategy: overwrite
+  - source: engines/styles/output/opinionated.md
+    destination: .claude/workstream/engines/styles/output/opinionated.md
+    level: L3
+    install_group: engines
+    impact: Opinionated output — strong single recommendation per finding
+    merge_strategy: overwrite
+  - source: engines/styles/output/options-matrix.md
+    destination: .claude/workstream/engines/styles/output/options-matrix.md
+    level: L3
+    install_group: engines
+    impact: Options matrix — structured comparison of approaches
+    merge_strategy: overwrite
+  - source: engines/styles/output/narrative.md
+    destination: .claude/workstream/engines/styles/output/narrative.md
+    level: L3
+    install_group: engines
+    impact: Narrative output — guided story through findings
+    merge_strategy: overwrite
+  - source: engines/styles/output/risk-register.md
+    destination: .claude/workstream/engines/styles/output/risk-register.md
+    level: L3
+    install_group: engines
+    impact: Risk register — formal risk table for compliance and sharing
+    merge_strategy: overwrite
+  - source: engines/styles/tone/co-founder.md
+    destination: .claude/workstream/engines/styles/tone/co-founder.md
+    level: L3
+    install_group: engines
+    impact: "Default tone — direct, pragmatic co-founder voice"
+    merge_strategy: overwrite
+  - source: engines/styles/tone/mentor.md
+    destination: .claude/workstream/engines/styles/tone/mentor.md
+    level: L3
+    install_group: engines
+    impact: "Mentor tone — patient, educational, explains the 'why'"
+    merge_strategy: overwrite
+  - source: engines/styles/tone/surgeon.md
+    destination: .claude/workstream/engines/styles/tone/surgeon.md
+    level: L3
+    install_group: engines
+    impact: "Surgeon tone — precise, no-nonsense, action-only"
+    merge_strategy: overwrite
+  - source: engines/styles/tone/auditor.md
+    destination: .claude/workstream/engines/styles/tone/auditor.md
+    level: L3
+    install_group: engines
+    impact: "Auditor tone — formal, evidence-based, shareable reports"
+    merge_strategy: overwrite
+  - source: engines/styles/tone/socratic.md
+    destination: .claude/workstream/engines/styles/tone/socratic.md
+    level: L3
+    install_group: engines
+    impact: Socratic tone — findings as questions that build understanding
+    merge_strategy: overwrite
+  - source: engines/styles/tone/consultant.md
+    destination: .claude/workstream/engines/styles/tone/consultant.md
+    level: L3
+    install_group: engines
+    impact: "Consultant tone — professional, framework-explicit, board-ready"
+    merge_strategy: overwrite
+  - source: engines/standard/eng-engine.md
+    destination: .claude/commands/eng-engine.md
+    level: L3
+    install_group: engines
+    impact: Core engineering analysis — multi-persona roundtable for deep codebase review
+    merge_strategy: overwrite
+  - source: engines/standard/optimization-feedback.md
+    destination: engines/standard/optimization-feedback.md
+    level: L3
+    install_group: engines
+    impact: Self-improvement protocol — engines generate feedback about their own effectiveness
+    merge_strategy: overwrite
+  - source: engines/standard/health-check.md
+    destination: .claude/commands/health-check.md
+    level: L3
+    install_group: engines
+    impact: "Project health dashboard — vital signs, test coverage, dependency status"
+    merge_strategy: overwrite
+  - source: engines/standard/engine-briefing.md
+    destination: .claude/commands/engine-briefing.md
+    level: L3
+    install_group: engines
+    impact: Quick context briefing — fast orientation before engine runs
+    merge_strategy: overwrite
+  - source: engines/standard/milestone-briefing.md
+    destination: .claude/commands/milestone-briefing.md
+    level: L3
+    install_group: engines
+    impact: Milestone progress update — status against specific goals
+    merge_strategy: overwrite
+  - source: engines/standard/goal-progress.md
+    destination: .claude/commands/goal-progress.md
+    level: L3
+    install_group: engines
+    impact: Scores findings against repo_goal (P1 enforcement) — advances-goal vs maintenance ratio
+    merge_strategy: overwrite
+  - source: engines/standard/component-alignment.md
+    destination: .claude/commands/component-alignment.md
+    level: L3
+    install_group: engines
+    impact: Scores components against repo_goal (P3 enforcement) — surfaces prune candidates at /adopt + /pulse
+    merge_strategy: overwrite
+  - source: engines/standard/persona-validator.md
+    destination: .claude/commands/persona-validator.md
+    level: L3
+    install_group: engines
+    impact: Persona calibration testing — validates persona output quality
+    merge_strategy: overwrite
+  - source: engines/standard/coverage-detector.md
+    destination: .claude/commands/coverage-detector.md
+    level: L3
+    install_group: engines
+    impact: Untested code path detection — finds gaps in test coverage
+    merge_strategy: overwrite
+  - source: engines/standard/drift-detector.md
+    destination: .claude/commands/drift-detector.md
+    level: L3
+    install_group: engines
+    impact: Spec-code divergence detection — finds where implementation drifted from design
+    merge_strategy: overwrite
+  - source: engines/standard/preflight.md
+    destination: .claude/commands/preflight.md
+    level: L3
+    install_group: engines
+    impact: Pre-deployment readiness check — validates deploy prerequisites
+    merge_strategy: overwrite
+  - source: engines/procedures/agent-dispatch.md
+    destination: .claude/workstream/engines/procedures/agent-dispatch.md
+    level: L3
+    install_group: engines
+    impact: Agent-dispatch procedure — multi-agent parallel research with cross-critique
+    merge_strategy: overwrite
+  - source: engines/procedures/suite-check.md
+    destination: .claude/workstream/engines/procedures/suite-check.md
+    level: L3
+    install_group: engines
+    impact: Suite-check procedure — sequential checklist-style analysis
+    merge_strategy: overwrite
+  - source: engines/procedures/single-pass.md
+    destination: .claude/workstream/engines/procedures/single-pass.md
+    level: L3
+    install_group: engines
+    impact: Single-pass procedure — lightweight single-agent analysis
+    merge_strategy: overwrite
+  - source: engines/base/context-gather.md
+    destination: .claude/workstream/engines/base/context-gather.md
+    level: L3
+    install_group: engines
+    impact: Context-gather base — shared context loading instructions for all engines
+    merge_strategy: overwrite
+  - source: engines/library/business-engine/SKILL.md
+    destination: .claude/commands/business-engine.md
+    level: L3
+    install_group: engines
+    impact: "Business analysis — market positioning, feature ROI, competitive analysis"
+    merge_strategy: overwrite
+  - source: engines/library/context-curator/SKILL.md
+    destination: .claude/commands/context-curator.md
+    level: L3
+    install_group: engines
+    impact: Context curation — loads and organizes system context for other engines
+    merge_strategy: overwrite
+  - source: engines/library/decision-enhance/SKILL.md
+    destination: .claude/commands/decision-enhance.md
+    level: L3
+    install_group: engines
+    impact: Decision validation — structured second opinion on architectural decisions
+    merge_strategy: overwrite
+  - source: engines/library/financial-audit/SKILL.md
+    destination: .claude/commands/financial-audit.md
+    level: L3
+    install_group: engines
+    impact: "Financial accuracy — reconciliation, precision, and audit trail review"
+    merge_strategy: overwrite
+  - source: engines/library/incident-response/SKILL.md
+    destination: .claude/commands/incident-response.md
+    level: L3
+    install_group: engines
+    impact: Incident analysis — structured response protocols and recovery planning
+    merge_strategy: overwrite
+  - source: engines/library/item-enhance/SKILL.md
+    destination: .claude/commands/item-enhance.md
+    level: L3
+    install_group: engines
+    impact: Work item enhancement — enriches sprint and backlog item descriptions
+    merge_strategy: overwrite
+  - source: engines/library/legal-safety/SKILL.md
+    destination: .claude/commands/legal-safety.md
+    level: L3
+    install_group: engines
+    impact: "Legal risk review — privacy, compliance, and regulatory assessment"
+    merge_strategy: overwrite
+  - source: engines/library/migration-prep/SKILL.md
+    destination: .claude/commands/migration-prep.md
+    level: L3
+    install_group: engines
+    impact: Migration readiness — precondition checklist and rollback planning
+    merge_strategy: overwrite
+  - source: engines/library/plan-enhance/SKILL.md
+    destination: .claude/commands/plan-enhance.md
+    level: L3
+    install_group: engines
+    impact: Plan validation — adversarial stress-testing of implementation plans
+    merge_strategy: overwrite
+  - source: engines/library/refactor-prep/SKILL.md
+    destination: .claude/commands/refactor-prep.md
+    level: L3
+    install_group: engines
+    impact: Refactoring readiness — blast radius analysis and safety assessment
+    merge_strategy: overwrite
+  - source: engines/library/research-review/SKILL.md
+    destination: .claude/commands/research-review.md
+    level: L3
+    install_group: engines
+    impact: "Research rigor review — falsifiability, methodology, and evidence quality"
+    merge_strategy: overwrite
+  - source: engines/library/sprint-enhance/SKILL.md
+    destination: .claude/commands/sprint-enhance.md
+    level: L3
+    install_group: engines
+    impact: Sprint planning enhancement — scope validation and retrospective analysis
+    merge_strategy: overwrite
+  - source: engines/library/traction/SKILL.md
+    destination: .claude/commands/traction.md
+    level: L3
+    install_group: engines
+    impact: "Traction analysis — growth metrics, mission impact, and momentum tracking"
+    merge_strategy: overwrite
+  - source: engines/library/upgrade-prep/SKILL.md
+    destination: .claude/commands/upgrade-prep.md
+    level: L3
+    install_group: engines
+    impact: Upgrade readiness — dependency risk assessment and compatibility checks
+    merge_strategy: overwrite
+  - source: engines/library/design-audit/SKILL.md
+    destination: .claude/commands/design-audit.md
+    level: L3
+    install_group: engines
+    impact: Design audit — 4-surface UX maturity scorecard for prog-design
+    merge_strategy: overwrite
+  - source: engines/library/design-audit/MANIFEST.yaml
+    destination: engines/library/design-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: design-audit engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/domain-audit/SKILL.md
+    destination: .claude/commands/domain-audit.md
+    level: L3
+    install_group: engines
+    impact: "Domain-correctness audit — drafts load-bearing rules from repo content (Phase 0b), then catches drift / blindspots / unenforced constraints"
+    merge_strategy: overwrite
+  - source: engines/library/domain-audit/MANIFEST.yaml
+    destination: engines/library/domain-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: domain-audit engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/compliance-audit/SKILL.md
+    destination: .claude/commands/compliance-audit.md
+    level: L3
+    install_group: engines
+    impact: "Compliance audit — drafts privacy-policy / consent-flows / applicable-regulations from repo signals + founder-named jurisdictions (Phase 0b), then catches drift / blindspots / unenforced regulatory checkpoints. Coexists with legal-safety as the deep-audit engine."
+    merge_strategy: overwrite
+  - source: engines/library/compliance-audit/MANIFEST.yaml
+    destination: engines/library/compliance-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: compliance-audit engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/claims-audit/SKILL.md
+    destination: .claude/commands/claims-audit.md
+    level: L3
+    install_group: engines
+    impact: "Claims audit — drafts claims-register + evidence-standards-matrix from product copy + UI strings + AI outputs + README + marketing copy (Phase 0b); conditionally drafts evaluator-validation-plan when AI-evaluator pattern detected. Catches drift, ungrounded claims, evidence-tier violations, disclaimer gaps."
+    merge_strategy: overwrite
+  - source: engines/library/claims-audit/MANIFEST.yaml
+    destination: engines/library/claims-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: claims-audit engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/provenance-audit/SKILL.md
+    destination: .claude/commands/provenance-audit.md
+    level: L3
+    install_group: engines
+    impact: "Data provenance audit — drafts data-source-registry + provenance-chain-map from migrations + ORM schemas + SDK dependencies + URL/HTTP-client patterns + fixtures + config blocks (Phase 0b). Subsequent runs catch drift, undocumented sources, trust-tier upgrades through the chain (inference errors), broken chains, stale source authorities, orphan sources."
+    merge_strategy: overwrite
+  - source: engines/library/provenance-audit/MANIFEST.yaml
+    destination: engines/library/provenance-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: provenance-audit engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/design-critique/SKILL.md
+    destination: .claude/commands/design-critique.md
+    level: L3
+    install_group: engines
+    impact: Design critique — interface + interaction review engine paired with prog-design
+    merge_strategy: overwrite
+  - source: engines/library/design-critique/MANIFEST.yaml
+    destination: engines/library/design-critique/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: design-critique engine manifest
+    merge_strategy: overwrite
+  - source: engines/library/business-engine/MANIFEST.yaml
+    destination: engines/library/business-engine/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: "Business-engine install metadata — personas, chains, archetypes"
+    merge_strategy: overwrite
+  - source: engines/library/context-curator/MANIFEST.yaml
+    destination: engines/library/context-curator/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Context-curator install metadata
+    merge_strategy: overwrite
+  - source: engines/library/decision-enhance/MANIFEST.yaml
+    destination: engines/library/decision-enhance/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Decision-enhance install metadata
+    merge_strategy: overwrite
+  - source: engines/library/financial-audit/MANIFEST.yaml
+    destination: engines/library/financial-audit/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Financial-audit install metadata
+    merge_strategy: overwrite
+  - source: engines/library/incident-response/MANIFEST.yaml
+    destination: engines/library/incident-response/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Incident-response install metadata
+    merge_strategy: overwrite
+  - source: engines/library/item-enhance/MANIFEST.yaml
+    destination: engines/library/item-enhance/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Item-enhance install metadata
+    merge_strategy: overwrite
+  - source: engines/library/legal-safety/MANIFEST.yaml
+    destination: engines/library/legal-safety/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Legal-safety install metadata
+    merge_strategy: overwrite
+  - source: engines/library/migration-prep/MANIFEST.yaml
+    destination: engines/library/migration-prep/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Migration-prep install metadata
+    merge_strategy: overwrite
+  - source: engines/library/plan-enhance/MANIFEST.yaml
+    destination: engines/library/plan-enhance/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Plan-enhance install metadata
+    merge_strategy: overwrite
+  - source: engines/library/refactor-prep/MANIFEST.yaml
+    destination: engines/library/refactor-prep/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Refactor-prep install metadata
+    merge_strategy: overwrite
+  - source: engines/library/research-review/MANIFEST.yaml
+    destination: engines/library/research-review/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Research-review install metadata
+    merge_strategy: overwrite
+  - source: engines/library/sprint-enhance/MANIFEST.yaml
+    destination: engines/library/sprint-enhance/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Sprint-enhance install metadata
+    merge_strategy: overwrite
+  - source: engines/library/traction/MANIFEST.yaml
+    destination: engines/library/traction/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Traction install metadata
+    merge_strategy: overwrite
+  - source: engines/library/upgrade-prep/MANIFEST.yaml
+    destination: engines/library/upgrade-prep/MANIFEST.yaml
+    level: L3
+    install_group: engines
+    impact: Upgrade-prep install metadata
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-run-summary.js
+    destination: kit/scripts/lib/cwos-run-summary.js
+    level: L3
+    install_group: engines
+    impact: Engine run-summary writer (manifest finalize)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/engine-readiness-registry.yaml
+    destination: kit/scripts/core/engine-readiness-registry.yaml
+    level: L3
+    install_group: engines
+    impact: Engine readiness registry (intent contract)
+    merge_strategy: overwrite
+  - source: kit/scripts/core/reducers/engines.js
+    destination: kit/scripts/core/reducers/engines.js
+    level: L3
+    install_group: engines
+    impact: Engines reducer for state-store materialization
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_candidate_dismissed.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_candidate_dismissed.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_candidate_dismissed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_candidate_suggested.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_candidate_suggested.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_candidate_suggested"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_candidate_suppressed.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_candidate_suppressed.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_candidate_suppressed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_chain_dispatched.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_chain_dispatched.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_chain_dispatched"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_contract_amended.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_contract_amended.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_contract_amended"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_contract_verified.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_contract_verified.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_contract_verified"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_intent_abandoned.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_intent_abandoned.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_intent_abandoned"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_intent_bypassed.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_intent_bypassed.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_intent_bypassed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_field_acked.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_field_acked.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_field_acked (WS-433 single-question pre-flight gate)"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_intent_recorded.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_intent_recorded.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_intent_recorded"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/engines/engine_run_completed.json
+    destination: kit/scripts/core/schemas/payloads/engines/engine_run_completed.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_run_completed"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/engine_token_budget_acknowledged.json
+    destination: kit/scripts/core/schemas/payloads/envelope/engine_token_budget_acknowledged.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_token_budget_acknowledged"
+    merge_strategy: overwrite
+  - source: kit/scripts/core/schemas/payloads/envelope/engine_token_budget_alarm.json
+    destination: kit/scripts/core/schemas/payloads/envelope/engine_token_budget_alarm.json
+    level: L3
+    install_group: engines
+    impact: "Payload schema: engine_token_budget_alarm"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/cwos-skill-telemetry.js
+    destination: kit/scripts/lib/cwos-skill-telemetry.js
+    level: L3
+    install_group: engines
+    impact: Skill invocation telemetry — required by cwos-engine-complete
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-score.js
+    destination: kit/scripts/cwos-score.js
+    level: L3
+    install_group: engines
+    impact: Deterministic health score computation for programs
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-next.js
+    destination: kit/scripts/cwos-next.js
+    level: L3
+    install_group: engines
+    impact: Sprint composer + gate (called by /next gate/candidates/compose/approve/done)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-frame.js
+    destination: kit/scripts/cwos-frame.js
+    level: L3
+    install_group: engines
+    impact: Engine intent-contract pre-flight (ADR-038 Layer 3)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-token-budget.js
+    destination: kit/scripts/cwos-token-budget.js
+    level: L3
+    install_group: engines
+    impact: Token budget guardrails (WS-272)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-engine-manifest.js
+    destination: kit/scripts/cwos-engine-manifest.js
+    level: L3
+    install_group: engines
+    impact: Engine run manifest writer (init/allocate/complete)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-engine-complete.js
+    destination: kit/scripts/cwos-engine-complete.js
+    level: L3
+    install_group: engines
+    impact: Engine run finalization (called by /engine)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-engine-contract-verify.js
+    destination: kit/scripts/cwos-engine-contract-verify.js
+    level: L3
+    install_group: engines
+    impact: Engine contract closure verifier (pre-commit hook)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-engine-persona-validate.js
+    destination: kit/scripts/cwos-engine-persona-validate.js
+    level: L3
+    install_group: engines
+    impact: Engine ↔ persona graph closure validator
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-provenance-validate.js
+    destination: kit/scripts/cwos-provenance-validate.js
+    level: L3
+    install_group: engines
+    impact: Finding provenance validator (pre-commit hook)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-quality-trends-write.js
+    destination: kit/scripts/cwos-quality-trends-write.js
+    level: L3
+    install_group: engines
+    impact: Quality-trends writer (called by /evolve)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-runs-sealed.js
+    destination: kit/scripts/cwos-runs-sealed.js
+    level: L3
+    install_group: engines
+    impact: Engine-runs immutability check (pre-commit hook)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-runs.js
+    destination: kit/scripts/cwos-runs.js
+    level: L3
+    install_group: engines
+    impact: "Prior-run lookup — answers 'has an engine already examined X, and where did the output land?' (/engine Step 1b, WS-702)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-run-summary.js
+    destination: kit/scripts/cwos-run-summary.js
+    level: L3
+    install_group: engines
+    impact: Engine run-summary writer CLI
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-asn-validate.js
+    destination: kit/scripts/cwos-asn-validate.js
+    level: L3
+    install_group: engines
+    impact: "AS-N labeled-assumption validator (called by /decide, /status, /audit)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-asn-report.js
+    destination: kit/scripts/cwos-asn-report.js
+    level: L3
+    install_group: engines
+    impact: AS-N coverage report (called by /audit)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-asn-transition.js
+    destination: kit/scripts/cwos-asn-transition.js
+    level: L3
+    install_group: engines
+    impact: AS-N lifecycle transition recorder (mda-metrics bookkeeping)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-findings-feedback-validate.js
+    destination: kit/scripts/cwos-findings-feedback-validate.js
+    level: L3
+    install_group: engines
+    impact: Findings-feedback calibration validator (called by /next done)
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/post-commit-asn.sh
+    destination: kit/scripts/git-hooks/post-commit-asn.sh
+    level: L3
+    install_group: engines
+    impact: Post-commit hook — AS-N + bypass log
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/pre-commit-asn.sh
+    destination: kit/scripts/git-hooks/pre-commit-asn.sh
+    level: L3
+    install_group: engines
+    impact: Pre-commit hook — AS-N validation
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/pre-commit-engine-manifest.sh
+    destination: kit/scripts/git-hooks/pre-commit-engine-manifest.sh
+    level: L3
+    install_group: engines
+    impact: Pre-commit hook — engine manifest closure
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/pre-commit-graph-closure.sh
+    destination: kit/scripts/git-hooks/pre-commit-graph-closure.sh
+    level: L3
+    install_group: engines
+    impact: Pre-commit hook — persona graph closure
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/pre-commit-provenance.sh
+    destination: kit/scripts/git-hooks/pre-commit-provenance.sh
+    level: L3
+    install_group: engines
+    impact: Pre-commit hook — finding provenance
+    merge_strategy: overwrite
+  - source: kit/scripts/git-hooks/pre-commit-runs-immutability.sh
+    destination: kit/scripts/git-hooks/pre-commit-runs-immutability.sh
+    level: L3
+    install_group: engines
+    impact: Pre-commit hook — engine runs immutability
+    merge_strategy: overwrite
+  - source: docs/guides/next-command-pedagogy.md
+    destination: docs/guides/next-command-pedagogy.md
+    level: L3
+    install_group: engines
+    impact: Inline algorithm for /next when CLI is missing
+    merge_strategy: overwrite
+  # governance
+  - source: kit/commands/pulse.md
+    destination: .claude/commands/pulse.md
+    level: L4
+    install_group: governance
+    impact: "Program health overview — scores, staleness, audit history"
+    merge_strategy: overwrite
+  - source: kit/commands/audit.md
+    destination: .claude/commands/audit.md
+    level: L4
+    install_group: governance
+    impact: "Self-audit — drift, staleness, invariant violations"
+    merge_strategy: overwrite
+  - source: kit/templates/system/health-scoring.md
+    destination: system/health-scoring.md
+    level: L4
+    install_group: governance
+    impact: "Program health scoring formula — used by /pulse, /session-start, /next"
+    merge_strategy: overwrite
+  - source: kit/templates/rules/deployment-checklist.md
+    destination: .claude/rules/deployment-checklist.md
+    level: L4
+    install_group: governance
+    impact: Pre-deployment verification checklist
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/registry.yaml
+    destination: .claude/workstream/programs/registry.yaml
+    level: L4
+    install_group: governance
+    impact: Program registry — governance program definitions
+    merge_strategy: additive
+  - source: kit/templates/workstream/programs/prog-template.yaml
+    destination: .claude/workstream/programs/prog-template.yaml
+    level: L4
+    install_group: governance
+    impact: Template for custom governance programs
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-engineering.yaml
+    destination: .claude/workstream/programs/prog-engineering.yaml
+    level: L4
+    install_group: governance
+    impact: Engineering quality governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-claims-policy.yaml
+    destination: .claude/workstream/programs/prog-claims-policy.yaml
+    level: L4
+    install_group: governance
+    impact: Claims policy + evidence standards governance for repos making clinical/legal/financial/scientific claims
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/governance/claims-policy-template.md
+    destination: docs/claims/claims-policy.md.draft
+    level: L4
+    install_group: governance
+    impact: "Authorized-voice document — what this product claims, by what authority"
+    merge_strategy: skip-if-exists
+  - source: kit/templates/workstream/governance/evidence-standards-matrix.md
+    destination: docs/claims/evidence-standards-matrix.md.draft
+    level: L4
+    install_group: governance
+    impact: "Per-claim evidence standards, confidence tiers, tier gates, re-verification cadences"
+    merge_strategy: skip-if-exists
+  - source: kit/templates/workstream/governance/evaluator-validation-plan-template.md
+    destination: docs/claims/evaluator-validation-plan.md.draft
+    level: L4
+    install_group: governance
+    impact: Ground-truth anchor for AI-as-judge setups (AISimPT-style evaluators)
+    merge_strategy: skip-if-exists
+  - source: kit/templates/workstream/programs/prog-security.yaml
+    destination: .claude/workstream/programs/prog-security.yaml
+    level: L4
+    install_group: governance
+    impact: Security governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-design.yaml
+    destination: .claude/workstream/programs/prog-design.yaml
+    level: L4
+    install_group: governance
+    impact: "Design quality governance — 4-surface UX (end-user, operator, builder, AI-conversation). ALWAYS-install program per ADR-017."
+    merge_strategy: overwrite
+  - source: kit/templates/design/tokens.template.js
+    destination: design/tokens.template.js
+    level: L4
+    install_group: governance
+    impact: Design tokens starter (end-user surface L2+ scaffold)
+    merge_strategy: skip-if-exists
+  - source: kit/templates/design/artifact-framework/README.md
+    destination: design/README.md
+    level: L4
+    install_group: governance
+    impact: Artifact-driven design framework scaffold (end-user surface L3+ opt-in)
+    merge_strategy: skip-if-exists
+  - source: kit/templates/design/artifact-framework/FDB-template.md
+    destination: design/templates/FDB-template.md
+    level: L4
+    install_group: governance
+    impact: Feature Design Brief template
+    merge_strategy: skip-if-exists
+  - source: kit/templates/design/operator-dashboard-pattern.md
+    destination: design/operator-dashboard-pattern.md
+    level: L4
+    install_group: governance
+    impact: Operator dashboard pattern guide (operator surface L2+)
+    merge_strategy: skip-if-exists
+  - source: kit/templates/design/ai-conversation-checklist.md
+    destination: design/ai-conversation-checklist.md
+    level: L4
+    install_group: governance
+    impact: AI-conversation surface audit checklist
+    merge_strategy: skip-if-exists
+  - source: kit/templates/domain/domain-spec-template.md
+    destination: docs/domain-spec.template.md
+    level: L4
+    install_group: governance
+    impact: Domain-specification draft schema — populated by domain-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/domain/DRAFTS-template.md
+    destination: DRAFTS.template.md
+    level: L4
+    install_group: governance
+    impact: Drafts manifest template — shared index of CWOS-generated drafts pending founder promotion
+    merge_strategy: skip-if-exists
+  - source: kit/templates/compliance/privacy-policy-template.md
+    destination: docs/compliance/privacy-policy.template.md
+    level: L4
+    install_group: governance
+    impact: Privacy policy draft schema — populated by compliance-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/compliance/consent-flows-template.md
+    destination: docs/compliance/consent-flows.template.md
+    level: L4
+    install_group: governance
+    impact: Consent flows draft schema — populated by compliance-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/compliance/applicable-regulations-template.md
+    destination: docs/compliance/applicable-regulations.template.md
+    level: L4
+    install_group: governance
+    impact: Applicable regulations draft schema (code-level checkpoints) — populated by compliance-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/claims/claims-register-template.md
+    destination: docs/claims/claims-register.template.md
+    level: L4
+    install_group: governance
+    impact: Claims register draft schema — populated by claims-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/claims/evidence-standards-matrix-template.md
+    destination: docs/claims/evidence-standards-matrix.template.md
+    level: L4
+    install_group: governance
+    impact: Evidence-standards matrix draft schema — populated by claims-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/claims/evaluator-validation-plan-template.md
+    destination: docs/claims/evaluator-validation-plan.template.md
+    level: L4
+    install_group: governance
+    impact: AI-evaluator validation plan draft schema — populated by claims-audit Phase 0b ONLY when AI-evaluator pattern detected; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/provenance/data-source-registry-template.md
+    destination: docs/provenance/data-source-registry.template.md
+    level: L4
+    install_group: governance
+    impact: Data-source registry draft schema — populated by provenance-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/provenance/provenance-chain-map-template.md
+    destination: docs/provenance/provenance-chain-map.template.md
+    level: L4
+    install_group: governance
+    impact: Provenance chain map draft schema — populated by provenance-audit Phase 0b; founder reviews and promotes
+    merge_strategy: skip-if-exists
+  - source: kit/templates/workstream/programs/prog-infrastructure.yaml
+    destination: .claude/workstream/programs/prog-infrastructure.yaml
+    level: L4
+    install_group: governance
+    impact: Infrastructure governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-data-quality.yaml
+    destination: .claude/workstream/programs/prog-data-quality.yaml
+    level: L4
+    install_group: governance
+    impact: Data quality governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-compliance.yaml
+    destination: .claude/workstream/programs/prog-compliance.yaml
+    level: L4
+    install_group: governance
+    impact: Compliance governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-self-compliance.yaml
+    destination: .claude/workstream/programs/prog-self-compliance.yaml
+    level: L4
+    install_group: governance
+    impact: Self-compliance program — monitors the repo against its own constitution (intention.md) via constitutional-audit engine
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-launch.yaml
+    destination: .claude/workstream/programs/prog-launch.yaml
+    level: L4
+    install_group: governance
+    impact: Launch readiness governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-change-management.yaml
+    destination: .claude/workstream/programs/prog-change-management.yaml
+    level: L4
+    install_group: governance
+    impact: Change management governance program
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-anti-hallucination.yaml
+    destination: .claude/workstream/programs/prog-anti-hallucination.yaml
+    level: L4
+    install_group: governance
+    impact: AI hallucination detection and prevention governance
+    merge_strategy: overwrite
+  - source: kit/templates/workstream/programs/prog-domain-correctness.yaml
+    destination: .claude/workstream/programs/prog-domain-correctness.yaml
+    level: L4
+    install_group: governance
+    impact: Domain correctness validation governance
+    merge_strategy: overwrite
+  - source: engines/standard/constitutional-audit.md
+    destination: .claude/commands/constitutional-audit.md
+    level: L4
+    install_group: governance
+    impact: "Constitutional self-audit engine — scores intention.md principles, founder invariants, failed states; drives prog-self-compliance"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-program-fields-have-runtime-effect.js
+    destination: kit/scripts/cwos-program-fields-have-runtime-effect.js
+    level: L4
+    install_group: governance
+    impact: INV-program-fields-have-runtime-effect validator — required by cwos-verify (WS-366 / FIND-248)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-readpath-lint.js
+    destination: kit/scripts/cwos-readpath-lint.js
+    level: L4
+    install_group: governance
+    impact: INV-readpath-determinism validator — required by cwos-verify (WS-391)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-pathroot-lint.js
+    destination: kit/scripts/cwos-pathroot-lint.js
+    level: L4
+    install_group: governance
+    impact: INV-066 validator — required by cwos-verify (WS-549)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-closure-guard-lint.js
+    destination: kit/scripts/cwos-closure-guard-lint.js
+    level: L4
+    install_group: governance
+    impact: INV-067 validator — required by cwos-verify (WS-561)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-runtime-dispatch-audit.js
+    destination: kit/scripts/cwos-runtime-dispatch-audit.js
+    level: L4
+    install_group: governance
+    impact: INV-046 persona-dispatch runtime audit — required by cwos-verify (WS-316 / ADR-044)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-value-ratio.js
+    destination: kit/scripts/cwos-value-ratio.js
+    level: L4
+    install_group: governance
+    impact: Value-ratio scoring — required by cwos-pulse
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-security-posture-check.js
+    destination: kit/scripts/cwos-security-posture-check.js
+    level: L4
+    install_group: governance
+    impact: Permission-posture drift check — declared vs. actual (ADR-059)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-admin-escalation-audit.js
+    destination: kit/scripts/cwos-admin-escalation-audit.js
+    level: L4
+    install_group: governance
+    impact: PreToolUse audit trail for admin escalation (ADR-059)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-pulse.js
+    destination: kit/scripts/cwos-pulse.js
+    level: L4
+    install_group: governance
+    impact: Program health overview + protocol runner (called by /pulse)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-audit.js
+    destination: kit/scripts/cwos-audit.js
+    level: L4
+    install_group: governance
+    impact: Self-audit orchestrator (called by /audit)
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-constitutional-audit.js
+    destination: kit/scripts/cwos-constitutional-audit.js
+    level: L4
+    install_group: governance
+    impact: Constitutional audit detector script — 14 detectors score the repo against intention.md
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-program-registry-sync.js
+    destination: kit/scripts/cwos-program-registry-sync.js
+    level: L4
+    install_group: governance
+    impact: "CLI for reconciling programs/registry.yaml against prog-*.yaml — invoked by /audit drift check and as repair tool when /pulse escalate reports registry_resync_failed"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-engines-registry-sync.js
+    destination: kit/scripts/cwos-engines-registry-sync.js
+    level: L4
+    install_group: governance
+    impact: "CLI for reconciling engines/registry.yaml against installed .claude/commands/*.md — invoked when reconcile reports protocol-engine-ref warnings"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-verify.js
+    destination: kit/scripts/cwos-verify.js
+    level: L4
+    install_group: governance
+    impact: "Self-verification runner (called by /verify, /constitutional-audit)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/worker-sizing.js
+    destination: kit/scripts/lib/worker-sizing.js
+    level: L4
+    install_group: governance
+    impact: "Derives test parallelism from measured free RAM, so a loaded machine degrades to fewer workers instead of thrashing at a hardcoded count (WS-711)"
+    merge_strategy: overwrite
+  - source: kit/scripts/lib/slot-registry.js
+    destination: kit/scripts/lib/slot-registry.js
+    level: L4
+    install_group: governance
+    impact: "Machine-scoped, crash-safe lease on a high-memory slot, so a heavy job in one repo queues behind one in another instead of both being killed (WS-707)"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-headroom.js
+    destination: kit/scripts/cwos-headroom.js
+    level: L4
+    install_group: governance
+    impact: "Memory headroom gate — refuses to start a run the machine cannot hold, so load contention stops surfacing as false test failures; `run` wraps a heavy job in a cross-repo slot claim that WAITS instead of colliding"
+    merge_strategy: overwrite
+  - source: kit/scripts/cwos-mcp-census.js
+    destination: kit/scripts/cwos-mcp-census.js
+    level: L4
+    install_group: governance
+    impact: MCP server census — counts real tool invocations (not mentions) so an unused server costing RAM and context in every session gets measured instead of argued about
+    merge_strategy: overwrite
+  - source: docs/guides/pulse-pedagogy.md
+    destination: docs/guides/pulse-pedagogy.md
+    level: L4
+    install_group: governance
+    impact: Inline algorithm for /pulse when CLI is missing
+    merge_strategy: overwrite
+  - source: docs/guides/audit-pedagogy.md
+    destination: docs/guides/audit-pedagogy.md
+    level: L4
+    install_group: governance
+    impact: Inline algorithm for /audit when CLI is missing
+    merge_strategy: overwrite

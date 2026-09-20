@@ -1,0 +1,28 @@
+# Queue Index — maintained automatically by /workstream commands
+# This file is the fast-scan summary of all active work items.
+# Commands read this file instead of scanning individual WS-*.yaml files.
+# Full item details are loaded on-demand from queue/WS-<id>.yaml.
+#
+# Rebuild from files: scan queue/WS-*.yaml, extract summary fields
+# Updated by: /workstream create, claim, release, start, done, block
+
+items: []
+# Each item has: {id, title, status, priority_score, category, effort, type,
+#                 claimed_by, decision_flags, blocked_by, program, capability}
+# id/title/status/priority_score/category/effort/type are always emitted;
+# the rest appear only when set on the item.
+# files_involved is deliberately NOT projected — it averages ~3 paths per item
+# and would roughly double this file. Consumers needing it (e.g. /autopilot's
+# scope-ceiling check) prefilter here, then open the surviving item files.
+# capability — one of: core | workstream | engines | governance | autonomous (ADR-016).
+# Derived from program + category by cwos-reconcile when not explicitly set on the item.
+# Example:
+# - id: "WS-001"
+#   title: "Fix payment webhook retry"
+#   status: backlog
+#   priority_score: 24.0
+#   category: infrastructure
+#   effort: M
+#   claimed_by: ""
+#   type: finding
+#   program: "engineering"

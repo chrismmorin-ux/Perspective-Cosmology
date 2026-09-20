@@ -1,0 +1,210 @@
+id: domain-correctness
+name: "Domain Correctness"  # Renamed during /adopt to match domain (e.g., "Poker Theory", "Financial Logic", "Mathematical Rigor")
+schema_version: 4
+status: NEW
+
+# THIS IS THE MOST IMPORTANT PROGRAM IN ANY REPO.
+# Every repo has a domain truth standard — the thing that MUST be right
+# for the product to be trustworthy. Generic engineering catches code bugs.
+# This program catches DOMAIN bugs — things that are technically valid code
+# but produce wrong answers in the domain.
+#
+# Examples across the fleet:
+#   SYN: 375-rule Business Logic Spec — payment waterfalls, escrow math, TILA compliance
+#   PA:  Source attribution + evidence tiers — every claim traceable, every label defensible
+#   CPT: Poker theory guardrails — no double-counting, correct game tree, valid Bayesian updates
+#   PU:  765 SymPy verification scripts — every derivation computationally verified
+#   AAI: Determinism protocol — reproducible results, no global state leaks
+#   AP:  Scoring matrix + gate system — objective scoring, no hidden assumptions
+#   CF:  SymPy requirement — every number computed, never estimated
+
+contract: >
+  The founder can trust that the product's core domain logic is correct.
+  [CUSTOMIZE: Replace with specific domain, e.g., "Financial calculations follow
+  the 375-rule Business Logic Spec and produce correct results for every
+  payment waterfall, escrow allocation, and fee calculation."]
+  The AI brings domain analysis the founder cannot perform independently.
+  If this program is healthy, the product's core answers are trustworthy.
+
+capability_brief:
+  value: "Holds the product's core domain logic accountable to its specification — calculations, rules, and decisions match what the domain requires, not what the code happens to do."
+  problems_prevented:
+    - "Domain-rule violations sliding past unit tests that don't know the rules"
+    - "Spec drift — code diverging silently from the documented domain logic over time"
+    - "Edge cases the AI cannot identify without domain expertise (specific to your field)"
+    - "Silent precision, rounding, or unit errors in load-bearing domain calculations"
+  cost:
+    activation: "~10-15 min — founder confirms domain spec and which rules are load-bearing"
+    ongoing: "Periodic /pulse run domain-correctness + closing domain findings alongside core feature work"
+  first_output:
+    - "docs/domain-spec.draft.md — load-bearing rules drafted from repo content (founder reviews and promotes via rename)"
+    - "Rule-vs-code drift report — where the implementation has slipped (after spec is promoted)"
+    - "Edge-case coverage map across the customized problem classes"
+    - "Methodology-vs-spec gaps auto-promoted as work items"
+  activation_command: "/pulse run domain-correctness baseline"
+  requires_user_input: true   # Founder must review and promote the drafted spec before drift detection engages
+
+# /adopt must customize these based on detected domain.
+# The examples below show the PATTERN — each repo fills in its own.
+problem_classes:
+  - name: "Core Logic Correctness"
+    description: "The primary domain calculations/decisions produce correct results"
+    examples: ["[CUSTOMIZE: domain-specific wrong answer examples]"]
+    detection: "Domain rule audit, edge case enumeration, specification cross-reference"
+
+  - name: "Specification-Code Alignment"
+    description: "The documented rules/spec match what the code actually does"
+    examples: ["spec says X but code does Y", "new code not reflected in spec", "stale spec rule for deleted feature"]
+    detection: "Spec-to-code traceability check, coverage analysis, drift detection"
+
+  - name: "Edge Case Coverage"
+    description: "Unusual but valid domain scenarios produce correct results"
+    examples: ["[CUSTOMIZE: domain-specific edge cases]"]
+    detection: "Boundary value analysis, domain expert walkthrough, adversarial input testing"
+
+  - name: "Domain Constraint Enforcement"
+    description: "Rules that must ALWAYS hold in this domain are enforced in code"
+    examples: ["[CUSTOMIZE: domain invariants that code must enforce]"]
+    detection: "Constraint enumeration, invariant verification, negative testing"
+
+  - name: "Domain Model Integrity"
+    description: "The data model accurately represents the domain concepts"
+    examples: ["model allows states that are impossible in the domain", "missing relationship between concepts", "wrong cardinality"]
+    detection: "Domain model audit, state machine verification, relationship completeness check"
+
+scope:
+  file_patterns:
+    - "**/*.py"
+    - "**/*.ipynb"
+    - "**/*.tex"
+    - "**/*.lean"
+    - "**/derivations/**"
+    - "**/proofs/**"
+  invariants: []   # /adopt populates with domain invariants
+  anti_invariants: []
+  constraints: []
+
+tier: dormant
+tier_triggers:
+  watch: "Domain logic code exists"
+  active: "Product is used by real users/customers OR domain decisions are being acted upon"
+  critical: "Domain error found in production OR domain spec has > 100 rules"
+
+protocols:
+  # Baseline runs the dedicated domain-audit engine. On first run (when
+  # docs/domain-spec.md is absent), the engine's Phase 0b drafts load-bearing
+  # rules from repo content into docs/domain-spec.draft.md for founder review
+  # and promotion. Subsequent runs (with a promoted spec) skip Phase 0b and
+  # run drift / blindspot / constraint-enforcement checks against the spec.
+  # See engines/library/domain-audit/SKILL.md for the full phase sequence.
+  baseline:
+    engine: domain-audit
+    focus: "Full domain correctness audit: draft load-bearing rules on first run, then verify implementation and enumerate edge cases on subsequent runs"
+    problem_classes: all
+    outputs: [baseline_report, domain_spec_draft, drafts_manifest, domain_rule_inventory, initial_findings, problem_class_coverage]
+
+  sweep:
+    engine: eng-engine
+    cadence_days: 14
+    focus: "Comprehensive domain correctness review against all problem classes"
+    problem_classes: all
+    min_tier: active
+
+  delta:
+    engine: preflight
+    cadence_days: 3
+    focus: "Recent changes to domain logic: new rules, modified calculations, changed constraints"
+    method: "git diff against last_run_by_protocol.delta.date, filtered to scope file_patterns"
+    min_tier: watch
+
+  challenge:
+    engine: eng-engine
+    cadence_days: 14
+    focus: "Adversarial domain correctness review"
+    prompt_additions: >
+      CHALLENGE protocol for Domain Correctness. Think like a domain expert
+      reviewing a junior developer's work:
+      - For each domain rule: is the code's implementation actually correct,
+        or does it just look correct?
+      - What domain edge cases would produce a wrong answer?
+      - What assumptions about the domain does the code make that aren't verified?
+      - If a customer challenged a specific result, could we trace it back to
+        a verified rule?
+      - What domain concepts are MISSING from the model?
+      - What domain rules interact in ways the code doesn't account for?
+    min_tier: active
+
+  blind_spot:
+    engine: eng-engine
+    cadence_days: 30
+    focus: "What domain correctness gaps are we systematically missing?"
+    prompt_additions: >
+      BLIND SPOT protocol for Domain Correctness.
+      - What domain rules exist in documentation that aren't tested?
+      - What domain concepts have grown more complex but the code hasn't kept up?
+      - Are there domain rules that apply to new features that nobody mapped?
+      - What would a domain expert (attorney, accountant, physicist, poker theorist)
+        flag that a software engineer would miss?
+      - Has the domain itself changed (new regulations, new theory, new market conditions)?
+    min_tier: critical
+
+accountability:
+  on_finding:
+    action: create_work_item
+    max_open_items: 5
+    priority_floor: 27           # Domain correctness is always high priority
+    escalation:
+      stale_days: 7              # Domain bugs must be fixed fast
+      escalate_to: session_start
+      escalate_priority_bump: 9
+  on_stale:
+    action: create_work_item
+    message: "Domain correctness program has not been checked in {days} days. Sprint is blocked. To unblock: /pulse run domain-correctness"
+    block_sprint: true           # Cannot ship new work while domain correctness is unchecked
+  on_tier_change:
+    action: notify_founder
+    auto_escalate: true
+    auto_deescalate: false
+
+interconnections:
+  feeds_into: [engineering, launch]
+  fed_by: [anti-hallucination]     # Hallucinated domain logic is the worst kind
+  blocks: [launch]
+
+phase_relevance:
+  foundation: critical   # Domain model decisions are hardest to change later
+  pre-launch: critical
+  launch: critical
+  growth: high
+  maturity: high
+
+last_run_by_protocol:
+  baseline: { date: null, engine: null, run_id: null, result: null }
+  delta: { date: null, engine: null, run_id: null, result: null }
+  sweep: { date: null, engine: null, run_id: null, result: null }
+  challenge: { date: null, engine: null, run_id: null, result: null }
+  blind_spot: { date: null, engine: null, run_id: null, result: null }
+
+health_score: 0
+health_ceiling: 0
+health_ceiling_reason: "No analysis performed yet. Run /pulse run <id> baseline to establish first score."
+findings_open: 0
+work_items_open: 0
+
+evidence:
+  last_audit_report: null
+  protocol_history: []
+  retention_days: 365            # Domain correctness evidence kept for a year
+  evidence_dir: ".claude/workstream/evidence/domain-correctness/"
+
+maturity:
+  level: 1
+  criteria:
+    level_1: "Program established. Domain rules inventoried."
+    level_2: "All problem classes checked. Spec-code alignment verified."
+    level_3: "Challenge active. Edge cases tested. Domain rule coverage > 90%."
+    level_4: "Blind-spot active. Zero domain errors sustained. Full traceability."
+  current_gaps: "Never run."
+
+created_at: null
+updated_at: null

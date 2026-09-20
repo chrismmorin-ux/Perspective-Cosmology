@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cwos.local/schemas/payloads/engines/engine_contract_amended.json",
+  "title": "engines.engine_contract_amended",
+  "description": "WS-472 / FIND-122 sub-5 — fired when `cwos-frame.js confirm --amend` deliberately supersedes a still-open contract. ADR-038 Decision #6 makes the contract immutable once confirmed; the confirm gate refuses a second contract for the same (engine, target) while the prior one is open and inside the TTL, and --amend is the airtight escape valve. Emitted immediately BEFORE the replacement engine_intent_recorded, so the log reads supersede-then-record. The replacement event carries amends_contract_id pointing back here, which is what lets INV-090 tell a founder-forced amendment from a gate that leaked.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["type", "engine", "target", "amended_contract_id", "amend_reason"],
+  "properties": {
+    "type":                { "type": "string", "const": "engine_contract_amended" },
+    "engine":              { "type": "string", "minLength": 1 },
+    "target":              { "type": "string", "description": "Focus/target argument of the contract being amended — matches the superseded engine_intent_recorded's target" },
+    "amended_contract_id": { "type": "string", "minLength": 1, "description": "contract_id of the still-open engine_intent_recorded this confirm supersedes" },
+    "amend_reason":        { "type": "string", "minLength": 20, "description": "Founder rationale, ≥20 chars — enforced by the CLI before emission" },
+    "open_age_ms":         { "type": ["number", "null"], "description": "How long the superseded contract had been open when it was amended. Feeds the AS-472-2 falsification signal: routine sub-minute amendments mean the guard is firing on normal flow, not on real mutation." },
+    "amended_at":          { "type": ["string", "null"], "format": "date-time" },
+    "composed_by":         { "type": "string", "const": "cli-deterministic" }
+  }
+}

@@ -1,0 +1,18 @@
+# Enhancements Index — maintained automatically by enhancement engines
+# This file is the fast-scan summary of all active enhancements.
+# Commands read this file instead of scanning individual ENH-*.yaml files.
+# Full enhancement details are loaded on-demand from enhancements/ENH-<id>.yaml.
+#
+# Rebuild from files: scan enhancements/ENH-*.yaml, extract summary fields
+# Updated by: /engine (create), /workstream enhancements (read)
+
+enhancements: []
+# Each enhancement has: {id, engine, type, status, target, title, created_at}
+# Example:
+# - id: "ENH-001"
+#   engine: "decision-enhance"
+#   type: decision
+#   status: complete
+#   target: "ADR-003-auth-provider"
+#   title: "Enriched auth provider decision with reversibility analysis"
+#   created_at: "2025-01-15T10:30:00Z"

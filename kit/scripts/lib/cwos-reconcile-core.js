@@ -1,0 +1,789 @@
+/**
+ * cwos-reconcile-core.js — Pure library functions for state reconciliation.
+ *
+ * Rebuilds all CWOS indexes from source files and reconciles config counters.
+ * Callable from cwos-reconcile.js (CLI), cwos-gc.js (post-archival), and any
+ * future callers without spawning subprocesses.
+ *
+ * Zero external dependencies. All file I/O via cwos-utils.
+ */
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+const {
+  readYAMLFile, globFiles, writeFileAtomic, patchYAMLFile, withFileLock,
+  escapeYamlString
+} = require('./cwos-utils');
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+// WS-485: was a local copy; now the canonical implementation from cwos-utils.
+// Alias retained so the ~40 existing call sites in this file keep their casing.
+const escapeYAMLString = escapeYamlString;
+
+// Statuses from which an item could plausibly be drawn into a sprint. Anything
+// else is already parked, so a dead gate on it is not costing a WIP slot.
+// WS-539.
+const ACTIONABLE_STATUSES = new Set(['backlog', 'blocked', 'claimed', 'in_progress']);
+
+function extractMaxId(items, prefix) {
+  return items.reduce((max, item) => {
+    const match = String(item.id || '').match(new RegExp(`${prefix}-(\\d+)`));
+    return match ? Math.max(max, parseInt(match[1])) : max;
+  }, 0);
+}
+
+// ADR-016: derive capability from program + category when item lacks an explicit value.
+const CAPABILITY_BY_PROGRAM = {
+  'kit-quality': 'engines',
+  'engine-reliability': 'engines',
+  'product-evolution': 'engines',
+  'simulation-framework': 'engines',
+  'fleet-health': 'governance',
+  'program-integrity': 'governance',
+  'documentation-accuracy': 'governance',
+};
+const CAPABILITY_BY_CATEGORY = {
+  architecture: 'core',
+  workstream: 'workstream',
+  engines: 'engines',
+  evolution: 'engines',
+  fleet: 'governance',
+  'program-maintenance': 'governance',
+  quality: 'governance',
+  onboarding: 'core',
+};
+
+function deriveCapability(item) {
+  if (item.program && CAPABILITY_BY_PROGRAM[item.program]) return CAPABILITY_BY_PROGRAM[item.program];
+  if (item.category && CAPABILITY_BY_CATEGORY[item.category]) return CAPABILITY_BY_CATEGORY[item.category];
+  return null;
+}
+
+// ─── Queue Index ────────────────────────────────────────────────────────────
+
+function rebuildQueueIndex(wsDir, opts = {}) {
+  const queueDir = path.join(wsDir, 'queue');
+  const files = globFiles(queueDir, 'WS-*.yaml');
+  const items = [];
+  const byStatus = {};
+  const byCategory = {};
+  const warnings = [];
+  let skipped = 0;
+
+  for (const filePath of files) {
+    const { ok, data, error } = readYAMLFile(filePath);
+    if (!ok) {
+      warnings.push(`queue: skipping ${path.basename(filePath)}: ${error}`);
+      skipped++;
+      continue;
+    }
+    if (!data.id) {
+      warnings.push(`queue: skipping ${path.basename(filePath)}: no id field`);
+      skipped++;
+      continue;
+    }
+
+    // WS-560: `type`, `claimed_by` and `decision_flags` are projected because
+    // consumers FILTER on them against this index, and a field the index omits
+    // reads as `undefined` rather than as an error. Every such filter therefore
+    // fails silently, and which way it fails is a coin toss:
+    //   - /autopilot's eligibility filter requires type ∈ {bug, finding}. With
+    //     `type` absent it excluded all 244 items, reported "0 eligible", and
+    //     blocked every launch — the command could never start, in any repo.
+    //   - /autopilot's stale-claim recovery looks for claimed_by starting with
+    //     "autopilot-". With `claimed_by` absent it matched nothing, so the
+    //     recovery pass was a no-op that logged success.
+    // The first fails closed and is merely broken; the second fails open and
+    // leaves crashed cycles' claims stranded. The index template has documented
+    // `type` and `claimed_by` as index fields since it was written — this is the
+    // projection catching up to the contract, not a new one.
+    const entry = {
+      id: String(data.id),
+      title: data.title || '',
+      status: data.status || 'backlog',
+      priority_score: data.priority_score ?? 0,
+      category: data.category || '',
+      effort: data.effort || 'S',
+      type: data.type ? String(data.type) : '',
+    };
+    if (data.blocked_by && Array.isArray(data.blocked_by) && data.blocked_by.length > 0) {
+      entry.blocked_by = data.blocked_by;
+    }
+    if (data.claimed_by) entry.claimed_by = String(data.claimed_by);
+    if (Array.isArray(data.decision_flags) && data.decision_flags.length > 0) {
+      entry.decision_flags = data.decision_flags.map(f => String(f));
+    }
+    if (data.sprint_id) entry.sprint_id = String(data.sprint_id);
+    if (data.finding_id) entry.finding_id = String(data.finding_id);
+    if (data.opt_id) entry.opt_id = String(data.opt_id);
+    if (data.source === 'auto-recommendation' || data.source?.toString() === 'auto-recommendation') {
+      entry.source = 'auto-recommendation';
+    }
+    if (data.program) entry.program = data.program;
+    // WS-695: carry customer_impact into the index projection — see the note in
+    // buildQueueIndexYAML. Tolerates a bare string as well as a list, because a
+    // hand-written item predating `cwos-item tag` is the likely first encounter.
+    if (data.customer_impact) {
+      const ci = Array.isArray(data.customer_impact) ? data.customer_impact : [data.customer_impact];
+      const clean = ci.map(c => String(c).trim()).filter(Boolean);
+      if (clean.length) entry.customer_impact = clean;
+    }
+    const capability = data.capability || deriveCapability(data);
+    if (capability) entry.capability = capability;
+    // WS-789: facts_needed projected so the founder-waiting surface renders
+    // from the index alone — an item needing non-repo facts belongs on the
+    // founder's waiting list, and scanning every item YAML to learn that
+    // defeats the index's purpose.
+    if (data.facts_needed) entry.facts_needed = String(data.facts_needed);
+    if (data.completion_notes) entry.completion_notes = String(data.completion_notes);
+
+    items.push(entry);
+    byStatus[entry.status] = (byStatus[entry.status] || 0) + 1;
+    if (entry.category) byCategory[entry.category] = (byCategory[entry.category] || 0) + 1;
+  }
+
+  // WS-539: dead-gate detection. An item can be blocked on something that will
+  // never arrive — a gating item that is itself deferred or dismissed, or one
+  // that does not exist at all. Such an item is not backlog: no sprint can ever
+  // draw it, but it occupies a WIP slot and counts against the sponsoring
+  // program's cap. On 2026-07-26, WS-375 and WS-382 were both gated on WS-357,
+  // which had been deferred four days earlier. WS-375's own accept_criteria #1
+  // forbade it leaving backlog until that gate cleared. Nothing detected this;
+  // it surfaced only because a human read the two items side by side.
+  //
+  // Reported as warnings rather than mutated. Whether a dead gate means "defer
+  // this too", "split the ungated half out", or "the gate is wrong" is a
+  // judgment call — WS-382 turned out to be the middle case. The detector's job
+  // is to make the condition impossible to miss, not to decide it.
+  for (const item of items) {
+    if (!ACTIONABLE_STATUSES.has(item.status)) continue;
+    const gates = Array.isArray(item.blocked_by) ? item.blocked_by : [];
+    for (const gate of gates) {
+      const gateId = String(gate || '').trim();
+      if (!gateId || !/^WS-[A-Za-z0-9-]+$/.test(gateId)) continue; // e.g. "founder-action"
+      const gating = items.find(x => x.id === gateId);
+      if (!gating) {
+        warnings.push(
+          `dead-gate: ${item.id} is blocked_by ${gateId}, which does not exist. ` +
+          `The gate can never clear — correct the pointer or release the item.`
+        );
+        continue;
+      }
+      if (gating.status === 'deferred' || gating.status === 'dismissed') {
+        warnings.push(
+          `dead-gate: ${item.id} (${item.status}) is blocked_by ${gateId}, which is ${gating.status}. ` +
+          `No sprint can draw ${item.id} while it holds a WIP slot against its program cap. ` +
+          `Resolve via: cwos-item defer ${item.id} --reason "..." --until "...", or split out any ungated half.`
+        );
+      }
+    }
+  }
+
+  if (!opts.dryRun) {
+    const indexContent = buildQueueIndexYAML(items, byStatus, byCategory);
+    const indexPath = path.join(wsDir, 'queue-index.yaml');
+    withFileLock(indexPath + '.lock', () => {
+      writeFileAtomic(indexPath, indexContent);
+    }, { ownerLabel: 'reconcile:queue-index', maxWaitMs: 10000 });
+  }
+
+  return {
+    total: items.length, items, byStatus, byCategory, skipped, warnings,
+    maxId: extractMaxId(items, 'WS')
+  };
+}
+
+function buildQueueIndexYAML(items, byStatus, byCategory) {
+  const lines = [
+    '# Queue Index — fast-scan summary of all work items',
+    '# Rebuild from: queue/WS-*.yaml',
+    '# Updated by /next, /workstream, /session-end (via cwos-reconcile)',
+    '',
+    `total_items: ${items.length}`,
+    'by_status:',
+  ];
+  for (const [status, count] of Object.entries(byStatus)) {
+    lines.push(`  ${status}: ${count}`);
+  }
+  lines.push('', 'by_category:');
+  const sortedCats = Object.entries(byCategory).sort((a, b) => a[0].localeCompare(b[0]));
+  for (const [cat, count] of sortedCats) {
+    lines.push(`  ${cat}: ${count}`);
+  }
+  lines.push('', 'items:');
+  for (const item of items) {
+    lines.push(`  - id: "${item.id}"`);
+    lines.push(`    title: "${escapeYAMLString(item.title)}"`);
+    lines.push(`    status: ${item.status}`);
+    lines.push(`    priority_score: ${item.priority_score}`);
+    lines.push(`    category: ${item.category}`);
+    lines.push(`    effort: ${item.effort}`);
+    // Quoted: real type values contain spaces ("Design first"), so bare-scalar
+    // emission would depend on the reader's tolerance for them.
+    lines.push(`    type: "${escapeYAMLString(item.type)}"`);
+    if (item.blocked_by) lines.push(`    blocked_by: [${item.blocked_by.map(b => `"${b}"`).join(', ')}]`);
+    if (item.claimed_by) lines.push(`    claimed_by: "${escapeYAMLString(item.claimed_by)}"`);
+    if (item.decision_flags) {
+      lines.push(`    decision_flags: [${item.decision_flags.map(f => `"${escapeYAMLString(f)}"`).join(', ')}]`);
+    }
+    if (item.sprint_id) lines.push(`    sprint_id: "${item.sprint_id}"`);
+    if (item.finding_id) lines.push(`    finding_id: "${item.finding_id}"`);
+    if (item.opt_id) lines.push(`    opt_id: "${item.opt_id}"`);
+    if (item.source) lines.push(`    source: ${item.source}`);
+    if (item.program) lines.push(`    program: ${item.program}`);
+    if (item.capability) lines.push(`    capability: ${item.capability}`);
+    // WS-695: the ranker scores from THIS index, not from the item YAMLs, so a
+    // field that context-boost specs match on has to be projected here or the
+    // boost silently never fires.
+    if (Array.isArray(item.customer_impact) && item.customer_impact.length) {
+      lines.push(`    customer_impact: [${item.customer_impact.map(c => `"${escapeYAMLString(c)}"`).join(', ')}]`);
+    }
+    if (item.facts_needed) lines.push(`    facts_needed: "${escapeYAMLString(item.facts_needed)}"`);
+    if (item.completion_notes) lines.push(`    completion_notes: "${escapeYAMLString(item.completion_notes)}"`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Findings Index ─────────────────────────────────────────────────────────
+
+function rebuildFindingsIndex(wsDir, opts = {}) {
+  const findingsDir = path.join(wsDir, 'findings');
+  const files = globFiles(findingsDir, 'FIND-*.yaml');
+  const items = [];
+  const warnings = [];
+  let skipped = 0;
+
+  for (const filePath of files) {
+    const { ok, data, error } = readYAMLFile(filePath);
+    if (!ok) {
+      warnings.push(`findings: skipping ${path.basename(filePath)}: ${error}`);
+      skipped++;
+      continue;
+    }
+    if (!data.id) {
+      warnings.push(`findings: skipping ${path.basename(filePath)}: no id field`);
+      skipped++;
+      continue;
+    }
+    items.push({
+      id: String(data.id),
+      title: data.title || '',
+      engine: data.source_engine || data.engine || (data.source && data.source.engine) || '',
+      severity: String(data.severity || '').toLowerCase(),
+      status: data.status || 'open',
+      dedup_key: data.dedup_key || '',
+      program: data.program || '',
+      created_at: data.created || data.created_at || data.date || '',
+    });
+  }
+
+  if (!opts.dryRun) {
+    const indexContent = buildFindingsIndexYAML(items);
+    const indexPath = path.join(wsDir, 'findings-index.yaml');
+    withFileLock(indexPath + '.lock', () => {
+      writeFileAtomic(indexPath, indexContent);
+    }, { ownerLabel: 'reconcile:findings-index', maxWaitMs: 10000 });
+  }
+
+  return { total: items.length, items, skipped, warnings, maxId: extractMaxId(items, 'FIND') };
+}
+
+function buildFindingsIndexYAML(items) {
+  const lines = [
+    '# Findings Index — fast-scan summary of all findings',
+    '# Rebuild from: findings/FIND-*.yaml',
+    '# Updated by /engine (via cwos-reconcile)',
+    '',
+    'findings:',
+  ];
+  for (const item of items) {
+    lines.push(`  - id: "${item.id}"`);
+    lines.push(`    title: "${escapeYAMLString(item.title)}"`);
+    if (item.engine) lines.push(`    engine: ${item.engine}`);
+    lines.push(`    severity: ${item.severity}`);
+    lines.push(`    status: ${item.status}`);
+    if (item.dedup_key) lines.push(`    dedup_key: "${item.dedup_key}"`);
+    if (item.program) lines.push(`    program: ${item.program}`);
+    if (item.created_at) lines.push(`    created_at: "${item.created_at}"`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Sprint Index ───────────────────────────────────────────────────────────
+
+function rebuildSprintIndex(wsDir, opts = {}) {
+  const sprintsDir = path.join(wsDir, 'sprints');
+  if (!fs.existsSync(sprintsDir)) {
+    return { total: 0, items: [], skipped: 0, warnings: [], maxId: 0 };
+  }
+  const files = globFiles(sprintsDir, 'SPR-*.yaml');
+  const items = [];
+  const warnings = [];
+  let skipped = 0;
+
+  for (const filePath of files) {
+    const { ok, data, error } = readYAMLFile(filePath);
+    if (!ok) {
+      warnings.push(`sprints: skipping ${path.basename(filePath)}: ${error}`);
+      skipped++;
+      continue;
+    }
+    if (!data.id) {
+      warnings.push(`sprints: skipping ${path.basename(filePath)}: no id field`);
+      skipped++;
+      continue;
+    }
+    const sprintItems = Array.isArray(data.items) ? data.items : [];
+    const itemsDone = sprintItems.filter(it => it && it.status === 'done').length;
+    items.push({
+      id: String(data.id),
+      title: data.title || '',
+      status: data.status || 'approved',
+      item_count: sprintItems.length,
+      items_done: itemsDone,
+      effort_summary: data.effort_summary || '',
+      program_focus: data.program_focus || '',
+      created_at: data.created_at || '',
+      completed_at: data.completed_at || null,
+    });
+  }
+
+  if (!opts.dryRun) {
+    const indexContent = buildSprintIndexYAML(items);
+    writeFileAtomic(path.join(wsDir, 'sprint-index.yaml'), indexContent);
+  }
+
+  return { total: items.length, items, skipped, warnings, maxId: extractMaxId(items, 'SPR') };
+}
+
+function buildSprintIndexYAML(items) {
+  const lines = [
+    '# Sprint Index — fast-scan summary of active sprints',
+    '# Rebuild from: sprints/SPR-*.yaml (active only; archive in sprints/archive/)',
+    '# Updated by /next, /sprint, /session-end (via cwos-reconcile)',
+    '',
+    'sprints:',
+  ];
+  for (const item of items) {
+    lines.push(`  - id: "${item.id}"`);
+    lines.push(`    title: "${escapeYAMLString(item.title)}"`);
+    lines.push(`    status: ${item.status}`);
+    lines.push(`    item_count: ${item.item_count}`);
+    lines.push(`    items_done: ${item.items_done}`);
+    if (item.effort_summary) lines.push(`    effort_summary: "${escapeYAMLString(item.effort_summary)}"`);
+    if (item.program_focus) lines.push(`    program_focus: "${item.program_focus}"`);
+    if (item.created_at) lines.push(`    created_at: "${item.created_at}"`);
+    lines.push(`    completed_at: ${item.completed_at ? `"${item.completed_at}"` : 'null'}`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Enhancements Index ─────────────────────────────────────────────────────
+
+function rebuildEnhancementsIndex(wsDir, opts = {}) {
+  const enhDir = path.join(wsDir, 'enhancements');
+  if (!fs.existsSync(enhDir)) {
+    return { total: 0, items: [], skipped: 0, warnings: [], maxId: 0 };
+  }
+  const files = globFiles(enhDir, 'ENH-*.yaml');
+  const items = [];
+  const warnings = [];
+  let skipped = 0;
+
+  for (const filePath of files) {
+    const { ok, data, error } = readYAMLFile(filePath);
+    if (!ok) {
+      warnings.push(`enhancements: skipping ${path.basename(filePath)}: ${error}`);
+      skipped++;
+      continue;
+    }
+    if (!data.id) { skipped++; continue; }
+    items.push({
+      id: String(data.id),
+      engine: data.engine || '',
+      type: data.type || '',
+      status: data.status || 'pending',
+      target: data.target || '',
+      title: data.title || data.summary || '',
+      created_at: data.created_at || data.created || '',
+    });
+  }
+
+  if (!opts.dryRun) {
+    const indexContent = buildEnhancementsIndexYAML(items);
+    writeFileAtomic(path.join(wsDir, 'enhancements-index.yaml'), indexContent);
+  }
+
+  return { total: items.length, items, skipped, warnings, maxId: extractMaxId(items, 'ENH') };
+}
+
+function buildEnhancementsIndexYAML(items) {
+  const lines = [
+    '# Enhancements Index — maintained by cwos-reconcile',
+    '# Rebuild from: enhancements/ENH-*.yaml',
+    '',
+    'enhancements:' + (items.length === 0 ? ' []' : ''),
+  ];
+  for (const item of items) {
+    lines.push(`  - id: "${item.id}"`);
+    if (item.engine) lines.push(`    engine: ${item.engine}`);
+    if (item.type) lines.push(`    type: ${item.type}`);
+    lines.push(`    status: ${item.status}`);
+    if (item.target) lines.push(`    target: "${escapeYAMLString(item.target)}"`);
+    if (item.title) lines.push(`    title: "${escapeYAMLString(item.title)}"`);
+    if (item.created_at) lines.push(`    created_at: "${item.created_at}"`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Readiness Index ────────────────────────────────────────────────────────
+
+function rebuildReadinessIndex(wsDir, opts = {}) {
+  const readyDir = path.join(wsDir, 'readiness');
+  if (!fs.existsSync(readyDir)) {
+    return { total: 0, items: [], skipped: 0, warnings: [], maxId: 0 };
+  }
+  const files = globFiles(readyDir, 'READY-*.yaml');
+  const items = [];
+  const warnings = [];
+  let skipped = 0;
+
+  for (const filePath of files) {
+    const { ok, data, error } = readYAMLFile(filePath);
+    if (!ok) {
+      warnings.push(`readiness: skipping ${path.basename(filePath)}: ${error}`);
+      skipped++;
+      continue;
+    }
+    if (!data.id) { skipped++; continue; }
+    items.push({
+      id: String(data.id),
+      engine: data.engine || '',
+      type: data.type || '',
+      status: data.status || 'pending',
+      scope: data.scope || data.target || '',
+      title: data.title || data.summary || '',
+      safe_to_proceed: data.safe_to_proceed === true,
+      created_at: data.created_at || data.created || '',
+    });
+  }
+
+  if (!opts.dryRun) {
+    const indexContent = buildReadinessIndexYAML(items);
+    writeFileAtomic(path.join(wsDir, 'readiness-index.yaml'), indexContent);
+  }
+
+  return { total: items.length, items, skipped, warnings, maxId: extractMaxId(items, 'READY') };
+}
+
+function buildReadinessIndexYAML(items) {
+  const lines = [
+    '# Readiness Index — maintained by cwos-reconcile',
+    '# Rebuild from: readiness/READY-*.yaml',
+    '',
+    'reports:' + (items.length === 0 ? ' []' : ''),
+  ];
+  for (const item of items) {
+    lines.push(`  - id: "${item.id}"`);
+    if (item.engine) lines.push(`    engine: ${item.engine}`);
+    if (item.type) lines.push(`    type: ${item.type}`);
+    lines.push(`    status: ${item.status}`);
+    if (item.scope) lines.push(`    scope: "${escapeYAMLString(item.scope)}"`);
+    if (item.title) lines.push(`    title: "${escapeYAMLString(item.title)}"`);
+    lines.push(`    safe_to_proceed: ${item.safe_to_proceed}`);
+    if (item.created_at) lines.push(`    created_at: "${item.created_at}"`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Counter Reconciliation ─────────────────────────────────────────────────
+
+function reconcileCounters(wsDir, results, opts = {}) {
+  const configPath = path.join(wsDir, 'config.yaml');
+  const { ok, data: config } = readYAMLFile(configPath);
+  if (!ok) return { updated: [], warnings: ['Could not read config.yaml for counter reconciliation'] };
+
+  const patches = {};
+  const updated = [];
+
+  // Queue items
+  if (results.queue && results.queue.maxId >= (config.next_item_id || 0)) {
+    patches.next_item_id = results.queue.maxId + 1;
+    updated.push(`next_item_id→${results.queue.maxId + 1}`);
+  }
+  // Findings
+  if (results.findings && results.findings.maxId >= (config.next_finding_id || 0)) {
+    patches.next_finding_id = results.findings.maxId + 1;
+    updated.push(`next_finding_id→${results.findings.maxId + 1}`);
+  }
+  // Sprints
+  if (results.sprints && results.sprints.maxId >= (config.next_sprint_id || 0)) {
+    patches.next_sprint_id = results.sprints.maxId + 1;
+    updated.push(`next_sprint_id→${results.sprints.maxId + 1}`);
+  }
+  // Enhancements
+  if (results.enhancements && results.enhancements.maxId >= (config.next_enh_id || 0)) {
+    patches.next_enh_id = results.enhancements.maxId + 1;
+    updated.push(`next_enh_id→${results.enhancements.maxId + 1}`);
+  }
+  // Readiness
+  if (results.readiness && results.readiness.maxId >= (config.next_ready_id || 0)) {
+    patches.next_ready_id = results.readiness.maxId + 1;
+    updated.push(`next_ready_id→${results.readiness.maxId + 1}`);
+  }
+  // Runs — scan directory names
+  const runsDir = path.join(wsDir, 'runs');
+  if (fs.existsSync(runsDir)) {
+    const runDirs = fs.readdirSync(runsDir).filter(d => d.match(/^run-\d+$/));
+    const maxRun = runDirs.reduce((max, d) => Math.max(max, parseInt(d.match(/\d+/)[0])), 0);
+    if (maxRun >= (config.next_run_id || 0)) {
+      patches.next_run_id = maxRun + 1;
+      updated.push(`next_run_id→${maxRun + 1}`);
+    }
+  }
+  // Recommendations — scan files
+  const recDir = path.join(wsDir, 'recommendations');
+  if (fs.existsSync(recDir)) {
+    const recFiles = globFiles(recDir, 'REC-*.yaml');
+    const maxRec = recFiles.reduce((max, f) => {
+      const n = parseInt(path.basename(f).match(/\d+/)?.[0] || '0');
+      return Math.max(max, n);
+    }, 0);
+    if (maxRec >= (config.next_rec_id || 0)) {
+      patches.next_rec_id = maxRec + 1;
+      updated.push(`next_rec_id→${maxRec + 1}`);
+    }
+  }
+
+  if (!opts.dryRun && Object.keys(patches).length > 0) {
+    patchYAMLFile(configPath, patches);
+  }
+
+  return { updated, patches };
+}
+
+// ─── Runs Index (WS-314) ────────────────────────────────────────────────────
+
+function rebuildRunsIndex(wsDir, opts = {}) {
+  // Index every run dir that has a summary.yaml. Hot/cold flag derived from
+  // the summary's `date` field — runs older than RUNS_HOT_DAYS are flagged
+  // cold (still readable; just deprioritized in default scan).
+  const runsDir = path.join(wsDir, 'runs');
+  if (!fs.existsSync(runsDir)) {
+    return { total: 0, items: [], skipped: 0, warnings: [], maxId: 0 };
+  }
+
+  const RUNS_HOT_DAYS = 180;
+  const today = Date.now();
+
+  let entries;
+  try { entries = fs.readdirSync(runsDir, { withFileTypes: true }); }
+  catch { return { total: 0, items: [], skipped: 0, warnings: [], maxId: 0 }; }
+
+  const items = [];
+  const warnings = [];
+  let skipped = 0;
+  let abandoned = 0;
+
+  for (const ent of entries) {
+    if (!ent.isDirectory()) continue;
+    if (!/^run-[A-Za-z0-9_-]+$/.test(ent.name)) continue;
+    if (ent.name === 'archive') continue;
+
+    const summaryPath = path.join(runsDir, ent.name, 'summary.yaml');
+    if (!fs.existsSync(summaryPath)) {
+      // No summary means the run never completed. Historically that made the
+      // run VANISH from the index (silent skipped++), so an abandoned run was
+      // indistinguishable from one that never happened — a session reading
+      // runs-index.yaml was told, confidently, that the work did not exist.
+      // (ServeYourNote run-004, business-engine on pricing-model, 2026-08-22:
+      // ~80k tokens of reasoning invisible behind `total_runs: 3`.)
+      // A manifest proves the run started. Index it as abandoned, and loudly.
+      const manifestPath = path.join(runsDir, ent.name, 'manifest.yaml');
+      if (!fs.existsSync(manifestPath)) {
+        skipped++;
+        continue;
+      }
+      const m = readYAMLFile(manifestPath);
+      if (!m.ok || !m.data) {
+        warnings.push(`runs: ${ent.name} has no summary.yaml and an unparseable manifest.yaml`);
+        skipped++;
+        continue;
+      }
+      const md = m.data;
+      const startedAt = String(md.started_at || '');
+      let mHot = true;
+      const mDateMatch = startedAt.match(/^\d{4}-\d{2}-\d{2}/);
+      if (mDateMatch) {
+        const mAgeDays = (today - Date.parse(mDateMatch[0])) / (24 * 60 * 60 * 1000);
+        if (Number.isFinite(mAgeDays) && mAgeDays > RUNS_HOT_DAYS) mHot = false;
+      }
+      abandoned++;
+      warnings.push(
+        `runs: ${ent.name} started but never completed (${md.engine || 'unknown engine'}` +
+        `${md.target ? ' on ' + md.target : ''}) — no summary.yaml. Its output may exist ` +
+        `only in a transcript; seal it with cwos-run-summary.`
+      );
+      items.push({
+        run_id: String(md.run_id || ent.name),
+        engine: md.engine || '',
+        target: md.target || '',
+        contract_id: md.contract_id || '',
+        mode: (md.contract && md.contract.mode) || '',
+        date: startedAt,
+        launch_readiness: '',
+        work_items_created: 0,
+        findings_count: null,
+        hot: mHot,
+        grandfathered: false,
+        status: 'abandoned',
+      });
+      continue;
+    }
+    const r = readYAMLFile(summaryPath);
+    if (!r.ok || !r.data) {
+      warnings.push(`runs: skipping ${ent.name}: ${r.error || 'unparseable summary.yaml'}`);
+      skipped++;
+      continue;
+    }
+    const data = r.data;
+
+    let hot = true;
+    const dateStr = String(data.date || data.completed_at || '');
+    const dateMatch = dateStr.match(/^\d{4}-\d{2}-\d{2}/);
+    if (dateMatch) {
+      const ageDays = (today - Date.parse(dateMatch[0])) / (24 * 60 * 60 * 1000);
+      if (Number.isFinite(ageDays) && ageDays > RUNS_HOT_DAYS) hot = false;
+    }
+
+    const workItems = Array.isArray(data.work_items_created) ? data.work_items_created : [];
+    const grandfathered = !!(data._provenance && data._provenance.grandfathered);
+
+    items.push({
+      run_id: String(data.run_id || ent.name),
+      engine: data.engine || '',
+      target: data.target || '',
+      contract_id: data.contract_id || '',
+      mode: data.mode || '',
+      date: dateStr || '',
+      launch_readiness: data.launch_readiness || '',
+      work_items_created: workItems.length,
+      findings_count: typeof data.findings_after_synthesis === 'number'
+        ? data.findings_after_synthesis : null,
+      hot,
+      grandfathered,
+      // A summary alone does not prove the run finished. One sealed after the
+      // fact — from a manifest, or from artifacts salvaged later — is honest
+      // work, but it is NOT a clean run, and a reader must be able to tell.
+      // Without this, sealing a rescued run silently launders it into
+      // `complete` and re-hides exactly what the seal was meant to surface.
+      status: (data.sealed_retroactively === true || !data.completed_at)
+        ? 'salvaged'
+        : 'complete',
+    });
+  }
+
+  // Stable ordering: most-recent first.
+  items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+  if (!opts.dryRun) {
+    const indexContent = buildRunsIndexYAML(items);
+    const indexPath = path.join(wsDir, 'runs-index.yaml');
+    const lockPath = `${indexPath}.lock`;
+    withFileLock(lockPath, () => {
+      writeFileAtomic(indexPath, indexContent);
+    }, { ownerLabel: 'reconcile:runs', maxWaitMs: 10000 });
+  }
+
+  return { total: items.length, items, skipped, abandoned, warnings, maxId: 0 };
+}
+
+function buildRunsIndexYAML(items) {
+  const hot = items.filter(i => i.hot).length;
+  const cold = items.length - hot;
+  const grandfathered = items.filter(i => i.grandfathered).length;
+  const abandoned = items.filter(i => i.status === 'abandoned').length;
+  const salvaged = items.filter(i => i.status === 'salvaged').length;
+  const lines = [
+    '# Runs Index — fast-scan summary of every engine run that STARTED.',
+    '# Rebuild from: .claude/workstream/runs/run-*/ (summary.yaml, else manifest.yaml)',
+    '# Updated by /engine completion + cwos-reconcile',
+    '#',
+    '# status: complete  = sealed, summary.yaml written',
+    '# status: abandoned = started, never sealed. Its findings may exist ONLY in a',
+    '#                     transcript. Treat as unharvested work, not as absent work.',
+    '# status: salvaged  = sealed after the fact, or with no completed_at. Real work,',
+    '#                     but not a clean run — read its synthesis before trusting it.',
+    '#',
+    `# total: ${items.length}  hot: ${hot}  cold: ${cold}  abandoned: ${abandoned}  salvaged: ${salvaged}  grandfathered: ${grandfathered}`,
+    '',
+    `total_runs: ${items.length}`,
+    `hot: ${hot}`,
+    `cold: ${cold}`,
+    `abandoned: ${abandoned}`,
+    `salvaged: ${salvaged}`,
+    'runs:' + (items.length === 0 ? ' []' : ''),
+  ];
+  for (const item of items) {
+    lines.push(`  - run_id: "${item.run_id}"`);
+    if (item.engine) lines.push(`    engine: "${escapeYAMLString(item.engine)}"`);
+    if (item.target) lines.push(`    target: "${escapeYAMLString(item.target)}"`);
+    if (item.contract_id) lines.push(`    contract_id: "${item.contract_id}"`);
+    if (item.mode) lines.push(`    mode: ${item.mode}`);
+    if (item.date) lines.push(`    date: "${item.date}"`);
+    if (item.launch_readiness) lines.push(`    launch_readiness: ${item.launch_readiness}`);
+    lines.push(`    work_items_created: ${item.work_items_created}`);
+    if (item.findings_count !== null) lines.push(`    findings_count: ${item.findings_count}`);
+    lines.push(`    hot: ${item.hot}`);
+    lines.push(`    status: ${item.status || 'complete'}`);
+    if (item.grandfathered) lines.push(`    grandfathered: true`);
+    lines.push('');
+  }
+  return lines.join('\n') + '\n';
+}
+
+// ─── Convenience: rebuild everything ────────────────────────────────────────
+
+function rebuildAll(wsDir, opts = {}) {
+  const queue = rebuildQueueIndex(wsDir, opts);
+  const findings = rebuildFindingsIndex(wsDir, opts);
+  const sprints = rebuildSprintIndex(wsDir, opts);
+  const enhancements = rebuildEnhancementsIndex(wsDir, opts);
+  const readiness = rebuildReadinessIndex(wsDir, opts);
+  const runs = rebuildRunsIndex(wsDir, opts);
+  const counters = reconcileCounters(
+    wsDir, { queue, findings, sprints, enhancements, readiness }, opts
+  );
+
+  const allWarnings = [
+    ...queue.warnings, ...findings.warnings, ...sprints.warnings,
+    ...enhancements.warnings, ...readiness.warnings, ...runs.warnings,
+    ...(counters.warnings || [])
+  ];
+
+  return { queue, findings, sprints, enhancements, readiness, runs, counters, warnings: allWarnings };
+}
+
+// ─── Entity Type Registry ───────────────────────────────────────────────────
+
+const ENTITY_TYPES = ['queue', 'findings', 'sprints', 'enhancements', 'readiness', 'runs', 'recommendations'];
+
+module.exports = {
+  rebuildQueueIndex,
+  rebuildFindingsIndex,
+  rebuildSprintIndex,
+  rebuildEnhancementsIndex,
+  rebuildReadinessIndex,
+  rebuildRunsIndex,
+  reconcileCounters,
+  rebuildAll,
+  ENTITY_TYPES,
+};

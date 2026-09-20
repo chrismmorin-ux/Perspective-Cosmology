@@ -1,0 +1,244 @@
+---
+name: engine
+description: "Run a named engine — unified dispatch with intent-contract pre-flight per ADR-038"
+user-invocable: true
+argument-hint: "<engine-id-or-alias> [target] [--just-run | /engine!!] [--mode <mode>] [--success-shape <shape>] [--stretch] [--retry run-<id>]"
+---
+
+# /engine — Unified Engine Dispatch
+
+Routes engine invocations through an intent-contract pre-flight (ADR-038 Layer 3), then a token-budget gate (ADR-037 Decision #5 / WS-272), then the specialized engine's own multi-phase execution prose. Aliases (e.g., `/eng`, `/design`) are routed via `engines/registry.yaml`. Pedagogy: see `docs/adrs/ADR-038.md` (a dedicated engine-pedagogy guide is planned — WS-278).
+
+## Output Shape
+
+**Engine-run arc:** `<frame-pre-flight | gate-checked | dispatching | researching | synthesizing | findings-filed>` — `<one-clause status>` (e.g., "design-audit run-002, contract-cnt-1234, phase 4 of 6, 3 findings drafted").
+
+`<Delta line: what this invocation did — frame outcome (recorded/bypassed/abandoned), gate status, phases N–M completed, F findings filed, W work items.>`
+
+`<Remainder: per-phase progress + findings table — Severity / Title / Linked WS — sorted severity-first. Cite run_id AND contract_id explicitly.>`
+
+### Why this engine ran
+`<Value-rationale: cite the program the engine serves, the contract's mode + scope_ceiling + stretch values, the cadence/protocol that triggered it, or the captured concern that prompted it. If --just-run was used, cite the bypass_reason.>`
+
+**Do next:** Single-line action — `Run /next to compose a sprint covering the new findings` (or `Continue engine run` mid-phase).
+
+## Step 1: Parse + alias resolution
+
+Parse `$ARGUMENTS` for `<engine-id-or-alias> [target] [--just-run | /engine!!] [--mode X] [--success-shape Y] [--stretch] [--retry run-<id>]`. Read `engines/registry.yaml` `aliases:` map; if `<engine-id-or-alias>` matches an alias key, resolve to the canonical id. If no match in aliases, treat as canonical id; if absent from `engines:` map, list available + exit.
+
+## Step 1b: Prior runs on this target (WS-702) — MANDATORY, including `--just-run`
+
+```bash
+node kit/scripts/cwos-runs.js find --target "<target>" --engine <id>
+```
+
+Render the result to the founder before framing anything. Two lines is enough:
+*"`business-engine` ran on this area 5 days ago — run-027, 3 findings, output in `runs/run-027/`. Reuse it, or is this a fresh look?"*
+
+**This never blocks.** It reports and the run proceeds — the founder decides whether prior work makes this run unnecessary, narrower, or unchanged.
+
+**It runs before Step 2, not after**, because a prior run should inform the contract — scope_ceiling and success_shape are different questions when 80k tokens of research already exist.
+
+**`--just-run` skips Step 2 but NOT this step.** A hurried run is exactly when re-derivation happens, so the escape valve that bypasses the contract does not bypass the lookup.
+
+**Why this exists.** On 2026-08-22 a ServeYourNote session re-derived pricing research from the open web. It searched `queue/`, `ops/financials/` and `system/decisions.md`, found DEC-011 and no engine output, and concluded none existed. `runs-index.yaml` had recorded the run the whole time — every file that referenced the index was a *writer*, so nothing could answer "has an engine already looked at this?". The index was not missing; the query was. Engine runs are the most expensive artifact CWOS produces, and that one was paid for twice.
+
+**Reading the output honestly:**
+- A run with `status: abandoned` is **unharvested work, not absent work** — its findings may exist only in artifacts that were never sealed. These sort first.
+- A match reporting `0 file(s)` on disk is the run-004 shape: sealed, but its analysis may exist only in a lost transcript. Do not treat it as reusable without opening the directory.
+- **Zero matches is not proof that no prior work exists.** The command prints what it searched — index path, run count, files read, terms, match floor. Read that line before concluding. Widen with `--min-score 0.3` or broader terms before spending tokens on a re-derivation (FAIL-018 / INV-088).
+
+## Step 2: Intent-contract pre-flight (ADR-038 Layer 3)
+
+If `--just-run` (or `/engine!!`) is present, **skip** to Step 4 after emitting:
+
+```bash
+node kit/scripts/cwos-event.js append engine_intent_bypassed --track T7:engines --tag /engine --payload '{"type":"engine_intent_bypassed","engine":"<id>","target":"<target>","bypass_reason":"founder-explicit","composed_by":"cli-deterministic"}'
+```
+
+Otherwise, run pre-flight:
+
+```bash
+node kit/scripts/cwos-frame.js compose --engine <id> --target <target> [--stretch]
+```
+
+Output is JSON with `contract`, `confidences`, `prompts_needed`, and (when readiness=defer) `readiness_human`. Render to founder:
+- If `prompts_needed` is empty AND `readiness === 'ready'`: one-screen confirm summary.
+- If `prompts_needed` is non-empty: prompt ONLY those fields, **strictly one at a time — never a 4-question form**. The single-question discipline is enforced by a script gate (WS-433), not just this prose. For each field prompt (ignore `*_warning:` entries — those are informational, no ack needed): ask the founder, **WAIT** for their answer, then emit the ack before moving to the next field:
+  ```bash
+  node kit/scripts/cwos-frame.js ack-field --engine <id> --field <fieldname>
+  ```
+  `ack-field` rejects more than one field per call, so you cannot batch. `confirm` (below) will REFUSE the contract unless every prompted field has its own ack — emitting all four acks back-to-back without prompting between them defeats the purpose and is the exact drift this gate exists to stop. To override in a genuine edge case, the founder passes `--force-preflight "<reason ≥20 chars>"` to confirm.
+- If `readiness === 'defer'`: render the `readiness_human` block as-is — DO NOT surface the raw `readiness_reason` string (per FIND-127 / WS-291; raw machine strings violate P2 at the moment of decision). Format:
+  ```
+  Engine deferred. Reasons:
+    - <readiness_human.bullets[0]>
+    - <readiness_human.bullets[1]>
+    ...
+
+  Options:
+    1. <readiness_human.options[0].label> — <options[0].outcome>
+    2. <readiness_human.options[1].label> — <options[1].outcome>
+       <if options[1].override_cost === 'high': also print options[1].override_warning>
+    3. <readiness_human.options[2].label> — <options[2].outcome>
+  ```
+  Bullets carry their own suggested next action (after `→`); print verbatim. Founder picks an option; option 2 routes to `--just-run` re-invocation.
+
+On founder confirmation, write the **full compose envelope** (the `compose` JSON with any founder edits applied to `contract`) to a temp file — keep the `prompts_needed` array intact so the pre-flight gate (WS-433) can see which fields required an ack — then:
+
+```bash
+node kit/scripts/cwos-frame.js confirm --contract-file <tmp>
+```
+
+This emits `engine_intent_recorded` with the final contract + revisions array. Confirm runs the WS-433 pre-flight gate: if any field in `prompts_needed` lacks its `ack-field` event it exits non-zero — go back and ack each field one at a time (or, for an edge case, re-run with `--force-preflight "<reason>"`). If founder cancels mid-prompt, emit `engine_intent_abandoned` with `fields_touched` + `elapsed_ms` (friction signal).
+
+Confirm also runs the WS-472 one-contract-per-run guard (ADR-038 Decision #6 — the contract is immutable once confirmed): if a contract for the same `(engine, target)` is still open — no `engine_run_completed` since, and less than 6h old — it exits 2 and names the open `contract_id`. If that run actually finished, close it (`cwos-engine-complete.js --run-id <run-NNN>`) rather than working around the guard. To deliberately supersede an open contract, re-run with `--amend "<rationale ≥20 chars>"`; that emits `engine_contract_amended` and marks the replacement, which is what keeps the amendment visible to INV-090 instead of looking like a leak.
+
+## Step 3: Token-budget gate (ADR-037 Decision #5 / WS-272)
+
+```bash
+node kit/scripts/cwos-token-budget.js --check
+```
+
+Exits 0 (clean) or 1 (regression detected — block). Escape valves don't compose: `--just-run` bypasses Step 2 but still goes through this gate. Founder unblocks via `--override-token-budget "<rationale ≥20 chars>"` (per WS-272).
+
+## Step 4: Load specialized engine
+
+Read the engine's `skill_path` from `engines/registry.yaml`. Load the engine MD file at that path. The contract is in the **confirm envelope produced in Step 3** (`cwos-frame.js confirm` output: `contract_id`, `event_id`, and the full `contract`) — the specialized engine's Setup phase reads those fields directly from that envelope. It MUST NOT reverse-scan `.claude/workstream/events/*.jsonl` to re-derive the contract (that re-reads data already handed to it and is the run's largest avoidable token cost); the raw-log scan is a bounded fallback only, used when the confirm envelope is absent (e.g. `--retry` resume or a pre-ADR-038 kit).
+
+Specialized engines own their own multi-phase execution prose (Setup → Parallel Research → Cross-Critique → Synthesis → Backlog → Briefing). Find the engine MD file and follow its instructions. Apply contract fields:
+- `mode` shapes the output type (decide → comparison; build-best → committed implementation; mockup → low-fi sketch; explore → adjacent possibilities)
+- `stretch=true` invites the engine to question loaded AS-N tags + constraints (NEVER re-read `system/` files — question what's already in the envelope)
+- `scope_ceiling` is the out-of-bounds bound the engine must respect
+- `success_shape` is the structured target the briefing phase MUST honor
+- `readiness_reason` (if defer was overridden) is logged in the run manifest
+
+## Step 4.5: Initialize manifest (WS-305)
+
+Before per-phase execution, write the canonical pre-artifact:
+
+```bash
+node kit/scripts/cwos-engine-manifest.js init \
+  --run-id run-<NNN> --engine <engine-id> --target <program-or-focus> \
+  --contract-id <cnt-id> --contract-event-id <ev-id> \
+  --mode <mode> --stretch <true|false> --readiness <ready|defer> \
+  --success-shape "<from contract>" --scope-ceiling "<from contract>" \
+  --founder <handle> \
+  --declared-phases "phase_0,phase_1,phase_2,phase_3,phase_4,phase_5,phase_6" \
+  --declared-agents "<comma-separated persona names from engine's ## Agents section>"
+```
+
+The manifest is the engine-run twin of WS-304's protocol-run provenance: `agent-dispatch.md` updates the live punchlist via `cwos-engine-manifest update` after every agent return, and Step 6 closes it with `complete` + `validate`. Schema: `kit/templates/workstream/runs/MANIFEST.md`.
+
+## Step 4.6: Stake a pointer in the target's canonical doc
+
+An engine run has a `target`. Most targets have **one document a human or a later session actually reads** — `pricing-model` has `ops/financials/pricing-model.md`, a program has its `prog-*.yaml`, an ADR has its file. Resolve that document now, at the START of the run, and stamp a pointer into it:
+
+```markdown
+<!-- cwos:last-engine-run -->
+> **Last engine run:** `run-<NNN>` — `<engine>`, started `<ISO date>`, status `in-progress`.
+> Contract, artifacts and findings: `.claude/workstream/runs/run-<NNN>/`
+<!-- /cwos:last-engine-run -->
+```
+
+Record the resolved path as `target_doc` when you call `cwos-engine-manifest init`. Refresh the block's status at Step 6 (`complete`) or when sealing early. The HTML comments make it idempotent — replace the block between them, never append a second one.
+
+**Why at the start.** The pointer's whole job is to survive a run that does not finish. Written at the end, it is written exactly when it is least likely to happen. ServeYourNote's `ops/financials/pricing-model.md` still said *"Pricing model selected — deferred until after first users onboarded"* on the day an 80k-token pricing engine ran against it; the doc had also gone stale against ADR-011 months earlier. Nothing pointed from the document to the work, so the work was invisible from the only place anyone would look.
+
+If no single canonical doc exists for the target, record `target_doc: null` **and say so in the briefing** — a target with nowhere to write back is a gap worth naming, not a silent pass.
+
+## Step 5: Per-phase execution
+
+Follow the loaded specialized engine's phase prose. Engine briefing phase MUST include a `contract_alignment` block stating which contract fields were honored vs. departed from (with reason for each departure). Per Decision #6, contract is **immutable post-confirm** — engines do not revise mid-run.
+
+### Persistence is not optional (WS-364 / run-004)
+
+**A phase's output is written to disk the moment it is produced, BEFORE the next phase consumes it.** Not at the end of the run. Not "if the run completes."
+
+```bash
+# after EVERY agent return / phase output, in this order:
+#   1. write the artifact          2. record its path in the punchlist
+mkdir -p .claude/workstream/runs/run-<NNN>/artifacts/phase-<N>
+#   ...write <name>.md there...
+node kit/scripts/cwos-engine-manifest.js update --run-id run-<NNN>   --phase phase_<N> --agent <persona> --artifact-path <path> --status complete
+```
+
+**Why this is a hard rule, not a nicety.** ServeYourNote run-004 (`business-engine` on `pricing-model`, 2026-08-22) burned ~80k tokens across two research agents and a cross-critique. Its manifest recorded `artifact_path: null` for both agents while `phase_2_cross_critique` recorded `complete` — the engine cross-critiqued research that had never been written down. The run then stopped before Step 6, so nothing sealed, and `runs-index.yaml` reported it as not existing at all. A later session searched for prior pricing work, was told there was none, and re-derived it from the open web.
+
+The failure was not that the run stopped. Runs stop — context fills, the founder pivots, a session dies. **The failure was that stopping destroyed everything, because nothing durable existed until the very last step.** Write-as-you-go makes an interrupted run a partial harvest instead of a total loss.
+
+Three rules follow from that:
+
+1. **The transcript is not storage.** An analysis that exists only in the conversation is lost the moment the session ends. If it was worth the tokens, it is worth a file.
+2. **Never let a later phase consume an artifact the earlier phase did not write.** Cross-critique reads files, not chat history. If the file is missing, the phase is blocked — say so, do not proceed on remembered content.
+3. **A load-bearing agent claim is verified before it reaches synthesis.** run-004's top-ranked finding asserted, from a repo-wide grep, that no `application_fee_amount` existed anywhere — `services.py:174` sets it. Same shape as FIND-prog-self-compliance-001. Grade every claim per `evidence-standards.md`; an agent's confident output is **Inferred** until independently checked.
+
+### If the run cannot finish
+
+Do not leave it unsealed. Seal what exists — a partial harvest is recoverable, an unsealed run is not:
+
+```bash
+node kit/scripts/cwos-run-summary.js --run-id run-<NNN>   # seals from whatever artifacts exist
+```
+
+Then tell the founder plainly what was harvested and what was lost. An abandoned run now indexes as `status: abandoned` with a warning rather than vanishing, but that warning says *unharvested*, not *recovered* — sealing is still yours to do.
+
+## Step 5.5: Finding discipline — the per-run `finding_cap` (WS-443 / FS-7)
+
+Five engine files reference a per-run `finding_cap`; this is its definition. The constitution treats a large undifferentiated finding dump as a failed state (FS-7 fires at ≥15 per run — run-009 emitted 83, run-014 emitted 65, and neither was actionable). The discipline is **prioritize, don't suppress**:
+
+- **Cap: at most 12 findings promoted per run** (i.e. written as `FIND-*.yaml`). At synthesis, rank by severity then impact and promote the top of the ranking. 12 sits deliberately under FS-7's threshold of 15.
+- **Criticals are never dropped.** If critical findings alone exceed the cap, promote them all and say so in the briefing — that overflow is itself the headline finding.
+- **The long tail is recorded, not discarded**: everything ranked below the cap gets one line each in the run's synthesis artifact (`runs/<run-id>/artifacts/phase-3/synthesis.md`, section `## Below the cap`). Silent signal loss would be its own constitutional violation; a recorded-but-unpromoted tail is neither noise nor loss.
+- **`blindspot: true` findings bypass the cap** (they exist precisely because normal passes miss them — blind-spot protocols surface their full set even on noisy days). Honor `waived_blindspots`.
+- The FS-7 detector (`cwos-constitutional-audit.js`) counts non-blindspot promoted findings per run over the last 30 days; a run that respects this cap cannot trip it.
+
+## Step 6: Finalize + reconcile
+
+After all phases complete:
+
+```bash
+node kit/scripts/cwos-engine-manifest.js complete --run-id run-<NNN> \
+  --findings-raw <N> --findings-after <N> --work-items <N> \
+  --mode-status <honored|departed|violated> --mode-note "<one-liner>" \
+  --stretch-status <…> --stretch-note "<…>" \
+  --success-status <…> --success-note "<…>" \
+  --scope-status <…> --scope-note "<…>"
+
+node kit/scripts/cwos-reconcile.js --quiet
+node kit/scripts/cwos-engine-complete.js --run-id run-<NNN>
+```
+
+`cwos-engine-manifest complete` writes the post-artifact (contract_alignment block + counts) to `manifest.yaml`. `cwos-reconcile` then rebuilds queue/findings/sprint indexes after the engine wrote its outputs. `cwos-engine-complete` calls `cwos-engine-manifest validate` first (WS-305 gate); if validation fails, no `engine_run_completed` event is emitted and a `FIND-MFST-*` finding is written under `prog-engine-reliability`. On clean validation it emits the `engine_run_completed` event (WS-263 / WS-302) tying `run_id` back to the contract_id — required so the verifier (`cwos-engine-contract-verify`) binds via the canonical event rather than falling through to all-time heuristic lookup. The emit step is idempotent (skips if a `run_id` event already exists) and derives `engine_id` + `program_id` from the most recent `engine_intent_recorded` event when not passed explicitly.
+
+**Conversion bridge (WS-489 / DEC-039).** On clean completion, `cwos-engine-complete` also auto-promotes this run's open CRITICAL/HIGH findings into queue items marked `review: pending` (its JSON output carries the report under `promotion`; the durable copy is the `promotion:` block in `runs/<run-id>/summary.yaml`). Report it to the founder in business terms:
+
+- "Promoted N of M findings to your work queue (conversion NN%): WS-NNN (FIND-NNN, critical) — <title>, … They're awaiting your yes/no in `/next`."
+- MEDIUM findings (`promotion.medium`) are briefing-only, never queued — list them: "Worth improving, not queued: FIND-NNN — <title>."
+- If `promotion.errors` is non-empty or `promotion.ok` is false, surface it and heal with: `node kit/scripts/cwos-engine-complete.js promote-findings --run-id run-<NNN>` (dedup-safe to re-run; also the path for runs that cannot close normally).
+
+## Step 7: Edge cases
+
+| Situation | What to do |
+|-----------|------------|
+| Founder runs `/eng-engine` (legacy direct invocation) | Treat the engine name as both id-and-alias-of-itself; route through Steps 2-6 normally |
+| `--retry run-<id>` flag | Skip Steps 2-3 (contract + budget already recorded for original run); resume Step 4-6 from the retry point per the original engine's prose |
+| Engine MD file missing | Surface "engine MD not found at <path> — registry may be stale" + exit |
+| Pre-flight `prompts_needed` includes ≥3 fields | Suggest `--just-run` if founder explicitly wants to bypass framing this once (per Decision #3 discoverability) |
+| Defer outcome with no override | Engine DOES NOT run; report defer reason + suggested action; no token cost |
+
+## Prohibited Reads
+
+After Step 4 loads the specialized engine MD + contract envelope, the AI MUST NOT re-read these (the CLI envelope captured them): `engines/registry.yaml`, the contract artifact, `engines/standard/*.md` (except the loaded one), `engines/library/*/*.md` (except the loaded one), `kit/scripts/core/engine-readiness-registry.yaml`. Re-reads defeat ADR-037's token-savings goal AND ADR-038's contract-binding intent. INV-cli-envelope-consumed-completely (WS-271, scope-expanded by WS-277) routes excess Read tool calls to prog-kit-quality.
+
+## CLI-absent fallback
+
+If `kit/scripts/cwos-frame.js` is missing (older kit): "cwos-frame.js not found — run `/fleet-update` to install ADR-038 Layer 3 contract pre-flight. Without it, engines run with default mode=explore, readiness=ready, stretch=false (no contract event emitted)."
+
+## Pedagogy
+
+Why the contract? Why these 5 fields? See `docs/adrs/ADR-038.md` (a dedicated engine-pedagogy guide is planned — WS-278).
+
+## Shadow-event envelope
+
+`node kit/scripts/cwos-event.js append command_completed --track T7:engines --tag /engine --payload '{"command":"/engine"}'` — non-fatal; never gate output on it.

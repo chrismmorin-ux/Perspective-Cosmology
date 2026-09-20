@@ -1,0 +1,153 @@
+# Program Registry — index of all permanent accountability structures
+#
+# Programs are the "cannot be forgotten" threads of a repo. They ensure domains
+# of responsibility are continuously managed regardless of session boundaries,
+# founder expertise, or AI blind spots. See prog-template.yaml for schema v3.
+#
+# Full program definitions: .claude/workstream/programs/prog-{id}.yaml
+# Read by: /pulse, /workstream programs, /audit, /session-start
+#
+# ============================================================================
+# ARCHETYPE → PROGRAM MAPPING
+# ============================================================================
+# Programs are selected based on repo archetype AND detected features.
+# "Always" programs install for every repo. Feature-detected programs install
+# when /adopt detects matching code patterns.
+#
+# ALWAYS (every repo):
+#   engineering, anti-hallucination, domain-correctness, change-mgmt, design
+#
+# NEARLY ALWAYS (install when any scoring/classification/statistical method exists):
+#   methodology-integrity — install when scoring, classification, statistical, or analytical methods detected
+#
+# FEATURE-DETECTED (install when code patterns match):
+#   security         — auth code, user input, API endpoints detected
+#   financial-accuracy — payment/billing/pricing/transaction code detected
+#   data-quality     — database models, migrations, data pipelines detected
+#   data-provenance  — import/ingestion code, external data sources detected
+#   compliance       — privacy/consent/legal code detected, OR handles PII
+#   ux               — UI components/templates detected
+#   infrastructure   — Dockerfile, CI config, deploy scripts detected
+#   vendor-risk      — 3+ external service integrations detected
+#   growth           — landing pages, marketing, pricing pages detected
+#   methodology-integrity — scoring, classification, statistical, or analytical methods detected
+#   launch           — project phase is pre-launch (temporary program)
+#
+# SYSTEM (every repo — monitors the tool, never generates work items):
+#   optimization     — install_group: system, monitor_only: true
+#                      Installs dormant, auto-escalates to watch after 5 engine runs
+#
+# ARCHETYPE DEFAULTS (install these + always + feature-detected):
+#   SaaS:                    security, financial-accuracy, data-quality, compliance, ux, infrastructure, vendor-risk, growth, launch
+#   Frontend:                security, ux, launch
+#   Data:                    security, data-quality, data-provenance, compliance
+#   Dev Tool:                security
+#   Research:                data-provenance
+#   Research (Clinical):     data-provenance, claims-policy (auto-installed via claim detection), methodology-integrity, compliance
+#   Research (Mathematical): data-provenance, methodology-integrity, anti-hallucination at tier=active (elevated from default)
+#   Research (Empirical):    data-provenance, methodology-integrity, data-quality
+#   API:                     security, infrastructure
+#
+# Research sub-archetypes are picked by /adopt Step 3 when claim-domain detection
+# narrows the research type. When `repo_claims` includes `clinical`, the sub-archetype
+# becomes research-clinical. When `scientific` dominates, research-mathematical.
+# When `data-provenance` signals dominate, research-empirical. Bare `research` is
+# still valid for repos that don't cleanly fit any sub-archetype.
+#
+# NOTE on prog-design vs prog-ux: prog-design (ALWAYS) audits four UX surfaces
+# (end-user, operator, builder, AI-conversation) at the design-system level.
+# prog-ux (feature-detected) is the classic end-user UX review program focused
+# on usability, accessibility, consistency, error states — it scores against
+# Nielsen heuristics, not surface maturity. They coexist: prog-design sets the
+# maturity floor per surface; prog-ux runs deeper end-user checks when a UI
+# exists.
+#
+# domain-correctness is ALWAYS installed but MUST be customized during /adopt.
+# It's the most important program — generic templates don't work for it.
+# /adopt must:
+#   1. Detect the repo's domain (financial, legal, scientific, gaming, etc.)
+#   2. Rename the program (e.g., "BLS Integrity", "Poker Theory", "Mathematical Rigor")
+#   3. Populate problem_classes with domain-specific examples
+#   4. Set scope.file_patterns to domain logic paths
+#   5. Set tier based on current repo state
+
+schema_version: 3
+
+programs:
+  - id: anti-hallucination
+    name: "Anti-Hallucination & AI Accuracy"
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 3
+  - id: change-mgmt
+    name: "Knowledge & Decision Integrity"
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 4
+  - id: compliance
+    name: Regulatory Compliance
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 2
+  - id: data-quality
+    name: "Data Quality & Integrity"
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 1
+  - id: design
+    name: Design Quality (4-Surface UX)
+    status: NEW
+    tier: watch
+    health_score: 0
+    last_run_date: null
+    founder_priority: 2
+  - id: domain-correctness
+    name: Domain Correctness
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 1
+  - id: engineering
+    name: Engineering Health
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 3
+  - id: infrastructure
+    name: "Infrastructure & Operations"
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 4
+  - id: launch
+    name: Launch Readiness
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 2
+  - id: security
+    name: Security
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 2
+  - id: self-compliance
+    name: Self-Compliance
+    status: NEW
+    tier: critical
+    health_score: 0
+    last_run_date: null
+    founder_priority: 3

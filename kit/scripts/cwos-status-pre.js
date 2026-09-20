@@ -1,0 +1,338 @@
+#!/usr/bin/env node
+/**
+ * cwos-status-pre.js — Pre-phase script for /status command.
+ *
+ * Gathers all data needed for the system health dashboard in a single
+ * invocation, outputting a YAML context bundle to stdout. Replaces
+ * Steps 1-6 of status.md (20-30 tool calls → 1 Bash call).
+ *
+ * Usage: node cwos-status-pre.js
+ */
+
+'use strict';
+
+require('./lib/preflight');
+
+const fs = require('fs');
+const path = require('path');
+
+const {
+  emitBundle, bundleError, findStateFile,
+  gatherVitalSigns, gatherQueueSummary, gatherProgramHealth,
+  gatherFindings, gatherActiveSessions, gatherParallelCapacity, gatherUsage,
+} = require('./lib/cwos-orchestrate');
+const { findWorkstreamDir, globFiles, readYAMLFile } = require('./lib/cwos-utils');
+const { resolveRepoRoot } = require('./lib/kit-paths');
+const { spawnSync } = require('child_process');
+
+// WS-195: typed-API read path for recent command history (ADR-020 step 2).
+// Guarded require per AS-23 — status must not break on pre-step-2 repos
+// that don't have state-store installed.
+let _stateStore = null;
+try { _stateStore = require('./core/state-store'); } catch {}
+
+// WS-544: this file is a script, not a module — everything below runs at module
+// scope, gathers state, spawns cwos-inventory, and can exit via bundleError().
+// Requiring it (as a dependency smoke check must) has to be a no-op. CommonJS
+// permits a top-level return, and nothing here is exported.
+if (require.main !== module) return;
+
+const startMs = Date.now();
+const errors = [];
+
+// Locate workstream directory
+let wsDir;
+try {
+  wsDir = findWorkstreamDir(process.cwd());
+} catch {
+  bundleError('Cannot find .claude/workstream/ — is CWOS installed?');
+}
+
+// Locate state file
+const stateFile = findStateFile(process.cwd());
+
+// Gather inventory accuracy (run cwos-inventory.js --verify)
+function gatherInventory(errors) {
+  try {
+    const scriptPath = path.join(__dirname, 'cwos-inventory.js');
+    if (!fs.existsSync(scriptPath)) return { available: false };
+
+    // WS-549: cwos-inventory inspects the REPO, so it must run with the repo as
+    // its cwd. This used to be script-relative directory arithmetic — the kit's
+    // own location, which is the repo only in HomeBase. Everywhere else the
+    // child was silently inventorying the wrong directory. Falling back to this
+    // process's cwd is safe: the child resolves the repo the same way we do.
+    const result = spawnSync('node', [scriptPath, '--verify'], {
+      encoding: 'utf8', timeout: 5000, cwd: resolveRepoRoot() || process.cwd(),
+    });
+
+    // Parse the YAML output for mismatches
+    const output = result.stdout || '';
+    const mismatchMatch = output.match(/total_mismatches:\s*(\d+)/);
+    const mismatches = mismatchMatch ? parseInt(mismatchMatch[1]) : 0;
+
+    if (mismatches > 0) {
+      errors.push(`inventory: ${mismatches} inventory count(s) in state.md are stale`);
+    }
+
+    return { available: true, mismatches, exit_code: result.status };
+  } catch (err) {
+    errors.push(`inventory: ${err.message}`);
+    return { available: false };
+  }
+}
+
+// WS-195: recent command history via state-store typed-API. Reads
+// state/envelope.json via stateStore.envelope.recent(N) — a deterministic
+// O(1) lookup over the materialized view, NOT a raw-event-log parse.
+// This is the determinism-first principle in action (see
+// feedback_determinism_first.md). Returns null if state-store is absent.
+function gatherRecentCommands(errors, limit) {
+  if (!_stateStore) return null;
+  try {
+    const store = _stateStore.loadState(wsDir);
+    const recent = store.envelope.recent(limit || 5);
+    const active = store.envelope.active();
+    return {
+      source: 'state-store (typed-API)',
+      recent: recent.map((e) => ({
+        command_id: e.command_id, tag: e.tag,
+        started_at: e.started_at || null,
+        completed_at: e.completed_at || null,
+        exit_status: e.exit_status || null,
+      })),
+      active_count: active.length,
+    };
+  } catch (err) {
+    errors.push(`recent_commands: ${err.message}`);
+    return null;
+  }
+}
+
+// WS-321 — Gather adoption_phase + m0_dormant + capture buffer counts.
+// During dormant mode (M0), /status renders a different shape and the standard
+// data sections are suppressed. The bundle always carries this block; the
+// markdown renderer in status.md decides what to display based on adoption_phase.
+function gatherAdoptionPhase(errors) {
+  const onboardingPath = path.join(process.cwd(), '.cwos-onboarding.yaml');
+  if (!fs.existsSync(onboardingPath)) {
+    // Pre-/adopt repos: no onboarding file. Treat as M1 (legacy default).
+    return { adoption_phase: 'M1', m0_dormant: null, capture_counts: null };
+  }
+  try {
+    // readYAMLFile returns { ok, data, error, warnings } — unwrap it.
+    const result = readYAMLFile(onboardingPath);
+    if (!result.ok) {
+      errors.push(`adoption_phase: ${result.error}`);
+      return { adoption_phase: 'M1', m0_dormant: null, capture_counts: null };
+    }
+    const data = result.data || {};
+    const phase = data.adoption_phase || 'M1';
+    const m0 = data.m0_dormant || null;
+    let captureCounts = null;
+    if (phase === 'M0') {
+      captureCounts = countCaptureBufferEvents(wsDir, errors);
+    }
+    return { adoption_phase: phase, m0_dormant: m0, capture_counts: captureCounts };
+  } catch (err) {
+    errors.push(`adoption_phase: ${err.message}`);
+    return { adoption_phase: 'M1', m0_dormant: null, capture_counts: null };
+  }
+}
+
+// WS-321 — Count T20:capture-buffer events grouped by track_tag.
+// Cheap line-by-line read of events/current.jsonl. During M0 the file should
+// be small (a few dozen events at most). Returns counts + total + span.
+function countCaptureBufferEvents(workstreamDir, errors) {
+  const eventsPath = path.join(workstreamDir, 'events', 'current.jsonl');
+  if (!fs.existsSync(eventsPath)) {
+    return { total: 0, by_tag: {}, span_start: null, span_end: null };
+  }
+  try {
+    const content = fs.readFileSync(eventsPath, 'utf8');
+    const lines = content.split('\n').filter((l) => l.trim());
+    const byTag = {};
+    let total = 0;
+    let spanStart = null;
+    let spanEnd = null;
+    for (const line of lines) {
+      let ev;
+      try { ev = JSON.parse(line); } catch { continue; }
+      if (ev.source_track !== 'T20:capture-buffer') continue;
+      total += 1;
+      byTag[ev.track_tag] = (byTag[ev.track_tag] || 0) + 1;
+      if (!spanStart || ev.timestamp < spanStart) spanStart = ev.timestamp;
+      if (!spanEnd || ev.timestamp > spanEnd) spanEnd = ev.timestamp;
+    }
+    return { total, by_tag: byTag, span_start: spanStart, span_end: spanEnd };
+  } catch (err) {
+    errors.push(`capture_counts: ${err.message}`);
+    return { total: 0, by_tag: {}, span_start: null, span_end: null };
+  }
+}
+
+// WS-321 — Gather adoption phase first; if M0, suppress the heavy gatherers
+// (their data is meaningless during dormant mode and showing it reproduces the
+// "missing config" failure mode WS-321 explicitly avoids).
+const adoptionPhase = gatherAdoptionPhase(errors);
+const isDormant = adoptionPhase.adoption_phase === 'M0';
+
+// WS-322 Phase C — collect deferred-scope tripwire counts. Surfaces in /status
+// as a yellow line ("N deferred items eligible for re-eval") when ≥1 is
+// eligible. Skipped in M0 (no tripwires before ignition).
+function gatherDeferredScope(errors) {
+  if (isDormant) return null;
+  const queueDir = path.join(wsDir, 'queue');
+  if (!fs.existsSync(queueDir)) return null;
+  let eligibleCount = 0;
+  let stillBlockedCount = 0;
+  try {
+    for (const f of fs.readdirSync(queueDir)) {
+      if (!/^WS-.+\.yaml$/.test(f)) continue;
+      const r = readYAMLFile(path.join(queueDir, f));
+      if (!r.ok) continue;
+      const item = r.data || {};
+      if (!item.re_eval_trigger) continue;
+      const note = (item.blocked_by_note || '').toString();
+      if (item.status === 'blocked') stillBlockedCount += 1;
+      else if (/^\[unblocked\]/.test(note)) eligibleCount += 1;
+    }
+  } catch (err) {
+    errors.push(`deferred_scope: ${err.message}`);
+    return null;
+  }
+  if (eligibleCount === 0 && stillBlockedCount === 0) return null;
+  return { eligible: eligibleCount, still_blocked: stillBlockedCount };
+}
+
+// WS-579 — fleet friction digest. Null everywhere except the hub (adopted
+// repos have no fleet/friction/), and advisory even there. The freshness
+// field travels with the contents so an empty inbox and a dead drainer can
+// never render identically.
+function gatherFrictionDigest(errors) {
+  try {
+    const { computeDigest } = require('./lib/friction-digest');
+    return computeDigest();
+  } catch (err) {
+    errors.push(`friction_digest: ${err.message}`);
+    return null;
+  }
+}
+
+// WS-814 — fleet divergence digest. Null off-hub. Same freshness contract as
+// the other two: an empty inbox and a dead sweep must not render alike.
+function gatherDivergenceDigest(errors) {
+  try {
+    const { computeDigest } = require(`./lib/divergence-digest`);
+    return computeDigest();
+  } catch (err) {
+    errors.push(`divergence_digest: ${err.message}`);
+    return null;
+  }
+}
+
+// ADR-066 — fleet maintenance digest. Same contract as the friction digest:
+// null off-hub, advisory on it, freshness travels with contents (a swept_at
+// of null must render as the loud "age UNKNOWN" form, never as quiet-clean).
+function gatherMaintenanceDigest(errors) {
+  try {
+    const { computeDigest } = require('./lib/maintenance-digest');
+    return computeDigest();
+  } catch (err) {
+    errors.push(`maintenance_digest: ${err.message}`);
+    return null;
+  }
+}
+
+// ADR-060 / WS-589 — the repo's declared health contract. Absent is a
+// supported state (read against fleet defaults), so present:false is data,
+// not an error. Deliberately spawn-free: stage + window are enough for the
+// dashboard line and the scaffold offer; /status runs `check` only when a
+// contract exists.
+function gatherHealthContract(errors) {
+  try {
+    const { loadContract, withDefaults } = require('./cwos-health-contract');
+    const root = resolveRepoRoot({ from: process.cwd() });
+    const loaded = loadContract(root);
+    if (!loaded.present) return { present: false };
+    if (loaded.data === null) {
+      errors.push(`health_contract: ${loaded.error || 'unparseable'}`);
+      return { present: false, unparseable: true };
+    }
+    const c = withDefaults(loaded.data);
+    return {
+      present: true,
+      stage: c.stage,
+      engagement_window_days: c.engagement_window_days,
+      concerning_after: c.utilization.concerning_after || null,
+    };
+  } catch (err) {
+    errors.push(`health_contract: ${err.message}`);
+    return null;
+  }
+}
+
+// WS-696 — capability directories the repo should have and does not.
+//
+// WS-403 shipped ensureCapabilityDirs() so the upgrade path backfills the sets
+// /adopt provisions, and cwos-migrate.js does call it. But nothing ever SAID
+// the directories were missing, so the gap could only close if an upgrade
+// happened to run. ServeYourNote filed this on 2026-05-13, named itself as the
+// test case, and was still missing docs/evolution/ 101 days later — because
+// its upgrade never ran, and nothing anywhere reported the absence.
+//
+// Null when nothing is missing, so /status renders a line only when there is
+// something to say.
+function gatherCapabilityDirs(errors) {
+  if (isDormant) return null;
+  try {
+    const { expectedCapabilityDirs, enabledCapabilities } = require('./lib/cwos-kit-dirs');
+    // The REPO's root, not the kit's — WS-549's distinction. Getting this wrong
+    // would report HomeBase's directories while claiming to describe the repo.
+    const repoRoot = resolveRepoRoot() || process.cwd();
+    const enabled = enabledCapabilities(repoRoot);
+    const missing = expectedCapabilityDirs(enabled)
+      .filter((rel) => !fs.existsSync(path.join(repoRoot, rel)))
+      .map((rel) => rel.replace(/\\/g, '/'));
+    if (missing.length === 0) return null;
+    return {
+      missing,
+      count: missing.length,
+      enabled: [...enabled],
+      remedy: 'node kit/scripts/cwos-migrate.js --backfill-dirs',
+    };
+  } catch (err) {
+    errors.push(`capability_dirs: ${err.message}`);
+    return null;
+  }
+}
+
+const data = {
+  adoption_phase: adoptionPhase,
+  capability_dirs: gatherCapabilityDirs(errors),
+  health_contract: gatherHealthContract(errors),
+  vital_signs: isDormant ? null : (stateFile ? gatherVitalSigns(stateFile, errors) : null),
+  queue: isDormant ? null : gatherQueueSummary(wsDir, errors),
+  programs: isDormant ? null : gatherProgramHealth(wsDir, errors),
+  findings: isDormant ? null : gatherFindings(wsDir, errors),
+  sessions: isDormant ? null : gatherActiveSessions(wsDir, errors),
+  // ADR-067: pooled/orphaned sprints a second terminal could pick up.
+  parallel: isDormant ? null : gatherParallelCapacity(wsDir, errors),
+  usage: gatherUsage(wsDir, errors),
+  inventory: isDormant ? null : gatherInventory(errors),
+  recent_commands: isDormant ? null : gatherRecentCommands(errors, 5),
+  deferred_scope: gatherDeferredScope(errors),
+  friction_digest: gatherFrictionDigest(errors),
+  maintenance_digest: gatherMaintenanceDigest(errors),
+  // WS-814 — repos that changed a kit-owned file. Hub-only, advisory.
+  divergence_digest: gatherDivergenceDigest(errors),
+};
+
+// Emit bundle
+emitBundle({
+  command: 'status',
+  script: 'cwos-status-pre.js',
+  startMs,
+  errors,
+  data,
+});

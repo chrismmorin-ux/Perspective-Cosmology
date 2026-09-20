@@ -1,0 +1,218 @@
+id: design
+name: "Design Quality (4-Surface UX)"
+schema_version: 4
+status: NEW
+
+# ALWAYS-installed program (every repo gets this). Every repo has four UX surfaces:
+# end-user (outward), operator (inward — founder monitoring), builder (tool
+# ergonomics), and AI-conversation (Claude's response shape). Per ADR-017 and
+# docs/programs/design.md, no repo is "pre-UI" — CLI tools and libraries also
+# have all four surfaces.
+#
+# Per ADR-033 (2026-04-29), the legacy prog-ux program merged into this program's
+# End-user surface gaps problem class. The five former prog-ux concerns
+# (Core Flow Usability / Accessibility / Visual Consistency / Error & Edge State /
+# Responsive) live as scoring sub-criteria inside End-user surface gaps.
+
+contract: >
+  Every repo this program runs on has four UX surfaces that are intentionally
+  designed: end-user (the product's users), operator (the founder monitoring
+  the product), builder (the founder extending the repo), and AI-conversation
+  (the shape of what Claude surfaces). This program scores each surface
+  independently L1-L5, holds each accountable, and shows the founder the
+  maturity trend over time so adoption demonstrably makes the repo better.
+
+capability_brief:
+  # Rendered at /adopt and surfaced in /status prompts when baseline hasn't
+  # run. Addresses feedback_no_silent_install_no_user_invention: users must
+  # know the value, the problems prevented, the cost, and the first output.
+  value: "Scores four UX surfaces (end-user, operator, builder, AI-conversation) independently, surfaces asymmetries and maintenance-debt flags, and emits a concrete convergence path."
+  problems_prevented:
+    - "Silent UX decay across sessions — design decisions rot without an owner"
+    - "Implicit design by accident — no framework means every choice is local"
+    - "Maintenance-debt asymmetries — disparate maturity levels between surfaces cost you every change"
+    - "Blindspot gaps — features shipping without personas, journeys, or FDBs"
+    - "Founder fatigue from inventing a design framework in parallel with building the product"
+  cost:
+    activation: "~5 min for the baseline audit"
+    ongoing: "Periodic /pulse run design (14-day cadence) + closing design findings alongside other work"
+  first_output:
+    - "Per-surface scorecard (E<n> O<n> B<n> A<n>) with confidence markers"
+    - "Convergence path — 3 concrete changes to lift the lowest surface"
+    - "4-8 findings auto-promoted to your queue as work items"
+    - "Draft personas + FDBs generated from your repo's context (engine Phase 0b)"
+  activation_command: "/pulse run design baseline"
+  requires_user_input: false
+
+problem_classes:
+  - name: "End-user surface gaps"
+    description: "Product's outward-facing UX — design tokens, components, accessibility (WCAG 2.1 AA), visual coherence, core user flow usability (no dead-ends, no abandonment-bait steps), error & edge-state handling (helpful empty states, actionable error messages, visible loading states), responsive & cross-platform behavior (mobile / tablet / breakpoint integrity, touch-target sizes), end-user task flows, documentation as interface. For SaaS adds API docs + error catalog. For CLI adds output format + error taxonomy. For research adds claim traceability + citation discipline."
+    examples: ["no design tokens", "ad-hoc components with no reuse pattern", "missing aria-labels on a web app", "insufficient color contrast", "keyboard nav broken on a form", "checkout abandonment due to confusion in core flow", "generic 'something went wrong' error", "empty state with no guidance", "layout breaks on mobile", "touch targets too small", "no API contract on a SaaS", "no claim-to-code traceability on a research site"]
+    detection: "design-audit engine Phase 1 Agent 1 (product-ux-engineer) per docs/programs/design.md rubric, with absorbed prog-ux problem classes (a11y / responsive / error-state / core-flow / visual-consistency) treated as End-user-surface scoring sub-criteria per ADR-033"
+
+  - name: "Operator surface gaps"
+    description: "Founder-facing monitoring, dashboards, alerts, decision drill-downs. For data-platform adds freshness, source attribution, evidence tiers. For research adds hallucination tracking, assumption provenance, falsification coupling."
+    examples: ["no health dashboard", "alerts without routing", "dashboard exists but data-dump not decision-driven", "no data freshness indicator on a data platform", "no hallucination metric on a research repo"]
+    detection: "design-audit engine Phase 1 Agent 2 (operator-experience-designer)"
+
+  - name: "Builder surface gaps"
+    description: "Tool ergonomics for extending the repo — docs layout, command surfaces, editor flow, onboarding for fresh session, ADR discipline. For library adds public API surface + versioning."
+    examples: ["one-line CLAUDE.md", "no ADRs for load-bearing decisions", "file layout hides intent", "no onboarding path for new session", "public API not enumerated on a library"]
+    detection: "design-audit engine Phase 1 Agent 3 (developer-experience-designer)"
+
+  - name: "AI-conversation surface gaps"
+    description: "Shape of Claude's output — command preambles, response structure, state visibility, signal discipline. L4+ adds coverage audit and fidelity check."
+    examples: ["preambles absent", "/status buries key state", "wall-of-text responses", "surfaced signals drift from source of truth"]
+    detection: "design-audit engine Phase 1 Agent 4 (ai-interaction-designer)"
+
+  - name: "Surface convergence failure"
+    description: "Per-surface maturity levels do not trend upward over time — program is active but not delivering improvement. HomeBase-specific failure mode per feedback_homebase_makes_repo_better.md."
+    examples: ["L1 baseline unchanged for 30+ days", "findings pile up without closure", "trend flat or negative across multiple sweeps"]
+    detection: "Per-surface trend analysis over rolling 30-day window"
+
+  - name: "Maintenance debt asymmetry"
+    description: "Spread between highest and lowest surface is ≥2 levels, creating real maintenance cost (e.g., maintaining two disparate design systems). Surfaced as a risk flag, not an auto-promoted finding."
+    examples: ["operator L4 + end-user L2 (dual design system upkeep)", "builder L4 + AI-conversation L1 (well-documented repo with undesigned AI surface)"]
+    detection: "design-audit Phase 3 synthesis emits MAINTENANCE DEBT callout"
+
+scope:
+  file_patterns:
+    - "**/*.py"
+    - "**/*.ipynb"
+    - "**/*.tex"
+    - "**/*.lean"
+    - "**/derivations/**"
+    - "**/proofs/**"
+    # Absorbed from prog-ux (merged via WS-240 / ADR-033):
+    - "**/*.jsx"
+    - "**/*.tsx"
+    - "**/*.css"
+    - "**/*.scss"
+    - "**/*.html"
+    - "**/pages/**"
+    - "**/views/**"
+    - "**/templates/**"
+  invariants: []
+  anti_invariants: []
+  constraints: []
+
+tier: watch
+tier_triggers:
+  watch: "Program installed, baseline not yet run"
+  active: "Baseline audit complete on at least one surface"
+  critical: "Any surface at L1 for 14+ days with no findings closed"
+
+protocols:
+  baseline:
+    engine: design-audit
+    focus: "Score all 4 UX surfaces independently. Apply archetype supplements. Emit findings per surface."
+    problem_classes: all
+    outputs: [per_surface_scorecard, gap_inventory, convergence_path, initial_findings]
+
+  sweep:
+    engine: design-audit
+    cadence_days: 14
+    focus: "Full 4-surface re-audit. Compare to previous baseline. Emit trend."
+    problem_classes: all
+    min_tier: active
+
+  delta:
+    engine: design-audit
+    cadence_days: 7
+    focus: "Recent surface changes only (git diff since last run), scoped to affected surfaces."
+    method: "git diff against last_run_by_protocol.delta.date, filtered to scope file_patterns, map diffs to affected surfaces"
+    min_tier: watch
+
+  challenge:
+    engine: design-audit
+    cadence_days: 28
+    focus: "Adversarial design review"
+    prompt_additions: >
+      CHALLENGE protocol for Design Quality. Think like a new founder adopting this repo:
+      - Which surface would fail them first?
+      - Which surface asymmetry would cost them the most in their first month?
+      - What gap is the rubric not catching because it's too politely phrased?
+    min_tier: active
+
+  blind_spot:
+    engine: design-audit
+    cadence_days: 60
+    focus: "What surface dimension is this rubric not yet capturing for this repo?"
+    prompt_additions: >
+      BLIND SPOT protocol for Design Quality. Review recent audits:
+      - Are there new surfaces we haven't named? (e.g., billing UX, collaborator UX, mobile UX)
+      - Do low-confidence scores point to rubric gaps that need HomeBase-level updates?
+      - Is the archetype supplement stale?
+    min_tier: critical
+
+accountability:
+  on_finding:
+    action: create_work_item
+    max_open_items: 8
+    priority_floor: 30
+    escalation:
+      stale_days: 14
+      escalate_to: session_start
+      escalate_priority_bump: 9
+  on_stale:
+    action: create_work_item
+    message: "Design audit has not run in {days} days. Run /pulse run design."
+    block_sprint: false
+  on_tier_change:
+    action: notify_founder
+    auto_escalate: true
+    auto_deescalate: false
+
+interconnections:
+  feeds_into: [product-evolution]
+  fed_by: []
+  blocks: []
+
+phase_relevance:
+  foundation: medium
+  pre-launch: high
+  launch: critical
+  growth: high
+  maturity: medium
+
+last_run_by_protocol:
+  baseline: { date: null, engine: null, run_id: null, result: null }
+  delta: { date: null, engine: null, run_id: null, result: null }
+  sweep: { date: null, engine: null, run_id: null, result: null }
+  challenge: { date: null, engine: null, run_id: null, result: null }
+  blind_spot: { date: null, engine: null, run_id: null, result: null }
+
+health_score: 0
+health_ceiling: 0
+health_ceiling_reason: "No audit yet. Run /pulse run design baseline to establish first score."
+findings_open: 0
+work_items_open: 0
+blindspot_findings_open: 0  # Populated by Phase 1b sweep; bypasses finding cap.
+waived_blindspots: []  # Each entry: {finding_id, reason, waived_at, review_at}
+
+# Per-surface scorecard tracking — populated by design-audit engine.
+# Each entry: {level: 0-5, confidence: high|medium|low, trend: up|flat|down|new}
+surface_scorecard:
+  end_user: { level: null, confidence: null, trend: null, last_run: null }
+  operator: { level: null, confidence: null, trend: null, last_run: null }
+  builder: { level: null, confidence: null, trend: null, last_run: null }
+  ai_conversation: { level: null, confidence: null, trend: null, last_run: null }
+
+evidence:
+  last_audit_report: null
+  protocol_history: []
+  retention_days: 365
+  evidence_dir: ".claude/workstream/evidence/design/"
+
+maturity:
+  level: 1
+  criteria:
+    level_1: "Program installed. Baseline rubric understood. Ready for first audit."
+    level_2: "Baseline complete. All 4 surfaces scored with evidence."
+    level_3: "Sweep cadence established. At least one surface raised one level since baseline."
+    level_4: "All surfaces at L3+. Asymmetry under 2 levels. Trend positive across 3+ sweeps."
+    level_5: "All surfaces at L4+. Design maturity compounds; convergence path is self-maintaining."
+  current_gaps: "Never audited."
+
+created_at: null
+updated_at: null
