@@ -23,6 +23,11 @@ schema_version: 1
 # DECLARED, never inferred. Whether a repo is finished is a judgment about
 # intent that no activity metric can make. "Commits dropped" is not evidence of
 # `steady` — that inference is the exact error ADR-060 exists to remove.
+# Confirmed quiet 2026-09-20. This repo is run #1: the case study, banked.
+# The reopen DID happen (ADR-070, 2026-09-12) but it took the form of a
+# successor repo, `pc2`, rebuilt on machine-checked proof — not a resumption
+# of work here. Its epistemic record lives on as input at pc2/run1/record/.
+# Quiet is the accurate declaration, not a lapsed one.
 stage: quiet
 
 # ── Utilization ─────────────────────────────────────────────────────────────
@@ -84,7 +89,10 @@ blocked_by:
   #
   # Name it the SAME WAY across repos when it is the same thing, so the fleet can
   # group them. e.g. "Fable API budget", "a lawyer consult", "clinician panel"
-  unlocked_by: "a decision to resume — founder actively weighing a reopen (ADR-060)"
+  # Updated 2026-09-20: the previous text ("founder actively weighing a reopen")
+  # is spent — the weighing concluded on 2026-09-12 and produced `pc2`. What
+  # would unlock work HERE is now a narrower, separate decision.
+  unlocked_by: "a decision to work run #1 itself again — distinct from pc2, which already carries the live theory (ADR-070)"
 
   # Optional. What it would take, in whatever unit fits: "$2k", "8 hours",
   # "one afternoon with a domain expert".
