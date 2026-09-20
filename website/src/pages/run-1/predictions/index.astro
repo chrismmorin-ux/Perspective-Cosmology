@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { FRAMEWORK } from '../../data/constants';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { FRAMEWORK } from '../../../data/constants';
 ---
 
 <BaseLayout title="Predictions" description={`Bold structural claims, ${FRAMEWORK.blindPredictionCount} blind predictions, ${FRAMEWORK.falsifiedCount} falsified claims, and ${FRAMEWORK.testablePredictionCount} testable predictions with explicit falsification criteria.`}>
@@ -214,7 +214,7 @@ import { FRAMEWORK } from '../../data/constants';
 
     <!-- CTA -->
     <div class="text-center">
-      <a href="/explore" class="inline-flex items-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors">
+      <a href="/run-1/explore" class="inline-flex items-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-lg transition-colors">
         Browse All {FRAMEWORK.predictionCount} Predictions
         <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </a>

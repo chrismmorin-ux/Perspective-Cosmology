@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import VerificationPortal from '../../components/VerificationPortal';
-import verificationData from '../../../data/verification-scripts.json';
-import { FRAMEWORK } from '../../data/constants';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VerificationPortal from '../../../components/VerificationPortal';
+import verificationData from '../../../../data/verification-scripts.json';
+import { FRAMEWORK } from '../../../data/constants';
 ---
 
 <BaseLayout title="Verify" description={`${FRAMEWORK.scriptCount} SymPy verification scripts you can run yourself. Every claim is computationally verified.`}>

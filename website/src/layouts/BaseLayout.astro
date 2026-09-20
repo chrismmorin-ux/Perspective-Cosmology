@@ -12,6 +12,12 @@ const { title, description = "A framework deriving 63+ physical constants from d
 const p = Astro.url.pathname;
 const active = 'text-white font-medium transition-colors';
 const inactive = 'text-gray-400 hover:text-white transition-colors';
+
+// Run #1 is frozen (2026-09-20). Everything under /run-1/ is first-pass output
+// kept as a case study, not a live claim. The banner is derived from the path
+// rather than set per page so a new page under /run-1/ cannot be added without
+// it -- the label is a property of the location, not of an author remembering.
+const isRun1 = p === '/run-1' || p.startsWith('/run-1/');
 const mActive = 'block py-2 text-white font-medium';
 const mInactive = 'block py-2 text-gray-400 hover:text-white';
 ---
@@ -37,14 +43,14 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
           Perspective Cosmology
         </a>
         <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="/explore" class={p.startsWith('/explore') ? active : inactive}>Explore</a>
-          <a href="/publications" class={p.startsWith('/publications') ? active : inactive}>Publications</a>
-          <a href="/skeptics" class={p.startsWith('/skeptics') ? active : inactive}>For Skeptics</a>
-          <a href="/predictions" class={p.startsWith('/predictions') ? active : inactive}>Predictions</a>
-          <a href="/verify" class={p.startsWith('/verify') ? active : inactive}>Verify</a>
-          <a href="/about" class={p.startsWith('/about') ? active : inactive}>About</a>
-          <a href="/faq" class={p.startsWith('/faq') ? active : inactive}>FAQ</a>
-          <a href="/blog" class={p.startsWith('/blog') ? active : inactive}>Blog</a>
+          <a href="/run-1/explore" class={p.startsWith('/explore') ? active : inactive}>Explore</a>
+          <a href="/run-1/publications" class={p.startsWith('/publications') ? active : inactive}>Publications</a>
+          <a href="/run-1/skeptics" class={p.startsWith('/skeptics') ? active : inactive}>For Skeptics</a>
+          <a href="/run-1/predictions" class={p.startsWith('/predictions') ? active : inactive}>Predictions</a>
+          <a href="/run-1/verify" class={p.startsWith('/verify') ? active : inactive}>Verify</a>
+          <a href="/run-1/about" class={p.startsWith('/about') ? active : inactive}>About</a>
+          <a href="/run-1/faq" class={p.startsWith('/faq') ? active : inactive}>FAQ</a>
+          <a href="/run-1/blog" class={p.startsWith('/blog') ? active : inactive}>Blog</a>
         </div>
         <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white" aria-label="Menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,17 +61,30 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
     </div>
     <div id="mobile-menu" class="hidden md:hidden border-t border-gray-800 pb-4">
       <div class="px-4 pt-2 space-y-2 text-sm">
-        <a href="/explore" class={p.startsWith('/explore') ? mActive : mInactive}>Explore</a>
-        <a href="/publications" class={p.startsWith('/publications') ? mActive : mInactive}>Publications</a>
-        <a href="/skeptics" class={p.startsWith('/skeptics') ? mActive : mInactive}>For Skeptics</a>
-        <a href="/predictions" class={p.startsWith('/predictions') ? mActive : mInactive}>Predictions</a>
-        <a href="/verify" class={p.startsWith('/verify') ? mActive : mInactive}>Verify</a>
-        <a href="/about" class={p.startsWith('/about') ? mActive : mInactive}>About</a>
-        <a href="/faq" class={p.startsWith('/faq') ? mActive : mInactive}>FAQ</a>
-        <a href="/blog" class={p.startsWith('/blog') ? mActive : mInactive}>Blog</a>
+        <a href="/run-1/explore" class={p.startsWith('/explore') ? mActive : mInactive}>Explore</a>
+        <a href="/run-1/publications" class={p.startsWith('/publications') ? mActive : mInactive}>Publications</a>
+        <a href="/run-1/skeptics" class={p.startsWith('/skeptics') ? mActive : mInactive}>For Skeptics</a>
+        <a href="/run-1/predictions" class={p.startsWith('/predictions') ? mActive : mInactive}>Predictions</a>
+        <a href="/run-1/verify" class={p.startsWith('/verify') ? mActive : mInactive}>Verify</a>
+        <a href="/run-1/about" class={p.startsWith('/about') ? mActive : mInactive}>About</a>
+        <a href="/run-1/faq" class={p.startsWith('/faq') ? mActive : mInactive}>FAQ</a>
+        <a href="/run-1/blog" class={p.startsWith('/blog') ? mActive : mInactive}>Blog</a>
       </div>
     </div>
   </nav>
+
+  {isRun1 && (
+    <div class="bg-amber-950/60 border-b border-amber-700/50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 text-sm text-amber-100/90">
+        <span class="font-semibold text-amber-200">Run #1 &mdash; archived.</span>
+        Everything below is the first pass, frozen on 2026-09-20 in the state it
+        reached. It is kept as a case study and is <strong>not</strong> a live
+        claim: an independent audit placed its two flagship results
+        1,755&sigma; and 3,261&sigma; from CODATA 2022.
+        <a href="/" class="underline hover:text-white">What replaced it &rarr;</a>
+      </div>
+    </div>
+  )}
 
   <main class="flex-1">
     <slot />
@@ -82,21 +101,21 @@ const mInactive = 'block py-2 text-gray-400 hover:text-white';
         <div>
           <h3 class="text-white font-semibold mb-3">Resources</h3>
           <ul class="space-y-1.5">
-            <li><a href="/publications" class="hover:text-gray-300">Publications</a></li>
-            <li><a href="/verify" class="hover:text-gray-300">Verification Scripts</a></li>
-            <li><a href="/predictions" class="hover:text-gray-300">Predictions Registry</a></li>
-            <li><a href="/history" class="hover:text-gray-300">Project History</a></li>
-            <li><a href="/skeptics" class="hover:text-gray-300">For Skeptics</a></li>
+            <li><a href="/run-1/publications" class="hover:text-gray-300">Publications</a></li>
+            <li><a href="/run-1/verify" class="hover:text-gray-300">Verification Scripts</a></li>
+            <li><a href="/run-1/predictions" class="hover:text-gray-300">Predictions Registry</a></li>
+            <li><a href="/run-1/history" class="hover:text-gray-300">Project History</a></li>
+            <li><a href="/run-1/skeptics" class="hover:text-gray-300">For Skeptics</a></li>
           </ul>
         </div>
         <div>
           <h3 class="text-white font-semibold mb-3">Connect</h3>
           <ul class="space-y-1.5">
             <li><a href="mailto:christopher.morin@perspectivecosmology.com" class="hover:text-gray-300">christopher.morin@perspectivecosmology.com</a></li>
-            <li><a href="/contact" class="hover:text-gray-300">Contact & Collaborate</a></li>
-            <li><a href="/about" class="hover:text-gray-300">About the Project</a></li>
-            <li><a href="/faq" class="hover:text-gray-300">FAQ</a></li>
-            <li><a href="/blog" class="hover:text-gray-300">Blog</a></li>
+            <li><a href="/run-1/contact" class="hover:text-gray-300">Contact & Collaborate</a></li>
+            <li><a href="/run-1/about" class="hover:text-gray-300">About the Project</a></li>
+            <li><a href="/run-1/faq" class="hover:text-gray-300">FAQ</a></li>
+            <li><a href="/run-1/blog" class="hover:text-gray-300">Blog</a></li>
           </ul>
         </div>
       </div>

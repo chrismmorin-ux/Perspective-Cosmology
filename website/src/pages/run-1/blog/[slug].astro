@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -33,7 +33,7 @@ function formatDate(date: Date): string {
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
     {/* Back link */}
-    <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8">
+    <a href="/run-1/blog" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-8">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
@@ -72,10 +72,10 @@ function formatDate(date: Date): string {
     {/* Footer */}
     <footer class="mt-16 pt-8 border-t border-gray-800">
       <div class="flex items-center justify-between text-sm text-gray-500">
-        <a href="/blog" class="hover:text-gray-300 transition-colors">
+        <a href="/run-1/blog" class="hover:text-gray-300 transition-colors">
           &larr; All posts
         </a>
-        <a href="/blog/rss.xml" class="hover:text-gray-300 transition-colors">
+        <a href="/run-1/blog/rss.xml" class="hover:text-gray-300 transition-colors">
           RSS Feed
         </a>
       </div>

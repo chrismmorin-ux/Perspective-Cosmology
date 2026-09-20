@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection, getEntry } from 'astro:content';
-import { FRAMEWORK } from '../../data/constants';
+import { FRAMEWORK } from '../../../data/constants';
 
 export async function getStaticPaths() {
   const entries = await getCollection('publications');
@@ -67,7 +67,7 @@ const tocItems = headings.filter(h => h.depth <= 2).map(h => ({
           <p class="text-gray-400 max-w-2xl">{entry.data.description}</p>
         )}
         <div class="mt-4">
-          <a href="/publications" class="text-sm text-brand-400 hover:text-brand-300">&larr; All publications</a>
+          <a href="/run-1/publications" class="text-sm text-brand-400 hover:text-brand-300">&larr; All publications</a>
         </div>
       </div>
 

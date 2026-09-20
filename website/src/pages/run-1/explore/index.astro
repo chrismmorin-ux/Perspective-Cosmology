@@ -1,14 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PredictionExplorer from '../../components/PredictionExplorer';
-import DomainStatusExplorer from '../../components/DomainStatusExplorer';
-import PrimeTable from '../../components/PrimeTable';
-import CrystallizationCatalog from '../../components/CrystallizationCatalog';
-import PerspectiveMathExplorer from '../../components/PerspectiveMathExplorer';
-import predictions from '../../../data/predictions.json';
-import domainStatusData from '../../../data/domain-status.json';
-import catalogData from '../../../data/catalog.json';
-import { FRAMEWORK } from '../../data/constants';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PredictionExplorer from '../../../components/PredictionExplorer';
+import DomainStatusExplorer from '../../../components/DomainStatusExplorer';
+import PrimeTable from '../../../components/PrimeTable';
+import CrystallizationCatalog from '../../../components/CrystallizationCatalog';
+import PerspectiveMathExplorer from '../../../components/PerspectiveMathExplorer';
+import predictions from '../../../../data/predictions.json';
+import domainStatusData from '../../../../data/domain-status.json';
+import catalogData from '../../../../data/catalog.json';
+import { FRAMEWORK } from '../../../data/constants';
 ---
 
 <BaseLayout title="Explore" description={`Explore ${FRAMEWORK.predictionCount} predictions, ${FRAMEWORK.domainCount} physics domains, the Periodic Table of Primes, and Crystallization Catalogue — all derived from division algebra geometry.`}>
@@ -172,15 +172,15 @@ import { FRAMEWORK } from '../../data/constants';
     <div class="mt-12 border-t border-gray-800 pt-8">
       <h2 class="text-lg font-semibold text-white mb-3">More to explore</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-        <a href="/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Division Algebras</div>
           <div class="text-gray-500 mt-1">Interactive guide to R, C, H, O and how their dimensions generate all key numbers.</div>
         </a>
-        <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
           <div class="text-gray-500 mt-1">Trace any prediction back to its axioms step by step.</div>
         </a>
-        <a href="/explore/status" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore/status" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Framework Status</div>
           <div class="text-gray-500 mt-1">Compact overview of domain health and verification counts.</div>
         </a>

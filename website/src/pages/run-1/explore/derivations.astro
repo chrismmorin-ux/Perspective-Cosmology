@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import DerivationChainViewer from '../../components/DerivationChainViewer.tsx';
-import graphData from '../../../data/derivation-graph.json';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DerivationChainViewer from '../../../components/DerivationChainViewer.tsx';
+import graphData from '../../../../data/derivation-graph.json';
 ---
 
 <BaseLayout title="Derivation Chains" description="Interactive graph visualization: trace any prediction back to its axioms through the full derivation chain.">
@@ -21,16 +21,16 @@ import graphData from '../../../data/derivation-graph.json';
     <div class="mt-12 border-t border-gray-800 pt-8">
       <h2 class="text-lg font-semibold text-white mb-3">Related explorations</h2>
       <div class="flex flex-wrap gap-4 text-sm">
-        <a href="/explore" class="text-brand-400 hover:text-brand-300">
+        <a href="/run-1/explore" class="text-brand-400 hover:text-brand-300">
           &larr; Prediction Explorer
         </a>
-        <a href="/explore/catalog" class="text-brand-400 hover:text-brand-300">
+        <a href="/run-1/explore/catalog" class="text-brand-400 hover:text-brand-300">
           Framework Catalog &rarr;
         </a>
-        <a href="/explore/algebra" class="text-brand-400 hover:text-brand-300">
+        <a href="/run-1/explore/algebra" class="text-brand-400 hover:text-brand-300">
           Division Algebras &rarr;
         </a>
-        <a href="/explore/status" class="text-brand-400 hover:text-brand-300">
+        <a href="/run-1/explore/status" class="text-brand-400 hover:text-brand-300">
           Framework Status &rarr;
         </a>
       </div>

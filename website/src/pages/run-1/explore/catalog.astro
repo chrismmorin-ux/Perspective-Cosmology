@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PrimeTable from '../../components/PrimeTable';
-import CrystallizationCatalog from '../../components/CrystallizationCatalog';
-import catalogData from '../../../data/catalog.json';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrimeTable from '../../../components/PrimeTable';
+import CrystallizationCatalog from '../../../components/CrystallizationCatalog';
+import catalogData from '../../../../data/catalog.json';
 ---
 
 <BaseLayout title="Framework Catalog" description="Periodic Table of Primes and Crystallization Catalogue: the complete reference for framework structures derived from division algebra dimensions.">
@@ -53,15 +53,15 @@ import catalogData from '../../../data/catalog.json';
     <div class="border-t border-gray-800 pt-8">
       <h2 class="text-lg font-semibold text-white mb-3">Related pages</h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-        <a href="/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore/algebra" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Division Algebras</div>
           <div class="text-gray-500 mt-1">Interactive guide to R, C, H, O and how their dimensions generate all key numbers.</div>
         </a>
-        <a href="/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore/derivations" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Derivation Chains</div>
           <div class="text-gray-500 mt-1">Trace the logical steps from axioms to predictions.</div>
         </a>
-        <a href="/explore" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
+        <a href="/run-1/explore" class="group bg-gray-900 border border-gray-800 rounded-xl p-4 hover:border-gray-600 transition-colors">
           <div class="text-white font-medium group-hover:text-brand-400 transition-colors">Prediction Explorer</div>
           <div class="text-gray-500 mt-1">Browse all 45+ predictions with filters and precision data.</div>
         </a>

@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import DomainStatusExplorer from '../../components/DomainStatusExplorer';
-import domainStatusData from '../../../data/domain-status.json';
-import { FRAMEWORK } from '../../data/constants';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DomainStatusExplorer from '../../../components/DomainStatusExplorer';
+import domainStatusData from '../../../../data/domain-status.json';
+import { FRAMEWORK } from '../../../data/constants';
 ---
 
 <BaseLayout title="Framework Status" description={`Physics domain status dashboard: ${FRAMEWORK.domainCount} domains from fine-structure constant to quantum mechanics, with prediction counts, experiment timelines, and confidence ratings.`}>
@@ -69,16 +69,16 @@ import { FRAMEWORK } from '../../data/constants';
     </div>
 
     <div class="mt-8 flex flex-wrap gap-4 text-sm">
-      <a href="/explore" class="text-brand-400 hover:text-brand-300">
+      <a href="/run-1/explore" class="text-brand-400 hover:text-brand-300">
         &larr; Prediction Explorer
       </a>
-      <a href="/explore/catalog" class="text-brand-400 hover:text-brand-300">
+      <a href="/run-1/explore/catalog" class="text-brand-400 hover:text-brand-300">
         Framework Catalog &rarr;
       </a>
-      <a href="/explore/derivations" class="text-brand-400 hover:text-brand-300">
+      <a href="/run-1/explore/derivations" class="text-brand-400 hover:text-brand-300">
         Derivation Chains &rarr;
       </a>
-      <a href="/explore/algebra" class="text-brand-400 hover:text-brand-300">
+      <a href="/run-1/explore/algebra" class="text-brand-400 hover:text-brand-300">
         Division Algebras &rarr;
       </a>
     </div>

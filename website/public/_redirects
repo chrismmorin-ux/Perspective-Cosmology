@@ -1,0 +1,35 @@
+# Run #1 was frozen on 2026-09-20 and moved wholesale under /run-1/.
+#
+# These rules exist because the site is PUBLISHED. Every path below has been
+# live, is cited by the corpus's own cross-links, and may be linked from
+# outside. Freezing the content is the point; breaking its addresses is not.
+#
+# Cloudflare Pages reads this file from the build output; Astro copies
+# public/ to dist/ verbatim. It is NOT in astro.config.mjs on purpose -- a
+# `[...slug]` source there is a dynamic route and fails a static build with
+# get-static-paths-required, since there is nothing to expand it against.
+#
+# Order matters: first match wins. The bare path and the wildcard are both
+# needed -- /about/* does not match /about.
+# Delete a line only when you are content for that URL to 404 forever.
+
+/about        /run-1/about        301
+/about/*      /run-1/about/:splat        301
+/blog         /run-1/blog         301
+/blog/*       /run-1/blog/:splat         301
+/contact      /run-1/contact      301
+/contact/*    /run-1/contact/:splat      301
+/explore      /run-1/explore      301
+/explore/*    /run-1/explore/:splat      301
+/faq          /run-1/faq          301
+/faq/*        /run-1/faq/:splat          301
+/history      /run-1/history      301
+/history/*    /run-1/history/:splat      301
+/predictions  /run-1/predictions  301
+/predictions/* /run-1/predictions/:splat 301
+/publications /run-1/publications 301
+/publications/* /run-1/publications/:splat 301
+/skeptics     /run-1/skeptics     301
+/skeptics/*   /run-1/skeptics/:splat     301
+/verify       /run-1/verify       301
+/verify/*     /run-1/verify/:splat       301

@@ -381,7 +381,7 @@ const PredictionExplorer: FC<Props> = ({ predictions }) => {
                     </span>
                   )}
                   <a
-                    href="/explore/derivations"
+                    href="/run-1/explore/derivations"
                     className="text-brand-400 hover:text-brand-300 ml-auto"
                   >
                     View derivation chain &rarr;
