@@ -23,12 +23,19 @@ schema_version: 1
 # DECLARED, never inferred. Whether a repo is finished is a judgment about
 # intent that no activity metric can make. "Commits dropped" is not evidence of
 # `steady` — that inference is the exact error ADR-060 exists to remove.
-# Confirmed quiet 2026-09-20. This repo is run #1: the case study, banked.
-# The reopen DID happen (ADR-070, 2026-09-12) but it took the form of a
-# successor repo, `pc2`, rebuilt on machine-checked proof — not a resumption
-# of work here. Its epistemic record lives on as input at pc2/run1/record/.
-# Quiet is the accurate declaration, not a lapsed one.
-stage: quiet
+# Reopened 2026-09-20, founder-directed. This reverses ADR-070 amendment A1
+# (2026-09-19), which froze run #1 as the case study while run #2 proceeded in
+# `pc2`. pc2 continues; this repo is no longer frozen alongside it.
+#
+# `building`, not `steady`: capability is still landing here, and `steady` would
+# additionally require declaring what a "use" is and a falsifiable
+# `concerning_after` — a contract about maintenance, which is not what this is.
+#
+# Note the honest cost of this declaration: `check` returns `check-in`, not
+# green, until commits actually land here. That is the contract working. A
+# banked repo is green when it says it is banked; claiming growth and not
+# delivering it is the one thing ADR-060 does flag.
+stage: building
 
 # ── Utilization ─────────────────────────────────────────────────────────────
 # Only meaningful for `steady` repos, optional elsewhere.
