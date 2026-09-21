@@ -1,15 +1,5 @@
-# Sprint Index — fast-scan summary of all sprints
-# Rebuild from: sprints/SPR-*.yaml
-# Updated by /next, /sprint, /session-end
+# Sprint Index — fast-scan summary of active sprints
+# Rebuild from: sprints/SPR-*.yaml (active only; archive in sprints/archive/)
+# Updated by /next, /sprint, /session-end (via cwos-reconcile)
 
-sprints: []
-# Each entry:
-# - id: "SPR-NNN"
-#   title: "Sprint goal"
-#   status: proposed | approved | active | completed | abandoned
-#   item_count: N
-#   items_done: N
-#   effort_summary: "S+S+M = ~2 sessions"
-#   program_focus: ""
-#   created_at: ""
-#   completed_at: ""
+sprints:

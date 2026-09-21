@@ -1,19 +1,5 @@
-# Findings Index — maintained automatically by /engine and /audit commands
-# This file is the fast-scan summary of all active findings.
-# Commands read this file instead of scanning individual FIND-*.yaml files.
-# Full finding details are loaded on-demand from findings/FIND-<id>.yaml.
-#
-# Rebuild from files: scan findings/FIND-*.yaml, extract summary fields
-# Updated by: /engine (create), /workstream findings (read), /audit (create/archive), GC (archive)
+# Findings Index — fast-scan summary of all findings
+# Rebuild from: findings/FIND-*.yaml
+# Updated by /engine (via cwos-reconcile)
 
-findings: []
-# Each finding has: {id, engine, severity, status, dedup_key, title, program, created_at}
-# Example:
-# - id: "FIND-001"
-#   engine: "eng-engine"
-#   severity: high
-#   status: open
-#   dedup_key: "eng-engine-security-src-auth-views-L42"
-#   title: "Missing rate limit on auth endpoint"
-#   program: "security"
-#   created_at: "2025-01-15T10:30:00Z"
+findings:

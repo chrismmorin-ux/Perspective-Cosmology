@@ -1,19 +1,4 @@
-# Readiness Index — maintained automatically by preparation engines
-# This file is the fast-scan summary of all readiness reports.
-# Commands read this file instead of scanning individual READY-*.yaml files.
-# Full readiness details are loaded on-demand from readiness/READY-<id>.yaml.
-#
-# Rebuild from files: scan readiness/READY-*.yaml, extract summary fields
-# Updated by: /engine (create), /workstream readiness (read)
+# Readiness Index — maintained by cwos-reconcile
+# Rebuild from: readiness/READY-*.yaml
 
 reports: []
-# Each report has: {id, engine, type, status, scope, title, safe_to_proceed, created_at}
-# Example:
-# - id: "READY-001"
-#   engine: "refactor-prep"
-#   type: refactor
-#   status: complete
-#   scope: "src/auth/"
-#   title: "Auth module refactor readiness — 3 blockers, 2 warnings"
-#   safe_to_proceed: false
-#   created_at: "2025-01-15T10:30:00Z"

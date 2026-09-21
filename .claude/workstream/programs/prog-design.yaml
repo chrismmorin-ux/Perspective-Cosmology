@@ -176,12 +176,21 @@ phase_relevance:
   maturity: medium
 
 last_run_by_protocol:
-  baseline: { date: null, engine: null, run_id: null, result: null }
+  baseline:
+    date: "2026-09-20"
+    engine: "design-audit"
+    run_id: "run-design-baseline-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945164729-65b492f040c6"
   delta: { date: null, engine: null, run_id: null, result: null }
-  sweep: { date: null, engine: null, run_id: null, result: null }
+  sweep:
+    date: "2026-09-20"
+    engine: "design-audit"
+    run_id: "run-design-sweep-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945439347-5b19c721ce6b"
   challenge: { date: null, engine: null, run_id: null, result: null }
   blind_spot: { date: null, engine: null, run_id: null, result: null }
-
 health_score: 0
 health_ceiling: 0
 health_ceiling_reason: "No audit yet. Run /pulse run design baseline to establish first score."

@@ -160,12 +160,21 @@ phase_relevance:
   maturity: high
 
 last_run_by_protocol:
-  baseline: { date: null, engine: null, run_id: null, result: null }
+  baseline:
+    date: "2026-09-20"
+    engine: "eng-engine"
+    run_id: "run-security-baseline-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945165317-f95fd5012508"
   delta: { date: null, engine: null, run_id: null, result: null }
-  sweep: { date: null, engine: null, run_id: null, result: null }
+  sweep:
+    date: "2026-09-20"
+    engine: "eng-engine"
+    run_id: "run-security-sweep-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945439833-ff2fdbccc8f9"
   challenge: { date: null, engine: null, run_id: null, result: null }
   blind_spot: { date: null, engine: null, run_id: null, result: null }
-
 health_score: 0
 health_ceiling: 0
 health_ceiling_reason: "No analysis performed yet. Run /pulse run <id> baseline to establish first score."

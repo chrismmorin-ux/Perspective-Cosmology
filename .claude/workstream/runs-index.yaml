@@ -1,0 +1,18 @@
+# Runs Index — fast-scan summary of every engine run that STARTED.
+# Rebuild from: .claude/workstream/runs/run-*/ (summary.yaml, else manifest.yaml)
+# Updated by /engine completion + cwos-reconcile
+#
+# status: complete  = sealed, summary.yaml written
+# status: abandoned = started, never sealed. Its findings may exist ONLY in a
+#                     transcript. Treat as unharvested work, not as absent work.
+# status: salvaged  = sealed after the fact, or with no completed_at. Real work,
+#                     but not a clean run — read its synthesis before trusting it.
+#
+# total: 0  hot: 0  cold: 0  abandoned: 0  salvaged: 0  grandfathered: 0
+
+total_runs: 0
+hot: 0
+cold: 0
+abandoned: 0
+salvaged: 0
+runs: []

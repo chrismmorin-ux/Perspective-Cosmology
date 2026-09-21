@@ -179,12 +179,21 @@ phase_relevance:
   maturity: high
 
 last_run_by_protocol:
-  baseline: { date: null, engine: null, run_id: null, result: null }
+  baseline:
+    date: "2026-09-20"
+    engine: "domain-audit"
+    run_id: "run-domain-correctness-baseline-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945164859-19cfd6d5d041"
   delta: { date: null, engine: null, run_id: null, result: null }
-  sweep: { date: null, engine: null, run_id: null, result: null }
+  sweep:
+    date: "2026-09-20"
+    engine: "eng-engine"
+    run_id: "run-domain-correctness-sweep-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945439445-6a49c684e831"
   challenge: { date: null, engine: null, run_id: null, result: null }
   blind_spot: { date: null, engine: null, run_id: null, result: null }
-
 health_score: 0
 health_ceiling: 0
 health_ceiling_reason: "No analysis performed yet. Run /pulse run <id> baseline to establish first score."

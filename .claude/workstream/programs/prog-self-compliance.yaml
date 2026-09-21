@@ -145,12 +145,21 @@ phase_relevance:
   maturity: critical
 
 last_run_by_protocol:
-  baseline: { date: null, engine: null, run_id: null, result: null }
+  baseline:
+    date: "2026-09-20"
+    engine: "constitutional-audit"
+    run_id: "run-self-compliance-baseline-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789941064818-811e496badc8"
   delta: { date: null, engine: null, run_id: null, result: null }
-  sweep: { date: null, engine: null, run_id: null, result: null }
+  sweep:
+    date: "2026-09-20"
+    engine: "constitutional-audit"
+    run_id: "run-self-compliance-sweep-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789941064961-8cc5bf70fd8b"
   challenge: { date: null, engine: null, run_id: null, result: null }
   blind_spot: { date: null, engine: null, run_id: null, result: null }
-
 health_score: 0
 health_ceiling: 0
 health_ceiling_reason: "No analysis performed yet. Run /pulse run self-compliance baseline to establish first score."

@@ -143,12 +143,21 @@ phase_relevance:
   maturity: low
 
 last_run_by_protocol:
-  baseline: { date: null, engine: null, run_id: null, result: null }
+  baseline:
+    date: "2026-09-20"
+    engine: "milestone-briefing"
+    run_id: "run-launch-baseline-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945165209-0150db4dd246"
   delta: { date: null, engine: null, run_id: null, result: null }
-  sweep: { date: null, engine: null, run_id: null, result: null }
+  sweep:
+    date: "2026-09-20"
+    engine: "eng-engine"
+    run_id: "run-launch-sweep-2026-09-20"
+    run_by: "founder"
+    event_id: "ev-1789945439730-1a35265ae842"
   challenge: { date: null, engine: null, run_id: null, result: null }
   blind_spot: { date: null, engine: null, run_id: null, result: null }
-
 health_score: 0
 health_ceiling: 0
 health_ceiling_reason: "No analysis performed yet. Run /pulse run <id> baseline to establish first score."
