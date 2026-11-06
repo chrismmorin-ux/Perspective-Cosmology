@@ -1,0 +1,36 @@
+# Engine Extension Pack Manifest
+engine_id: creative-gen
+name: Creative Generation
+description: >
+  Generate launch creative (headlines, copy, CTAs, image briefs) for market-spine
+  surfaces from their expression settings, personas and hypotheses; guard it against
+  bounds, persona repel-words and claims rules; react it with personas; record every
+  variant with lineage and human review gates (ADR-076).
+category: enhancement
+impact: changes-state
+size: standard
+archetypes: [saas, frontend, research]
+install_conditions: repo has market/spine.yaml and market/expression.yaml
+programs: [prog-design]
+personas_required:
+  - cross-critic         # Phase 2 brand guard
+  - facilitator          # Phase 4 selection
+files:
+  - SKILL.md
+
+skill_path: .claude/commands/creative-gen.md
+procedure: agent-dispatch
+extends: context-gather
+trigger: manual
+inputs: [market_spine, brand_expression]
+outputs: [report, enhancement]
+chains:
+  on_complete: null
+  on_finding: null
+finding_severities: null
+
+choice_point:
+  accepts: market_spine
+  size: standard
+  estimated_time: "~10 min for 3 surfaces x 3 elements x 4 variants"
+  hook: "Generate launch copy and image briefs that carry each page's deliberate settings — and record where every word came from"

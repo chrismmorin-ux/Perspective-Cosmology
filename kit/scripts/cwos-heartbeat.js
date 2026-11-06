@@ -54,7 +54,8 @@ require('./lib/preflight');
 const path = require('path');
 const fs = require('fs');
 const { findWorkstreamDir, writeFileAtomic, withFileLock, loadEventDeps } = require('./lib/cwos-utils');
-const { resolveSessionId, touchSession } = require('./lib/cwos-claims');
+const { resolveSessionId, touchSession, handRunPidRefusal, harnessPid, readSessionDoc, isLocalHost } = require('./lib/cwos-claims');
+const { readLiveness, writeLiveness } = require('./lib/session-record');
 
 /**
  * The harness session id: environment first, Stop-hook stdin payload second.
@@ -179,19 +180,17 @@ function stampHookLiveness(wsDir, fieldName, verbose) {
  * WS-561 exist to prevent. Reviving restores the session's ability to claim;
  * re-claiming is /next's decision, made against the queue as it stands now.
  */
-function reviveSession(sessionPath, verbose) {
+function reviveSession(wsDir, sessionId, sessionPath, verbose) {
   try {
     let text = fs.readFileSync(sessionPath, 'utf8');
     text = text.replace(/^status:\s*.+$/m, 'status: active');
     if (/^ended_at:\s*.+$/m.test(text)) text = text.replace(/^ended_at:\s*.+$/m, 'ended_at: null');
-    // Leave a trace: a session that came back should be visible as such rather
-    // than looking like it was never away.
-    if (!/^revived_at:/m.test(text)) {
-      text = text.replace(/^status: active$/m, `status: active\nrevived_at: "${new Date().toISOString()}"`);
-    } else {
-      text = text.replace(/^revived_at:\s*.+$/m, `revived_at: "${new Date().toISOString()}"`);
-    }
+    // A lifecycle flip on the tracked record — the one legitimate mid-session
+    // write, because it corrects a closure that was wrong (ADR-078 decision 1).
+    // The trace of WHEN it came back is per-node bookkeeping and goes in the
+    // sidecar (WS-884), not into a line that would conflict on the next pull.
     writeFileAtomic(sessionPath, text);
+    writeLiveness(wsDir, sessionId, { revived_at: new Date().toISOString() }, { ownerLabel: 'heartbeat:revive' });
     return true;
   } catch (err) {
     if (verbose) process.stderr.write(`heartbeat: revive failed — ${err.message}\n`);
@@ -251,6 +250,43 @@ function main() {
     return 0;
   }
 
+  // A HAND-RUN may not claim someone else's record (WS-890 review r5). Hooks
+  // are wired without --session-id; naming a session explicitly is the manual
+  // path, and an SDK child session's environment names its PARENT. Either
+  // may point at a record another live process owns: stamping our pid there
+  // made that peer read dead once we exited, and recovery released its
+  // claims. The one rule (cwos-claims.handRunPidRefusal) is judged on the
+  // record as read; a refusal means no revive and no beat, not just no pid.
+  //
+  // CLAUDE_CODE_CHILD_SESSION, re-checked (WS-1226). The harness sets it on
+  // every Bash-tool command — the top-level conversation's and a subagent's
+  // alike — and on hook commands too: the harness builds every tool and hook
+  // env with the same function (read from claude.exe 2.1.317 by the WS-1226
+  // inspection). So it marks neither "SDK child" nor "hand-run"; in practice
+  // every beat here takes the hand-run path. That is kept deliberately: the
+  // cost of a wrong "hand-run" is one extra check that our own record passes
+  // (rule ii: its pid is our CLAUDE_PID), and the cost of a wrong "hook" is a
+  // pid stamped over a live peer's. It is a fail-safe default, not a signal.
+  const handRun = idIdx !== -1 || String(process.env.CLAUDE_CODE_CHILD_SESSION || '') === '1';
+  if (handRun) {
+    let why = handRunPidRefusal(wsDir, sessionId, harnessPid());
+    if (!why) {
+      const doc = readSessionDoc(sessionPath);
+      if (doc && doc.host && !isLocalHost(doc)) why = `${sessionId} is owned by host ${doc.host}`;
+      // WS-1153: a hand-run never revives a record it cannot prove is its own.
+      // A hostless abandoned record passes the pid rule (nothing recorded to
+      // overwrite) and the host test (nothing to compare), so without this it
+      // was brought back to life by whoever typed the command.
+      else if (doc && !doc.host && String(doc.status || '').replace(/^["']|["']$/g, '') === 'abandoned') {
+        why = `${sessionId} is abandoned with no recorded host, and a hand-run never revives`;
+      }
+    }
+    if (why) {
+      if (verbose) process.stderr.write(`heartbeat: refusing hand-run beat — ${why}\n`);
+      return 0;
+    }
+  }
+
   // Which sessions may beat, and the one that may be brought BACK.
   //
   // QUOTES. This used to compare the raw regex capture against 'active', so a
@@ -270,8 +306,12 @@ function main() {
   const intervalIdx = args.indexOf('--min-interval-minutes');
   if (intervalIdx !== -1 && status === 'active') {
     const minMinutes = Number(args[intervalIdx + 1]);
-    const beatMatch = content.match(/^last_heartbeat:\s*"?([^"\n]+)"?\s*$/m);
-    const beatMs = beatMatch ? Date.parse(beatMatch[1].trim()) : NaN;
+    // The beat lives in the per-node sidecar (WS-884); the tracked record's
+    // copy, if any, is frozen at registration and would never throttle.
+    const side = readLiveness(wsDir, sessionId);
+    const beatRaw = side.last_heartbeat
+      || ((content.match(/^last_heartbeat:\s*"?([^"\n]+)"?\s*$/m) || [])[1] || '');
+    const beatMs = beatRaw ? Date.parse(String(beatRaw).trim()) : NaN;
     if (Number.isFinite(minMinutes) && minMinutes > 0 && Number.isFinite(beatMs)
         && (Date.now() - beatMs) < minMinutes * 60000) {
       if (verbose) process.stdout.write(`heartbeat: ${sessionId} beat is fresh (<${minMinutes}m), skipping\n`);
@@ -298,7 +338,7 @@ function main() {
   // somebody made, not an inference — /session-end wrote it on purpose, and a
   // late hook firing afterwards must not undo it.
   if (status === 'abandoned') {
-    const revived = reviveSession(sessionPath, verbose);
+    const revived = reviveSession(wsDir, sessionId, sessionPath, verbose);
     if (!revived) {
       if (verbose) process.stderr.write(`heartbeat: session ${sessionId} is abandoned and could not be revived\n`);
       return 0;
@@ -313,7 +353,7 @@ function main() {
   // machines, or whose Claude process restarted under the same conversation,
   // corrects itself here rather than being judged against the wrong process
   // table forever (WS-564, and the pid half added alongside this revive).
-  const advanced = touchSession(wsDir, sessionId);
+  const advanced = touchSession(wsDir, sessionId, null, { handRun });
   if (!advanced) {
     if (verbose) process.stderr.write(`heartbeat: could not advance ${sessionId}\n`);
     return 0;

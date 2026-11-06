@@ -20,6 +20,36 @@ Read `.cwos-config.yaml` from the repo root (if it exists). Extract:
 
 If `.cwos-config.yaml` is missing, default to `standard`. The user can always override by explicitly requesting `/session-start` (strategic) or just describing work (quick fix).
 
+## Session modes in full
+
+Moved word for word from the CLAUDE.md preamble (WS-526); the preamble keeps one line per mode. These are the protocols the `ceremony` value above selects.
+
+#### Quick Fix Mode
+**When:** Bug, error, small change. Trigger: "fix", "broken", "error", "customer says", single-file scope.
+- Read ONLY: `CLAUDE.md` + `system/state.md` (vital signs)
+- If fix touches a program's `scope_paths` — mention it. If `failures.md` has a related pattern — mention it.
+- No session file. No verification unless financial/security code.
+- After: one line in Recent Sessions (`quick-fix` tag). Append Heavy/Medium implicit decisions to `decisions.md`.
+
+#### Standard Mode (default)
+**When:** Feature work, "what's next", multi-file changes. **Default when intent unclear.**
+- **Fast orient:** Read `system-summary.yaml` first (if exists). Escalate to full reads only if vitals failing, programs stale, or critical findings.
+- **Sprint check:** Read `sprint-index.yaml` — lead with active sprint progress if one exists.
+- **Fallback:** Read `system/state.md` + `context.md` + top 3 unclaimed from `queue-index.yaml` + stale programs.
+- Skip `invariants.md`, `decisions.md`, `failures.md` at start (read on-demand).
+- Note project phase from `state.md` — affects priority scoring.
+- **Program alert:** If any program is RED or has stale findings, one-line alert.
+- Track work items. Run `/verify` before done. Update `state.md` after. Append implicit decisions.
+
+#### Strategic Mode
+**When:** User runs `/plan`, `/engine`, `/audit`, says "full session", or invokes `/session-start full`. (Bare `/session-start` is adaptive — lean by default, full when state signals escalation.)
+- Full ceremony: all system files, programs, recommendations, previous handoff. Session YAML. Full verification + state update + GC.
+
+#### Mode Rules
+- **Default:** Standard. **Override:** "quick fix" or "full session" forces mode.
+- **Escalation:** Quick Fix touching 3+ files or multiple programs → suggest Standard.
+- **No de-escalation.** Strategic stays Strategic. **Maturity:** Orient less as project matures — targeted intelligence, not comprehensive surveys.
+
 ## Step 0c: Dormant-mode short-circuit (WS-321 Phase B/E)
 
 Read `.cwos-onboarding.yaml`. If top-level `adoption_phase` equals `M0`, the repo is in dormant mode. The standard escalation signals (red programs, empty queue, overdue protocols) are meaningless — programs are inert by design, the queue is closed, and there are no protocols running. Run the **dormant briefing** below and stop. If `adoption_phase` is unset or `M1`–`M5`, skip this step entirely and continue with Step 0b.
@@ -166,7 +196,7 @@ Create a session ID: `ses-YYYYMMDD-HHMM-XXXX` (date-time + 4 random hex chars)
 
 ### 2. Check for Abandoned Sessions
 
-Where a `SessionStart` hook is configured in `.claude/settings*.json`, it runs `cwos-session-recovery.js --auto --quiet` automatically on fresh Claude Code sessions and is the primary mechanism. **Most adopted repos have no hooks** — the kit cannot install them, and they arrive fleet-wide only when ADR-064 Stage 1 ships them via the plugin — so in those repos the step below is not a fallback, it is the only path, and skipping it means abandoned sessions are never recovered. Step 0b also invoked this script to evaluate the `abandoned_session` escalation signal — if we reached here via that signal, recovery has already run and the script is a no-op on second invocation.
+Where a `SessionStart` hook is configured in `.claude/settings*.json`, it runs `cwos-session-recovery.js --auto --quiet` automatically on fresh Claude Code sessions and is the primary mechanism. `/kit-upgrade` wires it (with session registration and drift reconcile) through `install-claude-hooks.mjs`; a repo that has not upgraded since has no hooks, and `node kit/scripts/install-claude-hooks.mjs --check` says so. In such a repo the step below is not a fallback, it is the only path, and skipping it means abandoned sessions are never recovered. Step 0b also invoked this script to evaluate the `abandoned_session` escalation signal — if we reached here via that signal, recovery has already run and the script is a no-op on second invocation.
 
 ```
 node kit/scripts/cwos-session-recovery.js --auto
@@ -480,7 +510,6 @@ Write `.claude/workstream/sessions/<session-id>.yaml`:
 id: <session-id>
 status: active
 started_at: <timestamp>
-last_heartbeat: <timestamp>
 host: <os.hostname()>       # WS-564: sessions/ is tracked, so records travel between
                             # machines. Without this, pid and boot-time liveness are
                             # judged against whichever machine happens to be reading.
@@ -491,6 +520,14 @@ current_program: ""  # set when user focuses on a program via /next
 handoff_notes: ""
 context_notes: ""
 ```
+
+**No `last_heartbeat`, `pid` or `worktree` in this file (WS-884).** Those are
+per-node liveness and live in `.claude/workstream/liveness/<session-id>.json`,
+which is gitignored and maintained by the heartbeat hook. The tracked record is
+written here, at claim, and at close — never per turn — so two machines stop
+conflicting on every pull. In practice the SessionStart hook has already
+registered this session (`cwos-session-register.js` writes both halves); only
+fill in `current_program` / notes here.
 
 ### 9. Output Session Briefing
 
@@ -653,7 +690,7 @@ Skip the banner if `path: full` was set via the explicit `full` argument (user c
 ## Session Open (lean)
 
 **Phase:** Implementation — shipping the trial onboarding flow
-**Vitals:** Build GREEN · Tests GREEN · Hardlinks OK · Queue healthy
+**Vitals:** <one of the three forms below — never a bare OK>
 
 [If an active sprint exists — substitute real values:]
 **Active sprint:** SPR-066 — Founder-surface polish. Progress: 2 of 3 done. Next: WS-150 — Replace schema-jargon (execute).
@@ -674,6 +711,12 @@ No escalation signals — say "full session" for deep context (programs, recomme
 - Never show YAML paths, milestone names, or counter values.
 - If the top-3 list is shown, format as single-line items — no sub-bullets.
 - The tail line ("No escalation signals — say 'full session'...") is always present; it's the upgrade path signal.
+- **The Vitals line is judged from `system-summary.yaml`'s `red_vitals`, `vitals_observed_at` and `vitals_scope`, in this order (WS-1334):**
+  - `red_vitals` non-empty → `**Vitals:** RED — N failing (<ids>), checked <age> ago`
+  - `red_vitals` empty and `vitals_observed_at` within 24h → `**Vitals:** OK — <vitals_scope> checks, <age> ago`
+  - older than 24h, or missing → `**Vitals:** BLIND — last checked <date, or "never">`
+
+  The 24h line is the autonomous gate's own (`cwos-autonomous-gate.js`). Use only OK / RED / BLIND. Never print OK without its age: on 2026-11-03 this line read "Tests GREEN" from a July observation while two suites were RED.
 
 ---
 

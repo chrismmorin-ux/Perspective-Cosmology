@@ -19,6 +19,15 @@ const {
   readYAMLFile, globFiles, parseMarkdownTable, findWorkstreamDir,
   dateDiffDays, todayISO, serializeYAML
 } = require('./cwos-utils');
+// WS-857 — the ONE ranking path, gate inside it. Pure form: this reads queue-index.yaml,
+// not the materialized store.
+//
+// Guarded, because this file is installed at M0 (lib/m0-manifest.js) and select-slate is
+// not: a hard require here made every /genesis-scaffolded repo die `Cannot find module`
+// on /status (manifest-deps-validate, WS-611). Absence is REFUSED below, loudly — it never
+// falls back to the old ungated sort, which listed blocked and leased work as "unclaimed".
+let selectSlateFromItems = null;
+try { ({ selectSlateFromItems } = require('../core/select-slate')); } catch { /* refused in gatherQueueSummary */ }
 
 // ─── Bundle Emitter ─────────────────────────────────────────────────────────
 
@@ -117,18 +126,29 @@ function gatherQueueSummary(wsDir, errors) {
     const byStatus = data.by_status || {};
     const items = Array.isArray(data.items) ? data.items : [];
 
-    // Top unclaimed items
-    const unclaimed = items
-      .filter(i => i.status === 'backlog')
-      .sort((a, b) => (b.priority_score || 0) - (a.priority_score || 0))
-      .slice(0, 5)
-      .map(i => ({
+    // Top unclaimed items.
+    //
+    // WS-857. This is the `/status` surface — `cwos-status-pre.js` calls it, and the prose
+    // fallback in `.claude/commands/status.md` only runs when this pre-phase FAILS. So this,
+    // not that prose, is what the founder actually reads. It carried two defects: no
+    // dependency gate, so it listed items that cannot be started; and no `claimed_by` filter
+    // at all, so a heading that says "unclaimed" could list work another session held a lease
+    // on. It also inherited the same stable-sort-over-readdir tiebreak, a second site of the
+    // defect the selector exists to remove.
+    let unclaimed = null;
+    if (!selectSlateFromItems) {
+      errors.push('queue: top_unclaimed refused — core/select-slate.js is not installed, and an ungated sort would list blocked or leased work');
+    } else {
+      const slate = selectSlateFromItems(items, { excludeClaimed: true, limit: 5 });
+      unclaimed = slate.candidates.map(i => ({
         id: i.id,
         title: i.title,
-        priority_score: i.priority_score,
+        priority_score: i.adjusted_score,
         effort: i.effort,
         category: i.category,
+        tiebreak_applied: i.tiebreak_applied,
       }));
+    }
 
     // Stale in-progress items (> 48h)
     const staleInProgress = items
@@ -356,12 +376,19 @@ function gatherUsage(wsDir, errors) {
     const { ok, data } = readYAMLFile(usagePath);
     if (!ok) return { exists: false };
 
+    // The template (and every adopted repo) nests these under value_ledger:,
+    // and names the decisions counter decisions_recorded. Reading the top
+    // level returned 0 for every repo — poker-tracker recorded 27 completed
+    // items and /status showed 0 (2026-10-10 probe). Top-level reads stay as a
+    // fallback for any hand-flattened file.
+    const vl = (data.value_ledger && typeof data.value_ledger === 'object') ? data.value_ledger : {};
+    const pick = (...vals) => vals.find((v) => typeof v === 'number') || 0;
     return {
       exists: true,
-      total_items_completed: data.total_items_completed || data.items_completed || 0,
-      total_findings_caught: data.total_findings_caught || data.findings_caught || 0,
-      regressions_prevented: data.regressions_prevented || 0,
-      decisions_preserved: data.decisions_preserved || 0,
+      total_items_completed: pick(vl.total_items_completed, data.total_items_completed, data.items_completed),
+      total_findings_caught: pick(vl.total_findings_caught, data.total_findings_caught, data.findings_caught),
+      regressions_prevented: pick(vl.regressions_prevented, data.regressions_prevented),
+      decisions_preserved: pick(vl.decisions_recorded, data.decisions_preserved, data.decisions_recorded),
       convergence_trend: data.convergence_trend || data.convergence || 'unknown',
       escalation_ready: data.escalation_ready || false,
     };

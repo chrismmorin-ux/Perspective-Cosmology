@@ -38,7 +38,15 @@ const EXCLUDE_PATTERNS = [
   /\/\.claude\/workstream\/chain-anchors\.yaml$/,
   /\/\.claude\/workstream\/\.current-session$/,
   /\/\.claude\/workstream\/\.hooks-liveness\.yaml$/,
+  // WS-884: per-node liveness — the sidecar dir and the other stamps. Same
+  // class as .hooks-liveness.yaml above; see lib/derived-state.js NODE_LOCAL.
+  /\/\.claude\/workstream\/liveness(\/|$)/,
+  /\/\.claude\/workstream\/\.verify-liveness\.yaml$/,
+  /\/\.claude\/workstream\/\.test-sweep\.json$/,
+  /\/\.claude\/workstream\/\.session-recovery\.mutex$/,
+  /\/\.claude\/workstream\/meta\/invariant-firing-log\.yaml$/,
   /\/\.write\.lock$/,
+  /\.(lock|tmp)$/,
 ];
 
 // ─── Snapshot primitives ───────────────────────────────────────────────────

@@ -21,6 +21,14 @@
  *   node cwos-constitutional-audit.js --only P1        # single item
  *   node cwos-constitutional-audit.js --suite principles
  *   node cwos-constitutional-audit.js --persist <run-id> # also write score file + trend
+ *   node cwos-constitutional-audit.js --invariants fast  # SAMPLE the system invariants
+ *
+ * --invariants full (default) measures every system invariant. `fast` runs only
+ * cwos-verify's fast subset and records every invariant it did NOT run as
+ * `infeasible`, so coverage_score describes the sample rather than pretending to
+ * be a census. `off` skips the suite and says so as a failing item. Scores from
+ * different modes are not comparable — `invariants_mode` travels with the
+ * result for exactly that reason.
  *
  * The /engine constitutional-audit skill invokes this script and
  * promotes detector output into FIND-*.yaml per the standard engine
@@ -91,6 +99,15 @@ function fileExists(file) {
   return fs.existsSync(rp(file));
 }
 
+// Paths a detector could not read. A scanner that silently skips what it cannot
+// read reports a clean pass over a population it never saw (fail-open lint R3,
+// ai-personal PR #41, 2026-10-18). Every scanner records here; runAudit() carries
+// the list as `unreadable` and prettyPrint names it, so an incomplete scan says so.
+const UNREADABLE = [];
+function noteUnreadable(p, e) {
+  UNREADABLE.push({ path: path.relative(ROOT, p), error: (e && (e.code || e.message)) || String(e) });
+}
+
 function grepInFiles(globDirs, pattern, fileFilter) {
   const regex = new RegExp(pattern, 'm');
   const matches = [];
@@ -102,7 +119,7 @@ function grepInFiles(globDirs, pattern, fileFilter) {
       try {
         const content = fs.readFileSync(f, 'utf8');
         if (regex.test(content)) matches.push(path.relative(ROOT, f));
-      } catch {}
+      } catch (e) { noteUnreadable(f, e); }
     });
   }
   return matches;
@@ -115,7 +132,46 @@ function walk(dir, cb) {
       if (entry.isDirectory()) walk(p, cb);
       else cb(p);
     }
-  } catch {}
+  } catch (e) { noteUnreadable(dir, e); }
+}
+
+// ─── queue-index.yaml item splitter (WS-649) ───────────────────────────────
+//
+// detectFS6 used `[...queue.matchAll(/-\s+id:.*?(?=\n-|\n*$)/gs)]` and got ONE
+// match of 194,663 characters over a 196,147-character file holding 485 items.
+// Two independent reasons, and each alone was fatal:
+//
+//   1. Items in queue-index.yaml are nested under `items:` and therefore
+//      INDENTED (`  - id: "WS-008"`). The lookahead `\n-` demands a dash in
+//      column 0, which the file never contains, so no boundary ever matched.
+//   2. Without the `m` flag, `$` is end-of-input, not end-of-line. The lazy
+//      `.*?` under `s` therefore had exactly one place to stop: the end of the
+//      file.
+//
+// The result was a single blob, `.slice(-20)` kept it, `items.length` was 1,
+// and the detector reported `infeasible: Only 1 items in queue` for a queue of
+// 485 — a coverage gap standing in for a working detector, on a file that was
+// never short of data.
+//
+// Line-oriented splitting is used rather than a cleverer regex because the
+// failure above WAS a clever regex, and because the block boundary is a lexical
+// fact about the file that a reader can check by eye. `declaredTotal` is read
+// so the caller can cross-check the parse against the file's own header instead
+// of trusting it.
+function parseQueueIndexItems(queue) {
+  const blocks = [];
+  let current = null;
+  for (const line of String(queue).split(/\r?\n/)) {
+    if (/^\s*-\s+id:/.test(line)) {
+      if (current) blocks.push(current.join('\n'));
+      current = [line];
+    } else if (current) {
+      current.push(line);
+    }
+  }
+  if (current) blocks.push(current.join('\n'));
+  const declared = String(queue).match(/^total_items:\s*(\d+)\s*$/m);
+  return { blocks, declaredTotal: declared ? parseInt(declared[1], 10) : null };
 }
 
 // ─── Phrasing corpus (Jaccard near-miss layer for P2/P3) ────────────────────
@@ -281,7 +337,7 @@ function detectP2() {
           nearMatches.push(`${path.relative(ROOT, f)} ≈"${r.phrase}" (sim=${r.similarity.toFixed(2)}, line="${r.line}")`);
         }
       }
-    } catch {}
+    } catch (e) { noteUnreadable(f, e); }
   });
   if (offenders.length > 0 || nearMatches.length > 0) {
     const parts = [];
@@ -331,7 +387,7 @@ function detectP3() {
           nearMatches.push(`${path.relative(ROOT, f)} ≈"${r.phrase}" (sim=${r.similarity.toFixed(2)}, line="${r.line}")`);
         }
       }
-    } catch {}
+    } catch (e) { noteUnreadable(f, e); }
   });
   if (offenders.length > 0 || nearMatches.length > 0) {
     const parts = [];
@@ -426,7 +482,14 @@ function detectFS4() {
   const registry = readText('fleet/registry.yaml');
   if (!registry) return noDetector('fleet/registry.yaml missing');
   // Parse: repos with last_session_date > 90 days ago AND still in fleet
-  const today = new Date('2026-04-24');
+  //
+  // WS-649: `today` was hardcoded to the detector's authoring date
+  // (2026-04-24), so the 90-day window never moved. Every fleet repo stayed
+  // permanently "not dormant" as real time advanced past it, and the detector
+  // reported `pass` while measuring nothing — the same frozen-clock defect
+  // WS-443 removed from detectFS7. A clock that cannot advance is a fallback
+  // wearing the costume of a measurement (.claude/rules/provenance-or-refuse.md).
+  const today = new Date();
   const dateMatches = [...registry.matchAll(/last_session_date:\s*"?(\d{4}-\d{2}-\d{2})"?/g)];
   if (dateMatches.length === 0) return {
     status: 'pass', severity: 'low',
@@ -480,12 +543,20 @@ function detectFS6() {
   // Ratio of program-maintenance work items vs product-advancing in recent backlog
   const queue = readText('.claude/workstream/queue-index.yaml');
   if (!queue) return noDetector('queue-index.yaml missing');
-  const items = [...queue.matchAll(/-\s+id:.*?(?=\n-|\n*$)/gs)].slice(-20);
+  const parsed = parseQueueIndexItems(queue);
+  // A parse that disagrees with the file's own declared total is not a thin
+  // signal, it is a broken instrument — refuse rather than emit a ratio over
+  // whatever it happened to capture (.claude/rules/provenance-or-refuse.md).
+  if (parsed.declaredTotal !== null && parsed.blocks.length !== parsed.declaredTotal) return {
+    status: 'infeasible', severity: 'high',
+    evidence: `queue-index.yaml parse disagrees with the file's own header: parsed ${parsed.blocks.length} item block(s) but the file declares total_items: ${parsed.declaredTotal}. Refusing to compute a maintenance ratio from a parse that cannot be trusted.`,
+  };
+  const items = parsed.blocks.slice(-20);
   if (items.length < 10) return {
     status: 'infeasible', severity: 'low',
     evidence: `Only ${items.length} items in queue — need ≥10 for ratio signal`,
   };
-  const maintenance = items.filter(m => /category:\s*(program-maintenance|engines|fleet)\b/.test(m[0])).length;
+  const maintenance = items.filter(b => /category:\s*(program-maintenance|engines|fleet)\b/.test(b)).length;
   const ratio = maintenance / items.length;
   if (ratio > 0.5) return {
     status: 'fail', severity: 'high',
@@ -824,36 +895,122 @@ function serializeFinding(payload) {
 }
 
 // ─── System-invariants suite — delegate to cwos-verify ─────────────────────
+//
+// WS-649. This delegate was dead for its whole life and said nothing while it
+// was. `cwos-verify.js --json` was never implemented; cliGate rejected the flag
+// with `cwos-verify: unknown flag: --json` and exit 2; `if (!r.ok) return []`
+// converted that hard failure into an empty array. An empty array is not an
+// error in this pipeline — it is a suite with no items, so `system-invariants`
+// vanished from `by_suite` entirely, 73 invariant checks left the denominator,
+// and the audit went on printing a compliance score computed over the 11 items
+// that remained. The catch-based `infeasible` fallback below it could never run,
+// because a non-zero exit is not a thrown exception.
+//
+// Two rules govern the rewrite (.claude/rules/provenance-or-refuse.md):
+//
+//   1. A delegate that cannot run is a LOUD FAILURE, not an absence. Any path
+//      where cwos-verify does not return parseable output now yields a `fail`
+//      item at `critical` severity carrying the exit code and stderr. It can
+//      never again be silently equivalent to "no violations".
+//   2. A narrowed run declares what it did not measure. cwos-verify's `--json`
+//      contract returns `not_run[]`, and every entry becomes an `infeasible`
+//      audit item. That is what keeps coverage_score honest: running the fast
+//      subset and scoring it as the invariant suite would be sampling reported
+//      as a census.
+//
+// Default mode is `full`: the whole invariant suite, the only mode that yields
+// selection.complete === true. It is ~6s in an adopted repo and ~10 minutes in
+// a kit source repo, and it is the default anyway — choosing the cheaper
+// configuration because it is cheaper to measure is the move
+// `.claude/rules/improvement-default.md` forbids. `--invariants fast` is the
+// explicit opt-in to a SAMPLE, and it says so: every invariant it skipped comes
+// back as an `infeasible` item and coverage_score drops accordingly.
+// `--invariants off` is available and is itself recorded as a refusal item —
+// there is no way to ask this function for silence.
+const INVARIANT_MODES = ['fast', 'full', 'off'];
 
-function runSystemInvariants() {
+function systemInvariantFailure(evidence) {
+  return [{
+    id: 'SYS-INV-unavailable',
+    title: 'System invariants (delegated to cwos-verify) — DELEGATE DID NOT RUN',
+    suite: 'system-invariants',
+    status: 'fail',
+    severity: 'critical',
+    evidence,
+  }];
+}
+
+function runSystemInvariants(opts = {}) {
+  const mode = opts.invariants || 'full';
+  if (!INVARIANT_MODES.includes(mode)) {
+    return systemInvariantFailure(
+      `--invariants ${mode} is not a mode (expected ${INVARIANT_MODES.join(' | ')}); the system-invariants suite was NOT measured.`);
+  }
+  if (mode === 'off') {
+    return systemInvariantFailure(
+      'System invariants were explicitly skipped (--invariants off). This audit measured none of them; the score below covers the constitution only. Re-run without --invariants off, or with --invariants full, before citing it.');
+  }
+
+  const verifyPath = path.join(ROOT, 'kit/scripts/cwos-verify.js');
+  if (!fs.existsSync(verifyPath)) {
+    return systemInvariantFailure(`cwos-verify.js not found at ${path.relative(ROOT, verifyPath)} — the system-invariants suite could not be measured at all.`);
+  }
+
+  const args = mode === 'fast' ? ['--json', '--fast-mode'] : ['--json'];
+  // Full mode can be a ~10-minute run in a kit source repo; the shell-safe
+  // default of 30s would kill it, and the kill would arrive here as an
+  // unparseable result rather than as a measurement.
+
+  const timeout = mode === 'fast' ? 120000 : 1200000;
+
+  let r;
   try {
-    const r = runNode(path.join(ROOT, 'kit/scripts/cwos-verify.js'), ['--json'], {
-      stdio: ['ignore', 'pipe', 'ignore'],
-    });
-    if (!r.ok) return [];
-    const parsed = JSON.parse(r.stdout);
-    // Expected shape: { checks: [ { id, status } ] }
-    const items = (parsed.checks || []).map(c => ({
-      id: c.id,
-      title: c.title || c.id,
-      suite: 'system-invariants',
-      status: c.status === 'pass' ? 'pass' : c.status === 'fail' ? 'fail' : 'no-detector',
-      severity: c.severity || (c.status === 'fail' ? 'high' : 'low'),
-      evidence: c.evidence || c.message || '',
-    }));
-    return items;
-  } catch {
-    // cwos-verify.js may not support --json yet. Mark suite as infeasible
-    // for MVP — this can be improved later by extending cwos-verify.
-    return [{
-      id: 'SYS-INV-all',
-      title: 'System invariants (delegated to cwos-verify)',
+    r = runNode(verifyPath, args, { stdio: ['ignore', 'pipe', 'pipe'], timeout, maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) {
+    return systemInvariantFailure(`cwos-verify.js could not be spawned: ${e.message}. The system-invariants suite was NOT measured.`);
+  }
+  if (!r.ok) {
+    const why = r.error ? r.error.message : `exit ${r.code === null ? 'null (killed / timed out)' : r.code}`;
+    const tail = String(r.stderr || r.stdout || '').trim().split('\n').slice(-3).join(' / ').slice(0, 300);
+    return systemInvariantFailure(
+      `\`node kit/scripts/cwos-verify.js ${args.join(' ')}\` FAILED (${why}): ${tail || 'no output'}. `
+      + 'The system-invariants suite was NOT measured — this row is the absence of a measurement, not a violation count.');
+  }
+
+  let parsed;
+  try { parsed = JSON.parse(r.stdout); }
+  catch (e) {
+    return systemInvariantFailure(
+      `cwos-verify.js --json returned unparseable output (${e.message}): ${String(r.stdout || '').trim().slice(0, 200)}. The system-invariants suite was NOT measured.`);
+  }
+  if (!parsed || !Array.isArray(parsed.checks)) {
+    return systemInvariantFailure(
+      `cwos-verify.js --json returned no \`checks\` array (keys: ${parsed && typeof parsed === 'object' ? Object.keys(parsed).join(', ') : typeof parsed}). The system-invariants suite was NOT measured.`);
+  }
+
+  const items = parsed.checks.map(c => ({
+    id: c.id,
+    title: c.title || c.id,
+    suite: 'system-invariants',
+    status: c.status === 'pass' ? 'pass' : c.status === 'fail' ? 'fail' : 'no-detector',
+    severity: c.severity || (c.status === 'fail' ? 'high' : 'low'),
+    evidence: c.evidence || c.message || '',
+  }));
+
+  // Every invariant cwos-verify declined to run is carried as an item, so the
+  // coverage denominator counts the whole invariant set rather than the slice
+  // this invocation happened to sample.
+  for (const nr of (parsed.not_run || [])) {
+    items.push({
+      id: nr.id,
+      title: nr.name || nr.id,
       suite: 'system-invariants',
       status: 'infeasible',
       severity: 'low',
-      evidence: 'cwos-verify.js does not yet support --json output; detector deferred. Run `node kit/scripts/cwos-verify.js` directly for now.',
-    }];
+      evidence: `NOT MEASURED this run — ${nr.reason}. Run \`node kit/scripts/cwos-verify.js --only ${nr.id}\`, or re-run this audit with --invariants full.`,
+    });
   }
+  return items;
 }
 
 // ─── Orchestrator ──────────────────────────────────────────────────────────
@@ -873,8 +1030,11 @@ function runAudit(opts = {}) {
     }
     results.push({ id, title: spec.title, suite: spec.suite, ...detector });
   }
+  const invariantsMode = opts.invariants || 'full';
+  let invariantsRan = false;
   if (!opts.only && (!opts.suite || opts.suite === 'system-invariants')) {
-    results.push(...runSystemInvariants());
+    results.push(...runSystemInvariants(opts));
+    invariantsRan = true;
   }
 
   // Skipped items are excluded from every denominator — they describe
@@ -902,6 +1062,10 @@ function runAudit(opts = {}) {
     schema_version: 2,
     run_timestamp: new Date().toISOString(),
     repo_context: adopted ? 'adopted' : 'homebase',
+    // WS-649: how much of the system-invariant suite this score was computed
+    // over. Two scores taken under different modes are not comparable, and a
+    // trend series that does not carry this cannot say which it is plotting.
+    invariants_mode: invariantsRan ? invariantsMode : 'not-run (--only / --suite narrowed this invocation)',
     compliance_score: round2(compliance_score),
     coverage_score: round2(coverage_score),
     pass_rate: round2(pass_rate),
@@ -909,6 +1073,9 @@ function runAudit(opts = {}) {
     items_with_detector: withDetector,
     items_passing: passing,
     items_skipped: results.length - total,
+    // Paths no detector could read this run. Non-empty means the scores above
+    // were computed over less than the whole population (noteUnreadable).
+    unreadable: UNREADABLE.slice(),
     by_suite,
     items: results,
   };
@@ -926,6 +1093,7 @@ if (require.main === module) {
     else if (args[i] === '--suite') opts.suite = args[++i];
     else if (args[i] === '--persist') opts.persist = args[++i] || 'run-constitutional-audit-latest';
     else if (args[i] === '--json') opts.json = true;
+    else if (args[i] === '--invariants') opts.invariants = args[++i];
     else if (args[i] === '--write-findings') opts.writeFindings = true;
     else if (args[i] === '--no-write-findings') opts.writeFindings = false;
     else if (args[i] === '--check-text') opts.checkText = args[++i];
@@ -1060,6 +1228,7 @@ function yamlify(result) {
   const lines = [];
   lines.push(`schema_version: ${result.schema_version}`);
   lines.push(`run_timestamp: "${result.run_timestamp}"`);
+  lines.push(`invariants_mode: "${result.invariants_mode}"`);
   lines.push(`compliance_score: ${result.compliance_score}`);
   lines.push(`coverage_score: ${result.coverage_score}`);
   lines.push(`pass_rate: ${result.pass_rate}`);
@@ -1083,9 +1252,14 @@ function yamlify(result) {
   return lines.join('\n') + '\n';
 }
 
+// Backslashes are escaped FIRST. Evidence strings routinely carry Windows paths
+// (`C:\Users\...`), and an unescaped `\U` / `\w` inside a double-quoted YAML
+// scalar is an invalid escape: score-run-20260911-1412.yaml was unparseable by
+// any real YAML parser for that reason and held Claude-Poker-Tracker's workstream
+// strict-parse invariant (INV-workstream-yaml-strict-parse) red (2026-09-23).
 function yamlEscape(s) {
   if (s == null) return '""';
-  const str = String(s).replace(/"/g, '\\"').replace(/\n/g, ' ');
+  const str = String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, ' ');
   return `"${str}"`;
 }
 
@@ -1099,6 +1273,7 @@ function appendTrend(result, runId) {
     const entry = [
       `  - date: "${result.run_timestamp.slice(0, 10)}"`,
       `    run_id: "${runId}"`,
+      `    invariants_mode: "${result.invariants_mode}"`,
       `    compliance_score: ${result.compliance_score}`,
       `    coverage_score: ${result.coverage_score}`,
       `    pass_rate: ${result.pass_rate}`,
@@ -1129,6 +1304,7 @@ function appendTrend(result, runId) {
       'scores_over_time:',
       `  - date: "${result.run_timestamp.slice(0, 10)}"`,
       `    run_id: "${runId}"`,
+      `    invariants_mode: "${result.invariants_mode}"`,
       `    compliance_score: ${result.compliance_score}`,
       `    coverage_score: ${result.coverage_score}`,
       `    pass_rate: ${result.pass_rate}`,
@@ -1165,6 +1341,11 @@ function strongestSuite(r) {
 function prettyPrint(r) {
   console.log(`\nConstitutional Audit — compliance_score: ${(r.compliance_score * 100).toFixed(0)}% (coverage ${(r.coverage_score * 100).toFixed(0)}%, pass-rate ${(r.pass_rate * 100).toFixed(0)}%)`);
   console.log(`Items: ${r.items_passing}/${r.total_items} passing, ${r.items_with_detector}/${r.total_items} have detectors`);
+  console.log(`System invariants: ${r.invariants_mode}${r.invariants_mode === 'fast' ? ' — a SAMPLE, not a census; drop --invariants fast to measure all of them' : ''}`);
+  if (r.unreadable && r.unreadable.length) {
+    console.log(`UNREADABLE: ${r.unreadable.length} path(s) no detector could read — the scores above cover an incomplete population:`);
+    for (const u of r.unreadable.slice(0, 10)) console.log(`  ${u.path} (${u.error})`);
+  }
   console.log('\nBy suite:');
   for (const [s, c] of Object.entries(r.by_suite)) {
     console.log(`  ${s}: ${c.passing}/${c.total} passing (${c.failing} fail, ${c.infeasible} infeasible, ${c.no_detector} no-detector)`);
@@ -1179,6 +1360,7 @@ function prettyPrint(r) {
 
 module.exports = {
   runAudit, REGISTRY,
+  parseQueueIndexItems, runSystemInvariants, INVARIANT_MODES,
   sanitizeCheckText, CHECK_TEXT_MAX_LEN,
   isAdoptedRepoContext,
   decideFindingFromAuditItem,

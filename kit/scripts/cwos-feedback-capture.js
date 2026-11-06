@@ -73,9 +73,12 @@ function parseDispositions(text) {
   const parts = text.split(',').map((s) => s.trim()).filter(Boolean);
   const out = [];
   for (const p of parts) {
-    const m = p.match(/^(FIND-\d{3,})\s*:\s*([unps])$/i);
-    if (!m) throw new Error(`malformed disposition pair: "${p}" — expected FIND-NNN:[u|n|p|s]`);
-    const findingId = m[1].toUpperCase();
+    // Run-scoped ids (FIND-run035-01, run-034 onward) are real finding ids too.
+    // Accepting only FIND-NNN refused the founder's answer for every such run,
+    // which is part of why this loop went quiet after May (FIND-run035-11).
+    const m = p.match(/^(FIND-\d{3,}|FIND-[a-z][a-z0-9]*-[a-z0-9-]+)\s*:\s*([unps])$/i);
+    if (!m) throw new Error(`malformed disposition pair: "${p}" — expected FIND-NNN or FIND-run<NNN>-<NN>, then :[u|n|p|s]`);
+    const findingId = /^FIND-\d/i.test(m[1]) ? m[1].toUpperCase() : 'FIND-' + m[1].slice(5);
     const letter = m[2].toLowerCase();
     const signal = SIGNAL_MAP[letter];
     out.push({ finding_id: findingId, signal });

@@ -1,0 +1,41 @@
+# ─── AI model limits and compensations (ADR-074) ───────────────────────────
+# What the AI in use gets wrong, per domain, and the compensating step every
+# workflow in that domain must include. Profiles are per model assessment: when
+# the model changes, add a new profile, review each limit (keep, drop, or add),
+# and point workflows at it. A limit the new model no longer has is retired
+# with evidence, not deleted from memory.
+#
+#   node kit/scripts/cwos-ai-limits.js validate --human
+#   node kit/scripts/cwos-ai-limits.js check WF-<slug> --human
+
+profiles:
+  - id: MPR-YYYY-MM
+    assessed: YYYY-MM-DD
+    model_ids: []              # fill in the model identifier(s) this assessment covers
+    review_by: YYYY-MM-DD      # re-assess by this date, or on any model change
+    active: true
+
+limits:
+  - id: LIM-<slug>
+    profile: MPR-YYYY-MM
+    domain: image              # image | text | audio | video | data
+    scope: any                 # any | people — people: applies only when a person is in the material
+    shortcoming: "<what the model gets wrong, stated plainly>"
+    severity: high             # high | medium | low
+    evidence: "<how it was established: observed failure, vendor docs, test set>"
+    compensations: [CMP-<slug>]
+
+compensations:
+  - id: CMP-<slug>
+    step: "<the extra step a workflow must include>"
+    kind: human-gate           # human-gate | tool-check | prohibition | disclosure | test-set
+    owner: "<role that performs it>"
+
+workflows:
+  - id: WF-<slug>
+    description: "<what AI does in this workflow>"
+    domain: image
+    involves_people: false     # true when people appear in the material; turns on scope: people limits
+    profile: MPR-YYYY-MM
+    implements: [CMP-<slug>]   # must cover every compensation the profile's limits require for this domain
+    waivers: []                # [{limit: LIM-..., reason: "...", expires: YYYY-MM-DD}]

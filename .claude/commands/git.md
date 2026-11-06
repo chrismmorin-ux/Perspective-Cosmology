@@ -52,11 +52,15 @@ proximate cause of a block. Unsure is a stop, not a Tier 0.
 | Tier 0 to a default branch | **Push it.** That tier is defined as shipping without him. |
 | Tier 1–2 | **Open the PR and merge it once green**, unless a repo rule reserves the merge. Title it as an act. |
 | Tier 3 — money in production, legal posture, deletions, secret rotation, or amending this policy | **His**, with blast radius, rollback stated first, and a second observer. |
-| Force-push, `reset --hard`, `branch -D`, `clean -fd`, history rewrite on someone else's branch, `--no-verify` | **Ask.** Always. |
+| Force-push, `reset --hard`, `branch -D`, `clean -fd`, history rewrite on someone else's branch, `--no-verify` | **Ask.** Always — unless a rule in that repo's own tree grants a named case (today only Claude-Poker-Tracker's operations rule `push-no-verify-under-starvation.md`, in that repo). Then follow that rule and do not ask. |
 
 **A merge to `ServeYourNote:main` IS a production deploy** — CI success triggers
 Deploy with no human step. That is expected, not a reason to stop; it is a reason
 to be sure CI is green first.
+
+**Cleaning up** — stale branches, stashes, a clone behind another machine, a repo
+gone red — is `/hygiene`: the broker role, with archive-before-destroy as the
+only destructive path and a ledger so accounted tails are not reworked.
 
 ## 4. Parallel and cross-repo — where this actually goes wrong
 

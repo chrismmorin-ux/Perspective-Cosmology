@@ -30,6 +30,23 @@
 const fs = require('fs');
 const path = require('path');
 const { parseYAML, readYAMLFile, globFiles, todayISO, findRepoRoot } = require('./lib/cwos-utils');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-asn-validate',
+  summary: 'validate AS-N assumption blocks in ADRs, programs and charters',
+  usage: 'cwos-asn-validate (--adr <path> | --program <path> | --charter <path> | --stdin | --all)',
+  flags: {
+    adr: { type: 'string', describe: 'validate one ADR file' },
+    program: { type: 'string', describe: 'validate one program YAML' },
+    charter: { type: 'string', describe: 'validate one charter' },
+    stdin: { type: 'boolean', describe: 'validate text read from stdin' },
+    all: { type: 'boolean', describe: 'validate every artifact in the repo' }
+  }
+};
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -740,6 +757,7 @@ function readStdin() {
 
 async function main() {
   const argv = process.argv.slice(2);
+  cliGate(argv, CLI);
   if (argv.length === 0) {
     process.stderr.write('Usage: cwos-asn-validate.js [--adr <path> | --program <path> | --charter <path> | --stdin | --all]\n');
     process.exit(1);

@@ -91,6 +91,8 @@ const M0_SCRIPTS = [
   'kit/scripts/lib/kit-artifacts.js',
   'kit/scripts/lib/cwos-orchestrate.js',
   'kit/scripts/lib/worktree-guard.js',
+  // WS-1169: core/telemetry.js hard-requires it (max-per-message-id usage dedupe).
+  'kit/scripts/lib/transcript-usage.js',
   // Core modules required by cwos-event.js
   'kit/scripts/core/events.js',
   'kit/scripts/core/composition.js',

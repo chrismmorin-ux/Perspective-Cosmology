@@ -172,10 +172,11 @@ Read active sprint. Find the item matching `<WS-id>`:
 - If this was the last pending item: check if sprint is now complete
 
 ### `sprint cancel` — Cancel the active sprint
-Read active sprint. For each item:
-- `status: done` items stay done (work already completed)
-- `status: pending` or `in_progress` items: release to `status: backlog`, clear `claimed_by` and `sprint_id`
-Set sprint `status: abandoned`. Update sprint-index and queue-index.
+Ask the founder for a one-clause reason, then run (WS-1131 — never hand-edit the sprint YAML or sprint-index):
+```bash
+node kit/scripts/cwos-next.js done --sprint SPR-NNN --abandon "<reason ≥20 chars>"
+```
+Done items stay done; open items lose their claim and go back to `backlog` (no `item_closed`); the sprint becomes `abandoned` with the reason on record, one `sprint_abandoned` event is emitted, and the indexes refresh via reconcile. Re-running is a no-op. It refuses a sprint a live other session holds — report that rather than passing `--force`, which is the founder's call. Then report from the JSON (`items_already_closed`, `items_released`):
 ```
 Sprint SPR-NNN cancelled. N items completed, M items released back to backlog.
 ```
@@ -207,9 +208,9 @@ If `sprint-index.yaml` is missing: rebuild by scanning `sprints/SPR-*.yaml`.
 
 ## Session Identity
 
-On every invocation, read `.claude/workstream/.current-session` to get the current session ID. If the file doesn't exist, warn and suggest running `/session-start`.
+On every invocation, read `.claude/workstream/.current-session` to get the current session ID. If the file doesn't exist, register the session yourself — `node kit/scripts/cwos-session-register.js --quiet` — and continue. Never hand-write a session file, and never stop to send the founder to `/session-start`: a missing pointer is bookkeeping, not a blocker (WS-514). The `cwos-item` and `cwos-next` scripts already mint a session on first use; this step only matters when you are about to act without them. Repos upgraded to a kit that wires the SessionStart hooks (`install-claude-hooks.mjs`, run by `/kit-upgrade`) register on start and never reach this branch.
 
-Update the session's `last_heartbeat` in its YAML file on every invocation.
+Do NOT write `last_heartbeat` (or `pid`, `worktree`) into the session's YAML file — that is per-node liveness and lives in the gitignored `.claude/workstream/liveness/<id>.json` sidecar, maintained by the heartbeat hook (WS-884). The tracked record changes only at claim (`claimed_items`, `files_locked`) and at close; a per-turn write to it is what wedged four repos across two machines on 2026-09-22.
 
 ---
 

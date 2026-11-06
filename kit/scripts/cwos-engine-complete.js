@@ -39,7 +39,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
-const { findWorkstreamDir, readYAMLFile, loadEventDeps, makeEventEmitter, writeFileAtomic } = require('./lib/cwos-utils');
+const { findWorkstreamDir, readYAMLFile, loadEventDeps, makeEventEmitter, writeFileAtomic, blockScalarLines } = require('./lib/cwos-utils');
 
 // WS-489: conversion bridge — auto-promote the closing run's CRIT/HIGH
 // findings into review-pending queue items. Best-effort: a missing lib
@@ -148,33 +148,40 @@ function writeManifestFinding({ runId, wsDir, findings, reason }) {
     if (!fs.existsSync(findingsDir)) fs.mkdirSync(findingsDir, { recursive: true });
     const findId = `FIND-MFST-${runId}-${Date.now()}`;
     const findPath = path.join(findingsDir, `${findId}.yaml`);
-    const lines = [
-      `id: "${findId}"`,
-      `title: "Manifest gate blocked engine_run_completed for ${runId}"`,
-      `severity: HIGH`,
-      `program: ${resolveFindingProgram(wsDir)}`,
-      `source: cwos-engine-complete`,
-      `created_at: "${new Date().toISOString()}"`,
-      `disposition: work_item_now`,
-      `description: |`,
-      `  Engine run ${runId} reached completion (briefing.md exists) but the`,
-      `  manifest gate (WS-305) refused to emit engine_run_completed.`,
-      `  Reason: ${reason}`,
-      ``,
-      `  Resolve by either fixing the manifest.yaml under .claude/workstream/runs/${runId}/`,
-      `  or, for legacy pre-2026-05-07 runs, confirming the run dir mtime`,
-      `  predates the WS-305 grandfather date.`,
-      `manifest_findings:`,
-    ];
-    for (const f of findings) {
-      const msg = String(f.message || '').replace(/"/g, '\\"');
-      lines.push(`  - exit_code: ${f.exit_code}`);
-      lines.push(`    message: "${msg}"`);
-    }
-    writeFileAtomic(findPath, lines.join('\n') + '\n');
+    writeFileAtomic(findPath, renderManifestFinding({ findId, runId, wsDir, findings, reason }));
   } catch (e) {
     process.stderr.write(`cwos-engine-complete: failed to write manifest finding: ${e.message}\n`);
   }
+}
+
+function renderManifestFinding({ findId, runId, wsDir, findings, reason }) {
+  const lines = [
+    `id: "${findId}"`,
+    `title: "Manifest gate blocked engine_run_completed for ${runId}"`,
+    `severity: HIGH`,
+    `program: ${resolveFindingProgram(wsDir)}`,
+    `source: cwos-engine-complete`,
+    `created_at: "${new Date().toISOString()}"`,
+    `disposition: work_item_now`,
+    // The validator's reason can span lines; the writer indents every one of
+    // them so none can be read as a field of the finding (WS-1079).
+    ...blockScalarLines('description', [
+      `Engine run ${runId} reached completion (briefing.md exists) but the`,
+      `manifest gate (WS-305) refused to emit engine_run_completed.`,
+      `Reason: ${reason}`,
+      ``,
+      `Resolve by either fixing the manifest.yaml under .claude/workstream/runs/${runId}/`,
+      `or, for legacy pre-2026-05-07 runs, confirming the run dir mtime`,
+      `predates the WS-305 grandfather date.`,
+    ].join('\n')),
+    `manifest_findings:`,
+  ];
+  for (const f of findings) {
+    const msg = String(f.message || '').replace(/"/g, '\\"');
+    lines.push(`  - exit_code: ${f.exit_code}`);
+    lines.push(`    message: "${msg}"`);
+  }
+  return lines.join('\n') + '\n';
 }
 
 function findExistingCompletion({ runId, eventsDir }) {
@@ -204,24 +211,16 @@ function findIntentForRun({ runId, eventsDir }) {
   // mtime" heuristic. Future cleanup: WS-302 follow-up — write run_id into
   // the intent payload (or a manifest pointer) so this guess goes away.
   if (!fs.existsSync(eventsDir)) return null;
-  const files = fs.readdirSync(eventsDir)
-    .filter((f) => /^\d{4}-\d{2}-\d{2}\.jsonl$/.test(f))
-    .sort()
-    .reverse(); // newest first
-  for (const f of files) {
-    let lines;
-    try { lines = fs.readFileSync(path.join(eventsDir, f), 'utf8').split('\n'); }
-    catch { continue; }
-    for (let i = lines.length - 1; i >= 0; i--) {
-      const line = lines[i];
-      if (!line.trim()) continue;
-      let ev;
-      try { ev = JSON.parse(line); } catch { continue; }
-      const p = ev.payload || {};
-      if (p.type === 'engine_intent_recorded') return ev;
-    }
-  }
-  return null;
+  // Through the shared reader, not a private line scan: a contract over 2 KB is
+  // spilled to events/blobs/ and stored as a {type, payload_ref} stub, and only
+  // readFilteredEvents hydrates it. The private scan found the stub and handed
+  // back engine_id: undefined — measured 2026-10-01 closing run-032, whose
+  // contract carried a founder success_shape plus a readiness override.
+  const { readFilteredEvents } = require('./core/events');
+  const [ev] = readFilteredEvents(eventsDir, {
+    typeFilter: 'engine_intent_recorded', includeArchive: false, limit: 1,
+  });
+  return ev || null;
 }
 
 // ─── WS-309 tokens_derived stamping ────────────────────────────────────────
@@ -412,10 +411,11 @@ function renderChainQueueYaml({ wsId, sourceEngine, sourceRunId, sourceEventId, 
     `  run_id: "${sourceRunId}"`,
     `  event_id: "${sourceEventId || ''}"`,
     `created_at: "${dispatchedAt}"`,
-    `description: |`,
-    `  Auto-dispatched by the on_complete chain declared on ${sourceEngine} in`,
-    `  .claude/workstream/engines/registry.yaml. Run ${targetEngine} against the`,
-    `  artifacts produced by ${sourceRunId}.`,
+    ...blockScalarLines('description', [
+      `Auto-dispatched by the on_complete chain declared on ${sourceEngine} in`,
+      `.claude/workstream/engines/registry.yaml. Run ${targetEngine} against the`,
+      `artifacts produced by ${sourceRunId}.`,
+    ].join('\n')),
     `accept_criteria:`,
     `  - "${targetEngine} run produces a score-${sourceRunId}.yaml under docs/evolution/quality-scores/ (or equivalent artifact for non-quality-judge targets)"`,
     `  - "Run is recorded in the event log via cwos-engine-complete after the chained run finishes"`,
@@ -998,6 +998,8 @@ if (require.main === module) main();
 
 module.exports = {
   findExistingCompletion, findIntentForRun, deriveProgramId, resolveFindingProgram,
+  // WS-1079: the manifest finding's renderer, driven by the block-scalar round-trip test
+  renderManifestFinding,
   // WS-309 exports
   loadEngineConfig, findTelemetryEventsBetween, sumArtifactBytes, deriveTokensDerived,
   ARTIFACT_TOKENS_PER_CHAR, ARTIFACT_EXTENSIONS,

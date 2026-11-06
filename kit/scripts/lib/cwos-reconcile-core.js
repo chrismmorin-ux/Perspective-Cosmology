@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
-  readYAMLFile, globFiles, writeFileAtomic, patchYAMLFile, withFileLock,
+  readYAMLFile, globFiles, globFindingFiles, writeFileAtomic, patchYAMLFile, withFileLock,
   escapeYamlString
 } = require('./cwos-utils');
 
@@ -100,15 +100,29 @@ function rebuildQueueIndex(wsDir, opts = {}) {
     // leaves crashed cycles' claims stranded. The index template has documented
     // `type` and `claimed_by` as index fields since it was written — this is the
     // projection catching up to the contract, not a new one.
+    // WS-857: `priority_score` was `data.priority_score ?? 0`. An UNDECLARED priority is not a
+    // priority of zero, and coercing it here defeated the guard in the selector one layer down
+    // — an item nobody scored arrived indistinguishable from an item scored at the bottom, and
+    // `nextPriorityCoercion.test.js` could not see it because that lint reads cwos-next.js
+    // only. Latent when written (0 of 512 items lack the field, measured 2026-09-11); it goes
+    // live at WS-859, when an EV terminal that legitimately refuses becomes a real input.
+    // Absence is now carried as absence and `selectSlate` refuses it BY NAME.
+    //
+    // `created_at` and `runs_on` are projected for the same reason the WS-560 note below
+    // exists: the index omitted the very fields its consumers rank on. They are levels 2 and 3
+    // of the declared tiebreak chain, so without them every index-sourced surface collapses to
+    // the id fallback and silently disagrees with the slate `/next` renders.
     const entry = {
       id: String(data.id),
       title: data.title || '',
       status: data.status || 'backlog',
-      priority_score: data.priority_score ?? 0,
+      priority_score: data.priority_score ?? null,
       category: data.category || '',
       effort: data.effort || 'S',
       type: data.type ? String(data.type) : '',
     };
+    if (data.created_at) entry.created_at = String(data.created_at);
+    if (data.runs_on) entry.runs_on = String(data.runs_on);
     if (data.blocked_by && Array.isArray(data.blocked_by) && data.blocked_by.length > 0) {
       entry.blocked_by = data.blocked_by;
     }
@@ -158,26 +172,90 @@ function rebuildQueueIndex(wsDir, opts = {}) {
   // this too", "split the ungated half out", or "the gate is wrong" is a
   // judgment call — WS-382 turned out to be the middle case. The detector's job
   // is to make the condition impossible to miss, not to decide it.
-  for (const item of items) {
-    if (!ACTIONABLE_STATUSES.has(item.status)) continue;
-    const gates = Array.isArray(item.blocked_by) ? item.blocked_by : [];
-    for (const gate of gates) {
-      const gateId = String(gate || '').trim();
-      if (!gateId || !/^WS-[A-Za-z0-9-]+$/.test(gateId)) continue; // e.g. "founder-action"
-      const gating = items.find(x => x.id === gateId);
-      if (!gating) {
-        warnings.push(
-          `dead-gate: ${item.id} is blocked_by ${gateId}, which does not exist. ` +
-          `The gate can never clear — correct the pointer or release the item.`
-        );
-        continue;
+  // WS-590 amends this detector on three counts, all of which made it report
+  // a clean state over a defect:
+  //
+  //   1. It resolved gates against the LIVE queue only. An archived, done
+  //      blocker therefore produced `which does not exist` — a message that is
+  //      not merely unhelpful but actively dangerous, because it invites
+  //      deleting a real, satisfied dependency. Measured 2026-08-26: 13 live
+  //      edges point into queue/archive/.
+  //   2. It could not follow `superseded_by`, so a gate whose work had SHIPPED
+  //      under a new id read as a live dead gate (WS-389 → WS-432).
+  //   3. A `blocked_by` entry that was not id-shaped — WS-186 and WS-187 each
+  //      carried an entire prose paragraph — was `continue`d SILENTLY. No
+  //      resolver can match a charter sentence against an item id, so those
+  //      gates were permanently closed and nothing ever complained. That is a
+  //      guard advertising a protection it is not running
+  //      (`.claude/rules/provenance-or-refuse.md`), and silence is the whole
+  //      defect: a permanently-closed gate is invisible from the inside.
+  //
+  // Resolution runs through the SAME algorithm /next uses (state-store's
+  // resolveBlocker). Two resolvers would drift, and a gate that clears in one
+  // and not the other is this defect wearing a new coat. Required lazily: this
+  // is a lib and state-store is core, so the dependency stays at the call site.
+  let resolveBlocker = null, isUnresolvableBlocker = null, loadArchivedQueueItems = null,
+      loadSupersedeIndex = null, SUPERSEDE_CANDIDATE_STATUSES = null;
+  try {
+    ({ resolveBlocker, isUnresolvableBlocker, loadArchivedQueueItems,
+       loadSupersedeIndex, SUPERSEDE_CANDIDATE_STATUSES } = require('../core/state-store'));
+  } catch (e) {
+    warnings.push(
+      `dead-gate: DETECTOR NOT RUN — could not load the blocker resolver (${e.message}). ` +
+      `Dependency gates were NOT checked this pass; do not read a clean queue index as a clean queue.`
+    );
+  }
+
+  if (resolveBlocker) {
+    const byId = new Map(items.map(x => [x.id, x]));
+    const archiveIdx = loadArchivedQueueItems(wsDir);
+    const supersedeIdx = loadSupersedeIndex(wsDir);
+    const lookup = (id) => {
+      const live = byId.get(id);
+      if (live) {
+        const rec = Object.assign({ _source: 'live' }, live);
+        if (!rec.superseded_by && SUPERSEDE_CANDIDATE_STATUSES.has(rec.status)) {
+          const sup = supersedeIdx.get(id);
+          if (sup) rec.superseded_by = sup;
+        }
+        return rec;
       }
-      if (gating.status === 'deferred' || gating.status === 'dismissed') {
-        warnings.push(
-          `dead-gate: ${item.id} (${item.status}) is blocked_by ${gateId}, which is ${gating.status}. ` +
-          `No sprint can draw ${item.id} while it holds a WIP slot against its program cap. ` +
-          `Resolve via: cwos-item defer ${item.id} --reason "..." --until "...", or split out any ungated half.`
-        );
+      return archiveIdx.get(id) || null;
+    };
+
+    for (const item of items) {
+      if (!ACTIONABLE_STATUSES.has(item.status)) continue;
+      const gates = Array.isArray(item.blocked_by) ? item.blocked_by : [];
+      for (const gate of gates) {
+        const res = resolveBlocker(gate, lookup);
+
+        if (isUnresolvableBlocker(res)) {
+          // Named refusal, one enum value per failure kind. Never silence.
+          warnings.push(
+            `dead-gate: ${item.id} (${item.status}) has an UNRESOLVABLE blocked_by entry ` +
+            `[${res.reason}] — ${res.detail} ` +
+            `The gate can never clear, so ${item.id} can never be drawn into a sprint. ` +
+            `Correct the pointer or release the item.`
+          );
+          continue;
+        }
+
+        if (res.cleared) continue; // done — live, archived, or via supersede
+
+        // Resolved to a real, not-yet-done item. Only a parked gate is a dead
+        // gate; and now that supersede is chased, a `dismissed` gate reported
+        // here is genuinely dismissed with no successor.
+        const gating = lookup(res.chain[res.chain.length - 1]);
+        if (gating && (gating.status === 'deferred' || gating.status === 'dismissed')) {
+          const via = res.chain.length > 1 ? ` (via supersede chain ${res.chain.join(' → ')})` : '';
+          const where = gating._source === 'archive' ? ', archived' : '';
+          warnings.push(
+            `dead-gate: ${item.id} (${item.status}) is blocked_by ${gating.id}${via}, ` +
+            `which is ${gating.status}${where}. ` +
+            `No sprint can draw ${item.id} while it holds a WIP slot against its program cap. ` +
+            `Resolve via: cwos-item defer ${item.id} --reason "..." --until "...", or split out any ungated half.`
+          );
+        }
       }
     }
   }
@@ -218,9 +296,15 @@ function buildQueueIndexYAML(items, byStatus, byCategory) {
     lines.push(`  - id: "${item.id}"`);
     lines.push(`    title: "${escapeYAMLString(item.title)}"`);
     lines.push(`    status: ${item.status}`);
-    lines.push(`    priority_score: ${item.priority_score}`);
+    // `null` when the item declared none. It reads back as null, not 0, so the selector can
+    // refuse it by name instead of ranking "nobody scored this" as "scored at the bottom".
+    lines.push(`    priority_score: ${item.priority_score === null || item.priority_score === undefined ? 'null' : item.priority_score}`);
     lines.push(`    category: ${item.category}`);
     lines.push(`    effort: ${item.effort}`);
+    // WS-857: levels 2 and 3 of the declared tiebreak chain. Omitted, and every index-sourced
+    // surface silently disagreed with the slate.
+    if (item.created_at) lines.push(`    created_at: "${item.created_at}"`);
+    if (item.runs_on) lines.push(`    runs_on: ${item.runs_on}`);
     // Quoted: real type values contain spaces ("Design first"), so bare-scalar
     // emission would depend on the reader's tolerance for them.
     lines.push(`    type: "${escapeYAMLString(item.type)}"`);
@@ -252,7 +336,7 @@ function buildQueueIndexYAML(items, byStatus, byCategory) {
 
 function rebuildFindingsIndex(wsDir, opts = {}) {
   const findingsDir = path.join(wsDir, 'findings');
-  const files = globFiles(findingsDir, 'FIND-*.yaml');
+  const files = globFindingFiles(findingsDir);
   const items = [];
   const warnings = [];
   let skipped = 0;
@@ -289,6 +373,8 @@ function rebuildFindingsIndex(wsDir, opts = {}) {
     }, { ownerLabel: 'reconcile:findings-index', maxWaitMs: 10000 });
   }
 
+  // maxId stays FIND-only on purpose: FND ids come from the repo's own
+  // allocator, and a FND-141 must not push the kit's next FIND id to 142.
   return { total: items.length, items, skipped, warnings, maxId: extractMaxId(items, 'FIND') };
 }
 

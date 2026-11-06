@@ -181,8 +181,13 @@ function invocationSpans(line) {
   }
 
   // (1) `node ...` commands. Take from the script name to the next separator.
+  // A backtick ends the command too: in "(`node …/cwos-pr.js open`) … `bash
+  // install-git-hooks.sh --with-direct-lane`" the second span's flag belongs to
+  // the shell script, not to cwos-pr.js (CLAUDE.md Git Policy, 2026-11-01).
+  // A sentence end (a period then whitespace) ends it as well, for the same
+  // reason in unquoted prose (WS-1332).
   for (const m of line.matchAll(/\bnode\s+\S*?(cwos-[a-z0-9-]+\.js)([^\n]*)/g)) {
-    spans.push(m[1] + m[2].split(/\||;|&&|&/)[0]);
+    spans.push(m[1] + m[2].split(/\||;|&&|&|`|\.\s/)[0]);
   }
 
   return spans;
@@ -295,4 +300,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { collectFindings };
+module.exports = { collectFindings, invocationSpans };

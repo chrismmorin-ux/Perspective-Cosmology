@@ -219,6 +219,20 @@ function gatherFrictionDigest(errors) {
   }
 }
 
+// WS-699 / WS-820 — peer-repo request digest (the courier's return leg).
+// Same computation /next uses (lib/friction-digest.js computeRequestDigest);
+// null off-hub. Without this, a repo waiting on HomeBase for an answer was
+// visible in /next and invisible in /status.
+function gatherRequestDigest(errors) {
+  try {
+    const { computeRequestDigest } = require('./lib/friction-digest');
+    return computeRequestDigest();
+  } catch (err) {
+    errors.push(`request_digest: ${err.message}`);
+    return null;
+  }
+}
+
 // WS-814 — fleet divergence digest. Null off-hub. Same freshness contract as
 // the other two: an empty inbox and a dead sweep must not render alike.
 function gatherDivergenceDigest(errors) {
@@ -324,6 +338,8 @@ const data = {
   deferred_scope: gatherDeferredScope(errors),
   friction_digest: gatherFrictionDigest(errors),
   maintenance_digest: gatherMaintenanceDigest(errors),
+  // WS-820 — peer repos waiting on an answer. Hub-only, advisory.
+  request_digest: gatherRequestDigest(errors),
   // WS-814 — repos that changed a kit-owned file. Hub-only, advisory.
   divergence_digest: gatherDivergenceDigest(errors),
 };

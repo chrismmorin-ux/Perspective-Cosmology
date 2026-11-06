@@ -33,6 +33,22 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { readYAMLFile } = require('./lib/cwos-utils.js');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-stage-detect',
+  summary: 'scan a repo for signals of its business stage',
+  usage: 'cwos-stage-detect scan --target-dir <path> [--commercial|--non-commercial]',
+  subcommands: { scan: 'evaluate every stage signal against --target-dir' },
+  flags: {
+    'target-dir': { type: 'string', describe: 'repo to scan (required for scan)' },
+    'non-commercial': { type: 'boolean', describe: 'the repo is not a business' },
+    commercial: { type: 'boolean', describe: 'the repo is a business (the default; accepted for symmetry)' }
+  }
+};
 
 const SIGNALS_PATH = path.join(__dirname, '..', 'data', 'stage-detection-signals.yaml');
 const STAGE_ORDER = ['S1', 'S2', 'S3', 'S4', 'S5'];
@@ -428,6 +444,7 @@ function cmdScan(args) {
 
 function main() {
   const args = process.argv.slice(2);
+  cliGate(args, CLI);
   const sub = args[0];
   switch (sub) {
     case 'scan': return cmdScan(args.slice(1));

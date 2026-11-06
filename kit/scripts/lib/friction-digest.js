@@ -44,6 +44,13 @@ const RECURRENCE_EVENTS = 2;
 
 const SEV_RANK = { high: 0, medium: 1, low: 2 };
 
+// WS-943: the answer standard. A high-severity complaint from a repo is owed a
+// disposition (resolved or declined) within this many days of being filed. A
+// constant for the same reason the recurrence thresholds are: a due date that
+// moves is one nobody can hold the hub to.
+const ANSWER_DUE_DAYS = 14;
+const DAY_MS = 86400000;
+
 function daysSince(iso, now) {
   if (!iso) return null;
   const t = Date.parse(iso);
@@ -132,6 +139,128 @@ function aggregateComponents(lines, now) {
 }
 
 /**
+ * Every high-severity complaint past its answer date (WS-943).
+ *
+ * The due date is DERIVED — filed + `days` — and never written back. The inbox
+ * is append-only history and its own watermark; stamping a date onto a line
+ * would be the first in-place rewrite of that file, to store a number that one
+ * addition recovers.
+ *
+ * `lines` is the raw inbox, `disposed` the ledger map from readDispositions.
+ * Deduplicated on source_hash (hand-merged node inboxes carry repeats). A line
+ * with no parseable date cannot be judged and is counted in `undated`, never
+ * silently dropped: "not overdue" and "could not tell" are different answers.
+ * Oldest first — the order a triage session should read them in.
+ */
+function overdueComplaints(lines, disposed, now, days = ANSWER_DUE_DAYS) {
+  const at = typeof now === 'number' ? now : Date.now();
+  const seen = new Set();
+  const overdue = [];
+  let undated = 0;
+  for (const l of lines || []) {
+    if (!l || (l.severity !== 'high' && l.severity !== 'critical')) continue;
+    if (l.source_hash) {
+      if (disposed && disposed.has(l.source_hash)) continue;
+      if (seen.has(l.source_hash)) continue;
+      seen.add(l.source_hash);
+    }
+    const filed = Date.parse(l.timestamp || l.swept_at || '');
+    if (!Number.isFinite(filed)) { undated++; continue; }
+    const due = filed + days * DAY_MS;
+    if (at <= due) continue;
+    overdue.push({
+      source_hash: l.source_hash || null,
+      origin_repo: l.origin_repo || 'unknown',
+      component: l.component || 'unattributed',
+      severity: l.severity,
+      filed_at: new Date(filed).toISOString(),
+      due_at: new Date(due).toISOString(),
+      days_open: Math.floor((at - filed) / DAY_MS),
+      days_over: Math.floor((at - due) / DAY_MS),
+      detail: String(l.detail || '').slice(0, 200),
+    });
+  }
+  overdue.sort((a, b) => a.filed_at.localeCompare(b.filed_at));
+  return { due_days: days, overdue, undated };
+}
+
+/**
+ * The complaints an age-based archive would dispose (WS-1062).
+ *
+ * Every severity, unlike overdueComplaints: the founder's amnesty (SPEC §10 D5)
+ * is "everything older than 30 days", and a 60-day-old low is no more
+ * answerable than a 60-day-old high. Same dedupe and the same date rule as the
+ * overdue judgment, so the two cannot disagree about a line's age.
+ *
+ * `except` names origin repos that are never archived — their complaints are
+ * counted in `excepted`, not dropped, so the caller can show what it left.
+ * A line with no parseable date, or no source_hash, cannot be archived (the
+ * ledger is keyed on the hash) and is counted in `undated` / `unhashed`.
+ * Exactly `days` old is kept: "older than" is strict, as "past due" is.
+ */
+function archiveCandidates(lines, disposed, now, days, except = []) {
+  const at = typeof now === 'number' ? now : Date.now();
+  const skip = new Set(except);
+  const seen = new Set();
+  const candidates = [];
+  let undated = 0;
+  let unhashed = 0;
+  let excepted = 0;
+  for (const l of lines || []) {
+    if (!l) continue;
+    if (!l.source_hash) { unhashed++; continue; }
+    if (disposed && disposed.has(l.source_hash)) continue;
+    if (seen.has(l.source_hash)) continue;
+    seen.add(l.source_hash);
+    const filed = Date.parse(l.timestamp || l.swept_at || '');
+    if (!Number.isFinite(filed)) { undated++; continue; }
+    if (at - filed <= days * DAY_MS) continue;
+    if (skip.has(l.origin_repo)) { excepted++; continue; }
+    candidates.push({
+      source_hash: l.source_hash,
+      origin_repo: l.origin_repo || 'unknown',
+      severity: l.severity || null,
+      days_open: Math.floor((at - filed) / DAY_MS),
+    });
+  }
+  const byRepo = new Map();
+  for (const c of candidates) {
+    const r = byRepo.get(c.origin_repo) || { repo: c.origin_repo, count: 0, high: 0, oldest_days: 0 };
+    r.count++;
+    if (c.severity === 'high' || c.severity === 'critical') r.high++;
+    if (c.days_open > r.oldest_days) r.oldest_days = c.days_open;
+    byRepo.set(c.origin_repo, r);
+  }
+  return {
+    days,
+    candidates,
+    by_repo: [...byRepo.values()].sort((a, b) => b.count - a.count || a.repo.localeCompare(b.repo)),
+    undated,
+    unhashed,
+    excepted,
+  };
+}
+
+/** Counts only — what a gate renders. The individual lines come from --overdue. */
+function summarizeOverdue(result) {
+  const byRepo = new Map();
+  for (const o of result.overdue) {
+    const e = byRepo.get(o.origin_repo) || { repo: o.origin_repo, count: 0, oldest_days: 0 };
+    e.count++;
+    if (o.days_open > e.oldest_days) e.oldest_days = o.days_open;
+    byRepo.set(o.origin_repo, e);
+  }
+  const by_repo = [...byRepo.values()].sort((a, b) => (b.count - a.count) || a.repo.localeCompare(b.repo));
+  return {
+    due_days: result.due_days,
+    count: result.overdue.length,
+    oldest_days: result.overdue.length ? result.overdue[0].days_open : null,
+    undated: result.undated,
+    by_repo,
+  };
+}
+
+/**
  * The digest, or null when this repo has no hub in sight (the normal state in
  * every adopted repo). A hub whose friction/ directory does not exist yet also
  * returns null — the sweep has never run, and there is no age to report
@@ -194,6 +323,10 @@ function computeDigest(opts = {}) {
     disposed: lines.length - live.length,
     repos_errored: reposErrored,
     components: aggregateComponents(live, now),
+    // WS-943: judged, not merely aged. days_open above is per component and
+    // only ever rendered for recurring ones, so a single high complaint from a
+    // single repo was invisible here at any age.
+    overdue: summarizeOverdue(overdueComplaints(lines, disposed, now)),
   };
 }
 
@@ -266,4 +399,4 @@ function computeRequestDigest(opts = {}) {
   };
 }
 
-module.exports = { computeDigest, computeRequestDigest, aggregateComponents, readInboxLines, readDispositions, RECURRENCE_REPOS, RECURRENCE_EVENTS };
+module.exports = { computeDigest, computeRequestDigest, aggregateComponents, readInboxLines, readDispositions, overdueComplaints, summarizeOverdue, archiveCandidates, RECURRENCE_REPOS, RECURRENCE_EVENTS, ANSWER_DUE_DAYS };

@@ -66,7 +66,13 @@ const {
   todayISO,
   withFileLock,
 } = require('./lib/cwos-utils');
-const { classifySession, STALE_HEARTBEAT, UNKNOWN, DEFAULT_TIMEOUT_HOURS } = require('./lib/session-liveness');
+const { classifySession, recoveryWouldAct, STALE_HEARTBEAT, SUPERSEDED, UNKNOWN, DEFAULT_TIMEOUT_HOURS, FOREIGN_HOLD_DAYS, isLocalHostRecord } = require('./lib/session-liveness');
+const { loadSession, removeLiveness } = require('./lib/session-record');
+const {
+  beatAfterClose, sessionOwnerVerdict, isLocalHost, isSupersededBy, isSessionLive,
+  processHostsOneConversation, harnessPid, SUPERSEDE_GRACE_MS, supersededHoldActive,
+} = require('./lib/cwos-claims');
+const { activeWait } = require('./lib/session-liveness');
 
 // Session-recovery is high-frequency (fires on every session-start hook);
 // the liveness-stamp write at line 78 is intentionally NOT emitted —
@@ -148,6 +154,7 @@ const CLI = {
     quiet: { type: 'boolean', describe: 'silent unless recovery actually happened' },
     'dry-run': { type: 'boolean', describe: 'compute and report, but write nothing' },
     force: { type: 'boolean', describe: 'act on a stale heartbeat without waiting out the abandon timeout (never touches a session proven alive)' },
+    close: { type: 'string', placeholder: 'session-id', describe: 'end ONE local record by id: a /clear ghost (superseded by a newer conversation in the same process) or one not proven alive. Refuses a foreign or hostless record, and a live one nothing supersedes. Claims of a superseded ghost stay held 4h on every node; those of any other closed record are released by the next sweep.' },
     'no-hook-stamp': { type: 'boolean', describe: 'do not stamp .hooks-liveness.yaml — for callers that are NOT the SessionStart hook (cwos-session-sweep)' },
     verbose: { type: 'boolean', describe: 'print stack traces on failure' },
     'workstream-dir': { type: 'string', placeholder: 'path', describe: 'override workstream dir discovery' },
@@ -178,6 +185,12 @@ function main() {
       if (!quiet) process.stderr.write('session-recovery: no workstream dir found\n');
       return 0;
     }
+  }
+
+  // --close is a founder's one-record correction, not a hook run: it neither
+  // stamps hook liveness nor sweeps anything else.
+  if (values.close !== undefined) {
+    return closeOneSession(wsDir, String(values.close).trim(), { dryRun, quiet });
   }
 
   // WS-138 / FIND-067: stamp hook liveness at the top of main so INV-026 can
@@ -272,10 +285,7 @@ function runRecovery(wsDir, { auto, quiet, dryRun, force }) {
     // timeout, or --force to skip it.
     // `unknown` — a foreign host, or hostless where we lack local evidence — is
     // never acted on, by --force or otherwise. The owning node's sweep does it.
-    const act = verdict.proof
-      || verdict.verdict === STALE_HEARTBEAT && (force || verdict.age_hours === null || verdict.age_hours > timeoutHours);
-
-    if (act) {
+    if (recoveryWouldAct(verdict, { timeoutHours, force })) {
       abandoned.push({ ...session, age_hours: verdict.age_hours, verdict });
     }
   }
@@ -293,7 +303,9 @@ function runRecovery(wsDir, { auto, quiet, dryRun, force }) {
       // Say WHICH evidence condemned it. The report is what the founder reads
       // before deciding to run --auto, and "0.2h stale" for a session whose
       // process is gone is the reading that made WS-351 survive.
-      const evidence = s.verdict.proof
+      const evidence = s.verdict.verdict === SUPERSEDED
+        ? `its conversation ended; process ${s.pid} runs a newer one`
+        : s.verdict.proof
         ? `process ${s.pid != null ? s.pid : '?'} is gone`
         : (s.age_hours == null ? 'no heartbeat' : `${s.age_hours.toFixed(1)}h stale`);
       process.stdout.write(`  - ${s.id} (${evidence})\n`);
@@ -363,13 +375,17 @@ function releaseOrphanClaims(wsDir, orphans, { dryRun }) {
     if (!fs.existsSync(o.path)) continue;
     if (!dryRun) patchYAMLFile(o.path, { claimed_by: null, claimed_at: null });
     released.push(o);
+    // The event belongs to the workstream whose queue was just patched, not to
+    // whichever one cwd resolves to. They differ for every caller that passes a
+    // wsDir of its own, and the difference put invented releases into the real
+    // event log each time the test suite exercised this against a temp registry.
     emitEvent('T15:session-end', 'orphan-claim-released', {
       item_id: o.id,
       owner_session: o.owner,
       item_status: o.status || null,
       reason: o.reason,
       dry_run: Boolean(dryRun),
-    });
+    }, { workstreamDir: wsDir });
   }
   return released;
 }
@@ -416,10 +432,13 @@ function finishClaimSweep(wsDir, claimAudit, sessionPhrase, { auto, quiet, dryRu
 
 function scanActiveSessions(sessionsDir) {
   const files = globFiles(sessionsDir, 'ses-*.yaml');
+  const wsDir = path.dirname(sessionsDir);
   const active = [];
   for (const f of files) {
-    const { ok, data } = readYAMLFile(f);
-    if (!ok || !data) continue;
+    // Read through the overlay (WS-884): the beat, pid and worktree live in
+    // the per-node sidecar; the tracked record alone is frozen at registration.
+    const data = loadSession(wsDir, f);
+    if (!data) continue;
     if (data.status === 'active') {
       active.push({
         id: data.id,
@@ -433,6 +452,10 @@ function scanActiveSessions(sessionsDir) {
         pid: data.pid,
         pid_recorded_at: data.pid_recorded_at,
         host: data.host,
+        node_id: data.node_id,
+        // WS-1294: the conversation this record belongs to, so liveness can ask
+        // Claude Code whether its process has moved on to another one.
+        agent_session_id: data.agent_session_id,
         claimed_items: Array.isArray(data.claimed_items) ? data.claimed_items : [],
         goals: Array.isArray(data.goals) ? data.goals : [],
         raw: data,
@@ -466,9 +489,10 @@ const TERMINAL_ITEM_STATUSES = new Set(['done', 'completed', 'dismissed', 'skipp
 function scanAllSessionRecords(sessionsDir) {
   const byId = new Map();
   if (!fs.existsSync(sessionsDir)) return byId;
+  const wsDir = path.dirname(sessionsDir);
   for (const f of globFiles(sessionsDir, 'ses-*.yaml')) {
-    const { ok, data } = readYAMLFile(f);
-    if (!ok || !data) continue;
+    const data = loadSession(wsDir, f);
+    if (!data) continue;
     const id = data.id || path.basename(f, '.yaml');
     byId.set(String(id), { id: String(id), path: f, status: String(data.status || '').toLowerCase(), record: data });
   }
@@ -510,7 +534,9 @@ function scanQueueClaims(wsDir) {
     if (!owner || owner === 'null' || owner === '~') continue;
     const status = String((content.match(/^status:\s*(.*)$/m) || [])[1] || '')
       .trim().replace(/^["']|["']$/g, '').toLowerCase();
-    claims.push({ id: path.basename(f, '.yaml'), path: f, owner, status });
+    const claimedAt = String((content.match(/^claimed_at:\s*(.*)$/m) || [])[1] || '')
+      .trim().replace(/^["']|["']$/g, '');
+    claims.push({ id: path.basename(f, '.yaml'), path: f, owner, status, claimed_at: claimedAt || null });
   }
   return { ok: true, reason: null, scanned: files.length, claims };
 }
@@ -543,13 +569,41 @@ function classifyClaim(claim, sessionsById, opts) {
 
   const session = sessionsById.get(claim.owner);
   if (!session) {
-    // No record at all. cwos-claims.isSessionLive calls this "dead by
-    // definition" and it is the strongest orphan signal available: nothing can
-    // heartbeat a record that does not exist.
-    return { disposition: 'orphan', reason: `no session record for ${claim.owner}` };
+    // No record at all. This used to read "dead by definition". It is not:
+    // `sessions/` is tracked, and the commonest reason a record is absent is
+    // that the other machine's push has not been pulled yet (WS-884 review,
+    // M3). Releasing on that reading is claim theft from a session that is
+    // working right now. Name it, hold it, let the owner's sweep judge it.
+    // Bounded like a foreign record: past FOREIGN_HOLD_DAYS from the lease the
+    // absence has outlived any pull lag and the claim is released.
+    const at = claim.claimed_at ? Date.parse(claim.claimed_at) : NaN;
+    if (Number.isFinite(at) && (nowMs - at) > FOREIGN_HOLD_DAYS * 86400000) {
+      return { disposition: 'orphan', reason: `no session record for ${claim.owner} and the lease is ${Math.floor((nowMs - at) / 86400000)}d old (hold ${FOREIGN_HOLD_DAYS}d)` };
+    }
+    return { disposition: 'undecidable', reason: `no session record for ${claim.owner} — not pulled yet, or never written; held ${FOREIGN_HOLD_DAYS}d from the lease` };
   }
 
   if (session.status && session.status !== 'active') {
+    // ADR-078 (1), the same reading isSessionLive makes: an `abandoned` record
+    // whose local sidecar beat AFTER it was closed belongs to a session that is
+    // still working — the closure was a wrong guess. Until its next Stop
+    // revives it, this is what keeps recovery from releasing what the gate
+    // still reads as held (friction a0d65ca101: a live session's claims
+    // released mid-work). `completed` stays closed: a decision, not a guess.
+    if (session.status === 'abandoned' && session.record
+        && isLocalHost(session.record) && beatAfterClose(session.record)
+        && sessionOwnerVerdict(session.record) !== 'dead') {
+      return { disposition: 'held', reason: 'owner was marked abandoned but has beaten since (ADR-078: observation outranks the latch)' };
+    }
+    // WS-890: a /clear ghost's RECORD was closed early; its CLAIMS were not.
+    // A background subagent can outlive /clear and still be working under
+    // them, so they hold until proof of death or the abandon timeout from the
+    // ghost's last beat — from its ended_at on a node that does not own it —
+    // on EVERY node (cwos-claims.supersededHoldActive says why: hold, not
+    // transfer). Not even --force: there is no stale heartbeat to force past.
+    if (session.record && supersededHoldActive(session.record, { now: nowMs, staleMinutes: timeoutHours * 60 })) {
+      return { disposition: 'held', reason: `owner was superseded by a newer conversation in its process; claims held ${timeoutHours}h from its last beat (owner node) or its closure (any other node)` };
+    }
     // THE WS-492 CASE. The owner's own record says it ended. This never
     // reached the old code path, which only ever iterated `status: active`
     // records — so this class of orphan could not be recovered at any future
@@ -630,6 +684,8 @@ function readTimeoutHours(wsDir) {
   return Number.isFinite(num) && num > 0 ? num : DEFAULT_TIMEOUT_HOURS;
 }
 
+// recoveryWouldAct (WS-973) lives in lib/session-liveness; re-exported below.
+
 function parseHeartbeatMs(session) {
   const hb = session.last_heartbeat || session.started_at;
   if (!hb) return null;
@@ -679,6 +735,8 @@ function recoverSession(wsDir, session, opts) {
     handoff_notes: handoff,
   });
   writeFileAtomic(session.path, updated);
+  // The per-node sidecar has nothing left to say about a closed record (WS-884).
+  removeLiveness(wsDir, session.id);
   emitEvent('T15:session-end', 'session-abandoned', {
     session_id: session.id,
     path: path.relative(process.cwd(), session.path).replace(/\\/g, '/'),
@@ -687,9 +745,11 @@ function recoverSession(wsDir, session, opts) {
     // exactly what someone auditing an unexpected recovery needs to see.
     // 'dead-process' vs 'timeout' is the WS-351 contract consumers grep for;
     // the module-level verdict constant (dead-pid / dead-boot) goes in detail.
-    reason: session.verdict && session.verdict.proof ? 'dead-process' : 'timeout',
+    // WS-1294: a superseded conversation's process is alive; say so.
+    reason: session.verdict && session.verdict.verdict === SUPERSEDED ? 'conversation-ended'
+      : session.verdict && session.verdict.proof ? 'dead-process' : 'timeout',
     detail: session.verdict ? `${session.verdict.verdict}: ${session.verdict.reason}` : null,
-  });
+  }, { workstreamDir: wsDir });
 
   // 4. Remove lock file.
   const lockPath = path.join(wsDir, '.active-sessions', `${session.id}.lock`);
@@ -705,6 +765,98 @@ function recoverSession(wsDir, session, opts) {
       try { fs.unlinkSync(currentPath); } catch { /* best-effort */ }
     }
   }
+}
+
+/**
+ * `--close <id>`: end one session record by hand (WS-890).
+ *
+ * pc2 closed seven /clear ghosts by editing YAML because nothing else would:
+ * --force refuses a record whose pid is running, and a ghost's pid is running
+ * — it is the founder's own terminal. So the proof this accepts instead is the
+ * ghost's own definition: another active record on this host, in the same
+ * process and checkout, whose conversation began after the ghost last beat
+ * (cwos-claims.isSupersededBy, with SUPERSEDE_GRACE_MS), asked from inside
+ * that same terminal-CLI process. Any other record may be closed only if NO
+ * reader holds it: not ALIVE, not isSessionLive, not waiting on the founder.
+ * Otherwise it is a peer, and a peer is ended from inside it (/session-end).
+ *
+ * Never a foreign or hostless record (WS-884: its owner's sweep judges it).
+ * Claims are not released here; the owner now reads `abandoned`, so the next
+ * sweep releases them through the normal orphan path.
+ *
+ * Exit 0 closed (or already closed), 1 refused or not found.
+ */
+function closeOneSession(wsDir, id, { dryRun, quiet }) {
+  const say = (s) => { if (!quiet) process.stdout.write(`session-recovery: ${s}\n`); };
+  if (!id) { process.stderr.write('session-recovery: --close needs a session id\n'); return 1; }
+  const all = scanAllSessionRecords(path.join(wsDir, 'sessions'));
+  const target = all.get(id);
+  if (!target) { process.stderr.write(`session-recovery: no session record ${id}\n`); return 1; }
+  const doc = target.record || {};
+  if (target.status && target.status !== 'active') { say(`${id} is already ${target.status} — nothing to do.`); return 0; }
+  if (!doc.host || !isLocalHostRecord(doc)) {
+    process.stderr.write(`session-recovery: refusing --close ${id}: record host ${doc.host || '(none)'} is not this machine; its owner's sweep judges it (WS-884).\n`);
+    return 1;
+  }
+
+  const verdict = classifySession(doc, { timeoutHours: readTimeoutHours(wsDir) });
+
+  // SUPERSEDED is accepted only on the automatic path's own terms (WS-890
+  // review): asked from INSIDE the ghost's process (our CLAUDE_PID is its pid),
+  // that process can host only one conversation (terminal CLI, not desktop —
+  // desktop conversations share one pid concurrently; CLAUDE_CODE_CHILD_SESSION
+  // is on every CLI Bash-tool command and says nothing here, WS-1226), and
+  // the ghost's last beat predates the successor by more than the grace window.
+  let successor = null;
+  const pidNum = Number(doc.pid);
+  if (processHostsOneConversation() && harnessPid() !== undefined && harnessPid() === pidNum) {
+    for (const other of all.values()) {
+      if (other.id !== id && other.status === 'active'
+          && isSupersededBy(doc, other.record, { graceMs: SUPERSEDE_GRACE_MS })) { successor = other.id; break; }
+    }
+  }
+
+  // Otherwise the record must not read live by ANY reader. classifySession
+  // alone was not enough: a pid-less record with a two-minute-old beat is
+  // STALE_HEARTBEAT ("cannot be vouched for") while isSessionLive — what the
+  // gate and claims use — holds it; and a founder wait is only consulted past
+  // the timeout. Closing either took a working session's record out from
+  // under it.
+  if (!successor) {
+    const wait = activeWait(doc);
+    let live = false;
+    try { live = isSessionLive(wsDir, id); } catch { live = true; }
+    if (verdict.verdict === 'alive' || live || wait) {
+      const why = wait ? `it is waiting on the founder (${wait.kind}) since ${wait.since}`
+        : live ? 'it reads live (fresh heartbeat or verified pid)' : verdict.reason;
+      process.stderr.write(`session-recovery: refusing --close ${id}: ${why}, and no newer conversation in this process supersedes it `
+        + `(a ghost must be closed from inside its own CLI process, after ${SUPERSEDE_GRACE_MS / 60000} min). `
+        + 'A live peer is ended from inside it (/session-end).\n');
+      return 1;
+    }
+  }
+
+  const why = successor
+    ? `superseded-by-${successor} (closed by hand: same pid+worktree, heartbeat predates the successor)`
+    : `closed by hand (${verdict.verdict}: ${verdict.reason})`;
+  if (dryRun) { say(`[dry-run] would close ${id} → abandoned: ${why}`); return 0; }
+
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  const updated = updateSessionYaml(fs.readFileSync(target.path, 'utf8'), {
+    status: 'abandoned', ended_at: now, recovery_reason: why,
+  });
+  writeFileAtomic(target.path, updated);
+  // A superseded ghost keeps its sidecar: its last beat is what its claim
+  // hold is measured from (supersededHoldActive). A plain close has none left.
+  if (!successor) removeLiveness(wsDir, id);
+  emitEvent('T15:session-end', 'session-abandoned', {
+    session_id: id,
+    path: path.relative(process.cwd(), target.path).replace(/\\/g, '/'),
+    reason: successor ? 'superseded' : 'closed-by-hand',
+    detail: why,
+  }, { workstreamDir: wsDir });
+  say(`closed ${id} → abandoned (${why}). ${successor ? `Its claims stay held until its process is gone or ${readTimeoutHours(wsDir)}h pass from its last beat.` : "Its claims are released by the next sweep."}`);
+  return 0;
 }
 
 /**
@@ -914,8 +1066,12 @@ function summarizeSprintsSince(wsDir, startedAt) {
 function gitCommitsSince(repoRoot, startedAt) {
   if (!startedAt) return [];
   try {
-    const since = startedAt.replace('T', ' ').replace('Z', '');
-    const r = runGit(['log', '--since', since, '--pretty=format:%h %s', '-n', '100'], {
+    // The ISO string goes to git AS IS, zone included. This used to strip the
+    // 'Z', and git read what was left as LOCAL time: on a machine west of UTC
+    // "since" landed hours in the future, the list came back empty, and every
+    // recovered session's handoff silently omitted the commits it had made
+    // (measured 2026-10-04: 13 of 13 handoffs, 0 commits listed, 37 present).
+    const r = runGit(['log', '--since', String(startedAt), '--pretty=format:%h %s', '-n', '100'], {
       cwd: repoRoot,
       stdio: ['ignore', 'pipe', 'ignore'],
     });
@@ -956,7 +1112,6 @@ if (require.main === module && process.env.CWOS_SESSION_RECOVERY_NORUN !== '1') 
 function isSessionHealthy(wsDir, opts) {
   const now = (opts && typeof opts.now === 'number') ? opts.now : Date.now();
   const timeoutHours = readTimeoutHours(wsDir);
-  const timeoutMs = timeoutHours * 60 * 60 * 1000;
   const sessionsDir = path.join(wsDir, 'sessions');
   if (!fs.existsSync(sessionsDir)) {
     return { healthy: true, stale_session_ids: [], reason: null };
@@ -964,13 +1119,17 @@ function isSessionHealthy(wsDir, opts) {
   const active = scanActiveSessions(sessionsDir);
   const stale = [];
   for (const s of active) {
-    const hb = parseHeartbeatMs(s);
-    if (hb === null) {
-      // No parseable heartbeat — treat as stale (no signal == max stale)
-      stale.push(s.id);
-      continue;
-    }
-    if (now - hb > timeoutMs) stale.push(s.id);
+    // Only records this machine owns can be stale HERE (WS-884): a foreign
+    // record's beat is in its owner's sidecar, and counting its absence turned
+    // INV-019 red on every node whose peer had a session older than the timeout.
+    if (s.host && !isLocalHostRecord(s)) continue;
+    // WS-973: stale means "recovery --auto would close it" — the same verdict
+    // and the same rule, so the advice in `reason` is always actionable. An
+    // idle record whose pid is verified alive is NOT stale until the idle cap;
+    // past the cap it is, shared desktop-app pid or not. A record with no
+    // parseable heartbeat still counts (no signal == max stale).
+    const verdict = classifySession(s, { timeoutHours, nowMs: now, bootMs: opts && opts.bootMs });
+    if (recoveryWouldAct(verdict, { timeoutHours })) stale.push(s.id);
   }
   if (stale.length === 0) {
     return { healthy: true, stale_session_ids: [], reason: null };
@@ -978,12 +1137,13 @@ function isSessionHealthy(wsDir, opts) {
   return {
     healthy: false,
     stale_session_ids: stale,
-    reason: `${stale.length} active session(s) past ${timeoutHours}h heartbeat timeout: ${stale.join(', ')}. Run /session-end or cwos-session-recovery --auto to clear.`,
+    reason: `${stale.length} active session record(s) dead or past the ${timeoutHours}h heartbeat timeout: ${stale.join(', ')}. Run /session-end or cwos-session-recovery --auto to clear.`,
   };
 }
 
 module.exports = {
   isSessionHealthy,
+  recoveryWouldAct,
   scanActiveSessions,
   scanAllSessionRecords,
   scanQueueClaims,
@@ -994,5 +1154,7 @@ module.exports = {
   releaseOrphanClaims,
   readTimeoutHours,
   parseHeartbeatMs,
+  closeOneSession,
+  gitCommitsSince,
   TERMINAL_ITEM_STATUSES,
 };

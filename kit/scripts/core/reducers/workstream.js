@@ -20,7 +20,8 @@ const fs = require('fs');
 const path = require('path');
 
 const { readYAMLFile, globFiles } = require('../../lib/cwos-utils');
-const { classifySource } = require('../../cwos-classify');
+const { classifySource, hasAcceptCriteria, founderDecisionOpen } = require('../../cwos-classify');
+const { isComputeReady } = require('../../lib/compute-job-spec');
 
 const TRACK = 'T6:workstream';
 const DOMAIN = 'queue';
@@ -35,18 +36,48 @@ const ITEM_FIELDS = [
   'id', 'title', 'status', 'priority_score', 'category', 'effort',
   'program', 'capability', 'sprint_id', 'claimed_at', 'completed_at',
   'source', 'created', 'blocked_by_note',
+  // WS-1170: routing. /next ranks from THIS projection, so a field absent here does
+  // not exist for it however correct the YAML is — Claude-Poker-Tracker learned that
+  // for runs_on twice (WS-493, then WS-676 after a kit upgrade dropped its local fix).
+  // runs_on = what the work needs (Needs column); model_lane + its provenance = which
+  // model does it (Model column, resolved through fleet/anchors/routing-ledger.yaml).
+  'runs_on', 'model_lane', 'model_lane_source',
+  // `type` is one of classifyMode's five trigger fields (cwos-classify.js), and
+  // cwos-next classifies from THIS projection (store.queue.byId), not the YAML.
+  // Absent here, every item read as "not bug/finding" and so as plan-first:
+  // 0 of 307 ai-personal items and 0 of 560 HomeBase items could ever render
+  // "Just do it" (measured 2026-11-01). WS-560 fixed the same omission in the
+  // queue-index projection (lib/cwos-reconcile-core.js); this one was missed.
+  'type',
+  // severity: classifyMode holds a high/critical task back (2026-11-01, low-risk design review H13).
+  'severity',
 ];
 // Array fields that come through as YAML block sequences
 // WS-695: customer_impact is here, not in ITEM_FIELDS, because it is a list.
 // This projection is what /next actually ranks from — queue-index.yaml is the
 // human-readable sibling, not the ranker's input — so a scoring field absent
 // here is a scoring field that does not exist, however correct the YAML looks.
-const ARRAY_FIELDS = ['blocked_by', 'blocks', 'enables', 'depends_on', 'files_involved', 'customer_impact'];
+// decision_flags: classifyMode's plan-first trigger, and cwos-next's Step 3g reads
+// it from the projection to list the sprint's open decisions. Absent here, a
+// flagged item could not be held back once `type` is projected, and the
+// decisions list was always empty.
+const ARRAY_FIELDS = ['blocked_by', 'blocks', 'enables', 'depends_on', 'files_involved', 'customer_impact', 'decision_flags'];
 
 // WS-262 cached fields — reducer-stamped, replay-pure derivations of
 // canonical input. Listed separately so /reducer-cached-fields tests +
 // docs can inspect them programmatically.
-const CACHED_FIELDS = ['source_class'];
+// WS-493 adds `compute_ready` — a pure function of the item's `compute_job` block, so it
+// replays identically. It is a boolean rather than the block itself because the spec is
+// human-editable content (same category as description / accept_criteria, which are
+// deliberately not mirrored); the dispatcher reads the one YAML it is about to submit.
+// Restored by Claude-Poker-Tracker WS-676 after kit upgrade 3.10.3 -> 3.20.6 dropped it (the
+// same loss the WS-1170 note on `runs_on` above describes); upstreamed by WS-1673. The
+// validator is lib/compute-job-spec.js, shared with any dispatcher so "ready" has one meaning.
+// 2026-11-01 (docs/designs/low-risk-self-lane.md §5): `has_accept_criteria` and
+// `founder_decision_open` are classifyMode's two new inputs for task/defect items. Both are pure
+// booleans over the item's YAML, stamped here because the criteria text and the founder fields are
+// not mirrored, so without them every task would read as having no criteria (review M14).
+const CACHED_FIELDS = ['source_class', 'compute_ready', 'has_accept_criteria', 'founder_decision_open'];
 
 // Snapshot the queue dir into an items map. Pure function of the current
 // filesystem — extracted (WS-609) so replay can memoize it per pass.
@@ -71,6 +102,12 @@ function computeItems(ctx) {
     // (verified by INV-044). Used by /next Step 2d source-class damping
     // without re-classifying at composition time.
     summary.source_class = classifySource(d);
+    // WS-493: stamp compute-runner readiness. Pure function of d.compute_job, so replay-safe.
+    // Only meaningful for machine-bound items, but stamped unconditionally so a later
+    // `runs_on` correction does not require a re-reduce to become dispatchable.
+    summary.compute_ready = isComputeReady(d);
+    summary.has_accept_criteria = hasAcceptCriteria(d);
+    summary.founder_decision_open = founderDecisionOpen(d);
     items[d.id] = summary;
   }
   return items;

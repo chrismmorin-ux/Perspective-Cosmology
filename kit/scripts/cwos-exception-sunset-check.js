@@ -48,6 +48,20 @@ require('./lib/preflight');
 
 const fs = require('fs');
 const path = require('path');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-exception-sunset-check',
+  summary: 'report exceptions past their sunset date',
+  flags: {
+    clock: { type: 'string', describe: 'evaluate as of YYYY-MM-DD instead of today' },
+    'no-emit': { type: 'boolean', describe: 'do not write events' },
+    'workstream-dir': { type: 'string', describe: 'workstream directory to read (default: resolved from cwd)' }
+  }
+};
 
 const {
   readYAMLFile,
@@ -317,6 +331,7 @@ function stampHooksLiveness(wsDir, today) {
 
 function main() {
   const args = process.argv.slice(2);
+  cliGate(args, CLI);
   if (args.includes('--help') || args.includes('-h')) {
     process.stdout.write('usage: cwos-exception-sunset-check [--clock YYYY-MM-DD] [--no-emit] [--workstream-dir <p>]\n');
     process.exit(0);

@@ -99,7 +99,7 @@ The cross-critique is the highest-leverage quality lever in this engine — `pro
 >
 > 1. **Wrongness audit.** For each expert, name ≥1 specific claim that is wrong, weakly-supported, or unjustified. Cite file path + line. If you can't find one for an expert, that expert was either right OR you didn't read carefully — assume the latter unless you can demonstrate otherwise.
 > 2. **Missing dimension.** Identify ≥1 dimension that no expert examined. Examples of dimensions experts often skip: time-to-detect (not just severity), cost-of-being-wrong (not just probability), recovery cost (not just failure cost), founder cognitive load (not just code complexity), drift over time (not just current state). Frame the dimension you bring as one that *must* be addressed for the audit to be complete.
-> 3. **Severity recalibration.** Find ≥1 finding where two experts implicitly disagreed on severity. Force the disagreement explicit: "X rated this high; Y rated the same surface medium. The right answer is [pick] because [evidence]."
+> 3. **Severity recalibration.** Find ≥1 finding where two experts implicitly disagreed on severity. Force the disagreement explicit: "X rated this high; Y rated the same surface medium. The right answer is [pick] because [evidence]." Recalibrate UP to the floor: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10).
 > 4. **Shared blind spot.** What did *all* experts miss? This is the question with the highest expected value. Common shared blind spots in this codebase: failure modes that span multiple personas' boundaries; assumptions about how the founder will use the output; non-obvious feedback loops (e.g. an engine that improves the system in a way that makes future runs harder).
 > 5. **Alteration mandate.** You must alter ≥10% of the findings: at least one finding modified (severity / scope / wording), one removed (duplicate / wrong), one added (the missing dimension you named in #2). If the input has 8 findings, that's at minimum 1 modified + 1 removed + 1 added. Document each alteration as a separate diff entry.
 > 6. **Blind-context seed.** Address the constitutional anchors the experts did NOT see: read `contract.failed_states_seed.states` from the loaded `engine_intent_recorded` event payload (compose-time injection per WS-296 / FIND-129 — do NOT re-read `system/intention.md`; INV-cli-envelope-consumed-completely applies). Each entry has `{name, content, position_at_compose, content_hash}`. For each finding the experts produced, ask: "If this finding gets resolved, does it move the system toward any of these Failed States, or away from them?" Surface any finding that, while technically correct, would push the system toward `Self-aggrandizing complexity`. Mark these `direction: away-from-goal` in the alteration diff. **Integrity check:** if `failed_states_seed` is absent or `section_hash` is missing, treat as a contract violation — flag in alteration diff and proceed without the constitutional check rather than re-reading `system/`.
@@ -244,15 +244,17 @@ build. Validation: `node kit/scripts/cwos-finding-validate.js --all`.
 | Internal Level | Founder Label | Criteria |
 |----------------|---------------|----------|
 | CRITICAL | **Fix before you ship** | Security vulnerability, data corruption risk, system down |
-| HIGH | **Fix this week** | Significant bug, architectural violation, test gap in critical path |
+| HIGH | **Fix this week** | Significant bug, architectural violation, test gap in critical path, silently lost or wrong data, including small money amounts (a one-cent rounding or tax error is HIGH, not a minor bug) |
 | MEDIUM | **Worth improving** | Code quality issue, minor bug, maintainability concern |
 | LOW | **Nice to have** | Style issue, minor improvement, documentation gap |
+
+**Severity floor — silent wrong data (founder ruling 2026-10-10).** Any finding where data is lost, or a stored/reported value (money especially) is wrong, AND neither the founder (`adopter_detection: silent`) nor the end user would see it happen, is at least HIGH regardless of the amount. Size of the error does not lower it; whether anyone would notice does. A loud failure of the same kind (crash, visible error) is rated on its own merits. A floor, not a cap: broad or unrecoverable corruption is still CRITICAL. When the floor is the reason a finding is HIGH (set or raised, at any phase), write `severity_escalated_from: <the level it would have had without the floor>` on it, so REC-001 below treats it as already escalated and does not bump it again. This is written here because on ANCHOR-003 finding A3-3 all three model tiers rated a silent 1-cent tax error medium.
 
 Use the "Founder Label" in all default output. The internal level is used for RICE scoring and work item classification only.
 
 ### Silent-Only Severity Escalation (REC-001)
 
-When `adopter_detection == "silent"` AND `failure_mode_tags` contains either `data-loss` or `trust-corruption`, severity is automatically escalated by one tier (low → medium → high → critical, capped). The validator's `--apply-escalation` mode performs the rewrite and stamps `severity_escalated_from: <original>` for audit.
+When `adopter_detection == "silent"` AND `failure_mode_tags` contains either `data-loss` or `trust-corruption`, severity is automatically escalated by one tier (low → medium → high → critical, capped). The validator's `--apply-escalation` mode performs the rewrite and stamps `severity_escalated_from: <original>` for audit. The severity floor above is applied when severity is assigned (experts, cross-critic, facilitator and Phase 4a are all told it); REC-001 is the validator's mechanical backstop, is unchanged, and skips any finding that already carries `severity_escalated_from`.
 
 Rationale: a silent failure that corrupts data or erodes trust is structurally worse than a loud one — the founder loses ground without knowing. Escalating brings the tier in line with the actual blast radius.
 
@@ -272,7 +274,7 @@ Rationale: a silent failure that corrupts data or erodes trust is structurally w
 ### Detectability Summary
 Findings by detectability: [N silent / N ai-visible / N founder-visible]
 [If silent > 0]: "N findings would fire silently in an adopted repo — the founder would not see them without HomeBase inspection. See `--technical` for the list."
-[If any escalated]: "N findings were severity-escalated under REC-001 (silent-only + data-loss/trust-corruption)."
+[If any escalated]: "N findings were severity-escalated under REC-001 or the silent-wrong-data floor (silent-only + data-loss/trust-corruption)."
 
 ### Top 3 Things That Matter
 1. **[title]** — [one sentence: what's wrong and what it means for your users/business]

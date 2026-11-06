@@ -36,7 +36,7 @@ require('./lib/preflight');
 const fs = require('fs');
 const path = require('path');
 const { readYAMLFile } = require('./lib/cwos-utils');
-const { compareSemver, lagSeverity, resolveInstalledVersion } = require('./lib/kit-version');
+const { compareSemver, lagSeverity, resolveInstalledVersion, readMandatoryReleases, mandateFor } = require('./lib/kit-version');
 
 const VALID_CAPABILITIES = ['core', 'workstream', 'engines', 'governance', 'autonomous'];
 
@@ -245,18 +245,34 @@ function checkHardlinks(expected, homebase, target, mode) {
 // version that will not parse, rather than letting it read as up-to-date.
 const compareVersion = compareSemver;
 
-function checkDrift(versionStamp, kitVersion) {
+/**
+ * `mandates` is readMandatoryReleases(homebase), or omitted. WS-943: drift used
+ * to be a lag word and nothing else — every release was optional. `mandatory`
+ * is the release this repo is REQUIRED to reach and by when, or null; and
+ * `mandatory_unchecked` says why the answer is unknown when the changelog could
+ * not be read or held a mandate line that did not parse. Unknown is never
+ * rendered as "no mandate".
+ */
+function checkDrift(versionStamp, kitVersion, mandates, now) {
   // WS-547: was `versionStamp.kit_version_at_install` alone — the narrowest of
   // the four readers. It reported no drift for any repo whose stamp lacked that
   // one field, including every /genesis-created repo.
   const resolved = resolveInstalledVersion(versionStamp, null);
   const installed = resolved ? resolved.version : null;
+  const mandatory = installed && mandates && mandates.ok ? mandateFor(installed, mandates.releases, now) : null;
+  let unchecked = null;
+  if (mandates && !mandates.ok) unchecked = mandates.error;
+  else if (mandates && mandates.malformed.length) {
+    unchecked = `${mandates.malformed.length} mandate line(s) in kit/CHANGELOG.md did not parse (first: ${mandates.malformed[0].version || 'no release'} — ${mandates.malformed[0].why})`;
+  }
   if (!installed || !kitVersion) {
     return {
       kit_version_installed: installed || null,
       kit_version_homebase: kitVersion || null,
       version_lags: false,
       lag_severity: 'none',
+      mandatory,
+      mandatory_unchecked: unchecked,
     };
   }
   const cmp = compareVersion(installed, kitVersion);
@@ -265,24 +281,49 @@ function checkDrift(versionStamp, kitVersion) {
     kit_version_homebase: kitVersion,
     version_lags: cmp < 0,
     lag_severity: lagSeverity(installed, kitVersion),
+    mandatory,
+    mandatory_unchecked: unchecked,
   };
+}
+
+/** The one sentence a mandate is said in — /status and --line both use it. */
+function mandateSentence(m) {
+  if (!m) return null;
+  if (m.overdue) {
+    return `MANDATORY kit update OVERDUE by ${-m.days_left} day(s): ${m.version} was required by ${m.mandatory_by} — ${m.reason}. Run /kit-upgrade.`;
+  }
+  return `Mandatory kit update due in ${m.days_left} day(s): ${m.version} is required by ${m.mandatory_by} — ${m.reason}. Run /kit-upgrade.`;
 }
 
 function buildLine(result) {
   const totalExpected = Object.values(result.coverage).reduce((n, c) => n + c.expected, 0);
+  // WS-943: an overdue mandate leads. It is the one kit fact with a date on it,
+  // and it must not be the tail of a sentence about file counts.
+  const mandate = result.drift && result.drift.mandatory;
+  if (mandate && mandate.overdue) {
+    const rest = result.gaps.length > 0 ? ` Also ${result.gaps.length} kit gap(s) — run /audit.` : '';
+    return `Kit health: RED — ${mandateSentence(mandate)}${rest}`;
+  }
+  // A mandate still inside its window rides on whichever line follows.
+  // "Could not check" rides the same way. Without it this line said "clean"
+  // while a mandate line in the changelog sat unparsed — unknown rendered as
+  // "no mandate", the one thing checkDrift promises never happens.
+  const unchecked = result.drift && result.drift.mandatory_unchecked
+    ? ` Mandatory-update check UNKNOWN — ${result.drift.mandatory_unchecked}.` : '';
+  const due = (mandate ? ` ${mandateSentence(mandate)}` : '') + unchecked;
   if (!result.degraded) {
     return `Kit health: clean — ${totalExpected} files across ${
       Object.entries(result.coverage)
         .filter(([_, c]) => c.expected > 0)
         .map(([cap]) => cap).join(', ')
-    } (${result.elapsed_ms}ms).`;
+    } (${result.elapsed_ms}ms).${due}`;
   }
   const perCap = Object.entries(result.coverage)
     .filter(([_, c]) => c.expected > 0)
     .map(([cap, c]) => `${cap} ${c.present}/${c.expected}`)
     .join(', ');
   const hl = result.hardlinks.broken > 0 ? `, ${result.hardlinks.broken} broken hardlink(s)` : '';
-  return `Kit health: ${result.gaps.length} gap(s) detected since last session — ${perCap}${hl}. Run /audit for details, /adopt --repair to fix.`;
+  return `Kit health: ${result.gaps.length} gap(s) detected since last session — ${perCap}${hl}. Run /audit for details, /adopt --repair to fix.${due}`;
 }
 
 function main() {
@@ -325,9 +366,12 @@ function main() {
   const hardlinks = checkHardlinks(expected, homebase, opts.target, mode);
   const versionStamp = readVersionStamp(opts.target);
   const kitVersion = readKitVersion(homebase);
-  const drift = checkDrift(versionStamp, kitVersion);
+  const drift = checkDrift(versionStamp, kitVersion, readMandatoryReleases(homebase), Date.now());
 
-  const degraded = presence.gaps.length > 0 || hardlinks.broken > 0;
+  // WS-943: an overdue mandate degrades. It reports — exit 1 and a RED line —
+  // and blocks nothing; a mandate still inside its window does not degrade.
+  const mandateOverdue = Boolean(drift.mandatory && drift.mandatory.overdue);
+  const degraded = presence.gaps.length > 0 || hardlinks.broken > 0 || mandateOverdue;
   const result = {
     ok: !degraded,
     degraded,
@@ -345,7 +389,9 @@ function main() {
     drift,
   };
 
-  if (opts.quiet && !degraded) {
+  // --quiet means "silent when there is nothing to act on". A mandate with a
+  // date on it is something to act on, even before it is overdue (WS-943).
+  if (opts.quiet && !degraded && !drift.mandatory && !drift.mandatory_unchecked) {
     process.exit(0);
   }
   if (opts.line) {
@@ -366,5 +412,6 @@ module.exports = {
   compareVersion,
   lagSeverity,
   checkDrift,
+  mandateSentence,
   buildLine,
 };

@@ -114,6 +114,48 @@ function harvestIndexIds(indexPath, prefix, into) {
   }
 }
 
+/**
+ * WS ids already taken on ANY branch — every `refs/remotes/origin/*` and local head — not only
+ * the single remote-tracking ref `lib/remote-ids.js` resolves (origin/HEAD → master → main).
+ * That ref closes the "node is merely BEHIND the default branch" case (issue #26). It does not
+ * see ids minted on OPEN PR BRANCHES: two branches cut from the same base each mint max+1 and
+ * hand out the same numbers. Measured in claude-poker-tracker, 2026-09-29: id-collisions.yaml
+ * records COL-002..009, and eight ids collided across three open branches, wedging every commit
+ * on the branch that had minted them first. (Poker-local patch, upstreamed via WS-1673.)
+ *
+ * Reads refs locally (no network; the fetch allocateId already does refreshes origin/*).
+ * Outside a git repo, or if git is missing, it adds nothing and allocation behaves exactly as
+ * before. A branch that exists only unpushed on another machine is still invisible — that half
+ * is `lib/id-collision.js`'s to catch.
+ */
+function harvestRefQueueIds(wsDir, into) {
+  const { execFileSync } = require('child_process');
+  const run = (cwd, args) => execFileSync('git', args, {
+    cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 256 * 1024 * 1024, timeout: 30_000,
+    windowsHide: true,
+  });
+  let top;
+  try { top = run(wsDir, ['rev-parse', '--show-toplevel']).trim(); } catch { return; }
+  // From the top, never from wsDir: ls-tree resolves its pathspec against the cwd, and a
+  // top-relative path run from inside wsDir matches nothing — silently (caught by the control
+  // run against a branch whose own max is below another branch's).
+  const git = (args) => run(top, args);
+  const rel = path.relative(top, path.resolve(wsDir)).split(path.sep).join('/');
+  if (rel.startsWith('..')) return;
+  const queueRel = rel ? rel + '/queue' : 'queue';
+  let refs = [];
+  try {
+    refs = git(['for-each-ref', '--format=%(refname)', 'refs/remotes/origin', 'refs/heads'])
+      .split(/\r?\n/).filter((r) => r && !/\/HEAD$/.test(r));
+  } catch { return; }
+  const re = /(?:^|\/)WS-(\d+)\.yaml$/;
+  for (const ref of refs) {
+    let names = '';
+    try { names = git(['ls-tree', '-r', '--name-only', ref, '--', queueRel]); } catch { continue; }
+    for (const p of names.split(/\r?\n/)) { const m = re.exec(p); if (m) into.add(parseInt(m[1], 10)); }
+  }
+}
+
 const KINDS = {
   ws: {
     prefix: 'WS',
@@ -135,6 +177,12 @@ const KINDS = {
     remote(gitCwd, ref) {
       const ids = new Set();
       harvestNames(remoteTreeNames(gitCwd, ref, ['queue', 'queue/archive']), /^WS-(\d+)\.yaml$/, ids);
+      return ids;
+    },
+    // Every branch, not only the default one — see harvestRefQueueIds.
+    allRefs(gitCwd) {
+      const ids = new Set();
+      harvestRefQueueIds(gitCwd, ids);
       return ids;
     },
   },
@@ -291,9 +339,10 @@ function reservedNumbers(ledger, prefix) {
  *                                 the id is written rather than reserved.
  * @param {number} [opts.ttlMs]    reservation lifetime, default 24h
  * @param {string} [opts.reservedBy] free-text owner recorded in the ledger
- * @param {boolean} [opts.remote]  false skips the remote-tracking-ref union
- *                                 (and the fetch). Default true; a repo with no
- *                                 remote behaves as if it were false.
+ * @param {boolean} [opts.remote]  false skips the remote-tracking-ref union,
+ *                                 the every-branch WS scan, and the fetch.
+ *                                 Default true; a repo with no remote skips the
+ *                                 fetch and the default-ref union only.
  * @returns {string} the allocated id, e.g. "WS-582"
  */
 function allocateId(kind, opts = {}) {
@@ -326,6 +375,11 @@ function allocateId(kind, opts = {}) {
       : spec.scan(wsDir);
     if (remoteRef) {
       for (const n of spec.remote(gitCwd, remoteRef, { systemDir: opts.systemDir })) onDisk.add(n);
+    }
+    // Ids on OTHER branches (open PRs, local heads). Gated by the same `remote: false`
+    // switch, but not by remoteRef: local heads can collide in a repo with no remote.
+    if (opts.remote !== false && typeof spec.allRefs === 'function') {
+      for (const n of spec.allRefs(gitCwd)) onDisk.add(n);
     }
 
     const ledger = readLedger(wsDir, ttlMs);

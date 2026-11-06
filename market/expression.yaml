@@ -1,0 +1,45 @@
+# ─── Brand expression (ADR-075) ─────────────────────────────────────────────
+# Every element of how the brand shows up — theme intensity, imagery, tone,
+# vocabulary, palette, depth, how loudly it signals privacy or inclusion — is a
+# DIMENSION with ordered levels. Every surface in market/spine.yaml sets every
+# dimension explicitly. A setting that departs from the default names the
+# HYPOTHESIS it tests, and every hypothesis names the persona, the metric and
+# (eventually) the experiment that settles it. Stances and persona trust breakers
+# set BOUNDS no surface may cross.
+#
+# Nothing is left to taste-of-the-day: `cwos-spine validate` fails an unset
+# element, an unexplained departure, or a setting past a bound.
+
+dimensions:
+  - id: DIM-<slug>
+    name: "<element>"
+    applies_to: [copy]         # copy | imagery | layout | color | voice
+    levels:                    # ordered low → high, numbered 1..n
+      - level: 1
+        name: "<name>"
+        looks_like: "<what a reader would actually see at this level>"
+      - level: 2
+        name: "<name>"
+        looks_like: "<…>"
+    default: 1
+    bounds:                    # optional; each cites what set it
+      - max: 2
+        set_by: STN-<slug>     # STN- | DEC- | ADR- | PER- (a persona trust breaker)
+        surfaces: []           # empty = applies everywhere
+
+hypotheses:
+  - id: HYP-<slug>
+    statement: "If <surface> sets <dimension> to <level>, <persona> will <behavior>, moving <metric>, because <reason>"
+    dimension: DIM-<slug>
+    personas: [PER-<slug>]
+    metric: MET-<slug>
+    status: untested           # untested | testing | supported | refuted
+    experiment: null           # EXP- that tests it (running for testing; decided for supported/refuted)
+    tag: ASSUMED
+
+settings:
+  - surface: SRF-<slug>
+    values:
+      DIM-<slug>: 1
+    because:                   # required for every value that departs from the default
+      DIM-<slug>: HYP-<slug>

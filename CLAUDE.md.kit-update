@@ -1,0 +1,78 @@
+# CWOS Session Protocol
+
+**You can ALWAYS just describe what you want in plain English.** Commands are optional shortcuts — "fix that bug" or "make the homepage faster" works.
+
+## Session Modes
+Match ceremony to task weight. Each mode in full: `/session-start` → "Session modes in full".
+- **Quick Fix** ("fix", "broken", "error", "customer says", one file): read only `CLAUDE.md` + `system/state.md`; no session file; verify only financial/security code; after, one `quick-fix` line in Recent Sessions. Mention a touched program's `scope_paths` and any related `failures.md` pattern. 3+ files or several programs → suggest Standard.
+- **Standard** (default; features, "what's next", multi-file): orient from `system-summary.yaml`, else `state.md` + `context.md` + top 3 unclaimed; lead with the active sprint; one-line alert for a RED or stale program. Read `invariants.md` / `decisions.md` / `failures.md` on demand. `/verify` before done; update `state.md` after.
+- **Strategic** (`/plan`, `/engine`, `/audit`, "full session", `/session-start full`): full ceremony. "quick fix" / "full session" force a mode; no de-escalation. Orient less as the project matures.
+
+## Engines — suggest before ad-hoc analysis
+Before a non-trivial task, check whether an engine fits better: ship-ready, review, "feels off", weak tests → `eng-engine` · refactor → `refactor-prep` · dependency upgrade → `upgrade-prep` · schema change → `migration-prep` · A or B → `/decide` → `decision-enhance` · is my plan good → `plan-enhance` · prod broken → `incident-response` · money logic → `financial-audit` · UX → `ux-audit` · legal → `legal-safety` · priorities → `traction` · strategy → `business-engine`. Frame it as a business outcome, not an engine name. Not for narrow lookups, one-line fixes, or a scope the user already fixed. Configs, after-action chains and `--just-run`: `/engine` → "When to suggest an engine".
+
+## Sprints
+Work runs in sprints — 3–8 items, one goal, approved once — composed by `/next` (grouped by program and dependencies). "Just do it" items run autonomously; "Design first" items go through plan mode and the user's decisions. One active sprint at a time; `/next` resumes before proposing; a mid-session end preserves the sprint; the user can skip items or cancel.
+
+## Onboarding, Missing Commands, Missing State
+- `.cwos-onboarding.yaml` with M5 incomplete: read it silently; suggest ONE natural improvement per session ("Want me to…", not "You need to…"); never advance 2+ milestones; never show milestone names or YAML.
+- Uninstalled command: check the `deferred_commands` manifest; if the command's capability is enabled (or intended) in `.cwos-onboarding.yaml`, install the group + dependencies silently, then run; otherwise explain what's missing and suggest `/discover`.
+- First session: `.cwos-version` exists and `usage.yaml` `welcome_completed` is false → `/welcome` first.
+- Commands must work at any milestone. Missing state — **blocking** (no `queue-index.yaml` → create the structure; no `engines/registry.yaml` → install from HomeBase): auto-scaffold silently and minimally, then proceed · **degraded** (no `invariants.md`, no `context.md`): defaults, mention once · **optional** (no custom personas, no `usage.yaml`): skip silently. Never show YAML paths or milestone names to the user; never say "you need to reach M3 first". Capture the friction (below). HomeBase path: `.cwos-version.homebase_path`.
+
+## Friction & Feedback
+Record it **when it happens** — at session end it arrives about 12% of the time.
+
+```bash
+node kit/scripts/cwos-capture.js friction "<what fought back>" --severity high|medium|low --component <name>
+node kit/scripts/cwos-capture.js feedback "<what the founder said>" --category objection|preference|concern|integration|feature_request
+```
+
+- A command failed or needed a workaround: fix it, keep working, capture it (`--component` is optional). Founder frustration or a CWOS preference: capture as feedback, acknowledge briefly, don't argue.
+- Capture **cannot block you** — it exits 0 even when the write fails, so a printed `NOT captured` is your only signal: surface it. Never hand-edit `.cwos-feedback.yaml` (a generated view).
+- Windows (per `.cwos-onboarding.yaml`): prefer Python for datetime, avoid `set -euo pipefail` in hooks and `$$` for PID.
+
+## Standard Commands
+Core commands: `/status` `/next` `/plan` `/engine` `/build-engine` `/audit` `/verify` `/session-start` `/session-end` `/decide` `/pulse` `/workstream` `/autopilot`. Installed ones carry their description in the skill list; one not yet installed follows the uninstalled-command rule above.
+
+## Command Routing — Use the Envelope
+When a CWOS command produces what you need, **invoke it** — don't bypass to scripts or YAML: `/pulse` or `/status` (not grep `prog-*.yaml`) · `/next` (not hand-ranked `queue/WS-*.yaml`) · `/audit drift` (not `cwos-reconcile.js` directly) · `/verify` (not individual INV scripts) · `/decide` (not hand-edited `decisions.md`) · `/workstream done|defer|claim|…` (not hand-edited queue YAMLs). Read freely: `cwos-state-store.js <domain> <op>`, `cwos-event.js append …` (mandatory at command boundaries), and one-off reads where no command exists — doing that regularly is a gap to flag. INV-cli-bypass-via-command monitors compliance.
+
+## Catch-state suggestions (ADR-040)
+A `Catch-state: consider /engine X on Y …` line in context (HomeBase-only hook): surface it as "Consider `/engine X on Y` — <one-clause reason>". Do not insist.
+
+## System State Files
+They live in `system_dir` from `.cwos-config.yaml` (default `system`; e.g. `system_dir: .cwos` turns `system/state.md` into `.cwos/state.md`): <!-- orientation-allow: illustrative substitution, not a path in this repo -->
+`state.md` (vitals, metrics, queue, sessions) · `invariants.md` (rules + check commands) · `constraints.md` (assumptions, verification dates) · `decisions.md` (ADR log) · `failures.md` (failure modes: cause, fix, prevention) · `context.md` (business context). That directory is the ONLY valid location; copies elsewhere are stale — flag via `/audit`.
+
+## Communication Style
+Non-technical founder: business impact first, jargon explained once, 2 options max with a recommendation, labelled Business Priority or Technical Maintenance.
+- **States use the founder lexicon only.** Work: BUILT → WIRED → LIVE → SHOWN → ACCEPTED. Health: OK · RED · BLIND (unseen is BLIND, never OK). Retired, never a state label: green, yellow, pass, done, complete, shipped, stale, unknown.
+- **End in the report form:** the outcome in one line, ladder word first · `Changed:` · `RED/BLIND:` (or none) · `Next:` one move, YOU or AI.
+- **Asks go on the founder desk, nowhere else:** `node kit/scripts/cwos-desk.js ask --help`; findings go in a brief (`cwos-desk.js brief publish`). His answers print at session start — act on them first.
+
+## Decision Detection
+During ALL work, watch for **implicit decisions** — choices that shape product behavior but were never recorded: a behavioral choice, business rule, error/edge handling, data model, integration pattern, security/access rule, UX pattern, omission, or trade-off (examples: `/decide` → "Decision signals"). Not decisions: routine code, established patterns, unambiguous specs, framework conventions.
+- Flag inline — `**Decision noted:** [summary]` — and keep working. **Capture it in the same breath**; an event survives a session that dies:
+  ```bash
+  node kit/scripts/cwos-capture.js decision "<summary>" --weight heavy|medium|light --why "<reasoning>"
+  ```
+- Significant trade-offs: `**Decision with trade-offs:** [summary]. This means [consequence].`, captured `--weight heavy`. Several valid approaches and no user choice: state yours and why before implementing.
+- Heavy/medium reach `system/decisions.md` when `cwos-reconcile` drains; light stays in the event log.
+
+**A mistake** is friction's sibling — not a tool fighting you, but a call that was wrong:
+
+```bash
+node kit/scripts/cwos-mistake.js "<one line>" --enforcement hook|gate|contextual|prose [--class RC1-deferred|…] [--repeat]
+```
+
+`--enforcement` is required: it decides whether the lesson ever works. Reach for `hook` or `gate` first and ask what boundary could hold this mechanically. **Prose is the tier of last resort** — paid every session, and the tier that measurably fails. `cwos-mistake tiers` explains the ladder; `review` names promotion candidates.
+
+## Always
+- After code changes: vital sign checks (tests, lint, build), and mention a touched program's `scope_paths`. After UI changes: Playwright screenshots. Before commit: preflight on the diff. Before marking an item done: `/verify`. Session end: full verification pass.
+- `.claude/rules/` is mandatory and overrides general patterns.
+- Self-healing: stale program → maintenance item · failed vital sign → flag + suggest a fix · run invariant check commands periodically · kit behind HomeBase → mention in `/status`.
+- Autonomous cycle: active sprint → resume | none → `/next` → approve | queue empty → `/audit` → compose | still empty → `/plan` | still empty → drift-detector questions. **Always stop and ask for:** sprint approval, design decisions, critical findings, invariant changes.
+
+---
+<!-- CWOS Preamble End — Project-specific content below -->

@@ -65,3 +65,20 @@ docs/
 .claude/workstream/tmp/
 .claude/.tmp-*.json
 .cwos-snapshots/
+
+# CWOS - added by kit upgrade
+.claude/workstream/dispatch-spool.jsonl
+.claude/workstream/dispatch-spool.jsonl.*
+.claude/workstream/liveness/
+.claude/workstream/state/test-sweeps/
+.claude/workstream/.hooks-liveness.yaml
+.claude/workstream/.verify-liveness.yaml
+.claude/workstream/.test-sweep.json
+.claude/workstream/.session-recovery.mutex
+.claude/workstream/.current-session
+.claude/workstream/meta/invariant-firing-log.yaml
+.claude/workstream/**/*.lock
+.claude/workstream/**/*.tmp
+.cwos-worktree.json
+**/.claude/worktrees/
+.claude/workstream/.active-sessions/

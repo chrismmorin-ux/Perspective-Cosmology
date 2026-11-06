@@ -48,13 +48,32 @@ require('./lib/preflight');
 
 const path = require('path');
 const fs = require('fs');
-const { findWorkstreamDir, globFiles, readYAMLFile, writeFileAtomic, todayISO, withFileLock, makeEventEmitter } = require('./lib/cwos-utils');
+const { findWorkstreamDir, globFiles, readYAMLFile, writeFileAtomic, todayISO, withFileLock, makeEventEmitter, blockScalarLines } = require('./lib/cwos-utils');
 const { systemPath } = require('./lib/kit-artifacts');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-plan-scan',
+  summary: 'find plan docs whose items never reached the queue',
+  flags: {
+    quiet: { type: 'boolean', describe: 'print nothing unless something is found' },
+    strict: { type: 'boolean', describe: 'exit non-zero on findings' },
+    json: { type: 'boolean', describe: 'machine-readable output' },
+    'emit-findings': { type: 'boolean', describe: 'write findings for what is found' },
+    verbose: { type: 'boolean', describe: 'print a stack trace on error' },
+    'workstream-dir': { type: 'string', describe: 'workstream directory (default: resolved from cwd)' },
+    'docs-dir': { type: 'string', describe: 'docs directory to scan (default: <repo>/docs)' }
+  }
+};
 
 const emitEvent = makeEventEmitter();
 
 function main() {
   const args = process.argv.slice(2);
+  cliGate(args, CLI);
   const quiet = args.includes('--quiet');
   const strict = args.includes('--strict');
   const asJson = args.includes('--json');
@@ -369,6 +388,26 @@ function printReport(report) {
 
 // ─── Findings Emission ─────────────────────────────────────────────────────
 
+/** One plan-drift finding. The message quotes plan text, so it goes through the one writer (WS-1079). */
+function renderPlanFinding(findingId, v, wsDir) {
+  return [
+    `id: "${findingId}"`,
+    `title: "Plan drift: ${v.ref} orphan in ${v.plan_id}"`,
+    `severity: high`,
+    `status: open`,
+    `type: ${v.type}`,
+    `program: program-integrity`,
+    `source:`,
+    `  script: cwos-plan-scan`,
+    `  plan_file: "${path.relative(path.resolve(wsDir, '..', '..'), v.plan_file)}"`,
+    `  plan_id: "${v.plan_id}"`,
+    `  plan_ref: "${v.ref}"`,
+    ...blockScalarLines('description', v.message, { style: '>' }),
+    `created_at: "${todayISO()}"`,
+    '',
+  ].join('\n');
+}
+
 function emitFindingsFromViolations(wsDir, violations) {
   const findingsDir = path.join(wsDir, 'findings');
   if (!fs.existsSync(findingsDir)) fs.mkdirSync(findingsDir, { recursive: true });
@@ -391,23 +430,7 @@ function emitFindingsFromViolations(wsDir, violations) {
     for (const v of violations) {
       const findingId = `FIND-${String(nextId).padStart(3, '0')}`;
       nextId++;
-      const yaml = [
-        `id: "${findingId}"`,
-        `title: "Plan drift: ${v.ref} orphan in ${v.plan_id}"`,
-        `severity: high`,
-        `status: open`,
-        `type: ${v.type}`,
-        `program: program-integrity`,
-        `source:`,
-        `  script: cwos-plan-scan`,
-        `  plan_file: "${path.relative(path.resolve(wsDir, '..', '..'), v.plan_file)}"`,
-        `  plan_id: "${v.plan_id}"`,
-        `  plan_ref: "${v.ref}"`,
-        `description: >`,
-        `  ${v.message}`,
-        `created_at: "${todayISO()}"`,
-        '',
-      ].join('\n');
+      const yaml = renderPlanFinding(findingId, v, wsDir);
       writeFileAtomic(path.join(findingsDir, `${findingId}.yaml`), yaml);
       // Shadow event (WS-174): one event per finding emitted. Only fires when
       // an orphan was discovered — no heartbeat per conditional-mutation rule.
@@ -419,6 +442,8 @@ function emitFindingsFromViolations(wsDir, violations) {
     }
   }, { ownerLabel: 'plan-scan:emit-findings', maxWaitMs: 10000 });
 }
+
+module.exports = { renderPlanFinding };
 
 // WS-544: guard the entry point so requiring this file for a dependency smoke
 // check neither scans nor exits the checking process.

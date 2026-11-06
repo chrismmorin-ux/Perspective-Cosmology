@@ -39,4 +39,24 @@ function hashMatchesBaseline(buf, expected) {
   return lineEndingVariantHashes(buf).has(expected);
 }
 
-module.exports = { sha256, lineEndingVariantHashes, hashMatchesBaseline };
+/**
+ * The bytes git would store for this working-tree file — what a plain LF
+ * checkout (CI, a cloud session) reads back (WS-1083).
+ *
+ * `indexEol` is the `i/` column of `git ls-files --eol` for the path. A blob
+ * that already holds CRLF (`crlf`, `mixed`) or that git treats as binary
+ * (`-text`) is checked out as it is stored, so its bytes are used raw. Every
+ * other text file (`lf`, `none`, untracked, or no git at all) has CRLF turned
+ * back into LF: that undoes core.autocrlf / eol=crlf on checkout exactly,
+ * because such a blob held no CR to begin with. A buffer with a NUL byte is
+ * binary and stays raw. Byte-level (latin1) so no UTF-8 decode can alter it.
+ */
+function gitCanonicalBytes(buf, indexEol) {
+  const raw = Buffer.isBuffer(buf) ? buf : Buffer.from(String(buf), 'utf8');
+  if (indexEol === 'crlf' || indexEol === 'mixed' || indexEol === '-text') return raw;
+  if (raw.includes(0)) return raw;
+  if (!raw.includes(13)) return raw;
+  return Buffer.from(raw.toString('latin1').replace(/\r\n/g, '\n'), 'latin1');
+}
+
+module.exports = { sha256, lineEndingVariantHashes, hashMatchesBaseline, gitCanonicalBytes };

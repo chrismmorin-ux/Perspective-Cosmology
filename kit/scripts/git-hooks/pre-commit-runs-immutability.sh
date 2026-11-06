@@ -25,7 +25,13 @@ if [ ! -f "$CHECKER" ]; then exit 0; fi
 # artifacts/. Excludes addendum.md and summary.yaml (the explicit escape
 # hatches). Diff-filter ACMR catches add/copy/modify/rename; deletes are
 # also blocked because losing a sealed artifact violates canonicality.
-STAGED=$(git diff --cached --name-only --diff-filter=ACMRD \
+#
+# --no-renames: with rename detection a move OUT of artifacts/ lists only its
+# destination, so the deletion of a sealed artifact was invisible, and a
+# renamed-away manifest let the next commit pass as a first landing.
+# core.quotePath=false: a quoted path (non-ASCII, a quote character) starts
+# with `"` and slipped past the ^ anchor below.
+STAGED=$(git -c core.quotePath=false diff --cached --no-renames --name-only --diff-filter=ACMRD \
   | grep -E '^\.claude/workstream/runs/run-[^/]+/(manifest\.yaml|artifacts/)' || true)
 
 if [ -z "$STAGED" ]; then exit 0; fi
@@ -38,20 +44,61 @@ RUN_IDS=$(echo "$STAGED" \
 
 if [ -z "$RUN_IDS" ]; then exit 0; fi
 
+# Only a run whose COMPLETED manifest is already in HEAD can be edited
+# (WS-1264, measured 2026-11-05). The seal event is emitted before the
+# completion is committed, two ways:
+#   - first landing: run-038, 039, 041 and 042 were sealed 1-30 minutes
+#     before their manifest was first added at all;
+#   - incremental: run-036 committed its manifest from 13:44, was sealed at
+#     14:21, and its completion commit (completed_at + the briefing) landed
+#     at 14:22.
+# Both are the run finishing, not an edit. The completion step writes
+# `completed_at` into the manifest, so a run is judged only when HEAD's
+# manifest already carries it; 290b726df (a manifest edit after that) is
+# what the gate refuses. A sealed run whose manifest never recorded
+# completed_at (pre-schema, e.g. run-033) is not locked: the miss, stated.
+LANDED=""
+for RID in $(echo "$RUN_IDS" | tr ',' ' '); do
+  if git show "HEAD:.claude/workstream/runs/$RID/manifest.yaml" 2>/dev/null \
+      | grep -qE '^completed_at:[[:space:]]*"?[0-9]'; then
+    LANDED="${LANDED:+$LANDED,}$RID"
+  fi
+done
+RUN_IDS="$LANDED"
+if [ -z "$RUN_IDS" ]; then exit 0; fi
+
 # Ask the checker which of those run-ids are sealed. It exits 1 with a
 # newline-separated list on stdout when at least one is sealed.
-SEALED_OUTPUT=$(node "$CHECKER" --run-ids "$RUN_IDS" 2>/tmp/cwos-runs-sealed-stderr || true)
-SEALED_EXIT=$?
+#
+# The exit status is captured with `|| SEALED_EXIT=$?`, never read from `$?`
+# after the substitution (WS-1264). This line used to be
+#   SEALED_OUTPUT=$(node ... || true); SEALED_EXIT=$?
+# where `|| true` ran INSIDE the substitution, so `$?` was always 0 and the
+# gate approved every edit to a sealed run from the day it shipped. The form
+# below also survives `set -e`: a failing command on the left of `||` does
+# not exit the script.
+#
+# stderr goes to a per-run temp file: a fixed /tmp path is shared by every
+# session on the machine, so two concurrent commits read each other's errors.
+ERR_FILE=$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/cwos-runs-sealed-stderr-$RANDOM")
+SEALED_EXIT=0
+SEALED_OUTPUT=$(node "$CHECKER" --run-ids "$RUN_IDS" 2>"$ERR_FILE") || SEALED_EXIT=$?
 
 if [ "$SEALED_EXIT" -eq 0 ]; then
-  rm -f /tmp/cwos-runs-sealed-stderr
+  rm -f "$ERR_FILE"
   exit 0
+fi
+
+# Exit 1 means "sealed" only when it names a run. An uncaught exception in
+# the checker also exits 1, with nothing on stdout; that is a checker error.
+if [ "$SEALED_EXIT" -eq 1 ] && [ -z "$(printf '%s' "$SEALED_OUTPUT" | tr -d '[:space:]')" ]; then
+  SEALED_EXIT=70
 fi
 
 if [ "$SEALED_EXIT" -ne 1 ]; then
   echo "pre-commit-runs-immutability: checker error (exit $SEALED_EXIT)" >&2
-  cat /tmp/cwos-runs-sealed-stderr >&2 2>/dev/null || true
-  rm -f /tmp/cwos-runs-sealed-stderr
+  cat "$ERR_FILE" >&2 2>/dev/null || true
+  rm -f "$ERR_FILE"
   exit 1
 fi
 
@@ -68,5 +115,5 @@ echo "To record updates to a sealed run, edit (or add):" >&2
 echo "  .claude/workstream/runs/<run-id>/addendum.md" >&2
 echo "" >&2
 echo "Schema: kit/templates/workstream/runs/CANONICAL.md" >&2
-rm -f /tmp/cwos-runs-sealed-stderr
+rm -f "$ERR_FILE"
 exit 1

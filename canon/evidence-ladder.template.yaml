@@ -1,0 +1,73 @@
+# Evidence ladder — copy to canon/evidence-ladder.yaml and edit.
+#
+# Graded by kit/scripts/cwos-evidence.js. A record's rung is COMPUTED from what
+# the record contains; no record states its own rung and no person approves one
+# (pc2 canon/EVIDENCE.md). Raising a standard needs no approval; lowering one
+# needs the founder.
+#
+# Conditions are flat maps with an `op`: present · in · eq · lt ·
+# quote_has_value · replicated · any/all/not (with `of: [...]`).
+# See kit/scripts/lib/evidence-ladder.js for each op's fields.
+
+ladder: example-records
+records_dir: records
+id_path: id
+output: records/grades.generated.yaml
+
+# A record confirmed by the machine instead of a person must reach this rung.
+gate:
+  rung: R2
+  when:
+    op: eq
+    path: confirmed_by
+    value: gate
+
+rungs:
+  - id: R0
+    name: unverified
+  - id: R1
+    name: located
+    next: "find the source and quote the sentence holding the value"
+    requires:
+      - op: quote_has_value
+        quote: verification.quote
+        value: value
+  - id: R2
+    name: read
+    next: "read the full primary text, not an abstract or a summary"
+    requires:
+      - op: in
+        path: verification.read
+        values: [raw-text]
+  - id: R3
+    name: replicated
+    next: "an independent source reporting the same thing"
+    requires:
+      - op: replicated
+        key: question
+        min: 2
+        independent_by:
+          - source
+
+blockers:
+  - reason: "value produced by a model, not read from a source"
+    when:
+      op: eq
+      path: origin
+      value: model
+
+fixtures:
+  - name: "quote missing the value is refused"
+    expect: R0
+    record:
+      value: 6.3
+      verification:
+        read: raw-text
+        quote: "rose to 63 per day"
+  - name: "raw text with the value reaches read"
+    expect: R2
+    record:
+      value: 6.3
+      verification:
+        read: raw-text
+        quote: "rose to 6.3 per day"

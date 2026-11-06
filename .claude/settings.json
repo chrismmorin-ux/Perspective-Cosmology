@@ -1,0 +1,153 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -f \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/claude-hooks/clean-tree-check.cjs\" || node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/claude-hooks/clean-tree-check.cjs\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-heartbeat.js\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/claude-hooks/session-report-log.cjs\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-heartbeat.js\" --min-interval-minutes 10 2>/dev/null || true"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-dispatch-ledger.js\" record 2>/dev/null || true"
+          }
+        ],
+        "matcher": "Agent|Task"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -f \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-lease-check.js\" || node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-lease-check.js\" post"
+          }
+        ],
+        "matcher": "ExitPlanMode|AskUserQuestion"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-git.js\" record --bash-window --quiet 2>/dev/null || true"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-session-register.js\" 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup|resume|clear"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-session-recovery.js\" --auto --quiet 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup|resume|clear"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-reconcile.js\" --check-drift --refresh-state --quiet 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-usage-derive.js\" --write --quiet 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-desk.js\" answers --quiet 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup|resume|clear"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-hygiene.js\" scan --stranded --quiet --fetch-if-stale 2>/dev/null || true"
+          }
+        ],
+        "matcher": "startup"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -f \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-git.js\" || node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-git.js\" guard"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -f \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/claude-hooks/piped-push-guard.cjs\" || node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/claude-hooks/piped-push-guard.cjs\""
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "test ! -f \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-lease-check.js\" || node \"${CLAUDE_PROJECT_DIR:-.}/kit/scripts/cwos-lease-check.js\" pre"
+          }
+        ],
+        "matcher": "ExitPlanMode|AskUserQuestion|Write|Edit|MultiEdit|NotebookEdit|Bash"
+      }
+    ]
+  }
+}

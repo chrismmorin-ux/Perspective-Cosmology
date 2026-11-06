@@ -20,14 +20,19 @@
  *
  * Usage:
  *   node kit/scripts/cwos-kit-upgrade.js [<repo-path>] --homebase <path> [--apply]
- *   node kit/scripts/cwos-kit-upgrade.js [<repo-path>] --rollback
+ *   node kit/scripts/cwos-kit-upgrade.js [<repo-path>] --rollback [--yes]
  *
  *   <repo-path>   repo to upgrade (default: cwd)
  *   --homebase    HomeBase root that sources the new kit (required unless cwd/.cwos-version resolves it)
  *   --apply       perform writes (default: dry-run — shows the full diff, writes nothing)
- *   --rollback    restore the most recent kit-pre-upgrade snapshot and exit
+ *   --rollback    PREVIEW restoring the most recent kit-pre-upgrade snapshot (writes nothing)
+ *   --yes         with --rollback: perform the restore, under the upgrade lock
  *   --json        machine-readable summary
- *   --yes         non-interactive (assume confirmation)
+ *
+ * Exit: 0 ok / preview · 1 error, incl. an INCOMPLETE rollback · 3 missing schema
+ * migrator · 4 gate failed (auto-rolled back) · 5 an earlier upgrade was
+ * interrupted (--apply refused) · 6 repo-authored file at a kit/scripts path ·
+ * 7 rollback refused (the snapshot is not the installed upgrade)
  */
 
 'use strict';
@@ -37,7 +42,7 @@ require('./lib/preflight');
 const path = require('path');
 const fs = require('fs');
 const { spawnSync } = require('child_process');
-const { readYAMLFile, withFileLock, makeEventEmitter } = require('./lib/cwos-utils');
+const { readYAMLFile, withFileLock, makeEventEmitter, writeFileAtomic } = require('./lib/cwos-utils');
 
 const emitEvent = makeEventEmitter();
 const { resolveRepoVersion } = require('./lib/kit-version');
@@ -64,9 +69,11 @@ const SNAPSHOT_DIRS = [
   '.claude/workstream/state',
 ];
 // .gitignore included since 3g (ADR-058) appends the CWOS block — rollback
-// restores the pre-upgrade file content (index changes from `git rm --cached`
-// are left as-is; state is rebuildable either way).
+// restores the pre-upgrade file content. Index changes from `git rm --cached`
+// (3g, 3h) are undone by autoRollback via restoreIndex (WS-1141).
 const SNAPSHOT_FILES = ['.cwos-version', '.gitignore'];
+// Written by step 3i. Snapshotted per-run (it may not exist yet), not listed above.
+const CLAUDE_SETTINGS = '.claude/settings.json';
 
 // ─── small fs helpers (Node floor is v14 — no fs.cpSync) ────────────────────
 
@@ -229,10 +236,15 @@ function snapshotDirsRoot(repoPath) { return repoSnapshot.snapshotRoot(repoPath)
 // Thin wrappers over lib/repo-snapshot.js (WS-503). The lib keeps the ordering
 // WS-502 established — ignore snapshot storage BEFORE capturing .gitignore, so
 // the ignore line survives a rollback that retains the snapshot dir.
-function createPreUpgradeSnapshot(repoPath, createdFiles, fromV, toV) {
+//
+// `extraFiles` (WS-631) are individual files outside SNAPSHOT_DIRS that the
+// upgrade will delete or rewrite — the pre-existing `.kit-update` sidecars.
+// They sit wherever their live file sits (system/, .claude/rules/, the repo
+// root), which is exactly where the dir list does not reach.
+function createPreUpgradeSnapshot(repoPath, createdFiles, fromV, toV, extraFiles = []) {
   return repoSnapshot.createSnapshot(repoPath, {
     dirs: SNAPSHOT_DIRS,
-    files: SNAPSHOT_FILES,
+    files: [...SNAPSHOT_FILES, ...extraFiles.filter(f => !SNAPSHOT_FILES.includes(f))],
     createdFiles,                 // did not exist pre-upgrade → delete on rollback
     prefix: SNAPSHOT_PREFIX,
     meta: { from_version: fromV, to_version: toV },
@@ -249,6 +261,7 @@ const STATE_DOMAIN_FILES = ['config', 'engines', 'envelope', 'findings', 'progra
 
 
 function migrateStateCacheTracking(homebase, repoPath) {
+  let untracked = [];
   try {
     const tpl = path.join(homebase, 'kit', 'templates', 'gitignore-cwos.txt');
     const gi = path.join(repoPath, '.gitignore');
@@ -279,10 +292,57 @@ function migrateStateCacheTracking(homebase, repoPath) {
       const tracked = ls.stdout.split('\n').map(s => s.trim().replace(/\\/g, '/')).filter(Boolean)
         .filter(f => STATE_DOMAIN_FILES.includes(f));
       if (tracked.length > 0) {
-        spawnSync('git', ['rm', '--cached', '--quiet', ...tracked], { cwd: repoPath, encoding: 'utf8', timeout: 10000 });
+        const rm = spawnSync('git', ['rm', '--cached', '--quiet', ...tracked], { cwd: repoPath, encoding: 'utf8', timeout: 10000 });
+        if (rm.status === 0) untracked = tracked;
       }
     }
   } catch { /* non-fatal */ }
+  return { untracked };
+}
+
+/**
+ * WS-1141: put back index entries this run took out with `git rm --cached`.
+ * The snapshot restores files, not the index, so a rolled-back upgrade used to
+ * leave its untracking staged — the next commit in that repo deleted the files
+ * from history. `git reset -- <paths>` restores each entry from HEAD and never
+ * touches the working copy. Returns the paths it could not restore.
+ * Restores the HEAD entry: a change someone had staged in one of these paths
+ * before the upgrade is not brought back. They are machine-written files
+ * (node-local stamps, the state cache), so that is accepted, not handled.
+ */
+function restoreIndex(repoPath, paths) {
+  const failed = [];
+  for (let i = 0; i < paths.length; i += 50) {
+    const batch = paths.slice(i, i + 50);
+    const r = spawnSync('git', ['reset', '-q', '--', ...batch], { cwd: repoPath, encoding: 'utf8', timeout: 10000 });
+    if (r.status !== 0) failed.push(...batch);
+  }
+  return failed;
+}
+
+/**
+ * WS-884: take the node-local files out of the index. Idempotent, non-fatal,
+ * and it never touches the working copy — the files stay where they are and
+ * regenerate on the next hook fire; only git stops carrying them. The
+ * matching .gitignore lines arrive through the template's additive merge in
+ * 3b, which is why this must run first (see the call site).
+ */
+function untrackNodeLocalFiles(repoPath) {
+  let isNodeLocal;
+  try { ({ isNodeLocal } = require('./lib/derived-state')); } catch { return { untracked: [] }; }
+  try {
+    const ls = spawnSync('git', ['ls-files', '-z', '--', '.claude/workstream'], { cwd: repoPath, encoding: 'utf8', timeout: 10000 });
+    if (ls.status !== 0) return { untracked: [] };
+    const tracked = String(ls.stdout || '').split(String.fromCharCode(0)).map(s => s.trim().split('\\').join('/')).filter(Boolean)
+      .filter(isNodeLocal);
+    for (let i = 0; i < tracked.length; i += 50) {
+      spawnSync('git', ['rm', '--cached', '--quiet', '--', ...tracked.slice(i, i + 50)], { cwd: repoPath, encoding: 'utf8', timeout: 10000 });
+    }
+    if (tracked.length) {
+      emitEvent('T6:workstream', 'node-local-untracked', { files: tracked.length, sample: tracked.slice(0, 8) });
+    }
+    return { untracked: tracked };
+  } catch { return { untracked: [] }; }
 }
 
 const ensureGitignore = repoSnapshot.ensureGitignore;
@@ -301,6 +361,319 @@ function restoreSnapshot(repoPath, snapDir) {
     defaultDirs: SNAPSHOT_DIRS,
     defaultFiles: SNAPSHOT_FILES,
   });
+}
+
+// ─── upgrade lifecycle markers (run-032 C2) ─────────────────────────────────
+//
+// The snapshot dir records how its upgrade ENDED, because the in-process
+// auto-rollback only covers a gate that fails while this process is alive. The
+// migrate subprocess runs up to 300 s, unlinks sidecars and overwrites kit
+// files inside that window, and G16 dies on battery routinely: a kill there
+// left a half-upgraded repo, a retained snapshot, and nothing telling anyone to
+// roll back — the next run even printed "Already current" when the stamp had
+// landed. Three files, exactly one terminal:
+//
+//   IN-PROGRESS.json  {pid, started_at, from, to}  written right after the snapshot
+//   completed.json    {completed_at}               gate passed (C1's mtime basis)
+//   rolled-back.json  {rolled_back_at, by, reason} a restore with zero errors
+//
+// An auto-rollback that hit restore errors leaves IN-PROGRESS in place on
+// purpose: once this process exits its pid is dead, so the next run sees an
+// interrupted upgrade, refuses --apply and authorises --rollback.
+const MARKER_IN_PROGRESS = 'IN-PROGRESS.json';
+const MARKER_COMPLETED = 'completed.json';
+const MARKER_ROLLED_BACK = 'rolled-back.json';
+// Past this, an IN-PROGRESS marker is interrupted even if its pid answers:
+// Windows recycles pids, and no upgrade (migrate 300 s + gate) runs this long.
+const INTERRUPTED_AFTER_MS = 600 * 1000;
+// completed_at is stamped after the gate's own writes (reconcile, hook wiring)
+// settle; anything newer than this slack is the founder's, not the upgrade's.
+const CHANGED_SLACK_MS = 60 * 1000;
+
+function writeMarker(snapDir, name, body) {
+  writeFileAtomic(path.join(snapDir, name), JSON.stringify(body, null, 2) + '\n');
+}
+// Terminal markers are best-effort: losing one degrades C1's preview basis, it
+// never blocks an upgrade that already succeeded or a restore that already ran.
+function writeMarkerSafe(snapDir, name, body) {
+  try { writeMarker(snapDir, name, body); return true; } catch { return false; }
+}
+function readMarker(snapDir, name) {
+  try { return JSON.parse(fs.readFileSync(path.join(snapDir, name), 'utf8')); } catch { return null; }
+}
+function clearMarker(snapDir, name) {
+  try { fs.unlinkSync(path.join(snapDir, name)); } catch { /* absent is the goal */ }
+}
+function readSnapshotManifest(snapDir) {
+  try { return JSON.parse(fs.readFileSync(path.join(snapDir, 'manifest.json'), 'utf8')); } catch { return {}; }
+}
+
+function pidAlive(pid) {
+  const n = Number(pid);
+  if (!Number.isInteger(n) || n <= 0) return false;
+  try { process.kill(n, 0); return true; }
+  catch (e) { return e && e.code === 'EPERM'; } // EPERM: exists, not ours to signal
+}
+
+/**
+ * Did the latest kit upgrade in this repo stop without finishing?
+ *
+ * Returns null when the latest snapshot carries no IN-PROGRESS marker (or a
+ * terminal marker at least as new as it — the crash window between writing
+ * completed.json and unlinking IN-PROGRESS). Otherwise
+ *   { interrupted, reason, snapshot, pid, started_at, from, to, phase, age_ms }
+ * where interrupted is true when the pid is gone or the marker is older than
+ * INTERRUPTED_AFTER_MS; false means an upgrade is running right now.
+ */
+function interruptedUpgrade(repoPath, now = Date.now()) {
+  const snap = latestSnapshot(repoPath);
+  if (!snap) return null;
+  const m = readMarker(snap, MARKER_IN_PROGRESS);
+  if (!m) return null;
+  const startedMs = Date.parse(m.started_at) || 0;
+  for (const [name, key] of [[MARKER_COMPLETED, 'completed_at'], [MARKER_ROLLED_BACK, 'rolled_back_at']]) {
+    const t = readMarker(snap, name);
+    if (t && (Date.parse(t[key]) || 0) >= startedMs) return null;
+  }
+  const ageMs = now - startedMs;
+  const alive = pidAlive(m.pid);
+  const stale = ageMs > INTERRUPTED_AFTER_MS;
+  return {
+    interrupted: !alive || stale,
+    reason: !alive ? `process ${m.pid} is gone` : (stale ? `started ${Math.round(ageMs / 60000)} min ago` : 'running now'),
+    snapshot: snap, pid: m.pid, started_at: m.started_at, from: m.from, to: m.to,
+    phase: m.phase || 'upgrade', age_ms: ageMs,
+  };
+}
+
+// ─── snapshot pruning (WS-975) ──────────────────────────────────────────────
+//
+// Every upgrade leaves a full snapshot and nothing removed them: run-032 C13
+// counted 15-25 per repo, 119 MB in one. Each old one is also a stale
+// --rollback target waiting to be misread as current. After a successful
+// upgrade we keep the newest KEEP_COMPLETED_SNAPSHOTS completed ones and drop
+// older terminal ones. Never pruned, whatever their age:
+//   - the newest snapshot (the --rollback target);
+//   - any snapshot still carrying IN-PROGRESS (interrupted or running — it is
+//     the only record that a repo may be half-upgraded);
+//   - the snapshot whose upgrade produced the installed version.
+// A dir without manifest.json (a capture that died midway) or a rolled-back
+// snapshot is pruned only once a newer completed upgrade has superseded it.
+const KEEP_COMPLETED_SNAPSHOTS = 3;
+
+function pruneSnapshots(repoPath, opts = {}) {
+  const keep = opts.keep == null ? KEEP_COMPLETED_SNAPSHOTS : opts.keep;
+  const root = snapshotDirsRoot(repoPath);
+  let names = [];
+  try {
+    names = fs.readdirSync(root)
+      .filter(d => d.startsWith(SNAPSHOT_PREFIX) && isDir(path.join(root, d)))
+      .sort();
+  } catch { return { pruned: [], kept: [], errors: [] }; }
+  const installed = opts.installed !== undefined ? opts.installed : readInstalledVersion(repoPath);
+
+  const info = names.map(name => {
+    const dir = path.join(root, name);
+    const manifest = isFile(path.join(dir, 'manifest.json')) ? readSnapshotManifest(dir) : null;
+    const completed = readMarker(dir, MARKER_COMPLETED);
+    return {
+      name, dir, manifest,
+      completed: !!completed,
+      inProgress: isFile(path.join(dir, MARKER_IN_PROGRESS)),
+      to: (completed && completed.to) || (manifest && manifest.to_version) || null,
+    };
+  });
+
+  const completedNewestFirst = info.filter(s => s.completed && !s.inProgress).reverse();
+  const keptCompleted = new Set(completedNewestFirst.slice(0, keep).map(s => s.name));
+  const oldestKept = completedNewestFirst.length >= keep && keep > 0
+    ? completedNewestFirst[keep - 1].name : null;
+  const newest = names[names.length - 1];
+
+  const pruned = [], kept = [], errors = [];
+  for (const s of info) {
+    let protect = s.name === newest || s.inProgress || keptCompleted.has(s.name) ||
+      (installed && s.completed && s.to === installed);
+    // Not completed (rolled back, or no manifest): only once superseded by the
+    // retained window, i.e. older than the oldest completed snapshot we keep.
+    if (!protect && !s.completed) protect = !oldestKept || s.name > oldestKept;
+    if (protect) { kept.push(s.name); continue; }
+    try { fs.rmSync(s.dir, { recursive: true, force: true }); pruned.push(s.name); }
+    catch (e) { errors.push({ snapshot: s.name, reason: e.message }); kept.push(s.name); }
+  }
+  return { pruned, kept, errors };
+}
+
+// Repo-relative files under `rel` (a file or a dir) whose mtime is past `basisMs`.
+function filesNewerThan(repoPath, rel, basisMs, keep = () => true) {
+  const out = [];
+  const walk = (abs, r) => {
+    let st;
+    try { st = fs.statSync(abs); } catch { return; }
+    if (st.isDirectory()) {
+      let ents = [];
+      try { ents = fs.readdirSync(abs); } catch { return; }
+      for (const e of ents) {
+        if (e === repoSnapshot.SNAPSHOT_ROOT || e === '.git' || e === 'node_modules') continue;
+        walk(path.join(abs, e), `${r}/${e}`);
+      }
+    } else if (st.isFile() && st.mtimeMs > basisMs && keep(r)) {
+      out.push(r);
+    }
+  };
+  walk(path.join(repoPath, rel), rel);
+  return out;
+}
+
+/**
+ * What `--rollback` would do, and whether it may (run-032 C1).
+ *
+ * The old --rollback restored the latest snapshot unconditionally. Rolled back
+ * days after a successful upgrade, that silently overwrote every program,
+ * engine and state file written since with pre-upgrade bytes; run a second time
+ * (or after an auto-rollback) it re-applied a snapshot whose upgrade was no
+ * longer installed. A version check alone does not catch the first case, so the
+ * plan carries both: a refusal when the snapshot's target is not what is
+ * installed (unless IN-PROGRESS.json says the upgrade never finished — then the
+ * stamp proves nothing and restoring is the point), and the list of files
+ * changed since the upgrade finished, for the founder to see before --yes.
+ *
+ * Returns { snapshot, age_ms, from, to, interrupted, installed, refuse,
+ *           will_delete, overlay_dirs, restore_files, changed_since_upgrade,
+ *           changed_basis }.
+ * The guard lives here, not in restoreSnapshot: the auto-rollback inside
+ * applyUpgrade restores a snapshot it took seconds earlier and must not be
+ * second-guessed by it.
+ */
+function planRollback(repoPath, now = Date.now()) {
+  const snapshot = latestSnapshot(repoPath);
+  if (!snapshot) return { snapshot: null, refuse: 'no kit-pre-upgrade snapshot found' };
+  const manifest = readSnapshotManifest(snapshot);
+  const createdMs = Date.parse(manifest.created_at) || 0;
+  const inProgress = readMarker(snapshot, MARKER_IN_PROGRESS);
+  const completed = readMarker(snapshot, MARKER_COMPLETED);
+  const rolledBack = readMarker(snapshot, MARKER_ROLLED_BACK);
+  const intr = interruptedUpgrade(repoPath, now);
+  const installed = readInstalledVersion(repoPath);
+  const from = manifest.from_version || null;
+  const to = manifest.to_version || null;
+
+  let refuse = null;
+  if (!inProgress && installed !== to) {
+    refuse = `the latest snapshot (${path.basename(snapshot)}) is the v${from || '?'} → v${to || '?'} upgrade, ` +
+      `but v${installed || '?'} is installed` +
+      (rolledBack ? ` — that upgrade was already rolled back (${rolledBack.rolled_back_at || 'time unknown'})` : '') +
+      '. Restoring it now would overwrite newer work with older bytes.';
+  }
+
+  const exists = rel => fs.existsSync(path.join(repoPath, rel));
+  const inSnap = rel => fs.existsSync(path.join(snapshot, rel));
+  const willDelete = [
+    ...(manifest.created_files || []).filter(rel => isFile(path.join(repoPath, rel))),
+    ...(manifest.absent_files || []).filter(exists),
+    ...(manifest.absent_dirs || []).filter(exists).map(rel => rel + '/'),
+  ];
+  const overlayDirs = (manifest.snapshot_dirs || []).filter(rel => isDir(path.join(snapshot, rel)));
+  const restoreFiles = (manifest.snapshot_files || []).filter(rel => isFile(path.join(snapshot, rel)));
+
+  // Basis: the upgrade's own completion stamp. Without one (an interrupted run,
+  // or a snapshot taken before these markers existed) the upgrade's writes ran
+  // for at most INTERRUPTED_AFTER_MS past its start.
+  const startMs = (inProgress && Date.parse(inProgress.started_at)) || createdMs;
+  const basisMs = completed && Date.parse(completed.completed_at)
+    ? Date.parse(completed.completed_at) + CHANGED_SLACK_MS
+    : startMs + INTERRUPTED_AFTER_MS;
+  // Only what the restore would actually wipe: an overlay keeps a file the
+  // snapshot never held, so a newer file there is not at risk and not listed.
+  const changed = new Set();
+  for (const rel of overlayDirs) filesNewerThan(repoPath, rel, basisMs, inSnap).forEach(f => changed.add(f));
+  for (const rel of restoreFiles) filesNewerThan(repoPath, rel, basisMs).forEach(f => changed.add(f));
+  for (const rel of [...(manifest.created_files || []), ...(manifest.absent_files || []), ...(manifest.absent_dirs || [])]) {
+    filesNewerThan(repoPath, rel, basisMs).forEach(f => changed.add(f));
+  }
+
+  return {
+    snapshot, age_ms: createdMs ? now - createdMs : null, from, to,
+    interrupted: !!(intr && intr.interrupted), installed, refuse,
+    will_delete: willDelete, overlay_dirs: overlayDirs, restore_files: restoreFiles,
+    changed_since_upgrade: Array.from(changed).sort(),
+    changed_basis: completed && completed.completed_at
+      ? `upgrade completed ${completed.completed_at} (+60 s)`
+      : `no completion marker — snapshot start + ${INTERRUPTED_AFTER_MS / 60000} min`,
+  };
+}
+
+function renderRollbackPlan(plan) {
+  const ago = plan.age_ms == null ? 'age unknown'
+    : plan.age_ms < 3600000 ? `${Math.round(plan.age_ms / 60000)} min ago`
+      : plan.age_ms < 172800000 ? `${Math.round(plan.age_ms / 3600000)} h ago`
+        : `${Math.round(plan.age_ms / 86400000)} days ago`;
+  const lines = [
+    `Rollback plan: ${path.basename(plan.snapshot)} (v${plan.from || '?'} → v${plan.to || '?'}, taken ${ago})`,
+    `  Installed now: v${plan.installed || '?'}${plan.interrupted ? '  — that upgrade was INTERRUPTED and never finished' : ''}`,
+  ];
+  const list = (arr, n) => arr.slice(0, n).map(r => `      ${r}`).concat(arr.length > n ? [`      … and ${arr.length - n} more`] : []);
+  if (plan.will_delete.length) lines.push(`  Deletes ${plan.will_delete.length} path(s) the upgrade added:`, ...list(plan.will_delete, 10));
+  lines.push(`  Overwrites from the snapshot: ${[...plan.overlay_dirs, ...plan.restore_files].join(', ') || 'nothing'}`);
+  if (plan.changed_since_upgrade.length) {
+    lines.push(`  ⚠ ${plan.changed_since_upgrade.length} file(s) changed AFTER the upgrade — the rollback replaces them with pre-upgrade bytes:`,
+      ...list(plan.changed_since_upgrade, 25), `    (basis: ${plan.changed_basis})`);
+  } else {
+    lines.push(`  ✓ No file the rollback touches changed after the upgrade (basis: ${plan.changed_basis}).`);
+  }
+  return lines.join('\n');
+}
+
+// The in-apply rollback (gate failure, migrate failure). restoreSnapshot is
+// called directly — planRollback's guard is for a founder rolling back later,
+// not for the snapshot this same run took seconds ago. Returns restore_errors.
+function autoRollback(repoPath, snapshot, reason, untracked = []) {
+  const errs = restoreSnapshot(repoPath, snapshot).restore_errors || [];
+  for (const p of restoreIndex(repoPath, untracked)) errs.push({ path: p, op: 'restore-index', reason: 'git reset failed' });
+  if (!errs.length) {
+    writeMarkerSafe(snapshot, MARKER_ROLLED_BACK, { rolled_back_at: new Date().toISOString(), by: 'auto', reason });
+    clearMarker(snapshot, MARKER_IN_PROGRESS);
+  }
+  return errs;
+}
+
+// --rollback --yes, already under the upgrade lock.
+function performRollback(repoPath, plan) {
+  const prior = readMarker(plan.snapshot, MARKER_IN_PROGRESS);
+  const untracked = prior && Array.isArray(prior.untracked) ? prior.untracked : [];
+  const m = restoreSnapshot(repoPath, plan.snapshot);
+  const errs = m.restore_errors || (m.restore_errors = []);
+  for (const p of restoreIndex(repoPath, untracked)) errs.push({ path: p, op: 'restore-index', reason: 'git reset failed' });
+  if (errs.length) {
+    // Leave the repo flagged: an IN-PROGRESS marker newer than any terminal one
+    // makes the next run refuse --apply and lets --rollback retry, which the
+    // version check would otherwise refuse once .cwos-version came back.
+    writeMarkerSafe(plan.snapshot, MARKER_IN_PROGRESS, {
+      pid: process.pid, started_at: new Date().toISOString(), from: plan.from, to: plan.to,
+      phase: 'rollback-incomplete', restore_errors: errs.length, untracked,
+    });
+  } else {
+    writeMarkerSafe(plan.snapshot, MARKER_ROLLED_BACK, { rolled_back_at: new Date().toISOString(), by: 'manual', reason: '--rollback --yes' });
+    clearMarker(plan.snapshot, MARKER_IN_PROGRESS);
+  }
+  return m;
+}
+
+// Run fn under the upgrade lock, keeping "could not get the lock" apart from
+// "fn threw". run-032 found main() reporting ANY exception inside applyUpgrade
+// — a restore that threw midway included — as "could not acquire upgrade lock
+// (another upgrade running?)", sending the founder after a lock that was fine.
+function underUpgradeLock(repoPath, fn) {
+  const lockPath = path.join(repoPath, '.claude', 'workstream', '.kit-upgrade.lock');
+  ensureDir(path.dirname(lockPath));
+  let entered = false;
+  try {
+    const value = withFileLock(lockPath, () => { entered = true; return fn(); },
+      { ownerLabel: 'kit-upgrade', maxWaitMs: 8000, staleAfterMs: 600000 });
+    return { value };
+  } catch (e) {
+    return entered ? { error: e } : { lockError: e };
+  }
 }
 
 // ─── spawning composed tools + validation gate ──────────────────────────────
@@ -434,7 +807,7 @@ function emit(opts, human, payload) {
   else process.stdout.write(human + '\n');
 }
 
-function printDiff(repoPath, classification, schemaPlan, localMods, baselineInfo) {
+function printDiff(repoPath, classification, schemaPlan, localMods, baselineInfo, superseded = []) {
   const lines = [];
   const A = classification.new.length + classification.needsInstall.length;
   const M = classification.stock.length;
@@ -467,8 +840,33 @@ function printDiff(repoPath, classification, schemaPlan, localMods, baselineInfo
   const total = M + A + C + P;
   if (total > 150) lines.push(`  … (${total} files total)`);
   lines.push('');
+  // WS-1149: a destination spelled differently from a path the repo holds is
+  // never written. Named here so the founder can pick one spelling.
+  const X = (classification.caseCollisions || []);
+  if (X.length) {
+    lines.push(`${X.length} file(s) NOT written — each collides by case with a path the repo already holds`);
+    lines.push('(on Windows and macOS the two spellings are one file). Keep one spelling with git mv, then re-run:');
+    X.slice(0, 20).forEach(e => lines.push(`  [case-collision] ${e.destination}  (repo has ${e.collides_with})`));
+    lines.push('');
+  }
   if (P) {
     lines.push(`${P} file(s) are yours — seeded once at install and preserved, not overwritten.`);
+    lines.push('');
+  }
+  // WS-631: a full overwrite answers the sidecar's offer, so the sidecar goes.
+  // Said here because a file disappearing unannounced reads as loss; it is
+  // captured in the pre-upgrade snapshot and a rollback restores it.
+  if (superseded.length) {
+    lines.push(`${superseded.length} stale .kit-update sidecar(s) will be retired — their live file is fully replaced with kit content:`);
+    superseded.slice(0, 12).forEach(rel => lines.push(`  [retire] ${rel}`));
+    if (superseded.length > 12) lines.push(`  … and ${superseded.length - 12} more`);
+    lines.push('');
+  }
+  {
+    // Preview only: the exact list depends on which scripts this upgrade installs,
+    // so it is computed on apply by the repo's own installer (step 3i).
+    lines.push('Claude Code hooks: any missing kit hook (session register/recovery, drift reconcile, git guard)');
+    lines.push('  is APPENDED to .claude/settings.json on apply — existing hooks are never edited or removed.');
     lines.push('');
   }
   // WS-796: a strict subset of driftedScripts, printed FIRST and separately —
@@ -543,12 +941,24 @@ function parseArgs(argv) {
 function printUsage() {
   process.stdout.write([
     'Usage: cwos-kit-upgrade.js [<repo-path>] --homebase <path> [--apply]',
-    '       cwos-kit-upgrade.js [<repo-path>] --rollback',
+    '       cwos-kit-upgrade.js [<repo-path>] --rollback [--yes]',
     '',
     'Default is DRY RUN (shows the full diff, writes nothing). Pass --apply to upgrade.',
     '',
+    '  --homebase <path>         HomeBase root that sources the new kit',
+    '  --apply                   perform the upgrade (snapshot, lock, gate, auto-rollback)',
+    '  --rollback                PREVIEW restoring the latest pre-upgrade snapshot: what it',
+    '                            deletes, what it overwrites, and every file changed since',
+    '                            the upgrade finished. Writes nothing. Refused when the',
+    '                            installed version is not the one that snapshot upgraded to.',
+    '  --yes                     with --rollback: perform the restore',
+    '  --json                    machine-readable summary',
     '  --force-replace-scripts   replace repo-authored files at kit/scripts/ paths',
     '                            (refused by default; copies them to rescued-from-kit-upgrade/)',
+    '',
+    'Exit: 0 ok/preview, 1 error or INCOMPLETE rollback, 3 missing schema migrator,',
+    '      4 gate failed (auto-rolled back), 5 an earlier upgrade was interrupted',
+    '      (preview --rollback), 6 repo-authored kit/scripts file, 7 rollback refused.',
   ].join('\n') + '\n');
 }
 
@@ -563,17 +973,26 @@ function main() {
   const repoPath = path.resolve(opts.repo || process.cwd());
   if (!isDir(repoPath)) return fail(opts, 1, `repo path does not exist: ${repoPath}`);
 
-  // ── rollback mode ──
-  if (opts.rollback) {
-    const snap = latestSnapshot(repoPath);
-    if (!snap) return fail(opts, 1, 'no kit-pre-upgrade snapshot found');
-    const m = restoreSnapshot(repoPath, snap);
-    emit(opts, `Rolled back to ${path.basename(snap)} (was v${m.from_version || '?'} → v${m.to_version || '?'}). Snapshot retained.`, { ok: true, rolled_back: true, snapshot: path.basename(snap), restored_to: m.from_version });
-    return;
-  }
+  // ── rollback mode: preview by default, --yes to act (run-032 C1) ──
+  if (opts.rollback) return rollbackMode(opts, repoPath);
 
   if (!fs.existsSync(path.join(repoPath, '.cwos-version'))) {
     return fail(opts, 1, 'no .cwos-version in repo — use /adopt for a fresh install, not /kit-upgrade');
+  }
+
+  // ── an earlier upgrade that never finished (run-032 C2) ──
+  // Checked before Phase 0 on purpose: a run killed after migrate stamped the
+  // new version would otherwise report "Already current" over a half-upgrade.
+  const interrupted = interruptedUpgrade(repoPath);
+  if (interrupted && interrupted.interrupted) {
+    const what = interrupted.phase === 'rollback-incomplete'
+      ? `a rollback of the v${interrupted.from || '?'} → v${interrupted.to || '?'} upgrade did not complete`
+      : `the v${interrupted.from || '?'} → v${interrupted.to || '?'} upgrade started ${interrupted.started_at} never finished (${interrupted.reason})`;
+    const next = 'Preview the restore with `node kit/scripts/cwos-kit-upgrade.js --rollback`, then run it with `--rollback --yes`.';
+    if (opts.apply) {
+      return fail(opts, 5, `refusing to upgrade: ${what} — this repo may be half-upgraded. ${next} Nothing was modified.`);
+    }
+    process.stderr.write(`⚠ ${what} — this repo may be half-upgraded. ${next}\n`);
   }
 
   const homebase = resolveHomeBase(opts.homebase, repoPath);
@@ -633,14 +1052,18 @@ function main() {
   };
 
   const header = `Kit upgrade: ${path.basename(repoPath)} (v${installedVersion} → v${targetVersion})${opts.apply ? '' : '  [DRY RUN]'}\nSource: ${homebase}`;
+  const superseded = supersededSidecars(repoPath, classification, migrate);
 
   if (!opts.apply) {
-    const diff = printDiff(repoPath, classification, schemaPlan, localMods, baselineInfo);
+    const diff = printDiff(repoPath, classification, schemaPlan, localMods, baselineInfo, superseded);
     emit(opts, header + '\n' + diff + '\n\nRun with --apply to upgrade (snapshot + auto-rollback on gate failure).',
       { ok: true, dry_run: true, installed: installedVersion, target: targetVersion,
         files: { overwrite: classification.stock.length, add: classification.new.length + classification.needsInstall.length, customized: classification.customized.length },
+        superseded_sidecars: superseded,
         drifted_scripts: (classification.driftedScripts || []).map(e => ({ destination: e.destination, reason: e.reason })),
-        schema: schemaPlan, local_mods: localMods, baseline: baselineInfo });
+        case_collisions: (classification.caseCollisions || []).map(e => ({ destination: e.destination, collides_with: e.collides_with })),
+        schema: schemaPlan, local_mods: localMods, baseline: baselineInfo,
+        interrupted_upgrade: interrupted && interrupted.interrupted ? interrupted : null });
     return;
   }
 
@@ -663,34 +1086,100 @@ function main() {
   }
 
   // ── Phase 3: APPLY under lock ──
-  const lockPath = path.join(repoPath, '.claude', 'workstream', '.kit-upgrade.lock');
-  ensureDir(path.dirname(lockPath));
-
-  let result;
-  try {
-    result = withFileLock(lockPath, () => applyUpgrade({
-      opts, repoPath, homebase, installedVersion, targetVersion,
-      classification, migrate, validateRegistryPaths, progChain,
-    }), { ownerLabel: 'kit-upgrade', maxWaitMs: 8000, staleAfterMs: 600000 });
-  } catch (e) {
-    return fail(opts, 1, `could not acquire upgrade lock (another upgrade running?): ${e.message}`);
+  const progress = { snapshot: null };
+  const locked = underUpgradeLock(repoPath, () => applyUpgrade({
+    opts, repoPath, homebase, installedVersion, targetVersion,
+    classification, migrate, validateRegistryPaths, progChain, progress,
+  }));
+  if (locked.lockError) {
+    return fail(opts, 1, `could not acquire upgrade lock (another upgrade running?): ${locked.lockError.message}`);
   }
+  if (locked.error) {
+    return fail(opts, 1, progress.snapshot
+      ? `upgrade CRASHED mid-apply: ${locked.error.message}. No automatic rollback ran — the repo may be half-upgraded. ` +
+        `Preview the restore with --rollback, then run --rollback --yes (snapshot ${path.basename(progress.snapshot)}).`
+      : `upgrade CRASHED before the pre-upgrade snapshot: ${locked.error.message}. Nothing was upgraded.`);
+  }
+  const result = locked.value;
 
   if (!result.ok) {
+    const restoreErrors = result.restoreErrors || [];
+    const gateDetail = `\n\nGate detail:\n` +
+      result.gate.checks.map(c => `  ${c.pass ? '✓' : '✗'} ${c.name} — ${c.detail}`).join('\n');
+    // run-032 C7: "Repo restored" is said only when every path restored.
+    const restoredLine = restoreErrors.length
+      ? `  ✗ rollback INCOMPLETE (${restoreErrors.length} path(s) could not be restored):\n` +
+        restoreErrors.slice(0, 10).map(e => `      ${e.path} — ${e.op}: ${e.reason}`).join('\n') +
+        (restoreErrors.length > 10 ? `\n      … and ${restoreErrors.length - 10} more` : '') +
+        `\n  The repo is NOT back at v${installedVersion}. Fix the paths above (close whatever holds them), then preview\n` +
+        `  the restore with --rollback and run it with --rollback --yes.`
+      : `  Repo restored to v${installedVersion}.`;
     emit(opts,
-      `${header}\n\n✗ Upgrade FAILED at gate check: ${result.failedCheck}\n  → rolled back to pre-upgrade snapshot (${path.basename(result.snapshot)}).\n  Repo restored to v${installedVersion}.\n\nGate detail:\n` +
-      result.gate.checks.map(c => `  ${c.pass ? '✓' : '✗'} ${c.name} — ${c.detail}`).join('\n'),
-      { ok: false, applied: false, rolled_back: true, failed_check: result.failedCheck, snapshot: path.basename(result.snapshot), gate: result.gate });
+      `${header}\n\n✗ Upgrade FAILED at gate check: ${result.failedCheck}\n  → auto-rollback from pre-upgrade snapshot (${path.basename(result.snapshot)}).\n${restoredLine}` + gateDetail,
+      { ok: false, applied: false, rolled_back: restoreErrors.length === 0, rollback_incomplete: restoreErrors.length > 0,
+        restore_errors: restoreErrors, failed_check: result.failedCheck, snapshot: path.basename(result.snapshot), gate: result.gate });
     process.exit(4);
   }
 
   emit(opts,
     `${header}\n\n✓ Upgrade complete: v${installedVersion} → v${targetVersion}.\n  Snapshot: ${path.basename(result.snapshot)} (retained)\n  Gate: all ${result.gate.checks.length} checks passed.` +
-    (classification.customized.length ? `\n\n  Action: review ${classification.customized.length} .kit-update sidecar(s) for your customizations.` : '') +
-    ((classification.driftedScripts || []).length ? `\n  Note: ${classification.driftedScripts.length} diverged script(s) were replaced; previous copies are in the snapshot.` : ''),
+    (classification.customized.length ? `\n\n  Action: answer ${classification.customized.length} .kit-update sidecar(s) — take, decline or defer each, with the reason recorded:\n    node kit/scripts/cwos-sidecar.js list` : '') +
+    ((classification.caseCollisions || []).length ? `\n\n  NOT written: ${classification.caseCollisions.length} kit file(s) collide by case with a path this repo holds (WS-1149). Keep one spelling with git mv, then re-run:` +
+      classification.caseCollisions.map(e => `\n    ${e.destination}  (repo has ${e.collides_with})`).join('') : '') +
+    (superseded.length ? `\n  Retired: ${superseded.length} stale .kit-update sidecar(s) whose live file was fully replaced (copies in the snapshot).` : '') +
+    ((classification.driftedScripts || []).length ? `\n  Note: ${classification.driftedScripts.length} diverged script(s) were replaced; previous copies are in the snapshot.` : '') +
+    ((result.snapshotsPruned || []).length ? `\n  Pruned: ${result.snapshotsPruned.length} older snapshot(s) — the newest ${KEEP_COMPLETED_SNAPSHOTS} completed ones are kept.` : '') +
+    ((result.hooksWired || []).length ? `\n  Hooks: wired ${result.hooksWired.length} kit Claude Code hook(s) into .claude/settings.json (appended; your own hooks untouched).` : '') +
+    (result.hooksError ? `\n  Hooks: NOT wired — ${result.hooksError}. Run \`node kit/scripts/install-claude-hooks.mjs --check\`.` : ''),
     { ok: true, applied: true, installed: installedVersion, target: targetVersion, snapshot: path.basename(result.snapshot), gate: result.gate,
+      snapshots_pruned: result.snapshotsPruned || [],
+      claude_hooks_wired: result.hooksWired || [], claude_hooks_error: result.hooksError || null,
       kit_update_sidecars: classification.customized.map(e => e.destination + '.kit-update'),
-      drifted_scripts: (classification.driftedScripts || []).map(e => ({ destination: e.destination, reason: e.reason })) });
+      superseded_sidecars: superseded,
+      drifted_scripts: (classification.driftedScripts || []).map(e => ({ destination: e.destination, reason: e.reason })),
+      case_collisions: (classification.caseCollisions || []).map(e => ({ destination: e.destination, collides_with: e.collides_with })) });
+}
+
+// --rollback [--yes]. Preview is the default because the restore is an
+// overlay of the whole authored surface: rolled back days later it replaces
+// every program, engine and state file written since (run-032 C1).
+function rollbackMode(opts, repoPath) {
+  const plan = planRollback(repoPath);
+  if (!plan.snapshot) return fail(opts, 1, plan.refuse);
+  const human = renderRollbackPlan(plan);
+
+  if (plan.refuse) {
+    if (opts.json) process.stdout.write(JSON.stringify({ ok: false, rolled_back: false, refused: plan.refuse, plan }) + '\n');
+    else process.stderr.write(`${human}\n\nREFUSED: ${plan.refuse}\n  Nothing was changed. If a newer upgrade went wrong, run /kit-upgrade again rather than restoring an older snapshot.\n`);
+    process.exit(7);
+  }
+
+  if (!opts.yes) {
+    emit(opts, `${human}\n\nPreview only — nothing was changed. To restore: node kit/scripts/cwos-kit-upgrade.js --rollback --yes`,
+      { ok: true, rolled_back: false, preview: true, plan });
+    return;
+  }
+
+  const locked = underUpgradeLock(repoPath, () => performRollback(repoPath, plan));
+  if (locked.lockError) return fail(opts, 1, `could not acquire upgrade lock (another upgrade running?): ${locked.lockError.message}`);
+  if (locked.error) {
+    return fail(opts, 1, `rollback CRASHED: ${locked.error.message}. The snapshot is retained (${path.basename(plan.snapshot)}); ` +
+      'preview what is left with --rollback.');
+  }
+  const m = locked.value;
+  const errs = m.restore_errors || [];
+  if (errs.length) {
+    emit(opts,
+      `Rollback INCOMPLETE (${errs.length} path(s)) from ${path.basename(plan.snapshot)}:\n` +
+      errs.slice(0, 20).map(e => `  ${e.path} — ${e.op}: ${e.reason}`).join('\n') +
+      (errs.length > 20 ? `\n  … and ${errs.length - 20} more` : '') +
+      '\nFix the paths above (close whatever holds them), then re-run --rollback --yes. Snapshot retained.',
+      { ok: false, rolled_back: false, rollback_incomplete: true, restore_errors: errs, snapshot: path.basename(plan.snapshot) });
+    process.exit(1);
+  }
+  emit(opts, `Rolled back to ${path.basename(plan.snapshot)} (was v${m.from_version || '?'} → v${m.to_version || '?'}). Snapshot retained.`,
+    { ok: true, rolled_back: true, snapshot: path.basename(plan.snapshot), restored_to: m.from_version,
+      overwrote_changed_since_upgrade: plan.changed_since_upgrade });
 }
 
 function countProgsBelow(repoPath, target) {
@@ -705,24 +1194,95 @@ function countProgsBelow(repoPath, target) {
   return n;
 }
 
+// WS-631: sidecars the migrate subprocess will retire (full overwrite of the
+// live file). Asked of the resolved HomeBase's cwos-migrate so the preview, the
+// snapshot and the apply share one predicate; an older HomeBase without the
+// export also does not retire, so [] is the honest answer there.
+function supersededSidecars(repoPath, classification, migrate) {
+  return migrate && typeof migrate.supersededSidecarCandidates === 'function'
+    ? migrate.supersededSidecarCandidates(repoPath, classification) : [];
+}
+
+/**
+ * What the pre-upgrade snapshot must record about `.kit-update` sidecars.
+ *
+ *   createdFiles  paths the upgrade CREATES, deleted on rollback: genuinely
+ *                 new/needsInstall files, and a customized file's sidecar when
+ *                 none stood there before.
+ *   sidecarFiles  sidecars that EXIST now and the upgrade will rewrite
+ *                 (customized refresh) or delete (superseded), captured and
+ *                 restored on rollback.
+ *
+ * Before WS-631 every customized sidecar went into createdFiles, existing or
+ * not. Inside SNAPSHOT_DIRS the dir restore happened to copy it back after the
+ * delete; anywhere else (system/, .claude/rules/, the repo root) a rollback
+ * deleted a sidecar that predated the upgrade and restored nothing — a failed
+ * upgrade destroyed the one thing it promised to leave alone.
+ */
+function planSidecarSnapshot(repoPath, classification, superseded = []) {
+  const systemDir = require('./lib/kit-artifacts').resolveSystemDir(repoPath);
+  const destRel = e => String(e.destination || '').replace('{system_dir}', systemDir);
+  const exists = rel => fs.existsSync(path.join(repoPath, rel));
+  const customizedSidecars = classification.customized.map(e => destRel(e) + '.kit-update');
+  const createdFiles = [
+    ...[...classification.new, ...classification.needsInstall].map(destRel).filter(rel => !exists(rel)),
+    ...customizedSidecars.filter(rel => !exists(rel)),
+  ];
+  // Every live file the upgrade overwrites (stock) or merges in place
+  // (customized additive/preamble) that SNAPSHOT_DIRS does not already cover.
+  // Measured 2026-09-30 on a deckside clone: a gate failure printed "Repo
+  // restored to v3.40.0" while .claude/rules/testing-strategy.md and an
+  // engines/library/ manifest stayed at the new kit's content — neither
+  // directory is in SNAPSHOT_DIRS, so the rollback had nothing to restore.
+  const covered = rel => SNAPSHOT_DIRS.some(d => rel === d || rel.startsWith(d + '/'));
+  const overwritten = [...classification.stock, ...classification.customized]
+    .map(destRel).filter(rel => rel && !covered(rel) && exists(rel));
+  const sidecarFiles = Array.from(new Set([
+    ...customizedSidecars.filter(exists),
+    ...superseded.filter(exists),
+    ...overwritten,
+  ]));
+  return { createdFiles, sidecarFiles };
+}
+
 function applyUpgrade(ctx) {
   const { opts, repoPath, homebase, installedVersion, targetVersion, classification, migrate, validateRegistryPaths } = ctx;
 
-  const destRel = e => String(e.destination || '').replace('{system_dir}', 'system');
-  // files the upgrade CREATES → must be deleted on rollback:
-  //  - genuinely new/needsInstall files that don't exist yet
-  //  - .kit-update sidecars written for customized files
-  const createdFiles = [
-    ...[...classification.new, ...classification.needsInstall].map(destRel).filter(rel => !fs.existsSync(path.join(repoPath, rel))),
-    ...classification.customized.map(e => destRel(e) + '.kit-update'),
-  ];
+  const { createdFiles, sidecarFiles } = planSidecarSnapshot(repoPath, classification, supersededSidecars(repoPath, classification, migrate));
+  // 3i writes .claude/settings.json. Snapshot it when it exists (rollback
+  // restores the adopter's own hook chain byte-for-byte); mark it created when
+  // it does not (rollback removes the file the upgrade made).
+  if (fs.existsSync(path.join(repoPath, CLAUDE_SETTINGS))) sidecarFiles.push(CLAUDE_SETTINGS);
+  else createdFiles.push(CLAUDE_SETTINGS);
 
   // registry paths already broken before we touch anything — the gate must not
   // fail (and roll back) on drift that was pre-existing.
   const preUnresolved = new Set(validateRegistryPaths(repoPath).unresolved.map(u => u.path));
 
   // 3a. comprehensive pre-upgrade snapshot (the rollback source of truth)
-  const snapshot = createPreUpgradeSnapshot(repoPath, createdFiles, installedVersion, targetVersion);
+  const snapshot = createPreUpgradeSnapshot(repoPath, createdFiles, installedVersion, targetVersion, sidecarFiles);
+  if (ctx.progress) ctx.progress.snapshot = snapshot;
+  // run-032 C2: from here until a terminal marker, a dead process means a
+  // half-upgraded repo. Unguarded on purpose — if even this write fails, stop
+  // before the first repo mutation rather than run an upgrade nobody can detect.
+  const progress = { pid: process.pid, started_at: new Date().toISOString(), from: installedVersion, to: targetVersion };
+  writeMarker(snapshot, MARKER_IN_PROGRESS, progress);
+  // WS-1141: the marker carries what this run untracked, so a manual --rollback
+  // after a crash can put the index back too, not only the in-process rollback.
+  const noteUntracked = () => {
+    if (untracked.length) writeMarkerSafe(snapshot, MARKER_IN_PROGRESS, Object.assign({}, progress, { untracked }));
+  };
+
+  // 3h (WS-884) — runs BEFORE 3b on purpose. Node-local files (liveness stamps,
+  // the recovery mutex, the test-sweep stamp, the invariant firing log, leaked
+  // .lock/.tmp) are untracked here, so that 3b's additive .gitignore merge —
+  // which refuses any line that would ignore a TRACKED file (INV-079's
+  // predicate, run before the write) — can land the new template lines in the
+  // same upgrade. Placed after 3g it would have left every repo one upgrade
+  // behind: untracked-but-not-ignored, re-tracked by the next `git add -A`.
+  // WS-1141: remembered so a rollback puts the index back, not just the files.
+  const untracked = [...untrackNodeLocalFiles(repoPath).untracked];
+  noteUntracked();
 
   // 3b. file apply + program v2→v3 + index rebuild + version stamp (the existing engine)
   const migArgs = [path.join(homebase, 'kit', 'scripts', 'cwos-migrate.js'), repoPath, '--homebase', homebase];
@@ -733,8 +1293,8 @@ function applyUpgrade(ctx) {
   const mig = spawnSync('node', migArgs,
     { cwd: repoPath, encoding: 'utf8', timeout: 300000 });
   if (mig.status !== 0) {
-    restoreSnapshot(repoPath, snapshot);
-    return { ok: false, failedCheck: 'cwos-migrate apply (file/schema/stamp)', snapshot, gate: { checks: [{ name: 'cwos-migrate', pass: false, detail: (mig.stderr || mig.stdout || `exit ${mig.status}`).trim().slice(0, 300) }] } };
+    const restoreErrors = autoRollback(repoPath, snapshot, 'cwos-migrate apply failed', untracked);
+    return { ok: false, failedCheck: 'cwos-migrate apply (file/schema/stamp)', snapshot, restoreErrors, gate: { checks: [{ name: 'cwos-migrate', pass: false, detail: (mig.stderr || mig.stdout || `exit ${mig.status}`).trim().slice(0, 300) }] } };
   }
 
   // 3c. program v3 → v4 (the step cwos-migrate's main() doesn't run)
@@ -771,25 +1331,50 @@ function applyUpgrade(ctx) {
   // Runs after 3d's state-schema migration and before the gate; the snapshot
   // from 3a now includes .claude/workstream/state, so rollback restores the
   // pre-migration tracking state cleanly.
-  migrateStateCacheTracking(homebase, repoPath);
+  untracked.push(...migrateStateCacheTracking(homebase, repoPath).untracked);
+  noteUntracked();
+
+  // 3i (WS-514). Wire the kit's Claude Code hooks — session registration,
+  // abandoned-session recovery, drift reconcile, the git guard. Until this step
+  // nothing ran the installer, so those scripts reached every adopter and their
+  // hooks reached none: ServeYourNote still had no .current-session two months
+  // after the fix shipped. The REPO's copy runs (preferRepo), so the hook list
+  // is the one this upgrade just installed. Append-only by construction, and
+  // non-fatal: a hook that could not be wired is reported, never a rollback.
+  const hooks = run(homebase, repoPath, 'kit/scripts/install-claude-hooks.mjs', [], { preferRepo: true });
+  const hooksWired = hooks.stdout.split('\n').filter(l => /^\s+\+ /.test(l)).map(l => l.trim().slice(2));
+  if (hooksWired.length) emitEvent('T6:workstream', 'claude-hooks-wired', { count: hooksWired.length, hooks: hooksWired });
 
   // ── Phase 4: validation gate ──
   const gate = runValidationGate(homebase, repoPath, targetVersion, validateRegistryPaths, preUnresolved);
   if (!gate.ok) {
     // ── Phase 5 (failure): AUTO-rollback ──
-    restoreSnapshot(repoPath, snapshot);
     const failed = gate.checks.find(c => !c.pass);
-    return { ok: false, failedCheck: failed ? failed.name : 'unknown', snapshot, gate };
+    const restoreErrors = autoRollback(repoPath, snapshot, `gate failed: ${failed ? failed.name : 'unknown'}`, untracked);
+    return { ok: false, failedCheck: failed ? failed.name : 'unknown', snapshot, gate, restoreErrors };
   }
-  return { ok: true, snapshot, gate };
+  // Terminal marker first, then clear IN-PROGRESS: a crash between the two
+  // leaves both, and interruptedUpgrade lets the newer terminal one win.
+  writeMarkerSafe(snapshot, MARKER_COMPLETED, { completed_at: new Date().toISOString(), from: installedVersion, to: targetVersion });
+  clearMarker(snapshot, MARKER_IN_PROGRESS);
+  // WS-975: only after the terminal marker, so this run's snapshot counts as
+  // completed. Best-effort — a prune that fails never fails an upgrade.
+  let snapshotsPruned = [];
+  try { snapshotsPruned = pruneSnapshots(repoPath, { installed: targetVersion }).pruned; } catch { /* keep going */ }
+  return {
+    ok: true, snapshot, gate, hooksWired, snapshotsPruned,
+    hooksError: hooks.ok ? null : (hooks.stderr || hooks.stdout || `exit ${hooks.code}`).trim().split('\n')[0],
+  };
 }
 
 module.exports = {
   resolveSchemaChain, detectMinProgramSchema, targetProgramSchema,
   loadHashBaseline, detectLocalMods, createPreUpgradeSnapshot, restoreSnapshot,
   latestSnapshot, runValidationGate, readInstalledVersion, copyTree,
-  requireSmokeCheck, lineEndingVariantHashes,
-  filterIgnoreLinesAgainstTracked,
+  requireSmokeCheck, lineEndingVariantHashes, planSidecarSnapshot,
+  filterIgnoreLinesAgainstTracked, untrackNodeLocalFiles, restoreIndex,
+  planRollback, interruptedUpgrade, pruneSnapshots, KEEP_COMPLETED_SNAPSHOTS,
+  MARKER_IN_PROGRESS, MARKER_COMPLETED, MARKER_ROLLED_BACK,
 };
 
 if (require.main === module) main();

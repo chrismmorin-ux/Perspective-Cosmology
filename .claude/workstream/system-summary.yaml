@@ -6,15 +6,28 @@
 # told every Standard-Mode session to read it FIRST. See ADR-065.
 #
 # vital_signs_ok / red_vitals are NOT computed here: reconcile does not run
-# the invariant suite. They are carried forward from the last writer that did,
-# with vitals_observed_at naming when that was. Check that date before
-# trusting them, and run /verify if it is old.
-last_updated: "2026-09-21T04:04:27Z"
+# the invariant suite. cwos-verify records them (fast and full runs) in
+# .verify-liveness.yaml and reconcile copies them (vitals_source: local-liveness);
+# with no local record they are carried forward (vitals_source: carried-forward).
+# vitals_observed_at names when they were seen and vitals_scope which checks ran.
+# Older than 24h = BLIND, never OK (WS-1334).
+#
+# verify_last_completed_source says where verify_last_completed_at came from:
+#   local-liveness  — .verify-liveness.yaml on THIS machine recorded a finish
+#   carried-forward — no liveness file here; the previous value is preserved,
+#                     and it was measured on some other machine
+#   none            — verify has not completed, or a run was killed mid-way
+# A carried-forward date is a real measurement but not a local one; do not
+# read it as evidence that verify passes in this checkout.
+last_updated: "2026-11-06T02:11:56Z"
 generated_by: cwos-reconcile
 vital_signs_ok: true
 red_vitals: []
 vitals_observed_at: "2026-09-20T21:50:07Z"
+vitals_scope: null
+vitals_source: carried-forward
 verify_last_completed_at: null
+verify_last_completed_source: none
 reconcile_integrity_ok: true
 queue_counts:
 
@@ -26,7 +39,7 @@ stale_programs:
 
   - id: self-compliance
     tier: critical
-    overdue_protocols: [delta (never run), challenge (never run), blind_spot (never run)]
+    overdue_protocols: [sweep (17d overdue), delta (never run), challenge (never run), blind_spot (never run)]
 
 active_context_count: 1
 critical_findings: 0

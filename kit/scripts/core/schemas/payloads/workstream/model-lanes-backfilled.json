@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cwos.local/schemas/payloads/workstream/model-lanes-backfilled.json",
+  "title": "workstream.model-lanes-backfilled",
+  "description": "T6:workstream event written by cwos-model-lane backfill after it writes model_lane onto open queue items (WS-1170). The WS-*.yaml files are the record; this event re-materializes state/queue.json so /next sees the lanes.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "type":    { "type": "string", "const": "model-lanes-backfilled" },
+    "written": { "type": "integer", "minimum": 0 },
+    "lanes":   { "type": "object" }
+  }
+}

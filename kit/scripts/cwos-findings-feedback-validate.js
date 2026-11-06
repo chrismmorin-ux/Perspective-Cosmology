@@ -41,6 +41,24 @@ const {
 
 const emitEvent = makeEventEmitter();
 const { hashEvent } = require('./core/canonical-json');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-findings-feedback-validate',
+  summary: 'check, update or initialise the findings-feedback content hash',
+  usage: 'cwos-findings-feedback-validate <--check|--update|--init> [--feedback-path P] [--manifest-path P] [--lock-path P]',
+  flags: {
+    check: { type: 'boolean', describe: 'verify the recorded hash' },
+    update: { type: 'boolean', describe: 're-record the hash' },
+    init: { type: 'boolean', describe: 'write the first hash' },
+    'feedback-path': { type: 'string', describe: 'feedback file (default: resolved)' },
+    'manifest-path': { type: 'string', describe: 'manifest file (default: resolved)' },
+    'lock-path': { type: 'string', describe: 'lock file (default: resolved)' }
+  }
+};
 
 // WS-576: two questions that used to share one answer.
 //   repoRoot() = WHERE MY CODE IS  — this checkout (a worktree, when in one).
@@ -252,6 +270,7 @@ function modeCheck(paths) {
 
 function main() {
   const args = process.argv.slice(2);
+  cliGate(args, CLI);
   if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
     process.stdout.write('usage: cwos-findings-feedback-validate <--check|--update|--init> [--feedback-path P] [--manifest-path P] [--lock-path P]\n');
     process.exit(args.length === 0 ? 1 : 0);

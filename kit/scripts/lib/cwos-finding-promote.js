@@ -31,7 +31,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { readYAMLFile, writeFileAtomic, formatScalar, todayISO, withFileLock } = require('./cwos-utils');
+const { readYAMLFile, writeFileAtomic, formatScalar, todayISO, withFileLock, blockScalarLines } = require('./cwos-utils');
 
 // Severities the auto_promote gate maps. Lowercased on read so finding
 // files using CRITICAL or Critical still hit the rules.
@@ -171,10 +171,9 @@ function serializeQueueItem(item) {
     lines.push(`evidence_key: ${formatScalar(item.evidence_key)}`);
   }
   if (item.description) {
-    lines.push('description: |');
-    for (const ln of String(item.description).split('\n')) {
-      lines.push(`  ${ln}`);
-    }
+    // A finding's description is engine or peer text: the one writer keeps every
+    // line of it inside the block scalar (WS-1079).
+    lines.push(...blockScalarLines('description', item.description));
   }
   if (item.recommended_action) {
     lines.push(`recommended_action: ${formatScalar(item.recommended_action)}`);

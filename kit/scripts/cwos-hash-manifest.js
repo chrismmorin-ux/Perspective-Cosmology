@@ -42,13 +42,19 @@
  *   --homebase     HomeBase root (default: walk up from this script)
  *   --out          output path (default: kit/hashes-<version>.yaml)
  *   --check        do not write; compare against an existing manifest and exit 1
- *                  if any hash drifted (CI guard that the committed manifest is fresh)
+ *                  if any hash drifted (CI guard that the committed manifest is fresh),
+ *                  naming each changed, added or removed file. Line endings do
+ *                  not count: files hash as git stores them (WS-1083)
  *   --from-tag     reconstruct the baseline for an already-released kit-v* tag
  *                  from git objects instead of the working tree
  *   --backfill-all reconstruct every kit-v* tag that has no baseline yet
  *   --force        allow --from-tag / --backfill-all to overwrite an existing
  *                  baseline (they refuse by default)
  *   --json         emit a JSON summary to stdout
+ *
+ * The release path (not --check, not backfill) refuses unless a per-commit
+ * test sweep record with health OK covers the exact kit/scripts tree being
+ * baselined (WS-986): run `node kit/scripts/cwos-test-sweep.js --commit` first.
  */
 
 'use strict';
@@ -62,6 +68,7 @@ const { parseYAML, makeEventEmitter } = require('./lib/cwos-utils');
 
 const emitEvent = makeEventEmitter();
 const { runGitInRepo, validateGitRef } = require('./lib/shell-safe');
+const { gitCanonicalBytes, lineEndingVariantHashes } = require('./lib/kit-hash');
 
 function findHomeBase(override) {
   if (override) return path.resolve(override);
@@ -98,11 +105,41 @@ function sourcesFromManifestFiles(files) {
   return sources;
 }
 
+/**
+ * path → the `i/` column of `git ls-files --eol` (lf, crlf, mixed, none, -text),
+ * or null when git cannot answer (not a repo, plugin cache, no git on PATH).
+ */
+function indexEolMap(homebase) {
+  let r;
+  try {
+    r = runGitInRepo(homebase, ['ls-files', '--eol', '-z'], { maxBuffer: 64 * 1024 * 1024 });
+  } catch { return null; }
+  if (!r || !r.ok) return null;
+  const map = new Map();
+  for (const rec of String(r.stdout).split('\0')) {
+    const tab = rec.indexOf('\t');
+    if (tab < 0) continue;
+    const m = /^i\/(\S*)/.exec(rec.slice(0, tab));
+    if (m) map.set(rec.slice(tab + 1), m[1]);
+  }
+  return map;
+}
+
 // Build { source: 'sha256:...' } over every distributable MANIFEST source.
 // Sorted keys → deterministic, reviewable diffs across releases.
+//
+// WS-1083: the hash is over the bytes git stores for the file (gitCanonicalBytes),
+// which is what a plain LF checkout — CI, a cloud session — reads. Raw
+// working-tree bytes made a core.autocrlf checkout of a Linux-cut tag read
+// stale on every text file, so the check could not tell "nothing changed"
+// from "four scripts changed". `variants` holds, per source, every hash the
+// file may carry across line endings (lineEndingVariantHashes — the same rule
+// /kit-upgrade uses), so a baseline cut on a CRLF checkout still reads current.
 function computeHashes(homebase) {
   const sources = sourcesFromManifestFiles(loadManifest(homebase));
+  const eol = indexEolMap(homebase);
   const hashes = {};
+  const variants = {};
   const missing = [];
   for (const source of [...sources].sort()) {
     const abs = path.join(homebase, source);
@@ -110,9 +147,11 @@ function computeHashes(homebase) {
       missing.push(source);
       continue;
     }
-    hashes[source] = sha256(fs.readFileSync(abs));
+    const raw = fs.readFileSync(abs);
+    hashes[source] = sha256(gitCanonicalBytes(raw, eol ? eol.get(source) : undefined));
+    variants[source] = lineEndingVariantHashes(raw).add(hashes[source]);
   }
-  return { hashes, missing };
+  return { hashes, missing, variants };
 }
 
 // ─── Backfill from git objects (WS-548) ────────────────────────────────────
@@ -255,6 +294,8 @@ function parseArgs(argv) {
         '       cwos-hash-manifest.js --backfill-all [--force] [--json]',
         '',
         'Release path (default): hash the working tree and write kit/hashes-<version>.yaml.',
+        'It refuses unless a green per-commit test sweep covers this exact kit/scripts tree',
+        '(run `node kit/scripts/cwos-test-sweep.js --commit` in this checkout first; no bypass).',
         'Backfill path: reconstruct a baseline for an already-released kit-v* tag from git',
         'objects. Refuses to overwrite an existing baseline without --force.',
       ].join('\n') + '\n');
@@ -485,6 +526,84 @@ function assertBaselineCoverage(homebase, opts) {
   process.exit(1);
 }
 
+// WS-986: the sixth gate, and the only one about BEHAVIOUR rather than shape.
+//
+// The five above prove the artifact is coherent; none asks whether the code in
+// it works. MIS-015, 2026-10-01: kit 3.43.0 was baselined and its release PR
+// presented as ready while atomic-state-writes.test.js was RED and the full kit
+// sweep had never completed against that code. The daily watermark could not
+// have caught it — it describes master's checkout at the last scheduled run,
+// not the tree being baselined.
+//
+// So the release path now requires a per-commit sweep record
+// (lib/test-sweep-record.js) with health OK whose kit_scripts_tree is the tree
+// being baselined: the code that ships is the code that was tested. A dirty
+// kit/scripts has no tree any sweep could have recorded, so it refuses too —
+// commit first. The cure is one command, run in the checkout being released:
+// `node kit/scripts/cwos-test-sweep.js --commit`.
+//
+// Release path only (generate, with or without --version). --check writes
+// nothing and is how a release is confirmed before tagging; the backfill path
+// records what already shipped and cannot be un-shipped (see backfillTag).
+// No bypass flag, like INV-064 / INV-068.
+function checkReleaseTested(homebase) {
+  const rec = require('./lib/test-sweep-record');
+  const id = rec.describeCheckout(homebase);
+  const base = { head_sha: id.head_sha, kit_scripts_tree: id.kit_scripts_tree };
+  if (!id.head_sha || !id.kit_scripts_tree) {
+    return { ...base, ok: false, problem: 'no git checkout to identify the kit/scripts tree being baselined' };
+  }
+  if (id.dirty !== false) {
+    return {
+      ...base, ok: false,
+      problem: 'kit/scripts has uncommitted or untracked changes — no sweep can have tested this exact tree',
+      detail: 'Commit (or set aside) the kit/scripts changes, run the sweep on that commit, then retry.',
+    };
+  }
+  const dir = rec.recordDir(homebase);
+  const found = rec.recordForCommit(dir, id.head_sha, id.kit_scripts_tree);
+  if (found && found.record.health === 'OK') return { ...base, ok: true, record: found.record, reds_on_tree: found.reds_on_tree || [] };
+  const own = found && found.record;
+  const head = id.head_sha.slice(0, 12);
+  if (own && own.health === 'RED') {
+    const at = found.via === 'tree' ? `${String(own.head_sha).slice(0, 12)} (same kit/scripts tree as HEAD ${head})` : head;
+    return { ...base, ok: false, problem: `the sweep of ${at} is RED: ${(own.failed || []).map((f) => f.suite).join(', ')}` };
+  }
+  if (own) {
+    const allNm = Array.isArray(own.not_measured) && own.suites_total > 0 && own.not_measured.length >= own.suites_total;
+    const why = allNm ? 'every suite NOT MEASURED (machine paging) — nothing was measured; re-run off-peak'
+      : !own.finished_at || own.cut_short ? `cut short at ${own.suites_run}/${own.suites_total}` : 'ran with kit/scripts dirty';
+    return { ...base, ok: false, problem: `the sweep of ${head} is BLIND (${why})` };
+  }
+  return { ...base, ok: false, problem: `no green per-commit test sweep covers kit/scripts tree ${id.kit_scripts_tree.slice(0, 12)} (HEAD ${head})` };
+}
+
+function assertReleaseTested(homebase, opts) {
+  const res = checkReleaseTested(homebase);
+  if (res.ok) {
+    // A timing suite that ran over budget while the machine paged is NOT
+    // MEASURED, not failed (WS-1215). It does not hold the release; it is said.
+    const nm = (res.record && Array.isArray(res.record.not_measured)) ? res.record.not_measured : [];
+    if (nm.length && !opts.json) {
+      process.stderr.write(`NOTE: release test gate — NOT MEASURED (machine paging during the sweep): ${nm.map((f) => f.suite).join(', ')}\n`);
+    }
+    const reds = Array.isArray(res.reds_on_tree) ? res.reds_on_tree : [];
+    if (reds.length && !opts.json) {
+      process.stderr.write(`NOTE: release test gate — ${reds.length} RED attempt(s) on this same kit/scripts tree (policy pending, verdict unchanged): ${reds.slice(0, 5).map((r) => `${String(r.head_sha).slice(0, 7)} at ${r.finished_at} [${(r.failed || []).map((f) => f.suite).join(', ')}]`).join('; ')}\n`);
+    }
+    return res.record;
+  }
+  if (opts.json) {
+    process.stdout.write(JSON.stringify({ ok: false, error: 'release test gate failed', detail: res.problem, head_sha: res.head_sha, kit_scripts_tree: res.kit_scripts_tree }) + '\n');
+  } else {
+    process.stderr.write('ERROR: release test gate failed — refusing to baseline kit code no green test sweep has run (WS-986).\n');
+    process.stderr.write(`  ${res.problem}\n`);
+    if (res.detail) process.stderr.write(`  ${res.detail}\n`);
+    process.stderr.write('\nRun the full sweep for this commit in this checkout, then retry:\n  node kit/scripts/cwos-test-sweep.js --commit\n');
+  }
+  process.exit(1);
+}
+
 /**
  * Write one backfilled baseline. Returns a per-tag result record.
  *
@@ -527,6 +646,7 @@ function backfillTag(homebase, tag, opts) {
     skipped: false,
     out: path.relative(homebase, outPath).replace(/\\/g, '/'),
     file_count: Object.keys(hashes).length,
+    tested_by: tested ? { head_sha: tested.head_sha, kit_scripts_tree: tested.kit_scripts_tree, suites: tested.suites_total } : null,
     source_list: sourceList,
     missing_count: missing.length,
     missing,
@@ -596,14 +716,16 @@ function main() {
   assertCommandDepsShipped(homebase, opts);
   assertInvariantRegisterConsistent(homebase, opts);
   assertBaselineCoverage(homebase, opts);
+  // Release path only: --check confirms a baseline and writes nothing.
+  const tested = opts.check ? null : assertReleaseTested(homebase, opts);
 
-  const { hashes, missing } = computeHashes(homebase);
+  const { hashes, missing, variants } = computeHashes(homebase);
   const outPath = opts.out || path.join(homebase, 'kit', `hashes-${version}.yaml`);
 
   if (opts.check) {
-    const res = compareAgainstBaseline(homebase, version, hashes, outPath);
+    const res = compareAgainstBaseline(homebase, version, hashes, outPath, variants);
     if (!res.ok) {
-      if (opts.json) process.stdout.write(JSON.stringify({ ok: false, error: res.error, out: outPath }) + '\n');
+      if (opts.json) process.stdout.write(JSON.stringify({ ok: false, error: res.error, out: outPath, changed: res.changed, added: res.added, removed: res.removed }) + '\n');
       else process.stderr.write(`ERROR: ${res.detail}\n`);
       process.exit(1);
     }
@@ -627,6 +749,7 @@ function main() {
     process.stdout.write(JSON.stringify(summary) + '\n');
   } else {
     process.stdout.write(`Wrote ${summary.out} — ${summary.file_count} files hashed (v${version}).\n`);
+    if (tested) process.stdout.write(`  tested: ${tested.suites_total} suites green at ${String(tested.head_sha).slice(0, 12)} (kit/scripts tree ${String(tested.kit_scripts_tree).slice(0, 12)})\n`);
     if (missing.length) {
       process.stdout.write(`  ${missing.length} manifest source(s) not found on disk (skipped):\n`);
       for (const m of missing.slice(0, 10)) process.stdout.write(`    ${m}\n`);
@@ -642,7 +765,7 @@ function main() {
  * — the same shape INV-064 and INV-068 use for their gates. main() exits on
  * the result; this returns it, because an invariant cannot call process.exit.
  */
-function compareAgainstBaseline(homebase, version, hashes, outPath) {
+function compareAgainstBaseline(homebase, version, hashes, outPath, variants) {
   if (!fs.existsSync(outPath)) {
     const rel = path.relative(homebase, outPath).replace(/\\/g, '/');
     return {
@@ -652,18 +775,59 @@ function compareAgainstBaseline(homebase, version, hashes, outPath) {
       file_count: Object.keys(hashes).length,
     };
   }
-  const stripTs = s => s.replace(/^generated_at:.*$/m, 'generated_at: __IGNORE__');
-  const drift = stripTs(fs.readFileSync(outPath, 'utf8')) !==
-                stripTs(renderYAML(version, hashes, '__IGNORE__'));
-  if (drift) {
+  // Line endings are checkout, not content: with core.autocrlf a Windows
+  // checkout (or a rebase that rewrites the file) holds CRLF — in the baseline
+  // YAML itself and in every file it describes (WS-1083). The baseline is read
+  // per file, so --check names what moved instead of only saying "stale".
+  const baseline = readBaselineEntries(fs.readFileSync(outPath, 'utf8'));
+  const changed = [], added = [], removed = [];
+  for (const source of Object.keys(hashes)) {
+    if (!Object.prototype.hasOwnProperty.call(baseline.files, source)) { added.push(source); continue; }
+    const want = baseline.files[source];
+    const ok = want === hashes[source] || Boolean(variants && variants[source] && variants[source].has(want));
+    if (!ok) changed.push(source);
+  }
+  for (const source of Object.keys(baseline.files)) {
+    if (!Object.prototype.hasOwnProperty.call(hashes, source)) removed.push(source);
+  }
+  const versionDiffers = baseline.version !== String(version);
+  const file_count = Object.keys(hashes).length;
+  if (versionDiffers || changed.length || added.length || removed.length) {
+    const rel = path.relative(homebase, outPath).replace(/\\/g, '/');
+    const lines = [`hash manifest is stale — ${changed.length + added.length + removed.length} file(s) differ from ${rel}:`];
+    if (versionDiffers) lines.push(`  version: baseline says "${baseline.version}", expected "${version}"`);
+    const LIMIT = 25;
+    for (const [label, list] of [['changed', changed], ['added', added], ['removed', removed]]) {
+      for (const f of list.slice(0, LIMIT)) lines.push(`  ${label}: ${f}`);
+      if (list.length > LIMIT) lines.push(`  … and ${list.length - LIMIT} more ${label}`);
+    }
+    lines.push(`regenerate: node kit/scripts/cwos-hash-manifest.js --version ${version}`);
     return {
       ok: false,
       error: 'hash manifest stale',
-      detail: `hash manifest is stale — regenerate: node kit/scripts/cwos-hash-manifest.js --version ${version}`,
-      file_count: Object.keys(hashes).length,
+      detail: lines.join('\n'),
+      changed, added, removed,
+      file_count,
     };
   }
-  return { ok: true, file_count: Object.keys(hashes).length };
+  return { ok: true, file_count };
+}
+
+/** `version` and the `files:` map of a baseline renderYAML wrote, CRLF or LF. */
+function readBaselineEntries(text) {
+  const files = {};
+  let version = null;
+  let inFiles = false;
+  for (const line of String(text).split(/\r?\n/)) {
+    const v = /^version:\s*"([^"]*)"\s*$/.exec(line);
+    if (v) { version = v[1]; continue; }
+    if (/^files:\s*$/.test(line)) { inFiles = true; continue; }
+    if (!inFiles) continue;
+    const m = /^\s+"([^"]+)":\s*"([^"]*)"\s*$/.exec(line);
+    if (m) files[m[1]] = m[2];
+    else if (/^\S/.test(line)) inFiles = false;
+  }
+  return { version, files };
 }
 
 /**
@@ -694,9 +858,9 @@ function checkReleaseDrift(homebase) {
   catch (e) { return { applicable: false, reason: `kit/VERSION unreadable — ${e.message}` }; }
   if (!version) return { applicable: false, reason: 'kit/VERSION is empty' };
 
-  const { hashes } = computeHashes(homebase);
+  const { hashes, variants } = computeHashes(homebase);
   const outPath = path.join(homebase, 'kit', `hashes-${version}.yaml`);
-  const res = compareAgainstBaseline(homebase, version, hashes, outPath);
+  const res = compareAgainstBaseline(homebase, version, hashes, outPath, variants);
   return { applicable: true, version, ...res };
 }
 
@@ -704,7 +868,7 @@ module.exports = {
   computeHashes, renderYAML, findHomeBase,
   sourcesFromManifestFiles, computeHashesFromTag, sourcesAtTag,
   versionFromTag, listKitTags, backfillTag,
-  compareAgainstBaseline, checkReleaseDrift,
+  compareAgainstBaseline, checkReleaseDrift, checkReleaseTested,
 };
 
 if (require.main === module) main();

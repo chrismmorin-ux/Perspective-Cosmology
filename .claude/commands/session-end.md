@@ -183,29 +183,28 @@ For each such decision:
 3. **For Light decisions:**
    - Include in handoff notes under a "Decisions made" subsection (no `decisions.md` entry)
 
-4. **Update telemetry:**
-   - Count all formalized decisions (Heavy + Medium) toward `decisions_recorded` in usage.yaml
-   - This ensures the value ledger reflects decisions captured passively, not just via `/decide`
-
-5. **Output** (as part of session summary):
+4. **Output** (as part of session summary):
    - If any Heavy/Medium decisions were recorded: list them briefly
    - If zero decisions detected: note "No product-shaping decisions detected this session"
 
 ### 5.5. Update Usage Telemetry
 
-Update `.claude/workstream/usage.yaml` with this session's activity:
+**Harness-derived, do not edit:** `command_usage.engine`, `value_ledger.total_items_completed`,
+`value_ledger.decisions_recorded`, the per-engine `runs`/`last_run` in `engine_runs:`, and the
+`derived:` block are recomputed from disk at every session start by
+`cwos-usage-derive.js` (SessionStart hook). When the model kept them by hand, the fleet
+recorded 7% of real activity (2026-10-10 probe). Which model ran each agent is recorded by
+`cwos-dispatch-ledger.js` (PostToolUse hook), not here.
 
-**Command counts:** Increment counters for each command used during this session (review conversation history for command invocations).
+Update the remaining fields of `.claude/workstream/usage.yaml` with this session's activity:
+
+**Command counts:** Increment counters for each command used during this session (review conversation history for command invocations) — except `engine`, which is derived.
 
 **Session type:** Increment `strategic_sessions` (since session-end implies a formal session).
 
-**Engine runs:** For any engines run during this session, update `engine_runs` entries with incremented run count, today's date, and finding/item counts.
-
 **Value ledger updates:**
-- `total_items_completed` += items marked done this session
 - `total_items_created` += new items created this session
 - `total_findings_caught` += new findings generated this session
-- `decisions_recorded` += new decisions logged this session
 - `sessions_with_handoff` += 1 (this session has handoff notes)
 - `regressions_prevented` += count of findings that matched `system/failures.md` patterns
 - `invariant_violations_caught` += count of invariant violations detected this session
@@ -302,12 +301,11 @@ time. The summary sat **10 days stale** (last written 2026-07-24) while
 fast orientation. Every field in it is a pure function of reconciled state, so
 it never needed a session boundary.
 
-One field is deliberately **not** recomputed by reconcile: `vital_signs_ok` /
-`red_vitals`. Reconcile does not run the invariant suite, so it carries the
-previous values forward with `vitals_observed_at` stamped beside them rather
-than fabricating a green line. If you have just run `/verify` and the vitals
-picture changed, update those two fields — that is the only part of this step
-that still belongs to a session.
+Vitals (`vital_signs_ok` / `red_vitals`) are not computed by reconcile either:
+`cwos-verify` records what each fast or full run saw, and reconcile copies it,
+with `vitals_observed_at` and `vitals_scope` beside it (WS-1334). Nothing in this
+step is left for a session to hand-edit. The prose step that used to ask for it
+went unperformed for 102 days.
 
 ### 5.6b. Optimization Signal Summary
 
@@ -337,6 +335,7 @@ GC reads thresholds and entity types from `config.yaml`. Skip graduation checks 
 
 ### 6. Clean Up
 - Remove `.claude/workstream/.active-sessions/{session-id}.lock` (if it exists)
+- Remove `.claude/workstream/liveness/{session-id}.json` — the per-node liveness sidecar (WS-884). Harmless if left: readers ignore a sidecar on a closed record, and the directory is gitignored.
 - Remove `.claude/workstream/.current-session` (backward compatibility)
 - Release any file locks
 

@@ -2,7 +2,7 @@
 name: kit-upgrade
 description: "Safely upgrade this repo's CWOS kit to the latest HomeBase version — dry-run diff, snapshot, validation gate, auto-rollback"
 user-invocable: true
-argument-hint: "[--apply] [--rollback] [--homebase <path>]"
+argument-hint: "[--apply] [--rollback [--yes]] [--homebase <path>]"
 ---
 
 # /kit-upgrade — Upgrade this repo's CWOS kit
@@ -48,15 +48,29 @@ Runs under a lock (`.claude/workstream/.kit-upgrade.lock`):
 4. **Validation gate** — all must pass: `cwos-reconcile --quiet` clean, `cwos-next gate` runs, `cwos-next allocate-ws-id` returns `ok:true` (the WS-040 regression guard), `cwos-pulse overview` runs, `cwos-audit focus drift` runs, **every registry path resolves to a real file**, and the version stamp is bumped.
 5. On success: report + retain the snapshot. **On any gate failure: automatically restore the snapshot, leave the repo at the old version, and exit non-zero naming the failing check.**
 
-After a successful apply, review any `.kit-update` sidecars to merge your customizations into the new versions.
+After a successful apply, **answer every `.kit-update` sidecar — do not leave one unanswered** (WS-943). Each is a kit update this repo has not merged, and an unanswered one looks identical to one nobody read:
+
+```bash
+node kit/scripts/cwos-sidecar.js list                                  # what is waiting; exit 1 while any is unreviewed
+node kit/scripts/cwos-sidecar.js take <file>                           # adopt the kit's version
+node kit/scripts/cwos-sidecar.js decline <file> --reason "<why>"       # keep ours; the update is removed
+node kit/scripts/cwos-sidecar.js defer <file> --reason "<why>"         # merge later; the update stays
+```
+
+Merge by hand first when both sides matter, then `decline` with the reason ("merged by hand: kept our clinic section"). `take` refuses to overwrite a file with uncommitted changes. Every answer is appended to `.cwos-sidecar-decisions.jsonl`, a repo-owned file upgrades never touch; a later kit release that changes the same file asks again. Present the list to the founder as one batch with a recommendation per file — keeping or dropping a customization is theirs to decide, the bookkeeping is not.
 
 ## Rollback
 
+Preview first, then restore:
+
 ```bash
-node kit/scripts/cwos-kit-upgrade.js --rollback
+node kit/scripts/cwos-kit-upgrade.js --rollback          # preview — writes nothing
+node kit/scripts/cwos-kit-upgrade.js --rollback --yes    # restore
 ```
 
-Restores the most recent `kit-pre-upgrade-*` snapshot (deletes files the upgrade added, restores everything it overwrote, reverts `.cwos-version`). The snapshot is retained so you can re-apply later.
+`--rollback` alone **only previews**: which snapshot, what it would delete, what it would overwrite, and — flagged with ⚠ — every file that changed **after** the upgrade finished. Those files go back to pre-upgrade bytes on restore, so show the list to the founder before running `--rollback --yes`. The restore itself deletes files the upgrade added, restores everything it overwrote and reverts `.cwos-version`, under the upgrade lock; the snapshot is retained so you can re-apply later.
+
+It is **refused (exit 7)** when the installed version is not the one that snapshot upgraded to — the upgrade was already rolled back, or a newer one replaced it — because restoring it would overwrite newer work. The exception is an upgrade that was **interrupted** (the machine died mid-upgrade): `--apply` then refuses with exit 5 and points here, and `--rollback` is allowed whatever the stamp says. If a restore cannot put every path back it says **rollback INCOMPLETE** and names the paths; it never says "restored" over a partial restore.
 
 ## Flags
 
@@ -64,9 +78,9 @@ Restores the most recent `kit-pre-upgrade-*` snapshot (deletes files the upgrade
 |------|--------|
 | `--homebase <path>` | HomeBase root that sources the new kit (required unless resolvable from cwd). |
 | `--apply` | Perform the upgrade (default is dry-run). |
-| `--rollback` | Restore the most recent pre-upgrade snapshot and exit. |
+| `--rollback` | Preview restoring the most recent pre-upgrade snapshot (writes nothing). |
+| `--yes` | With `--rollback`: perform the restore. |
 | `--json` | Machine-readable summary. |
-| `--yes` | Non-interactive (assume confirmation). |
 
 ## Notes
 

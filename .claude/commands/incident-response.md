@@ -1,6 +1,6 @@
 ---
 name: incident-response
-description: "Incident response engine — production issue diagnosis, auto-recovery, escalation paths, and post-incident learning"
+description: "Incident response engine — production issue diagnosis, auto-recovery, escalation paths, leaked-credential response, and post-incident learning"
 user-invocable: false
 default_mode: build-best
 ---
@@ -18,11 +18,11 @@ Before phase work, read the `engine_intent_recorded` event from the loaded envel
 
 # Incident Response Engine
 
-Structured diagnosis and recovery for production issues. Follows a recovery tree from infrastructure checks through application health to business logic verification, with auto-remediation for known failure patterns.
+Structured diagnosis and recovery for production issues. Follows a recovery tree from infrastructure checks through application health to business logic verification, with auto-remediation for known failure patterns. It also holds the procedure for a leaked credential, which is a different kind of incident: nothing is down, something is out.
 
 ## Trigger
 
-$ARGUMENTS (symptom description, or "diagnose" for general health sweep)
+$ARGUMENTS (symptom description, "diagnose" for general health sweep, or a report that a key, token or password is somewhere it should not be)
 
 ---
 
@@ -39,6 +39,58 @@ Based on the reported symptom, classify:
 | **SEV-4** | Cosmetic issue, edge case, no user reports | Normal backlog priority |
 
 For SEV-1 and SEV-2: skip to Phase 1 immediately. For SEV-3/4: create a finding and work item, return to normal flow.
+
+**Exception — a credential is somewhere it should not be.** A key, token or password in a tracked file, a commit, a pull request, a log, a work item or pasted command output is not diagnosed through Phases 1–3. Nothing is down; something is out. Go to **Secret Exposure** below. It is SEV-2 at minimum, and that includes a test key: a test key proves the path a live key would have taken.
+
+---
+
+## SECRET EXPOSURE — a credential reached a place it should not be
+
+The order is the procedure. Cleaning the record first feels like progress and changes nothing: a secret that was pushed must be assumed copied, and only the vendor can make it worthless.
+
+**Never repeat the secret.** Not in a command, a commit message, the finding, the work item or the report. Refer to it by vendor, kind, and at most its last four characters. Search by the vendor's key *prefix*, never by pasting the value: a pasted value lands in shell history and in this session's transcript, which is a second exposure.
+
+### S1. Rotate at the vendor — before anything else
+
+Rotation happens in the vendor's dashboard and is the founder's act. Stop and hand over exactly: which vendor, which key (kind + last four), where it was found, and when it got there. Do not continue to S3 until the founder confirms the old key is revoked. S2 can run while waiting.
+
+If the exposed key was live rather than test, ask the founder to check the vendor's usage log for the window between exposure and revocation, and record what it showed.
+
+### S2. Trace — find every place the same path put it
+
+The leak is one instance of a path. Search for the prefix, not the value:
+
+| Where | How |
+|-------|-----|
+| This repo, files as they are now | `git grep -nE "<prefix-pattern>"` |
+| This repo, everything ever committed on any branch | `git log --all --oneline -G "<prefix-pattern>"` |
+| Places git does not hold | CI logs, deploy logs, pull-request text, chat or documents the output was pasted into |
+| Other repos that use the same credential | Their own sessions search them — record a high-severity friction entry naming the vendor and prefix so the hub can ask each one. Do not reach into another repo from here. |
+
+Common prefixes: Stripe `sk_(test|live)_`, `rk_(test|live)_`, `whsec_`; AWS `AKIA`; GitHub `ghp_`, `github_pat_`; Google `AIza`; a PEM block `-----BEGIN [A-Z ]*PRIVATE KEY-----`. A clean prefix search shows that *this* shape is absent. It does not show that no secret is present.
+
+A search that finds nothing proves nothing until it has found something: run the same search for a string known to be in the repo first.
+
+### S3. Remove it from the record — after S1 is confirmed
+
+- **Current files:** delete the value and commit. Name the path in the commit message, not the secret.
+- **A CWOS work item:** edit the item file directly. Do **not** use `cwos-item.js correct` — it keeps the superseded text under `corrections:` on purpose, which would keep the secret.
+- **Git history:** leave it by default. Once the key is revoked, the copy in history is a dead string, and rewriting pushed history breaks every other clone. If the founder wants it rewritten anyway, that is a destructive operation and needs their explicit confirmation.
+
+### S4. Record — the rotation, and the path
+
+- **The rotation date** goes wherever this project records what secrets exist and when each was last rotated (its secrets inventory or custody record). If that record lives in another repo, ask that repo to record it; do not write there from here.
+- **A failure-library entry** (Phase 6 format) describing the *path* — which command or habit carried the value into the record. The path is the lesson; the key is replaceable.
+- **A prevention work item** for the path, unless one already closes it.
+
+### S5. Verify
+
+- [ ] The founder confirms the vendor rejects the old key
+- [ ] The S2 prefix search is clean on current files, after its positive control found something
+- [ ] The rotation date is recorded
+- [ ] The path has a failure-library entry and a prevention item
+
+Then write the Incident Report (Phase 6). Its timeline must state how long the key was exposed before it was revoked.
 
 ---
 

@@ -1,7 +1,7 @@
 # Engine Extension Pack Manifest
 engine_id: incident-response
 name: Incident Response
-description: Production issue diagnosis, auto-recovery, escalation paths, and post-incident learning
+description: Production issue diagnosis, auto-recovery, escalation paths, leaked-credential response, and post-incident learning
 archetypes: [saas, api-service]
 install_conditions: deployed/production service detected
 programs: [infrastructure]

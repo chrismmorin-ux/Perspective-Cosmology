@@ -165,6 +165,11 @@ function findCommandEnd(lines, boundaryIdx) {
     let ev;
     try { ev = JSON.parse(line); } catch { continue; }
     if (ev.type !== 'user') continue;
+    // The expanded command body (and other harness-injected text) arrives as a
+    // `user` text line flagged isMeta. It is the command itself, not a founder
+    // turn: ending there cut every scan to the 74-char command tag — a constant
+    // 19-token reading from 2026-08-02 until run-035 found it on 2026-10-12.
+    if (ev.isMeta === true) continue;
     const c = ev.message && ev.message.content;
     if (typeof c === 'string') {
       if (c.trim() !== '') return i;
@@ -178,15 +183,102 @@ function findCommandEnd(lines, boundaryIdx) {
   return lines.length;
 }
 
+// ─── /next compose-phase bound (WS-553) ───────────────────────────────────
+//
+// DECISION (WS-553, direction (a) of a-d): a /next reading measures its
+// COMPOSE phase only — from the /next boundary to the first transcript marker
+// that sprint execution began. Execution cost belongs to the items, not to the
+// command that dispatched them.
+//
+// Why: cwos-token-budget blocks /next on 3 monotonic increases > 15%. With the
+// scan running through execution, a compose-only /next (~17-22k derived
+// tokens) and a /next that picked up a sprint and shipped it (~58k) were one
+// unit of the same command, so a productive session read as a regression and
+// the only exit was a founder override. Rejected: (b) normalize by items
+// closed — the work count is not in the transcript and per-item cost varies
+// more than compose cost; (c) bucket by "executed or not" — needs this same
+// marker anyway, and its executing bucket would still compare throughput
+// against throughput; (d) exempt /next — removes
+// the gate from the one command it was built for. Raising the threshold hides
+// the incomparability instead of fixing it.
+//
+// Marker reliability, measured 2026-11-03 on 55 real HomeBase transcripts
+// (33 /next invocations, scan bounded per findCommandEnd): 6 of 33 carried
+// execution inside the bounded window, and in all 6 a `cwos-next.js gate
+// --pickup[-sprint]` call preceded the first Agent/Edit/Write. The other 27
+// never called Agent, Task, EnterPlanMode, Edit, Write or NotebookEdit inside
+// the window — 0 false positives. `cwos-next.js approve` never fell inside a
+// bounded window (founder approval is a typed turn, which findCommandEnd
+// already cuts at), but it is the marker whenever approval happens in-turn
+// (AskUserQuestion, ai-autonomous). The tool-name markers cover the resume
+// path (gate returns active_sprint, Step 6 starts with no CLI marker).
+// `cwos-next.js done` is deliberately NOT a marker: Step 1 runs `done` to close
+// phantom and stale sprints before composing (next.md), which is compose work.
+//
+// Measurement stays on the character proxy (TOKENS_PER_CHAR) — a stated
+// decision, not an omission. core/telemetry.js:deriveTokensForSession reads
+// real message.usage, but its per-message cache-read term re-counts the whole
+// prior conversation on every turn, so a /next late in a long session would
+// read higher than the same /next at session start — position noise in the
+// same rule. The proxy counts what this command itself put into context.
+// Moving the rule to measured usage is orthogonal to WS-553 and stays open.
+const COMPOSE_SCOPED_TAGS = new Set(['/next']);
+const EXECUTION_TOOL_NAMES = new Set(['Agent', 'Task', 'EnterPlanMode', 'Edit', 'Write', 'NotebookEdit']);
+const EXECUTION_BASH_RE = /cwos-next\.js["']?\s+(?:approve\b|gate\b[^\n;&|]*--pickup)/;
+
+/**
+ * Index of the first assistant line in (boundaryIdx, endIdx) whose tool_use
+ * blocks show sprint execution began (see the WS-553 decision above), or null.
+ */
+function findExecutionStart(lines, boundaryIdx, endIdx) {
+  const stop = typeof endIdx === 'number' ? endIdx : lines.length;
+  for (let i = boundaryIdx + 1; i < stop; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    let ev;
+    try { ev = JSON.parse(line); } catch { continue; }
+    if (ev.type !== 'assistant') continue;
+    const c = ev.message && ev.message.content;
+    if (!Array.isArray(c)) continue;
+    for (const block of c) {
+      if (!block || typeof block !== 'object' || block.type !== 'tool_use') continue;
+      if (EXECUTION_TOOL_NAMES.has(block.name)) return i;
+      if (block.name === 'Bash' && block.input && typeof block.input.command === 'string' &&
+          EXECUTION_BASH_RE.test(block.input.command)) return i;
+    }
+  }
+  return null;
+}
+
+/** The `/name` tag on the boundary line, without requiring a timestamp. */
+function commandTagAt(lines, boundaryIdx) {
+  const line = lines[boundaryIdx];
+  if (!line) return null;
+  let ev;
+  try { ev = JSON.parse(line); } catch { return null; }
+  const c = ev.message && ev.message.content;
+  let text = '';
+  if (typeof c === 'string') text = c;
+  else if (Array.isArray(c)) {
+    for (const b of c) if (b && b.type === 'text' && typeof b.text === 'string') text += b.text;
+  }
+  const m = text.match(/<command-name>\s*\/?([\w-]+)\s*<\/command-name>/);
+  return m ? `/${m[1]}` : null;
+}
+
 /**
  * Given the transcript line array and the boundary index, count tool rounds
  * and total characters for the command that starts there — bounded at the next
  * genuine user turn (see findCommandEnd).
  *
+ * opts.composeOnly (WS-553): also stop at the first execution marker
+ * (findExecutionStart), so a /next measures its compose phase only. The
+ * returned `scope` is 'compose' when that cut applied, else 'command'.
+ *
  * A "tool round" is one assistant message with at least one tool_use content
  * block. text+tool_use blocks all contribute their text to chars_total.
  */
-function scanFromBoundary(lines, boundaryIdx) {
+function scanFromBoundary(lines, boundaryIdx, opts) {
   let toolRounds = 0;
   let chars = 0;
   let scanned = 0;
@@ -196,7 +288,12 @@ function scanFromBoundary(lines, boundaryIdx) {
   // tool calls per /next invocation against the per_invocation_max
   // threshold.
   const roundsByType = {};
-  const endIdx = findCommandEnd(lines, boundaryIdx);
+  let endIdx = findCommandEnd(lines, boundaryIdx);
+  let scope = 'command';
+  if (opts && opts.composeOnly) {
+    const execIdx = findExecutionStart(lines, boundaryIdx, endIdx);
+    if (execIdx !== null) { endIdx = execIdx; scope = 'compose'; }
+  }
   for (let i = boundaryIdx; i < endIdx; i++) {
     const line = lines[i];
     if (!line) continue;
@@ -247,7 +344,7 @@ function scanFromBoundary(lines, boundaryIdx) {
     }
     if (ev.type === 'assistant' && hasToolUse) toolRounds++;
   }
-  return { toolRounds, chars, scanned, roundsByType };
+  return { toolRounds, chars, scanned, roundsByType, scope };
 }
 
 // ─── Event-log reader ─────────────────────────────────────────────────────
@@ -398,7 +495,10 @@ function main() {
   const targetEvent = findMostRecentUnstamped(workstreamDir);
   if (!targetEvent) { debug('no recent unstamped command_completed'); return; }
 
-  const { toolRounds, chars, scanned, roundsByType } = scanFromBoundary(lines, boundary);
+  // WS-553: /next is measured to its compose phase only (decision at
+  // COMPOSE_SCOPED_TAGS above).
+  const composeOnly = COMPOSE_SCOPED_TAGS.has(commandTagAt(lines, boundary));
+  const { toolRounds, chars, scanned, roundsByType, scope } = scanFromBoundary(lines, boundary, { composeOnly });
   const tokensDerived = Math.round(chars * TOKENS_PER_CHAR);
 
   // Append the corrective event. Use cwos-event.js spawn rather than
@@ -414,6 +514,8 @@ function main() {
     tokens_derived: tokensDerived,
     tokens_per_char: TOKENS_PER_CHAR,
     transcript_lines_scanned: scanned,
+    // WS-553: 'compose' = the scan stopped at a /next execution marker.
+    scan_scope: scope,
   });
   // CWOS_COMMAND_ID overrides ensureCommandId so the appended event keys
   // onto the target command's envelope record (the reducer joins via
@@ -439,12 +541,27 @@ function main() {
 // or require.main !== module), main() is skipped and the helpers below
 // are accessible.
 if (require.main === module && process.env.CWOS_STOP_TELEMETRY_NORUN !== '1') {
+  // ADR-063: --help describes and never acts; an unknown flag is refused (exit 2). The hook
+  // passes no arguments, so this never touches the Stop path.
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) {
+    process.stdout.write('cwos-stop-telemetry — Stop hook: back-fills tool_rounds_actual and tokens_derived onto the\n'
+      + 'most recent command_completed event, from the transcript named on stdin ({ transcript_path }).\n\n'
+      + 'usage: (run by the Stop hook; no arguments)\n\n'
+      + 'A /next reading covers its compose phase only (WS-553). Every error exits 0 (non-fatal).\n'
+      + 'CWOS_STOP_TELEMETRY_NORUN=1 loads the module without running it.\n');
+    process.exit(0);
+  }
+  if (argv.length) { process.stderr.write(`cwos-stop-telemetry: unknown argument ${argv[0]} (it takes none; see --help)\n`); process.exit(2); }
   try { main(); } catch (err) { debug(`uncaught: ${err.message}`); }
   process.exit(0);
 }
 
 module.exports = {
   scanFromBoundary,
+  findExecutionStart,
+  commandTagAt,
+  COMPOSE_SCOPED_TAGS,
   findCommandBoundary,
   findMostRecentUnstamped,
   extractCommandInfo,

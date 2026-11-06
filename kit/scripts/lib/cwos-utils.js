@@ -154,11 +154,23 @@ function parseMapping(lines, i, baseIndent, target, warnings) {
     // queue YAML — fell through to parseScalar and bound the LITERAL TWO
     // CHARACTERS ">-" as the value. 22 such fields existed across 20 state
     // files when this was found, all silently empty to every reader.
-    const blockHeader = /^([|>])([-+]?)(\d*)$/.exec(afterColon);
+    // The chomping and indentation indicators may come in either order
+    // (`|2-` and `|-2` are both YAML); 0 is not a valid indentation indicator
+    // and is treated as absent.
+    const headerMatch = /^([|>])([-+]?)(\d*)([-+]?)$/.exec(afterColon);
+    const blockHeader = headerMatch && !(headerMatch[2] && headerMatch[4])
+      ? [headerMatch[0], headerMatch[1], headerMatch[2] || headerMatch[4], Number(headerMatch[3]) > 0 ? headerMatch[3] : '']
+      : null;
 
     if (afterColon === '' || blockHeader) {
-      // Check what follows: nested mapping, block sequence, or block scalar
-      const nextNonEmpty = peekNextNonEmpty(lines, i + 1);
+      // Check what follows: nested mapping, block sequence, or block scalar.
+      // Inside a block scalar there are no comments: a body line starting with
+      // `#` is text. So the body's first line is the next non-BLANK line. The
+      // comment-skipping peek used for mappings inferred the indent from the
+      // line AFTER a `# heading`, and when that line was deeper, the heading
+      // and everything at its level fell out of the block and were parsed as
+      // keys of the document (WS-942, second inspection).
+      const nextNonEmpty = blockHeader ? peekNextNonBlank(lines, i + 1) : peekNextNonEmpty(lines, i + 1);
       if (nextNonEmpty === null) {
         target[key] = afterColon === '' ? null : '';
         i++;
@@ -166,6 +178,18 @@ function parseMapping(lines, i, baseIndent, target, warnings) {
       }
 
       const nextIndent = lineIndent(lines[nextNonEmpty]);
+      // An indentless block sequence: `key:` then `- item` at the key's own column is YAML for a
+      // list value (the style many generators emit). Read as "no value", it dropped every
+      // blocked_by/enables list written that way (ai-content-ecosystem WS-005..011, found with
+      // WS-1229 by comparing against js-yaml over the fleet's queue files).
+      // Same item grammar as readBlockSequence (`- ` then text): a bare `-` or `-<tab>` item is not
+      // read there, so it is not claimed here either (inspection D1/D2: it would read as []).
+      if (!blockHeader && nextIndent === indent && lines[nextNonEmpty].trim().startsWith('- ')) {
+        const { arr, nextLine } = readBlockSequence(lines, i + 1, indent, warnings);
+        target[key] = arr;
+        i = nextLine;
+        continue;
+      }
       if (nextIndent <= indent) {
         target[key] = null;
         i++;
@@ -174,8 +198,14 @@ function parseMapping(lines, i, baseIndent, target, warnings) {
 
       if (blockHeader) {
         // Block scalar. style '|' keeps line breaks, '>' folds them to spaces.
+        // An explicit indentation indicator (`|2`) fixes the body's indent
+        // relative to the key. Without one it is inferred from the first line,
+        // which is wrong whenever that line itself starts with spaces: the body
+        // is then read as deeper than it is, every later line falls outside
+        // it, and the body's own lines are parsed as sibling keys (WS-942).
+        const scalarIndent = blockHeader[3] ? indent + Number(blockHeader[3]) : nextIndent;
         const { value, nextLine } = readBlockScalar(
-          lines, i + 1, nextIndent, blockHeader[1], blockHeader[2]
+          lines, i + 1, scalarIndent, blockHeader[1], blockHeader[2]
         );
         target[key] = value;
         i = nextLine;
@@ -198,13 +228,132 @@ function parseMapping(lines, i, baseIndent, target, warnings) {
       // Inline (flow) mapping — WS-560, gap 2 of FIND-YAML-parser-robustness.
       target[key] = parseInlineMapping(afterColon);
       i++;
+    } else if (isOpenQuoted(afterColon)) {
+      // Multi-line quoted scalar (WS-147 follow-up): `key: "text that\n  wraps"`.
+      // Before this, the value was cut at the first line break and every
+      // continuation line fell through to this mapping — a line with a colon
+      // in it became a phantom key, a line starting `- ` became an orphan.
+      const { text, nextLine } = readMultilineQuoted(lines, i, afterColon, warnings);
+      target[key] = parseScalar(text);
+      i = nextLine;
     } else {
-      // Scalar value
-      target[key] = parseScalar(afterColon);
-      i++;
+      // Scalar value — plain, possibly continued on more-indented lines.
+      const { text, nextLine } = readPlainContinuation(lines, i + 1, indent, afterColon);
+      target[key] = parseScalar(text);
+      i = nextLine;
     }
   }
   return i;
+}
+
+/**
+ * Does a flow value OPEN a quoted scalar that it does not close on this line?
+ * YAML: a double-quoted scalar ends at an unescaped `"`; a single-quoted one at
+ * a `'` that is not doubled (`''` is an escaped quote).
+ */
+function quotedCloseIndex(text) {
+  const q = text[0];
+  if (q !== '"' && q !== "'") return -1;
+  for (let k = 1; k < text.length; k++) {
+    const c = text[k];
+    if (q === '"') {
+      if (c === '\\') { k++; continue; }
+      if (c === '"') return k;
+    } else if (c === "'") {
+      if (text[k + 1] === "'") { k++; continue; }
+      return k;
+    }
+  }
+  return -1;
+}
+
+function isOpenQuoted(text) {
+  return (text[0] === '"' || text[0] === "'") && quotedCloseIndex(text) === -1;
+}
+
+/**
+ * Read a quoted scalar that spans lines, starting on `lines[i]` whose value
+ * part is `first`. Returns the scalar re-assembled on ONE line (still wrapped
+ * in its quotes, for parseScalar) and the index of the line after it.
+ *
+ * Folding follows YAML 1.2 §7.3.1/7.3.2 flow folding: each line break between
+ * two non-empty lines becomes a single space, each empty line becomes "\n",
+ * leading/trailing white space on continuation lines is dropped, and in a
+ * double-quoted scalar a line ending in an unescaped `\` joins with no space.
+ * A scalar never closed before EOF is reported and read as its first line, so
+ * one bad quote cannot swallow the rest of the file.
+ */
+function readMultilineQuoted(lines, i, first, warnings) {
+  const q = first[0];
+  const segs = [first];
+  let j = i + 1;
+  let closed = false;
+  while (j < lines.length) {
+    segs.push(lines[j]);
+    j++;
+    if (quotedCloseIndex(segs.join('\n')) !== -1) { closed = true; break; }
+  }
+  if (!closed) {
+    if (warnings) {
+      warnings.push({
+        line: i + 1,
+        reason: 'unterminated-quoted-scalar',
+        snippet: first.length > 80 ? first.slice(0, 77) + '...' : first,
+      });
+    }
+    return { text: first, nextLine: i + 1 };
+  }
+  const joined = segs.join('\n');
+  const body = joined.slice(1, quotedCloseIndex(joined));
+  const parts = body.split('\n');
+  let out = parts[0].replace(/[ \t]+$/, '');
+  let pendingBreaks = 0;
+  for (let p = 1; p < parts.length; p++) {
+    const isLast = p === parts.length - 1;
+    let seg = parts[p].replace(/^[ \t]+/, '');
+    if (!isLast) seg = seg.replace(/[ \t]+$/, '');
+    if (seg === '' && !isLast) { pendingBreaks++; continue; }
+    if (pendingBreaks > 0) {
+      out += '\n'.repeat(pendingBreaks);
+    } else if (q === '"' && /(^|[^\\])(\\\\)*\\$/.test(out)) {
+      out = out.slice(0, -1); // escaped line break: join with no space
+    } else {
+      out += ' ';
+    }
+    pendingBreaks = 0;
+    out += seg;
+  }
+  return { text: q + out + q, nextLine: j };
+}
+
+/**
+ * A plain scalar may continue on following lines that are indented deeper
+ * than `ownerIndent` (the key's, or the sequence dash's). YAML folds those
+ * lines into the value; this reader used to drop them into the surrounding
+ * mapping instead. `start` is the first line after the one holding `first`.
+ */
+function readPlainContinuation(lines, start, ownerIndent, first) {
+  if (first === '' || first.startsWith('[') || first.startsWith('{')
+      || first.startsWith('"') || first.startsWith("'")) {
+    return { text: first, nextLine: start };
+  }
+  let out = first;
+  let pendingBreaks = 0;
+  let j = start;
+  let last = start;
+  while (j < lines.length) {
+    const line = lines[j];
+    const t = line.trim();
+    if (t === '') { pendingBreaks++; j++; continue; }
+    if (lineIndent(line) <= ownerIndent) break;
+    if (t.startsWith('#')) break;
+    out += pendingBreaks > 0 ? '\n'.repeat(pendingBreaks) : ' ';
+    out += stripInlineComment(t);
+    pendingBreaks = 0;
+    j++;
+    last = j;
+  }
+  return { text: out, nextLine: last };
 }
 
 /**
@@ -291,27 +440,77 @@ function readBlockSequence(lines, start, seqIndent, warnings) {
 
     const itemText = stripInlineComment(trimmed.substring(2).trim());
 
-    // Check if this sequence item starts a nested mapping
     const nextLine = i + 1;
     const nextNonEmpty = peekNextNonEmpty(lines, nextLine);
+
+    // `- |` / `- >-` — a block scalar as the item (WS-147 follow-up). The
+    // header used to be bound as the literal string "|" and the body fell out
+    // of the sequence, orphaning every later item.
+    // Same header grammar as a mapping value (WS-942): chomping and indentation
+    // indicators in either order, 0 is not an indentation indicator, and the
+    // body starts at the next non-BLANK line — a `#` line is body text. An
+    // explicit indicator is relative to the dash's column (YAML 1.2 §8.2.1;
+    // PyYAML agrees: `  - |2` puts the body at column 4).
+    const itemHeader = /^([|>])([-+]?)(\d*)([-+]?)$/.exec(itemText);
+    const itemBlock = itemHeader && !(itemHeader[2] && itemHeader[4])
+      ? { style: itemHeader[1], chomp: itemHeader[2] || itemHeader[4], ind: Number(itemHeader[3]) > 0 ? Number(itemHeader[3]) : 0 }
+      : null;
+    if (itemBlock) {
+      const bodyStart = peekNextNonBlank(lines, nextLine);
+      if (bodyStart !== null && lineIndent(lines[bodyStart]) > indent) {
+        const scalarIndent = itemBlock.ind ? indent + itemBlock.ind : lineIndent(lines[bodyStart]);
+        const { value, nextLine: after } = readBlockScalar(
+          lines, nextLine, scalarIndent, itemBlock.style, itemBlock.chomp
+        );
+        arr.push(value);
+        i = after;
+      } else {
+        arr.push('');
+        i++;
+      }
+      continue;
+    }
+
+    // `- "text that\n    wraps"` — a quoted item spanning lines.
+    if (isOpenQuoted(itemText)) {
+      const { text, nextLine: after } = readMultilineQuoted(lines, i, itemText, warnings);
+      arr.push(parseScalar(text));
+      i = after;
+      continue;
+    }
+
+    // Check if this sequence item starts a nested mapping
     if (nextNonEmpty !== null && lineIndent(lines[nextNonEmpty]) > indent) {
       const itemTrimmed = itemText;
       if (itemTrimmed.includes(':')) {
         // Sequence of mappings: - key: value\n  key2: value2
+        //
+        // The dash line is parsed AS a mapping line at its key's column (the
+        // dash blanked out for the duration of the call), so the first key's
+        // value gets the same treatment as every other key's — a multi-line
+        // quoted value, a `|` block, or a nested mapping. It used to be run
+        // through parseScalar alone, and its continuation lines were then
+        // read as sibling keys.
         const nested = {};
-        const colonIdx = itemTrimmed.indexOf(':');
-        const k = itemTrimmed.substring(0, colonIdx).trim();
-        const v = itemTrimmed.substring(colonIdx + 1).trim();
-        if (v) nested[k] = parseScalar(v);
+        const afterDash = trimmed.substring(1);
+        const keyCol = lineIndent(line) + 1 + (afterDash.length - afterDash.trimStart().length);
         const childIndent = lineIndent(lines[nextNonEmpty]);
-        i = parseMapping(lines, nextLine, childIndent, nested, warnings);
+        const dashLine = i;
+        const saved = lines[dashLine];
+        lines[dashLine] = ' '.repeat(keyCol) + afterDash.trimStart();
+        try {
+          i = parseMapping(lines, dashLine, Math.min(keyCol, childIndent), nested, warnings);
+        } finally {
+          lines[dashLine] = saved;
+        }
         arr.push(nested);
         continue;
       }
     }
 
-    arr.push(parseScalar(itemText));
-    i++;
+    const { text, nextLine: after } = readPlainContinuation(lines, nextLine, indent, itemText);
+    arr.push(parseScalar(text));
+    i = after;
   }
   return { arr, nextLine: i };
 }
@@ -416,6 +615,11 @@ function stripInlineComment(text) {
   let inDouble = false;
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
+    if (inDouble && c === '\\') { i++; continue; } // `\"` and `\\` are content, never a close
+    // WS-1229: inside single quotes `''` is an escaped quote, content, never a close. Read as a
+    // close, a later ` #` in the same value cut it there and the unterminated rest swallowed the
+    // lines below (ServeYourNote WS-720/721 lost status, program and priority).
+    if (inSingle && c === "'" && text[i + 1] === "'") { i++; continue; }
     if (c === '"' && !inSingle && (inDouble || i === 0)) inDouble = !inDouble;
     else if (c === "'" && !inDouble && (inSingle || i === 0)) inSingle = !inSingle;
     else if (c === '#' && !inSingle && !inDouble && (i === 0 || /\s/.test(text[i - 1]))) {
@@ -500,9 +704,84 @@ function lineIndent(line) {
   return match ? match[1].length : 0;
 }
 
+/**
+ * The header for a literal block scalar holding `value`: `|`, or `|N` when the
+ * first non-empty line starts with whitespace or a whitespace-only line with a
+ * space precedes it. `bodyIndent` is how many spaces
+ * the writer puts in front of each body line, counted from the key's own
+ * indentation (2 for a top-level `key: |` with a two-space body).
+ *
+ * A reader infers a block's indent from its first line. When that line is
+ * itself indented the inference is too deep, the following lines read as
+ * outside the block, and text such as `status: done` in the body becomes a key
+ * of the document. Scripts do not build block scalars by hand: they call
+ * blockScalarLines below, which asks this, and INV-097 fails on a hand-built
+ * header anywhere under kit/scripts (WS-1079). serializeYAML asks it directly.
+ *
+ * `style` is the header without its indicator: '|', '|-', '|+', '>', '>-' or
+ * '>+'. The indicator goes between the style character and the chomping
+ * character (`|2`, `>2-`).
+ */
+const BLOCK_SCALAR_STYLES = new Set(['|', '|-', '|+', '>', '>-', '>+']);
+
+function blockScalarHeader(value, bodyIndent = 2, style = '|') {
+  if (!BLOCK_SCALAR_STYLES.has(style)) {
+    throw new Error(`blockScalarHeader: unknown style ${JSON.stringify(style)} (one of ${[...BLOCK_SCALAR_STYLES].join(' ')})`);
+  }
+  if (!Number.isInteger(bodyIndent) || bodyIndent < 1 || bodyIndent > 9) {
+    throw new Error(`blockScalarHeader: bodyIndent must be an integer 1-9, got ${bodyIndent}`);
+  }
+  const lines = blockScalarText(value).split('\n');
+  const k = lines.findIndex((l) => l.trim() !== '');
+  // A leading whitespace-only line breaks inference too: YAML refuses one that
+  // holds more spaces than the indent it later detects (WS-1092, inspection 2).
+  const leadingSpaces = lines.slice(0, k === -1 ? lines.length : k).some((l) => / /.test(l));
+  const indicator = (k !== -1 && /^\s/.test(lines[k])) || leadingSpaces ? String(bodyIndent) : '';
+  return style[0] + indicator + style.slice(1);
+}
+
+/** The text a block scalar will hold: '' for null/undefined, LF line ends, no trailing newlines. */
+function blockScalarText(value) {
+  if (value === null || value === undefined) return '';
+  return String(value).replace(/\r\n/g, '\n').replace(/\n+$/, '');
+}
+
+/**
+ * The one writer of a block scalar (WS-1079): `key: <header>` followed by the
+ * body, as an array of lines with no trailing newline.
+ *
+ *   indent      spaces before the key
+ *   bodyIndent  spaces from the key's indent to each body line (1-9)
+ *   style       '|', '|-', '|+', '>', '>-' or '>+'
+ *
+ * Every line of `text` is indented, so a multi-line value interpolated into a
+ * template cannot put a continuation line at column 0, where it would be read
+ * as a field of the record. Empty body lines are written as '' (no trailing
+ * spaces). Trailing newlines of `text` are dropped; other trailing whitespace
+ * is kept. A caller assembling a body from several parts joins them with '\n'
+ * and passes the whole string, rather than writing indented lines itself.
+ */
+function blockScalarLines(key, text, { indent = 0, bodyIndent = 2, style = '|' } = {}) {
+  const body = blockScalarText(text);
+  const pad = ' '.repeat(indent);
+  const bodyPad = ' '.repeat(indent + bodyIndent);
+  const lines = [`${pad}${key}: ${blockScalarHeader(body, bodyIndent, style)}`];
+  if (body === '') return lines;
+  for (const l of body.split('\n')) lines.push(l.length ? bodyPad + l : '');
+  return lines;
+}
+
 function peekNextNonEmpty(lines, start) {
   for (let i = start; i < lines.length; i++) {
     if (lines[i].trim() !== '' && !lines[i].trim().startsWith('#')) return i;
+  }
+  return null;
+}
+
+/** The next line that is not blank. Unlike peekNextNonEmpty it does not skip `#` lines. */
+function peekNextNonBlank(lines, start) {
+  for (let i = start; i < lines.length; i++) {
+    if (lines[i].trim() !== '') return i;
   }
   return null;
 }
@@ -553,7 +832,7 @@ function serializeYAML(obj, indent = 0) {
       lines.push(`${pad}${key}:`);
       lines.push(serializeYAML(value, indent + 2));
     } else if (typeof value === 'string' && value.includes('\n')) {
-      lines.push(`${pad}${key}: |`);
+      lines.push(`${pad}${key}: ${blockScalarHeader(value)}`);
       for (const vline of value.split('\n')) {
         lines.push(`${pad}  ${vline}`);
       }
@@ -631,13 +910,42 @@ function verifyHardlink(a, b) {
   }
 }
 
-function formatScalar(value) {
+/**
+ * A scalar slot holds one line. A line break inside a value written here would
+ * end the scalar and start whatever the rest of the text looks like — given
+ * `ok\nstatus: done`, a second key (WS-942, second inspection). Line breaks
+ * become a space, as escapeYamlString already does; a value that is meant to
+ * span lines belongs in a block scalar, which serializeYAML and cwos-item's
+ * renderField choose on their own.
+ */
+//
+// @param {object} [opts]
+// @param {boolean} [opts.quoteStrings]  always quote a string, even a plain one.
+//        Type-sensitive quoting is what made `host:` flip form on every heartbeat
+//        (WS-1143): the mint template writes `host: "MorinComputer"`, then a patch
+//        of the same value through here wrote `host: MorinComputer`, because a plain
+//        hostname needs no quotes. Two writers, one value, two spellings. A caller
+//        that owns a field's canonical form asks for it here instead of hoping the
+//        value never looks special.
+function formatScalar(value, opts = {}) {
+  if (typeof value === 'string' && /[\r\n]/.test(value)) {
+    return formatScalarLine(value.replace(/\s*\r?\n\s*|\r/g, ' '), opts);
+  }
+  return formatScalarLine(value, opts);
+}
+
+function formatScalarLine(value, opts = {}) {
   if (value === null || value === undefined) return 'null';
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') return String(value);
   if (typeof value === 'string') {
-    // Quote if contains special chars or looks like a number
-    if (/[:#\[\]{},&*!|>'"%@`]/.test(value) || value === '' ||
+    if (opts.quoteStrings) return `"${value.replace(/"/g, '\\"')}"`;
+    // Quote if contains special chars or looks like a number. `?` is in the set
+    // because a plain scalar ending in `?` inside a flow sequence (`[a, b?]`) is a
+    // parse error for a real YAML parser: cwos-run-summary wrote exactly that into
+    // runs/run-domain-blindspot-20260920/summary.yaml (top_findings) and
+    // Claude-Poker-Tracker's INV-workstream-yaml-strict-parse went red (2026-09-23).
+    if (/[:#\[\]{},&*!|>'"%@`?]/.test(value) || value === '' ||
         value === 'true' || value === 'false' || value === 'null' ||
         value === 'yes' || value === 'no' || value === 'on' || value === 'off' ||
         value === 'Yes' || value === 'No' || value === 'On' || value === 'Off' ||
@@ -690,15 +998,22 @@ function formatInlineArray(arr) {
  * endings. This function stays for the callers that genuinely mean
  * update-if-present.
  *
+ * `opts.quoteStrings` — `true`, or an array of keys — forces string values to
+ * serialize quoted regardless of content (see formatScalar). Off by default so
+ * no existing caller's output changes.
+ *
  * @returns {{ patched: string[], missing: string[] }}
  */
 function patchYAMLFile(filePath, patches, opts = {}) {
   let content = fs.readFileSync(filePath, 'utf8');
   const patched = [];
   const missing = [];
+  const quoteKey = (key) => Array.isArray(opts.quoteStrings)
+    ? opts.quoteStrings.includes(key)
+    : opts.quoteStrings === true;
   for (const [key, value] of Object.entries(patches)) {
     const regex = new RegExp(`^(${escapeRegex(key)}:\\s*).*$`, 'm');
-    const formatted = formatScalar(value);
+    const formatted = formatScalar(value, { quoteStrings: quoteKey(key) });
     if (regex.test(content)) {
       content = content.replace(regex, `$1${formatted}`);
       patched.push(key);
@@ -779,16 +1094,18 @@ function upsertYAMLScalarField(content, key, value, opts = {}) {
   // Top-level only: no leading whitespace before the key.
   const present = new RegExp(`^${k}:([^\\r\\n]*)$`, 'm');
   const m = content.match(present);
+  // `opts.quoteStrings` (boolean): force a string value to serialize quoted.
+  const formatted = formatScalar(value, { quoteStrings: opts.quoteStrings === true });
 
   if (m) {
     if (!isUnsetYAMLScalar(m[1])) return { content, action: 'unchanged' };
     return {
-      content: content.replace(present, `${key}: ${formatScalar(value)}`),
+      content: content.replace(present, `${key}: ${formatted}`),
       action: 'filled',
     };
   }
 
-  const line = `${key}: ${formatScalar(value)}`;
+  const line = `${key}: ${formatted}`;
   const afterKey = opts.after ? escapeRegex(opts.after) : null;
   if (afterKey) {
     const anchor = new RegExp(`^${afterKey}:[^\\r\\n]*(\\r?\\n|$)`, 'm');
@@ -1113,6 +1430,18 @@ function globFiles(dir, pattern) {
 function globToRegex(pattern) {
   const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
   return new RegExp('^' + escaped + '$');
+}
+
+// WS-991: a finding file is FIND-*.yaml (kit allocator) or FND-*.yaml (a repo's
+// own allocator — ServeYourNote's claim-id.py). globToRegex has no alternation,
+// so every reader that means "the finding files" goes through here rather than
+// naming one prefix: reconcile globbed FIND-* only and wrote findings_open: 0
+// into 16 of SYN's programs while cwos-migrate, reading both, said otherwise.
+const FINDING_FILE_PATTERNS = ['FIND-*.yaml', 'FND-*.yaml'];
+const FINDING_REF_PREFIXES = ['FIND', 'FND'];
+
+function globFindingFiles(dir) {
+  return FINDING_FILE_PATTERNS.reduce((acc, p) => acc.concat(globFiles(dir, p)), []);
 }
 
 // ─── Date Utilities ─────────────────────────────────────────────────────────
@@ -1453,13 +1782,20 @@ const WS_PATHS = Object.freeze({
 //
 // The require is lazy (inside the factory) to avoid a circular dep:
 // core/events.js imports findWorkstreamDir + withFileLock from this file.
+//
+// The optional 4th argument is forwarded to appendEvent as its opts. Pass
+// `{ workstreamDir }` whenever the caller is mutating a workstream it was
+// HANDED rather than the one cwd resolves to: without it the event lands in
+// cwd's log while the mutation lands somewhere else. That split is how a test
+// releasing claims in a temp-dir registry wrote fabricated
+// `orphan-claim-released` events into the repo's real event log on every run.
 
 function makeEventEmitter() {
   let appendEvent = null;
   try { ({ appendEvent } = require('../core/events')); } catch { /* events.js missing or harness-mode */ }
-  return function emitEvent(track, tag, payload) {
+  return function emitEvent(track, tag, payload, opts) {
     if (!appendEvent) return;
-    try { appendEvent({ source_track: track, track_tag: tag, payload: payload || {} }); }
+    try { appendEvent({ source_track: track, track_tag: tag, payload: payload || {} }, opts || {}); }
     catch (err) {
       // WS-532: AS-23 says a shadow-log failure must not break the host
       // command. A worktree refusal is not a failure — it is a deliberate
@@ -1718,6 +2054,8 @@ module.exports = {
   LOCK_CONTENTION_CODES,
   parseYAML,
   serializeYAML,
+  blockScalarHeader,
+  blockScalarLines,
   patchYAMLFile,
   upsertYAMLScalarField,
   resolveEventPayload,
@@ -1728,6 +2066,9 @@ module.exports = {
   boundedSystemDir,
   boundedPathInRepo,
   globFiles,
+  globFindingFiles,
+  FINDING_FILE_PATTERNS,
+  FINDING_REF_PREFIXES,
   dateDiffDays,
   todayISO,
   parseMarkdownTable,

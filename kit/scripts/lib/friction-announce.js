@@ -59,7 +59,7 @@ const LANES = {
   friction: {
     dir: 'friction',
     key: 'components',
-    dispositions: { friction_resolved: 'resolved', friction_declined: 'declined' },
+    dispositions: { friction_resolved: 'resolved', friction_declined: 'declined', friction_archived: 'archived', friction_merged: 'merged' },
   },
   requests: {
     dir: 'requests',
@@ -67,6 +67,22 @@ const LANES = {
     dispositions: { request_accepted: 'accepted', request_declined: 'declined' },
   },
 };
+
+/**
+ * An archive (WS-1062, the founder's age amnesty) is ledgered as `archived` but
+ * DELIVERED under the declined tag. Every installed cwos-friction-ack knows two
+ * friction types and silently skips any other, so a new tag on the wire would be
+ * an answer nobody hears — the exact silence this transport exists to end. The
+ * payload's `disposition` carries the distinction for a kit that can read it.
+ *
+ * A merge ("still real, tracked under an open item") rides the same tag for the
+ * same reason. It is not a no, so the caller's detail must say so in its first
+ * words — an older kit renders that detail after the word "declined".
+ */
+const DELIVERED_AS = { friction_archived: 'friction_declined', friction_merged: 'friction_declined' };
+
+/** Dispositions that mean "the hub said no" — disposed even when delivery is deferred. */
+const SAID_NO = new Set(['declined', 'archived']);
 
 /** The type alone names the lane — there is no ambiguous pairing to get wrong. */
 function laneFor(type) {
@@ -80,7 +96,7 @@ function laneFor(type) {
  * Deliver a disposition for a set of source hashes.
  *
  * @param {string[]} hashes  source_hashes (inbox content_hashes)
- * @param {object} d  { type: friction_resolved|friction_declined|request_accepted|request_declined, ws_id, detail }
+ * @param {object} d  { type: friction_resolved|friction_declined|friction_archived|friction_merged|request_accepted|request_declined, ws_id, detail }
  * @param {object} [opts]  { homebase, from }
  * @returns { ok, delivered: [{repo, event_id, hashes}], deferred: [], undeliverable: [], ledgered: n }
  */
@@ -130,6 +146,7 @@ function announce(hashes, d, opts = {}) {
     byRepo.get(line.origin_repo).push({ hash: h, label: line.component || line.category || null });
   }
 
+  const wireType = DELIVERED_AS[d.type] || d.type;
   const delivered = [];
   const deferred = [];
   let appendEvent = null;
@@ -144,9 +161,10 @@ function announce(hashes, d, opts = {}) {
     try {
       const r = appendEvent({
         source_track: 'T20:capture-buffer',
-        track_tag: d.type,
+        track_tag: wireType,
         payload: {
-          type: d.type,
+          type: wireType,
+          disposition: lane.dispositions[d.type],
           source_hashes: entries.map(e => e.hash),
           [lane.key]: [...new Set(entries.map(e => e.label).filter(Boolean))],
           ws_id: d.ws_id || null,
@@ -166,7 +184,7 @@ function announce(hashes, d, opts = {}) {
   const deliveredHashes = new Set(delivered.flatMap(x => x.hashes));
   // Declined-by-founder counts as disposed even when the origin is deferred —
   // the "no" was said; delivery to a foreign node is a transport concern.
-  if (lane.dispositions[d.type] === 'declined') {
+  if (SAID_NO.has(lane.dispositions[d.type])) {
     for (const [origin, entries] of byRepo) {
       if (deferred.some(x => x.repo === origin)) for (const e of entries) deliveredHashes.add(e.hash);
     }

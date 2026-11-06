@@ -61,7 +61,7 @@ For issues NOT safe to auto-fix:
 
 Create findings for all issues (both auto-fixed and remaining):
 
-1. Map each issue to a severity using the domain engine's `## Severity Map`
+1. Map each issue to a severity using the domain engine's `## Severity Map`. Fleet-wide floor, above any domain Severity Map: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10; see eng-engine.md `## Severity Map`).
 2. Calculate `priority_score` (0-100) for each finding based on business value:
    - Launch relevance (+30): Is this needed before launch?
    - User impact (+20): Does this directly affect end users?

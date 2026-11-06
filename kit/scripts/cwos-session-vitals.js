@@ -99,8 +99,11 @@ function render(redVitals, redProgs) {
     const detail = v.detail ? `: ${v.detail}` : '';
     lines.push(`  - ${v.area}${detail}`);
   }
-  for (const p of redProgs) {
-    lines.push(`  - ${p.id}: health ${p.health_score} (tier ${p.tier})`);
+  // One line for all programs, not one each: this prints into every session's
+  // startup context, and the per-program tier adds nothing /pulse doesn't (WS-1100).
+  if (redProgs.length) {
+    const list = redProgs.map(p => `${p.id} ${p.health_score}`).join(', ');
+    lines.push(`  - ${redProgs.length} program(s) below health 4: ${list}`);
   }
   lines.push('Run /status for detail.');
   return lines.join('\n');

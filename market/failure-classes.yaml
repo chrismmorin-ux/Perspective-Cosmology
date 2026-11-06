@@ -1,0 +1,134 @@
+# ─── Failure classes: the common-sense layer (ADR-077) ──────────────────────
+# The obvious questions a sensible person asks when they look at a decision:
+# "oh, of course — what about …". Every adopted stance answers every class, and
+# the preferred answer is ELIMINATED: the design makes the failure impossible,
+# rather than hoping someone notices it.
+#
+#   eliminated      the design removes the failure class (no one has to catch it)
+#   controlled      it can still happen; a named control detects or limits it
+#   accepted        it can happen; the business accepts it, with a reason
+#   not-applicable  the class can't arise here, with a reason
+#
+# Add classes as they're learned. A class that bit once and wasn't in this file
+# is the file's failure, not the decision's.
+
+classes:
+  - id: FCL-trusted-insider
+    name: "The trusted person is the threat"
+    question: "Oh, of course — what if the person we vetted and trusted is the one who does harm?"
+    eliminate_by: ["No one is ever alone with the vulnerable party without their choice", "Two-person rules", "The trusted role never holds the sensitive asset"]
+
+  - id: FCL-outsider-abuse
+    name: "Someone uses it for something else"
+    question: "Oh, of course — who would love to misuse this, and what would they do with it?"
+    eliminate_by: ["Only verified parties can book or act", "Money and identity flow through one verified channel", "Nothing of value to a bad actor is ever stored"]
+
+  - id: FCL-minor
+    name: "A minor is involved"
+    question: "Oh, of course — what if the person is under 18?"
+    eliminate_by: ["A human ID check before anything happens", "Adult-only features gated before they are visible"]
+
+  - id: FCL-emergency
+    name: "Someone is in danger mid-flow"
+    question: "Oh, of course — what if this is actually an emergency?"
+    eliminate_by: ["Emergency routing shown before any self-help", "A door, a button or a number that always works"]
+
+  - id: FCL-shared-device
+    name: "Someone nearby sees it"
+    question: "Oh, of course — who else sees this phone, inbox, box or card statement?"
+    eliminate_by: ["No account, no email by default", "Neutral names on boxes and statements", "Nothing revealing in history, previews or notifications"]
+
+  - id: FCL-one-person
+    name: "It depends on one person remembering"
+    question: "Oh, of course — what happens when the one person who does this is sick, busy or gone?"
+    eliminate_by: ["The step is built into the flow (can't proceed without it)", "A validator or gate, not a habit"]
+
+  - id: FCL-incentive-to-cheat
+    name: "A rule rewards gaming it"
+    question: "Oh, of course — who gains by pretending, and what does pretending cost them?"
+    eliminate_by: ["Remove the reward for pretending", "Verify the thing itself, not a claim about it"]
+
+  - id: FCL-silent-failure
+    name: "It fails and nobody notices"
+    question: "Oh, of course — if this broke tonight, how would we know?"
+    eliminate_by: ["The failure is loud by construction (blocks, alerts, visible state)", "A measured metric with a floor"]
+
+  - id: FCL-scale
+    name: "Works for ten, breaks at a thousand"
+    question: "Oh, of course — what happens when this goes viral, good or bad?"
+    eliminate_by: ["Capacity limits that fail closed", "A pause switch that is already built"]
+
+  - id: FCL-screenshot
+    name: "Reads worse out of context"
+    question: "Oh, of course — how does this look as one screenshot on someone else's feed?"
+    eliminate_by: ["Every public element stands alone without its explanation", "Publish the why next to the what"]
+
+  - id: FCL-legal-label
+    name: "The label a regulator would use"
+    question: "Oh, of course — what would a regulator, a zoning officer or a payment processor call this?"
+    eliminate_by: ["Design so the unfavorable label cannot apply", "Get the label ruled on before launch"]
+
+  - id: FCL-money-flow
+    name: "Who pays whom creates an obligation or an appearance"
+    question: "Oh, of course — does the way money moves make this look like something else, or make us responsible for something?"
+    eliminate_by: ["Money flows only along the relationship the business actually has", "No cash, no side payments, published prices"]
+
+  - id: FCL-edge-identity
+    name: "The person doesn't fit the categories"
+    question: "Oh, of course — what about someone this assumes doesn't exist (trans, nonbinary, disabled, not a native speaker, no smartphone)?"
+    eliminate_by: ["No required field that assumes a category", "Plain language; works without the default device"]
+
+  - id: FCL-drift
+    name: "The standard erodes quietly"
+    question: "Oh, of course — in a year, who notices that this slipped?"
+    eliminate_by: ["Review dates that fail validation when passed", "The standard is checked by a machine, not remembered"]
+
+  - id: FCL-irreversible
+    name: "Hard to undo"
+    question: "Oh, of course — if this is wrong, what does taking it back cost?"
+    eliminate_by: ["Pilot before commitment", "Reversible by construction (lever, not rebuild)"]
+
+  - id: FCL-undecided-promise
+    name: "Promises something not yet decided"
+    question: "Oh, of course — does this say, or assume, something the business hasn't decided yet?"
+    eliminate_by: ["Briefs are built only from adopted stances; proposed ones are listed as open, never as fact", "A surface that depends on an undecided stance is blocked from shipping"]
+
+  - id: FCL-contradiction
+    name: "Two decisions contradict each other"
+    question: "Oh, of course — does this decision quietly conflict with another one we already made?"
+    eliminate_by: ["Bounds and depends_on make one decision's limits visible where the other is used", "A stance cites the stances it constrains"]
+
+  - id: FCL-deep-link
+    name: "The deep link skips the front door"
+    question: "Oh, of course — what if someone arrives straight on an inner page, from search or a shared link, and never sees the gate, warning or welcome on the home page?"
+    eliminate_by: ["Gates and safety content live on every page they protect, enforced server-side", "No protection depends on arriving through the front door"]
+
+  - id: FCL-compelled-disclosure
+    name: "Someone with power demands the data"
+    question: "Oh, of course — what if a subpoena, a warrant, an abusive partner with a court order, or a state investigation asks for what we hold?"
+    eliminate_by: ["Don't collect it", "Keep only what an order needs; publish how demands are handled"]
+
+  - id: FCL-used-on-someone-else
+    name: "The product is used on someone else"
+    question: "Oh, of course — what if the buyer uses this on, or against, another person who didn't choose it?"
+    eliminate_by: ["Ship to the buyer only; no proxy accounts", "Copy centers the user's own consent"]
+
+  - id: FCL-around-the-room
+    name: "The space around the room"
+    question: "Oh, of course — where do they undress, wait, use the bathroom, and walk past on the way in — and is that as protected as the room?"
+    eliminate_by: ["Every space a person is undressed or waiting in gets the same sweep and privacy as the main room", "One controlled entrance"]
+
+  - id: FCL-private-word
+    name: "No moment to say something privately"
+    question: "Oh, of course — if someone is being pressured by the person they came with, when do they get a moment alone to say so?"
+    eliminate_by: ["A built-in moment alone with staff, for everyone, every time, so asking for it signals nothing"]
+
+  - id: FCL-companion
+    name: "The companion is a party too"
+    question: "Oh, of course — who checks the person who came along: their age, their phone, their role?"
+    eliminate_by: ["Everyone present goes through the same intake as the person photographed"]
+
+  - id: FCL-neighbors
+    name: "The building has neighbors"
+    question: "Oh, of course — who shares the hallway, the restroom, the keys, the street — and what do they see or hear?"
+    eliminate_by: ["Choose a space with a private entrance and no shared facilities", "Keys held by staff only"]

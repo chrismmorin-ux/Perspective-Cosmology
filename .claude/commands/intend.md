@@ -92,19 +92,26 @@ Wait for the founder's choice.
 node kit/scripts/cwos-genesis-ignite.js apply \
   --target-dir . \
   --proposal-file .claude/workstream/.proposals/genesis-<timestamp>.json \
-  --exit-trigger intend_command
+  --exit-trigger intend_command \
+  [--homebase <path-to-HomeBase>]
 ```
 
-The script orchestrates the bundle install:
-1. Calls `cwos-adopt-archetype.js apply` to patch archetype + stage + bundle into `.cwos-onboarding.yaml`.
-2. Copies the relevant `prog-*.yaml` files from `kit/templates/workstream/programs/` to the target's `.claude/workstream/programs/`.
-3. Flips `adoption_phase: M0 → M1`, sets `m0_dormant.exited_at` + `exit_trigger`.
-4. Appends accepted invariants to `system/invariants.md`, constraints to `system/constraints.md`, decisions to `system/decisions.md`.
-5. Writes seed work items to `.claude/workstream/queue/`.
-6. Sets `usage.yaml welcome_completed: true` so `/welcome` doesn't auto-fire post-ignition.
-7. Emits a `T0:envelope.genesis_ignition_consumed` event — the read-receipt for the dormant capture buffer.
+Pass `--homebase` when the script cannot find HomeBase on its own (a genesis repo is a sibling of HomeBase, and its `.cwos-version` does not name it). Optional: `--capabilities <list>` (default: the onboarding file's enabled set, or all five when none is stated yet), `--repo-archetype <tag>` (default: the onboarding value, else A1→saas, A2→data-platform, A3→frontend, A4→research, A5→dev-tool).
 
-Surface the script's JSON result to the founder. Each step is reported individually (`archetype_apply: ok`, `programs_copied: [...]`, etc.) so partial failures are visible.
+The script orchestrates the bundle install:
+1. Records the proposal's bundle (as edited by the founder) as `archetype_overrides` in `.cwos-onboarding.yaml` — opted-in / opted-out programs and tier overrides against the archetype's default — merged with any already there. Refuses, with nothing written, if the resolver cannot reproduce the bundle.
+2. Calls `cwos-adopt-archetype.js apply` to patch archetype + stage + bundle into `.cwos-onboarding.yaml`, then checks `archetype_bundle_resolved` equals the proposal's bundle.
+3. Runs the standard installer (`cwos-adopt-install.js`) for the repo's capabilities, then `install-claude-hooks.mjs`: CLAUDE.md, `.claude/settings.json` hooks, queue-index / config / programs registry, `/next`, `/verify`, `/pulse`. The installer installs only the resolved bundle's program files.
+4. Copies any bundle `prog-*.yaml` the installer did not place, then sets each program's `tier:` to its resolved tier (the `/pulse escalate` write path) and resyncs `programs/registry.yaml`.
+5. Flips `adoption_phase: M0 → M1`, sets `m0_dormant.exited_at` + `exit_trigger`.
+6. Appends accepted invariants to `system/invariants.md`, constraints to `system/constraints.md`, decisions to `system/decisions.md`.
+7. Writes seed work items to `.claude/workstream/queue/`, each keyed to the program's own `id:`; anti-goal tripwires go to the highest-tier program in the bundle (`steps.tripwire_program`). An anti-goal worded as permanent ("never", "under no circumstances") is proposed as `"class": "never"`: its item carries `anti_goal_class: never`, its trigger never fires, and it never comes back as a build / re-defer / abandon ask. The founder can clear the class in the proposal JSON.
+8. Sets `usage.yaml welcome_completed: true` so `/welcome` doesn't auto-fire post-ignition.
+9. Emits a `T0:envelope.genesis_ignition_consumed` event — the read-receipt for the dormant capture buffer.
+
+Surface the script's JSON result to the founder. Each step is reported individually (`archetype_apply: ok`, `m1_install: ok`, `program_tiers`, `programs_copied: [...]`, etc.) so partial failures are visible. A bundle program whose template the kit does not have makes the result `ok: false` with `steps.programs_missing: [...]`; ignition is not complete until each is resolved.
+
+**If the result has `next_commands`** (the install was skipped because HomeBase was not found, or it failed), the repo is NOT yet a usable M1. Show the commands to the founder and run them from the repo root, in order — replacing `<path-to-HomeBase>` with the HomeBase path (ask the founder if you do not know it). Do not report ignition complete until they have run.
 
 ### Step 5: Confirmation
 

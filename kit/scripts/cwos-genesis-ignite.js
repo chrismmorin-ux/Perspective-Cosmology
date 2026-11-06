@@ -12,9 +12,14 @@
  *   propose --target-dir <p> [--archetype-hint A?] [--out json|markdown]
  *           Pure-function generator. No side effects.
  *   apply   --target-dir <p> --proposal-file <p> --exit-trigger <trigger>
- *           Orchestrates the bundle install: cwos-adopt-archetype.js apply,
- *           prog-*.yaml copy, adoption_phase flip, system/*.md appends,
- *           queue seed, genesis_ignition_consumed envelope event.
+ *           [--homebase <p>] [--capabilities <list>] [--repo-archetype <tag>]
+ *           [--no-fleet-register] [--skip-m1-install]
+ *           Orchestrates the bundle install: proposal bundle → archetype_overrides,
+ *           cwos-adopt-archetype.js apply, the standard M1 install
+ *           (cwos-adopt-install.js + install-claude-hooks.mjs), prog-*.yaml copy
+ *           at their resolved tiers, adoption_phase flip, system/*.md appends,
+ *           queue seed, genesis_ignition_consumed envelope event. When the
+ *           install cannot run, the result carries next_commands (WS-1112).
  *   validate --target-dir <p>
  *           Preconditions: adoption_phase==M0, intention.md non-placeholder
  *           OR buffer non-empty, no prior ignition.
@@ -30,11 +35,12 @@ require('./lib/preflight');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { execFileSync } = require('child_process');
-const { readYAMLFile, writeFileAtomic, todayISO, makeEventEmitter } = require('./lib/cwos-utils');
+const { execFileSync, spawnSync } = require('child_process');
+const { readYAMLFile, writeFileAtomic, todayISO, makeEventEmitter, blockScalarLines } = require('./lib/cwos-utils');
 
 const emitEvent = makeEventEmitter();
 const { resolveBundle } = require('./cwos-adopt-archetype');
+const { cliGate } = require('./lib/cli');
 
 // WS-549: every path below is kit/data, kit/templates or kit/scripts — all
 // content the kit ships, so it resolves from the distribution.
@@ -203,7 +209,21 @@ function extractImaginedOutcome(intentionContent) {
     return true;
   });
   if (realLines.length === 0) return null;
-  return realLines.join(' ').slice(0, 600);
+  return truncateAtWord(realLines.join(' '), IMAGINED_OUTCOME_MAX);
+}
+
+// WS-1112 (f): the Imagined Outcome used to be cut at exactly 600 chars,
+// mid-word. Cut at the last word boundary that fits, and mark the cut.
+const IMAGINED_OUTCOME_MAX = 600;
+function truncateAtWord(text, max) {
+  const s = String(text || '');
+  if (s.length <= max) return s;
+  const head = s.slice(0, max);
+  const lastSpace = head.search(/\s\S*$/);
+  // A single word longer than max has no boundary: hard cut, still marked.
+  const endsOnWord = /\s/.test(s[max]);
+  const cut = endsOnWord || lastSpace <= 0 ? head : head.slice(0, lastSpace);
+  return `${cut.trimEnd()}…`;
 }
 
 // Score each archetype by counting prompt-keyword matches against the
@@ -282,6 +302,11 @@ function inferTriggerFromAntiGoal(antiGoalText) {
   const t = String(antiGoalText || '').toLowerCase();
   const now = nowISO();
 
+  // WS-1112 (b): a permanent prohibition ("never sell user data") is not
+  // deferred scope. Explicit permanence wording wins over every scope signal
+  // below, so it never comes back at M3 as a build / re-defer / abandon ask.
+  if (PERMANENT_WORDING.test(t)) return neverTrigger(now);
+
   // Webapp / UX / interface / mobile — A3 (real-time consumer app) territory.
   // Word-prefix matches (no trailing \b) so "webapp" / "frontend" are caught.
   if (/\b(webapp|web app|ui surface|ux surface|user interface|mobile app|consumer app|frontend|front-end)\b/.test(t)) {
@@ -342,6 +367,51 @@ function inferTriggerFromAntiGoal(antiGoalText) {
     set_at: now,
     confidence: 'low',
   };
+}
+
+// ─── WS-1112 (b), (c): what an anti-goal is, and when it is permanent ───────
+//
+// (c) ONE rule, used by the markdown renderer and by apply's tripwire step:
+// a constraint is an anti-goal when it came from intention.md's Anti-goals
+// section, or when the proposal gives it a trigger or an anti-goal class (an
+// /intend option-2 edit can add either to any constraint). The renderer used
+// to test "has a trigger" and apply "source text matches", so an edit that
+// removed or added a trigger showed one list and wrote another.
+//
+// (b) An anti-goal is permanent when its class is "never" or its trigger type
+// is "never". It still gets a deferred-scope item (the record of the ruling),
+// but its trigger never fires (lib/cwos-tripwires.js) and the item asks no
+// build / re-defer / abandon question.
+
+const PERMANENT_WORDING = /\bnever\b|\bunder no circumstances\b|\bat no point\b|\bpermanent(ly)?\b/;
+
+function neverTrigger(now) {
+  return {
+    type: 'never',
+    target: 'none',
+    rationale: 'Permanent anti-goal: no state change re-opens it. Lifting it is a founder decision, recorded in decisions.md.',
+    set_at: now || nowISO(),
+  };
+}
+
+function isPermanentAntiGoal(c) {
+  return Boolean(c) && (c.class === 'never' || Boolean(c.trigger && c.trigger.type === 'never'));
+}
+
+function isAntiGoal(c) {
+  if (!c || typeof c !== 'object') return false;
+  return /intention\.md Anti-goals/.test(String(c.source || '')) || Boolean(c.trigger) || isPermanentAntiGoal(c);
+}
+
+/** The trigger an anti-goal is written with: never for a permanent one, else its own or the inferred one. */
+function antiGoalTrigger(c) {
+  const text = (c && (c.text || c.rule || c.rationale) || '').toString().trim();
+  if (c && c.class === 'never') return neverTrigger(c.trigger && c.trigger.set_at);
+  return (c && c.trigger) || inferTriggerFromAntiGoal(text);
+}
+
+function antiGoalsOf(constraints) {
+  return (Array.isArray(constraints) ? constraints : []).filter(isAntiGoal);
 }
 
 // ─── Subcommand: validate ───────────────────────────────────────────────────
@@ -496,10 +566,14 @@ function cmdPropose(args) {
     // WS-322 Phase A: anti-goals get an inferred re_eval_trigger so apply can
     // emit them as deferred-scope tripwires. Founder edits the trigger in the
     // proposal JSON before approving if the inference is wrong.
+    // WS-1112 (b): class "never" marks a permanent anti-goal; the founder can
+    // set or clear it in the proposal JSON like the trigger.
+    const trigger = inferTriggerFromAntiGoal(ag);
     constraints.push({
       source: 'intention.md Anti-goals',
       text: ag,
-      trigger: inferTriggerFromAntiGoal(ag),
+      ...(trigger.type === 'never' ? { class: 'never' } : {}),
+      trigger,
     });
   }
   if (tmpl && Array.isArray(tmpl.initial_constraints_checklist)) {
@@ -610,18 +684,26 @@ function renderProposalMarkdown(p) {
   if (pr.constraints_proposed.length > 0) {
     // Split anti-goals (which become tripwires) from baseline constraints for
     // clearer founder review. Anti-goals show with their inferred triggers.
-    const antiGoals = pr.constraints_proposed.filter(c => c.trigger);
-    const baseline = pr.constraints_proposed.filter(c => !c.trigger);
+    // WS-1112 (c): the same rule apply uses to write tripwires.
+    const antiGoals = antiGoalsOf(pr.constraints_proposed);
+    const baseline = pr.constraints_proposed.filter(c => !isAntiGoal(c));
 
     if (antiGoals.length > 0) {
       lines.push('### Anti-goals (deferred scope — will become blocked WS items with re-eval triggers)');
       antiGoals.forEach((c) => {
-        const trig = c.trigger;
         lines.push(`- [ ] ${c.text}`);
-        lines.push(`      _Trigger: ${trig.type} → ${trig.target}_${trig.confidence ? ` _(low confidence — verify)_` : ''}`);
+        const trig = antiGoalTrigger(c);
+        if (trig.type === 'never') {
+          // WS-1112 (b)
+          lines.push('      _Permanent (class: never) — no trigger re-opens it; never re-asked_');
+          return;
+        }
+        // WS-1112 (g): the label is for LOW confidence only, not any confidence.
+        const low = trig.confidence === 'low' ? ' _(low confidence — verify)_' : '';
+        lines.push(`      _Trigger: ${trig.type} → ${trig.target}_${low}`);
       });
       lines.push('');
-      lines.push('_Edit the trigger in the JSON proposal (option 2) if the inference is wrong._');
+      lines.push('_Edit the trigger in the JSON proposal (option 2) if the inference is wrong; set `"class": "never"` to make an anti-goal permanent._');
       lines.push('');
     }
 
@@ -685,6 +767,8 @@ function cmdApply(args) {
 
   const pr = proposal.proposal;
   if (!pr || !pr.archetype) dieWith(2, 'proposal has no proposal.archetype field');
+  if (!pr.bundle || !Array.isArray(pr.bundle.programs)) dieWith(2, 'proposal has no proposal.bundle.programs list');
+  if (!pr.bundle.tiers || typeof pr.bundle.tiers !== 'object') pr.bundle.tiers = {};
 
   const result = {
     ok: true,
@@ -696,9 +780,34 @@ function cmdApply(args) {
     steps: {},
   };
 
+  // Step 0 (WS-1112 a): the proposal's bundle is what the founder approved —
+  // possibly edited (/intend option 2). Record the difference from the
+  // archetype's default bundle as archetype_overrides, merged with any already
+  // there, so the archetype patch below resolves EXACTLY the proposal's bundle.
+  // Computed and checked before anything is written: an override the resolver
+  // would reject (bad tier, unknown status) fails here, with nothing changed.
+  let overridesPlan;
+  try {
+    overridesPlan = deriveArchetypeOverrides(pr.archetype, pr.stage, pr.bundle, onb.data.archetype_overrides);
+  } catch (e) {
+    dieWith(2, `apply refused: the proposal's bundle cannot be expressed as archetype_overrides (${e.message}). Nothing was written.`);
+  }
+  if (!overridesPlan.matches) {
+    dieWith(2, `apply refused: the proposal's bundle cannot be reproduced by the resolver (${overridesPlan.mismatch}). Nothing was written.`);
+  }
+  if (overridesPlan.changed) {
+    writeFileAtomic(onb.path, patchArchetypeOverridesBlock(onb.raw, overridesPlan.overrides));
+  }
+  result.steps.archetype_overrides = {
+    written: overridesPlan.changed,
+    programs: overridesPlan.overrides.programs.map(p => `${p.id}:${p.status}`),
+    tiers: overridesPlan.overrides.tiers.map(t => `${t.program_id}:${t.override_tier}`),
+  };
+
   // Step 1: Patch onboarding YAML with archetype/stage/bundle via cwos-adopt-archetype.
   // We invoke the existing apply subcommand as a subprocess to reuse its
-  // patching logic (lines 181-216 in cwos-adopt-archetype.js).
+  // patching logic. It reads archetype_overrides from the onboarding file,
+  // which Step 0 has just made agree with the proposal.
   try {
     execFileSync('node', [
       path.join(KIT_ROOT, 'kit', 'scripts', 'cwos-adopt-archetype.js'),
@@ -715,23 +824,69 @@ function cmdApply(args) {
     process.exit(4);
   }
 
-  // Step 2: Copy program YAMLs from kit templates → target's
-  // .claude/workstream/programs/. Filter by bundle.programs[].
-  const targetProgramsDir = path.join(target, '.claude', 'workstream', 'programs');
-  fs.mkdirSync(targetProgramsDir, { recursive: true });
-  const programsCopied = [];
-  for (const progId of pr.bundle.programs) {
-    const tmplPath = path.join(PROGRAM_TEMPLATES_DIR, `${progId}.yaml`);
-    if (!fs.existsSync(tmplPath)) {
-      result.steps[`program_${progId}`] = 'template_missing';
-      continue;
-    }
-    const content = fs.readFileSync(tmplPath, 'utf8');
-    const dst = path.join(targetProgramsDir, `${progId}.yaml`);
-    writeFileAtomic(dst, content);
-    programsCopied.push(progId);
+  // Step 1b (WS-1112 a): the onboarding file must now record the proposal's
+  // bundle — the programs the files below are copied from. Fail loudly if not.
+  const onbResolved = loadOnboarding(target);
+  const abr = onbResolved.data.archetype_bundle_resolved || {};
+  const consistency = compareBundles(pr.bundle, { programs: abr.programs, tiers: abr.tiers });
+  if (!consistency.ok) {
+    result.steps.bundle_consistent = `failed: ${consistency.reason}`;
+    result.ok = false;
+    writeJson(result);
+    process.exit(4);
   }
+  result.steps.bundle_consistent = 'ok';
+  const resolvedTiers = (abr.tiers && typeof abr.tiers === 'object') ? abr.tiers : {};
+
+  // Step 1c (WS-1112 n): make the repo a usable M1 — CLAUDE.md, workstream
+  // registries, programs registry, /next /verify /pulse and the Claude Code
+  // hooks — by running the standard installer for the repo's capabilities and
+  // then the hook installer. Runs BEFORE the program copy so the installer's
+  // own program files (scope patterns patched, fingerprinted in .cwos-version)
+  // are the ones that land; with (o) it installs only the resolved bundle.
+  const m1 = runM1Install(target, onbResolved.data, pr.archetype, {
+    homebase: readFlag(args, 'homebase'),
+    capabilities: readFlag(args, 'capabilities'),
+    repoArchetype: readFlag(args, 'repo-archetype'),
+    noFleetRegister: args.includes('--no-fleet-register'),
+    skip: args.includes('--skip-m1-install'),
+  });
+  result.steps.m1_install = m1.install;
+  result.steps.claude_hooks = m1.hooks;
+  if (m1.repo_archetype) result.steps.repo_archetype = m1.repo_archetype;
+  if (m1.capabilities) result.steps.capabilities = m1.capabilities;
+  if (m1.failed) result.ok = false;
+  if (m1.next_commands.length > 0) {
+    result.next_commands = m1.next_commands;
+    process.stderr.write(
+      'cwos-genesis-ignite: the repo is not yet a usable M1. Run these next, from the repo root:\n' +
+      m1.next_commands.map(c => `  ${c}\n`).join('')
+    );
+  }
+
+  // Step 2: Copy program YAMLs from kit templates → target's
+  // .claude/workstream/programs/. Filter by bundle.programs[]. A file the
+  // installer already placed is kept (it carries the patched scope patterns).
+  const targetProgramsDir = path.join(target, '.claude', 'workstream', 'programs');
+  const copy = copyBundlePrograms(targetProgramsDir, pr.bundle.programs, PROGRAM_TEMPLATES_DIR);
+  const programsCopied = copy.copied;
   result.steps.programs_copied = programsCopied;
+  // WS-1112 (g): an approved program with no template used to be skipped while
+  // ok stayed true, so the repo silently lacked a program the onboarding file
+  // records. Name it and fail the result (same as a failed tier write).
+  if (copy.missing.length > 0) {
+    result.steps.programs_missing = copy.missing;
+    for (const id of copy.missing) result.steps[`program_${id}`] = 'template_missing';
+    result.ok = false;
+  }
+
+  // Step 2b (WS-1112 l): each program takes its resolved tier. The template
+  // tier (mostly dormant) is not the approved one; leaving it is how /pulse
+  // showed every approved program dormant. Same write path as /pulse escalate
+  // and /stage apply (cwos-pulse mutateProgramTier + registry resync), so the
+  // prog files and programs/registry.yaml agree (INV-052).
+  result.steps.program_tiers = applyResolvedTiers(targetProgramsDir, programsCopied, resolvedTiers);
+  if (result.steps.program_tiers.failed.length > 0) result.ok = false;
 
   // Step 3: Flip adoption_phase M0 → M1 + set m0_dormant exit fields.
   const onbAfterArchetype = loadOnboarding(target);
@@ -739,6 +894,10 @@ function cmdApply(args) {
   raw = patchTopLevelScalarPreserveComment(raw, 'adoption_phase', 'M1');
   raw = patchIndentedScalar(raw, 'exited_at', `"${result.applied_at}"`);
   raw = patchIndentedScalar(raw, 'exit_trigger', `"${exitTrigger}"`);
+  // WS-1112 (n): record the tech-stack tag the install used, if none was set.
+  if (m1.repo_archetype && !onbAfterArchetype.data.repo_archetype) {
+    raw = raw.replace(/^(repo_archetype:[ \t]*)null\b/m, `$1${m1.repo_archetype}`);
+  }
   writeFileAtomic(onbAfterArchetype.path, raw);
   result.steps.phase_flipped = 'M0 -> M1';
 
@@ -755,7 +914,12 @@ function cmdApply(args) {
   result.steps.decisions_appended = (pr.decisions_proposed || []).length;
 
   // Step 7: Write seed work items to .claude/workstream/queue/.
-  const seedCount = writeSeedWorkItems(target, pr.seed_work_items || [], pr.archetype, 0);
+  // WS-1112 (m): items carry the program's own `id:` (change-mgmt), never the
+  // file stem (change-management), and never a program the repo lacks.
+  const programIds = programIdMap(targetProgramsDir, programsCopied);
+  const hostProgram = pickTripwireProgram(programsCopied, resolvedTiers, programIds);
+  result.steps.tripwire_program = hostProgram;
+  const seedCount = writeSeedWorkItems(target, pr.seed_work_items || [], pr.archetype, 0, { programIds, fallbackProgram: hostProgram });
   result.steps.seed_work_items = seedCount;
 
   // Step 7b (WS-322 Phase A): Write deferred-scope tripwires — one blocked
@@ -763,14 +927,14 @@ function cmdApply(args) {
   // the trigger fires (Phase B), the item surfaces in /pulse for founder
   // re-evaluation. Filter to anti-goals only (template constraints are
   // baseline rules, not deferred scope; they don't get tripwires).
-  const antiGoalsForTripwires = (pr.constraints_proposed || []).filter(
-    c => c.source && /intention\.md Anti-goals/.test(c.source)
-  );
+  // WS-1112 (c): antiGoalsOf is the renderer's rule too.
+  const antiGoalsForTripwires = antiGoalsOf(pr.constraints_proposed);
   const tripwireCount = writeDeferredScopeTripwires(
     target,
     antiGoalsForTripwires,
     pr.archetype,
-    seedCount
+    seedCount,
+    hostProgram
   );
   result.steps.tripwires_written = tripwireCount;
 
@@ -813,6 +977,378 @@ function patchIndentedScalar(raw, field, newValue, indent = '  ') {
 
 function escapeRe(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ─── WS-1112 (a): proposal bundle → archetype_overrides ─────────────────────
+
+const OVERRIDE_REASON = 'genesis ignition: founder-approved proposal bundle';
+
+function normalizeOverrides(existing) {
+  const ao = (existing && typeof existing === 'object') ? existing : {};
+  return {
+    programs: Array.isArray(ao.programs) ? ao.programs.filter(p => p && typeof p === 'object' && p.id) : [],
+    tiers: Array.isArray(ao.tiers) ? ao.tiers.filter(t => t && typeof t === 'object' && t.program_id) : [],
+    axes: (ao.axes && typeof ao.axes === 'object' && !Array.isArray(ao.axes)) ? ao.axes : {},
+  };
+}
+
+/**
+ * compareBundles(want, got) → { ok, reason }
+ * Same program SET, and the same tier for every program `want` names a tier for.
+ */
+function compareBundles(want, got) {
+  const wantProgs = Array.isArray(want.programs) ? want.programs : [];
+  const gotProgs = Array.isArray(got.programs) ? got.programs : [];
+  const missing = wantProgs.filter(p => !gotProgs.includes(p));
+  const extra = gotProgs.filter(p => !wantProgs.includes(p));
+  if (missing.length || extra.length) {
+    return { ok: false, reason: `programs differ (missing: ${missing.join(', ') || 'none'}; unexpected: ${extra.join(', ') || 'none'})` };
+  }
+  const wantTiers = want.tiers || {};
+  const gotTiers = got.tiers || {};
+  const tierDiffs = wantProgs
+    .filter(p => wantTiers[p] && wantTiers[p] !== gotTiers[p])
+    .map(p => `${p} ${wantTiers[p]} vs ${gotTiers[p] || 'none'}`);
+  if (tierDiffs.length) return { ok: false, reason: `tiers differ (${tierDiffs.join('; ')})` };
+  return { ok: true };
+}
+
+/**
+ * deriveArchetypeOverrides(archetype, stage, bundle, existingOverrides)
+ *   → { overrides, changed, matches, mismatch }
+ *
+ * The default bundle is what the resolver gives for (archetype, stage) with
+ * the repo's axis overrides but no program/tier overrides. Against it:
+ *   - a default program the proposal dropped     → { id, status: opted-out }
+ *   - a proposal program the default lacks       → { id, status: opted-in }
+ *   - a proposal tier the stage/archetype would not give → tiers[] entry
+ * Merge with what is already there: entries for programs this bundle decides
+ * (default ∪ proposal) are replaced; entries for any other program are kept.
+ * `matches` re-runs the resolver with the merged overrides and checks it
+ * yields the proposal's bundle exactly. Throws on overrides the resolver
+ * rejects (invalid tier).
+ */
+function deriveArchetypeOverrides(archetype, stage, bundle, existingOverrides) {
+  const existing = normalizeOverrides(existingOverrides);
+  const wantProgs = (bundle.programs || []).filter(p => typeof p === 'string' && p);
+  const wantTiers = bundle.tiers || {};
+
+  const base = resolveBundle(archetype, stage, { programs: [], tiers: [], axes: existing.axes });
+  const decided = new Set([...base.programs, ...wantProgs]);
+
+  const programs = existing.programs.filter(p => !decided.has(p.id));
+  for (const id of base.programs) {
+    if (!wantProgs.includes(id)) programs.push(prevOrNew(existing.programs, id, 'opted-out'));
+  }
+  for (const id of wantProgs) {
+    if (!base.programs.includes(id)) programs.push(prevOrNew(existing.programs, id, 'opted-in'));
+  }
+
+  // Natural tiers for the proposal's programs: no founder tier overrides.
+  const natural = stage ? resolveBundle(archetype, stage, { programs, tiers: [], axes: existing.axes }).tiers : {};
+  const tiers = existing.tiers.filter(t => !wantProgs.includes(t.program_id));
+  for (const id of wantProgs) {
+    const want = wantTiers[id];
+    if (!want || want === natural[id]) continue;
+    const prev = existing.tiers.find(t => t.program_id === id && t.override_tier === want);
+    tiers.push(prev || { program_id: id, override_tier: want, reason: OVERRIDE_REASON });
+  }
+
+  const overrides = { programs, tiers, axes: existing.axes };
+  const check = resolveBundle(archetype, stage, overrides); // throws on an invalid tier
+  const cmp = compareBundles({ programs: wantProgs, tiers: wantTiers }, check);
+  const changed = JSON.stringify(stripReasons(overrides.programs)) !== JSON.stringify(stripReasons(existing.programs))
+    || JSON.stringify(stripReasons(overrides.tiers)) !== JSON.stringify(stripReasons(existing.tiers));
+  return { overrides, changed, matches: cmp.ok, mismatch: cmp.reason || null };
+}
+
+function prevOrNew(list, id, status) {
+  const prev = list.find(p => p.id === id && p.status === status);
+  return prev || { id, status, reason: OVERRIDE_REASON };
+}
+
+function stripReasons(list) {
+  return list.map(x => Object.keys(x).filter(k => k !== 'reason').sort().map(k => `${k}=${x[k]}`).join(','));
+}
+
+function yamlQuote(v) {
+  return `"${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
+
+function renderOverrideList(key, list, keys) {
+  if (list.length === 0) return [`  ${key}: []`];
+  const out = [`  ${key}:`];
+  for (const entry of list) {
+    const ks = keys.filter(k => entry[k] != null).concat(Object.keys(entry).filter(k => !keys.includes(k) && entry[k] != null));
+    ks.forEach((k, i) => out.push(`${i === 0 ? '    - ' : '      '}${k}: ${yamlQuote(entry[k])}`));
+  }
+  return out;
+}
+
+/**
+ * Rewrite the programs: and tiers: entries of the top-level
+ * archetype_overrides block, leaving its comments and axes: untouched. The
+ * block is appended when the file has none.
+ */
+function patchArchetypeOverridesBlock(raw, overrides) {
+  const eol = raw.includes('\r\n') ? '\r\n' : '\n';
+  const lines = raw.replace(/\r\n/g, '\n').split('\n');
+  const progLines = renderOverrideList('programs', overrides.programs, ['id', 'status', 'reason']);
+  const tierLines = renderOverrideList('tiers', overrides.tiers, ['program_id', 'override_tier', 'reason']);
+
+  const start = lines.findIndex(l => /^archetype_overrides:\s*(#.*)?$/.test(l));
+  if (start < 0) {
+    const out = lines.slice();
+    while (out.length && out[out.length - 1] === '') out.pop();
+    out.push('', 'archetype_overrides:', ...progLines, ...tierLines, '  axes: {}', '');
+    return out.join(eol);
+  }
+  let end = start + 1;
+  // The block runs until the next line at column 0 (a key or a header comment).
+  while (end < lines.length && (lines[end] === '' || /^\s/.test(lines[end]))) end++;
+  // Trim trailing blank lines back into the outer file.
+  while (end > start + 1 && lines[end - 1] === '') end--;
+
+  const block = lines.slice(start + 1, end);
+  const replaceKey = (blk, key, rendered) => {
+    const i = blk.findIndex(l => new RegExp(`^  ${key}:`).test(l));
+    if (i < 0) return blk.concat(rendered);
+    let j = i + 1;
+    while (j < blk.length && (/^ {3,}\S/.test(blk[j]) || /^  - /.test(blk[j]))) j++;
+    return blk.slice(0, i).concat(rendered, blk.slice(j));
+  };
+  let newBlock = replaceKey(block, 'programs', progLines);
+  newBlock = replaceKey(newBlock, 'tiers', tierLines);
+  return lines.slice(0, start + 1).concat(newBlock, lines.slice(end)).join(eol);
+}
+
+// ─── WS-1112 (l): resolved tiers onto the program files ─────────────────────
+
+function readTopLevelScalar(file, key) {
+  try {
+    const m = fs.readFileSync(file, 'utf8').match(new RegExp(`^${key}:\\s*['"]?([^'"#\\s]+)['"]?`, 'm'));
+    return m ? m[1] : null;
+  } catch { return null; }
+}
+
+/**
+ * applyResolvedTiers(programsDir, bundleIds, tiers) → { set, unchanged, failed, registry }
+ * bundleIds are file stems (prog-engineering). Writes go through cwos-pulse's
+ * mutateProgramTier and resyncProgramRegistry — the /pulse escalate path.
+ */
+function applyResolvedTiers(programsDir, bundleIds, tiers) {
+  const out = { set: [], unchanged: [], failed: [], registry: null };
+  let pulse;
+  try { pulse = require('./cwos-pulse'); } catch (e) {
+    out.failed.push(`tier write path unavailable: ${e.message}`);
+    return out;
+  }
+  for (const id of bundleIds) {
+    const want = tiers[id];
+    if (!want) { out.unchanged.push(id); continue; }
+    const file = path.join(programsDir, `${id}.yaml`);
+    if (readTopLevelScalar(file, 'tier') === want) { out.unchanged.push(id); continue; }
+    const m = pulse.mutateProgramTier(id.replace(/^prog-/, ''), want, programsDir);
+    if (m.ok) out.set.push(`${id}:${want}`);
+    else out.failed.push(`${id}: ${m.reason}`);
+  }
+  // The registry is derived from the prog files; resync whenever one exists
+  // or a tier changed, so the two never disagree (INV-052).
+  if (out.set.length > 0 || fs.existsSync(path.join(programsDir, 'registry.yaml'))) {
+    const r = pulse.resyncProgramRegistry(programsDir);
+    out.registry = r && r.error ? `failed: ${r.error}` : 'synced';
+    if (r && r.error && fs.existsSync(path.join(programsDir, 'registry.yaml'))) out.failed.push(`registry resync: ${r.error}`);
+  }
+  return out;
+}
+
+// ─── WS-1112 (g): bundle program files ──────────────────────────────────────
+
+/**
+ * Copy each bundle program's template into programsDir unless a file is
+ * already there (the installer's copy carries patched scope patterns).
+ * Returns { copied, missing }: missing names every bundle program that has
+ * neither a placed file nor a template.
+ */
+function copyBundlePrograms(programsDir, bundleIds, templatesDir) {
+  fs.mkdirSync(programsDir, { recursive: true });
+  const out = { copied: [], missing: [] };
+  for (const progId of bundleIds) {
+    const dst = path.join(programsDir, `${progId}.yaml`);
+    if (fs.existsSync(dst)) { out.copied.push(progId); continue; }
+    const tmplPath = path.join(templatesDir, `${progId}.yaml`);
+    if (!fs.existsSync(tmplPath)) { out.missing.push(progId); continue; }
+    writeFileAtomic(dst, fs.readFileSync(tmplPath, 'utf8'));
+    out.copied.push(progId);
+  }
+  return out;
+}
+
+// ─── WS-1112 (m): program ids and the tripwire host ─────────────────────────
+
+/** { 'prog-change-management': 'change-mgmt', ... } for programs present in programsDir. */
+function programIdMap(programsDir, bundleIds) {
+  const map = {};
+  for (const id of bundleIds) {
+    const file = path.join(programsDir, `${id}.yaml`);
+    const fileId = fs.existsSync(file) ? readTopLevelScalar(file, 'id') : null;
+    map[id] = fileId || id.replace(/^prog-/, '');
+  }
+  return map;
+}
+
+const TIER_RANK = { critical: 0, active: 1, watch: 2, dormant: 3 };
+
+/**
+ * The program anti-goal tripwires attach to. They are re-evaluation prompts
+ * for scope the founder ruled out, so they belong on the program that gets
+ * the most attention: the highest-tier program in the resolved bundle (first
+ * critical one), ties broken by bundle order. Always a program the repo has;
+ * null only when the bundle is empty.
+ */
+function pickTripwireProgram(bundleIds, tiers, programIds) {
+  let best = null;
+  let bestRank = Infinity;
+  for (const id of bundleIds) {
+    const rank = TIER_RANK[tiers[id]] != null ? TIER_RANK[tiers[id]] : 4;
+    if (rank < bestRank) { best = id; bestRank = rank; }
+  }
+  return best ? (programIds[best] || best.replace(/^prog-/, '')) : null;
+}
+
+// ─── WS-1112 (n): the standard install that makes the repo a usable M1 ──────
+
+const ALL_CAPABILITIES = ['core', 'workstream', 'engines', 'governance', 'autonomous'];
+
+// ADR-035 identity archetype → the installer's tech-stack tag (repo_archetype),
+// which only picks default scope patterns and ceremony. Used when the
+// onboarding file does not already name one and --repo-archetype is absent.
+const REPO_ARCHETYPE_FOR = { A1: 'saas', A2: 'data-platform', A3: 'frontend', A4: 'research', A5: 'dev-tool' };
+const INSTALLER_ARCHETYPES = new Set([
+  'saas', 'frontend', 'data-platform', 'dev-tool', 'research', 'api-service',
+  'research-clinical', 'research-mathematical', 'research-empirical',
+]);
+
+/**
+ * Capabilities to install: the onboarding file's enabled/intended set when the
+ * founder has stated any capability (closed downward, as the installer does);
+ * otherwise — every genesis repo, where all five are still unconfigured — all
+ * five, which is what installs /next (workstream), /pulse + programs registry
+ * (governance) and /verify (autonomous).
+ */
+function capabilitiesFor(onboardingData) {
+  const caps = onboardingData && onboardingData.capabilities;
+  let stated = false;
+  let highest = -1;
+  if (caps && typeof caps === 'object') {
+    ALL_CAPABILITIES.forEach((name, i) => {
+      const e = caps[name];
+      const state = e && typeof e === 'object' ? e.state : e;
+      if (!state || state === 'unconfigured') return;
+      stated = true;
+      if ((state === 'enabled' || state === 'intended') && i > highest) highest = i;
+    });
+  }
+  if (!stated) return ALL_CAPABILITIES.slice();
+  return ALL_CAPABILITIES.slice(0, Math.max(highest, 0) + 1);
+}
+
+function repoArchetypeFor(onboardingData, archetype, flag) {
+  if (flag) return flag;
+  const declared = onboardingData && onboardingData.repo_archetype;
+  if (declared && INSTALLER_ARCHETYPES.has(String(declared))) return String(declared);
+  return REPO_ARCHETYPE_FOR[archetype] || 'dev-tool';
+}
+
+/** HomeBase: --homebase, else this distribution if it is one, else the stamped/upward hub. */
+function resolveInstallHomebase(target, flag) {
+  const isHub = (d) => d && fs.existsSync(path.join(d, 'kit', 'MANIFEST.yaml'))
+    && fs.existsSync(path.join(d, 'kit', 'scripts', 'cwos-adopt-install.js'));
+  if (flag) return isHub(path.resolve(flag)) ? path.resolve(flag) : null;
+  if (isHub(KIT_ROOT)) return KIT_ROOT;
+  try {
+    const hb = require('./lib/kit-paths').resolveHomeBaseRoot({ from: target });
+    if (isHub(hb)) return hb;
+  } catch { /* fall through */ }
+  return null;
+}
+
+function tail(text, n = 6) {
+  return String(text || '').trim().split(/\r?\n/).slice(-n).join(' | ');
+}
+
+function runM1Install(target, onboardingData, archetype, opts) {
+  const out = { install: null, hooks: null, failed: false, next_commands: [], capabilities: null, repo_archetype: null };
+  const caps = opts.capabilities || capabilitiesFor(onboardingData).join(',');
+  const tag = repoArchetypeFor(onboardingData, archetype, opts.repoArchetype);
+  out.capabilities = caps;
+  out.repo_archetype = tag;
+  const homebase = resolveInstallHomebase(target, opts.homebase);
+  const hbShown = homebase ? homebase.replace(/\\/g, '/') : '<path-to-HomeBase>';
+  const tgtShown = target.replace(/\\/g, '/');
+  const installCmd = `node "${hbShown}/kit/scripts/cwos-adopt-install.js" --target "${tgtShown}" --archetype ${tag} --homebase "${hbShown}" --capabilities ${caps}`;
+  const hooksCmd = 'node kit/scripts/install-claude-hooks.mjs';
+
+  if (opts.skip) {
+    out.install = 'skipped: --skip-m1-install';
+    out.hooks = 'skipped: --skip-m1-install';
+    out.next_commands.push(installCmd, hooksCmd);
+    return out;
+  }
+  if (!homebase) {
+    out.install = 'skipped: HomeBase (kit/MANIFEST.yaml + cwos-adopt-install.js) not found — pass --homebase <path>';
+    out.hooks = 'skipped: runs after the install';
+    out.next_commands.push(installCmd, hooksCmd);
+    return out;
+  }
+
+  const installArgs = [
+    path.join(homebase, 'kit', 'scripts', 'cwos-adopt-install.js'),
+    '--target', target,
+    '--archetype', tag,
+    '--homebase', homebase,
+    '--capabilities', caps,
+  ];
+  if (opts.noFleetRegister) installArgs.push('--no-fleet-register');
+  const r = spawnSync(process.execPath, installArgs, {
+    cwd: target, encoding: 'utf8', timeout: 180000,
+    env: { ...process.env, CWOS_SKIP_RENDER: '1' },
+  });
+  if (r.status !== 0) {
+    out.install = `failed (exit ${r.status}): ${tail(r.stderr || r.stdout) || (r.error && r.error.message) || 'no output'}`;
+    out.hooks = 'skipped: install failed';
+    out.failed = true;
+    out.next_commands.push(installCmd, hooksCmd);
+    return out;
+  }
+  out.install = 'ok';
+
+  // Hooks are wired into the repo git resolves from cwd, so only run where the
+  // target IS a git repo root — never into a parent repo's settings.json.
+  if (!fs.existsSync(path.join(target, '.git'))) {
+    out.hooks = 'skipped: target has no .git (git init, then run the hook installer)';
+    out.next_commands.push(hooksCmd);
+    return out;
+  }
+  const hookScript = [
+    path.join(target, 'kit', 'scripts', 'install-claude-hooks.mjs'),
+    path.join(homebase, 'kit', 'scripts', 'install-claude-hooks.mjs'),
+  ].find(p => fs.existsSync(p));
+  if (!hookScript) {
+    out.hooks = 'failed: install-claude-hooks.mjs not found';
+    out.failed = true;
+    out.next_commands.push(hooksCmd);
+    return out;
+  }
+  const h = spawnSync(process.execPath, [hookScript], { cwd: target, encoding: 'utf8', timeout: 60000 });
+  if (h.status !== 0) {
+    out.hooks = `failed (exit ${h.status}): ${tail(h.stderr || h.stdout)}`;
+    out.failed = true;
+    out.next_commands.push(hooksCmd);
+    return out;
+  }
+  out.hooks = 'ok';
+  return out;
 }
 
 function appendInvariants(targetDir, invariants, appliedAt) {
@@ -869,8 +1405,25 @@ function appendDecisions(targetDir, decisions, appliedAt) {
   writeFileAtomic(p, content + lines.join('\n'));
 }
 
-function writeSeedWorkItems(targetDir, items, archetype, startIndex = 0) {
+// WS-1112 (m): seed items name the program by the `id:` inside its prog file.
+// opts.programIds maps a bundle id (prog-change-management) to that id
+// (change-mgmt) for every program the repo has. A hint naming a program the
+// repo does not have falls back to opts.fallbackProgram (the tripwire host),
+// so an item never attaches to a missing program.
+function seedProgramFor(item, opts) {
+  const hint = String(item.program_hint || '').trim();
+  if (hint) {
+    const key = hint.startsWith('prog-') ? hint : `prog-${hint}`;
+    if (opts.programIds[key]) return opts.programIds[key];
+    // A hint already written as an id (change-mgmt) the repo has.
+    if (Object.values(opts.programIds).includes(hint)) return hint;
+  }
+  return opts.fallbackProgram;
+}
+
+function writeSeedWorkItems(targetDir, items, archetype, startIndex = 0, opts = {}) {
   if (items.length === 0) return 0;
+  const programOpts = { programIds: opts.programIds || {}, fallbackProgram: opts.fallbackProgram || null };
   const queueDir = path.join(targetDir, '.claude', 'workstream', 'queue');
   fs.mkdirSync(queueDir, { recursive: true });
   const today = todayISO();
@@ -883,13 +1436,12 @@ function writeSeedWorkItems(targetDir, items, archetype, startIndex = 0) {
       `type: ${item.type || 'feature'}`,
       `category: ${item.capability || 'meta'}`,
       `capability: ${item.capability || 'meta'}`,
-      `program: ${(item.program_hint || '').replace(/^prog-/, '') || 'engineering'}`,
+      `program: ${seedProgramFor(item, programOpts) || 'null'}`,
       'priority_score: 10',
       `effort: ${item.effort || 'M'}`,
       'source:',
       `  surfaced_by: "Genesis ignition (archetype ${archetype})"`,
-      'description: >',
-      `  ${(item.description || '').replace(/\n/g, '\n  ')}`,
+      ...blockScalarLines('description', item.description || '', { style: '>' }),
       'accept_criteria:',
       ...(item.accept_criteria || []).map(ac => `  - "${ac.replace(/"/g, '\\"')}"`),
       `created_at: "${today}"`,
@@ -904,7 +1456,9 @@ function writeSeedWorkItems(targetDir, items, archetype, startIndex = 0) {
 // Each item is status: blocked with a re_eval_trigger field naming the state
 // transition that unblocks it. When the trigger fires (handled in Phase B),
 // the item's status flips to backlog and surfaces in /pulse.
-function writeDeferredScopeTripwires(targetDir, antiGoals, archetype, startIndex = 0) {
+// WS-1112 (m): hostProgram is a program the repo HAS (pickTripwireProgram);
+// these used to name program-integrity, which no new repo has.
+function writeDeferredScopeTripwires(targetDir, antiGoals, archetype, startIndex = 0, hostProgram = null) {
   if (!antiGoals || antiGoals.length === 0) return 0;
   const queueDir = path.join(targetDir, '.claude', 'workstream', 'queue');
   fs.mkdirSync(queueDir, { recursive: true });
@@ -912,12 +1466,39 @@ function writeDeferredScopeTripwires(targetDir, antiGoals, archetype, startIndex
   antiGoals.forEach((ag, i) => {
     const id = `WS-${String(startIndex + i + 1).padStart(3, '0')}`;
     const text = (ag.text || ag.rule || ag.rationale || '').toString().trim();
-    const trigger = ag.trigger || inferTriggerFromAntiGoal(text);
-    const title = buildTripwireTitle(text);
+    const trigger = antiGoalTrigger(ag);
+    // WS-1112 (b): a permanent anti-goal keeps its item as the record of the
+    // ruling, but no trigger fires it and it asks no build/re-defer/abandon.
+    const permanent = trigger.type === 'never';
+    const title = permanent ? buildPermanentTitle(text) : buildTripwireTitle(text);
 
     // Plain-language note for /pulse readability — does NOT replace the
     // structured re_eval_trigger field; both surface together.
     const blockedNote = renderTriggerNote(trigger);
+    const flat = text.replace(/\n/g, ' ').slice(0, 200);
+    const description = permanent
+      ? [
+        `Permanent anti-goal from genesis ignition. The founder ruled this`,
+        `out for good: "${flat}". No archetype, milestone or tier change`,
+        `re-opens it, and /pulse does not raise it for re-evaluation.`,
+        `Lifting it is a founder decision, recorded in decisions.md.`,
+      ].join('\n')
+      : [
+        `Deferred scope from genesis ignition. The founder declared this`,
+        `out of scope at v1: "${flat}".`,
+        `When the trigger fires (${trigger.type} -> ${trigger.target}), this`,
+        `item becomes eligible and /pulse surfaces it for re-evaluation.`,
+        `Founder either (a) commits to building it now, (b) re-defers with`,
+        `a new trigger, or (c) marks it abandoned with rationale.`,
+      ].join('\n');
+    const acceptCriteria = permanent
+      ? ['  - "Holds while the anti-goal stands; any change to it is a founder decision recorded in decisions.md"']
+      : [
+        '  - "Re-evaluation completed: founder explicitly chose build / re-defer / abandon"',
+        '  - "If build: scope-equivalent execute item replaces this tripwire"',
+        '  - "If re-defer: new re_eval_trigger replaces the old one with a clear rationale"',
+        '  - "If abandon: item moved to status: dismissed with abandonment note in decisions.md"',
+      ];
 
     const yaml = [
       `id: "${id}"`,
@@ -925,8 +1506,9 @@ function writeDeferredScopeTripwires(targetDir, antiGoals, archetype, startIndex
       'status: blocked',
       'type: deferred-scope',
       'category: scope-tripwire',
+      ...(permanent ? ['anti_goal_class: never'] : []),
       'capability: meta',
-      `program: ${ag.source && /Anti-goals/.test(ag.source) ? 'program-integrity' : 'engineering'}`,
+      `program: ${hostProgram || 'null'}`,
       'priority_score: 5',
       'effort: TBD',
       'blocked_by: []',
@@ -940,18 +1522,9 @@ function writeDeferredScopeTripwires(targetDir, antiGoals, archetype, startIndex
       'source:',
       `  surfaced_by: "Genesis ignition anti-goal (archetype ${archetype})"`,
       `  anti_goal_text: "${text.replace(/"/g, '\\"')}"`,
-      'description: >',
-      `  Deferred scope from genesis ignition. The founder declared this`,
-      `  out of scope at v1: "${text.replace(/\n/g, ' ').slice(0, 200)}".`,
-      `  When the trigger fires (${trigger.type} -> ${trigger.target}), this`,
-      `  item becomes eligible and /pulse surfaces it for re-evaluation.`,
-      `  Founder either (a) commits to building it now, (b) re-defers with`,
-      `  a new trigger, or (c) marks it abandoned with rationale.`,
+      ...blockScalarLines('description', description, { style: '>' }),
       'accept_criteria:',
-      '  - "Re-evaluation completed: founder explicitly chose build / re-defer / abandon"',
-      '  - "If build: scope-equivalent execute item replaces this tripwire"',
-      '  - "If re-defer: new re_eval_trigger replaces the old one with a clear rationale"',
-      '  - "If abandon: item moved to status: dismissed with abandonment note in decisions.md"',
+      ...acceptCriteria,
       `created_at: "${today}"`,
       '',
     ].join('\n');
@@ -972,6 +1545,13 @@ function buildTripwireTitle(antiGoalText) {
   return `Re-evaluate: ${stripped}`.slice(0, 200);
 }
 
+// WS-1112 (b): a permanent anti-goal is not re-evaluated, so its title says so.
+function buildPermanentTitle(antiGoalText) {
+  let s = String(antiGoalText || '').trim();
+  if (s.length > 0) s = s[0].toUpperCase() + s.slice(1);
+  return `Anti-goal (permanent): ${s}`.slice(0, 200);
+}
+
 function renderTriggerNote(trigger) {
   if (!trigger) return 'Deferred scope; trigger missing — manual re-evaluation required.';
   switch (trigger.type) {
@@ -983,6 +1563,8 @@ function renderTriggerNote(trigger) {
       return `Re-evaluate when ${trigger.target} program tier changes.`;
     case 'fleet_event':
       return `Re-evaluate on fleet event: ${trigger.target}.`;
+    case 'never':
+      return 'Permanent anti-goal: no trigger re-opens it; lifting it is a founder decision.';
     default:
       return `Re-evaluate (custom trigger: ${trigger.type}).`;
   }
@@ -1025,26 +1607,86 @@ function emitConsumedEvent(targetDir, payload) {
 
 // ─── Main ───────────────────────────────────────────────────────────────────
 
+// WS-1112 (h), ADR-063: argv goes through the shared CLI contract BEFORE any
+// side effect. `--help` used to exit 2; an unknown flag (`--frce`) used to be
+// ignored and the subcommand ran anyway. Flags are the union across the three
+// subcommands; each subcommand still checks the ones it requires.
+const CLI = {
+  name: 'cwos-genesis-ignite',
+  summary: 'ignite a dormant (M0) repo: propose a bundle, apply the approved one, validate preconditions',
+  usage: [
+    'cwos-genesis-ignite <propose|apply|validate> [options]',
+    '  propose  --target-dir <p> [--archetype-hint A?] [--out json|markdown]',
+    '  apply    --target-dir <p> --proposal-file <p> --exit-trigger intend_command|intention_md_edit_detected',
+    '           [--homebase <p>] [--capabilities core,...] [--repo-archetype <tag>] [--no-fleet-register] [--skip-m1-install]',
+    '  validate --target-dir <p> [--force]',
+  ].join('\n'),
+  subcommands: {
+    propose: 'print the ignition proposal (JSON, or the markdown approval doc); writes nothing',
+    apply: 'install the approved proposal bundle and flip adoption_phase M0 -> M1',
+    validate: 'check ignition preconditions; writes nothing',
+  },
+  flags: {
+    'target-dir': { type: 'string', placeholder: 'path', describe: 'the repo to ignite' },
+    'archetype-hint': { type: 'string', placeholder: 'A?', describe: 'propose: skip inference, use this archetype' },
+    out: { type: 'string', placeholder: 'json|markdown', describe: 'propose: output form (default json)' },
+    'proposal-file': { type: 'string', placeholder: 'path', describe: 'apply: the (possibly edited) proposal JSON' },
+    'exit-trigger': { type: 'string', placeholder: 'trigger', describe: 'apply: recorded as m0_dormant.exit_trigger' },
+    homebase: { type: 'string', placeholder: 'path', describe: 'apply: HomeBase checkout for the M1 install' },
+    capabilities: { type: 'string', placeholder: 'list', describe: 'apply: capabilities to install' },
+    'repo-archetype': { type: 'string', placeholder: 'tag', describe: 'apply: installer tech-stack tag' },
+    'no-fleet-register': { type: 'boolean', describe: 'apply: do not register the repo in the fleet' },
+    'skip-m1-install': { type: 'boolean', describe: 'apply: skip the installer; print next_commands instead' },
+    force: { type: 'boolean', describe: 'validate: bypass the 12h placeholder gate (testing)' },
+  },
+  notes: 'Exit 0 = ok; 1 = validate failed; 2 = bad command line or input; 3 = refused (not M0 / already ignited); 4 = apply step failed.',
+};
+
 function main() {
   const args = process.argv.slice(2);
-  const sub = args[0];
-  const rest = args.slice(1);
-  switch (sub) {
+  const gate = cliGate(args, CLI);
+  if (gate.positionals && gate.positionals.length) {
+    dieWith(2, `unexpected argument: ${gate.positionals[0]} (see --help)`);
+  }
+  // Drop the subcommand token itself — the first argument that is neither a
+  // flag nor a string flag's value — and hand the rest to the subcommand.
+  let subAt = -1;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].startsWith('--')) {
+      const f = CLI.flags[args[i].slice(2)];
+      if (f && f.type === 'string' && !args[i].includes('=')) i++;
+      continue;
+    }
+    subAt = i; break;
+  }
+  const rest = args.filter((_, i) => i !== subAt);
+  switch (gate.sub) {
     case 'propose': return cmdPropose(rest);
     case 'apply': return cmdApply(rest);
     case 'validate': return cmdValidate(rest);
-    default:
-      process.stderr.write([
-        'Usage:',
-        '  cwos-genesis-ignite.js propose --target-dir <p> [--archetype-hint A?] [--out json|markdown]',
-        '  cwos-genesis-ignite.js apply --target-dir <p> --proposal-file <p> --exit-trigger intend_command|intention_md_edit_detected',
-        '  cwos-genesis-ignite.js validate --target-dir <p>',
-        '',
-      ].join('\n'));
-      process.exit(2);
+    default: return dieWith(2, `unknown subcommand: ${gate.sub}`);
   }
 }
 
 // WS-544: guard the entry point so requiring this file for a dependency
 // smoke check does not run it.
 if (require.main === module) main();
+
+// WS-1112: apply's helpers, exported for kit/scripts/__tests__/genesis-ignite-apply.test.js.
+module.exports = {
+  // WS-1079: the seed-item writers, driven by the block-scalar round-trip test
+  writeSeedWorkItems, writeDeferredScopeTripwires,
+  deriveArchetypeOverrides,
+  patchArchetypeOverridesBlock,
+  compareBundles,
+  pickTripwireProgram,
+  programIdMap,
+  capabilitiesFor,
+  repoArchetypeFor,
+  // WS-1112 (b) (c) (f) (g): genesis-ignite-proposal.test.js
+  extractImaginedOutcome,
+  renderProposalMarkdown,
+  inferTriggerFromAntiGoal,
+  antiGoalsOf,
+  copyBundlePrograms,
+};

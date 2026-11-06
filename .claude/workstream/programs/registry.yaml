@@ -88,6 +88,13 @@ programs:
     health_score: 0
     last_run_date: null
     founder_priority: 4
+  - id: claims-policy
+    name: "Claims Policy & Evidence Standards"
+    status: NEW
+    tier: dormant
+    health_score: 0
+    last_run_date: null
+    founder_priority: 1
   - id: compliance
     name: Regulatory Compliance
     status: NEW

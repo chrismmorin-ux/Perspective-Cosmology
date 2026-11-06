@@ -58,6 +58,22 @@ const { validateStrategies, KNOWN_STRATEGIES } = require('./lib/merge-strategy')
 // restore on any throw.
 const repoSnapshot = require('./lib/repo-snapshot');
 const { matchesSyncPath, serviceName } = require('./lib/sync-paths');
+const { mergePreamble, findEndMarker } = require('./lib/preamble-merge');
+
+/**
+ * WS-980. Where `--force` saves the local version of a file it is about to
+ * overwrite. The first backup keeps the plain `<file>.pre-repair` name; if that
+ * already exists (an earlier repair cycle), the new backup gets a UTC timestamp,
+ * `<file>.<YYYYMMDDTHHMMSSmmmZ>.pre-repair`, so no earlier backup is ever lost.
+ */
+function preRepairBackupPath(destPath) {
+  const plain = destPath + '.pre-repair';
+  if (!fs.existsSync(plain)) return plain;
+  const stamp = new Date().toISOString().replace(/[-:.]/g, '');
+  let candidate = `${destPath}.${stamp}.pre-repair`;
+  for (let n = 1; fs.existsSync(candidate); n++) candidate = `${destPath}.${stamp}-${n}.pre-repair`;
+  return candidate;
+}
 
 // 21 mutation sites across copy / template / scope-patch / manifest / legacy
 // / milestone / version-stamp phases. Emit coarse phase events at major
@@ -122,8 +138,6 @@ const LEGACY_MAP = [
              '.claude/STATUS.md', '.claude/context/SYSTEM_MODEL.md'] },
 ];
 
-const PREAMBLE_START = '<!-- CWOS Preamble Start -->';
-const PREAMBLE_END = '<!-- CWOS Preamble End -->';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -453,10 +467,40 @@ function migrateLegacyScriptsPath(config, state) {
 
 // ─── Phase 2: Filter by Capability ─────────────────────────────────────────
 
-function filterByCapabilities(entries, enabledCapabilities, archetypeBundle) {
+// WS-1112 (o): the repo's own resolved bundle. When .cwos-onboarding.yaml
+// already carries archetype_bundle_resolved.programs (written by
+// cwos-adopt-archetype.js apply — /adopt Step 5g, or /intend's ignition), that
+// list is the founder-approved program set. Returns the list, or null when the
+// file, the block or the list is absent/empty (legacy behaviour applies).
+function readResolvedBundlePrograms(target) {
+  const p = path.join(target, '.cwos-onboarding.yaml');
+  if (!fs.existsSync(p)) return null;
+  const r = readYAMLFile(p);
+  if (!r.ok || !r.data) return null;
+  const abr = r.data.archetype_bundle_resolved;
+  const progs = abr && Array.isArray(abr.programs) ? abr.programs.filter(x => typeof x === 'string' && x) : [];
+  return progs.length > 0 ? progs : null;
+}
+
+function filterByCapabilities(entries, enabledCapabilities, archetypeBundle, resolvedPrograms) {
   let allowed = entries.filter(e =>
     entryAllowed(e, enabledCapabilities) && !e.homebase_only
   );
+  if (!(archetypeBundle && Array.isArray(archetypeBundle.programs))
+      && Array.isArray(resolvedPrograms) && resolvedPrograms.length > 0) {
+    // WS-1112 (o): no --archetype-bundle, but the repo already declares its
+    // resolved program set. Install only those program files, plus
+    // prog-template.yaml (the authoring template, not a program). Before this,
+    // every program template the capability allowed was copied — fleet-broker's
+    // ignition got eight programs the founder had not approved, one critical.
+    const keep = new Set(resolvedPrograms);
+    keep.add('prog-template');
+    allowed = allowed.filter(e => {
+      const m = (e.destination || '').match(/programs[\\/](prog-[A-Za-z0-9_-]+)\.ya?ml$/);
+      if (!m) return true;
+      return keep.has(m[1]);
+    });
+  }
   if (archetypeBundle && Array.isArray(archetypeBundle.programs)) {
     // WS-250: when an archetype bundle is provided, drop program template
     // entries (kit/templates/workstream/programs/prog-*.yaml) whose ID is not
@@ -522,6 +566,69 @@ function ensureDirectories(target, systemDir, enabledCapabilities, dryRun, state
   }
 }
 
+// The kit's own spelling of the end marker is
+// `<!-- CWOS Preamble End — Project-specific content below -->`, the last line
+// of kit/claude-preamble.md. This bare form is only appended when a preamble
+// arrives without any end marker, so the result always has exactly one.
+const PREAMBLE_END = '<!-- CWOS Preamble End -->';
+
+// Headings that, below the marker, mean the repo overrides a preamble section.
+const PREAMBLE_OVERLAP_HEADINGS = ['## Self-Verification', '## Session Protocol', '## Session',
+                                   '## Autonomous', '## Proactive', '## Verification'];
+const PREAMBLE_OVERRIDE_COMMENT =
+  '\n<!-- Override: project-specific sections below take precedence over preamble defaults -->\n';
+
+/**
+ * Compose the CLAUDE.md that adoption writes. Pure: no I/O.
+ *
+ * Re-adoption is detected and merged by lib/preamble-merge.js — the same code
+ * cwos-migrate uses on every upgrade — which matches the end marker by PREFIX.
+ * This function used to match the bare `<!-- CWOS Preamble End -->` exactly.
+ * The shipped marker carries an em-dash suffix, so that match never fired on
+ * it: every adoption appended a second, bare end marker after the preamble's
+ * own (most fleet CLAUDE.md files carry two), and re-adopting a repo whose
+ * CLAUDE.md has only the shipped marker (nutrition, claude-poker-tracker,
+ * cpt-villain-axis on 2026-11-03) prepended a second full copy of the preamble.
+ * A file that already has both markers stays stable: the stray bare one sits
+ * below the merge point and is carried along unchanged.
+ *
+ * @param {string} preambleContent  kit/claude-preamble.md
+ * @param {string} existingContent  the repo's CLAUDE.md, or '' when it has none
+ * @returns {{ content: string, action: 'created'|'updated'|'prepended', overlap: string[] }}
+ */
+function composeClaudeMd(preambleContent, existingContent) {
+  const shipped = findEndMarker(preambleContent)
+    ? preambleContent
+    : preambleContent.replace(/\s*$/, '\n') + PREAMBLE_END + '\n';
+
+  let content;
+  let action;
+  if (!existingContent) {
+    content = shipped;
+    action = 'created';
+  } else {
+    const merged = mergePreamble(existingContent, shipped);
+    if (merged.ok) {
+      content = merged.content;
+      action = 'updated';
+    } else {
+      // No end marker in the existing file: it predates CWOS. Keep all of it,
+      // below the preamble.
+      content = shipped.replace(/\s*$/, '\n') + '\n' + existingContent;
+      action = 'prepended';
+    }
+  }
+
+  // Overlap check: repo sections below the marker that shadow preamble ones.
+  const marker = findEndMarker(content);
+  const afterMarker = content.substring(marker.end);
+  const overlap = PREAMBLE_OVERLAP_HEADINGS.filter(h => afterMarker.includes(h));
+  if (overlap.length > 0 && !content.includes('<!-- Override:')) {
+    content = content.substring(0, marker.end) + PREAMBLE_OVERRIDE_COMMENT + afterMarker;
+  }
+  return { content, action, overlap };
+}
+
 function installPreamble(config, homebase, state) {
   const preambleSrc = path.join(homebase, 'kit', 'claude-preamble.md');
   if (!fs.existsSync(preambleSrc)) {
@@ -535,43 +642,11 @@ function installPreamble(config, homebase, state) {
     state.warnings.push(`Preamble is ${preambleLines} lines (target: <200). Consider trimming.`);
   }
   const claudeMdPath = path.join(config.target, 'CLAUDE.md');
-  let existingContent = '';
-  let isReAdoption = false;
+  const existingContent = fs.existsSync(claudeMdPath) ? fs.readFileSync(claudeMdPath, 'utf8') : '';
 
-  if (fs.existsSync(claudeMdPath)) {
-    existingContent = fs.readFileSync(claudeMdPath, 'utf8');
-    isReAdoption = existingContent.includes(PREAMBLE_END);
-  }
-
-  let finalContent;
-
-  if (isReAdoption) {
-    // Replace only the preamble section
-    const endIdx = existingContent.indexOf(PREAMBLE_END);
-    const afterPreamble = existingContent.substring(endIdx + PREAMBLE_END.length);
-    finalContent = preambleContent + '\n' + PREAMBLE_END + afterPreamble;
-  } else if (existingContent) {
-    // Fresh install with existing CLAUDE.md — prepend
-    finalContent = preambleContent + '\n' + PREAMBLE_END + '\n\n' + existingContent;
-  } else {
-    // No existing CLAUDE.md
-    finalContent = preambleContent + '\n' + PREAMBLE_END + '\n';
-  }
-
-  // Preamble deduplication: check for overlapping sections below the marker
-  const afterMarkerIdx = finalContent.indexOf(PREAMBLE_END);
-  if (afterMarkerIdx !== -1) {
-    const afterMarker = finalContent.substring(afterMarkerIdx + PREAMBLE_END.length);
-    const overlapHeadings = ['## Self-Verification', '## Session Protocol', '## Session',
-                             '## Autonomous', '## Proactive', '## Verification'];
-    const found = overlapHeadings.filter(h => afterMarker.includes(h));
-    if (found.length > 0) {
-      const overrideComment = '\n<!-- Override: project-specific sections below take precedence over preamble defaults -->\n';
-      if (!finalContent.includes('<!-- Override:')) {
-        finalContent = finalContent.replace(PREAMBLE_END, PREAMBLE_END + overrideComment);
-      }
-      state.warnings.push(`Preamble overlap detected: ${found.join(', ')} — override comment inserted`);
-    }
+  const { content: finalContent, action, overlap } = composeClaudeMd(preambleContent, existingContent);
+  if (overlap.length > 0) {
+    state.warnings.push(`Preamble overlap detected: ${overlap.join(', ')} — override comment inserted`);
   }
 
   if (!config.dryRun) writeFileAtomic(claudeMdPath, finalContent);
@@ -579,7 +654,7 @@ function installPreamble(config, homebase, state) {
   state.installLog.push({
     source: 'kit/claude-preamble.md',
     destination: 'CLAUDE.md',
-    action: isReAdoption ? 'updated' : (existingContent ? 'prepended' : 'created'),
+    action,
     merge_strategy: 'preamble-replace',
     hash: sha256(finalContent),
   });
@@ -810,6 +885,7 @@ function repairInstalledFiles(config, homebase, m1Files, deferredFiles, state) {
       const parentDir = path.dirname(destPath);
       if (!fs.existsSync(parentDir) && !config.dryRun) fs.mkdirSync(parentDir, { recursive: true });
       if (!config.dryRun) writeFileAtomic(destPath, srcContent);
+      retireSupersededSidecar(config, destPath, destRelForward, state, { homebase, entry, srcContent });
       state.installLog.push({
         source: toForwardSlash(entry.source), destination: destRelForward,
         action: 'repaired-missing', merge_strategy: 'repair', hash: srcHash,
@@ -861,6 +937,7 @@ function repairInstalledFiles(config, homebase, m1Files, deferredFiles, state) {
     // surfaced (below) — the founder swaps in the .kit-update if it was corrupt.
     if (isStructurallyBroken(existing, srcContent, isYAML)) {
       if (!config.dryRun) writeFileAtomic(destPath, srcContent);
+      retireSupersededSidecar(config, destPath, destRelForward, state, { homebase, entry, srcContent });
       state.installLog.push({
         source: toForwardSlash(entry.source), destination: destRelForward,
         action: 'repaired-corrupt', merge_strategy: 'repair', hash: srcHash,
@@ -873,16 +950,20 @@ function repairInstalledFiles(config, homebase, m1Files, deferredFiles, state) {
     // ── Drifted but valid → treat as a founder customization ──
     if (config.force) {
       // Explicit opt-in: overwrite, but keep a backup of the local version.
+      // WS-980: a second repair must not overwrite the first backup.
+      let backupPath = destPath + '.pre-repair';
       if (!config.dryRun) {
-        writeFileAtomic(destPath + '.pre-repair', existing);
+        backupPath = preRepairBackupPath(destPath);
+        writeFileAtomic(backupPath, existing);
         writeFileAtomic(destPath, srcContent);
       }
+      retireSupersededSidecar(config, destPath, destRelForward, state, { homebase, entry, srcContent });
       state.installLog.push({
         source: toForwardSlash(entry.source), destination: destRelForward,
         action: 'repaired-forced', merge_strategy: 'repair', hash: srcHash,
       });
       state.checksumMap[destRelForward] = srcHash;
-      state.warnings.push(`${destRelForward} was customized — overwritten by --force (local version saved to ${destRelForward}.pre-repair)`);
+      state.warnings.push(`${destRelForward} was customized — overwritten by --force (local version saved to ${path.basename(backupPath)})`);
       continue;
     }
     // Default: preserve the customization, surface the kit version alongside.
@@ -923,6 +1004,91 @@ function detectSchemaVersionDrift(config, homebase, entries, state) {
       );
     }
   }
+}
+
+// WS-631: the three repair paths above that write kit source over the live file
+// wholesale (missing, corrupt, --force) answer any `.kit-update` sidecar beside
+// it — the live file now IS the kit version, so the sidecar is at best a copy
+// and at worst an older release offering a downgrade. cwos-migrate retires
+// them on its full-overwrite path for the same reason; before this, repair
+// left them standing and every later scan counted them as a pending decision.
+// The customized path (sidecar written, live file kept) never calls this.
+// Rollback: main() adds every pre-existing manifest sidecar to the snapshot.
+//
+// WS-978: the snapshot only restores a FAILED run. A repair that succeeds
+// keeps nothing, so a sidecar the founder hand-edited (merged their own changes
+// into the kit copy, say) was deleted for good. Retire a sidecar only when its
+// bytes are a copy of something the kit shipped: the kit file just written, or
+// that file's entry in any released baseline (HomeBase kit/hashes-*.yaml union
+// the repo's own), up to line endings — the rule cwos-migrate applies on its
+// overwrite path. Anything else is kept and listed in state.keptSidecars.
+function retireSupersededSidecar(config, destPath, destRelForward, state, kit = {}) {
+  const side = destPath + '.kit-update';
+  if (!fs.existsSync(side)) return;
+  if (!sidecarIsKitCopy(config, side, state, kit)) {
+    state.keptSidecars = state.keptSidecars || [];
+    state.keptSidecars.push(destRelForward + '.kit-update');
+    return;
+  }
+  if (!config.dryRun) fs.unlinkSync(side);
+  state.supersededSidecars = state.supersededSidecars || [];
+  state.supersededSidecars.push(destRelForward + '.kit-update');
+}
+
+function sidecarIsKitCopy(config, side, state, { homebase, entry, srcContent } = {}) {
+  return sidecarIsReleasedKitCopy(side, {
+    kitContent: srcContent, sources: entry && entry.source ? [entry.source] : [],
+    homebase, repoPath: config.target, cache: state,
+  });
+}
+
+// WS-978: THE retire decision for a `.kit-update` sidecar beside a file a full
+// overwrite just replaced. cwos-migrate (stock/new/needsInstall) and adopt
+// --repair (missing/corrupt/--force) both ask it; neither deletes on its own
+// judgement. True only when the sidecar's bytes, up to line endings, are
+//   - `kitContent`: the kit file just written over the live one (deleting a
+//     copy of what the live file now holds loses nothing), or
+//   - the entry for one of `sources` in a released baseline (HomeBase
+//     kit/hashes-*.yaml union the repo's own, via lib/kit-baselines).
+// Everything else is false: a hand edit, an unreleased build, a sidecar that
+// cannot be read, and a baseline corpus that is missing, unreadable or throws.
+// Fail closed — a sidecar is never deleted on an unknown. `cache` (the caller's
+// run state) holds the corpus non-enumerably so it loads once per run and the
+// state object still serializes unchanged.
+function sidecarIsReleasedKitCopy(sidecarFile, { kitContent, sources, homebase, repoPath, cache } = {}) {
+  try {
+    const buf = fs.readFileSync(sidecarFile);
+    if (kitContent != null && eolEquivalentContent(buf, kitContent)) return true;
+    const list = (Array.isArray(sources) ? sources : [sources]).filter(Boolean).map((s) => toForwardSlash(String(s)));
+    if (!list.length) return false;
+    const { loadBaselineCorpus, versionsMatching } = require('./lib/kit-baselines');
+    let corpus = cache && cache.__baselineCorpus;
+    if (!corpus) {
+      corpus = loadBaselineCorpus(homebase, repoPath);
+      if (cache) {
+        Object.defineProperty(cache, '__baselineCorpus', {
+          value: corpus, enumerable: false, configurable: true, writable: true,
+        });
+      }
+    }
+    return versionsMatching(buf, list, corpus).size > 0;
+  } catch {
+    return false; // BLIND: keep the sidecar
+  }
+}
+
+// Sidecars that exist beside a manifest destination right now. Captured by the
+// pre-install snapshot so a failed run restores any a repair path retired —
+// most sit inside the wholesale-captured dirs already, but a root-level or
+// docs/ sidecar does not.
+function existingManifestSidecars(config, entries) {
+  const out = [];
+  for (const entry of entries) {
+    if (!entry || !entry.destination) continue;
+    const rel = toForwardSlash(resolveDestination(entry.destination, config.systemDir)) + '.kit-update';
+    try { if (fs.existsSync(boundedPathInRepo(config.target, rel))) out.push(rel); } catch { /* out-of-repo path — never ours */ }
+  }
+  return out;
 }
 
 // Is an on-disk file broken with enough confidence to overwrite it even though
@@ -1800,6 +1966,9 @@ function emitManifestBundle(startMs, config, state) {
         files_unchanged: counts.unchanged,
         files_updated: counts.updated,
         kit_updates_written: counts['kit-update-written'],
+        // WS-978: sidecars a full overwrite retired (a kit copy) and kept (not one).
+        superseded_sidecars: state.supersededSidecars || [],
+        kept_sidecars: state.keptSidecars || [],
         directories_created: state.directoriesCreated.length,
         path_rewrites: state.pathRewrites.length,
         legacy_migrations: state.migrations.length,
@@ -1979,6 +2148,13 @@ function reportRepairSummary(config, state) {
   lines.push(`  overwritten (--force):    ${n('repaired-forced')}`);
   lines.push(`  preserved (customized):   ${n('customized')}`);
   lines.push(`  unchanged (healthy):      ${n('unchanged')}`);
+  const retired = (state.supersededSidecars || []).length;
+  if (retired) lines.push(`  stale sidecars retired:   ${retired} (live file now holds kit content)`);
+  const kept = state.keptSidecars || [];
+  if (kept.length) {
+    lines.push(`  sidecars kept:            ${kept.length} (not a copy of any kit release, so possibly your edits — review, then delete)`);
+    for (const f of kept) lines.push(`    - ${f}`);
+  }
   if (state.needsReview.length) {
     lines.push(`\n  Needs review — your edits were kept; current kit version is in <file>.kit-update:`);
     for (const f of state.needsReview) lines.push(`    - ${f}`);
@@ -2184,7 +2360,10 @@ function main() {
   const manifestEntries = loadManifest(config.homebase);
 
   // Phase 2: Filter by capability (ADR-016)
-  const { m1Files, deferredFiles } = filterByCapabilities(manifestEntries, config.enabledCapabilities, config.archetypeBundle);
+  // WS-1112 (o): with no --archetype-bundle, the repo's own resolved bundle
+  // (onboarding archetype_bundle_resolved.programs) limits which programs land.
+  const resolvedPrograms = config.archetypeBundle ? null : readResolvedBundlePrograms(config.target);
+  const { m1Files, deferredFiles } = filterByCapabilities(manifestEntries, config.enabledCapabilities, config.archetypeBundle, resolvedPrograms);
   state.deferredFiles = deferredFiles;
 
   // ── WS-503 / FIND-330: snapshot before the first mutating phase ──
@@ -2195,7 +2374,10 @@ function main() {
     try {
       snapshot = repoSnapshot.createSnapshot(config.target, {
         dirs: adoptSnapshotDirs(config),
-        files: adoptSnapshotFiles(),
+        // WS-631: plus every sidecar standing beside a manifest destination —
+        // a repair path may retire one, and one outside the captured dirs
+        // would otherwise not come back on rollback.
+        files: adoptSnapshotFiles().concat(existingManifestSidecars(config, [...m1Files, ...deferredFiles])),
         prefix: ADOPT_SNAPSHOT_PREFIX,
         meta: { target: toForwardSlash(config.target), kit_version: config.kitVersion, repair: config.repair },
       });
@@ -2326,7 +2508,23 @@ function buildCrashReport(err, config, snapshot) {
   }
 
   try {
-    repoSnapshot.restoreSnapshot(config.target, snapshot, { mode: 'replace' });
+    // run-032 C7: restoreSnapshot no longer throws on a bad path — it attempts
+    // every path and returns the failures. Before, a failure in its first two
+    // steps was swallowed and this said "restored" over a half-restored repo.
+    const restoreErrors = repoSnapshot.restoreSnapshot(config.target, snapshot, { mode: 'replace' }).restore_errors || [];
+    if (restoreErrors.length) {
+      lines.push(
+        `  → ROLLBACK INCOMPLETE (${restoreErrors.length} path(s) could not be restored):`,
+        ...restoreErrors.slice(0, 10).map(e => `      ${e.path} — ${e.op}: ${e.reason}`),
+        ...(restoreErrors.length > 10 ? [`      … and ${restoreErrors.length - 10} more`] : []),
+        '    Your repo is in a partial state. Everything else was put back.',
+        '',
+        '  Your pre-adopt files are intact here:',
+        `    ${snapshot}`,
+        '  Copy the paths above back by hand (close whatever holds them first), or restore with git if the repo was clean.'
+      );
+      return lines.join('\n');
+    }
     lines.push(
       '  → Your repo was restored to its pre-adopt state.',
       '    Nothing was left half-installed.',
@@ -2358,7 +2556,7 @@ function buildCrashReport(err, config, snapshot) {
 // the registry `type:` taxonomy, and the taxonomy drifted for months while it
 // lived only as a comment in fleet/registry.yaml. cwos-fleet-scan.js validates
 // against this list rather than keeping a second copy.
-module.exports = { VALID_ARCHETYPES, sha256, loadManifest, filterByCapabilities, LEVEL_NUM, patchProgramScopes, upsertFleetEntry, resolveSystemDir, resolveDestination, runStepGate, adoptStepAnswered, markMilestone, updateMilestones, seedDecisionsFromADRs, ADOPT_SNAPSHOT_PREFIX, ADOPT_SNAPSHOT_FILES, adoptSnapshotDirs, adoptSnapshotFiles };
+module.exports = { VALID_ARCHETYPES, sha256, sidecarIsReleasedKitCopy, composeClaudeMd, loadManifest, filterByCapabilities, readResolvedBundlePrograms, LEVEL_NUM, patchProgramScopes, upsertFleetEntry, resolveSystemDir, resolveDestination, runStepGate, adoptStepAnswered, markMilestone, updateMilestones, seedDecisionsFromADRs, ADOPT_SNAPSHOT_PREFIX, ADOPT_SNAPSHOT_FILES, adoptSnapshotDirs, adoptSnapshotFiles, buildCrashReport };
 
 // ─── Run ────────────────────────────────────────────────────────────────────
 

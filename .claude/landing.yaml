@@ -1,0 +1,61 @@
+# .claude/landing.yaml — which pull requests land themselves, which wait for the founder, and
+# what may go straight to the default branch (kit/scripts/cwos-pr.js; designs in HomeBase
+# docs/designs/pr-flow-end-to-end.md v2, 2026-10-31, and docs/designs/low-risk-self-lane.md,
+# founder 2026-11-01: "We need to widen the self approval lanes", LOW-RISK ONLY).
+#
+# READ FROM THE DEFAULT BRANCH ONLY. cwos-pr and the pre-push lane read origin/<default>'s copy,
+# never a branch's: a pull request cannot widen its own lane. This file is itself on the floor, so
+# changing it always waits for the founder's tap. No file at all, or one that does not parse, is TAP.
+#
+# THE LANES
+#   direct  records, docs, state straight to the default branch, no PR. Off until you set
+#           direct_enabled: true. Only paths under `direct.paths`; never code, never a floor path.
+#   self    with `default_lane: tap` (the default): only a PR whose EVERY file is on the `self:`
+#           lists below lands itself, once GitHub says every check on it passed. Records and docs
+#           may not be code; tests must be named like tests and may not be switched off or lose
+#           assertions; nothing is deleted. Never self, whatever is listed: the floor, `tap:` below,
+#           this repo's sensitive set (fleet-contract.yaml `sensitive:`), any script a workflow, a
+#           hook or a `checks:` line runs (gate code), and session instructions or build config
+#           (.claude/ except workstream/, CLAUDE.md, AGENTS.md, SKILL.md, .codex/, engines/,
+#           package.json, lockfiles, *.config.*, snapshots).
+#           With `default_lane: self` (the 2026-10-31 shape): everything not on the floor. Only for a
+#           repo whose founder chose it.
+#   tap     the always-tap FLOOR (built into cwos-pr.js, cannot be removed here: money and payments,
+#           auth and permissions, CI workflows and session settings, secrets, migrations, the fleet
+#           contract, children's data and its guards, regulated documents and emails, kit releases,
+#           this file and the gates), plus the rules you add under `tap:`, plus whatever this repo's
+#           own classifier asks for, plus everything not on a `self:` list.
+#   decide  a `Needs-Founder: <decision>` commit trailer or the held:founder-decision label: a
+#           draft PR plus a founder-desk question.
+
+default_lane: tap
+
+# The low-risk lists. Name directories; `**`, `*` and any-depth globs (`**/x/**`) are refused
+# except under `tests`, whose files are also checked by name. Leave a list empty rather than guess.
+self:
+  records: [".claude/workstream/**"]
+  docs: ["docs/**"]
+  tests: []
+  tooling: []
+
+# A repo whose own gate merges its PRs (deckside pr-gate, women-s-health system/gates/land.js)
+# sets `merge_owner: repo-gate`; `cwos-pr land` then never merges there.
+# merge_owner: repo-gate
+
+# The direct lane. Turn it on only in a repo whose own rules let sessions push to the default
+# branch (not ServeYourNote or deckside, whose rules require a PR for every change).
+direct_enabled: false
+direct:
+  paths:
+    - "docs/**"
+    - ".claude/workstream/**"
+    - "system/**"
+
+# Add this repo's own always-tap paths here. They are added to the floor, never replace it.
+tap: []
+
+# Run by `cwos-pr land` before merging, and by plan/open to compute health. Keep them fast and green.
+# Every script named here is gate code, and so never lands itself.
+checks: []
+
+nudge_branches: ["claude/*"]

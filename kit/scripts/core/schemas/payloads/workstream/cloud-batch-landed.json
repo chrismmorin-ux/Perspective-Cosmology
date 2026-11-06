@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cwos.local/schemas/payloads/workstream/cloud-batch-landed.json",
+  "title": "workstream.cloud-batch-landed",
+  "description": "T6:workstream event written by cwos-overflow-router land --execute when an overflow batch's branches are merged into one branch and opened as ONE pull request (WS-1171). Frees the batch's items from the router's in-flight set.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["type", "batch", "repo"],
+  "properties": {
+    "type":   { "type": "string", "const": "cloud-batch-landed" },
+    "batch":  { "type": "string" },
+    "repo":   { "type": "string" },
+    "items":  { "type": "array", "items": { "type": "string" } },
+    "branch": { "type": "string" },
+    "pr":     { "type": "string" }
+  }
+}

@@ -140,31 +140,29 @@ function deriveSurfacedBy(wsDir, engineId, invokedAt) {
   try { invokedMs = new Date(invokedAt).getTime(); } catch { return 'manual'; }
   if (!Number.isFinite(invokedMs)) return 'manual';
 
-  const eventsDir = path.join(wsDir, 'events');
-  let files;
-  try { files = fs.readdirSync(eventsDir).filter(f => f.endsWith('.jsonl')).sort(); }
-  catch { return 'manual'; }
+  // WS-677: canonical reader (strict chunk names, archive included, no
+  // current.jsonl mirror). Only chunks that can hold an event inside the
+  // surfacing window are read; the one-day margin absorbs timezone-dated chunks.
+  const windowStart = new Date(invokedMs - SURFACING_WINDOW_MS - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  let evs;
+  try {
+    evs = require('../core/events').readFilteredEvents(path.join(wsDir, 'events'), {
+      windowStart, typeFilter: 'engine_candidate_suggested',
+    });
+  } catch { return 'manual'; }
 
-  // Scan newest chunks first; stop once event timestamps predate the window.
-  for (let i = files.length - 1; i >= 0; i--) {
-    let text;
-    try { text = fs.readFileSync(path.join(eventsDir, files[i]), 'utf8'); }
-    catch { continue; }
-    const lines = text.split('\n').filter(Boolean);
-    for (let j = lines.length - 1; j >= 0; j--) {
-      let ev;
-      try { ev = JSON.parse(lines[j]); } catch { continue; }
-      const p = ev && ev.payload;
-      if (!p || p.type !== 'engine_candidate_suggested') continue;
-      if (p.suggested_engine !== engineId) continue;
-      let evMs = null;
-      try { evMs = new Date(ev.ts || ev.timestamp || ev.created_at).getTime(); } catch { /* keep null */ }
-      if (!Number.isFinite(evMs)) continue;
-      if (evMs > invokedMs) continue;
-      if (invokedMs - evMs > SURFACING_WINDOW_MS) return 'manual';
-      const signals = Array.isArray(p.trigger_signals) ? p.trigger_signals.filter(Boolean) : [];
-      return signals.length ? signals.join(',') : 'manual';
-    }
+  // Newest first; the first matching suggestion at or before the invocation decides.
+  for (let j = evs.length - 1; j >= 0; j--) {
+    const ev = evs[j];
+    const p = ev && ev.payload;
+    if (!p || p.suggested_engine !== engineId) continue;
+    let evMs = null;
+    try { evMs = new Date(ev.ts || ev.timestamp || ev.created_at).getTime(); } catch { /* keep null */ }
+    if (!Number.isFinite(evMs)) continue;
+    if (evMs > invokedMs) continue;
+    if (invokedMs - evMs > SURFACING_WINDOW_MS) return 'manual';
+    const signals = Array.isArray(p.trigger_signals) ? p.trigger_signals.filter(Boolean) : [];
+    return signals.length ? signals.join(',') : 'manual';
   }
   return 'manual';
 }
