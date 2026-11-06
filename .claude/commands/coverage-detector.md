@@ -206,7 +206,7 @@ Create findings and work items per standard pipeline.
 ### Tech Stack Coverage
 | Technology | Engine Coverage | Persona Coverage | Status |
 |-----------|---------------|-----------------|--------|
-| React | eng-engine, design-audit | product-ux-engineer | ✓ COVERED |
+| React | eng-engine, design-audit | product-ux | ✓ COVERED |
 | PostgreSQL | eng-engine | architect | ✓ COVERED |
 | Stripe | — | — | ⚠ UNCOVERED |
 

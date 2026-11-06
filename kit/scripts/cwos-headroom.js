@@ -129,8 +129,9 @@ const os = require('os');
 const path = require('path');
 
 // WS-711 lever 2: the gate refuses a run that cannot fit; this sizes one that can.
-const { deriveWorkers, DEFAULT_PER_WORKER_GB, DEFAULT_RESERVE_GB } = require('./lib/worker-sizing');
+const { deriveWorkers, readCgroupMemory, DEFAULT_PER_WORKER_GB, DEFAULT_RESERVE_GB } = require('./lib/worker-sizing');
 const slots = require('./lib/slot-registry');
+const { loadSession } = require('./lib/session-record');
 
 const { DEFAULT_PER_JOB_GB } = slots;
 const SLOT_RESERVE_GB = slots.DEFAULT_RESERVE_GB;
@@ -450,12 +451,16 @@ const activeSessionPids = (repoRoot) => {
     try { files = fs.readdirSync(dir); } catch { continue; }
     for (const f of files) {
       if (!f.endsWith('.yaml')) continue;
-      let text;
-      try { text = fs.readFileSync(path.join(dir, f), 'utf8'); } catch { continue; }
-      const status = /^status:\s*["']?(\w+)/m.exec(text);
-      const pid = /^pid:\s*(\d+)/m.exec(text);
-      if (status && status[1] === 'active' && pid) {
-        pids.set(Number(pid[1]), `${path.basename(repo)}/${f.replace(/\.yaml$/, '')}`);
+      // WS-884: the pid lives in each repo's per-node liveness sidecar; the
+      // tracked record no longer carries it. Read through the overlay, per
+      // repo's own workstream dir (not the cwd's), so pre-WS-884 records
+      // with an inline pid still resolve.
+      let doc = null;
+      try { doc = loadSession(path.dirname(dir), path.join(dir, f)); } catch { continue; }
+      if (!doc) continue;
+      const pid = doc.pid != null ? Number(doc.pid) : NaN;
+      if (String(doc.status || '').toLowerCase() === 'active' && Number.isInteger(pid) && pid > 0) {
+        pids.set(pid, `${path.basename(repo)}/${f.replace(/\.yaml$/, '')}`);
       }
     }
   }
@@ -840,6 +845,9 @@ const main = () => {
     // is then purely the accessor for scripts, not the switch that enables it.
     sizing: deriveWorkers({
       freeGB: MB_TO_GB(freeMBNow),
+      // WS-966: inside a memory-limited container the host figure is not what
+      // this process may use. null (no cgroup / unlimited) leaves it unchanged.
+      cgroup: readCgroupMemory(),
       perWorkerGB: args.perWorkerGb,
       reserveGB: args.reserveGb,
       maxWorkers: args.maxWorkers,
@@ -931,7 +939,7 @@ const main = () => {
       if (!verdict.gate.met) {
         console.log('                 A run that cannot fit must not start. Close sessions or editors,');
         console.log('                 re-run with --apply, or move the work to another fleet node');
-        console.log('                 (cwos-fleet-run.js <node> ...).');
+        console.log('                 (cwos-fleet-run.js <node> "<task>" --commit-only).');
       }
     }
     if (verdict.sizing) {

@@ -1,0 +1,43 @@
+# Engine Extension Pack Manifest
+engine_id: user-sim
+name: User Simulation
+description: >
+  Walk two or more design proposals through synthetic user personas before
+  building. Blind, per-persona walkthroughs that must respect each persona's
+  disclosure posture; a realism audit that discounts over-cooperative
+  walkthroughs; a scorecard; and the interview script for what only real people
+  can settle. The standard it runs on is ADR-071 (design/personas, scenarios,
+  proposals, simulations).
+category: analysis
+impact: changes-state
+size: standard
+archetypes: [saas, frontend, research]
+install_conditions: repo has an end-user surface (design/ exists or prog-design is active)
+programs: [prog-design]
+personas_required:
+  - cross-critic         # Phase 2 realism audit
+  - facilitator          # Phase 3 scorecard + recommendation
+files:
+  - SKILL.md
+
+# --- Registry fields (used by /adopt to generate engine entries) ---
+skill_path: .claude/commands/user-sim.md
+procedure: agent-dispatch
+extends: context-gather
+trigger: manual
+inputs: [design_proposals, user_personas]
+outputs: [report, finding]
+chains:
+  on_complete: null
+  on_finding: create_work_item
+finding_severities:
+  HIGH: high           # design-level failure: most personas stop or refuse at the same step
+  MEDIUM: medium       # design-level friction: trust falls across personas
+  LOW: low             # persona-level: one persona fails; a question, not a verdict
+  INFO: info           # realism flag or open real-people question
+
+choice_point:
+  accepts: design_proposals
+  size: standard
+  estimated_time: "~10 min for 3 proposals × 4 personas"
+  hook: "Test design options against synthetic users who can refuse — before building any of them"

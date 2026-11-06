@@ -33,7 +33,7 @@ const path = require('path');
 
 const {
   readYAMLFile, writeFileAtomic, withFileLock, findWorkstreamDir, findRepoRoot,
-  globFiles, todayISO,
+  globFiles, todayISO, blockScalarLines,
 } = require('./lib/cwos-utils');
 
 const KNOWN_FLAGS = { drain: ['dry-run', 'json', 'homebase', 'as-repo'] };
@@ -188,24 +188,18 @@ function renderItem(id, env, program) {
   if (env.ref) lines.push(`  homebase_ref: "${q(env.ref)}"`);
   if (it.suggested_program) lines.push(`  suggested_program: "${q(it.suggested_program)}"`);
   lines.push(`  sent_at: "${q(env.created_at || '')}"`);
-  lines.push('  note: >-');
-  lines.push('    Delivered by the fleet courier. priority_score and program were');
-  lines.push('    suggested by HomeBase without reading this repo\'s state; rescore');
-  lines.push('    before trusting them.');
+  lines.push(...blockScalarLines('note', [
+    'Delivered by the fleet courier. priority_score and program were',
+    'suggested by HomeBase without reading this repo\'s state; rescore',
+    'before trusting them.',
+  ].join('\n'), { indent: 2, style: '>-' }));
   lines.push('blocked_by: []');
   lines.push('enables: []');
-  if (it.why) {
-    lines.push('rationale: |');
-    for (const ln of String(it.why).split('\n')) lines.push(`  ${ln}`);
-  }
-  if (it.description) {
-    lines.push('description: |');
-    for (const ln of String(it.description).split('\n')) lines.push(`  ${ln}`);
-  }
-  if (it.accept_criteria) {
-    lines.push('accept_criteria: |');
-    for (const ln of String(it.accept_criteria).split('\n')) lines.push(`  ${ln}`);
-  }
+  // The envelope's text was written by another repo. The one writer keeps every
+  // line of it inside its block scalar, so none can set a field here (WS-1079).
+  if (it.why) lines.push(...blockScalarLines('rationale', it.why));
+  if (it.description) lines.push(...blockScalarLines('description', it.description));
+  if (it.accept_criteria) lines.push(...blockScalarLines('accept_criteria', it.accept_criteria));
   return lines.join('\n') + '\n';
 }
 
@@ -295,4 +289,8 @@ function main() {
 
 if (require.main === module) process.exit(main());
 
-module.exports = { resolveRepoName, localProgram };
+// resolveHomeBase / readLedger are exported for lib/inbox-digest.js (WS-880),
+// which must answer "which outbox is mine, and what is still in it" with the
+// SAME resolution this script drains by. Two definitions would let the digest
+// report on an outbox the drain then declines to read.
+module.exports = { resolveRepoName, localProgram, resolveHomeBase, readLedger, ledgerPath, renderItem };

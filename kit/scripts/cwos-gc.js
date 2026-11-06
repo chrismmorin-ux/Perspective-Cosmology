@@ -19,9 +19,11 @@ require('./lib/preflight');
 const fs = require('fs');
 const path = require('path');
 const {
-  readYAMLFile, globFiles, findWorkstreamDir, dateDiffDays, todayISO, writeFileAtomic
+  readYAMLFile, globFiles, globFindingFiles, findWorkstreamDir, dateDiffDays, todayISO, writeFileAtomic
 } = require('./lib/cwos-utils');
+const { removeLiveness } = require('./lib/session-record');
 const { rebuildAll } = require('./lib/cwos-reconcile-core');
+const { cliGate } = require('./lib/cli');
 
 const { makeEventEmitter } = require('./lib/cwos-utils');
 const emitEvent = makeEventEmitter();
@@ -52,14 +54,25 @@ function loadReplayMod() {
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
 
+// ADR-063 contract. `cwos-gc.js --help` once ran a real GC and archived 134
+// sessions (Claude-Poker-Tracker MIS-003/052), because this script ignored
+// flags it did not know. Help now explains; an unknown flag refuses.
+const CLI = {
+  name: 'cwos-gc',
+  summary: 'archive done/stale workstream entities and rotate event chunks',
+  flags: {
+    'dry-run': { type: 'boolean', describe: 'report what would be archived, change nothing' },
+    'workstream-dir': { type: 'string', placeholder: 'path', describe: 'workstream dir (default: resolved from cwd)' },
+  },
+};
+
 function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
+  const { values } = cliGate(process.argv.slice(2), CLI);
+  const dryRun = !!values['dry-run'];
   let wsDir;
 
-  const dirIdx = args.indexOf('--workstream-dir');
-  if (dirIdx !== -1 && args[dirIdx + 1]) {
-    wsDir = path.resolve(args[dirIdx + 1]);
+  if (values['workstream-dir']) {
+    wsDir = path.resolve(values['workstream-dir']);
   } else {
     try { wsDir = findWorkstreamDir(process.cwd()); }
     catch { console.error('ERROR: Could not find .claude/workstream/'); process.exit(1); }
@@ -163,7 +176,13 @@ function gcEntityType(wsDir, entity, gcConfig, today, dryRun) {
     return { type: entity.type, archived: 0, skipped: 0 };
   }
 
-  const files = globFiles(dir, entity.pattern);
+  // WS-991: the stock findings pattern means "the finding files", both
+  // prefixes. Adopted repos carry 'FIND-*.yaml' in their own config.yaml, so
+  // widening only DEFAULT_ENTITY_REGISTRY would have reached none of them. A
+  // repo that set its own pattern keeps exactly what it asked for.
+  const files = (entity.type === 'findings' && entity.pattern === 'FIND-*.yaml')
+    ? globFindingFiles(dir)
+    : globFiles(dir, entity.pattern);
   let archived = 0, skipped = 0;
 
   for (const filePath of files) {
@@ -188,6 +207,14 @@ function gcEntityType(wsDir, entity, gcConfig, today, dryRun) {
       ensureDir(archiveDir);
       const dest = path.join(archiveDir, path.basename(filePath));
       fs.renameSync(filePath, dest);
+      // A session's per-node liveness sidecar has nothing to say about an
+      // archived record (WS-884). Best-effort; the file is gitignored either way.
+      if (entity.type === 'sessions') {
+        try {
+          removeLiveness(path.dirname(path.dirname(filePath)),
+            path.basename(filePath, '.yaml').replace(/^session-/, ''));
+        } catch { /* none */ }
+      }
       emitEvent('T6:workstream', 'item-archived', {
         entity_type: entity.type,
         path: path.relative(process.cwd(), dest).replace(/\\/g, '/'),
@@ -317,7 +344,7 @@ function detectGraduation(wsDir, gcConfig) {
   const archiveDir = path.join(wsDir, 'findings', 'archive');
   if (!fs.existsSync(archiveDir)) return [];
 
-  const files = globFiles(archiveDir, 'FIND-*.yaml');
+  const files = globFindingFiles(archiveDir);
   const patterns = {};
   const dedupGroups = {};
 
@@ -492,4 +519,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { gcEventChunks, computeBoundaryAnchor, loadConfig };
+module.exports = { gcEventChunks, computeBoundaryAnchor, loadConfig, gcEntityType, DEFAULT_ENTITY_REGISTRY };

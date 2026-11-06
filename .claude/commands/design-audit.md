@@ -61,7 +61,7 @@ Also read project phase from repo's `system/state.md` if present. Phase informs 
 
 ### 0b-i — Personas (when design/personas/ needs drafts)
 
-Dispatch the **product-ux-engineer** persona as an agent with this mandate:
+Dispatch the **product-ux** persona as an agent with this mandate:
 
 > Read the repo's CLAUDE.md, README.md, docs/PRODUCT.md (if present), and scan end-user-facing surfaces (public API routes, CLI entry points, user-facing templates/pages, published documentation).
 >
@@ -71,16 +71,17 @@ Dispatch the **product-ux-engineer** persona as an agent with this mandate:
 > - Primary job they hire the product to do
 > - Environment they work in (tools, constraints, time pressure)
 > - What success looks like from their perspective
+> - Disclosure & trust posture: what they would refuse to tell or do in this product, and what would make them leave. Infer it from the product's domain; if nothing in the repo supports an inference, write `deflect` as the default answer and mark it as an AS-N assumption.
 >
 > Evidence: cite specific code paths, docs, or API endpoints that supported each inference. No inventing users who aren't reachable from the repo surface.
 >
-> If the repo is deeply internal (library, research repo with no outward users), name that explicitly and skip outward-persona generation — the founder becomes the sole inferred persona.
+> If the repo is deeply internal (library, research repo with no outward users), name that explicitly and skip outward-persona generation. Do not make the founder a user persona: the founder is an operator, and a design tested only against its builder is not tested.
 
-Write results to `design/personas/<slug>.draft.md` — one file per persona. Use the persona template from `kit/templates/design/artifact-framework/` (create `design/templates/persona-template.md` first if it doesn't exist).
+Write results to `design/personas/<slug>.draft.md` — one file per persona, `grounding: assumed`. Use the persona template (ADR-071) at `design/templates/persona-template.md`, copying it from `kit/templates/design/artifact-framework/persona-template.md` if absent. Check drafts with `node kit/scripts/cwos-user-persona.js validate --human`; a draft that fails is reported as a blindspot rather than silently accepted.
 
 ### 0b-ii — Primary Journeys (when design/journeys.md absent)
 
-Based on the Phase 0b-i personas, dispatch **product-ux-engineer** again with:
+Based on the Phase 0b-i personas, dispatch **product-ux** again with:
 
 > For each persona from 0b-i, name their 2-3 most-hired journeys (end-to-end workflows). Cite the specific code paths / command surfaces / pages that implement each.
 
@@ -131,7 +132,7 @@ Promote a draft with: mv design/personas/<slug>.draft.md design/personas/<slug>.
 Launch four agents in parallel, one per surface. Each agent scores ONLY its assigned surface against the `docs/programs/design.md` rubric. They do not coordinate; independence is the point.
 
 ### Agent 1: End-User Surface
-Dispatch the **product-ux-engineer** persona as an agent with this mandate:
+Dispatch the **product-ux** persona as an agent with this mandate:
 
 > Score the end-user surface against the `prog-design` L1-L5 rubric in `docs/programs/design.md`. Focus on: design tokens, component architecture, accessibility markers, end-user task flows, error/empty/loading states, information hierarchy.
 >

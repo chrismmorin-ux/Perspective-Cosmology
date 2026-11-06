@@ -79,7 +79,10 @@
  *   cwos-item defer    WS-NNN --reason "<text>" --until "<resume condition>"
  *   cwos-item dismiss  WS-NNN --reason "<text>" [--superseded-by WS-MMM]
  *   cwos-item restore  WS-NNN --reason "<text>" [--to backlog]
+ *   cwos-item release  WS-NNN --reason "<text>"
  *   cwos-item correct  WS-NNN --field <f> --to "<text>" --reason "<text>"
+ *   cwos-item scope    WS-NNN --files "a,b" --reason "<text>" [--new "x"] [--replace]
+ *   cwos-item inspect  WS-NNN --verdict pass|fail --inspector "<id>" --evidence "<text>"
  *   cwos-item show     WS-NNN
  *
  * Output is JSON on stdout. Exit 0 on success, 2 on usage/validation error.
@@ -94,9 +97,10 @@ const path = require('path');
 
 const {
   readYAMLFile, writeFileAtomic, withFileLock, findWorkstreamDir, findRepoRoot,
-  todayISO, escapeYamlString, formatScalar, loadEventDeps,
+  todayISO, escapeYamlString, formatScalar, loadEventDeps, blockScalarLines, parseYAML,
 } = require('./lib/cwos-utils');
 const { runClosureSideEffects } = require('./lib/item-closure');
+const inspectionGate = require('./lib/inspection-gate');
 
 const MIN_REASON_LEN = 20;
 
@@ -107,8 +111,18 @@ const MIN_REASON_LEN = 20;
 // *_reason fields and transitioned_by_event are the audit trail of the verbs
 // above -- rewriting one under the word "correct" would let this command
 // launder a state change, which is the one thing it must never do.
+// `completion_commit` is correctable (poker-tracker WS-678 cleanup, 2026-08-27) and it is
+// NOT a laundering hole: it does not move an item between states, it names WHICH change
+// closed an item that is already closed. It is a provenance claim, and a wrong provenance
+// claim is exactly what `correct` exists to fix with a stated reason.
+//
+// It needs to be correctable because it was systematically wrong. `cwos-next done` stamped
+// `git rev-parse --short HEAD` onto every item in a sprint, so 41 of 69 recorded values
+// shared a sha with another ticket and only 34.8% named their own ticket. Records written
+// that way are repaired here.
 const CORRECTABLE_FIELDS = [
   'title', 'description', 'accept_criteria', 'evidence', 'source', 'notes',
+  'completion_commit', 'completion_commit_source',
 ];
 
 // Status transitions driven by the shared runTransition path. `done` is NOT
@@ -141,6 +155,24 @@ const TRANSITIONS = {
     requiresUntil: false,
     from: ['deferred', 'dismissed', 'blocked'],
   },
+  // poker-tracker WS-678 cleanup, 2026-08-27. An item could reach `in_progress` with
+  // `claimed_by: null` and then had NO EXIT — a state every tool was blind to:
+  //   /next               composes from `backlog`, so it never saw it
+  //   cwos-item restore   allows deferred|dismissed|blocked, not in_progress
+  //   cwos-item correct   refuses status by design (it is state, not a field)
+  //   session-recovery    defines orphaned as "claimed by a dead session", and
+  //                       these have no owner to trace — measured: 492 scanned,
+  //                       0 claimed, 0 orphaned, while four sat stuck
+  // Four items were in it, three since 2026-05-01. `restore` is the wrong verb
+  // because nothing deferred or dismissed them; the claim died and left the
+  // status behind. This is that claim being let go.
+  release: {
+    status: 'backlog',
+    stampField: 'released_at',
+    reasonField: 'release_reason',
+    requiresUntil: false,
+    from: ['claimed', 'in_progress', 'review'],
+  },
 };
 
 function readFlag(args, name) {
@@ -160,17 +192,20 @@ const KNOWN_FLAGS = {
   add: [
     'title', 'program', 'why', 'priority', 'effort', 'severity', 'type',
     'category', 'capability', 'dedup-key', 'blocked-by', 'description',
-    'accept-criteria', 'session', 'customer-impact',
+    'description-file', 'accept-criteria', 'session', 'customer-impact',
     // WS-789: risk-schema fields set at intake — what grows the
     // autonomous-eligible pool without a retrofit pass.
     'external-acts', 'facts-needed', 'verify', 'files-involved',
   ],
-  done: ['notes', 'commit', 'clock'],
+  done: ['notes', 'commit', 'clock', 'skip-inspection', 'finding-open'],
+  inspect: ['verdict', 'inspector', 'evidence', 'diff', 'class', 'contract-ref', 'tokens'],
   defer: ['reason', 'until', 'to'],
   dismiss: ['reason', 'superseded-by', 'to'],
   restore: ['reason', 'to'],
+  release: ['reason'],
   tag: ['customer-impact', 'reason'],
   correct: ['field', 'to', 'reason'],
+  scope: ['files', 'reason', 'new', 'replace'],
   show: [],
 };
 
@@ -180,14 +215,35 @@ const KNOWN_FLAGS = {
  * Walks pairwise so a VALUE that begins with `--` (a --reason whose text opens
  * with a dash) is consumed as a value rather than mistaken for a flag.
  */
+// Flags that take no value. Without this the walker below would swallow the
+// next token as the boolean's value.
+const BOOLEAN_FLAGS = { scope: ['replace'] };
+
 function assertKnownFlags(verb, args) {
   const known = new Set(KNOWN_FLAGS[verb] || []);
+  const bools = new Set(BOOLEAN_FLAGS[verb] || []);
   const unknown = [];
   for (let i = 0; i < args.length; i++) {
     const tok = args[i];
     if (typeof tok !== 'string' || !tok.startsWith('--')) continue;
     const name = tok.slice(2).split('=')[0];
     if (!known.has(name)) { unknown.push(tok); continue; }
+    if (bools.has(name)) {
+      if (tok.includes('=')) fail(`${verb}: --${name} takes no value`);
+      continue;
+    }
+    // `--flag=value` was accepted here and then ignored: readFlag matches the
+    // bare flag only, so the value was dropped AND the next token was skipped
+    // as if it were the value. Refused, like any other form this CLI cannot act on.
+    if (tok.includes('=')) {
+      fail(`${verb}: write --${name} <value>, not --${name}=<value> — the = form is not read and its value would be dropped`);
+    }
+    // A value that begins with a dash is a value. One that IS another flag of
+    // this verb means the value was left out.
+    const next = args[i + 1];
+    if (typeof next === 'string' && next.startsWith('--') && known.has(next.slice(2))) {
+      fail(`${verb}: --${name} needs a value (the next argument is the flag ${next})`);
+    }
     i++; // the next token is this flag's value
   }
   if (unknown.length > 0) {
@@ -237,23 +293,304 @@ function patchScalar(raw, field, value) {
 function fieldBlockRange(raw, field) {
   const lines = raw.split('\n');
   const head = new RegExp(`^${field}:(\\s|$)`);
-  let start = -1;
-  for (let i = 0; i < lines.length; i += 1) {
-    if (head.test(lines[i])) { start = i; break; }
-  }
-  if (start === -1) return null;
+  // Only a real top-level key: a `field:` line inside another value is text.
+  const { keys } = scanTopLevel(raw);
+  if (!keys.has(field)) return null;
+  const start = keys.get(field);
 
+  // A quoted scalar runs to its closing quote, and YAML lets its continuation
+  // lines sit at column 0. Stopping at the first unindented line left
+  // ServeYourNote's accept_criteria tails dangling under the new value.
+  const close = quotedScalarEnd(lines, start, lines[start].replace(head, ''));
+  if (close !== -1) return { start, end: close, lines };
+
+  // WS-1092: a top-level field owns every following line that is blank, indented,
+  // or a column-0 sequence item ("- x" is legal at the key's own indent). That
+  // covers block scalars, mappings, sequences, and quoted/plain scalars folded
+  // over several lines -- the old code extended only over `|` / `>` bodies, so
+  // replacing a mapping or a multi-line quoted string left its tail dangling.
   let end = start;
-  if (/^[^:]+:\s*[|>][-+0-9]*\s*$/.test(lines[start])) {
-    for (let i = start + 1; i < lines.length; i += 1) {
-      const l = lines[i];
-      if (l.trim() === '' || /^\s/.test(l)) { end = i; continue; }
-      break;
-    }
-    // Do not swallow blank lines that separate this field from the next.
-    while (end > start && lines[end].trim() === '') end -= 1;
+  for (let i = start + 1; i < lines.length; i += 1) {
+    const l = lines[i];
+    if (l.trim() === '' || /^\s/.test(l) || /^-(\s|$)/.test(l)) { end = i; continue; }
+    break;
   }
+  // Do not swallow blank lines that separate this field from the next.
+  while (end > start && lines[end].trim() === '') end -= 1;
   return { start, end, lines };
+}
+
+/**
+ * The line on which a quoted scalar that opens `value` (the text after
+ * `key:` on lines[start]) closes; -1 when the value is not quoted or never
+ * closes. Double quotes honour backslash escapes, single quotes the `''` pair.
+ */
+function quotedScalarEnd(lines, start, value) {
+  const v = value.trimStart();
+  const q = v[0];
+  if (q !== '"' && q !== "'") return -1;
+  let text = v.slice(1);
+  for (let i = start; i < lines.length; i += 1) {
+    if (i > start) text = lines[i];
+    for (let j = 0; j < text.length; j += 1) {
+      if (q === '"' && text[j] === '\\') { j += 1; continue; }
+      if (text[j] !== q) continue;
+      if (q === "'" && text[j + 1] === "'") { j += 1; continue; }
+      return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * Column-0 lines that are not a plain `identifier:` key, a sequence item, a
+ * comment or a document marker, and do not sit inside a quoted scalar.
+ *
+ * This is the positive definition of what these rewriters accept: the block
+ * mapping with identifier keys that every CWOS writer produces. Anything else
+ * -- a quoted or `? ` explicit key, a JSON-form item, a `%YAML` directive, text
+ * the reader silently drops -- is a shape the line-based writers cannot be
+ * proved safe on, because the kit reader misreads it without a warning. Listing
+ * exotic shapes one at a time is the chase that failed nine inspections on
+ * wt/fr-item; a whitelist ends it.
+ */
+function strayTopLevelLines(raw) {
+  return scanTopLevel(raw).stray;
+}
+
+/**
+ * The line on which a flow collection that opens `value` (`[` or `{`) closes;
+ * -1 when the value is not one or never closes. Quotes and comments inside it
+ * are honoured so a bracket in text does not count.
+ */
+function flowCollectionEnd(lines, start, value) {
+  const v = value.trimStart();
+  if (v[0] !== '[' && v[0] !== '{') return -1;
+  let depth = 0;
+  let quote = null;
+  for (let i = start; i < lines.length; i += 1) {
+    const text = i === start ? v : lines[i];
+    for (let j = 0; j < text.length; j += 1) {
+      const c = text[j];
+      if (quote) {
+        if (quote === '"' && c === '\\') j += 1;
+        else if (c === quote && quote === "'" && text[j + 1] === "'") j += 1;
+        else if (c === quote) quote = null;
+        continue;
+      }
+      if (c === '"' || c === "'") quote = c;
+      else if (c === '#' && (j === 0 || /\s/.test(text[j - 1]))) break;
+      else if (c === '[' || c === '{') depth += 1;
+      else if ((c === ']' || c === '}') && --depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * One pass that decides which lines are the file's real top-level keys, shared
+ * by the writers (fieldBlockRange, insertListEntry) and the check
+ * (verifyRewrite) so they cannot disagree about it.
+ *
+ * Returns { keys: Map(name -> line index), stray, hidden }:
+ *  - stray: column-0 lines that are not a plain `identifier:` key, a sequence
+ *    item, a comment or a document marker, and not inside a value.
+ *  - hidden: lines a value spills onto that the kit reader reads without a
+ *    warning as something else -- a column-0 line inside a quoted value opened
+ *    by a `- key:` sequence item, or any flow collection spanning lines. A
+ *    line there can look exactly like `corrections: []`; a writer that took it
+ *    for a key, and a check that could not see it, is inspection 4's FAIL.
+ *
+ * Together they are the positive definition of what these rewriters accept:
+ * the block mapping with identifier keys every CWOS writer produces. Listing
+ * exotic shapes one at a time is the chase that failed nine inspections on
+ * wt/fr-item; a whitelist ends it.
+ */
+function scanTopLevel(raw) {
+  const lines = raw.split('\n');
+  if (lines.length && lines[0].charCodeAt(0) === 0xFEFF) lines[0] = lines[0].slice(1);
+  const keys = new Map();
+  const stray = [];
+  const hidden = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const l = lines[i];
+    const m = l.match(/^(\s*)(-\s+)?([A-Za-z_][\w.-]*):(\s|$)/);
+    if (m) {
+      const top = m[1] === '' && !m[2];
+      if (top && !keys.has(m[3])) keys.set(m[3], i);
+      const rest = l.slice(m[0].length);
+      if (/^\s*[|>][-+0-9]*\s*(#.*)?$/.test(rest)) {
+        // A block scalar's body is text, however much of it looks like keys.
+        let end = i;
+        for (let j = i + 1; j < lines.length; j += 1) {
+          if (lines[j].trim() === '' || lines[j].length - lines[j].trimStart().length > m[1].length) end = j;
+          else break;
+        }
+        i = end;
+        continue;
+      }
+      const flow = flowCollectionEnd(lines, i, rest);
+      const end = Math.max(i, flow, quotedScalarEnd(lines, i, rest));
+      if (flow > i) hidden.push(l);
+      // Measured 2026-10-21: the reader follows a quoted value onto column-0
+      // lines under any mapping key, nested ones included, but under a `- key:`
+      // sequence item it keeps only the first line and reads the rest as keys.
+      else if (m[2]) for (let j = i + 1; j <= end; j += 1) if (/^\S/.test(lines[j])) hidden.push(lines[j]);
+      i = end;
+      continue;
+    }
+    if (l.trim() === '' || /^\s/.test(l) || /^#/.test(l) || /^-(\s|$)/.test(l) || /^(---|\.\.\.)(\s|$)/.test(l)) continue;
+    stray.push(l);
+  }
+  return { keys, stray, hidden };
+}
+
+/**
+ * Index of the first character outside YAML's printable set (tab, LF, CRLF,
+ * the printable ranges, NEL), or -1. A lone CR counts: YAML reads it as a line
+ * break, which these line-based writers do not. Code-point arithmetic rather
+ * than a regex so the ranges cannot be mangled by an escape.
+ */
+function firstUnprintable(text) {
+  for (let i = 0; i < text.length; i += 1) {
+    const c = text.codePointAt(i);
+    if (c > 0xFFFF) { i += 1; continue; }
+    const ok = c === 0x09 || c === 0x0A || (c === 0x0D && text.charCodeAt(i + 1) === 0x0A)
+      || (c >= 0x20 && c <= 0x7E) || c === 0x85 || (c >= 0xA0 && c <= 0xD7FF) || (c >= 0xE000 && c <= 0xFFFD);
+    if (!ok) return i;
+  }
+  return -1;
+}
+
+/** True when a `---` or `...` marker sits anywhere but as the first content line. */
+function hasInnerDocumentMarker(raw) {
+  const text = raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw;
+  let seenContent = false;
+  for (const l of text.split('\n')) {
+    if (!seenContent && (l.trim() === '' || /^#/.test(l))) continue;
+    const marker = /^(---|\.\.\.)(\s|$)/.test(l);
+    if (marker && (seenContent || l.startsWith('...'))) return true;
+    seenContent = true;
+  }
+  return false;
+}
+
+/**
+ * Insert a new entry first under the top-level list `key`, in whatever shape
+ * the list already has: absent, a bare `key:` header, an inline `key: []`, and
+ * entries at column 0 or indented. Returns null for any other shape (an inline
+ * list with entries, a scalar) -- the caller refuses rather than guesses.
+ *
+ * Inserted rather than re-serialized, so existing entries are never rewritten:
+ * these files carry hand-written prose the CWOS YAML subset does not
+ * round-trip losslessly. `render(pad)` returns the entry's lines at that indent.
+ */
+function insertListEntry(raw, key, render) {
+  const lines = raw.split('\n');
+  const found = scanTopLevel(raw).keys;
+  const idx = found.has(key) ? found.get(key) : -1;
+  // Remove nothing: trimEnd() ate a block scalar's trailing spaces, and
+  // stripping whitespace-only lines ate a last line that belonged to the block.
+  if (idx === -1) return `${raw.endsWith('\n') ? raw : `${raw}\n`}${key}:\n${render('  ').join('\n')}\n`;
+  const rest = lines[idx].slice(key.length + 1).replace(/\s+#.*$/, '').trim();
+  let pad = '  ';
+  if (rest === '') {
+    const next = lines.slice(idx + 1).find((l) => l.trim() !== '' && !/^\s*#/.test(l));
+    const m = next && next.match(/^( *)-(\s|$)/);
+    if (m) pad = m[1];
+  } else if (!/^\[\s*\]$/.test(rest)) {
+    return null;
+  }
+  return [...lines.slice(0, idx), `${key}:`, ...render(pad), ...lines.slice(idx + 1)].join('\n');
+}
+
+/**
+ * Prove a rewrite changed only what it meant to, on the text that will be
+ * written. Returns null when it holds, else the reason to refuse.
+ *
+ * `field`/`value`: the one top-level field allowed to change, and what it must
+ * read back as. `listKey`: the list that must have grown by exactly one entry
+ * at its head, with every older entry unchanged. Everything else -- every
+ * other top-level field, column-0 text the reader would drop -- must be as it
+ * was, and both texts must read with no warning at all.
+ */
+function verifyRewrite(beforeRaw, afterRaw, { field = null, value = null, listKey }) {
+  // The kit reader accepts both of these; YAML does not. Checked on the final
+  // text, so it holds whichever input carried them in: --to, --evidence, or an
+  // escape in the superseded text that `was` decodes.
+  const at = firstUnprintable(afterRaw);
+  if (at !== -1) {
+    const line = afterRaw.slice(0, at).split('\n').length;
+    const code = afterRaw.charCodeAt(at).toString(16).toUpperCase().padStart(4, '0');
+    return `the rewritten file would hold U+${code} at line ${line}, a character YAML does not allow `
+      + '(terminal colour codes and lone carriage returns are the usual source); remove it from the new text.';
+  }
+  if (hasInnerDocumentMarker(beforeRaw)) {
+    return 'the item holds a YAML document marker (--- or ...) after its first line, so anything '
+      + 'appended would land in a second document; edit the file by hand.';
+  }
+  const beforeWarn = [];
+  const afterWarn = [];
+  const before = parseYAML(beforeRaw, beforeWarn) || {};
+  const after = parseYAML(afterRaw, afterWarn) || {};
+  // A file the reader already misreads (14 of 7,050 fleet items on 2026-10-21,
+  // mostly column-0 lists it reads as null) cannot be checked, only guessed at.
+  if (beforeWarn.length) {
+    const w = beforeWarn[0];
+    return `the item already does not read cleanly (${w.reason} at line ${w.line}), so no rewrite of it can be checked; fix that by hand first.`;
+  }
+  if (afterWarn.length) {
+    const w = afterWarn[0];
+    return `the rewritten file would not parse cleanly (${w.reason} at line ${w.line}).`;
+  }
+  const scanBefore = scanTopLevel(beforeRaw);
+  const offForm = scanBefore.stray[0] || scanBefore.hidden[0];
+  if (offForm !== undefined) {
+    return `the item is not in the plain "key: value" form CWOS writes (line ${JSON.stringify(offForm.slice(0, 60))}), `
+      + 'so no rewrite of it can be checked; edit the file by hand.';
+  }
+  const scanAfter = scanTopLevel(afterRaw);
+  const newStray = scanAfter.stray[0] || scanAfter.hidden[0];
+  if (newStray !== undefined) return `the rewrite would leave text outside any field: ${JSON.stringify(newStray.slice(0, 60))}.`;
+  for (const k of new Set([...Object.keys(before), ...Object.keys(after)])) {
+    if (k === field || k === listKey) continue;
+    if (JSON.stringify(before[k]) !== JSON.stringify(after[k])) return `the rewrite would also change "${k}".`;
+  }
+  if (field && (typeof after[field] !== 'string' || after[field].trim() !== String(value).trim())) {
+    return `"${field}" would not read back as the new text.`;
+  }
+  const old = before[listKey] == null ? [] : before[listKey];
+  const now = after[listKey];
+  if (!Array.isArray(old)) return `"${listKey}" is not a list, so the history cannot be added to it.`;
+  if (!Array.isArray(now) || now.length !== old.length + 1
+      || JSON.stringify(now.slice(1)) !== JSON.stringify(old)) {
+    return `"${listKey}" would not read back as its old entries plus one new one.`;
+  }
+  return null;
+}
+
+/**
+ * WS-1092: the CWOS YAML reader keeps only the first line of a quoted scalar
+ * folded over several lines, so `was` would silently lose the rest of the text
+ * being superseded. Decode that one shape from the raw lines; null for any other.
+ * YAML folding: lines are trimmed and joined by a space, a blank line is a newline.
+ */
+function foldedQuotedValue(raw, field) {
+  const range = fieldBlockRange(raw, field);
+  if (!range || range.end === range.start) return null;
+  const first = range.lines[range.start].replace(new RegExp(`^${field}:\\s*`), '');
+  const q = first[0];
+  if (q !== '"' && q !== "'") return null;
+  const parts = [first, ...range.lines.slice(range.start + 1, range.end + 1)];
+  let text = parts.map((l, i) => (i === 0 ? l.trimEnd() : l.trim())).reduce((acc, l, i) => {
+    if (i === 0) return l;
+    return l === '' ? `${acc}\n` : (acc.endsWith('\n') ? acc + l : `${acc} ${l}`);
+  }, '');
+  if (text.length < 2 || text[text.length - 1] !== q) return null;
+  text = text.slice(1, -1);
+  return q === '"'
+    ? text.replace(/\\(["\\\/nt]|u[0-9a-fA-F]{4})/g, (m, c) => (c[0] === 'u' ? String.fromCharCode(parseInt(c.slice(1), 16)) : ({ n: '\n', t: '\t' }[c] || c)))
+    : text.replace(/''/g, "'");
 }
 
 /**
@@ -273,9 +610,49 @@ function readFieldValue(qPath, field) {
     fail('correct: item YAML is unreadable, so the superseded text cannot be '
        + 'preserved. Refusing to overwrite it.', { path: qPath, detail: (read && read.error) || null });
   }
+  const folded = foldedQuotedValue(fs.readFileSync(qPath, 'utf8'), field);
+  if (folded != null) return folded;
   const v = read.data[field];
   if (v == null) return null;
   return typeof v === 'string' ? v : JSON.stringify(v);
+}
+
+/**
+ * Rewrite `field` and record the superseded text, then prove the result is
+ * still the same record -- on the full text that will be written.
+ *
+ * Returns {ok:true, raw} or {ok:false, reason}. Refuses, rather than writes, when:
+ *  - the field is absent (appending would leave the wrong text in whatever
+ *    field the item really uses, and report success);
+ *  - its value carries an anchor, alias or tag (the CWOS reader cannot see
+ *    them, so nothing could check what replacing it breaks);
+ *  - its current value is a mapping or list (a prose --to would flatten it);
+ *  - `corrections:` has a shape insertListEntry does not know;
+ *  - verifyRewrite finds anything else changed. Checking only the field swap
+ *    let the history insert duplicate an inline `corrections: []` key and mix
+ *    indents into a column-0 list, while reporting yaml_written true.
+ */
+function buildCorrection(raw, field, value, entry) {
+  const range = fieldBlockRange(raw, field);
+  if (!range) {
+    return { ok: false, reason: `the item has no "${field}" field, so there is nothing to correct. `
+      + 'Appending one would leave the wrong text in whichever field the item actually uses.' };
+  }
+  if (/^[&*!]/.test(range.lines[range.start].slice(field.length + 1).trim())) {
+    return { ok: false, reason: `"${field}" carries a YAML anchor, alias or tag, which the kit reader `
+      + 'cannot check a rewrite against; edit the file by hand.' };
+  }
+  const cur = (parseYAML(raw, []) || {})[field];
+  if (cur !== null && typeof cur === 'object') {
+    return { ok: false, reason: `"${field}" holds a ${Array.isArray(cur) ? 'list' : 'mapping'}, not text. `
+      + 'Replacing it with a prose value would destroy its structure; edit the file by hand.' };
+  }
+  const next = insertCorrection(patchField(raw, field, value), entry);
+  if (next == null) {
+    return { ok: false, reason: '"corrections" is not a list this command can add to; edit the file by hand.' };
+  }
+  const why = verifyRewrite(raw, next, { field, value, listKey: 'corrections' });
+  return why ? { ok: false, reason: why } : { ok: true, raw: next };
 }
 
 /** Block scalar when the value spans lines, quoted scalar when it does not. */
@@ -283,12 +660,7 @@ function renderField(field, value) {
   if (!String(value).includes('\n')) {
     return `${field}: "${escapeYamlString(String(value))}"`;
   }
-  const body = String(value)
-    .replace(/\s+$/, '')
-    .split('\n')
-    .map((l) => (l.length ? `  ${l}` : ''))
-    .join('\n');
-  return `${field}: |\n${body}`;
+  return blockScalarLines(field, String(value).replace(/\s+$/, '')).join('\n');
 }
 
 function patchField(raw, field, value) {
@@ -300,31 +672,21 @@ function patchField(raw, field, value) {
 }
 
 /**
- * Record the superseded text in the item file, newest first.
- *
- * Inserted directly under the `corrections:` key rather than re-serialized,
- * so existing entries are never rewritten -- the same reason patchScalar is
- * regex-based: these files carry hand-written prose the CWOS YAML subset does
- * not round-trip losslessly.
+ * Record the superseded text in the item file, newest first, under
+ * `corrections:`. Null when that list has a shape insertListEntry refuses.
  */
 function insertCorrection(raw, entry) {
-  const wasBody = String(entry.was == null ? '' : entry.was)
-    .replace(/\s+$/, '')
-    .split('\n')
-    .map((l) => (l.length ? `        ${l}` : ''))
-    .join('\n');
-  const block = [
-    `  - at: "${entry.at}"`,
-    `    field: ${entry.field}`,
-    `    reason: "${escapeYamlString(entry.reason)}"`,
-    entry.event ? `    event: "${entry.event}"` : null,
-    entry.was == null ? '    was: null' : `    was: |\n${wasBody}`,
-  ].filter(Boolean).join('\n');
-
-  if (/^corrections:\s*$/m.test(raw)) {
-    return raw.replace(/^corrections:\s*$/m, `corrections:\n${block}`);
-  }
-  return `${raw.trimEnd()}\ncorrections:\n${block}\n`;
+  return insertListEntry(raw, 'corrections', (pad) => [
+    `${pad}- at: "${entry.at}"`,
+    `${pad}  field: ${entry.field}`,
+    `${pad}  reason: "${escapeYamlString(entry.reason)}"`,
+    entry.event ? `${pad}  event: "${entry.event}"` : null,
+    // The body sits 4 spaces inside its key; the header says so when the old
+    // text's first line is itself indented (see blockScalarHeader).
+    ...(entry.was == null
+      ? [`${pad}  was: null`]
+      : blockScalarLines('was', String(entry.was).replace(/\s+$/, ''), { indent: pad.length + 2, bodyIndent: 4 })),
+  ].filter((l) => l != null));
 }
 
 function patchStatus(raw, status) {
@@ -332,6 +694,163 @@ function patchStatus(raw, status) {
     return raw.replace(/^status:\s*.*$/m, `status: ${status}`);
   }
   return `status: ${status}\n` + raw;
+}
+
+/**
+ * Record an inspection, newest first, under `inspections:` (WS-941 gap 3).
+ * Same insert-don't-reserialize shape as insertCorrection: a FAIL stays in the
+ * file when a later PASS lands, because an item that failed inspection once is
+ * evidence about the work, and overwriting it is tidying.
+ */
+function insertInspection(raw, entry) {
+  return insertListEntry(raw, 'inspections', (pad) => [
+    `${pad}- at: "${entry.at}"`,
+    `${pad}  verdict: ${entry.verdict}`,
+    `${pad}  inspector: "${escapeYamlString(entry.inspector)}"`,
+    entry.diff ? `${pad}  diff: "${escapeYamlString(entry.diff)}"` : null,
+    entry.event ? `${pad}  event: "${entry.event}"` : null,
+    // An inspector's evidence is free text. Its first line being indented must
+    // not let a later line such as `verdict: pass` be read as this entry's field.
+    ...blockScalarLines('evidence', String(entry.evidence || '').replace(/\s+$/, ''), { indent: pad.length + 2, bodyIndent: 4 }),
+  ].filter((l) => l != null));
+}
+
+/**
+ * Record an inspection and prove only the history grew. {ok, raw} or {ok:false, reason}.
+ */
+function buildInspection(raw, entry) {
+  const next = insertInspection(raw, entry);
+  if (next == null) {
+    return { ok: false, reason: '"inspections" is not a list this command can add to; edit the file by hand.' };
+  }
+  const why = verifyRewrite(raw, next, { listKey: 'inspections' });
+  return why ? { ok: false, reason: why } : { ok: true, raw: next };
+}
+
+function runInspect(args) {
+  assertKnownFlags('inspect', args.slice(1));
+  const id = args[0];
+  if (!id || !/^WS-[A-Za-z0-9-]+$/.test(String(id))) {
+    fail('inspect: first argument must be a work item id (e.g. WS-941)', { got: id || null });
+  }
+  const verdict = String(readFlag(args, 'verdict') || '').trim().toLowerCase();
+  if (!inspectionGate.VERDICTS.has(verdict)) fail('inspect: --verdict must be pass or fail', { got: verdict || null });
+  const inspector = String(readFlag(args, 'inspector') || '').trim();
+  if (!inspector) {
+    fail('inspect: --inspector is required — name the agent (or person) who inspected, not the session that built it');
+  }
+  let evidence = readFlag(args, 'evidence');
+  if (evidence === '-') { try { evidence = fs.readFileSync(0, 'utf8'); } catch { evidence = ''; } }
+  evidence = String(evidence || '').trim();
+  if (evidence.length < inspectionGate.MIN_INSPECTION_EVIDENCE) {
+    fail(`inspect: --evidence must be at least ${inspectionGate.MIN_INSPECTION_EVIDENCE} chars — one line per ` +
+      'accept criterion, each with the pointer it was checked against (--evidence - reads stdin)',
+      { got_chars: evidence.length });
+  }
+  const diff = readFlag(args, 'diff');
+  // WS-1239: what the convergent-gate redesign measures itself against. The
+  // kind of break and the contract are named by whoever ran the inspection;
+  // round and tier are read from the record so nobody can type them.
+  const breakClass = readFlag(args, 'class');
+  if (breakClass !== null && !/^[a-z0-9]+(?:[-/][a-z0-9]+)*$/.test(String(breakClass))) {
+    fail('inspect: --class must be a slug such as yaml/quoted-continuation (lowercase, digits, - and /)', { got: breakClass });
+  }
+  const contractRef = readFlag(args, 'contract-ref');
+  if (contractRef !== null && (!String(contractRef).trim() || String(contractRef).length > 200 || firstUnprintable(String(contractRef)) !== -1)) {
+    fail('inspect: --contract-ref must be a path or id of at most 200 printable characters', { got: contractRef });
+  }
+  const tokensRaw = readFlag(args, 'tokens');
+  if (tokensRaw !== null && !/^\d+$/.test(String(tokensRaw))) {
+    fail("inspect: --tokens must be a whole number: the inspector's total tokens, as its run reported them", { got: tokensRaw });
+  }
+
+  const wsDir = findWorkstreamDir(process.cwd());
+  if (!wsDir) fail(`inspect: no .claude/workstream directory found from ${process.cwd()}`);
+  const qPath = queuePathFor(wsDir, id);
+  if (!fs.existsSync(qPath)) fail(`inspect: no such item: ${id}`, { looked_in: qPath });
+  const before = readYAMLFile(qPath);
+  const record = before && before.ok && before.data ? before.data : {};
+  const round = (Array.isArray(record.inspections) ? record.inspections.length : 0) + 1;
+  const tier = record.severity ? String(record.severity) : (record.inspection === 'required' ? 'required' : null);
+
+  const at = new Date().toISOString();
+  // WS-1092: a refused inspection must leave neither a damaged file nor an event.
+  const probe = buildInspection(fs.readFileSync(qPath, 'utf8'),
+    { at, verdict, inspector, diff, evidence, event: 'ev-0-probe' });
+  if (!probe.ok) fail(`inspect: refusing to record on ${id}: ${probe.reason}`, { id });
+
+  let eventId = null;
+  const { appendEvent, ensureCommandId } = loadEventDeps();
+  if (appendEvent) {
+    try {
+      const evtArgs = {
+        source_track: 'T6:workstream',
+        source_tier: 'founder-prompt',
+        track_tag: 'item_inspected',
+        payload: {
+          type: 'item_inspected', ws_id: id, verdict, inspector,
+          diff: diff || null, evidence_chars: evidence.length,
+          gate_version: 1, round, tier,
+          class: breakClass, contract_ref: contractRef,
+          tokens: tokensRaw === null ? null : Number(tokensRaw),
+        },
+      };
+      if (ensureCommandId) {
+        try { evtArgs.command_id = ensureCommandId('item-inspect'); } catch { /* non-fatal */ }
+      }
+      const r = appendEvent(evtArgs);
+      if (r && r.ok && r.event) eventId = r.event.id;
+    } catch { /* non-fatal per AS-23 */ }
+  }
+
+  withFileLock(qPath + '.lock', () => {
+    const built = buildInspection(fs.readFileSync(qPath, 'utf8'), { at, verdict, inspector, diff, evidence, event: eventId });
+    if (!built.ok) fail(`inspect: refusing to record on ${id}: ${built.reason}`, { id, event_id: eventId });
+    writeFileAtomic(qPath, built.raw);
+  }, { ownerLabel: 'item:inspect', maxWaitMs: 5000 });
+
+  const after = readYAMLFile(qPath);
+  const gate = inspectionGate.gateItem(after && after.ok ? after.data : null);
+  writeJson({
+    ok: true, id, verb: 'inspect', verdict, inspector, at, event_id: eventId, round,
+    closable: gate.ok, gate_reason: gate.reason,
+    next: gate.ok ? 'the item may close' : `not closable yet: ${gate.reason}`,
+  });
+}
+
+/**
+ * The inspection gate for a closure path (WS-941 gap 3). Returns null when the
+ * item may close on its record, a waiver descriptor when --skip-inspection was
+ * given and logged, and exits via fail() otherwise.
+ */
+function enforceInspection(id, data, args, closurePath) {
+  const gate = inspectionGate.gateItem(data);
+  if (gate.ok) return null;
+  const waiver = readFlag(args, 'skip-inspection');
+  if (waiver == null) {
+    fail(`done: ${id} needs an independent inspection before it closes (${gate.reason}). ` +
+      inspectionGate.refusalHint([id]), { inspection_required: true, reason: gate.reason });
+  }
+  const rationale = String(waiver).trim();
+  if (rationale.length < inspectionGate.MIN_WAIVER_RATIONALE) {
+    fail(`done: --skip-inspection rationale must be at least ${inspectionGate.MIN_WAIVER_RATIONALE} chars`);
+  }
+  const { appendEvent, ensureCommandId } = loadEventDeps();
+  if (appendEvent) {
+    try {
+      const evtArgs = {
+        source_track: 'T6:workstream',
+        source_tier: 'founder-prompt',
+        track_tag: 'inspection_waived',
+        payload: { type: 'inspection_waived', ws_id: id, rationale, reason: gate.reason, closure_path: closurePath },
+      };
+      if (ensureCommandId) {
+        try { evtArgs.command_id = ensureCommandId('inspection-waived'); } catch { /* non-fatal */ }
+      }
+      appendEvent(evtArgs);
+    } catch { /* non-fatal */ }
+  }
+  return { waived: true, rationale };
 }
 
 function runTransition(verb, args) {
@@ -437,10 +956,24 @@ function runTransition(verb, args) {
     } catch { /* non-fatal per AS-23 */ }
   }
 
+  // Releasing is exactly the act of dropping ownership. Leaving a stale claimed_by
+  // behind would recreate the state this verb exists to exit. The lease machinery
+  // runs first so a live holder is recorded as released_by and its lease sidecar
+  // forgets the item (WS-1073); it is a no-op for an ownerless item.
+  let claimReleased = null;
+  if (verb === 'release') {
+    claimReleased = true;
+    try { require('./lib/cwos-claims').releaseItems(wsDir, [id]); } catch { claimReleased = false; }
+  }
+
   try {
     withFileLock(qPath + '.lock', () => {
       let raw = fs.readFileSync(qPath, 'utf8');
       raw = patchStatus(raw, targetStatus);
+      if (verb === 'release') {
+        // A real null, as releaseItems writes it — not patchScalar's quoted "".
+        raw = raw.replace(/^claimed_by:.*$/m, 'claimed_by: null').replace(/^claimed_at:.*$/m, 'claimed_at: null');
+      }
       raw = patchScalar(raw, spec.stampField, stamp);
       raw = patchScalar(raw, spec.reasonField, reason.trim());
       if (until) raw = patchScalar(raw, 'resume_condition', until.trim());
@@ -468,6 +1001,7 @@ function runTransition(verb, args) {
     reason: reason.trim(),
     resume_condition: until ? until.trim() : null,
     superseded_by: supersededBy || null,
+    ...(verb === 'release' ? { claim_released: claimReleased } : {}),
     event_id: eventId,
     yaml_written: true,
     next: 'run node kit/scripts/cwos-reconcile.js to re-derive queue-index + program caps',
@@ -599,6 +1133,9 @@ function runCorrect(args) {
       fail(`correct: could not read the new value from stdin: ${e.message}`);
     }
   }
+  // Windows stdin arrives CRLF; the block writer stores LF, so an unnormalised
+  // value never read back as itself and every multi-line correction was refused.
+  to = String(to).replace(/\r\n/g, '\n');
   if (!String(to).trim()) {
     fail('correct: the new value is empty. To remove a claim rather than replace it, '
        + 'say so explicitly in the new text -- a blank field reads as "never asserted".');
@@ -618,7 +1155,16 @@ function runCorrect(args) {
     );
   }
 
+  // WS-1092: prove the rewrite is safe BEFORE the event is appended -- a refused
+  // correction must leave neither a damaged file nor an event claiming it happened.
+  // The probe carries a placeholder event id of the real one's shape.
   const stamp = todayISO();
+  const entry = { at: stamp, field, reason: reason.trim(), event: 'ev-0-probe', was };
+  const probe = buildCorrection(fs.readFileSync(qPath, 'utf8'), field, String(to).trim(), entry);
+  if (!probe.ok) {
+    fail(`correct: refusing to rewrite ${field} on ${id}: ${probe.reason}`, { field, id });
+  }
+
   const { appendEvent, ensureCommandId } = loadEventDeps();
 
   // Event first — the commit point, per design commitment 4.
@@ -649,20 +1195,17 @@ function runCorrect(args) {
 
   try {
     withFileLock(qPath + '.lock', () => {
-      let raw = fs.readFileSync(qPath, 'utf8');
-      raw = patchField(raw, field, String(to).trim());
-      raw = insertCorrection(raw, {
-        at: stamp, field, reason: reason.trim(), event: eventId, was,
-      });
-      writeFileAtomic(qPath, raw);
+      const safe = buildCorrection(fs.readFileSync(qPath, 'utf8'), field, String(to).trim(),
+        { ...entry, event: eventId });
+      if (!safe.ok) throw new Error(safe.reason);
+      writeFileAtomic(qPath, safe.raw);
     }, { ownerLabel: 'item:correct', maxWaitMs: 5000 });
   } catch (e) {
-    writeJson({
-      ok: true, id, verb: 'correct', field, event_id: eventId, yaml_written: false,
-      warning: `YAML write failed: ${e.message}`,
-      next: 'run node kit/scripts/cwos-reconcile.js to re-derive indexes',
-    });
-    return;
+    // Only reachable when the file changed between the probe and the lock. The
+    // event is already in the log, so say so rather than report success.
+    fail(`correct: the item changed while this ran and the rewrite was refused (${e.message}); `
+       + 'the file is untouched but the item_corrected event was already logged. Re-run correct.',
+    { id, field, event_id: eventId, yaml_written: false });
   }
 
   writeJson({
@@ -678,6 +1221,163 @@ function runCorrect(args) {
     next: field === 'title'
       ? 'run node kit/scripts/cwos-reconcile.js — queue-index carries the title and still shows the old one'
       : 'run node kit/scripts/cwos-reconcile.js to re-derive queue-index',
+  });
+}
+
+// ─── scope ──────────────────────────────────────────────────────────────────
+//
+// `cwos-item scope WS-NNN --files "a,b" --reason "<why>" [--new "x"] [--replace]`
+//
+// The autonomous gate fails closed on an item with no `files_involved`, and until
+// this verb nothing could add that field to an EXISTING item: `add` sets it only
+// at creation, `correct` refuses list fields and absent fields. That left the
+// unattended pool near zero while most of the backlog sat one field short.
+//
+// Scope is a claim about where the work lands, so it is validated the way the
+// gate will read it. isPathShaped below mirrors the one in
+// cwos-autonomous-gate.js (that script runs main() on require, so it cannot be
+// imported); the test extracts the gate's function and checks the two agree.
+
+/** Same rule as the gate's isPathShaped: slash or extension, no spaces, no "Label: ". */
+function isPathShaped(entry) {
+  if (typeof entry !== 'string') return false;
+  const s = entry.trim();
+  if (!s || s.length > 260) return false;
+  if (/:\s/.test(s)) return false;
+  if (/\s/.test(s)) return false;
+  return s.includes('/') || s.includes('\\') || /\.[A-Za-z0-9]{1,10}$/.test(s);
+}
+
+function splitList(v) {
+  return String(v).split(',').map((s) => s.trim()).filter(Boolean);
+}
+
+/** Line range of a top-level `files_involved` (flow or block list), or null. */
+function filesInvolvedRange(raw) {
+  const lines = raw.split('\n');
+  const start = lines.findIndex((l) => /^files_involved:(\s|$)/.test(l));
+  if (start === -1) return null;
+  let end = start;
+  if (/^files_involved:\s*$/.test(lines[start])) {
+    for (let i = start + 1; i < lines.length; i += 1) {
+      if (/^\s+\S/.test(lines[i]) || /^-\s/.test(lines[i])) end = i; else break;
+    }
+  }
+  return { start, end, lines };
+}
+
+function runScope(args) {
+  assertKnownFlags('scope', args.slice(1));
+  const id = args[0];
+  if (!id || !/^WS-[A-Za-z0-9-]+$/.test(String(id))) {
+    fail('scope: first argument must be a work item id (e.g. WS-123)', { got: id || null });
+  }
+  const filesFlag = readFlag(args, 'files');
+  if (filesFlag == null) fail('scope: --files "a,b,c" is required');
+  const files = splitList(filesFlag);
+  if (files.length === 0) fail('scope: --files is empty');
+  const reason = readFlag(args, 'reason');
+  if (!reason || reason.trim().length < MIN_REASON_LEN) {
+    fail(`scope: --reason is required and must be at least ${MIN_REASON_LEN} characters`, {
+      got: reason ? reason.trim().length : 0,
+      why: 'say why this is the scope. A scope with no rationale is a guess the gate will treat as a fact.',
+    });
+  }
+  const newFlag = readFlag(args, 'new');
+  const created = newFlag == null ? [] : splitList(newFlag);
+  const replace = args.includes('--replace');
+
+  const notShaped = [...files, ...created].filter((p) => !isPathShaped(p));
+  if (notShaped.length) {
+    fail('scope: entries must be path-shaped (a slash or an extension, no spaces, no "Label: " prefix)', { bad: notShaped });
+  }
+  const strayNew = created.filter((p) => !files.includes(p));
+  if (strayNew.length) {
+    fail('scope: every --new path must also appear in --files', { bad: strayNew });
+  }
+
+  const wsDir = findWorkstreamDir(process.cwd());
+  if (!wsDir) fail('scope: no .claude/workstream directory found');
+  const qPath = queuePathFor(wsDir, id);
+  if (!fs.existsSync(qPath)) fail(`scope: no such item: ${id}`, { looked_in: qPath });
+
+  const root = findRepoRoot(process.cwd());
+  const missing = [];
+  const outside = [];
+  for (const p of files) {
+    if (created.includes(p)) continue;
+    const abs = path.resolve(root, p);
+    const rel = path.relative(root, abs);
+    if (path.isAbsolute(p) || rel.startsWith('..') || path.isAbsolute(rel)) { outside.push(p); continue; }
+    if (!fs.existsSync(abs)) missing.push(p);
+  }
+  if (outside.length) fail('scope: paths must be relative and inside the repo', { bad: outside, repo_root: root });
+  if (missing.length) {
+    fail('scope: path does not exist under the repo root. If the item will create it, list it in --new.', { missing, repo_root: root });
+  }
+
+  const read = readYAMLFile(qPath);
+  if (!read || !read.ok || !read.data) {
+    fail('scope: item YAML is unreadable; refusing to edit it', { path: qPath });
+  }
+  const status = String(read.data.status || '');
+  if (status === 'done' || status === 'dismissed') {
+    fail(`scope: ${id} is ${status}; scope on a closed item is meaningless`, { status });
+  }
+  const was = Array.isArray(read.data.files_involved) ? read.data.files_involved.map(String) : [];
+  if (was.length > 0 && !replace) {
+    fail(`scope: ${id} already has files_involved; pass --replace to overwrite`, { current: was });
+  }
+
+  const stamp = todayISO();
+  const line = `files_involved: ${JSON.stringify(files)}`;
+  const { appendEvent, ensureCommandId } = loadEventDeps();
+  let eventId = null;
+  if (appendEvent) {
+    try {
+      const evtArgs = {
+        source_track: 'T6:workstream',
+        source_tier: 'founder-prompt',
+        track_tag: 'item_scoped',
+        payload: {
+          type: 'item_scoped', id, ws_id: id, files, new_files: created,
+          was, reason: reason.trim(), at: stamp,
+        },
+      };
+      if (ensureCommandId) {
+        try { evtArgs.command_id = ensureCommandId('item-scope'); } catch { /* non-fatal */ }
+      }
+      const r = appendEvent(evtArgs);
+      if (r && r.ok && r.event) eventId = r.event.id;
+    } catch { /* non-fatal per AS-23 */ }
+  }
+
+  try {
+    withFileLock(qPath + '.lock', () => {
+      const raw = fs.readFileSync(qPath, 'utf8');
+      const range = filesInvolvedRange(raw);
+      let next;
+      if (range) {
+        range.lines.splice(range.start, range.end - range.start + 1, line);
+        next = range.lines.join('\n');
+      } else {
+        next = raw.trimEnd() + `\n${line}\n`;
+      }
+      writeFileAtomic(qPath, next);
+    }, { ownerLabel: 'item:scope', maxWaitMs: 5000 });
+  } catch (e) {
+    writeJson({
+      ok: true, id, verb: 'scope', files, event_id: eventId, yaml_written: false,
+      warning: `YAML write failed: ${e.message}`,
+      next: 'run node kit/scripts/cwos-reconcile.js to re-derive indexes',
+    });
+    return;
+  }
+
+  writeJson({
+    ok: true, id, verb: 'scope', files, new_files: created, was,
+    reason: reason.trim(), event_id: eventId, yaml_written: true, path: qPath,
+    next: 'run node kit/scripts/cwos-reconcile.js to re-derive queue-index',
   });
 }
 
@@ -761,14 +1461,29 @@ function renderNewItem(fields) {
   lines.push('  type: manual');
   lines.push('  created_by: cwos-item add');
   if (fields.session) lines.push(`  session: ${formatScalar(fields.session)}`);
-  lines.push(`  rationale: ${formatScalar(fields.why)}`);
+  // A multi-line rationale is a block scalar, as description and accept_criteria are:
+  // a scalar slot would join its lines with spaces and lose the structure the author
+  // wrote (claude-poker-tracker INV-006 repair, 2026-09-23). The block header guards the
+  // first-line-indented case (WS-942), so no body line can be read as a field.
+  if (String(fields.why).includes('\n')) {
+    const why = String(fields.why).replace(/\s+$/, '');
+    lines.push(...blockScalarLines('rationale', why, { indent: 2 }));
+  } else {
+    lines.push(`  rationale: ${formatScalar(fields.why)}`);
+  }
   lines.push(`blocked_by: ${fields.blocked_by.length ? JSON.stringify(fields.blocked_by) : '[]'}`);
   lines.push('enables: []');
   if (fields.description) {
-    lines.push('description: |');
-    for (const ln of String(fields.description).split('\n')) lines.push(`  ${ln}`);
+    // The header says where the body starts when its first line is indented;
+    // without it, the rest of a pasted body is read as fields of the item.
+    lines.push(...blockScalarLines('description', fields.description));
   }
-  if (fields.accept_criteria) push('accept_criteria', fields.accept_criteria);
+  // Criteria that span lines go in a block scalar. A scalar slot holds one
+  // line, and formatScalar would join them with spaces.
+  if (fields.accept_criteria) {
+    if (String(fields.accept_criteria).includes('\n')) lines.push(renderField('accept_criteria', fields.accept_criteria));
+    else push('accept_criteria', fields.accept_criteria);
+  }
   // WS-789: risk-schema fields, emitted only when declared — an explicit
   // `external_acts: []` (via --external-acts none) is a recorded answer, while
   // an absent field is an unasked question the gate's other checks still fail
@@ -953,6 +1668,37 @@ function runAdd(args) {
   const filesInvolved = (readFlag(args, 'files-involved') || '')
     .split(',').map((s) => s.trim()).filter(Boolean);
 
+  // WS-942: a description passed as argv is parsed by the caller's shell
+  // before this script sees it, and inside double quotes a backtick is command
+  // substitution. That is how a Stripe test key reached WS-719.yaml: the shell
+  // ran the quoted text and pasted the output into the item. `--description -`
+  // (stdin) and `--description-file <path>` hand the text over without any
+  // shell reading it. An empty read is refused rather than written: an item
+  // that silently lost its body looks exactly like one that never had one.
+  let description = readFlag(args, 'description');
+  const descriptionFile = readFlag(args, 'description-file');
+  // readFlag returns null for a flag given last with no value. For these two
+  // that would create the item with no body and exit 0.
+  for (const flag of ['description', 'description-file']) {
+    if (args[args.length - 1] === `--${flag}`) fail(`add: --${flag} needs a value`);
+  }
+  if (description != null && descriptionFile != null) {
+    fail('add: pass --description or --description-file, not both');
+  }
+  if (description != null && description.trim() === '') fail('add: --description is empty');
+  if (description === '-' || descriptionFile != null) {
+    const from = descriptionFile != null ? `--description-file ${descriptionFile}` : 'stdin';
+    try {
+      description = fs.readFileSync(descriptionFile != null ? path.resolve(descriptionFile) : 0, 'utf8');
+    } catch (e) {
+      fail(`add: could not read the description from ${from}: ${e.message}`);
+    }
+    // A leading byte-order mark is an editor artifact, not part of the text.
+    if (description.charCodeAt(0) === 0xFEFF) description = description.slice(1);
+    description = description.replace(/\r\n/g, '\n').replace(/\s+$/, '');
+    if (!description) fail(`add: the description read from ${from} is empty`);
+  }
+
   const fields = {
     title,
     status: 'backlog',
@@ -969,7 +1715,7 @@ function runAdd(args) {
     session: session || null,
     why: why.trim(),
     blocked_by: blockedBy,
-    description: readFlag(args, 'description'),
+    description,
     accept_criteria: readFlag(args, 'accept-criteria'),
     external_acts: externalActs,
     facts_needed: factsNeeded,
@@ -1128,6 +1874,38 @@ function runDoneItem(args) {
     );
   }
 
+  // WS-941 gap 3: a high/critical (or opted-in) item closes on an independent
+  // inspector's PASS, not on the builder's word.
+  const inspectionWaiver = enforceInspection(id, read.data, args, 'cwos-item done');
+
+  // WS-1311: an item raised for a maintenance finding closes only once that
+  // finding has, or on a recorded override.
+  {
+    const mfg = require('./lib/maintenance-finding-gate');
+    const g = mfg.gateMaintenanceItem(read.data, findRepoRoot(process.cwd()) || process.cwd());
+    if (!g.ok) {
+      const why = readFlag(args, 'finding-open');
+      if (why == null) {
+        fail(`done: ${id} cannot close: ${g.reason}. ` + mfg.refusalHint(g.finding_id),
+          { finding_open: true, finding_id: g.finding_id });
+      }
+      if (String(why).trim().length < mfg.MIN_OVERRIDE_RATIONALE) {
+        fail(`done: --finding-open rationale must be at least ${mfg.MIN_OVERRIDE_RATIONALE} chars`);
+      }
+      const { appendEvent: ae, ensureCommandId: ec } = loadEventDeps();
+      if (ae) {
+        try {
+          const ev = {
+            source_track: 'T6:workstream', source_tier: 'founder-prompt', track_tag: 'finding_open_override',
+            payload: { type: 'finding_open_override', ws_id: id, finding_id: g.finding_id, rationale: String(why).trim(), closure_path: 'cwos-item done' },
+          };
+          if (ec) { try { ev.command_id = ec('finding-open-override'); } catch { /* non-fatal */ } }
+          ae(ev);
+        } catch { /* non-fatal */ }
+      }
+    }
+  }
+
   const notes = readFlag(args, 'notes');
   const completedAt = readFlag(args, 'clock') || new Date().toISOString();
 
@@ -1222,6 +2000,7 @@ function runDoneItem(args) {
     claim_released: claimReleased,
     auto_resolved: sideEffects.auto_resolved,
     friction_announce: sideEffects.friction_announce,
+    inspection_waived: inspectionWaiver ? inspectionWaiver.rationale : null,
     next: 'run node kit/scripts/cwos-reconcile.js to re-derive queue-index + program caps',
   };
   if (writeWarning) out.warning = `YAML write failed: ${writeWarning}`;
@@ -1230,10 +2009,12 @@ function runDoneItem(args) {
 
 function main() {
   const args = process.argv.slice(2);
-  const sub = args[0];
+  let sub = args[0];
+  // --help anywhere after a subcommand explains and never acts.
+  if (sub && !sub.startsWith('-') && (args.includes('--help') || args.includes('-h'))) sub = '--help';
   if (!sub || sub === '--help' || sub === '-h') {
     process.stdout.write(
-      'usage: cwos-item <add|done|defer|dismiss|restore|tag|correct|show> WS-NNN [options]\n' +
+      'usage: cwos-item <add|done|defer|dismiss|restore|release|tag|correct|scope|inspect|show> WS-NNN [options]\n' +
       '\n' +
       'subcommands:\n' +
       '  add     "<title>" --program <id> --why "<text>" [options]\n' +
@@ -1241,8 +2022,11 @@ function main() {
       '  defer   WS-NNN --reason "<text>" --until "<resume condition>"\n' +
       '  dismiss WS-NNN --reason "<text>" [--superseded-by WS-MMM]\n' +
       '  restore WS-NNN --reason "<text>"\n' +
+      '  release WS-NNN --reason "<text>"   (claimed|in_progress|review -> backlog, drops the claim)\n' +
       '  tag     WS-NNN --customer-impact "RepoA,RepoB"   ("" clears)\n' +
       '  correct WS-NNN --field <f> --to "<text>" --reason "<why it was wrong>"\n' +
+      '  scope   WS-NNN --files "a,b,c" --reason "<why this is the scope>" [--new "x,y"] [--replace]\n' +
+      '  inspect WS-NNN --verdict pass|fail --inspector "<id>" --evidence "<text>" [--diff <range>]\n' +
       '  show    WS-NNN\n' +
       '\n' +
       'add options:\n' +
@@ -1257,7 +2041,11 @@ function main() {
       '  --capability <c>        default workstream\n' +
       '  --dedup-key <key>       refuses if another item already holds it\n' +
       '  --blocked-by WS-A,WS-B  each must exist\n' +
-      '  --description "<text>"  long-form body\n' +
+      '  --description "<text>"  long-form body; --description - reads it from stdin\n' +
+      '  --description-file <path>\n' +
+      '                          long-form body read from a file. Use this or stdin for\n' +
+      '                          any text holding backticks or $(...): inside a double-\n' +
+      '                          quoted argument the shell runs them first (WS-942)\n' +
       '  --accept-criteria "<text>"\n' +
       '  --customer-impact "RepoA,RepoB"\n' +
       '                          fleet repos this item serves; names are validated\n' +
@@ -1277,11 +2065,31 @@ function main() {
       'done options:\n' +
       '  --notes "<text>"        completion notes\n' +
       '  --commit <sha>          default: current git HEAD\n' +
+      '  --skip-inspection "<why>"  close a high/critical item with no inspection PASS;\n' +
+      '                          logged as inspection_waived (founder escape valve)\n' +
+      '\n' +
+      'inspect options (WS-941): high/critical items, and any item carrying\n' +
+      '`inspection: required`, close only on an independent PASS recorded here.\n' +
+      '  --verdict pass|fail     the inspector verdict\n' +
+      '  --inspector "<id>"      who inspected: a fresh subagent, never the builder\n' +
+      '  --evidence "<text>"     one line per accept criterion with its pointer (>=40 chars);\n' +
+      '                          --evidence - reads stdin\n' +
+      '  --diff <range>          the commit range inspected\n' +
+      '  --class <slug>          the kind of break a FAIL found, e.g. yaml/quoted-continuation\n' +
+      '  --contract-ref <ref>    the contract the item was judged against (path or id)\n' +
+      "  --tokens <n>            the inspector's total tokens, as its run reported them\n" +
+      '                          (round and tier are read from the item, never typed)\n' +
       '\n' +
       'correct options:\n' +
       `  --field <f>             one of: ${CORRECTABLE_FIELDS.join(', ')}\n` +
       '  --to "<text>"           the corrected text; --to - reads it from stdin\n' +
       '  --reason "<text>"       why the old text was wrong, and how that is known\n' +
+      '\n' +
+      'scope options: sets files_involved on an EXISTING item so the autonomous gate can\n' +
+      'see it. Each path must be path-shaped (slash or extension, no spaces, no "Label: "\n' +
+      'prefix) and exist under the repo root, unless listed in --new (paths the item will\n' +
+      'create; each must also be in --files). Refused (exit 2) if the item is done or\n' +
+      'dismissed, or already has scope and --replace was not passed.\n' +
       '\n' +
       '`correct` changes what an item CLAIMS, never what it IS. It refuses status,\n' +
       'priority_score and program: those are state, they have their own verbs, and\n' +
@@ -1301,11 +2109,13 @@ function main() {
   if (sub === 'add') return runAdd(args.slice(1));
   if (sub === 'tag') return runTag(args.slice(1));
   if (sub === 'correct') return runCorrect(args.slice(1));
+  if (sub === 'scope') return runScope(args.slice(1));
+  if (sub === 'inspect') return runInspect(args.slice(1));
   if (sub === 'done') return runDoneItem(args.slice(1));
   if (TRANSITIONS[sub]) return runTransition(sub, args.slice(1));
   process.stderr.write(
     `cwos-item: unknown subcommand: ${sub}\n` +
-    'known: add, done, defer, dismiss, restore, tag, correct, show — run with --help for options\n'
+    'known: add, done, defer, dismiss, restore, release, tag, correct, scope, inspect, show — run with --help for options\n'
   );
   process.exit(2);
 }
@@ -1325,8 +2135,13 @@ module.exports = {
   renderField,
   fieldBlockRange,
   insertCorrection,
+  insertInspection,
+  buildCorrection,
+  buildInspection,
+  verifyRewrite,
   CORRECTABLE_FIELDS,
   normalizeProgramId,
   openSprintsContaining,
   renderNewItem,
+  isPathShaped,
 };

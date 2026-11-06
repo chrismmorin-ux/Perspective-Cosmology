@@ -2,7 +2,7 @@
  * reducers/findings.js — T6:workstream findings reducer (WS-201).
  *
  * Materializes state/findings.json from `.claude/workstream/findings/
- * FIND-*.yaml` on any T6:workstream event. Pragmatic filesystem-read
+ * FIND-*.yaml` (and `FND-*.yaml`, WS-991) on any T6:workstream event. Pragmatic filesystem-read
  * pattern matching the queue reducer (WS-196).
  *
  * Zero external dependencies.
@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { readYAMLFile, globFiles } = require('../../lib/cwos-utils');
+const { readYAMLFile, globFindingFiles } = require('../../lib/cwos-utils');
 
 const TRACK = 'T6:workstream';
 const DOMAIN = 'findings';
@@ -34,7 +34,7 @@ function computeItems(ctx) {
   if (!fs.existsSync(findingsDir)) return undefined;
 
   const items = {};
-  const files = globFiles(findingsDir, 'FIND-*.yaml');
+  const files = globFindingFiles(findingsDir);
   for (const f of files) {
     const r = readYAMLFile(f);
     if (!r.ok || !r.data || !r.data.id) continue;

@@ -26,7 +26,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { parseYAML, readYAMLFile, globFiles, todayISO, findWorkstreamDir, findRepoRoot, makeEventEmitter, writeFileAtomic } = require('./lib/cwos-utils');
+const { parseYAML, readYAMLFile, globFiles, todayISO, findWorkstreamDir, findRepoRoot, makeEventEmitter, writeFileAtomic, blockScalarLines } = require('./lib/cwos-utils');
 
 const emitEvent = makeEventEmitter();
 
@@ -363,14 +363,17 @@ function renderFindingYaml({ id, asn, artifactId, kind, sourceRel, dedupKey, cre
   lines.push(`recommended_action: "Either rewrite ${asn.id}'s falsifies_if as a deterministically-runnable test (methodological control_case starting with node|grep|sh|bash, OR empirical threshold + CWOS observation_source path) — or accept it as manual-only and revisit on schedule via cwos-asn-transition.js."`);
   lines.push(`status: open`);
   lines.push(`title: "AS-N ${asn.id} in ${artifactId} has prose-only falsification test (not deterministically runnable)"`);
-  lines.push(`description: |`);
-  lines.push(`  Artifact: ${artifactId} (${kind})`);
-  lines.push(`  Type: ${asn.type || 'unknown'}`);
-  lines.push(`  Status: ${asn.status || 'unknown'}`);
-  lines.push(`  Revisit: ${asn.revisit || 'n/a'}`);
-  lines.push(`  Claim: ${oneline(asn.claim)}`);
-  lines.push(`  Falsifies_if shape:`);
-  lines.push(yamlNested(asn.falsifies_if, '    '));
+  // The body is assembled as one text and indented by the writer, so no line
+  // of an AS-N's own text can land at column 0 and be read as a field (WS-1079).
+  lines.push(...blockScalarLines('description', [
+    `Artifact: ${artifactId} (${kind})`,
+    `Type: ${asn.type || 'unknown'}`,
+    `Status: ${asn.status || 'unknown'}`,
+    `Revisit: ${asn.revisit || 'n/a'}`,
+    `Claim: ${oneline(asn.claim)}`,
+    `Falsifies_if shape:`,
+    yamlNested(asn.falsifies_if, '  '),
+  ].join('\n')));
   lines.push(`evidence:`);
   lines.push(`  file: "${sourceRel}"`);
   lines.push(`  asn_id: "${asn.id}"`);
@@ -458,4 +461,5 @@ module.exports = {
   emitFindings,
   renderHuman,
   findArtifactReports,
+  renderFindingYaml,
 };

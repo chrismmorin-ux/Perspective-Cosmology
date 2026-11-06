@@ -24,6 +24,12 @@
 #       event_type: <type>
 #       within_days: <integer>
 #
+#   - stale_document: WS-972 scoping declaration, not a gate. A stale-document
+#       violation (cwos-staleness) defers an engine ONLY if its file is listed
+#       here for that engine, or is / sits under the run's target. Every other
+#       stale document is recorded in readiness_notes and the engine runs.
+#       files: [<repo-relative path>, ...]
+#
 # Engines not listed here have no readiness rules — readiness defaults to
 # `ready` unless cwos-staleness or cwos-session-recovery flag a violation.
 
@@ -38,6 +44,8 @@ product-evolution:
     reason: "product-evolution wants ≥3 adopted repos to see cross-fleet patterns (per OPT-023)"
 
 design-audit:
+  - check: stale_document
+    files: ["system/intention.md"]
   - check: file_exists
     path: "system/intention.md"
     reason: "design-audit needs system/intention.md to ground its anti-goal cross-checks"

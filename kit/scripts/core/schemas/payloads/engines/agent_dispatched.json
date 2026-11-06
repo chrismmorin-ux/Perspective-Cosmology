@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cwos.local/schemas/payloads/engines/agent_dispatched.json",
+  "title": "engines.agent_dispatched",
+  "description": "T7:engines agent_dispatched payload. Written by the HARNESS (cwos-dispatch-ledger.js record, a PostToolUse hook on the Agent tool), never by the model: requested_model is what the orchestrator asked for (tool_input.model alias, null = inherited), resolved_model is what Claude Code says actually ran (tool_response.resolvedModel). Closes the recording half of WS-476: the 2026-10-10 fleet probe found 0 of 29 engine runs naming a model when recording was left to prose.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["type"],
+  "properties": {
+    "type":            { "type": "string", "const": "agent_dispatched" },
+    "tool_use_id":     { "type": ["string", "null"] },
+    "agent_id":        { "type": ["string", "null"] },
+    "subagent_type":   { "type": ["string", "null"] },
+    "description":     { "type": ["string", "null"] },
+    "requested_model": { "type": ["string", "null"] },
+    "resolved_model":  { "type": ["string", "null"] },
+    "models_used":     { "type": ["array", "null"] },
+    "status":          { "type": ["string", "null"] },
+    "session_id":      { "type": ["string", "null"] },
+    "parent_agent_id": { "type": ["string", "null"] },
+    "total_tokens":    { "type": ["number", "null"] },
+    "work_items":      { "type": ["array", "null"], "description": "WS-NNN ids named in the dispatch description or prompt (WS-1170) — lets report --by-item compare each item's lane model with what was requested and what ran" }
+  }
+}

@@ -12,6 +12,7 @@
  *   - milestone_reached    — fires when current_milestone >= trigger.target
  *   - program_tier_change  — fires when target program's tier matches/exceeds
  *   - fleet_event          — deferred to Phase D (stub returns false)
+ *   - never                — WS-1112 (b): permanent anti-goal; never fires
  *
  * Re-eval policy: an unblocked item gets a note appended to blocked_by_note
  * recording the firing event ("trigger fired YYYY-MM-DD: archetype_migration
@@ -144,6 +145,11 @@ function evaluateTrigger(trigger, state) {
       // (event log inspection, fleet-wide state aggregation). v1 always
       // returns false so these tripwires stay blocked until manual triage.
       return { fired: false, reason: 'fleet_event triggers not implemented in v1 (manual triage required)' };
+    }
+    case 'never': {
+      // WS-1112 (b): a permanent anti-goal. No repo state re-opens it; only a
+      // founder decision does, so it never flips to backlog.
+      return { fired: false, reason: 'permanent anti-goal (never): no state change re-opens it' };
     }
     default:
       return { fired: false, reason: `unknown trigger type: ${trigger.type}` };

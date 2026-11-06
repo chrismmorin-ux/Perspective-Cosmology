@@ -1,0 +1,121 @@
+# ─── Market spine (ADR-073) ─────────────────────────────────────────────────
+# The strategy as one connected, traversable graph. Every node has an id and
+# points at others by id: the market is split into segments, segments are
+# described by personas (design/personas), reached through channels, met by a
+# surface, walked through a journey that does not end at checkout, and every
+# lever and metric (launch/) hangs off one of those.
+#
+# Every claim carries an evidence tag (the canonical-spine vocabulary):
+#   AUTHORIZED | MEASURED | VERIFIED | OBSERVED | REPORTED | EXTERNAL | ASSUMED | FOUNDER | DECIDED
+# `coverage` reports how much of the strategy rests on ASSUMED, so the founder can
+# see how solid the ground is before building on it.
+#
+# Enumerate, don't summarize. A segment with no persona, a channel with no
+# surface, a journey stage with no metric, or a stance with one option is a gap
+# the business will pay for later. The validator lists every one.
+#
+#   node kit/scripts/cwos-spine.js validate --human
+#   node kit/scripts/cwos-spine.js coverage --human     # enumeration gaps
+#   node kit/scripts/cwos-spine.js trace PER-<slug>     # walk the graph from any node
+#   node kit/scripts/cwos-spine.js brief --human        # the founder view
+
+refs:
+  personas: design/personas    # where PER- files live (relative to the repo root)
+  launch: launch               # where levers.yaml / signals.yaml live
+
+market:
+  id: MKT-<slug>
+  category: "<the shelf a customer would put you on>"
+  problem: "<the problem, in the customer's terms>"
+  boundary: "<what is in the market and what is explicitly outside it>"
+  size:
+    - estimate: "<number + unit>"
+      basis: "<how it was derived>"
+      source: "<citation, or 'assumed'>"
+      tag: ASSUMED
+      confidence: low          # low | medium | high
+
+segments:
+  - id: SEG-<slug>
+    name: "<name>"
+    definition: "<who is in it — by situation or need, not demographics alone>"
+    share: 0.0                 # estimated share of the market (0–1)
+    personas: [PER-<slug>]     # at least one; the persona describes this segment
+    tag: ASSUMED               # evidence tag for the definition and share
+
+alternatives:
+  - id: ALT-<slug>
+    name: "<what she does today instead>"
+    segments: [SEG-<slug>]
+    why_it_fails: "<the gap you exist to fill>"
+
+positioning:
+  id: POS-<slug>
+  for: [SEG-<slug>]            # target segments
+  who: "<the need, in her words>"
+  brand_is: "<category claim>"
+  that: "<the one benefit that matters most>"
+  unlike: [ALT-<slug>]
+  because: "<the reason to believe — proof, not adjectives>"
+  pillars: ["<3–4 things the brand always is>"]
+  never: ["<things the brand is never, even when it would sell>"]
+
+stances:
+  - id: STN-<slug>
+    question: "<the public position the business must take>"
+    options: ["<option a>", "<option b>"]   # at least two — a stance with one option was never decided
+    chosen: null               # one of options, or null while proposed
+    status: proposed           # proposed | adopted | retired
+    rationale: "<why, including what it costs>"
+    risks: ["<who this loses, what it exposes>"]
+    decided_by: null           # DEC- or ADR- id once adopted
+    review: YYYY-MM-DD
+
+channels:
+  - id: CHN-<slug>
+    name: "<where she meets you>"
+    kind: organic              # organic | referral | community | creator | partner | paid | offline
+    persona_mix:               # ESTIMATED share of this channel's visitors per persona (sums ≤ 1; the rest is unattributed)
+      PER-<slug>: 0.0
+    mix_basis: assumed         # assumed | inferred-aggregate | measured
+    tag: ASSUMED               # evidence tag for the mix
+    surface: SRF-<slug>        # what someone from this channel lands on
+    lever: LEV-<slug>          # optional: the launch lever that controls this channel
+
+surfaces:
+  - id: SRF-<slug>
+    name: "<entry page or experience>"
+    for_personas: [PER-<slug>] # who it is tuned for
+    differs_by: "<what changes from the default: headline, first topics, tone>"
+    never_differs: "<what stays identical: safety content, prices, privacy promise>"
+    depends_on: []             # STN- ids this surface assumes; creative can't be approved until they are adopted
+
+journey:
+  - id: JRN-<slug>
+    order: 1
+    stage: "<name>"
+    her_goal: "<what she wants at this point>"
+    our_goal: "<what the business wants>"
+    surfaces: [SRF-<slug>]
+    metric: MET-<slug>         # how we know this stage works (launch/levers.yaml)
+    exit_risk: "<how she leaves here>"
+    after_checkout: false      # true for stages after the first purchase
+
+persona_inference:
+  # How aggregate behavior is read as persona, so channel mix can be MEASURED
+  # without profiling anyone: counts of entry behavior per channel, never per person.
+  - behavior: "<e.g. first topic opened = Recurring itching>"
+    suggests: {PER-<slug>: 0.0}
+    signal: SIG-<slug>
+    tag: ASSUMED               # how the weights were set
+
+attestations:
+  # Checks only a person can make. A named role affirms the statement, on a
+  # cadence; common-sense answers can rest on it (attested_by: ATT-…).
+  - id: ATT-<slug>
+    statement: "<exactly what the person affirms, checkable by walking, reading or watching>"
+    role: "<who affirms it>"
+    every_days: 30
+    applies_to: [STN-<slug>]
+    last_attested: null        # date of the last affirmation
+    attested_by: null          # the person who affirmed it

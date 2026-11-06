@@ -32,6 +32,7 @@
 require('./lib/preflight');
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const { globFiles, readYAMLFile, findWorkstreamDir, todayISO, findRepoRoot, makeEventEmitter, writeFileAtomic, withFileLock } = require('./lib/cwos-utils');
 const { cliGate } = require('./lib/cli');
@@ -56,6 +57,42 @@ function cachedReadYAMLFile(p) {
 }
 
 // ─── Repo Root Discovery ────────────────────────────────────────────────────
+
+/**
+ * The workstream dir is CANONICAL AND SHARED; rootDir is PER-CHECKOUT (WS-1137).
+ *
+ * `resolveRepoRoot` finds the root by CLAUDE.md + kit/ markers, and BOTH exist inside a
+ * linked worktree — so `path.join(rootDir, '.claude', 'workstream')` resolves to the
+ * worktree's FORKED copy, frozen at the branch point. Eight sites in this file derived the
+ * path that way while three others already called `findWorkstreamDir`, so verify read two
+ * different registries depending on which check you were in.
+ *
+ * Two consequences, both measured:
+ *   - /verify GRADES THE FORK. It counts sessions, queue items and findings that are one
+ *     commit stale and missing every uncommitted peer.
+ *   - THE LIVENESS STAMPS ARE LOST. stampVerifyStart/stampVerifyLiveness write
+ *     `.verify-liveness.yaml`, which is gitignored, INTO the fork — so it never merges back
+ *     while the main tree's stamp ages and INV-070 reports the full suite as never run.
+ *     That is the original WS-532 failure mode reproduced on a different file.
+ *
+ * `findWorkstreamDir` performs the WS-576 redirect: from anywhere, including inside a
+ * linked worktree, it resolves to the PRIMARY worktree's copy. In the main tree the answer
+ * is identical to the old derivation, so this is a no-op there and a fix in a worktree.
+ *
+ * rootDir stays correct for genuinely per-checkout content — system/invariants.md, source
+ * files, the tree being graded. This is the DEC-047 split, which cwos-reconcile.js already
+ * states: `system/` is per-CHECKOUT while the workstream dir is canonical and shared.
+ *
+ * Falls back to the old derivation if resolution throws: a verifier that cannot start
+ * checks nothing.
+ */
+function workstreamDirOf(rootDir) {
+  try {
+    const d = findWorkstreamDir(rootDir);
+    if (d) return d;
+  } catch { /* fall through */ }
+  return path.join(rootDir, '.claude', 'workstream');
+}
 
 function resolveRepoRoot() {
   const dir = findRepoRoot(process.cwd(), { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 });
@@ -156,6 +193,7 @@ const INVARIANT_CHECKS = [
   { id: 'INV-043', name: 'CLI-bypass-via-command — audited commands actually invoked (FIND-119 / WS-276)', check: checkCliBypassViaCommand },
   { id: 'INV-044', name: 'Replay-pure fields: every cached field is deterministic across replays (WS-261 / AS-037-11)', check: checkReplayPureFields },
   { id: 'INV-cli-envelope-consumed-completely', name: 'AI obeys Prohibited Reads — Read tool count per /next ≤ 5 (WS-271 / AS-037-1)', check: checkReadRestraint },
+  { id: 'INV-sensor-liveness', name: 'The /next token sensor is alive — 3 dead readings in a row turn red, too few readings say NOT MEASURED (WS-1114 / run-035)', check: checkSensorLiveness },
   { id: 'INV-045', name: 'Shell-safe pattern — no execSync template-literal interpolation in kit/scripts/ (ADR-043 / WS-306)', check: checkShellSafePattern },
   { id: 'INV-disambiguation-catalog-single-source', name: 'Disambiguation predicates live only in core/cwos-catch-state-catalog.js (ADR-040 D5 / WS-642)', check: checkDisambiguationCatalogSingleSource },
   { id: 'INV-cli-subcommand-cap', name: 'ADR-037 extracted CLIs dispatch exactly their allowlisted subcommands — cap 5 + conscious additions (AS-037-4 / WS-642)', check: checkCliSubcommandCap },
@@ -171,6 +209,8 @@ const INVARIANT_CHECKS = [
   { id: 'INV-program-fields-have-runtime-effect', name: 'prog-template accountability fields have runtime readers (WS-366 / FIND-248)', check: checkProgramFieldsHaveRuntimeEffect },
   { id: 'INV-preflight-gate-not-bypassed', name: 'Single-question pre-flight gate not bypassed — ack markers have matching ack events (ADVISORY) (WS-433 / FIND-305)', check: checkPreflightGateNotBypassed },
   { id: 'INV-060', name: 'Engine model tiers declared + floor-respecting — agent-dispatch engines declare model_tiers; no dead model: scalar; floors honored (WS-390)', check: checkEngineModelTiers },
+  { id: 'INV-098', name: 'Model-lane ledger gate — every routing-ledger class resolves, no tier below baseline without a passed trial (WS-1170)', check: checkModelLaneLedger },
+  { id: 'INV-099', name: 'The CLI contract only spreads — no new cwos-* script ignores an unknown flag or acts on --help, and the frozen list of ungated scripts only shrinks (ADR-063 / WS-1016)', check: checkCliContractRatchet },
   { id: 'INV-061', name: 'State-domain rebuild contract — every domain classified, none git-tracked, refresh hook wired (ADR-058 / WS-504)', check: checkStateDomainRebuildContract },
   { id: 'INV-062', name: 'Security posture matches declaration — this node runs the permission mode + guards it declares (ADR-059 / WS-521)', check: checkSecurityPostureMatchesDeclaration },
   { id: 'INV-063', name: 'Every fleet repo declares a phone_surface — kind: none is an answer, omission is not (WS-516)', check: checkPhoneSurfaceDeclared },
@@ -200,10 +240,14 @@ const INVARIANT_CHECKS = [
   { id: 'INV-086', name: 'A KEV finding clears only on evidence — every Windows node probed and carrying a remediating KB; unreachable nodes and dead feeds fail closed (WS-660)', check: checkKevPatchOracle },
   { id: 'INV-087', name: 'The YAML reader undoes exactly what the writers do — write/read is a fixed point, and Windows paths keep their \\r and \\n (WS-735)', check: checkYamlEscapeRoundtrip },
   { id: 'INV-088', name: 'An absence claim carries the search that established it — a grep that misses is indistinguishable from a grep that finds nothing (WS-701 / RC2-absence)', check: checkAbsenceClaimsCarryEvidence },
+  { id: 'INV-095', name: 'A finding that says confirmed or verified carries the grade of evidence behind it — Observed with a pointer, Cited with its source (WS-941 / RC5-overclaim)', check: checkConfirmationClaimsCarryGrade },
   { id: 'INV-089', name: 'The kit test suites actually run, and none is red — a suite nobody runs is a wish (WS-808)', check: checkTestSweepGreen },
   { id: 'INV-091', name: 'No script hardcodes the system dir — paths.system_dir governs, or a repo that renamed it reads as empty (WS-703)', check: checkSystemDirNotHardcoded },
   { id: 'INV-092', name: "AGENTS.md does not contradict the repo's own Vital Signs — a portability hedge that lies is worse than none (WS-527 / ADR-069)", check: checkAgentsMdMatchesVitalSigns },
   { id: 'INV-093', name: 'No WS id minted here names different work on the remote — a cross-node id collision is loud and repairable, not a pull that quietly stops working (issue #26)', check: checkWsIdCollisionWithRemote },
+  { id: 'INV-094', name: 'No state file carries PowerShell ANSI mojibake — an em-dash that came back as `â€”` means state was written around the typed path (WS-514)', check: checkNoStateMojibake },
+  { id: 'INV-096', name: 'fleet/STANDING.md + standing.json are exactly what fleet/bin/standing.py makes from the inputs committed with them — one writer, no hand-edit, no stale commit', check: checkFleetStandingRegenerates },
+  { id: 'INV-097', name: "Block scalars have one writer — no hand-built key: | header under kit/scripts/, so no line of a value (a peer repo's text included) can be read back as a field (WS-1079)", check: checkBlockScalarWriter },
 ];
 
 // ─── Incremental-selection + fast-mode metadata (WS-429 / FIND-296) ──────────
@@ -237,6 +281,7 @@ const INVARIANT_META = {
   // Cheap read over a bounded directory, same reasoning as INV-076: a false
   // absence claim is cheapest to catch before it reaches an envelope.
   'INV-088': { watched_paths: ['.claude/workstream/findings/', 'kit/scripts/cwos-finding-validate.js'], fast: true },
+  'INV-095': { watched_paths: ['.claude/workstream/findings/', 'kit/scripts/cwos-finding-validate.js'], fast: true },
   // NOT fast, despite costing almost nothing: the fast set is already 33 checks
   // and 11.4s against the SessionStart hook's 8s timeout, so it is being killed
   // mid-loop every session (which is what INV-070 has been reporting). Adding to
@@ -261,6 +306,21 @@ const INVARIANT_META = {
   // changes with no local file changing at all. Cheap enough for the fast set —
   // three git reads and one throttled fetch with a short timeout.
   'INV-093': { fast: true },
+  // Fast: one readdir walk over queue/sprints/sessions plus the system dir's
+  // top level — no git, no network. Damage should surface at session start,
+  // the moment the next session would otherwise build on it.
+  'INV-094': { watched_paths: ['.claude/workstream/', 'system/'], fast: true },
+  // NOT fast: one Python regeneration (~1.5s) is cheap, but the fast set is
+  // already over the SessionStart budget (see INV-089). The daily fleet-pulse
+  // run regenerates and --check's the files itself, so CI holds the line too.
+  'INV-096': { watched_paths: ['fleet/', 'kit/VERSION', '.claude/workstream/queue/'] },
+  // NOT fast, for the reason INV-089 and INV-091 give: the fast set is already
+  // over the SessionStart budget. A hand-built header arrives by edit, and
+  // kit/scripts/ is watched, so --since-git-commit catches the commit.
+  'INV-097': { watched_paths: ['kit/scripts/'] },
+  // kit/scripts/ is watched: any script added or changed can break the ratchet.
+  'INV-099': { watched_paths: ['kit/scripts/'] },
+  'INV-098': { watched_paths: ['fleet/anchors/routing-ledger.yaml', 'fleet/anchors/trials/', 'kit/scripts/lib/model-lane.js'] },
   'INV-028': { watched_paths: ['kit/scripts/', 'docs/'] },
   'INV-029': { watched_paths: ['docs/', 'kit/scripts/'] },
   'INV-030': { watched_paths: ['kit/scripts/core/'] },
@@ -344,6 +404,9 @@ const INVARIANT_META = {
   // Deliberately fast AND cheap: it reads one small stamp file. A budget check
   // that could itself blow the budget would be its own first violation.
   'INV-070': { watched_paths: ['kit/scripts/cwos-verify.js', '.claude/workstream/'], fast: true },
+  // WS-1114: fast, because a dead sensor is only caught if something looks
+  // every session. One state-store read, no event-log scan.
+  'INV-sensor-liveness': { watched_paths: ['kit/scripts/cwos-stop-telemetry.js', 'kit/scripts/core/reducers/envelope.js', '.claude/workstream/'], fast: true },
   // Watches kit/ WHOLE, deliberately. INV-039 watches only ['fleet/',
   // 'kit/VERSION'] and so never re-runs when kit/scripts/ changes — which is
   // exactly how 33 commits of kit changes reached no repo without any
@@ -399,6 +462,80 @@ const INVARIANT_META = {
   'INV-019': { fast: true },
   'INV-020': { fast: true },
 };
+
+// ─── Repo-local invariants (poker WS-1673) ───────────────────────────────────
+//
+// An adopter's own invariants used to live INSIDE this file, at a kit/scripts/
+// path, because there was nowhere else for them to go. /kit-upgrade replaces
+// kit/scripts/ wholesale (WS-557), so every upgrade either deleted them or —
+// once Guard E (WS-796) landed — refused the whole upgrade. Claude-Poker-Tracker
+// sat ten minor versions behind for exactly this reason (its PR #110), and two
+// of its invariants had been minted as INV-081/082 while HomeBase minted
+// different INV-081/082: the id allocator scans only the local register, so
+// two repos that cannot see each other's numbers collide by construction.
+//
+// So an adopter declares them in a file it owns, outside kit/:
+//
+//   .claude/local-invariants.cjs
+//     module.exports = {
+//       checks: [{ id: 'INV-<name>', name: '<what must hold>', check: (rootDir, opts) => ({ passed, detail }) }],
+//       meta:   { 'INV-<name>': { watched_paths: [...], fast?: true, heavy?: true } },   // optional
+//     };
+//
+// Use a NAMED id (INV-some-name), never a number: the numeric namespace is the
+// kit's. A local id that collides with a kit id, a malformed entry, or a module
+// that throws on load is never dropped quietly — it becomes a FAILING check
+// (INV-local-invariants-load) that names the problem, because a guard the repo
+// believes is running and is not is worse than no guard.
+const LOCAL_INVARIANTS_FILE = '.claude/local-invariants.cjs';
+function loadRepoLocalInvariants(rootDir, checks = INVARIANT_CHECKS, meta = INVARIANT_META) {
+  const file = path.join(rootDir, LOCAL_INVARIANTS_FILE);
+  if (!fs.existsSync(file)) return { file, loaded: [], problems: [] };
+  const problems = [];
+  const loaded = [];
+  let mod;
+  try {
+    delete require.cache[require.resolve(file)];
+    mod = require(file);
+  } catch (e) {
+    problems.push(`${LOCAL_INVARIANTS_FILE} failed to load: ${e.message}`);
+  }
+  const list = mod && Array.isArray(mod.checks) ? mod.checks : [];
+  if (mod && !Array.isArray(mod.checks)) problems.push(`${LOCAL_INVARIANTS_FILE} exports no checks[] array`);
+  const taken = new Set(checks.map((c) => c.id));
+  for (const c of list) {
+    if (!c || typeof c.id !== 'string' || !/^INV-[A-Za-z0-9-]+$/.test(c.id) || typeof c.check !== 'function' || typeof c.name !== 'string') {
+      problems.push(`malformed local invariant entry: ${JSON.stringify(c && c.id)}`);
+      continue;
+    }
+    if (taken.has(c.id)) {
+      problems.push(`local invariant ${c.id} collides with an id already registered — rename it (use a named id, not a number)`);
+      continue;
+    }
+    taken.add(c.id);
+    checks.push({ id: c.id, name: c.name, check: c.check, local: true });
+    if (mod.meta && mod.meta[c.id]) meta[c.id] = mod.meta[c.id];
+    loaded.push(c.id);
+  }
+  if (problems.length) {
+    checks.push({
+      id: 'INV-local-invariants-load',
+      name: `Every repo-local invariant in ${LOCAL_INVARIANTS_FILE} loads and is registered — none is silently dropped`,
+      check: () => ({ passed: false, detail: problems.join(' | ') }),
+      local: true,
+    });
+  }
+  return { file, loaded, problems };
+}
+{
+  // Registered at module load so --only, --since-git-commit, --json and every
+  // importer that reads INVARIANT_CHECKS see the same list. Root resolution
+  // failing (a fixture dir with no CLAUDE.md + kit/) means there is no repo whose
+  // local file could exist, so there is nothing to load.
+  let root = null;
+  try { root = resolveRepoRoot(); } catch { root = null; }
+  if (root && process.env.CWOS_VERIFY_NO_LOCAL_INVARIANTS !== '1') loadRepoLocalInvariants(root);
+}
 
 // Does a changed file (repo-relative, forward-slash) fall under a watched prefix?
 function fileMatchesPrefix(file, prefix) {
@@ -695,9 +832,7 @@ function _parseModelTiers(content) {
 
 function checkEngineModelTiers(rootDir) {
   const stdDir = path.join(rootDir, 'engines/standard');
-  if (!fs.existsSync(stdDir)) {
-    return { passed: true, detail: 'engines/standard not present — skipped' };
-  }
+  if (!fs.existsSync(stdDir)) return { passed: true, detail: 'engines/standard not present — skipped' };
   const violations = [];
   let declared = 0, exempt = 0;
   for (const f of globFiles(stdDir, '*.md')) {
@@ -744,6 +879,38 @@ function checkEngineModelTiers(rootDir) {
       ? `${declared} engine(s) declare valid model_tiers; ${exempt} inline engine(s) exempt (inherit session model)`
       : `${violations.length} model-tier violation(s):\n  ` + violations.join('\n  '),
   };
+}
+
+// ─── INV-098: model-lane ledger gate (WS-1170; split out of INV-060) ────────
+//
+// The same floor discipline for queue-item model lanes. Where the routing
+// ledger exists (HomeBase), every lane must resolve: a lane whose tier or effort sits
+// below its baseline must cite a PASS in demotion_log with existing evidence (and a
+// model demotion the baseline's lower-effort trial) — founder ruling 2026-10-15, a
+// cheaper model is earned by a scored trial, never by rule. Adopted repos have no
+// fleet/ tree, so the ledger half is HomeBase-only by construction.
+function _checkLaneLedger(rootDir) {
+  const ml = require('./lib/model-lane');
+  const file = path.join(rootDir, ml.LEDGER_REL);
+  if (!fs.existsSync(file)) {
+    // A deleted ledger must not turn the gate green in HomeBase. Adopted repos have no fleet/ tree.
+    const isHomeBase = isKitSourceRepo(rootDir);
+    if (isHomeBase) return { present: false, violations: [`${ml.LEDGER_REL}: routing ledger missing in HomeBase`] };
+    return { present: false, violations: [] };
+  }
+  const r = ml.readLedger(file);
+  if (!r.ok) return { present: true, violations: [`${ml.LEDGER_REL}: ${r.error}`] };
+  const c = ml.checkLedger(r.data, rootDir);
+  return { present: true, nClasses: ml.classEntries(r.data).length, violations: c.problems.map((p) => `${ml.LEDGER_REL}: ${p}`) };
+}
+
+function checkModelLaneLedger(rootDir) {
+  const lanes = _checkLaneLedger(rootDir);
+  if (lanes.violations.length) {
+    return { passed: false, detail: `${lanes.violations.length} model-lane violation(s):\n  ` + lanes.violations.join('\n  ') };
+  }
+  if (!lanes.present) return { passed: true, detail: 'routing ledger not present (adopted repo) — skipped' };
+  return { passed: true, detail: `routing ledger: ${lanes.nClasses} classes (${require('./lib/model-lane').LANES.length} lanes) resolve` };
 }
 
 // ─── HomeBase-only Manifest Flag (INV-049 / WS-315 / ADR-049) ──────────────
@@ -1270,7 +1437,6 @@ function checkAdrIndex(rootDir) {
   const canonicalDir = path.join(rootDir, 'docs/adrs');
   const docsDir = path.join(rootDir, 'docs');
   const indexPath = path.join(canonicalDir, 'INDEX.md');
-  if (!fs.existsSync(indexPath)) return { passed: false, detail: 'docs/adrs/INDEX.md not found' };
 
   // Scan ADR-named directories only (docs/adr*/), not all of docs/.
   // Avoids false positives from commentary files like docs/design-reviews/ADR-018-pressure-test.md
@@ -1285,6 +1451,23 @@ function checkAdrIndex(rootDir) {
       .filter(d => d.isDirectory() && /^adrs?$/i.test(d.name))
       .map(d => path.join(docsDir, d.name));
   } catch { /* docs/ may not exist */ }
+
+  // WS-1132: an adopted repo that has written no ADRs has nothing to index —
+  // demanding docs/adrs/INDEX.md there failed every fresh adopter (fleet-broker,
+  // 2026-10-12). Any .md under docs/adr*/ other than INDEX.md counts as "has
+  // ADRs" (deliberately broader than the ADR-NNN name match below), so a repo
+  // that writes ADRs in any naming scheme is still held to an index.
+  let adrFileCount = 0;
+  for (const dir of adrDirs) {
+    walkDir(dir, (filePath) => {
+      const base = path.basename(filePath);
+      if (base !== 'INDEX.md' && base.toLowerCase().endsWith('.md')) adrFileCount++;
+    });
+  }
+  if (!fs.existsSync(indexPath)) {
+    if (adrFileCount === 0) return { passed: true, detail: 'no ADR files under docs/adr*/ — N/A (an index is required once ADRs exist)' };
+    return { passed: false, detail: 'docs/adrs/INDEX.md not found' };
+  }
 
   for (const dir of adrDirs) {
     walkDir(dir, (filePath) => {
@@ -1325,6 +1508,7 @@ function checkAdrIndex(rootDir) {
 }
 
 function checkUserGuideCoverage(rootDir) {
+  if (!isKitSourceRepo(rootDir)) return { passed: true, detail: NOT_KIT_SOURCE_NA };
   const commandFiles = globFiles(path.join(rootDir, 'kit/commands'), '*.md').map(f => path.basename(f, '.md'));
   const guidePath = path.join(rootDir, 'docs/guides/user-guide.md');
   if (!fs.existsSync(guidePath)) return { passed: false, detail: 'docs/guides/user-guide.md not found' };
@@ -2037,8 +2221,19 @@ function checkHookLiveness(rootDir) {
     // the liveness stamp itself.
     if (!/^status:\s*["']?active["']?\s*$/m.test(raw)) continue;
     const id = (raw.match(/^id:\s*"?([^"\n]+?)"?\s*$/m) || [])[1] || f.replace(/\.yaml$/, '');
-    const hb = (raw.match(/^last_heartbeat:\s*"?([^"\n]+?)"?\s*$/m) || [])[1];
-    const t = hb ? Date.parse(hb.trim()) : NaN;
+    // Only records THIS host owns are this hook's business (WS-884): a foreign
+    // record's beat lives in its owner's sidecar, and counting it here made an
+    // idle node read "all active records stale" whenever its peer was busy.
+    const host = (raw.match(/^host:\s*"?([^"\n]+?)"?\s*$/m) || [])[1];
+    const nodeId = (raw.match(/^node_id:\s*"?([^"\n]+?)"?\s*$/m) || [])[1];
+    // WS-893: hostname alone is not this machine — every cloud container is `vm`.
+    if (host && !require('./lib/node-identity').isLocalRecord({ host, node_id: nodeId })) continue;
+    // The beat lives in liveness/<id>.json (per-node, untracked); the record's
+    // own line, if present, is the pre-WS-884 fallback.
+    let hb = null;
+    try { hb = require(path.join(rootDir, 'kit', 'scripts', 'lib', 'session-record.js')).readLiveness(wsDir, id.trim()).last_heartbeat || null; } catch { /* older kit */ }
+    if (!hb) hb = (raw.match(/^last_heartbeat:\s*"?([^"\n]+?)"?\s*$/m) || [])[1];
+    const t = hb ? Date.parse(String(hb).trim()) : NaN;
     active.push({ id: id.trim(), beatMs: Number.isFinite(t) ? t : null });
   }
 
@@ -2366,6 +2561,7 @@ const INSTRUMENTATION_SCOPE_EXCLUSIONS = new Map([
   ['cwos-agent-tools.js', '~/.local/bin/rg.exe — machine-local agent tool bridge, outside any repo'],
   ['cwos-admin-escalation-audit.js', '~/.claude/admin-escalation.log — machine-local, outside any repo'],
   ['cwos-adr038-pass.js', 'a generated pass report under docs/'],
+  ['cwos-desk.js', "founder-desk's items/<id>.json (ask) — another repo's files; answers and brief write nothing here"],
   ['cwos-fleet-recognition.js', "ai-personal's nodes/*.md + *.trust.json — another repo's files"],
   ['cwos-node-bootstrap.js', '.claude/commands/ hardlinks + ~/.local/bin/rg.exe — machine-local, regenerated on demand'],
   ['cwos-phone-publish.js', 'build/phone-outbox/ — build output'],
@@ -2373,6 +2569,7 @@ const INSTRUMENTATION_SCOPE_EXCLUSIONS = new Map([
 ]);
 
 function checkShadowInstrumentationCoverage(rootDir) {
+  if (!isKitSourceRepo(rootDir)) return { passed: true, detail: NOT_KIT_SOURCE_NA };
   const THRESHOLD = 0.95;
 
   // Script-layer coverage
@@ -2651,7 +2848,7 @@ function checkReplayPurity(rootDir) {
   try { replay = require(replayPath); }
   catch (err) { return { passed: false, detail: `cwos-replay failed to load: ${err.message}` }; }
 
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = workstreamDirOf(rootDir);
   if (!fs.existsSync(wsDir)) {
     return { passed: true, detail: 'no workstream dir — replay-purity N/A' };
   }
@@ -2668,8 +2865,7 @@ function checkReplayPurity(rootDir) {
     const eventsDir = path.join(wsDir, 'events');
     let hasEvents = false;
     try {
-      hasEvents = fs.existsSync(eventsDir) && fs.readdirSync(eventsDir)
-        .some((f) => f.endsWith('.jsonl') && fs.statSync(path.join(eventsDir, f)).size > 0);
+      hasEvents = eventLogFiles(eventsDir).some((f) => fs.statSync(f).size > 0);
     } catch { hasEvents = false; }
     if (hasEvents) {
       return {
@@ -2830,7 +3026,7 @@ function checkReplayPureFields(rootDir) {
   try { harness = require(harnessPath); }
   catch (err) { return { passed: false, detail: `replay-test failed to load: ${err.message}` }; }
 
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = workstreamDirOf(rootDir);
   if (!fs.existsSync(wsDir)) {
     return { passed: true, detail: 'no workstream dir — per-field check N/A' };
   }
@@ -3299,7 +3495,13 @@ function checkStrandedSidecars(rootDir) {
     return {
       passed: false,
       detail: `${carriers.length}/${checkedCount} repo(s) carry stranded .kit-update sidecars: ${carriers.join(', ')}. ` +
-        `Each is a kit update nobody merged. Collapse: node kit/scripts/cwos-sidecar-audit.js --repo <path> --collapse (divergent ones are surfaced for the founder, never auto-resolved).`,
+        // run-032 C4: the old hint led with `--apply`, and a session reading a red
+        // vital sign ran it straight across other repos — live files overwritten,
+        // deletions staged and never committed. Preview first; act from the owner.
+        `Each is a kit update nobody merged. Preview first, read-only: node kit/scripts/cwos-sidecar-audit.js --repo <path>. ` +
+        `--apply OVERWRITES live files (safe-take) and stages sidecar deletions WITHOUT committing, so run it from inside the ` +
+        `owning repo's own session and commit there (DEC-054) — never from here across the fleet (--fleet refuses it). ` +
+        `Genuine sidecars are surfaced for the founder, never auto-resolved (WS-631).`,
     };
   }
   return { passed: true, detail: `${checkedCount} hosted repo(s) carry no stranded .kit-update sidecars` };
@@ -3427,6 +3629,7 @@ function checkAntiGoalCrossCheck(rootDir) {
 //
 // Source: FAIL-015 / WS-226 / premortem-2026-04-25 §C1.
 function checkTemplateProgramInstantiation(rootDir) {
+  if (!isKitSourceRepo(rootDir)) return { passed: true, detail: NOT_KIT_SOURCE_NA };
   const templateDir = path.join(rootDir, 'kit/templates/workstream/programs');
   if (!fs.existsSync(templateDir)) return { passed: true, detail: 'kit/templates/workstream/programs/ not found — nothing to check' };
 
@@ -3641,6 +3844,44 @@ function summarizeFixtureRun(res) {
   }
   return { summary, failures };
 }
+/**
+ * Run a kit test fixture as an invariant gate. Every fixture-backed invariant
+ * has the same four outcomes, and this is the one place they are written:
+ *   - fixture file absent  -> pass, reported N/A (`absentNote` says why: the
+ *     repo predates the work item that shipped the fixture)
+ *   - no exit status       -> FAIL "could not run" (spawn error or timeout)
+ *   - exit 0               -> pass; detail = fixture summary + `okDetail`
+ *   - anything else        -> FAIL; detail = first 3 failures + `failHint`
+ */
+function runFixtureGate(rootDir, { inv, fixture, absentNote, okDetail, failHint, timeoutMs = 120000 }) {
+  const rel = `kit/scripts/__tests__/${fixture}`;
+  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', fixture);
+  if (!fs.existsSync(fixturePath)) {
+    return { passed: true, detail: `${fixture.replace(/\.test\.js$/, '')} fixture not present — ${inv} N/A (${absentNote})` };
+  }
+
+  const { spawnSync } = require('child_process');
+  const startedAt = Date.now();
+  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: timeoutMs });
+  const ms = Date.now() - startedAt;
+
+  if (res.error || res.status === null) {
+    return {
+      passed: false,
+      detail: `${inv} fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node ${rel}\` directly.`,
+    };
+  }
+
+  const { summary, failures } = summarizeFixtureRun(res);
+  if (res.status === 0) {
+    return { passed: true, detail: `${summary || 'all assertions passed'} (${ms}ms) — ${okDetail}` };
+  }
+  return {
+    passed: false,
+    detail: `${inv} FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. ${failHint} Full output: \`node ${rel}\`.`,
+  };
+}
+
 
 // ─── INV-077: one event-log reader (WS-482) ────────────────────────────────
 //
@@ -3651,35 +3892,13 @@ function summarizeFixtureRun(res) {
 // current.jsonl (a mirror of today's chunk, so every event counted twice) and
 // all six ignored events/archive/ (37% of the log by 2026-08-19).
 function checkEventsReaderUnification(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'events-reader-unification.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'events-reader-unification fixture not present — INV-077 N/A (pre-WS-482)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-077 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/events-reader-unification.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — core/events.js is the only event-log filename predicate; no unlisted script enumerates events/, and KNOWN_UNMIGRATED holds no stale entry.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-077 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. A second filename filter is how the event log starts disagreeing with itself — route the site through readFilteredEvents() in kit/scripts/core/events.js. Full output: \`node kit/scripts/__tests__/events-reader-unification.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-077',
+    fixture: 'events-reader-unification.test.js',
+    absentNote: 'pre-WS-482',
+    okDetail: 'core/events.js is the only event-log filename predicate; no unlisted script enumerates events/, and KNOWN_UNMIGRATED holds no stale entry.',
+    failHint: 'A second filename filter is how the event log starts disagreeing with itself — route the site through readFilteredEvents() in kit/scripts/core/events.js.',
+  });
 }
 
 // ─── INV-078: atomic state writes (WS-643) ─────────────────────────────────
@@ -3856,35 +4075,13 @@ function checkSettingsNoDuplicateKeys(rootDir) {
 // the map cannot drift into rejecting a flag that works or accepting one that
 // does nothing. Adding a flag without declaring it FAILS here.
 function checkNextCliContract(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'next-cli-contract.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'next-cli-contract fixture not present — INV-081 N/A (pre-WS-732)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-081 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/next-cli-contract.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — every cwos-next subcommand refuses an unknown flag with exit 2, and SUBCOMMAND_FLAGS describes exactly the flags the code reads.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-081 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. A flag accepted and ignored is indistinguishable from a flag that worked — declare it in SUBCOMMAND_FLAGS in kit/scripts/cwos-next.js, or stop reading it. Full output: \`node kit/scripts/__tests__/next-cli-contract.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-081',
+    fixture: 'next-cli-contract.test.js',
+    absentNote: 'pre-WS-732',
+    okDetail: 'every cwos-next subcommand refuses an unknown flag with exit 2, and SUBCOMMAND_FLAGS describes exactly the flags the code reads.',
+    failHint: 'A flag accepted and ignored is indistinguishable from a flag that worked — declare it in SUBCOMMAND_FLAGS in kit/scripts/cwos-next.js, or stop reading it.',
+  });
 }
 
 // --- INV-083: cwos-event refuses a bare append instead of writing junk (WS-594)
@@ -3949,35 +4146,13 @@ function checkBaselineCoverage(rootDir) {
 }
 
 function checkEventCliContract(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'cwos-event-cli-contract.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'cwos-event-cli-contract fixture not present -- INV-083 N/A (pre-WS-594)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-083 fixture could not run -- ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/cwos-event-cli-contract.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) -- a malformed cwos-event command line is refused with exit 2 before the event log is opened.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-083 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. A probe for "how do I call this" must not become a write to an append-only ledger. Full output: \`node kit/scripts/__tests__/cwos-event-cli-contract.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-083',
+    fixture: 'cwos-event-cli-contract.test.js',
+    absentNote: 'pre-WS-594',
+    okDetail: 'a malformed cwos-event command line is refused with exit 2 before the event log is opened.',
+    failHint: 'A probe for "how do I call this" must not become a write to an append-only ledger.',
+  });
 }
 
 // INV-085 (WS-699): the courier's return leg. The properties this guards are
@@ -3988,35 +4163,13 @@ function checkEventCliContract(rootDir) {
 // indistinguishable from being ignored. The outbound half shipped with no
 // tests at all; this is the return half not repeating that.
 function checkRequestChannel(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'request-channel.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'request-channel fixture not present — INV-085 N/A (pre-WS-699)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-085 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/request-channel.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — repo requests are watermarked, never cross into the friction lane, and a decline reaches the repo that asked and stops re-promoting.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-085 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. A peer repo that asks and hears nothing stops asking — that silence is the defect, and it is invisible from here. Full output: \`node kit/scripts/__tests__/request-channel.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-085',
+    fixture: 'request-channel.test.js',
+    absentNote: 'pre-WS-699',
+    okDetail: 'repo requests are watermarked, never cross into the friction lane, and a decline reaches the repo that asked and stops re-promoting.',
+    failHint: 'A peer repo that asks and hears nothing stops asking — that silence is the defect, and it is invisible from here.',
+  });
 }
 
 // INV-086 (WS-660): the KEV patch oracle's fail-closed contract. 'patched' is
@@ -4025,35 +4178,13 @@ function checkRequestChannel(rootDir) {
 // 'unknown' costs one line in the digest; a false 'patched' is silence about a
 // live, exploited vulnerability — so the asymmetry is gated, not documented.
 function checkKevPatchOracle(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'kev-patch-oracle.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'kev-patch-oracle fixture not present — INV-086 N/A (pre-WS-660)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-086 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/kev-patch-oracle.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — a KEV clears only when every Windows node was probed and carries a remediating KB; unreachable nodes, dead feeds and uncatalogued CVEs all fail closed.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-086 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. A KEV wrongly marked patched is silence about a vulnerability CISA lists as actively exploited. Full output: \`node kit/scripts/__tests__/kev-patch-oracle.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-086',
+    fixture: 'kev-patch-oracle.test.js',
+    absentNote: 'pre-WS-660',
+    okDetail: 'a KEV clears only when every Windows node was probed and carries a remediating KB; unreachable nodes, dead feeds and uncatalogued CVEs all fail closed.',
+    failHint: 'A KEV wrongly marked patched is silence about a vulnerability CISA lists as actively exploited.',
+  });
 }
 
 // INV-087 (WS-735): the YAML reader must undo exactly what the writers do.
@@ -4062,67 +4193,38 @@ function checkKevPatchOracle(rootDir) {
 // characters) while correctly-escaped values reached consumers wrong (all five
 // stage-detection regexes matched nothing). Both were silent.
 function checkYamlEscapeRoundtrip(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'yaml-escape-roundtrip.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'yaml-escape-roundtrip fixture not present — INV-087 N/A (pre-WS-735)' };
-  }
+  return runFixtureGate(rootDir, {
+    inv: 'INV-087',
+    fixture: 'yaml-escape-roundtrip.test.js',
+    absentNote: 'pre-WS-735',
+    okDetail: 'write/read is a fixed point, Windows paths keep their \\r and \\n, and findings.yaml carries no compounding escape runs.',
+    failHint: 'An asymmetric escape grows state without bound in one direction and corrupts stored regexes in the other, and both are silent.',
+  });
+}
 
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 120000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-087 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/yaml-escape-roundtrip.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — write/read is a fixed point, Windows paths keep their \\r and \\n, and findings.yaml carries no compounding escape runs.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-087 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. An asymmetric escape grows state without bound in one direction and corrupts stored regexes in the other, and both are silent. Full output: \`node kit/scripts/__tests__/yaml-escape-roundtrip.test.js\`.`,
-  };
+// INV-099 (WS-1016): ADR-063's CLI contract as a ratchet. 93 of 158 argv-reading
+// cwos-*.js scripts ignored a flag they did not recognise; `cwos-migrate.js .
+// --dryrun` ran a real migration. Every new script must gate; the frozen list of
+// the rest only shrinks; scripts with their own strict parser are probed live.
+function checkCliContractRatchet(rootDir) {
+  return runFixtureGate(rootDir, {
+    inv: 'INV-099',
+    fixture: 'cli-contract-ratchet.test.js',
+    absentNote: 'pre-WS-1016',
+    okDetail: 'every argv-reading cwos-* script gates, keeps a probed strict parser, or is on the shrinking frozen list.',
+    failHint: 'A script that ignores an unknown flag does the wrong, expensive thing while looking obedient — route its argv through cliGate (lib/cli.js); never add it to the frozen list.',
+  });
 }
 
 function checkAtomicStateWrites(rootDir) {
-  const fixturePath = path.join(rootDir, 'kit', 'scripts', '__tests__', 'atomic-state-writes.test.js');
-  if (!fs.existsSync(fixturePath)) {
-    return { passed: true, detail: 'atomic-state-writes fixture not present — INV-078 N/A (pre-WS-643)' };
-  }
-
-  const { spawnSync } = require('child_process');
-  const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [fixturePath], { cwd: rootDir, encoding: 'utf8', timeout: 180000 });
-  const ms = Date.now() - startedAt;
-
-  if (res.error || res.status === null) {
-    return {
-      passed: false,
-      detail: `INV-078 fixture could not run — ${res.error ? res.error.message : 'no exit status (timed out)'}. Run \`node kit/scripts/__tests__/atomic-state-writes.test.js\` directly.`,
-    };
-  }
-
-  const { summary, failures } = summarizeFixtureRun(res);
-  if (res.status === 0) {
-    return {
-      passed: true,
-      detail: `${summary || 'all assertions passed'} (${ms}ms) — writeFileAtomic publishes no intermediate state, fsyncs before rename, retries win32 rename contention; no unlisted raw fs.writeFileSync under kit/scripts/ and RAW_WRITE_ALLOWLIST holds no stale entry.`,
-    };
-  }
-
-  return {
-    passed: false,
-    detail: `INV-078 FAILED (${summary || `exit ${res.status}`}): ${failures.slice(0, 3).join(' | ')}. Convert the site to writeFileAtomic from kit/scripts/lib/cwos-utils.js — a raw write to durable state is a torn file on the next battery death. Full output: \`node kit/scripts/__tests__/atomic-state-writes.test.js\`.`,
-  };
+  return runFixtureGate(rootDir, {
+    inv: 'INV-078',
+    fixture: 'atomic-state-writes.test.js',
+    absentNote: 'pre-WS-643',
+    timeoutMs: 180000,
+    okDetail: 'writeFileAtomic publishes no intermediate state, fsyncs before rename, retries win32 rename contention; no unlisted raw fs.writeFileSync under kit/scripts/ and RAW_WRITE_ALLOWLIST holds no stale entry.',
+    failHint: 'Convert the site to writeFileAtomic from kit/scripts/lib/cwos-utils.js — a raw write to durable state is a torn file on the next battery death.',
+  });
 }
 
 // ─── INV-079 / INV-080: ported from Claude-Poker-Tracker (2026-08-23) ────────
@@ -4349,9 +4451,14 @@ const CLI = {
     fix: { type: 'boolean', describe: 'apply safe auto-fixes when nothing failed' },
     'fix-hardlinks': { type: 'boolean', describe: 'repair broken command hardlinks, then exit' },
     force: { type: 'boolean', describe: 'with --fix-hardlinks, overwrite content-divergent targets' },
+    json: { type: 'boolean', describe: 'machine-readable result on stdout — includes the invariants NOT run' },
   },
   notes: [
     'A full run takes ~10 minutes. Prefer --fast-mode, --since-git-commit, or --only.',
+    '',
+    '--json emits { checks[], not_run[], selection, totals }. not_run[] is not',
+    'optional decoration: a narrowed run that did not say what it skipped reads',
+    'as a clean full run. See .claude/rules/provenance-or-refuse.md.',
     '',
     'NOTE: without --strict a FAIL still exits 0. Do not gate on the exit code',
     'unless you pass --strict.',
@@ -4367,6 +4474,7 @@ function main() {
   const force = values.force;
   const onlyId = values.only || null;
   const fastMode = values['fast-mode'];
+  const json = values.json;
   const since = values['since-git-commit'];
   const sinceMode = since !== undefined;
   // `true` means the flag was given with no ref; a string is an explicit ref.
@@ -4376,6 +4484,15 @@ function main() {
 
   // Per-run YAML cache (WS-429) — fresh every invocation.
   clearVerifyCache();
+
+  // --json and --fix-hardlinks are mutually exclusive: the repair path prints a
+  // human report and exits before any check runs, so honouring --json there
+  // would hand a caller an empty `checks` array that reads as "nothing failed".
+  // Refuse by name rather than emit that.
+  if (json && fixHardlinks) {
+    console.error('cwos-verify: --json cannot be combined with --fix-hardlinks (the repair path runs no checks; an empty result would read as a clean run)');
+    process.exit(2);
+  }
 
   // --fix-hardlinks runs the scanner in repair mode and returns early. Never
   // invoke implicitly — requires explicit flag. --force adds permission to
@@ -4417,6 +4534,14 @@ function main() {
   // measures — INV-031 sat in the fast set for months at 281 seconds against an
   // 8-second SessionStart timeout, so it was launched and killed every session
   // and no signal said so.
+  //
+  // WS-649: in --json mode stdout carries exactly one JSON document. A check
+  // that writes to stdout would splice prose into it and every caller's
+  // JSON.parse would throw — which is how a machine-readable contract turns
+  // back into "the delegate is broken, report nothing". Stray console.log from
+  // a check is routed to stderr for the duration of the loop instead.
+  const restoreLog = json ? console.log : null;
+  if (json) console.log = (...a) => console.error(...a);
   const results = [];
   for (const inv of checks) {
     let result;
@@ -4425,23 +4550,58 @@ function main() {
     catch (e) { result = { passed: false, detail: `Check threw: ${e.message}` }; }
     results.push({ ...inv, ...result, duration_ms: Date.now() - t0 });
   }
+  if (restoreLog) console.log = restoreLog;
 
   const failed = results.filter(r => !r.passed);
+  // WS-1115/WS-1114: a check that looked and found nothing to judge returns
+  // passed:true + measured:false. It never fails the run, but it is never
+  // counted, printed or stamped as a pass either — green means measured.
+  const unmeasured = results.filter(isUnmeasured);
 
-  if (!quiet || failed.length > 0) {
+  if (!json && (!quiet || failed.length > 0 || unmeasured.length > 0)) {
     const scope = (fastMode || sinceMode) ? ` (${results.length}/${INVARIANT_CHECKS.length} selected)` : '';
-    console.log(`cwos-verify: ${results.length - failed.length}/${results.length} invariants passed${scope}`);
+    const nm = unmeasured.length ? `, ${unmeasured.length} NOT MEASURED` : '';
+    console.log(`cwos-verify: ${results.length - failed.length - unmeasured.length}/${results.length} invariants passed${nm}${scope}`);
     if (selectionNote) console.log(`  selection: ${selectionNote}`);
     for (const r of results) {
-      const icon = r.passed ? 'PASS' : 'FAIL';
+      const icon = !r.passed ? 'FAIL' : (isUnmeasured(r) ? 'NOT MEASURED' : 'PASS');
+      if (quiet && icon === 'PASS') continue;
       console.log(`  [${icon}] ${r.id} — ${r.name}`);
-      if (!r.passed || !quiet) console.log(`         ${r.detail}`);
+      if (icon !== 'PASS' || !quiet) console.log(`         ${r.detail}`);
     }
+
+    /**
+     * MIS-010 — THE VERDICT HAS TO BE WHERE A READER WILL ACTUALLY LOOK.
+     *
+     * The count above is printed BEFORE an interleaved PASS/FAIL list that runs to dozens of
+     * lines. Reading the tail of long output is the normal thing to do, and the tail ended on
+     * whichever invariant happened to be last — so a reader taking that action got a partial
+     * picture with nothing marking it as partial. Measured 2026-09-04: a session reported "3
+     * pre-existing FAILs" from `tail -30` of a run that had SIX, and the three it missed were
+     * simply earlier in the list.
+     *
+     * That is the same shape as the three reporting defects this repo fixed the same day (a
+     * gate printing a green tick over its own defect, a test leaking red into a green log, a
+     * runner printing another run's verdict). The computation was right in every one of them;
+     * the surface was not. So the FAIL roster is repeated at the END, where a tail lands.
+     */
+    // Tri-state since HomeBase WS-1114/1115: a NOT MEASURED check is neither a pass nor a
+    // fail, so the closing line must not call a run that has one "all passed".
+    console.log('');
+    if (failed.length) {
+      console.log(`cwos-verify VERDICT: ${failed.length} FAILED of ${results.length}${nm}${scope}`);
+      for (const r of failed) console.log(`  FAILED: ${r.id} — ${r.name}`);
+    } else if (unmeasured.length) {
+      console.log(`cwos-verify VERDICT: none failed, but ${unmeasured.length} of ${results.length} NOT MEASURED${scope}`);
+    } else {
+      console.log(`cwos-verify VERDICT: all ${results.length} selected invariants passed${scope}`);
+    }
+    for (const r of unmeasured) console.log(`  NOT MEASURED: ${r.id} — ${r.name}`);
   }
 
   if (fix && failed.length === 0) {
     updateLastVerifiedDates(rootDir, results);
-    if (!quiet) console.log(`Updated "Last Verified" date in invariants.md for ${results.length} passing checks`);
+    if (!quiet && !json) console.log(`Updated "Last Verified" date in invariants.md for ${results.length} passing checks`);
   }
 
   // WS-566: a run that COMPLETED says so, with what it cost. A killed run
@@ -4463,7 +4623,103 @@ function main() {
     if (!quiet) console.error(`firing-log update failed: ${e.message}`);
   }
 
+  // WS-1203: give every sustained-red invariant an owner. The escalator existed
+  // since WS-376 and nothing invoked it, so 15 of 16 red invariants sat unowned
+  // (INV-075 at 154 consecutive failures). --only runs observe one invariant
+  // and are often hand-run probes; they leave escalation to a real run.
+  if (!onlyId) {
+    try {
+      const { runWatch } = require('./cwos-migrate-watch');
+      const r = runWatch({ rootDir, wsDir: stampDirOf(rootDir) });
+      if (r.escalations.length && !quiet) {
+        const ids = r.escalations.map((e) => `${e.invariant_id}→${e.ws_id}${e.action === 'created' ? ' (new)' : ''}`);
+        console.error(`${r.escalations.length} red alarm(s) got an owner: ${ids.join(', ')}`);
+      }
+    } catch (e) {
+      // Non-fatal — an escalation failure must never fail verify itself.
+      if (!quiet) console.error(`owner escalation failed: ${e.message}`);
+    }
+  }
+
+  // Emitted last so the liveness/firing-log stamps still run on a --json
+  // invocation: a machine-readable run is a real run and must leave the same
+  // evidence a human one does.
+  if (json) {
+    emitVerifyJson({ results, selectionNote, fastMode, sinceMode, sinceRef, onlyId });
+  }
+
   if (strict && failed.length > 0) process.exit(1);
+}
+
+// ─── WS-649: machine-readable result, including what was NOT measured ───────
+//
+// cwos-constitutional-audit.js delegated its whole system-invariants suite to
+// `cwos-verify.js --json`, a flag that did not exist. cliGate rejected it with
+// exit 2, and the caller's `if (!r.ok) return []` turned that hard failure into
+// an empty array — so the audit dropped all 73 invariants from its denominator and
+// still printed a compliance score. Nothing anywhere distinguished "the
+// invariants passed" from "the invariant runner would not start"
+// (`.claude/rules/provenance-or-refuse.md`).
+//
+// The contract therefore carries its own coverage. `checks[]` is what ran;
+// `not_run[]` is every invariant that did not, each with the reason it was
+// excluded. A consumer that reads only `checks[]` and reports a pass rate is
+// making the same mistake in a new place, so `totals.not_run` is stated too and
+// `selection.complete` is the single boolean that says whether this run saw the
+// whole set.
+function buildVerifyJson({ results, selectionNote, fastMode, sinceMode, sinceRef, onlyId }) {
+  const ranIds = new Set(results.map(r => r.id));
+  const notRun = INVARIANT_CHECKS.filter(c => !ranIds.has(c.id)).map((c) => {
+    const meta = INVARIANT_META[c.id] || {};
+    let reason;
+    if (onlyId) reason = `not selected by --only ${onlyId}`;
+    else if (meta.heavy) reason = 'heavy — excluded from narrowed (--fast-mode / --since-git-commit) selection; run with --only or the full set';
+    else if (fastMode && sinceMode) reason = 'not in the fast set and no watched path changed since the given ref';
+    else if (fastMode) reason = 'not tagged fast: true — excluded by --fast-mode';
+    else if (sinceMode) reason = `no watched path changed since ${sinceRef || 'the working tree'}`;
+    else reason = 'not selected (unknown narrowing)';
+    return { id: c.id, name: c.name, reason };
+  });
+  const failedCount = results.filter(r => !r.passed).length;
+  // HomeBase WS-1114/1115: passed:true + measured:false is NOT a pass. It is reported
+  // as `not_measured` so a consumer counting `status === 'pass'` cannot score it.
+  const unmeasuredCount = results.filter(isUnmeasured).length;
+  return {
+    schema_version: 1,
+    tool: 'cwos-verify',
+    run_timestamp: new Date().toISOString(),
+    selection: {
+      only: onlyId,
+      fast_mode: !!fastMode,
+      since_git_commit: sinceMode ? (sinceRef || 'working-tree') : null,
+      note: selectionNote,
+      // The whole point of the field: false means this result is a SAMPLE of
+      // the invariant set, and any rate computed from it is a rate over the
+      // sample, not over the repo.
+      complete: notRun.length === 0,
+    },
+    totals: {
+      declared: INVARIANT_CHECKS.length,
+      ran: results.length,
+      passed: results.length - failedCount - unmeasuredCount,
+      failed: failedCount,
+      not_measured: unmeasuredCount,
+      not_run: notRun.length,
+    },
+    checks: results.map(r => ({
+      id: r.id,
+      title: r.name,
+      status: !r.passed ? 'fail' : (isUnmeasured(r) ? 'not_measured' : 'pass'),
+      severity: r.passed ? 'low' : 'high',
+      evidence: r.detail == null ? '' : String(r.detail),
+      duration_ms: r.duration_ms,
+    })),
+    not_run: notRun,
+  };
+}
+
+function emitVerifyJson(args) {
+  process.stdout.write(JSON.stringify(buildVerifyJson(args), null, 2) + '\n');
 }
 
 // ─── WS-566: proof that a verify run finished, and what it cost ─────────────
@@ -4480,6 +4736,27 @@ function main() {
 // per invariant, which turns `fast: true` from an assertion into a measurement
 // INV-070 can check.
 const VERIFY_LIVENESS_FILE = '.verify-liveness.yaml';
+
+/**
+ * Where this run's OBSERVABILITY stamps live — `.verify-liveness.yaml` and
+ * `meta/invariant-firing-log.yaml`. Normally the canonical workstream dir.
+ *
+ * `CWOS_VERIFY_STAMP_DIR` redirects them, and exists for one caller: a test
+ * suite that runs verify to check its OUTPUT. Without it every such test
+ * rewrote the real firing log (a tracked file) and stamped the real liveness
+ * record with a run nobody asked for — a dirty tree mid-suite, which flipped
+ * `engineDirty` under reviewSession's content hash and made it flaky, and
+ * INV-070 evidence fabricated by the test runner. The redirect covers the
+ * readers too (INV-070), so a redirected run is self-consistent.
+ */
+function stampDirOf(rootDir) {
+  const override = process.env.CWOS_VERIFY_STAMP_DIR;
+  if (override) {
+    fs.mkdirSync(override, { recursive: true });
+    return override;
+  }
+  return workstreamDirOf(rootDir);
+}
 
 function readVerifyLivenessRaw(p) {
   const prior = {};
@@ -4500,6 +4777,7 @@ function writeVerifyLiveness(p, out) {
     'last_fast_completed_at', 'last_fast_ms', 'slowest_fast_id', 'slowest_fast_ms',
     'last_full_completed_at', 'last_replay_purity_ok_at', 'last_replay_purity_ms',
     'last_field_purity_ok_at', 'last_field_purity_ms',
+    'vitals_observed_at', 'vitals_scope', 'vitals_ok', 'red_vitals',
   ];
   const body = [
     '# Written by cwos-verify.js (WS-566 / WS-609). last_run_started_* is',
@@ -4530,7 +4808,7 @@ function verifyModeLabel({ fastMode, sinceMode, onlyId }) {
 // (A LIVE prior pid is a concurrent verify run; we still claim the slot —
 // two interleaved runs racing one stamp file is an accepted residual race.)
 function stampVerifyStart(rootDir, { fastMode, sinceMode, onlyId }) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = stampDirOf(rootDir);
   if (!fs.existsSync(wsDir)) return;
   const p = path.join(wsDir, VERIFY_LIVENESS_FILE);
   withFileLock(p + '.lock', () => {
@@ -4559,7 +4837,7 @@ function stampVerifyStart(rootDir, { fastMode, sinceMode, onlyId }) {
 }
 
 function stampVerifyLiveness(rootDir, results, { fastMode, sinceMode, onlyId }) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = stampDirOf(rootDir);
   if (!fs.existsSync(wsDir)) return;
   const p = path.join(wsDir, VERIFY_LIVENESS_FILE);
 
@@ -4606,15 +4884,48 @@ function stampVerifyLiveness(rootDir, results, { fastMode, sinceMode, onlyId }) 
       out.last_field_purity_ms = String(fieldPurity.duration_ms || 0);
     }
 
+    // WS-1334: record WHAT the run saw, not only when it finished. Reconcile
+    // copies these into system-summary.yaml, which the session-start briefing
+    // and the autonomous gate read. Before this, nothing wrote them and the
+    // summary carried a July "vitals ok" forward for 102 days while suites
+    // were RED. Only fast and full runs speak for vitals: an --only or --since
+    // run checks too little to say anything about the whole.
+    if (!onlyId && !sinceMode) {
+      Object.assign(out, mergeVitals(prior, results, { scope: fastMode ? 'fast' : 'full', now }));
+    }
+
     writeVerifyLiveness(p, out);
   }, { ownerLabel: 'cwos-verify-complete' });
+}
+
+/**
+ * WS-1334: merge this run's verdicts into the prior vitals, per invariant id.
+ * Checked and failed -> red. Checked and passed -> no longer red. NOT checked
+ * by this run -> keeps its prior state. That last rule is what stops a fast
+ * run, which never runs INV-089 (the kit test sweep), from erasing a RED only
+ * the full set can see. A NOT MEASURED result is neither red nor green.
+ * Pure: takes the prior liveness record (string values) and the results.
+ */
+function mergeVitals(prior, results, { scope, now }) {
+  const red = new Set(String((prior && prior.red_vitals) || '').split(',').map((s) => s.trim()).filter(Boolean));
+  for (const r of results) {
+    if (!r.passed) red.add(r.id);
+    else if (!isUnmeasured(r)) red.delete(r.id);
+  }
+  const list = [...red].sort();
+  return {
+    vitals_observed_at: now,
+    vitals_scope: scope,
+    vitals_ok: list.length === 0 ? 'true' : 'false',
+    red_vitals: list.join(','),
+  };
 }
 
 // WS-376 / FIND-251: persistent firing log so consecutive-failure thresholds
 // can drive cwos-migrate-watch.js escalations. Schema and atomicity follow the
 // state-store pattern (read → mutate → writeFileAtomic).
 function updateInvariantFiringLog(rootDir, results) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = stampDirOf(rootDir);
   if (!fs.existsSync(wsDir)) return; // not a workstream-bearing repo
   const metaDir = path.join(wsDir, 'meta');
   if (!fs.existsSync(metaDir)) fs.mkdirSync(metaDir, { recursive: true });
@@ -4639,11 +4950,17 @@ function updateInvariantFiringLog(rootDir, results) {
       threshold: 5,
       migration_ws_id: null,
     };
-    if (r.passed) {
+    if (r.passed && isUnmeasured(r)) {
+      // WS-1114: nothing was observed, so neither reset nor advance the count.
+      data.invariants[id] = { ...prior, last_status: 'NOT_MEASURED' };
+    } else if (r.passed) {
       // Reset counter on PASS. Preserve migration_ws_id if already escalated.
+      // first_failed_at clears too (WS-1203): it dates the current red streak,
+      // which cwos-migrate-watch's age threshold reads.
       data.invariants[id] = {
         ...prior,
         consecutive_failures: 0,
+        first_failed_at: null,
         last_status: 'PASS',
         last_failed_at: prior.last_failed_at,
       };
@@ -4691,7 +5008,7 @@ function updateLastVerifiedDates(rootDir, results) {
   let content = fs.readFileSync(invPath, 'utf8');
   const today = todayISO();
   for (const r of results) {
-    if (!r.passed) continue;
+    if (!r.passed || isUnmeasured(r)) continue;
     // Find the section for this invariant and update its Last Verified date
     const sectionRegex = new RegExp(
       `(### ${r.id}:[\\s\\S]*?\\*\\*Last Verified:\\*\\*\\s*)\\d{4}-\\d{2}-\\d{2}`,
@@ -4705,7 +5022,7 @@ function updateLastVerifiedDates(rootDir, results) {
   writeFileAtomic(invPath, content);
   emitEvent('T11:vital-signs', 'invariants-stamped', {
     path: path.relative(process.cwd(), invPath).replace(/\\/g, '/'),
-    stamped_count: results.filter((r) => r.passed).length,
+    stamped_count: results.filter((r) => r.passed && !isUnmeasured(r)).length,
   });
 }
 
@@ -4899,7 +5216,7 @@ function checkCapabilityBriefSchema(rootDir) {
 // Replay-pure: derives entirely from envelope state, which is reducer-built
 // from the event log per ADR-018/ADR-020.
 function checkCliBypassViaCommand(rootDir) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = workstreamDirOf(rootDir);
   if (!fs.existsSync(wsDir)) {
     return { passed: true, detail: 'no .claude/workstream — INV-043 N/A' };
   }
@@ -5051,8 +5368,11 @@ function checkShellSafePattern(rootDir) {
 }
 
 function checkReadRestraint(rootDir) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
-  if (!fs.existsSync(wsDir)) {
+  // WS-1115: the one canonical state dir (WS-576). Joining rootDir read a
+  // worktree's empty, gitignored state/ and reported "no telemetry" from there.
+  let wsDir;
+  try { wsDir = findWorkstreamDir(rootDir); } catch { wsDir = null; }
+  if (!wsDir || !fs.existsSync(wsDir)) {
     return { passed: true, detail: 'no .claude/workstream — INV-cli-envelope-consumed-completely N/A' };
   }
 
@@ -5092,7 +5412,7 @@ function checkReadRestraint(rootDir) {
   );
 
   if (nextRuns.length === 0) {
-    return { passed: true, detail: `no /next invocations with tool_rounds_by_type telemetry yet — INV deferred until WS-271 telemetry coverage accumulates` };
+    return { passed: true, measured: false, detail: 'NOT MEASURED — no /next invocation carries tool_rounds_by_type telemetry yet' };
   }
 
   // Acknowledgments: load all read_restraint_acknowledged events and treat
@@ -5133,7 +5453,14 @@ function checkReadRestraint(rootDir) {
   // INV-053 gives its pre-cutover findings: exempt, counted, and named.
   const SENSOR_CUTOVER = '2026-08-02';
   const preCutover = nextRuns.filter(i => String(i.completed_at || '') < SENSOR_CUTOVER);
-  const measurable = nextRuns.filter(i => String(i.completed_at || '') >= SENSOR_CUTOVER);
+  // run-035: the WS-560 bound stopped at the expanded command body (an isMeta
+  // user line), so from the cutover until 2026-10-12 most scans saw only the
+  // command tag — zero tool rounds, zero Reads, a guaranteed "clean". A reading
+  // with no tool rounds never observed the command; count it as unmeasured,
+  // never as compliant. The reducer stores 0 as null, so test > 0.
+  const postCutover = nextRuns.filter(i => String(i.completed_at || '') >= SENSOR_CUTOVER);
+  const blind = postCutover.filter(i => !(typeof i.tool_rounds_actual === 'number' && i.tool_rounds_actual > 0));
+  const measurable = postCutover.filter(i => !blind.includes(i));
 
   const violations = [];
   for (const inv of measurable) {
@@ -5147,13 +5474,21 @@ function checkReadRestraint(rootDir) {
   const exemptNote = preCutover.length
     ? ` (${preCutover.length} pre-${SENSOR_CUTOVER} invocation(s) exempt — measured by the unbounded sensor WS-560 fixed)`
     : '';
+  const blindNote = blind.length
+    ? ` (${blind.length} not measured — the sensor saw only the command tag; fixed by run-035)`
+    : '';
 
   if (violations.length === 0) {
+    if (measurable.length === 0) {
+      // WS-1115: zero readings is not compliance. Say NOT MEASURED, never pass.
+      return {
+        passed: true, measured: false,
+        detail: `NOT MEASURED — no /next reading from a working sensor yet${blindNote}${exemptNote}`,
+      };
+    }
     return {
       passed: true,
-      detail: measurable.length === 0
-        ? `no post-${SENSOR_CUTOVER} /next telemetry yet — awaiting readings from the corrected sensor${exemptNote}`
-        : `clean — ${measurable.length} /next invocation(s) all ≤ ${max} Reads${exemptNote}`,
+      detail: `clean — ${measurable.length} /next invocation(s) all ≤ ${max} Reads${blindNote}${exemptNote}`,
     };
   }
 
@@ -5162,6 +5497,99 @@ function checkReadRestraint(rootDir) {
     passed: false,
     detail: `${violations.length} /next invocation(s) exceeded ${max} Read tool calls (per-invocation threshold). Examples: ${summary}. Findings should be routed to prog-kit-quality with dedup_key read-restraint-<command_id>. Founder may acknowledge legitimate re-reads via /next gate --override-read-restraint "<rationale ≥20 chars>".`,
   };
+}
+
+// ─── INV-sensor-liveness (WS-1114 / run-035) ────────────────────────────────
+//
+// From 2026-08-02 to 2026-10-12 the Stop-hook sensor stamped every /next with
+// 19 tokens and zero tool rounds, and nothing noticed for ten weeks: every
+// reader downstream filtered the dead readings out and reported what was left,
+// which was nothing, as clean. This check looks at the sensor's output itself.
+//
+// A /next reading is DEAD when the sensor plainly did not observe the command:
+//   - no command_telemetry_stamped at all (the Stop hook did not run);
+//   - tool_rounds_actual not > 0 — /next always runs its gate, so a reading
+//     with no tool rounds saw only the command tag;
+//   - transcript_lines_scanned <= 1 — the scan stopped at the tag line;
+//   - tokens_derived identical to the reading before — two real sessions do
+//     not cost the same to the token; a constant is a sensor stuck on one line.
+// Readings younger than an hour are left out: the hook stamps at turn end.
+//
+// Reads the event log, not state/envelope.json: the state store can lag the
+// log (2026-10-13: a stamp 3s after its /next never reached envelope.json),
+// and a check that reads the lagging copy would call a live sensor dead.
+const SENSOR_LIVENESS_WINDOW = 3;
+const SENSOR_STAMP_GRACE_MS = 60 * 60 * 1000;
+const SENSOR_LIVENESS_CUTOVER = '2026-08-02';
+const SENSOR_SCAN_LIMIT = 80;
+
+function isUnmeasured(r) {
+  return !!r && r.passed === true && r.measured === false;
+}
+
+// Pure. readings: [{ command_id, completed_at, stamp }] where stamp is the
+// command_telemetry_stamped payload or null.
+function assessSensorLiveness(readings, { now = Date.now(), window = SENSOR_LIVENESS_WINDOW } = {}) {
+  const rs = (Array.isArray(readings) ? readings : [])
+    .filter((r) => r && r.completed_at && String(r.completed_at) >= SENSOR_LIVENESS_CUTOVER &&
+      Number.isFinite(Date.parse(r.completed_at)) &&
+      now - Date.parse(r.completed_at) >= SENSOR_STAMP_GRACE_MS)
+    .sort((a, b) => String(a.completed_at).localeCompare(String(b.completed_at)));
+  const causeOf = (r, prev) => {
+    const s = r.stamp;
+    if (!s) return 'no telemetry stamp';
+    if (!(typeof s.tool_rounds_actual === 'number' && s.tool_rounds_actual > 0)) return 'zero tool rounds';
+    if (typeof s.transcript_lines_scanned === 'number' && s.transcript_lines_scanned <= 1) return `${s.transcript_lines_scanned} transcript line(s) scanned`;
+    if (prev && prev.stamp && typeof s.tokens_derived === 'number' && s.tokens_derived === prev.stamp.tokens_derived) {
+      return `same ${s.tokens_derived} tokens as the reading before`;
+    }
+    return null;
+  };
+  const judged = rs.map((r, i) => ({ ...r, dead: causeOf(r, rs[i - 1] || null) }));
+  let trailingDead = 0;
+  for (let i = judged.length - 1; i >= 0 && judged[i].dead; i--) trailingDead++;
+  const state = trailingDead >= window ? 'dead'
+    : judged.length < window ? 'unmeasured'
+    : 'alive';
+  return { state, readings: judged.length, trailing_dead: trailingDead, window, latest: judged.slice(-window) };
+}
+
+function loadNextSensorReadings(wsDir) {
+  const { readFilteredEvents } = require('./core/events');
+  const evs = readFilteredEvents(path.join(wsDir, 'events'), {
+    typeFilter: ['command_completed', 'command_telemetry_stamped'], limit: SENSOR_SCAN_LIMIT,
+  });
+  const stamps = new Map();
+  for (const ev of evs) {
+    if (ev && ev.payload && ev.payload.type === 'command_telemetry_stamped') stamps.set(ev.command_id, ev.payload);
+  }
+  return evs
+    .filter((ev) => ev && ev.payload && ev.payload.type === 'command_completed' && ev.payload.command === '/next')
+    .map((ev) => ({ command_id: ev.command_id, completed_at: ev.timestamp, stamp: stamps.get(ev.command_id) || null }));
+}
+
+function checkSensorLiveness(rootDir) {
+  let wsDir;
+  try { wsDir = findWorkstreamDir(rootDir); }
+  catch { return { passed: true, detail: 'no .claude/workstream — INV-sensor-liveness N/A' }; }
+  if (!wsDir || !fs.existsSync(path.join(wsDir, 'events'))) {
+    return { passed: true, measured: false, detail: 'NOT MEASURED — no event log to read /next readings from' };
+  }
+  let a;
+  try { a = assessSensorLiveness(loadNextSensorReadings(wsDir)); }
+  catch (e) { return { passed: true, measured: false, detail: `NOT MEASURED — event log unreadable: ${e.message}` }; }
+  const fmt = (r) => `${String(r.completed_at).slice(0, 16)} ${r.dead ? `DEAD (${r.dead})` : `${r.stamp.tokens_derived} tokens/${r.stamp.tool_rounds_actual} rounds`}`;
+  if (a.state === 'dead') {
+    return {
+      passed: false,
+      detail: `the /next token sensor is DEAD — the last ${a.trailing_dead} readings observed nothing: ${a.latest.map(fmt).join('; ')}. `
+        + 'Every token number downstream is fiction until it is fixed: check kit/scripts/cwos-stop-telemetry.js against the current transcript format.',
+    };
+  }
+  if (a.state === 'unmeasured') {
+    return { passed: true, measured: false, detail: `NOT MEASURED — ${a.readings} of ${a.window} /next readings old enough to judge` };
+  }
+  return { passed: true, detail: `alive — latest ${a.latest.length}: ${a.latest.map(fmt).join('; ')}` };
 }
 
 // ─── INV-046: Persona-dispatch runtime audit (WS-316 / ADR-044) ─────────────
@@ -5332,18 +5760,24 @@ function checkProgramYamlSchema(rootDir) {
 // Never hard-fails (a false signal must not block session start); surfaces at
 // session start via WS-429 fast-mode.
 
+// WS-810: the canonical reader. The loose `*.jsonl` listing this replaced read
+// current.jsonl (a mirror of today's chunk) as well as the dated chunk, so
+// today's events came back twice and out of order, and it never saw
+// events/archive/. Kept as a thin wrapper so existing callers keep their name.
+// "Does this repo have an event log?" — the dated chunks the shared reader
+// knows, plus current.jsonl: a young repo's log can be only current.jsonl, and
+// listChunkFiles alone reads that as "no log", turning INV-070's replay-purity
+// FAIL into N/A (caught by verify-budget.test.js while landing WS-810).
+function eventLogFiles(eventsDir) {
+  const files = require('./core/events').listChunkFiles(eventsDir);
+  const current = path.join(eventsDir, 'current.jsonl');
+  if (fs.existsSync(current)) files.push(current);
+  return files;
+}
+
 function readVerifyEventTail(eventsDir, maxEvents) {
   if (!fs.existsSync(eventsDir)) return [];
-  const files = fs.readdirSync(eventsDir).filter((f) => f.endsWith('.jsonl')).sort();
-  const events = [];
-  for (let i = files.length - 1; i >= 0 && events.length < maxEvents; i--) {
-    const text = fs.readFileSync(path.join(eventsDir, files[i]), 'utf8');
-    const lines = text.split('\n').filter(Boolean);
-    for (let j = lines.length - 1; j >= 0 && events.length < maxEvents; j--) {
-      try { events.unshift(JSON.parse(lines[j])); } catch (_) { /* skip */ }
-    }
-  }
-  return events;
+  return require('./core/events').readFilteredEvents(eventsDir, { limit: maxEvents });
 }
 
 function checkPreflightGateNotBypassed(rootDir) {
@@ -5442,6 +5876,88 @@ function checkWsIdCollisionWithRemote(rootDir) {
   return {
     passed: false,
     detail: `${d.collisions.length} collision(s), ${d.duplicates.length} duplicate(s) against ${d.ref}${staleNote} — this repo cannot pull until they move: ${parts.slice(0, 4).join('; ')}${parts.length > 4 ? `; +${parts.length - 4} more` : ''}. Fix: node kit/scripts/cwos-id-collision.js --repair`,
+  };
+}
+
+// ─── INV-094: no mojibake in state files (WS-514) ──────────────────────────
+//
+// Windows PowerShell 5.1 reads and writes the ANSI codepage by default, so a
+// Get-Content/Set-Content round-trip over a UTF-8 state file turns every
+// em-dash into "â€”" (the UTF-8 bytes E2 80 94 read as cp1252). Measured in a
+// ServeYourNote session on 2026-07-25 (WS-514 #2), and again in HomeBase's own
+// WS-562 a week after the item was filed — nothing noticed either time.
+//
+// The guard row `state-file-shell-write` blocks the write at the tool boundary
+// on nodes that carry it. This is the other half: it finds the damage however
+// it got there — another node, another tool, a hand edit.
+//
+// A signature inside a backtick code span is a QUOTE of the damage, not the
+// damage (WS-529 describes the WS-514 mojibake that way), so code spans are
+// stripped before matching. So is a signature standing alone between double
+// quotes, escaped or not (`"â€”"`, `\"â€”\"`): that is how a record quotes this
+// check's own name, and run-042's compliance score tripped it that way
+// (2026-11-03). Real damage sits inside words, never alone in quotes.
+// The event log is not scanned: it is append-only,
+// so damage there is history to report elsewhere, not a failure this check
+// could ever see repaired.
+const MOJIBAKE = /â€/;
+const QUOTED_SIGNATURE = /\\?"â€[^"\\\s]?\\?"/g;
+function checkNoStateMojibake(rootDir) {
+  let wsDir = null;
+  try { wsDir = findWorkstreamDir(rootDir); } catch { /* no workstream */ }
+  const { resolveSystemDir } = require('./lib/kit-artifacts');
+  // Hits are named relative to the repo that OWNS the file: from a worktree the
+  // workstream resolves to the main tree (WS-576), and "../../workstream/..." is
+  // not a path anyone can act on.
+  const roots = [
+    wsDir && { dir: wsDir, base: path.dirname(path.dirname(wsDir)), recurse: true },
+    { dir: path.join(rootDir, resolveSystemDir(rootDir)), base: rootDir, recurse: false },
+  ].filter(Boolean);
+  const SKIP = new Set(['events', 'state', 'liveness', 'runs', 'node_modules']);
+  const hits = [];
+  let scanned = 0;
+  let unchanged = 0;
+  // Per-node memo of files read CLEAN (mtime + size), in the gitignored liveness dir. Reading
+  // ~2,500 state files was 1.1 s of a 4.8 s SessionStart budget (INV-070, 2026-11-04); a stat is
+  // ~25 ms for all of them. A damaged file is never memoed, so it is re-read and fails every run
+  // until repaired; any write changes mtime, so a file damaged after a clean read is re-read.
+  // `v` names the detector: change MOJIBAKE or QUOTED_SIGNATURE and bump it.
+  const MEMO_V = 'mojibake-2';
+  const memoFile = wsDir ? path.join(wsDir, 'liveness', 'inv-094-clean.json') : null;
+  let memo = {};
+  if (memoFile) { try { const m = JSON.parse(fs.readFileSync(memoFile, 'utf8')); if (m && m.v === MEMO_V && m.files) memo = m.files; } catch { /* no memo: read everything */ } }
+  const nextMemo = {};
+  const walk = (dir, base, recurse) => {
+    let entries = [];
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) { if (recurse && !SKIP.has(e.name)) walk(full, base, recurse); continue; }
+      if (!/\.(ya?ml|md)$/.test(e.name)) continue;
+      let st = null;
+      try { st = fs.statSync(full); } catch { continue; }
+      const sig = `${st.mtimeMs}:${st.size}`;
+      if (memo[full] === sig) { scanned++; unchanged++; nextMemo[full] = sig; continue; }
+      let text;
+      try { text = fs.readFileSync(full, 'utf8'); } catch { continue; }
+      scanned++;
+      if (!MOJIBAKE.test(text)) { nextMemo[full] = sig; continue; }
+      const lines = text.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        if (MOJIBAKE.test(lines[i].replace(/`[^`]*`/g, '').replace(QUOTED_SIGNATURE, ''))) {
+          hits.push(`${path.relative(base, full).split(path.sep).join('/')}:${i + 1}`);
+        }
+      }
+    }
+  };
+  for (const r of roots) walk(r.dir, r.base, r.recurse);
+  if (memoFile) {
+    try { fs.mkdirSync(path.dirname(memoFile), { recursive: true }); writeFileAtomic(memoFile, JSON.stringify({ v: MEMO_V, files: nextMemo })); } catch { /* memo is an optimisation only */ }
+  }
+  if (!hits.length) return { passed: true, detail: `${scanned} state file(s) scanned (${scanned - unchanged} read, ${unchanged} unchanged since a clean read), no mojibake` };
+  return {
+    passed: false,
+    detail: `${hits.length} line(s) carry PowerShell ANSI mojibake ("â€"): ${hits.slice(0, 5).join(', ')}${hits.length > 5 ? `, +${hits.length - 5} more` : ''}. Repair: replace "â€”" with "—" (and "â€“" with "–", "â€™" with "'"), then write state through cwos-item / cwos-state-store, never PowerShell Set-Content (WS-514)`,
   };
 }
 
@@ -5545,11 +6061,29 @@ function checkSecurityPostureMatchesDeclaration(rootDir) {
   const { spawnSync } = require('child_process');
   const res = spawnSync(process.execPath, [script], { encoding: 'utf8' });
 
-  // Exit 2 = this node declares no posture, or the registry/settings are
-  // unreadable. Not a violation: an adopted repo that never opted in must not
-  // fail verification over a control it never adopted.
+  // Exit 2 covers THREE different situations, and collapsing them into one pass is the
+  // silent-degradation shape `.claude/rules/provenance-or-refuse.md` exists to stop:
+  //
+  //   no-registry         this repo has no fleet registry -> the control was never
+  //                       adopted, nothing to verify. Genuinely N/A, still passes.
+  //   no-posture-declared a registered node with no posture block. N/A, but SAID out loud.
+  //   node-unregistered   a registry EXISTS and this machine is not in it. That is NOT
+  //                       N/A -- the control is adopted and this machine's posture has
+  //                       been checked by nothing. Reporting it as "not applicable" is a
+  //                       false claim: "there is no rule here" vs "there is a rule and
+  //                       nobody looked". WS-747; the G16 going to warranty service makes
+  //                       a replacement machine the normal case for this, not an edge one.
   if (res.status === 2) {
-    return { passed: true, detail: `no security_posture declared for this node — N/A (${(res.stderr || '').trim().split('\n')[0]})` };
+    const line = (res.stderr || '').trim().split('\n')[0];
+    const code = /\[([a-z-]+)\]/.exec(line)?.[1] || 'unknown';
+    if (code === 'node-unregistered') {
+      return {
+        passed: false,
+        detail: `security posture UNVERIFIED on this machine — ${line}. Register it in `
+          + `fleet/registry.yaml (ADR-059), or this invariant is measuring nothing here.`,
+      };
+    }
+    return { passed: true, detail: `security posture N/A (${code}) — ${line}` };
   }
   if (res.status === null || res.error) {
     return { passed: true, detail: `posture check could not run — ${res.error ? res.error.message : 'no exit status'}` };
@@ -5560,6 +6094,15 @@ function checkSecurityPostureMatchesDeclaration(rootDir) {
 
   if (res.status === 0) {
     return { passed: true, detail: `posture matches declaration on ${(parsed && parsed.node) || os.hostname()}` };
+  }
+
+  // Exit 3 (WS-942) = nothing diverged, but a declared control could not be
+  // read from here — a cloud container cannot read its own permission mode.
+  // Not drift, so not a failure; and not a match, so the detail must not say
+  // one. It names what went unchecked.
+  if (res.status === 3) {
+    const names = ((parsed && parsed.unverified) || []).map((u) => u.control).join(', ') || 'unnamed';
+    return { passed: true, detail: `no drift in what could be read on ${(parsed && parsed.node) || os.hostname()} — NOT verified: ${names}` };
   }
 
   const findings = (parsed && parsed.findings) || [];
@@ -6131,7 +6674,7 @@ const FAST_STALE_DAYS = 7;
 const TRUNCATION_GRACE_MS = 60 * 60 * 1000;
 
 function checkVerifyLiveness(rootDir) {
-  const wsDir = path.join(rootDir, '.claude', 'workstream');
+  const wsDir = stampDirOf(rootDir);
   if (!fs.existsSync(wsDir)) {
     return { passed: true, detail: 'no workstream dir (INV-070 N/A)' };
   }
@@ -6247,7 +6790,7 @@ function checkVerifyLiveness(rootDir) {
   // ADR-020's guarantee is vacuous until events exist anyway.
   const eventsDir = path.join(wsDir, 'events');
   let eventFiles = [];
-  try { eventFiles = fs.readdirSync(eventsDir).filter((f) => f.endsWith('.jsonl')); } catch { /* none */ }
+  try { eventFiles = eventLogFiles(eventsDir); } catch { /* none */ }
   if (eventFiles.length === 0) {
     notes.push('no event log yet — replay-purity N/A');
     return problems.length
@@ -6386,7 +6929,12 @@ function checkClosureGuardShape(rootDir) {
 // shape of the fleet sweep that read "clean, 0 findings" for six days in
 // September while 19 findings waited. Green and absent must never look alike.
 function checkTestSweepGreen(rootDir) {
-  const stampPath = path.join(rootDir, '.claude', 'workstream', '.test-sweep.json');
+  // The watermark is workstream state, so it lives in the MAIN tree's
+  // workstream dir (WS-576). Joining it onto rootDir read "absent" from every
+  // linked worktree, failing INV-089 there over a sweep that was fine (WS-987).
+  let wsDir;
+  try { wsDir = findWorkstreamDir(rootDir); } catch { wsDir = null; }
+  const stampPath = path.join(wsDir || path.join(rootDir, '.claude', 'workstream'), '.test-sweep.json');
   const sweeper = path.join(rootDir, 'kit', 'scripts', 'cwos-test-sweep.js');
   if (!fs.existsSync(sweeper)) {
     return { passed: true, detail: 'cwos-test-sweep.js not present — INV-089 N/A (pre-WS-808)' };
@@ -6399,58 +6947,17 @@ function checkTestSweepGreen(rootDir) {
   try { stamp = JSON.parse(fs.readFileSync(stampPath, 'utf8')); }
   catch (e) { return { passed: false, detail: `.test-sweep.json unreadable — ${e.message}` }; }
 
-  const problems = [];
-  const now = Date.now();
-  const completed = stamp.last_completed_at ? Date.parse(stamp.last_completed_at) : NaN;
-  const started = stamp.last_started_at ? Date.parse(stamp.last_started_at) : NaN;
-  const invoked = stamp.last_invoked_at ? Date.parse(stamp.last_invoked_at) : NaN;
-
-  // (1) A run that started and never finished. The task's execution limit kills
-  // mid-sweep, and this ordering is the only evidence that survives it.
-  //
-  // But a run IN PROGRESS has the same shape, and the sweep takes ~10 minutes,
-  // so without the pid this check would fail once a day on schedule — and a
-  // check that cries wolf predictably is one people learn to skip. If the
-  // recorded pid is still alive, the sweep is running right now, not truncated.
-  const openRun = Number.isFinite(started) && (!Number.isFinite(completed) || started > completed);
-  let inProgress = false;
-  if (openRun && stamp.last_started_pid) {
-    try { process.kill(Number(stamp.last_started_pid), 0); inProgress = true; }
-    catch { inProgress = false; }   // ESRCH — the process is gone, so it really was killed
-  }
-  if (openRun && !inProgress) {
-    problems.push(`a sweep started ${stamp.last_started_at} never completed — truncated or killed mid-run`);
-  }
-
-  // (2) Staleness. The daily tier is 20h; allow 3 days before failing so a
-  // laptop that was shut for a weekend does not cry wolf.
-  const STALE_MS = 3 * 86400000;
-  if (!Number.isFinite(completed)) {
-    // Not a problem while the very first sweep is still running — that is the
-    // system working, not a gap.
-    if (!inProgress) problems.push('no completed sweep recorded yet');
-  } else if (now - completed > STALE_MS) {
-    const days = Math.floor((now - completed) / 86400000);
-    const invokedNote = Number.isFinite(invoked) && (now - invoked) <= STALE_MS
-      ? ' — the sweeper IS being invoked, so the daily tier is starting and not finishing'
-      : ' — the sweeper is not being invoked at all; check the Fleet-SessionSweep task\'s fourth action';
-    problems.push(`last completed sweep is ${days}d old (max 3d)${invokedNote}`);
-  }
-
-  // (3) The actual point: a red suite.
-  const failing = Number(stamp.failing) || 0;
-  const timing = Number(stamp.timing_out) || 0;
-  if (failing + timing > 0) {
-    const names = (stamp.failures || []).slice(0, 6).map((f) => `${f.suite} [${f.status}]`).join(', ');
-    const more = (stamp.failures || []).length > 6 ? ` (+${stamp.failures.length - 6} more)` : '';
-    problems.push(`${failing} suite(s) failing, ${timing} timing out: ${names}${more}`);
-  }
-
-  if (problems.length) return { passed: false, detail: problems.join(' | ') };
-  const ageH = Math.round((now - completed) / 360000) / 10;
+  // The judgement lives in lib/test-sweep-record (WS-987) so the /next digest
+  // renders exactly what this check fails on: a truncated run (unless its pid
+  // is still alive — then it is in progress), a completed sweep older than 3
+  // days, or any red / timing-out suite. Green and absent never look alike.
+  const w = require('./lib/test-sweep-record').assessWatermark(stamp);
+  if (w.problems.length) return { passed: false, detail: w.problems.join(' | ') };
+  const nm = w.not_measured.length
+    ? ` — ${w.not_measured.length} NOT MEASURED (machine paging): ${w.not_measured.map((f) => f.suite).join(', ')}` : '';
   return {
     passed: true,
-    detail: `${stamp.total_suites} suite(s) all green, swept ${ageH}h ago in ${Math.round((stamp.total_ms || 0) / 1000)}s`,
+    detail: `${w.total_suites - w.not_measured.length} of ${w.total_suites} suite(s) green, swept ${w.age_hours}h ago in ${Math.round(w.total_ms / 1000)}s${nm}`,
   };
 }
 
@@ -6471,7 +6978,6 @@ function checkTestSweepGreen(rootDir) {
 // This delegates to cwos-finding-validate rather than re-implementing the
 // schema: one enforcer, so the register and the enforcement cannot drift.
 function checkAbsenceClaimsCarryEvidence(rootDir) {
-  const { execFileSync } = require('child_process');
   const root = rootDir || findRepoRoot(process.cwd(), { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 });
   const validator = path.join(root, 'kit', 'scripts', 'cwos-finding-validate.js');
   if (!fs.existsSync(validator)) {
@@ -6480,9 +6986,7 @@ function checkAbsenceClaimsCarryEvidence(rootDir) {
 
   let out;
   try {
-    out = execFileSync(process.execPath, [validator, '--all', '--quiet'], {
-      cwd: root, encoding: 'utf8', timeout: 60000,
-    });
+    out = runFindingValidator(validator, root);
   } catch (e) {
     // Non-zero exit is the violation path — the JSON is still on stdout.
     out = (e && e.stdout) || '';
@@ -6520,11 +7024,213 @@ function checkAbsenceClaimsCarryEvidence(rootDir) {
   };
 }
 
+// INV-088 and INV-095 read the same `cwos-finding-validate --all` summary. One
+// run per root per process: the second spawn cost ~0.4s of the session-start fast
+// budget for an identical answer. A failed run is cached as the same throw, so
+// both checks still see the non-zero exit and its stdout.
+//
+// `--no-emit`: these are checks, so they observe and report; the violation is
+// in their result. Without it every verify run (each session start, and every
+// kit test that runs a fast verify in the real repo) appended a
+// finding-validation-failed event per bad finding to the REAL event log,
+// whatever CWOS_VERIFY_STAMP_DIR said (lane thread test-run-event-log-leak).
+const findingValidatorRuns = new Map();
+
+/**
+ * The same `--all --quiet` summary, built in-process, with a per-node memo of each finding's
+ * result (INV-070 budget, 2026-11-04: the spawned validator was 3.1 s of a 4.8 s SessionStart
+ * budget). Most of that was not reading: each failing finding appended a
+ * `finding-validation-failed` event on EVERY run (318 in the log, 21 more per verify, no reader).
+ * A memoed result, pass or fail, is reused while its file is unchanged, so a failure is still
+ * reported every run and its event is written once per version of the file. The memo is
+ * keyed on each file's mtime+size AND on the validator's and the YAML reader's own mtime+size, so
+ * a change to either rule set re-validates everything. Returns null (caller spawns, as before)
+ * when the repo's validator predates the processFile export.
+ */
+function validateFindingsMemoized(validator, root) {
+  let fv;
+  try { fv = require(validator); } catch { return null; }
+  if (!fv || typeof fv.processFile !== 'function') return null;
+  let wsDir;
+  try { wsDir = findWorkstreamDir(root); } catch { return null; }
+  const findingsDir = path.join(wsDir, 'findings');
+  let names = [];
+  try { names = fs.readdirSync(findingsDir).filter((f) => /^FIND-.*\.yaml$/.test(f)).sort(); } catch { names = []; }
+  const sigOf = (p) => { try { const s = fs.statSync(p); return `${s.mtimeMs}:${s.size}`; } catch { return 'missing'; } };
+  const version = ['finding-validate-2', sigOf(validator), sigOf(path.join(path.dirname(validator), 'lib', 'cwos-utils.js'))].join('|');
+  const memoFile = path.join(wsDir, 'liveness', 'inv-088-findings.json');
+  let memo = {};
+  try { const m = JSON.parse(fs.readFileSync(memoFile, 'utf8')); if (m && m.v === version && m.files) memo = m.files; } catch { /* none */ }
+  const next = {};
+  const results = [];
+  for (const n of names) {
+    const fp = path.join(findingsDir, n);
+    const sig = sigOf(fp);
+    const hit = memo[fp];
+    if (hit && hit.sig === sig) {
+      results.push({ ok: !(hit.errors && hit.errors.length), errors: hit.errors || [], warnings: hit.warnings || [] });
+      next[fp] = hit; continue;
+    }
+    let r;
+    try { r = fv.processFile(fp, { applyEscalation: false, quiet: true, emit: false }); } catch (e) { r = { ok: false, errors: [`${n}: ${e.message}`], warnings: [] }; }
+    results.push(r);
+    if (r && Array.isArray(r.errors)) next[fp] = { sig, errors: r.errors, warnings: r.warnings || [] };
+  }
+  try { fs.mkdirSync(path.dirname(memoFile), { recursive: true }); writeFileAtomic(memoFile, JSON.stringify({ v: version, files: next })); } catch { /* optimisation only */ }
+  const violations = results.filter((r) => !r.ok);
+  const warned = results.filter((r) => r.warnings && r.warnings.length);
+  const out = JSON.stringify({
+    ok: violations.length === 0, mode: 'all', total: results.length, violations: violations.length,
+    warnings_count: warned.reduce((k, r) => k + r.warnings.length, 0), escalations_applied: 0,
+    errors: violations.flatMap((r) => r.errors || []), warnings: warned.flatMap((r) => r.warnings), escalations: [],
+  }, null, 2) + '\n';
+  // A violation reads as the spawned validator's non-zero exit: the callers parse e.stdout.
+  return violations.length ? { err: Object.assign(new Error('finding validation failed'), { stdout: out }) } : { out };
+}
+
+function runFindingValidator(validator, root) {
+  const { execFileSync } = require('child_process');
+  const key = `${validator}|${root}`;
+  if (!findingValidatorRuns.has(key)) {
+    const inProcess = validateFindingsMemoized(validator, root);
+    if (inProcess) {
+      findingValidatorRuns.set(key, inProcess);
+    } else {
+      try {
+        findingValidatorRuns.set(key, { out: execFileSync(process.execPath, [validator, '--all', '--quiet', '--no-emit'], { cwd: root, encoding: 'utf8', timeout: 60000 }) });
+      } catch (e) {
+        findingValidatorRuns.set(key, { err: e });
+      }
+    }
+  }
+  const r = findingValidatorRuns.get(key);
+  if (r.err) throw r.err;
+  return r.out;
+}
+
+// ─── INV-095: "Confirmed" carries the grade of evidence behind it ───────────
+//
+// WS-941 gap 2 / RC5-overclaim ("a hearsay objection raised at the moment the
+// statement is made", edge-claim-truth). RC5 existed only as a class name and a
+// guideword prompt; nothing fired when a finding said "confirmed". A finding
+// using confirmation wording now grades it Observed / Cited / Assumed with a
+// pointer (docs/system-spec/lexicon.yaml, id: evidence). Delegates to
+// cwos-finding-validate exactly as INV-088 does — one enforcer.
+function checkConfirmationClaimsCarryGrade(rootDir) {
+  const root = rootDir || findRepoRoot(process.cwd(), { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 });
+  const validator = path.join(root, 'kit', 'scripts', 'cwos-finding-validate.js');
+  if (!fs.existsSync(validator)) {
+    return { passed: true, detail: 'cwos-finding-validate.js not present — INV-095 N/A in this repo.' };
+  }
+  let out;
+  try {
+    out = runFindingValidator(validator, root);
+  } catch (e) {
+    out = (e && e.stdout) || '';
+    if (!out) return { passed: false, detail: `cwos-finding-validate could not run: ${e && e.message}` };
+  }
+  let summary;
+  try { summary = JSON.parse(out); } catch (e) {
+    return { passed: false, detail: 'cwos-finding-validate produced unparseable output — the schema gate is silently off.' };
+  }
+  const errs = (Array.isArray(summary.errors) ? summary.errors : []).filter((e) => String(e).includes('INV-095'));
+  const warns = (Array.isArray(summary.warnings) ? summary.warnings : []).filter((w) => String(w).includes('INV-095'));
+  if (errs.length) {
+    const shown = errs.slice(0, 3).map((e) => String(e).split(':')[0]).join(', ');
+    return {
+      passed: false,
+      detail: `${errs.length} finding(s) say "confirmed"/"verified" without the grade behind it — ${shown}` +
+        (errs.length > 3 ? ` (+${errs.length - 3} more)` : '') +
+        '. Add evidence_grade (observed|cited) + evidence_pointer, reword if it was assumed, or confirmation_claim: false.',
+    };
+  }
+  const legacy = warns.length ? `; ${warns.length} legacy confirmation claim(s) tracked as warnings` : '';
+  return { passed: true, detail: `${summary.total} finding(s) scanned — every post-cutoff confirmation claim carries its grade${legacy}.` };
+}
+
+// ─── INV-096: the canonical fleet standing has one writer ────────────────────
+//
+// fleet/STANDING.md + fleet/standing.json are THE fleet measure (founder
+// decision 2026-10-13). They are only trustworthy if nothing but
+// fleet/bin/standing.py ever wrote them. This regenerates them from the inputs
+// committed ALONGSIDE them — the tree of the last commit that touched either
+// file — at the clock recorded in them (generated_at), and fails on any byte of
+// difference. That catches a hand-edit, a generator change committed without
+// regenerating, and a commit that moved the inputs under the files (a merge or
+// a rebase). Uncommitted edits to the two files are checked against the working
+// tree instead. Later input commits that do NOT touch the files are not a
+// failure: the files say their own as_of, and the next fleet-pulse run moves it.
+const STANDING_INPUTS = ['fleet/registry.yaml', 'fleet/kit-versions', 'fleet/requests', 'fleet/friction',
+  'fleet/divergence', 'fleet/maintenance', 'fleet/outbox', 'fleet/lanes-published.json', 'kit/VERSION', '.claude/workstream/queue',
+  // WS-944 per-node lanes and the WS-1165 ask ledger: standing.py reads them, so a regeneration without them is not the same run
+  'fleet/nodes', 'fleet/usage', 'fleet/sessions', 'fleet/repo-ask/asks.jsonl',
+  'fleet/standing.json', 'fleet/STANDING.md'];
+
+function checkFleetStandingRegenerates(rootDir) {
+  const { spawnSync } = require('child_process');
+  const root = rootDir || findRepoRoot(process.cwd(), { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 });
+  if (!isKitSourceRepo(root)) return { passed: true, detail: NOT_KIT_SOURCE_NA };
+  const gen = path.join(root, 'fleet', 'bin', 'standing.py');
+  if (!fs.existsSync(gen)) return { passed: true, detail: 'fleet/bin/standing.py not present — INV-096 N/A' };
+  if (!fs.existsSync(path.join(root, 'fleet', 'standing.json'))) {
+    return { passed: false, detail: 'fleet/standing.json is missing — run python3 fleet/bin/standing.py (fleet-pulse writes it daily)' };
+  }
+  const py = ['python3', 'python', 'py'].find((c) => {
+    try { return spawnSync(c, ['-c', 'import yaml'], { encoding: 'utf8', timeout: 15000 }).status === 0; } catch { return false; }
+  });
+  if (!py) return { passed: true, detail: 'no python with PyYAML on this node — the standing is NOT verified here (fleet-pulse verifies it daily in CI)' };
+
+  const git = (args, opts = {}) => spawnSync('git', args, { cwd: root, timeout: 30000, maxBuffer: 256 * 1024 * 1024, ...opts });
+  const files = ['fleet/standing.json', 'fleet/STANDING.md'];
+  const dirty = (git(['status', '--porcelain', '--', ...files], { encoding: 'utf8' }).stdout || '').trim();
+  const last = dirty ? '' : (git(['log', '-1', '--format=%H', '--', ...files], { encoding: 'utf8' }).stdout || '').trim();
+
+  let checkRoot = root;
+  let where = 'the working tree (the files carry uncommitted changes)';
+  let tmp = null;
+  if (last) {
+    // Materialise the inputs as of that commit — one git process, no tar.
+    const listed = git(['ls-tree', '-r', '--name-only', last, '--', ...STANDING_INPUTS], { encoding: 'utf8' });
+    if (listed.status !== 0) return { passed: false, detail: `git ls-tree ${last.slice(0, 8)} failed: ${(listed.stderr || '').trim()}` };
+    const names = listed.stdout.split('\n').filter(Boolean);
+    const batch = git(['cat-file', '--batch'], { input: names.map((n) => `${last}:${n}`).join('\n') + '\n' });
+    if (batch.status !== 0) return { passed: false, detail: `git cat-file failed: ${String(batch.stderr || '').trim()}` };
+    tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'inv096-'));
+    const buf = batch.stdout;
+    let off = 0;
+    for (const name of names) {
+      const nl = buf.indexOf(10, off);
+      const header = buf.slice(off, nl).toString('utf8').split(' ');
+      const size = Number(header[2]);
+      if (header[1] !== 'blob' || !Number.isFinite(size)) { off = nl + 1; continue; }
+      const dest = path.join(tmp, ...name.split('/'));
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      writeFileAtomic(dest, buf.slice(nl + 1, nl + 1 + size).toString('utf8'));   // scratch, but INV-078 asks for one write path
+      off = nl + 1 + size + 1;
+    }
+    checkRoot = tmp;
+    where = `commit ${last.slice(0, 8)} (the last to touch the files), its own inputs`;
+  }
+  try {
+    const r = spawnSync(py, [gen, '--check'], {
+      encoding: 'utf8', timeout: 120000, env: { ...process.env, FLEET_PULSE_ROOT: checkRoot, FLEET_PULSE_NOW: '' },
+    });
+    const out = `${r.stdout || ''}${r.stderr || ''}`.trim().split('\n').filter(Boolean);
+    if (r.status === 0) return { passed: true, detail: `${out[out.length - 1] || 'identical'} — checked against ${where}` };
+    if (r.status === 1) {
+      return { passed: false, detail: `${out.filter((l) => l.startsWith('DIFFERS')).join(' | ')} — checked against ${where}. Regenerate with python3 fleet/bin/standing.py; never edit by hand.` };
+    }
+    return { passed: false, detail: `standing.py --check could not run (exit ${r.status}): ${out.join(' ').slice(0, 300)}` };
+  } finally {
+    if (tmp) { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* best effort */ } }
+  }
+}
+
 if (require.main === module) {
   main();
 }
 
-module.exports = { checkStateDomainRebuildContract, checkReplayPurity, checkClosureGuardShape, checkCliBypassViaCommand, checkReadRestraint, checkPersonaDispatch, checkProgramYamlSchema, checkAdopterValueRelation, checkCommandManifestCoverage, checkAdoptInstallAtomicWrites, checkDistributionRefs, checkNoHardcodedEvolutionPaths, checkPreflightGateNotBypassed, checkOneContractPerOpenRun, checkWsIdCollisionWithRemote, checkEngineModelTiers, checkSecurityPostureMatchesDeclaration, checkPhoneSurfaceDeclared, checkManifestDepsComplete, checkPathRootResolution, INVARIANT_CHECKS, INVARIANT_META, selectChecks, getChangedFiles, fileMatchesPrefix, clearVerifyCache, cachedReadYAMLFile,
+module.exports = { mergeVitals, checkBlockScalarWriter, runFixtureGate, findHandBuiltBlockScalars, readVerifyEventTail, buildVerifyJson, loadRepoLocalInvariants, checkSensorLiveness, assessSensorLiveness, isUnmeasured, checkStateDomainRebuildContract, checkReplayPurity, checkClosureGuardShape, checkCliBypassViaCommand, checkReadRestraint, checkPersonaDispatch, checkProgramYamlSchema, checkAdopterValueRelation, checkCommandManifestCoverage, checkAdoptInstallAtomicWrites, checkDistributionRefs, checkNoHardcodedEvolutionPaths, checkPreflightGateNotBypassed, checkOneContractPerOpenRun, checkWsIdCollisionWithRemote, checkNoStateMojibake, validateFindingsMemoized, checkEngineModelTiers, checkModelLaneLedger, checkSecurityPostureMatchesDeclaration, checkPhoneSurfaceDeclared, checkManifestDepsComplete, checkPathRootResolution, INVARIANT_CHECKS, INVARIANT_META, selectChecks, getChangedFiles, fileMatchesPrefix, clearVerifyCache, cachedReadYAMLFile,
   // WS-811: verify-perf.test.js asserts the command the HOOK runs, not one
   // typed into the test. Exported so there is exactly one reader of the hook's
   // shape, and the test cannot drift green about a command nobody ships.
@@ -6598,6 +7304,86 @@ function checkSystemDirNotHardcoded(rootDir) {
     detail: violations.length === 0
       ? 'No script hardcodes the system dir — every repo-rooted system/ path resolves through paths.system_dir.'
       : `${violations.length} hardcoded system-dir join(s):\n  ` + violations.join('\n  '),
+  };
+}
+
+// ─── INV-097: one block-scalar writer (WS-1079) ────────────────────────────
+//
+// A block scalar written as `key: |` with no indentation indicator is read
+// back wrongly when the first line of its text is itself indented: the reader
+// infers the body is deeper than it is, later lines fall outside it, and a line
+// such as `status: done` becomes a field of the record. A template that
+// interpolates a value into one body line (`  Reason: ${reason}`) has the same
+// hole from the other side: a multi-line value puts its continuation lines at
+// column 0. Several writers copy text from OTHER repos (friction and request
+// sweeps, inbox drain, outbox), so a peer repo's text could set fields on a
+// HomeBase work item. Measured 2026-10-19: 25 hand-built headers in 13 files.
+//
+// blockScalarLines in lib/cwos-utils.js is the one writer: it adds the
+// indicator when the text needs it and indents every line of the body. This
+// check fails on a hand-built header anywhere else under kit/scripts/ (except
+// __tests__/): a string literal or template that ends in `<key>: |` / `: >`
+// (optional chomping and digit), or a template-literal line that is one.
+//
+// Not violations: comment lines; string literals that are YAML comments
+// (`'#   claim: >'`, a commented example); and a line carrying
+// `block-scalar-ok: <reason>`, for code that edits an existing header in place
+// rather than writing a body (cwos-migrate's description -> contract rename).
+function findHandBuiltBlockScalars(rootDir) {
+  // Built here, not at module scope: main() runs from the require.main block
+  // above this point in the file, before a module-level const is initialised.
+  const BLOCK_SCALAR_HEADER_TAIL = '[|>](?:[-+]?[1-9]?|[1-9][-+])';
+  // A header at the end of a string: the key's last character, a colon, the
+  // header, an optional \n escape, then the closing quote or backtick.
+  const HAND_BUILT_HEADER_IN_STRING = new RegExp(
+    '[\\w}"\'`\\])-]:[ \\t]*' + BLOCK_SCALAR_HEADER_TAIL + '(?:\\\\n)?[\'"`]'
+  );
+  // A line inside a multi-line template literal that is itself a header.
+  const HAND_BUILT_HEADER_LINE = new RegExp(
+    '^\\s*[\\w"\'${}.-]+:[ \\t]*' + BLOCK_SCALAR_HEADER_TAIL + '\\s*$'
+  );
+  const base = path.join(rootDir, 'kit', 'scripts');
+  const hits = [];
+  if (!fs.existsSync(base)) return hits;
+  const walk = (dir, rel) => {
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+    for (const e of entries) {
+      const relPath = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) {
+        if (e.name === '__tests__' || e.name === 'node_modules') continue;
+        walk(path.join(dir, e.name), relPath);
+        continue;
+      }
+      if (!/\.(?:c|m)?js$/.test(e.name)) continue;
+      let text;
+      try { text = fs.readFileSync(path.join(dir, e.name), 'utf8'); } catch { continue; }
+      const lines = text.split(/\r?\n/);
+      for (let i = 0; i < lines.length; i++) {
+        const raw = lines[i];
+        if (/^\s*(?:\/\/|\*|\/\*)/.test(raw)) continue;   // comments and doc blocks
+        if (/block-scalar-ok:\s*\S/.test(raw)) continue;   // reasoned exemption
+        const code = raw
+          .replace(/(^|\s)\/\/\s.*$/, '$1')                 // trailing comment
+          .replace(/(['"`])#.*?\1/g, "''");                 // strings that are YAML comments
+        if (HAND_BUILT_HEADER_IN_STRING.test(code) || HAND_BUILT_HEADER_LINE.test(code)) {
+          hits.push(`kit/scripts/${relPath}:${i + 1}: ${raw.trim().slice(0, 100)}`);
+        }
+      }
+    }
+  };
+  walk(base, '');
+  return hits;
+}
+
+function checkBlockScalarWriter(rootDir) {
+  const hits = findHandBuiltBlockScalars(rootDir);
+  return {
+    passed: hits.length === 0,
+    detail: hits.length === 0
+      ? 'No hand-built block-scalar header under kit/scripts/ — every block scalar goes through blockScalarLines, which indents every body line and adds the indentation indicator when the text needs it.'
+      : `INV-097 FAILED: ${hits.length} hand-built block-scalar header(s). Render with blockScalarLines from kit/scripts/lib/cwos-utils.js (assemble the body as one string; the writer indents every line):\n  ` + hits.join('\n  '),
   };
 }
 

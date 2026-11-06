@@ -16,6 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
+const { cliGate } = require('./lib/cli');
 const { makeEventEmitter, writeFileAtomic } = require('./lib/cwos-utils');
 const { systemPath } = require('./lib/kit-artifacts');
 const emitEvent = makeEventEmitter();
@@ -65,14 +66,35 @@ const SHELL_METACHAR_RE = /[;&|`$><\n\r]|\$\(|&&|\|\|/;
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
 
-function main() {
-  const args = process.argv.slice(2);
-  let stateFile = null;
-  let timeout = 15000;
+const CLI = {
+  name: 'cwos-state',
+  summary: 'run the Check Command of every vital sign in system/state.md and record PASS/FAIL',
+  flags: {
+    'state-file': { type: 'string', placeholder: 'path', describe: 'state.md to update (default: walk up from cwd to system/state.md)' },
+    timeout: { type: 'string', placeholder: 'ms', describe: 'per-check timeout in milliseconds (default 15000)' },
+  },
+  notes: [
+    'Writes the PASS/FAIL column and timestamp back into state.md. Only Check',
+    'Commands on the allow-list run (WS-148); anything else is reported BLOCKED.',
+  ].join('\n'),
+};
 
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--state-file' && args[i + 1]) { stateFile = path.resolve(args[++i]); }
-    if (args[i] === '--timeout' && args[i + 1]) { timeout = parseInt(args[++i]) || 15000; }
+function main() {
+  // WS-830: --help and an unrecognised flag must never reach the vital-signs
+  // run. Before this, both fell through and executed every check (ADR-063).
+  const { values, positionals } = cliGate(process.argv.slice(2), CLI);
+  if (positionals.length) {
+    process.stderr.write(`cwos-state: unexpected argument: ${positionals[0]} (run with --help)\n`);
+    process.exit(2);
+  }
+  let stateFile = values['state-file'] ? path.resolve(values['state-file']) : null;
+  let timeout = 15000;
+  if (values.timeout !== undefined) {
+    timeout = Number(values.timeout);
+    if (!Number.isInteger(timeout) || timeout <= 0) {
+      process.stderr.write(`cwos-state: --timeout must be a positive integer of milliseconds, got: ${values.timeout}\n`);
+      process.exit(2);
+    }
   }
 
   // Find state.md

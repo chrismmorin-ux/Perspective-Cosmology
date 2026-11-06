@@ -21,8 +21,14 @@ require('./lib/preflight');
 const path = require('path');
 const fs = require('fs');
 const { rebuildAll } = require('./lib/cwos-reconcile-core');
-const { findWorkstreamDir, findRepoRoot, globFiles, readYAMLFile, writeFileAtomic, serializeYAML, todayISO, dateDiffDays, withFileLock, loadEventDeps, resolveEvolutionDir, upsertYAMLScalarField } = require('./lib/cwos-utils');
+const { findWorkstreamDir, findRepoRoot, globFiles, globFindingFiles, FINDING_REF_PREFIXES, readYAMLFile, writeFileAtomic, serializeYAML, todayISO, dateDiffDays, withFileLock, loadEventDeps, resolveEvolutionDir, upsertYAMLScalarField } = require('./lib/cwos-utils');
 const { systemPath } = require('./lib/kit-artifacts');
+const { cliGate } = require('./lib/cli');
+// WS-857 (Claude-Poker-Tracker local patch) — the ONE ranking path. The PURE form is used on
+// purpose; see the note at the top_3_unclaimed call site for why a store-backed slate would
+// empty on a fresh checkout. Required LAZILY there, never here: core/select-slate.js is a
+// repo-local kit file, and this script runs in the SessionStart hook — a top-level require of a
+// file an upgrade can remove would crash every session start instead of refusing one field.
 
 const { appendEvent } = loadEventDeps();
 let renderEventsLog = null;
@@ -105,8 +111,32 @@ function stateCacheMissing(wsDir) {
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
 
+// WS-1262 (ADR-063): argv goes through the shared CLI contract BEFORE any side
+// effect. `--help` used to rebuild every index, refresh program YAMLs and
+// auto-promote items (measured 2026-10-23); any typo did the same.
+const CLI = {
+  name: 'cwos-reconcile',
+  summary: 'rebuild every CWOS index from source files, reconcile counters, validate integrity',
+  usage: 'cwos-reconcile [--quiet] [--dry-run] [--strict] [--check-drift] [--refresh-state] [--json] [--workstream-dir <path>]',
+  flags: {
+    quiet: { type: 'boolean', describe: 'silent unless violations' },
+    'dry-run': { type: 'boolean', describe: 'compute but write nothing' },
+    strict: { type: 'boolean', describe: 'exit 1 on any violation' },
+    'check-drift': { type: 'boolean', describe: 'lightweight: state-drift detector only; exit 1 if drift found' },
+    'refresh-state': { type: 'boolean', describe: 'with --check-drift: run the full rebuild when the state cache is missing (ADR-058)' },
+    json: { type: 'boolean', describe: 'machine-readable output' },
+    'workstream-dir': { type: 'string', placeholder: 'path', describe: 'explicit .claude/workstream directory' },
+  },
+  notes: 'Exit 0 = ok; 1 = violations (--strict) or drift (--check-drift); 2 = bad command line.',
+};
+
 function main() {
   const args = process.argv.slice(2);
+  const gate = cliGate(args, CLI);
+  if (gate.positionals && gate.positionals.length) {
+    process.stderr.write(`cwos-reconcile: unexpected argument: ${gate.positionals[0]} (see --help)\n`);
+    process.exit(2);
+  }
   const quiet = args.includes('--quiet');
   const dryRun = args.includes('--dry-run');
   const strict = args.includes('--strict');
@@ -242,6 +272,7 @@ function main() {
   validateFindingReferences(result.queue.items, result.findings.items, wsDir, violations);
   validateFindingPointers(wsDir, result.findings.items, warnings);
   validateIdCollisions(result, violations);
+  validateWorkstreamYamlClean(wsDir, violations);
   validateStatusDomain(result.queue.items, ALLOWED_QUEUE_STATUSES, 'queue', warnings);
   validateStatusDomain(result.findings.items, ALLOWED_FINDING_STATUSES, 'findings', warnings);
   validateStatusDomain(result.sprints.items, ALLOWED_SPRINT_STATUSES, 'sprints', warnings);
@@ -312,6 +343,12 @@ function main() {
   //   believes it owns work the queue is still advertising as free. Routed as
   //   warnings to prog-program-integrity.
   validateApprovedSprintClaims(wsDir, warnings);
+
+  // Phase 2h3: Orphan claims (WS-618).
+  //   The inverse of the above: a queue item claimed by a session that is not
+  //   live. The item is fenced out of every candidate list and nothing says
+  //   so — WS-492 sat that way for six days. Detect only; recovery releases.
+  validateOrphanClaims(wsDir, warnings);
 
   // Phase 2i: Findings→Work-Item promotion validator (WS-371 / FIND-253).
   //   For each program protocol_history entry where findings > 0 AND
@@ -546,12 +583,52 @@ function regenerateSystemSummary(wsDir, result, violations) {
     priorVitalsAt = prior.data.vitals_observed_at || prior.data.last_updated || null;
   }
 
-  // When cwos-verify last reached the end. Absence is itself the signal —
-  // the SessionStart hook runs verify under a timeout with `|| true`, so a
-  // killed run is otherwise indistinguishable from a clean one (WS-566).
+  // When cwos-verify last reached the end. Absence of a COMPLETION FIELD is
+  // itself the signal — the SessionStart hook runs verify under a timeout with
+  // `|| true`, so a killed run is otherwise indistinguishable from a clean one
+  // (WS-566). That case must keep reporting null.
+  //
+  // Absence of the LIVENESS FILE is a different fact and used to be collapsed
+  // into the same null, which destroyed a real measurement: .verify-liveness.yaml
+  // is machine-local, so every checkout that has never run verify here (cloud
+  // session, CI, a fresh clone) overwrote a genuine completion timestamp carried
+  // in the prior summary with `null`, silently and irreversibly. The header of
+  // the file it writes promises the opposite — that values it did not observe are
+  // "carried forward from the last writer that did" — which is what the three
+  // vitals fields above actually do.
+  //
+  // So the two cases are separated on `vl.ok`, and the carried value declares its
+  // own provenance rather than rendering identically to a locally-observed one
+  // (.claude/rules/provenance-or-refuse.md: a fallback is data, not a shrug).
   let verifyAt = null;
+  let verifySource = 'none';
   const vl = readYAMLFile(path.join(wsDir, '.verify-liveness.yaml'));
-  if (vl.ok && vl.data) verifyAt = vl.data.last_run_completed_at || vl.data.last_fast_completed_at || null;
+  if (vl.ok && vl.data) {
+    // Local evidence exists. Trust it in both directions, null included.
+    verifyAt = vl.data.last_run_completed_at || vl.data.last_fast_completed_at || null;
+    verifySource = verifyAt ? 'local-liveness' : 'none';
+  } else if (prior.ok && prior.data && prior.data.verify_last_completed_at) {
+    // No local evidence either way. Preserve what the last writer measured.
+    verifyAt = prior.data.verify_last_completed_at;
+    verifySource = 'carried-forward';
+  }
+
+  // WS-1334: vitals follow the same local-evidence-first rule as verifyAt.
+  // cwos-verify stamps what a fast/full run saw into the liveness file; when
+  // that record exists here it is the measurement. Otherwise the prior values
+  // are carried forward and say so.
+  let vitalsOk = priorVitalsOk;
+  let redVitals = priorRedVitals;
+  let vitalsAt = priorVitalsAt;
+  let vitalsScope = (prior.ok && prior.data && prior.data.vitals_scope) || null;
+  let vitalsSource = 'carried-forward';
+  if (vl.ok && vl.data && vl.data.vitals_observed_at) {
+    vitalsOk = String(vl.data.vitals_ok) === 'true';
+    redVitals = String(vl.data.red_vitals || '').split(',').map((s) => s.trim()).filter(Boolean);
+    vitalsAt = vl.data.vitals_observed_at;
+    vitalsScope = vl.data.vitals_scope || null;
+    vitalsSource = 'local-liveness';
+  }
 
   const queue = Array.isArray(result.queue && result.queue.items) ? result.queue.items : [];
   const findings = Array.isArray(result.findings && result.findings.items) ? result.findings.items : [];
@@ -564,19 +641,41 @@ function regenerateSystemSummary(wsDir, result, violations) {
 
   // Unclaimed: backlog AND nobody holding a lease. Claims live in claimed_by,
   // never in status — the WS-564 lesson.
-  const unclaimed = queue
-    .filter(it => String(it.status) === 'backlog')
-    .filter(it => !String(it.claimed_by || '').trim())
-    .sort((a, b) => (Number(b.priority_score) || 0) - (Number(a.priority_score) || 0))
-    .slice(0, 3)
-    .map(it => ({
+  //
+  // WS-857 (Claude-Poker-Tracker; upstreamed by WS-1673). This was a raw priority_score sort
+  // sliced to three, with NO DEPENDENCY GATE, and it feeds `system-summary.yaml`, which
+  // `.claude/commands/session-start.md` names as the first file every Standard-Mode session
+  // reads. Measured in Claude-Poker-Tracker 2026-09-11: it showed
+  // WS-718 / WS-725 / WS-724 while the gated selector showed WS-719 / WS-746 / WS-635 —
+  // ZERO overlap, and all three shown items were blocked (WS-718 on eleven unmet blockers).
+  // Every session opened on a top-3 that could not be started.
+  //
+  // The PURE selector is used, over `result.queue.items` we already hold — deliberately NOT
+  // `selectSlateFromStore`. `store.queue.byStatus()` reads materialized `state/queue.json`,
+  // which is gitignored and which THIS process is the thing that writes. On a fresh clone, a
+  // worktree, or CI it is empty, so a store-backed slate here would ship the founder an empty
+  // top-3 at exactly the moment he has least context. That hazard is the reason the selector
+  // is split pure/adapter at all.
+  //
+  // If the selector cannot be loaded the field REFUSES (null + a named reason) rather than
+  // falling back to the ungated sort: an ungated top-3 is the defect above, and an empty list
+  // would read as "nothing to do". Neither may render like a measured slate.
+  let unclaimed = null;
+  let unclaimedRefused = null;
+  let selectSlateFromItems = null;
+  try { ({ selectSlateFromItems } = require('./core/select-slate')); }
+  catch (e) { unclaimedRefused = `gated selector unavailable (core/select-slate.js: ${e.message}) — run: node kit/scripts/cwos-next.js candidates --limit 3`; }
+  if (selectSlateFromItems) {
+    const slate = selectSlateFromItems(queue, { excludeClaimed: true, limit: 3 });
+    unclaimed = slate.candidates.map(it => ({
       id: it.id,
       // Ellipsis so a cut title reads as cut. Bare slicing produced
       // "...aggregation is a comma", which looks like a finished sentence.
       title: truncate(String(it.title || ''), 100),
-      score: Number(it.priority_score) || 0,
+      score: it.adjusted_score,
       category: it.category || null,
     }));
+  }
 
   const criticalFindings = findings.filter(f =>
     String(f.severity || '').toLowerCase() === 'critical' && String(f.status || '') === 'open').length;
@@ -584,13 +683,17 @@ function regenerateSystemSummary(wsDir, result, violations) {
   const summary = {
     last_updated: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
     generated_by: 'cwos-reconcile',
-    vital_signs_ok: priorVitalsOk,
-    red_vitals: priorRedVitals,
-    vitals_observed_at: priorVitalsAt,
+    vital_signs_ok: vitalsOk,
+    red_vitals: redVitals,
+    vitals_observed_at: vitalsAt,
+    vitals_scope: vitalsScope,
+    vitals_source: vitalsSource,
     verify_last_completed_at: verifyAt,
+    verify_last_completed_source: verifySource,
     reconcile_integrity_ok: Array.isArray(violations) ? violations.length === 0 : null,
     queue_counts: counts,
     top_3_unclaimed: unclaimed,
+    ...(unclaimedRefused ? { top_3_unclaimed_refused: unclaimedRefused } : {}),
     stale_programs: listStalePrograms(wsDir),
     active_context_count: countActiveContext(wsDir),
     critical_findings: criticalFindings,
@@ -605,9 +708,19 @@ function regenerateSystemSummary(wsDir, result, violations) {
     '# told every Standard-Mode session to read it FIRST. See ADR-065.\n' +
     '#\n' +
     '# vital_signs_ok / red_vitals are NOT computed here: reconcile does not run\n' +
-    '# the invariant suite. They are carried forward from the last writer that did,\n' +
-    '# with vitals_observed_at naming when that was. Check that date before\n' +
-    '# trusting them, and run /verify if it is old.\n';
+    '# the invariant suite. cwos-verify records them (fast and full runs) in\n' +
+    '# .verify-liveness.yaml and reconcile copies them (vitals_source: local-liveness);\n' +
+    '# with no local record they are carried forward (vitals_source: carried-forward).\n' +
+    '# vitals_observed_at names when they were seen and vitals_scope which checks ran.\n' +
+    '# Older than 24h = BLIND, never OK (WS-1334).\n' +
+    '#\n' +
+    '# verify_last_completed_source says where verify_last_completed_at came from:\n' +
+    '#   local-liveness  — .verify-liveness.yaml on THIS machine recorded a finish\n' +
+    '#   carried-forward — no liveness file here; the previous value is preserved,\n' +
+    '#                     and it was measured on some other machine\n' +
+    '#   none            — verify has not completed, or a run was killed mid-way\n' +
+    '# A carried-forward date is a real measurement but not a local one; do not\n' +
+    '# read it as evidence that verify passes in this checkout.\n';
 
   writeFileAtomic(summaryPath, header + serializeYAML(summary));
 }
@@ -834,18 +947,34 @@ function promoteStaleQueueItemsFromSprints(wsDir, dryRun) {
 // Returns array of { cls, mean, count } sorted by count descending.
 function computeSourceClassDrift(queueItems) {
   if (!Array.isArray(queueItems)) return [];
+  // WS-857: an item with no declared score used to enter this mean AS A ZERO, dragging the
+  // class average toward 0 in proportion to how many of its items nobody had scored — so the
+  // drift report read "this class is scoring low" when the truth was "this class is scoring
+  // UNRECORDED". Those are opposite findings and the report could not tell them apart. An
+  // unscored item is now excluded from the mean and counted separately, so the sample size
+  // behind each average is visible and `unscored` is a number rather than a silent weight.
   const buckets = {};
   for (const it of queueItems) {
     if (!it || it.status !== 'backlog') continue;
     const cls = classifySource(it.source);
-    if (!buckets[cls]) buckets[cls] = { sum: 0, count: 0 };
-    const score = typeof it.priority_score === 'number' ? it.priority_score : 0;
-    buckets[cls].sum += score;
+    if (!buckets[cls]) buckets[cls] = { sum: 0, count: 0, unscored: 0 };
+    if (typeof it.priority_score !== 'number' || !Number.isFinite(it.priority_score)) {
+      buckets[cls].unscored += 1;
+      continue;
+    }
+    buckets[cls].sum += it.priority_score;
     buckets[cls].count += 1;
   }
   return Object.entries(buckets)
-    .map(([cls, b]) => ({ cls, mean: b.sum / b.count, count: b.count }))
-    .sort((a, b) => b.count - a.count);
+    .map(([cls, b]) => ({
+      cls,
+      // null, not NaN and not 0: a class where nothing carries a score has no mean, and
+      // saying so is the whole point of the change above.
+      mean: b.count > 0 ? b.sum / b.count : null,
+      count: b.count,
+      unscored: b.unscored,
+    }))
+    .sort((a, b) => b.count - a.count || String(a.cls).localeCompare(String(b.cls)));
 }
 
 // Classify a queue item's source field. Must stay in sync with /next Step 2d.
@@ -901,9 +1030,9 @@ function validateFindingReferences(queueItems, findingItems, wsDir, violations) 
   // Check archived findings
   const archivedFindingsDir = path.join(wsDir, 'findings', 'archive');
   if (fs.existsSync(archivedFindingsDir)) {
-    const archivedFiles = globFiles(archivedFindingsDir, 'FIND-*.yaml');
+    const archivedFiles = globFindingFiles(archivedFindingsDir);
     for (const f of archivedFiles) {
-      const m = path.basename(f).match(/^(FIND-\d+)/);
+      const m = path.basename(f).match(/^((?:FIND|FND)-\d+)/);
       if (m) findingIds.add(m[1]);
     }
   }
@@ -956,14 +1085,21 @@ function validateFindingPointers(wsDir, findingItems, warnings) {
   const findingIds = new Set(findingItems.map(f => f.id));
   const archivedFindingsDir = path.join(wsDir, 'findings', 'archive');
   if (fs.existsSync(archivedFindingsDir)) {
-    const archivedFiles = globFiles(archivedFindingsDir, 'FIND-*.yaml');
+    const archivedFiles = globFindingFiles(archivedFindingsDir);
     for (const f of archivedFiles) {
-      const m = path.basename(f).match(/^(FIND-\d+)/);
+      const m = path.basename(f).match(/^((?:FIND|FND)-\d+)/);
       if (m) findingIds.add(m[1]);
     }
   }
 
-  const findRefRegex = /FIND-\d+/g;
+  // WS-991: a prefix is only checked when this repo holds findings under it.
+  // FIND is always ours. FND is a repo-local namespace — in a repo with no FND
+  // findings a "FND-082" is a citation of someone else's, not a pointer here
+  // (HomeBase's queue cites ServeYourNote's), and flagging it would be noise.
+  const ownedPrefixes = FINDING_REF_PREFIXES.filter(
+    (p) => p === 'FIND' || [...findingIds].some((id) => String(id).startsWith(p + '-'))
+  );
+  const findRefRegex = new RegExp('(?:' + ownedPrefixes.join('|') + ')-\\d+', 'g');
   const scanRoots = [
     path.join(wsDir, 'queue'),
     path.join(wsDir, 'programs'),
@@ -1022,6 +1158,137 @@ function validateIdCollisions(result, violations) {
   checkSet(result.readiness.items, 'readiness');
 }
 
+// ─── WS-591: the lenient reader and a real parser, forced onto one axis ─────
+//
+// THE FAILURE THIS CLOSES. On 2026-08-20 four ticket files were found carrying
+// raw control characters — three with cp1252 C1 bytes (U+0091, U+0097) written
+// where a real Unicode character was meant, one (WS-502) with an ANSI SGR escape
+// captured from a remote step log. They had been on disk for weeks and THIS
+// FUNCTION'S CALLER printed `Integrity: OK (0 violations)` over every one of
+// them, because rebuildAll reads YAML with a lenient line-oriented reader that
+// simply does not care what bytes are inside a scalar. Anything reaching for
+// yaml.safe_load — the obvious thing to reach for — saw a different queue.
+//
+// Two views of the same files, with nothing ever forcing them to agree, is the
+// WS-291 mechanism: a wrong number that never has to meet a right one. An
+// integrity report that cannot see a file a standard parser refuses is not a
+// weaker integrity report, it is a false one.
+//
+// SCOPE, stated so it is not mistaken for the whole tree. This checks the
+// domains reconcile actually reconciles — the artifacts `Integrity:` is a claim
+// about. Where a repo registers INV-workstream-yaml-strict-parse in its
+// .claude/local-invariants.cjs (`node kit/scripts/cwos-verify.js --only
+// INV-workstream-yaml-strict-parse`), that sweeps all of .claude/workstream/
+// including meta/, state/ and evidence/.
+const RECONCILED_YAML_DIRS = ['queue', 'findings', 'sprints', 'programs', 'enhancements', 'readiness', 'engines'];
+
+function collectYamlFiles(dir, out) {
+  let ents;
+  try { ents = fs.readdirSync(dir, { withFileTypes: true }); } catch { return out; }
+  for (const e of ents) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) collectYamlFiles(p, out);
+    else if (/\.ya?ml$/i.test(e.name)) out.push(p);
+  }
+  return out;
+}
+
+function validateWorkstreamYamlClean(wsDir, violations) {
+  // Resolve the guard from the workstream's repo first, then from the repo the
+  // RUNNING kit lives in. `findRepoRoot` returns its start dir when it finds no
+  // marker, so a `--workstream-dir` pointing outside any repo silently resolved
+  // to a nonexistent guard and this whole check skipped itself — caught by its
+  // own falsifier before it was believed, which is why both candidates are tried.
+  const candidates = [
+    findRepoRoot(wsDir, { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 }),
+    findRepoRoot(__dirname, { markers: ['CLAUDE.md', 'kit'], requireAll: true, maxDepth: 8 }),
+  ];
+  // The guard is REPO-DECLARED, never a kit-assumed path (WS-1673): a repo opts in with
+  //   paths:
+  //     yaml_guard: scripts/check-queue-yaml-clean.mjs     # repo-relative
+  // in .cwos-config.yaml. The module must export findControlChars(text) and
+  // strictParseAll(files) -> { ran, reason?, failures[] }. Claude-Poker-Tracker's
+  // scripts/check-queue-yaml-clean.mjs (WS-591) is the implementation this was written for.
+  let repoRoot = null;
+  let guardRel = null;
+  for (const c of candidates) {
+    const cfg = readYAMLFile(path.join(c, '.cwos-config.yaml'));
+    const declared = cfg && cfg.ok && cfg.data && cfg.data.paths && cfg.data.paths.yaml_guard;
+    if (declared) { repoRoot = c; guardRel = String(declared); break; }
+  }
+  // Not declared in this repo — the check is absent, not failing. A repo that never
+  // opted in is not one this can report a violation about.
+  if (!guardRel) return;
+  const guardPath = path.resolve(repoRoot, guardRel);
+  if (!fs.existsSync(guardPath)) {
+    // Declared and absent is CONFIGURED-AND-INERT, the one state that must never read as clean.
+    violations.push({
+      type: 'yaml_guard_unloadable',
+      id: guardRel,
+      detail: `paths.yaml_guard declares ${guardRel} but no such file exists — the control-byte/strict-parse `
+        + 'check COULD NOT RUN. A skipped check is not a pass; Integrity below is reported WITHOUT it.',
+    });
+    return;
+  }
+
+  let guard;
+  try {
+    // require() of an ESM module with no top-level await is synchronous on
+    // node >= 22.12. ONE definition of the codepoint table, shared with the
+    // write path and with INV-workstream-yaml-strict-parse where the repo registers
+    // it — a second copy would drift.
+    guard = require(guardPath);
+  } catch (e) {
+    violations.push({
+      type: 'yaml_guard_unloadable',
+      id: guardRel,
+      detail: `control-byte/strict-parse check COULD NOT RUN — ${e.message}. A skipped check is not a pass; `
+        + 'Integrity below is reported WITHOUT it.',
+    });
+    return;
+  }
+
+  const files = [];
+  for (const d of RECONCILED_YAML_DIRS) collectYamlFiles(path.join(wsDir, d), files);
+  if (files.length === 0) return;
+
+  for (const f of files) {
+    let text;
+    try { text = fs.readFileSync(f, 'utf8'); } catch { continue; }
+    const hits = guard.findControlChars(text);
+    if (hits.length === 0) continue;
+    const h = hits[0];
+    violations.push({
+      type: 'yaml_control_byte',
+      id: path.relative(repoRoot, f),
+      detail: `${path.relative(repoRoot, f)}: ${hits.length} forbidden control character(s), `
+        + `first ${h.hex} ${h.name} at ${h.line}:${h.col} — ${h.origin}`,
+    });
+  }
+
+  // The strict arm. `ran:false` is a FAILURE OF THE CHECK and is reported as
+  // one — the whole point is that "we could not look" must never render the
+  // same as "we looked and it was clean".
+  const parse = guard.strictParseAll(files);
+  if (!parse.ran) {
+    violations.push({
+      type: 'yaml_strict_parse_unavailable',
+      id: 'strict-parse',
+      detail: `strict YAML parse COULD NOT RUN over ${files.length} file(s) — ${parse.reason}. `
+        + 'Install PyYAML (`python -m pip install pyyaml`) to restore it; until then this integrity '
+        + 'report covers control bytes only.',
+    });
+    return;
+  }
+  for (const f of parse.failures) {
+    violations.push({
+      type: 'yaml_strict_parse',
+      id: path.relative(repoRoot, f.file),
+      detail: `${path.relative(repoRoot, f.file)}: a standard YAML parser refuses this file — ${String(f.error).slice(0, 200)}`,
+    });
+  }
+}
+
 function validateStatusDomain(items, allowed, label, warnings) {
   for (const item of items) {
     if (item.status && !allowed.has(item.status)) {
@@ -1054,7 +1321,15 @@ function printSummary(result, violations, warnings, dryRun, promotions = []) {
   // claimed/done items are no longer in the candidate pool.
   const drift = computeSourceClassDrift(result.queue.items);
   if (drift.length > 0) {
-    const parts = drift.map(d => `${d.cls} mean=${d.mean.toFixed(1)} (n=${d.count})`).join('; ');
+    // `mean` is null when no item in the class carries a score — reporting "0.0" there would
+    // put the class at the bottom of the drift table for the opposite of the reason the table
+    // exists to surface (WS-857). `n` is now the SCORED count, so a class with many unscored
+    // items no longer looks like a small one.
+    const parts = drift.map(d => (
+      d.mean === null
+        ? `${d.cls} mean=unscored (n=0, ${d.unscored} item(s) carry no score)`
+        : `${d.cls} mean=${d.mean.toFixed(1)} (n=${d.count}${d.unscored ? `, +${d.unscored} unscored` : ''})`
+    )).join('; ');
     console.log(`  source-class drift: ${parts}`);
   }
 
@@ -1787,6 +2062,94 @@ function validateApprovedSprintClaims(wsDir, warnings) {
   return drift;
 }
 
+/**
+ * Phase 2h3: an item claimed by a session that is not live (WS-618).
+ *
+ * The exact inverse of sprint-claim-drift above. There, a sprint believes it
+ * owns work the queue advertises as free. Here, the queue believes a session
+ * owns work that session cannot possibly be doing — and because the unclaimed
+ * filter is `status === 'backlog' && !claimed_by`, the item vanishes from
+ * every candidate list with nothing anywhere saying why.
+ *
+ * WHY THIS BELONGS IN RECONCILE AND NOT ONLY IN RECOVERY. Recovery's release
+ * list used to come from the dead session's own `claimed_items`, so an orphan
+ * whose owner never recorded the claim was released by nobody. Worse, an owner
+ * already marked `abandoned` is not in recovery's candidate set at all, so no
+ * future run would revisit it: WS-492 sat fenced for six days while recovery
+ * printed "none abandoned". Recovery is fixed (WS-618), but a detector that
+ * runs from the SessionStart hook — where recovery's --auto does not always
+ * reach — is the layer that makes the fence VISIBLE rather than merely
+ * eventually-cleared. A fence nobody can see is the defect one level up.
+ *
+ * Liveness comes from cwos-claims.isSessionLive, the canonical resolver, so
+ * this cannot drift into a second opinion about who is dead. A MISSING session
+ * record is no longer "dead by definition" there (HomeBase WS-884): absence is
+ * unknown — the record may not have been pulled yet — and is held for
+ * FOREIGN_HOLD_DAYS from the claim's own `claimed_at`, then released. That
+ * clock only runs when the caller passes `claimedAt`, so it is passed per item;
+ * without it the hold is indefinite and this detector goes silent on exactly
+ * the claims cwos-session-recovery reports as orphaned — two detectors, two
+ * answers, the WS-564 condition.
+ *
+ * TERMINAL ITEMS ARE SKIPPED. Measured on this repo: 137 of 187 archived items
+ * carry a `claimed_by`, all of them `status: done`. That field is the record of
+ * who did the work, not a lease. Only a non-terminal item is fenced.
+ *
+ * Detect only — reconcile never releases a claim. Releasing is recovery's job
+ * and it needs the mutex; two writers to the same field is how the last round
+ * of claim bugs started.
+ *
+ * Returns the orphan list for testability.
+ */
+function validateOrphanClaims(wsDir, warnings, opts = {}) {
+  const queueDir = path.join(wsDir, 'queue');
+  if (!fs.existsSync(queueDir)) return [];
+
+  let isSessionLive;
+  try { ({ isSessionLive } = require('./lib/cwos-claims')); }
+  catch { return []; }
+
+  const TERMINAL = new Set(['done', 'completed', 'dismissed', 'skipped', 'cancelled']);
+  const now = Number.isFinite(opts.now) ? opts.now : Date.now();
+  const liveCache = new Map();
+
+  const orphans = [];
+  const files = fs.readdirSync(queueDir).filter((f) => f.endsWith('.yaml')).sort();
+  for (const f of files) {
+    const r = readYAMLFile(path.join(queueDir, f));
+    if (!r.ok || !r.data) continue;
+    const owner = String(r.data.claimed_by || '').trim();
+    if (!owner || owner === 'null' || owner === '~') continue;
+    const status = String(r.data.status || '').trim().toLowerCase();
+    if (TERMINAL.has(status)) continue;
+
+    // Keyed on the claim date too: it decides the verdict when the record is absent.
+    const claimedAt = r.data.claimed_at && String(r.data.claimed_at) !== 'null' ? String(r.data.claimed_at) : null;
+    const cacheKey = `${owner}|${claimedAt || ''}`;
+    if (!liveCache.has(cacheKey)) {
+      const lopts = Object.assign({}, opts.livenessOpts || {});
+      if (claimedAt && lopts.claimedAt === undefined) lopts.claimedAt = claimedAt;
+      liveCache.set(cacheKey, isSessionLive(wsDir, owner, undefined, now, lopts));
+    }
+    if (liveCache.get(cacheKey)) continue;
+
+    const itemId = r.data.id || f.replace(/\.yaml$/, '');
+    // Both record spellings isSessionLive accepts.
+    const hasRecord = [`${owner}.yaml`, `session-${owner}.yaml`]
+      .some((n) => fs.existsSync(path.join(wsDir, 'sessions', n)));
+    const why = hasRecord
+      ? `session ${owner} is not live`
+      : `session ${owner} has no record on disk`;
+    orphans.push({ item: itemId, owner, item_status: status || 'unknown', reason: why });
+    if (warnings) {
+      warnings.push(
+        `prog-program-integrity [orphan-claim]: ${itemId} (queue status: ${status || 'unknown'}) is claimed by ${owner} but ${why} — the item is fenced out of /next and no surface says so. Resolve: node kit/scripts/cwos-session-recovery.js --auto.`
+      );
+    }
+  }
+  return orphans;
+}
+
 // ─── Phase 2m: Program Accountability Cap Enforcement (WS-350) ──────────────
 //
 // FIND-232 / run-019 SUSTAINED/CRITICAL guard. Program YAMLs declare
@@ -2453,11 +2816,17 @@ if (require.main === module) {
 }
 
 module.exports = {
+  // Exported for scripts/__tests__/reconcileVerifyLiveness.test.js. kit/ is
+  // VENDORED and a re-vendor has silently reverted a correct local fix twice
+  // (WS-493, WS-676), so the carry-forward fix in here is pinned by a test or
+  // it has an expiry date.
+  regenerateSystemSummary,
   stateCacheMissing,
   validateStateDrift,
   validateProgramProtocolEngineRefs,
   validateFindingProgramRefs,
   validateApprovedSprintClaims,
+  validateOrphanClaims,
   validateFindingPointers,
   validateFindingPromotion,
   validateProgramCaps,

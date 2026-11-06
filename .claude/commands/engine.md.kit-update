@@ -9,6 +9,47 @@ argument-hint: "<engine-id-or-alias> [target] [--just-run | /engine!!] [--mode <
 
 Routes engine invocations through an intent-contract pre-flight (ADR-038 Layer 3), then a token-budget gate (ADR-037 Decision #5 / WS-272), then the specialized engine's own multi-phase execution prose. Aliases (e.g., `/eng`, `/design`) are routed via `engines/registry.yaml`. Pedagogy: see `docs/adrs/ADR-038.md` (a dedicated engine-pedagogy guide is planned — WS-278).
 
+## When to suggest an engine
+
+Moved word for word from the CLAUDE.md preamble (WS-526); the preamble keeps a one-line situation → engine map. This is the full map with each config, the after-action chains, and the `--just-run` rule.
+
+Claude should **proactively suggest the right engine** for the situation rather than waiting for the user to guess. Before executing a non-trivial task, check whether an engine fits better than ad-hoc analysis.
+
+### Situation → Engine Map
+
+| User Signal | Suggest Engine | Config |
+|-------------|---------------|--------|
+| "Is this ready to ship?" / pre-launch anxiety | `eng-engine` | 6-persona, focus=full |
+| "Review this module / PR / feature" | `eng-engine` | 6-persona, focus=<area> |
+| "I want to refactor X" | `refactor-prep` | default |
+| "I need to upgrade dep X" | `upgrade-prep` | default |
+| "I'm planning a schema change" | `migration-prep` | default |
+| "Should I do A or B?" | `decide` → `decision-enhance` | default |
+| "Is my plan any good?" | `plan-enhance` | default |
+| "Something is broken in prod" | `incident-response` | default |
+| "Something feels off but I can't name it" | `eng-engine` | budget trio, focus=full |
+| "Financial logic concerns" | `financial-audit` | default |
+| "UX doesn't feel right" | `ux-audit` | default |
+| "Legal/compliance question" | `legal-safety` | default |
+| "Tests are weak" | `eng-engine` | focus="testing" |
+| "Priorities are unclear" | `traction` | default |
+| "What's the strategic play?" | `business-engine` | default |
+
+### After-action Engine Chains
+
+When one engine completes, proactively suggest the next step if findings warrant.
+After `eng-engine`: `traction` on any HIGH/CRITICAL (re-score backlog),
+`financial-audit` if findings touched money code, `ux-audit` if product-ux
+flagged 3+ issues, `context-curator` if findings feel generic. After
+`refactor-prep` or `upgrade-prep`: `eng-engine` on the area, then `/verify`
+before merge. Any engine that surfaces an architectural question → `/decide`.
+
+Frame suggestions as business outcomes, not engine names: "Your API has critical security issues. Want a deeper attack chain analysis?" — not "Run security-deep-dive."
+
+**Do NOT suggest an engine** for narrow lookups, single-line fixes, or when the user already specified exact scope.
+
+**Engine pre-flight.** If the founder says "just go" or already fixed mode, target and scope, offer `/engine <id> --just-run`. Never default to it.
+
 ## Output Shape
 
 **Engine-run arc:** `<frame-pre-flight | gate-checked | dispatching | researching | synthesizing | findings-filed>` — `<one-clause status>` (e.g., "design-audit run-002, contract-cnt-1234, phase 4 of 6, 3 findings drafted").
@@ -100,7 +141,7 @@ Confirm also runs the WS-472 one-contract-per-run guard (ADR-038 Decision #6 —
 node kit/scripts/cwos-token-budget.js --check
 ```
 
-Exits 0 (clean) or 1 (regression detected — block). Escape valves don't compose: `--just-run` bypasses Step 2 but still goes through this gate. Founder unblocks via `--override-token-budget "<rationale ≥20 chars>"` (per WS-272).
+Exits 0 (clean), 1 (regression detected — block) or 3 (NOT MEASURED — too few readings to judge; never blocks, continue, and tell the founder the budget was not measured rather than calling it clean). Escape valves don't compose: `--just-run` bypasses Step 2 but still goes through this gate. Founder unblocks via `--override-token-budget "<rationale ≥20 chars>"` (per WS-272).
 
 ## Step 4: Load specialized engine
 

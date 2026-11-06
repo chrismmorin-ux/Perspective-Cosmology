@@ -50,6 +50,7 @@ const {
   withFileLock,
   upsertYAMLScalarField,
   findRepoRoot,
+  blockScalarLines,
 } = require('./lib/cwos-utils');
 const { loadEventDeps } = require('./lib/cwos-utils');
 // WS-533: session identity + item claims. `claimed_by`/`claimed_at` have existed on
@@ -72,8 +73,26 @@ const {
   listFileLocks,
 } = require('./lib/cwos-claims');
 const { classifySource, classifyMode } = require('./cwos-classify');
+// WS-857 (claude-poker-tracker) — THE ranking path. One selector, dependency gate inside it,
+// and every surface that shows an ordered list renders its output. A second sort over
+// priority_score is a defect; the poker repo's selectSlate.test.js fails the build on one.
+// readActiveOverrides / loadProgramCapsByProgram / getRecentSprintAnchors live there now, so
+// readContextOverrideClass and the WS-350 test surface read the SAME parser the ranking does.
+const {
+  selectSlateFromStore, renderSlate,
+  emitBlockerRefusals, emitPriorityRefusals,
+  readActiveOverrides, loadProgramCapsByProgram, getRecentSprintAnchors,
+} = require('./core/select-slate');
 const { runClosureSideEffects } = require('./lib/item-closure');
+const inspectionGate = require('./lib/inspection-gate');
+const maintenanceFindingGate = require('./lib/maintenance-finding-gate');
+// Every sprint is a GitHub milestone (founder, 2026-10-31). Fail loud, never fatal.
+const githubMilestone = require('./lib/github-milestone');
 const { systemPath } = require('./lib/kit-artifacts');
+// WS-1170: Needs + Model beside every candidate. The lane's model is read from the
+// routing ledger, never defaulted here — an unreachable ledger shows as unknown.
+const modelLane = require('./lib/model-lane');
+const { resolveHomeBaseRoot } = require('./lib/kit-paths');
 
 const { appendEvent, ensureCommandId } = loadEventDeps();
 
@@ -109,6 +128,23 @@ function readFlag(args, name) {
 
 function hasFlag(args, name) {
   return args.includes(`--${name}`);
+}
+
+// WS-1131: `WS-A,WS-B` → ['WS-A', 'WS-B']. Whitespace-tolerant, empties dropped.
+function parseIdList(s) {
+  return String(s == null ? '' : s).split(',').map((x) => x.trim()).filter(Boolean);
+}
+
+// Set comparison of two id lists: null when equal, else what each side lacks.
+// Order is deliberately ignored — the binding is to WHICH items, and the
+// sprint's execution order is compose's sequencing, not the founder's yes.
+function idSetDiff(expected, found) {
+  const e = new Set((expected || []).filter(Boolean));
+  const f = new Set((found || []).filter(Boolean));
+  const missing = [...e].filter((id) => !f.has(id));
+  const unexpected = [...f].filter((id) => !e.has(id));
+  if (!missing.length && !unexpected.length) return null;
+  return { expected: [...e], found: [...f], missing, unexpected };
 }
 
 function loadStore() {
@@ -185,13 +221,23 @@ function findPooledSprints(sprints, wsDir) {
     if (s.completed_at) continue;
     if (s.dispatch === 'pooled') { out.push(s); continue; }
     if (s.dispatch === 'claimed' && s.claimed_by && wsDir) {
-      try { if (!isSessionLive(wsDir, s.claimed_by)) out.push(Object.assign({}, s, { orphaned: true })); }
+      // WS-884: a holder with no record is HELD, not orphaned, for the fallback
+      // window measured from the lease -- absence of a record is not proof of
+      // death (ADR-078 decision 2; the record may simply not have been pulled).
+      try { if (!isSessionLive(wsDir, s.claimed_by, undefined, undefined, { claimedAt: s.claimed_at || s.approved_at })) out.push(Object.assign({}, s, { orphaned: true })); }
       catch { /* unknown liveness never pools someone's sprint */ }
     }
   }
   const byRecency = (a, b) =>
     String(b.approved_at || b.created_at || '').localeCompare(String(a.approved_at || a.created_at || ''));
   return out.sort(byRecency);
+}
+
+// The pickup order: the whole pool for a bare --pickup, or exactly the one
+// sprint --pickup-sprint names (empty when it is not in the pool).
+function selectPickupCandidates(pool, wantId) {
+  if (!wantId) return pool || [];
+  return (pool || []).filter((s) => s && s.id === wantId);
 }
 
 // ADR-067: sprint-level lease acquisition. Same three-part shape that makes
@@ -211,7 +257,8 @@ function claimSprintLease(sprintId, sessionId) {
         // the world can change between that read and this lock).
         const holder = ((text.match(/^claimed_by:\s*"?([^"\n]*)"?\s*$/m) || [])[1] || '').trim();
         if (holder && holder !== 'null' && holder !== sessionId) {
-          try { if (isSessionLive(stateDir(), holder)) return; } catch { return; }
+          const heldAt = ((text.match(/^(?:claimed_at|approved_at):\s*"?([^"\n]*)"?\s*$/m) || [])[1] || '').trim();
+          try { if (isSessionLive(stateDir(), holder, undefined, undefined, { claimedAt: heldAt || undefined })) return; } catch { return; }
         }
       }
       text = text.replace(/^dispatch:\s*.*$/m, 'dispatch: claimed');
@@ -314,12 +361,22 @@ function resolveResumableSprint(store, sessionId = null) {
 // reaches the reducer store, preserving replay purity).
 function buildEligibilityFilter(store) {
   const excluded = { in_open_sprint: 0, claimed_by_live_peer: 0 };
-  const sprintRefIds = new Set();
+  // WS-993: the counts say HOW MANY were dropped; this says WHICH and WHY, one
+  // row per item, so a missing candidate is explainable from the output alone.
+  const dropped = [];
+  const droppedIds = new Set();
+  const noteDrop = (id, reason, extra) => {
+    if (droppedIds.has(id)) return;
+    droppedIds.add(id);
+    dropped.push(Object.assign({ id, reason }, extra));
+  };
+  // id -> the open sprint naming it, so a refusal can say WHICH sprint.
+  const sprintRefIds = new Map();
   try {
     for (const s of resolveSprintUniverse(store)) {
       if (!s || !s.status) continue;
       if (s.status === 'abandoned' || s.status === 'done' || s.status === 'completed' || s.completed_at) continue;
-      for (const ref of (s.item_refs || [])) if (ref && ref.id) sprintRefIds.add(ref.id);
+      for (const ref of (s.item_refs || [])) if (ref && ref.id && !sprintRefIds.has(ref.id)) sprintRefIds.set(ref.id, s.id);
     }
   } catch { /* conservative: an unreadable sprint universe excludes nothing */ }
 
@@ -330,22 +387,52 @@ function buildEligibilityFilter(store) {
     mySession = resolveSessionId(wsDir, { create: false });
   } catch { /* claim checks degrade to allow — same posture as today's compose */ }
 
-  const eligible = (itemId) => {
-    if (sprintRefIds.has(itemId)) { excluded.in_open_sprint++; return false; }
+  // WS-1131: the predicate, with its reason. `eligible` counts; `why` only
+  // explains, so compose --items can name what refused an id without skewing
+  // the exclusion counters the render reports.
+  const why = (itemId) => {
+    if (sprintRefIds.has(itemId)) return { reason: 'in_open_sprint', sprint_id: sprintRefIds.get(itemId) };
     if (wsDir) {
       try {
         const claim = readClaim(path.join(wsDir, 'queue', `${itemId}.yaml`));
         if (claim && claim.claimedBy && claim.claimedBy !== mySession
             && claim.status !== 'done'
             && isSessionLive(wsDir, claim.claimedBy)) {
-          excluded.claimed_by_live_peer++;
-          return false;
+          return { reason: 'claimed_by_live_peer', claimed_by: claim.claimedBy };
         }
       } catch { /* unreadable claim = no exclusion */ }
     }
+    return null;
+  };
+  const eligible = (itemId) => {
+    const w = why(itemId);
+    if (w) {
+      excluded[w.reason]++;
+      noteDrop(itemId, w.reason, w.reason === 'in_open_sprint' ? { sprint: w.sprint_id } : { claimed_by: w.claimed_by });
+      return false;
+    }
     return true;
   };
-  return { eligible, excluded };
+  return { eligible, why, excluded, dropped };
+}
+
+/**
+ * WS-993: the checkout-occupancy verdict (hazard | unknown | clear) for
+ * candidates and compose, from the same findCheckoutConflicts the gate reads,
+ * without invoking the gate. null when it cannot be computed at all, which a
+ * caller must not read as clear.
+ */
+function checkoutBlock() {
+  try {
+    const wsDir = findWorkstreamDir(process.cwd());
+    const co = findCheckoutConflicts(wsDir, resolveSessionId(wsDir, { create: false }));
+    return {
+      verdict: co.verdict,
+      cohabitants: co.cohabitants.map((p) => p.id),
+      unknown_reasons: co.unknown_reasons,
+      at_stake_count: co.at_stake_count,
+    };
+  } catch { return null; }
 }
 
 // ─── phantom sprints (WS-568) ──────────────────────────────────────────────
@@ -508,114 +595,15 @@ function findPhantomSprints(sprints, lookupItemStatus) {
  *
  * Returns [{ class, boost: {match, factor} | null }]. Never throws.
  */
-function readActiveOverrides() {
-  try {
-    const p = systemPath(repoRoot(), 'context.md');
-    if (!fs.existsSync(p)) return [];
-    const txt = fs.readFileSync(p, 'utf8');
-    const activeIdx = txt.indexOf('## Active overrides');
-    const archivedIdx = txt.indexOf('## Archived overrides');
-    if (activeIdx === -1) return [];
-    const segEnd = archivedIdx === -1 ? txt.length : archivedIdx;
-    const segment = txt.slice(activeIdx, segEnd);
-
-    const out = [];
-    const re = /^### override_class:\s*([\w-]+)/gm;
-    let m;
-    const heads = [];
-    while ((m = re.exec(segment)) !== null) heads.push({ cls: m[1].trim(), at: m.index });
-    for (let i = 0; i < heads.length; i++) {
-      const body = segment.slice(heads[i].at, i + 1 < heads.length ? heads[i + 1].at : segment.length);
-      out.push({ class: heads[i].cls, boost: parseBoostSpec(body) });
-    }
-    return out;
-  } catch { return []; }
-}
-
-/**
- * Pull `boost: { match: {...}, factor: N }` out of a fenced yaml block.
- *
- * Hand-rolled rather than routed through readYAMLFile because the input is a
- * fragment inside prose, not a file, and the shape is three known keys. Returns
- * null for anything malformed — a boost that cannot be parsed must not silently
- * become 1.0-and-fine, so callers surface `boost_spec_invalid` instead.
- */
-function parseBoostSpec(sectionText) {
-  const fence = sectionText.match(/```ya?ml\s*\n([\s\S]*?)```/);
-  if (!fence) return null;
-  const yml = fence[1];
-  if (!/^\s*boost:/m.test(yml)) return null;
-
-  const factorM = yml.match(/^\s*factor:\s*([0-9.]+)/m);
-  const factor = factorM ? Number(factorM[1]) : NaN;
-  if (!Number.isFinite(factor) || factor <= 0) return { invalid: 'factor missing or not a positive number' };
-
-  const matchBlock = yml.match(/^\s*match:\s*\n([\s\S]*?)(?=^\s*factor:|\Z)/m);
-  const match = {};
-  if (matchBlock) {
-    for (const line of matchBlock[1].split('\n')) {
-      const kv = line.match(/^\s+([\w_]+):\s*(.+?)\s*$/);
-      if (!kv) continue;
-      match[kv[1]] = kv[2].replace(/^["']|["']$/g, '');
-    }
-  }
-  if (Object.keys(match).length === 0) return { invalid: 'match block missing or empty' };
-  return { match, factor };
-}
-
-/**
- * Combined context-boost multiplier for one queue item.
- *
- * Multiplies across every active override whose match clause the item
- * satisfies. Returns { factor, applied: [...] } — `applied` is what the
- * composition notes print, so a boosted anchor can always be traced back to the
- * override block that boosted it rather than looking like an unexplained score.
- */
-function contextBoostFor(item, overrides) {
-  let factor = 1.0;
-  const applied = [];
-  for (const ov of overrides) {
-    const b = ov.boost;
-    if (!b || b.invalid) continue;
-    let hit = true;
-    for (const [field, want] of Object.entries(b.match)) {
-      const have = item[field];
-      const ok = Array.isArray(have)
-        ? have.map(String).includes(String(want))
-        : String(have) === String(want);
-      if (!ok) { hit = false; break; }
-    }
-    if (!hit) continue;
-    factor *= b.factor;
-    applied.push({ override_class: ov.class, factor: b.factor, match: b.match });
-  }
-  return { factor: round2(factor), applied };
-}
-
-/**
- * Warnings for override blocks whose boost spec is present but unusable.
- *
- * A malformed spec must never degrade quietly to "no boost" — that is the
- * exact shape of the defect this whole change exists to remove (a mechanism
- * that looks configured and does nothing). Emitted to stderr AND carried in the
- * candidates payload so both a human and a machine reader can see it.
- */
-function overrideWarnings(overrides) {
-  const out = [];
-  for (const ov of overrides) {
-    if (ov.boost && ov.boost.invalid) {
-      out.push(`override_class ${ov.class}: boost spec ignored — ${ov.boost.invalid}`);
-    }
-  }
-  for (const w of out) process.stderr.write(`[cwos-next] WARNING: ${w}\n`);
-  return out;
-}
-
 function readContextOverrideClass() {
   // Back-compat single-slot accessor: the sprint stamp and the
   // internal-investment-phase rotation branch both want one class. First
   // active block wins, which is the pre-WS-695 behaviour verbatim.
-  const all = readActiveOverrides();
+  // select-slate reports an Active section with no parseable block as the pseudo-class
+  // `section-present-zero-blocks` so its warning is audible. That is a diagnostic, not a
+  // class: master's reader returned null here, and stamping it onto a sprint would record
+  // an override that does not exist (WS-1673).
+  const all = readActiveOverrides().filter((o) => o.class !== 'section-present-zero-blocks');
   return all.length ? all[0].class : null;
 }
 
@@ -680,27 +668,60 @@ function ceremonyDefaults(cer) {
   }
 }
 
+// The cost coordinate. S=0.5, M=1.5, L=3 per next.md Step 3c; XL added here.
+//
+// WS-857: the previous form was `if S..if M..if L; return 1`, so BOTH `XL` and an
+// unset effort fell through to 1 — cheaper than M's 1.5. Measured on the live queue
+// at the time: 11 XL items priced BELOW 167 M items, and 8 unsized items priced as
+// the cheapest thing in the backlog. A cost ladder that is not monotone in cost is
+// not a cost ladder.
+//
+// An UNSIZED item is deliberately conservative rather than cheap. `provenance-or-refuse`
+// forbids an unestimated value presenting as a measurement, and the cheap default is the
+// worse direction of the two: it silently promotes unsized work into batches, where the
+// conservative default merely keeps it a solo anchor and therefore visible. The real fix
+// is to size those items; this makes their absence surface instead of paying a bonus.
+const EFFORT_SESSIONS = { S: 0.5, M: 1.5, L: 3, XL: 5 };
+const UNSIZED_EFFORT_SESSIONS = EFFORT_SESSIONS.XL;
+
 function effortSessions(effort) {
-  // S=0.5, M=1.5, L=3 per next.md Step 3c.
-  if (effort === 'S') return 0.5;
-  if (effort === 'M') return 1.5;
-  if (effort === 'L') return 3;
-  return 1;
+  const known = EFFORT_SESSIONS[String(effort)];
+  return known === undefined ? UNSIZED_EFFORT_SESSIONS : known;
 }
 
-function getRecentSprintAnchors(store, n) {
-  // Returns the source_class of the first item in each of the last n
-  // *completed/approved* sprints (skip abandoned). Used for source-class
-  // damping (Step 2d) and fleet-rotation rotation (Step 3a-rotation).
-  const all = (store.sprints && store.sprints.all && store.sprints.all()) || [];
-  const ranked = all
-    .filter((s) => s && s.status !== 'abandoned')
-    .sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
-  return ranked.slice(0, n).map((s) => ({
-    id: s.id,
-    program_focus: s.program_focus || null,
-    anchor_source_class: s.anchor_source_class || 'untagged',
-  }));
+/**
+ * Step 3b/c — choose the anchor's companions under the item and effort caps.
+ *
+ * Extracted from runCompose so it can be tested at all. `kit/scripts/` had zero
+ * automated coverage, and WS-493 / WS-676 record the same field being silently
+ * un-wired TWICE — the second time by a HomeBase kit upgrade shipping a vendored
+ * reducer that did not carry this repo's local fix. An untested fix in vendored
+ * code is a fix with an expiry date.
+ *
+ * Returns both the selected items and the effort actually spent; the caller
+ * reports `usedSessions` in the sprint record and in capOvershoot.
+ */
+function selectCompanions(anchor, candidates, cap) {
+  const items = [anchor];
+  let usedSessions = effortSessions(anchor.effort);
+  for (const c of candidates.slice(1)) {
+    // Item cap is a genuine terminator: nothing later can fit either.
+    if (items.length >= cap.max_items) break;
+    // Program filter runs FIRST. Ordering matters: the budget test below must only
+    // ever be asked about a candidate that is actually eligible, or an ineligible
+    // one can end the loop on behalf of items that were never in contention.
+    if (!anchor.program || c.program !== anchor.program) continue;
+    // WS-857: this was `break`, not `continue`. Effort is NOT monotone down the
+    // candidate list, so one oversized candidate terminated companion selection
+    // entirely — including smaller items further down that fit the remaining budget.
+    // Measured at the time: with max_effort_sessions=2, an L anchor already spends 3,
+    // so all 84 L-effort backlog items could only ever compose as solo anchors, and
+    // any sprint whose second candidate was large silently became a sprint of one.
+    if (usedSessions + effortSessions(c.effort) > cap.max_effort_sessions) continue;
+    items.push(c);
+    usedSessions += effortSessions(c.effort);
+  }
+  return { items, usedSessions };
 }
 
 // ─── 1. gate ───────────────────────────────────────────────────────────────
@@ -832,7 +853,7 @@ function runGate(args) {
     drift_detected: false,
     drift_items: [],
     replenishment: { needed: [], note: null },
-    token_budget: { available: false, exit: null, note: null },
+    token_budget: { available: false, exit: null, measured: null, note: null },
     // WS-564: `claim_conflicts` NEVER travels alone. It is computed by filtering
     // on liveness, so an empty list means one of two opposite things — "N peers
     // are live and hold other items" or "liveness is UNKNOWN and this check just
@@ -857,6 +878,13 @@ function runGate(args) {
     request_digest: null,
     // ADR-066: same contract — advisory, never blocking, null off-hub.
     maintenance_digest: null,
+    // WS-987: the daily kit test sweep (.test-sweep.json). Same contract —
+    // advisory, never blocking, null wherever cwos-test-sweep.js does not ship.
+    test_sweep_digest: null,
+    // WS-880: the courier's FORWARD leg, and the mirror of the three above —
+    // null in the hub, speaks only in an adopted repo, because what it reports
+    // is work addressed TO here. Advisory; it reports and never drains.
+    inbox_digest: null,
   };
 
   // Step 0b: session identity + claim conflicts (WS-533).
@@ -895,7 +923,11 @@ function runGate(args) {
     result.session.live_sessions = listLiveSessions(wsDirForClaims, mySession)
       .map((s) => ({ id: s.id, host: s.host, foreign_host: s.foreign_host, claimed_items: s.claimed_items }));
     result.session.stale_active = staleActiveSessions(wsDirForClaims, { selfId: mySession })
-      .map((s) => ({ id: s.id, minutes_stale: s.minutes_stale, claimed_items: s.claimed_items }));
+      .map((s) => ({
+        id: s.id, minutes_stale: s.minutes_stale, claimed_items: s.claimed_items,
+        recovery_would_act: s.recovery_would_act, recovery_reason: s.recovery_reason,
+        recovery_clears_in_hours: s.recovery_clears_in_hours,
+      }));
     result.session.conflicts_conditioning = result.session.registry.ok ? 'known' : 'unknown';
     // WS-565: claims answer "has anyone SAID they are on this item". They cannot
     // answer "is anyone standing in this tree with uncommitted work", and on
@@ -936,6 +968,15 @@ function runGate(args) {
     catch { /* advisory — broken maintenance state must not take the gate down */ }
   }
 
+  // Step 0d-bis: test sweep digest (WS-987). The daily kit test sweep was
+  // dead for 10 days and its only reader was INV-089, which fires when someone
+  // runs /verify. A RED suite or a dead runner now renders on every gate
+  // invocation, including a resume, like the four fleet lanes above.
+  try {
+    const { computeWatermarkDigest } = require('./lib/test-sweep-record');
+    result.test_sweep_digest = computeWatermarkDigest();
+  } catch { /* advisory — a broken watermark must not take the gate down */ }
+
   // Step 0e: divergence digest (WS-814). An adopted repo has changed a
   // kit-owned file by enough that the magnitude bounds call it authored work,
   // and the hub would otherwise learn of it only from an upgrade refusal that
@@ -946,12 +987,35 @@ function runGate(args) {
     result.divergence_digest = computeDigest();
   } catch { /* advisory */ }
 
+  // Step 0f: inbox digest (WS-880). The forward leg of the courier, and the
+  // one digest that speaks in an ADOPTED repo rather than the hub. Same
+  // placement rationale as 0c — it must render on every invocation including a
+  // resume, because an envelope waiting behind whichever sprint happens to be
+  // open is precisely how six of them reached 29 days unseen.
+  //
+  // It reports; it does not drain. cwos-inbox-drain names "can be not-run" as
+  // part of why the DEC-054 boundary is structural, and draining from here
+  // would quietly delete that property (founder decision 2026-09-21).
+  try {
+    const { computeInboxDigest } = require('./lib/inbox-digest');
+    result.inbox_digest = computeInboxDigest();
+  } catch { /* advisory — an unreachable hub must not take the gate down */ }
+
   // WS-565: a live peer in THIS checkout with uncommitted work is a hard stop, for
   // the same reason a live foreign claim is: the failure is silent, and it only
   // becomes visible after one session has committed another's work.
   if (result.session.checkout && result.session.checkout.verdict === 'hazard') {
     const co = result.session.checkout;
-    const cohabitantHint =
+    // WS-1226: when every cohabitant is this terminal's own conversation from before /clear,
+    // say that and when it lifts, rather than calling it a peer.
+    const priors = co.cohabitants.filter((p) => p && p.same_process_prior && p.lifts_at);
+    const priorHint = priors.length && priors.length === co.cohabitants.length
+      ? `${priors.map((p) => p.id).join(', ')} ${priors.length === 1 ? 'is' : 'are'} this terminal's own conversation from before /clear `
+        + `(same process, silent since this one began). The block lifts by itself at ${priors.map((p) => p.lifts_at).sort().pop()} `
+        + '(10 minutes after its last heartbeat), and `node kit/scripts/cwos-session-recovery.js --close <id>` then closes it. '
+        + 'Until then, or if you are not sure: '
+      : '';
+    const cohabitantHint = priorHint +
       `${co.cohabitants.map((p) => p.id).join(', ')} ${co.cohabitants.length === 1 ? 'is' : 'are'} live in this same checkout `
         + `(${co.worktree}), which has ${co.dirty_count} uncommitted path(s). Do NOT assume uncommitted work here is abandoned — `
         + 'it is very likely theirs. Take a worktree NOW and continue — '
@@ -1061,8 +1125,14 @@ function runGate(args) {
   // ADR-067: gate --pickup — explicitly adopt the top pooled sprint. Lease
   // shape per the design: lock -> write -> read-verify -> iterate on
   // contention (never dead-end on a lost race; try the next pooled sprint).
-  if (hasFlag(args, 'pickup') && !active && result.session.id) {
-    for (const cand of pooledSprints) {
+  // --pickup-sprint SPR-NNN adopts that one sprint and nothing else: /next
+  // renders the whole pool as a choice, and a founder who picks the third row
+  // must not be handed the first. A named sprint that is gone or lost to a
+  // race reports a reason instead of falling through to another sprint.
+  const pickupSprint = readFlag(args, 'pickup-sprint');
+  const wantsPickup = hasFlag(args, 'pickup') || !!pickupSprint;
+  if (wantsPickup && !active && result.session.id) {
+    for (const cand of selectPickupCandidates(pooledSprints, pickupSprint)) {
       const picked = claimSprintLease(cand.id, result.session.id);
       if (!picked) continue;
       const pendingIds = (cand.item_refs || [])
@@ -1096,8 +1166,12 @@ function runGate(args) {
       active = Object.assign({}, cand, { claimed_by: result.session.id, dispatch: 'claimed' });
       break;
     }
-    if (!result.pickup) result.pickup = { sprint_id: null, reason: 'pool-empty-or-contended' };
-  } else if (hasFlag(args, 'pickup') && active) {
+    if (!result.pickup) {
+      result.pickup = pickupSprint
+        ? { sprint_id: null, requested: pickupSprint, reason: pooledSprints.some((s) => s.id === pickupSprint) ? 'contended' : 'not-in-pool' }
+        : { sprint_id: null, reason: 'pool-empty-or-contended' };
+    }
+  } else if (wantsPickup && active) {
     result.pickup = { sprint_id: null, reason: 'own-sprint-exists', own_sprint: active.id };
   }
 
@@ -1165,77 +1239,6 @@ function runGate(args) {
     result.blocked = true;
     if (json) writeJson(result);
     process.exit(1);
-  }
-
-  // Step 1d-roster: NO SPRINT BEFORE THE WHOLE SYSTEM HAS BEEN LOOKED AT.
-  //
-  // Founder mandate, 2026-09-20 (perspective-cosmology, MIS-001 REPEAT). Every
-  // installed program must have run at least one cadenced protocol before ANY
-  // sprint composes. Not "every critical program" -- every one.
-  //
-  // Why this exists. Adoption installs a roster (11 programs here) and marks
-  // most of them `dormant`. The Step 1d scan below could not see them, twice
-  // over: it `continue`s on `on_stale.block_sprint !== true` (7 of 11 declare
-  // false), and its never-run branch is fenced to `tier active|critical` (1 of
-  // 11). So the entire install was gated by ONE program. A session cleared that
-  // one program, the gate went green, compose found an empty queue -- and the
-  // session filled the vacuum by proposing research work off a backlog that
-  // predated the adoption and had never been re-approved. That is the failure
-  // this block ends. A gate that one protocol run can open is not a gate.
-  //
-  // Clearing it IS the review: to open this you must actually run all eleven,
-  // and those runs are what put real findings in the queue. The second exit is
-  // equally honest -- if a program does not belong in this repo, delete it (or
-  // set monitor_only) rather than performing a run to satisfy a checkbox. That
-  // second exit is INV-F1 (No Unnecessary Burden) doing its job.
-  //
-  // Deliberately NO --override flag. Every other block in this file has one;
-  // this one must not, because "the session talked itself past the gate" is the
-  // precise defect being fixed. Reviewing eleven programs is cheap. Skipping
-  // the review cost a whole session of invented work.
-  if (fs.existsSync(programsDir)) {
-    const unreviewed = [];
-    for (const f of fs.readdirSync(programsDir)) {
-      if (!/^prog-.+\.yaml$/.test(f) || f === 'prog-template.yaml') continue;
-      const r = readYAMLFile(path.join(programsDir, f));
-      if (!r.ok || !r.data) continue;
-      const d = r.data;
-      if (d.monitor_only === true) continue;
-      const protos = d.protocols || {};
-      const cadenced = Object.entries(protos).filter(
-        ([, p]) => p && typeof p.cadence_days === 'number' && p.cadence_days > 0
-      );
-      if (cadenced.length === 0) continue;
-      const everRun = cadenced.some(([pname, p]) => (
-        p.last_run_date
-        || (d.last_run_by_protocol && d.last_run_by_protocol[pname] && d.last_run_by_protocol[pname].date)
-        || d.last_run_date
-        || null
-      ));
-      if (!everRun) {
-        unreviewed.push({
-          program: d.id || f.replace(/^prog-|\.yaml$/g, ''),
-          tier: d.tier || 'unknown',
-          protocols: cadenced.map(([pname]) => pname),
-        });
-      }
-    }
-    if (unreviewed.length > 0) {
-      // ONE entry for the whole batch, never one per program: the founder
-      // decides the roster in a single pass, and a per-program block would
-      // cost N gate->run->gate round trips to walk down (WS-568 precedent).
-      result.sprint_blocks.push({
-        reason: 'roster-first-run-required',
-        scope: 'all-installed-programs',
-        installed: installed,
-        unreviewed_count: unreviewed.length,
-        programs: unreviewed,
-        hint: `${unreviewed.length} of ${installed} installed programs have never run. `
-          + `No sprint composes until the whole system has been reviewed. `
-          + `For each: run it (/pulse run <program> <protocol> --completed) or, if it does not `
-          + `belong in this repo, remove the program file. There is no override for this block.`,
-      });
-    }
   }
 
   // Step 1d: scan blocking programs (block_sprint: true; skip monitor_only).
@@ -1589,11 +1592,9 @@ function runGate(args) {
       try {
         const r = spawnSync(process.execPath, [tbPath, '--check'], { cwd: repoRoot() });
         result.token_budget.available = true;
-        result.token_budget.exit = r.status;
-        if (r.status === 1) {
-          result.blocked = true;
-          result.token_budget.note = 'budget regression detected';
-        }
+        const tb = interpretTokenBudget(r.status, r.stdout);
+        Object.assign(result.token_budget, tb.token_budget);
+        if (tb.blocked) result.blocked = true;
       } catch (e) {
         result.token_budget.note = `invocation error: ${e.message}`;
       }
@@ -1605,6 +1606,26 @@ function runGate(args) {
 
   if (json) writeJson(result);
   process.exit(result.blocked ? 1 : 0);
+}
+
+// WS-1115: what cwos-token-budget --check's exit means for the gate.
+// 0 measured + within budget, 1 regression (blocks), 3 NOT MEASURED (never
+// blocks, never clean). Anything else is a broken check: not measured either.
+function interpretTokenBudget(status, stdout) {
+  const token_budget = { exit: status };
+  if (status === 1) {
+    return { blocked: true, token_budget: { ...token_budget, measured: true, note: 'budget regression detected' } };
+  }
+  if (status === 0) return { blocked: false, token_budget: { ...token_budget, measured: true } };
+  let out = {};
+  try { out = JSON.parse(String(stdout || '')); } catch { /* note stays generic */ }
+  if (status === 3) {
+    const k = typeof out.sample_count === 'number' ? out.sample_count : null;
+    const n = typeof out.window_size === 'number' ? out.window_size : null;
+    return { blocked: false, token_budget: { ...token_budget, measured: false, sample_count: k, window_size: n,
+      note: `token budget NOT MEASURED — ${k ?? '?'} of ${n ?? '?'} valid /next readings so far` } };
+  }
+  return { blocked: false, token_budget: { ...token_budget, measured: false, note: `token budget NOT MEASURED — check exited ${status}` } };
 }
 
 function daysBetween(isoA, isoB) {
@@ -1675,147 +1696,101 @@ function detectGateMismatch(wsDir, programId, protocolNames, staleDays, today) {
 
 // ─── 2. candidates ─────────────────────────────────────────────────────────
 
-const SATURATED_CLASSES = new Set(['auto-rec', 'engine-finding']);
-const NEVER_DAMPED = new Set(['pre-mortem', 'plan-internal', 'conversation', 'spr-followup', 'untagged']);
-
-// WS-350: build a {programId → {priority_floor, cap_breach_active}} map by
-// scanning program YAMLs once per candidates() call. Used to raise raw_score
-// to priority_floor for candidates from cap-breached programs before tiebreak.
-// Returns {} if programs directory is absent (graceful for tests + bare repos).
-function loadProgramCapsByProgram() {
-  const wsDir = findWorkstreamDir(process.cwd());
-  const programsDir = path.join(wsDir, 'programs');
-  if (!fs.existsSync(programsDir)) return {};
-  const out = {};
-  for (const f of fs.readdirSync(programsDir)) {
-    if (!/^prog-.+\.yaml$/.test(f) || f === 'prog-template.yaml') continue;
-    const r = readYAMLFile(path.join(programsDir, f));
-    if (!r.ok || !r.data || !r.data.id) continue;
-    const d = r.data;
-    if (d.monitor_only === true) continue;
-    const acc = d.accountability && d.accountability.on_finding;
-    if (!acc || typeof acc.priority_floor !== 'number') continue;
-    out[d.id] = {
-      priority_floor: acc.priority_floor,
-      cap_breach_active: !!(d.cap_breach && d.cap_breach.active === true),
-      max_open_items: typeof acc.max_open_items === 'number' ? acc.max_open_items : null,
-    };
+// WS-1170: lane -> model, resolved once per candidates()/compose call. Returns
+// { lanes: {lane: resolved}, error } — error set when the ledger cannot be read,
+// so every candidate says "unknown" rather than an invented default.
+function loadLaneModels() {
+  try {
+    const root = resolveHomeBaseRoot();
+    const r = modelLane.readLedger(modelLane.ledgerPath(root));
+    if (!r.ok) return { lanes: {}, error: r.error };
+    const lanes = {};
+    for (const l of modelLane.LANES) lanes[l] = modelLane.resolveLane(l, r.data, root);
+    return { lanes, error: null };
+  } catch (e) {
+    return { lanes: {}, error: e.message };
   }
+}
+
+// The routing fields one candidate carries. `model` is display-ready:
+// "opus", "opus@low", "none", "REFUSED" (a lane lowered without a passing trial),
+// "unknown" (ledger unreachable), or null (item has no model_lane yet).
+function routingFields(item, laneModels) {
+  const lane = item.model_lane || null;
+  let model = null;
+  let refused = null;
+  if (lane) {
+    const r = laneModels.lanes[lane];
+    if (!r) model = laneModels.error ? 'unknown' : 'REFUSED';
+    else model = modelLane.displayModel(r);
+    if (r && !r.ok) refused = r.refused;
+    else if (!r && !laneModels.error) refused = `lane ${lane} is not a known lane`;
+  }
+  const out = {
+    runs_on: item.runs_on || null,
+    model_lane: lane,
+    model_lane_source: item.model_lane_source || null,
+    model,
+  };
+  if (refused) out.model_refused = refused;
   return out;
+}
+
+/**
+ * ADR-067 eligibility (master) applied to the WS-857 slate (poker): the store the selector
+ * reads is narrowed to eligible backlog items BEFORE ranking, so a limit counts eligible
+ * items and tie groups describe what is shown. selectSlate itself takes no eligibility
+ * predicate yet; when it does, this wrapper goes.
+ */
+function eligibleStore(store, elig) {
+  return Object.assign({}, store, {
+    queue: Object.assign({}, store.queue, {
+      byStatus: (status) => {
+        const xs = store.queue.byStatus(status) || [];
+        return status === 'backlog' ? xs.filter((it) => it && elig.eligible(it.id)) : xs;
+      },
+    }),
+  });
+}
+
+/**
+ * WS-1170 routing fields on every slate candidate. The slate's own runs_on is kept: it is
+ * normalized (WS-493 / machine-affinity.md legacy tokens), routingFields' is the raw value.
+ */
+function withRouting(store, slate, laneModels) {
+  for (const c of slate.candidates || []) {
+    const src = (store.queue.byId && store.queue.byId(c.id)) || c;
+    const runsOn = c.runs_on;
+    Object.assign(c, routingFields(src, laneModels));
+    if (runsOn !== undefined) c.runs_on = runsOn;
+  }
+  slate.lane_ledger_error = laneModels.error;
+  return slate;
 }
 
 function runCandidates(args) {
   const limit = parseInt(readFlag(args, 'limit') || '30', 10);
   const store = loadStore();
-  const backlog = store.queue.byStatus('backlog') || [];
-
-  // Source-class saturation lookup (Step 2d). Read last 3 anchors; classes
-  // appearing ≥ 2 times become saturated → 0.7× damping factor.
-  const recent = getRecentSprintAnchors(store, 3);
-  const classCounts = {};
-  for (const r of recent) {
-    classCounts[r.anchor_source_class] = (classCounts[r.anchor_source_class] || 0) + 1;
-  }
-  const saturated = new Set();
-  for (const [cls, n] of Object.entries(classCounts)) {
-    if (SATURATED_CLASSES.has(cls) && n >= 2) saturated.add(cls);
-  }
-
-  // WS-350: program accountability caps. Candidates from cap-breached programs
-  // get raw_score raised to that program's priority_floor before softblock /
-  // damping / tiebreak. The cap field is reset on reconcile when work_items_open
-  // drops back to max_open_items; until then breached programs naturally bubble
-  // to the top of candidates without /next blocking sprint composition.
-  const programCapsByProgram = loadProgramCapsByProgram();
-
-  // WS-695: active context overrides, read once per call.
-  const activeOverrides = readActiveOverrides();
-  const overrideWarns = overrideWarnings(activeOverrides);
-
-  // Filter dependency-blocked items (Step 2: skip items where blocking items
-  // are not yet `done`).
-  const doneIds = new Set();
-  for (const item of (store.queue.all() || [])) {
-    if (item && item.status === 'done') doneIds.add(item.id);
-  }
-  function depsClear(item) {
-    const deps = Array.isArray(item.blocked_by) ? item.blocked_by : [];
-    if (deps.length === 0) return true;
-    return deps.every((depId) => doneIds.has(depId));
-  }
-
   // ADR-067: shared eligibility filter — the SAME predicate compose reads via
   // candidatesInline, so what this command renders matches what compose picks.
   const elig = buildEligibilityFilter(store);
-  const ranked = [];
-  for (const item of backlog) {
-    if (!depsClear(item)) continue;
-    if (!elig.eligible(item.id)) continue;
-    const sourceClass = item.source_class || classifySource(item);
-    const rawDeclared = typeof item.priority_score === 'number' ? item.priority_score : 0;
-
-    // WS-350: priority_floor application. Raise rawDeclared to floor when the
-    // candidate's program is in cap-breach AND the item's declared score is
-    // below floor. Pure additive — items already above floor are unaffected.
-    let raw = rawDeclared;
-    let priorityFloorApplied = null;
-    const progCap = item.program ? programCapsByProgram[item.program] : null;
-    if (progCap && progCap.cap_breach_active && rawDeclared < progCap.priority_floor) {
-      raw = progCap.priority_floor;
-      priorityFloorApplied = {
-        from: rawDeclared,
-        to: progCap.priority_floor,
-        reason: `program-${item.program} cap-breach: priority_floor=${progCap.priority_floor} applied`,
-      };
-    }
-
-    const softBlockFactor = (item.blocked_by_note && String(item.blocked_by_note).length > 0) ? 0.25 : 1.0;
-    const sourceDamping = saturated.has(sourceClass) && !NEVER_DAMPED.has(sourceClass) ? 0.7 : 1.0;
-    // WS-695: context boosts are live. This was the wiring point left empty
-    // since SPR-100 — which meant every `override_class` the founder ever wrote
-    // in system/context.md was stamped onto sprints and never scored. An
-    // override that cannot move a candidate is a comment.
-    const ctxBoost = contextBoostFor(item, activeOverrides);
-    const adjusted = raw * softBlockFactor * sourceDamping * ctxBoost.factor;
-    const entry = {
-      id: item.id,
-      title: item.title || null,
-      raw_score: raw,
-      adjusted_score: round2(adjusted),
-      effort: item.effort || null,
-      program: item.program || null,
-      source_class: sourceClass,
-      blocked_by_note: (item.blocked_by_note && String(item.blocked_by_note).length > 0) ? item.blocked_by_note : null,
-      soft_block_factor: softBlockFactor,
-      source_damping: sourceDamping,
-      context_boost: ctxBoost.factor,
-    };
-    if (ctxBoost.applied.length) entry.context_boost_applied = ctxBoost.applied;
-    if (priorityFloorApplied) entry.priority_floor_applied = priorityFloorApplied;
-    ranked.push(entry);
-  }
-  ranked.sort(candidateRankCmp);
-  writeJson({
-    saturated_classes: Array.from(saturated),
-    last_anchor_classes: recent.map((r) => r.anchor_source_class),
-    breached_programs: Object.keys(programCapsByProgram).filter((p) => programCapsByProgram[p].cap_breach_active),
-    active_overrides: activeOverrides.map((o) => ({ class: o.class, boosting: !!(o.boost && !o.boost.invalid) })),
-    override_warnings: overrideWarns,
-    candidates: ranked.slice(0, limit),
+  const slate = selectSlateFromStore(eligibleStore(store, elig), {
+    repoRoot: repoRoot(),
+    stateDir: stateDir(),
+    limit,
+    tag: 'cwos-next',
   });
-}
-
-function round2(n) { return Math.round(n * 100) / 100; }
-
-// Candidate sort comparator. Tiebreak at equal adjusted_score: prefer unblocked
-// (higher soft_block_factor) so a small unblocked item beats a high-raw-score
-// item that's soft-blocked at its prerequisite. Without this, e.g. WS-091
-// (raw 64 × 0.25) beat WS-315 (raw 16 × 1.0) at the same adjusted_score 16,
-// anchoring on work that can't run yet. Secondary tiebreak: higher raw_score.
-function candidateRankCmp(a, b) {
-  if (b.adjusted_score !== a.adjusted_score) return b.adjusted_score - a.adjusted_score;
-  if (b.soft_block_factor !== a.soft_block_factor) return b.soft_block_factor - a.soft_block_factor;
-  return b.raw_score - a.raw_score;
+  slate.excluded = elig.excluded;
+  slate.excluded_items = elig.dropped;
+  slate.checkout = checkoutBlock();
+  withRouting(store, slate, loadLaneModels());
+  emitBlockerRefusals(slate.blocker_refusals);
+  emitPriorityRefusals(slate.priority_refusals);
+  if (hasFlag(args, 'human') || hasFlag(args, 'slate')) {
+    process.stdout.write(renderSlate(slate, { limit }));
+    return;
+  }
+  writeJson(slate);
 }
 
 // ─── 3. compose ────────────────────────────────────────────────────────────
@@ -1825,6 +1800,21 @@ function runCompose(args) {
   const candidatesFile = readFlag(args, 'candidates-file');
   const goalArg = readFlag(args, 'goal'); // optional founder-supplied goal
   const composedAt = readFlag(args, 'clock') || new Date().toISOString();
+  // WS-1131: founder-directed composition. The founder approved WS-021 +
+  // WS-017; releasing four stale pools in the same breath reshuffled the
+  // ranking, and the recompose that approve needed anchored on WS-061 — work
+  // he never saw. The CLI had no way to say "these items", so the session
+  // hand-filtered a --candidates-file. `--items` is that sentence.
+  const itemsArg = readFlag(args, 'items');
+  let pinnedIds = null;
+  if (itemsArg != null) {
+    pinnedIds = parseIdList(itemsArg);
+    const dupes = pinnedIds.filter((id, i) => pinnedIds.indexOf(id) !== i);
+    if (pinnedIds.length === 0 || dupes.length) {
+      process.stderr.write(`compose: --items needs a comma-separated list of distinct ids${dupes.length ? `; repeated: ${dupes.join(', ')}` : ''}\n`);
+      process.exit(2);
+    }
+  }
   const store = loadStore();
 
   // Source candidates either from stdin / a file / a fresh run-candidates pass.
@@ -1835,6 +1825,21 @@ function runCompose(args) {
     candidatesPayload = candidatesInline(store);
   }
   const candidates = candidatesPayload.candidates || [];
+
+  // Every named id must pass the SAME eligibility the ranked path applies —
+  // the candidates list is that filter's output. One refused id refuses the
+  // whole composition: silently dropping it would mint a sprint the founder
+  // did not name, which is the incident again in a different shape.
+  let pinned = null;
+  if (pinnedIds) {
+    const res = resolvePinnedItems(store, pinnedIds, candidates);
+    if (res.rejected.length) {
+      writeJson({ ok: false, reason: 'items_ineligible', composed_at: composedAt, requested: pinnedIds, rejected: res.rejected });
+      process.exit(1);
+    }
+    pinned = res.pinned;
+  }
+
   if (candidates.length === 0) {
     writeJson({ ok: false, reason: 'no_candidates', composed_at: composedAt });
     process.exit(1);
@@ -1849,8 +1854,9 @@ function runCompose(args) {
     cap.max_effort_sessions = configNumber(config.sprints.max_effort_sessions, cap.max_effort_sessions);
   }
 
-  // Step 3a: anchor = top adjusted_score candidate.
-  let anchor = candidates[0];
+  // Step 3a: anchor = top adjusted_score candidate — or, founder-directed, the
+  // first item he named.
+  let anchor = pinned ? pinned[0] : candidates[0];
 
   // Step 3a-rotation: fleet-rotation override.
   const overrideClass = readContextOverrideClass();
@@ -1862,18 +1868,12 @@ function runCompose(args) {
   // — deferred to a follow-up. The override path is the load-bearing branch
   // for this session because the founder is in an internal-investment phase.)
 
-  // Step 3b/c: pull related items + cap by effort/items.
-  const items = [anchor];
-  let usedSessions = effortSessions(anchor.effort);
-  for (const c of candidates.slice(1)) {
-    if (items.length >= cap.max_items) break;
-    if (usedSessions + effortSessions(c.effort) > cap.max_effort_sessions) break;
-    // Prefer same program as anchor (continuity)
-    if (anchor.program && c.program === anchor.program) {
-      items.push(c);
-      usedSessions += effortSessions(c.effort);
-    }
-  }
+  // Step 3b/c: pull related items + cap by effort/items. Founder-directed
+  // skips the continuity fill: the sprint is exactly what he named, and an
+  // over-cap choice is reported (cap_used.over_cap), never trimmed.
+  const { items, usedSessions } = pinned
+    ? { items: pinned.slice(), usedSessions: pinned.reduce((n, it) => n + effortSessions(it.effort), 0) }
+    : selectCompanions(anchor, candidates, cap);
 
   // Step 3d: classify mode for each item via the shared module.
   const classified = items.map((it) => {
@@ -1920,16 +1920,23 @@ function runCompose(args) {
     }
   } catch { /* lock reads degrade to portfolio-only overlap */ }
 
+  // Every primary item's program, not just the anchor's: the ranked fill only
+  // ever takes the anchor's program so the two are the same set there, but a
+  // founder-directed sprint can span programs.
+  const primaryPrograms = new Set(items.map((i) => i.program).filter(Boolean));
   const residueByProgram = new Map();
   for (const c of candidates) {
     if (consumedIds.has(c.id)) continue;
-    if (!c.program || c.program === anchor.program) continue;
+    if (!c.program || primaryPrograms.has(c.program)) continue;
     if (c.soft_block_factor && c.soft_block_factor < 1) continue; // soft-blocked = bad parallel pick
     if (!residueByProgram.has(c.program)) residueByProgram.set(c.program, []);
     residueByProgram.get(c.program).push(c);
   }
-  const programOrder = Array.from(residueByProgram.keys())
-    .sort((a, b) => residueByProgram.get(b)[0].adjusted_score - residueByProgram.get(a)[0].adjusted_score);
+  // Programs in order of their best candidate. `candidates` is already the slate's order
+  // (WS-857: one ranking path, with its declared tiebreak chain), and the map was filled
+  // walking it, so insertion order IS that order — a re-sort on adjusted_score here would
+  // be a second ranking whose ties fall back to Map insertion by accident.
+  const programOrder = Array.from(residueByProgram.keys());
   for (const prog of programOrder) {
     if (parallelBatches.length >= MAX_PARALLEL_BATCHES) break;
     const group = residueByProgram.get(prog);
@@ -1969,12 +1976,15 @@ function runCompose(args) {
   }
 
   // Step 3e: sequence — execute-no-deps first, then deps, then plan-first.
-  classified.sort((a, b) => {
-    const am = a.mode === 'execute' ? 0 : 1;
-    const bm = b.mode === 'execute' ? 0 : 1;
-    if (am !== bm) return am - bm;
-    return b.adjusted_score - a.adjusted_score;
-  });
+  // Founder-directed keeps his order: "in that order" is part of what he said.
+  if (!pinned) {
+    classified.sort((a, b) => {
+      const am = a.mode === 'execute' ? 0 : 1;
+      const bm = b.mode === 'execute' ? 0 : 1;
+      if (am !== bm) return am - bm;
+      return b.adjusted_score - a.adjusted_score;
+    });
+  }
 
   // Step 3f: goal — if --goal was provided, use it; else templated from anchor.
   const goal = goalArg || `Ship ${anchor.id}: ${anchor.title || 'work item'}`;
@@ -1994,6 +2004,13 @@ function runCompose(args) {
 
   const sprint = {
     composed_at: composedAt,
+    // WS-1131: how the primary items were chosen — `ranked` (anchor + program
+    // continuity) or `founder-directed` (compose --items). Machine-readable so
+    // approve can carry it into the sprint record and the sprint_approved
+    // event; `composed_by` stays `cli-deterministic` (ADR-037 names that
+    // field's domain, and this composition is still the CLI's).
+    composition: pinned ? 'founder-directed' : 'ranked',
+    pinned_items: pinned ? pinned.map((p) => p.id) : null,
     goal,
     program_focus: anchor.program || null,
     override_class: overrideClass || null,
@@ -2002,6 +2019,7 @@ function runCompose(args) {
     anti_goal_check: anti,
     composition_notes: buildCompositionNotes({
       anchor,
+      pinnedIds: pinned ? pinned.map((p) => p.id) : null,
       candidates,
       saturated: candidatesPayload.saturated_classes || [],
       lastClasses: candidatesPayload.last_anchor_classes || [],
@@ -2030,6 +2048,9 @@ function runCompose(args) {
     // Compose-time exclusion counters from the shared eligibility filter, so
     // a shrunken candidate pool is explainable from the sidecar alone.
     eligibility_excluded: candidatesPayload.excluded || null,
+    // WS-993: which items were dropped and why, and the checkout verdict the gate would give.
+    eligibility_excluded_items: candidatesPayload.excluded_items || [],
+    checkout: checkoutBlock(),
   };
 
   // FIND-314 fix: always persist the canonical sidecar atomically before
@@ -2046,78 +2067,100 @@ function runCompose(args) {
   writeJson(sprint);
 }
 
+/**
+ * In-process slate for `compose`, which does not want to shell out.
+ *
+ * WS-857: this was a ~110-line copy of runCandidates. It is now the same call, and the
+ * duplication that produced the WS-350 / WS-590 / WS-695 drifts cannot recur.
+ *
+ * `limit` is deliberately NOT passed. `runCompose` hands this whole list to
+ * `selectCompanions`, which walks `candidates.slice(1)` filtering on the anchor's program —
+ * so a 30-item default here would cut the companion pool from ~435 to 29 and silently shrink
+ * every sprint. That is the same shape as the break-vs-continue defect in `selectCompanions`
+ * and equally invisible from the output.
+ *
+ * Signature and payload keys are frozen: `dependencyBlockerResolution.test.js:353` calls this
+ * with a one-arg fake store and asserts on `blocker_refusals` / `dependency_resolution`, and
+ * `cwos-fleet-compute.js:721` parses `candidates` out of the CLI form.
+ */
 function candidatesInline(store) {
-  // In-process equivalent of `cwos-next.js candidates --json` for callers
-  // (compose) that don't want to shell out.
-  const backlog = store.queue.byStatus('backlog') || [];
-  const recent = getRecentSprintAnchors(store, 3);
-  const classCounts = {};
-  for (const r of recent) classCounts[r.anchor_source_class] = (classCounts[r.anchor_source_class] || 0) + 1;
-  const saturated = new Set();
-  for (const [cls, n] of Object.entries(classCounts)) {
-    if (SATURATED_CLASSES.has(cls) && n >= 2) saturated.add(cls);
-  }
-  // WS-350: mirror runCandidates priority_floor application.
-  const programCapsByProgram = loadProgramCapsByProgram();
-  // WS-695: mirror runCandidates context boosts. These two scoring paths have
-  // drifted apart before — compose reads THIS one, so a boost wired only into
-  // runCandidates would show up in `candidates --json` and change no sprint.
-  const activeOverrides = readActiveOverrides();
-  const doneIds = new Set();
-  for (const item of (store.queue.all() || [])) {
-    if (item && item.status === 'done') doneIds.add(item.id);
-  }
   // ADR-067: shared eligibility filter — see buildEligibilityFilter.
   const elig = buildEligibilityFilter(store);
-  const ranked = [];
-  for (const item of backlog) {
-    const deps = Array.isArray(item.blocked_by) ? item.blocked_by : [];
-    if (!deps.every((d) => doneIds.has(d))) continue;
-    if (!elig.eligible(item.id)) continue;
-    const sourceClass = item.source_class || classifySource(item);
-    const rawDeclared = typeof item.priority_score === 'number' ? item.priority_score : 0;
-    let raw = rawDeclared;
-    let priorityFloorApplied = null;
-    const progCap = item.program ? programCapsByProgram[item.program] : null;
-    if (progCap && progCap.cap_breach_active && rawDeclared < progCap.priority_floor) {
-      raw = progCap.priority_floor;
-      priorityFloorApplied = {
-        from: rawDeclared,
-        to: progCap.priority_floor,
-        reason: `program-${item.program} cap-breach: priority_floor=${progCap.priority_floor} applied`,
-      };
-    }
-    const softBlockFactor = (item.blocked_by_note && String(item.blocked_by_note).length > 0) ? 0.25 : 1.0;
-    const sourceDamping = saturated.has(sourceClass) && !NEVER_DAMPED.has(sourceClass) ? 0.7 : 1.0;
-    const ctxBoost = contextBoostFor(item, activeOverrides);
-    const entry = {
-      id: item.id, title: item.title || null,
-      raw_score: raw, adjusted_score: round2(raw * softBlockFactor * sourceDamping * ctxBoost.factor),
-      effort: item.effort || null, program: item.program || null,
-      source_class: sourceClass,
-      blocked_by_note: (item.blocked_by_note && String(item.blocked_by_note).length > 0) ? item.blocked_by_note : null,
-      soft_block_factor: softBlockFactor, source_damping: sourceDamping,
-      context_boost: ctxBoost.factor,
-    };
-    if (ctxBoost.applied.length) entry.context_boost_applied = ctxBoost.applied;
-    if (priorityFloorApplied) entry.priority_floor_applied = priorityFloorApplied;
-    ranked.push(entry);
-  }
-  ranked.sort(candidateRankCmp);
-  return {
-    saturated_classes: Array.from(saturated),
-    last_anchor_classes: recent.map((r) => r.anchor_source_class),
-    breached_programs: Object.keys(programCapsByProgram).filter((p) => programCapsByProgram[p].cap_breach_active),
-    // ADR-067: how many backlog items the shared eligibility filter removed,
-    // so a shrunken candidate list is explainable rather than mysterious.
-    excluded: elig.excluded,
-    candidates: ranked,
-  };
+  const slate = selectSlateFromStore(eligibleStore(store, elig), {
+    repoRoot: repoRoot(),
+    stateDir: stateDir(),
+    tag: 'cwos-next',
+  });
+  // ADR-067: how many backlog items the shared eligibility filter removed,
+  // so a shrunken candidate list is explainable rather than mysterious.
+  slate.excluded = elig.excluded;
+  slate.excluded_items = elig.dropped;
+  withRouting(store, slate, loadLaneModels());
+  emitBlockerRefusals(slate.blocker_refusals);
+  emitPriorityRefusals(slate.priority_refusals);
+  return slate;
 }
 
-function buildCompositionNotes({ anchor, candidates, saturated, lastClasses, rotationNote, effortSessions: used, cap, itemCount, breachedPrograms }) {
+/**
+ * WS-1131: resolve compose --items against the candidate list.
+ *
+ * The candidate list IS the shared eligibility filter's output, so membership
+ * is the test; everything below only explains a miss. Each reason is checked
+ * in the order the filter applies it, and the queue YAML answers status
+ * (makeItemStatusLookup) because the state cache lags item mutation — a
+ * refusal that blamed the wrong cause would send the founder after the wrong
+ * fix.
+ *
+ * @returns {{ pinned: object[], rejected: Array<{id, reason, ...}> }}
+ */
+function resolvePinnedItems(store, ids, candidates) {
+  const byId = new Map((candidates || []).map((c) => [c.id, c]));
+  const statusOf = makeItemStatusLookup(store);
+  const elig = buildEligibilityFilter(store);
+  const pinned = [];
+  const rejected = [];
+  for (const id of ids) {
+    if (byId.has(id)) { pinned.push(byId.get(id)); continue; }
+    const status = statusOf(id);
+    if (status == null) { rejected.push({ id, reason: 'unknown', detail: 'no queue item with this id' }); continue; }
+    if (status !== 'backlog') {
+      rejected.push({ id, reason: 'not_backlog', status, detail: `status is ${status}; only backlog items are composable` });
+      continue;
+    }
+    let deps = [];
+    try { deps = ((store.queue.byId(id) || {}).blocked_by) || []; } catch { /* unknown deps */ }
+    const open = (Array.isArray(deps) ? deps : []).filter((d) => statusOf(d) !== 'done');
+    if (open.length) {
+      rejected.push({ id, reason: 'blocked', blocked_by: open, detail: `waiting on ${open.join(', ')}` });
+      continue;
+    }
+    const w = elig.why(id);
+    if (w && w.reason === 'in_open_sprint') {
+      rejected.push({ id, reason: 'in_open_sprint', sprint_id: w.sprint_id, detail: `already in open sprint ${w.sprint_id}` });
+      continue;
+    }
+    if (w && w.reason === 'claimed_by_live_peer') {
+      rejected.push({ id, reason: 'claimed_by_live_peer', claimed_by: w.claimed_by, detail: `held by live session ${w.claimed_by}` });
+      continue;
+    }
+    rejected.push({
+      id, reason: 'not_a_candidate',
+      detail: 'absent from the candidate list (a --candidates-file that omits it, or a state cache that lags the queue — run cwos-reconcile.js)',
+    });
+  }
+  return { pinned, rejected };
+}
+
+function buildCompositionNotes({ anchor, pinnedIds = null, candidates, saturated, lastClasses, rotationNote, effortSessions: used, cap, itemCount, breachedPrograms }) {
   const lines = [];
-  lines.push(`Anchor: ${anchor.id} selected (${anchor.raw_score} × ${anchor.soft_block_factor !== 1 ? `${anchor.soft_block_factor} soft-block × ` : ''}${anchor.source_damping !== 1 ? `${anchor.source_damping} source-damping × ` : ''}${anchor.context_boost && anchor.context_boost !== 1 ? `${anchor.context_boost} context-boost` : 'no damping'} = ${anchor.adjusted_score}).`);
+  // WS-1131: this string is frozen into the sprint YAML, so a founder-directed
+  // sprint must say so here — a reader of the record otherwise sees an
+  // "Anchor: selected" line and believes the ranking chose it.
+  if (Array.isArray(pinnedIds) && pinnedIds.length) {
+    lines.push(`Founder-directed: ${pinnedIds.join(', ')} named via compose --items, in that order; anchor ranking and program-continuity fill skipped.`);
+  } else {
+    lines.push(`Anchor: ${anchor.id} selected (${anchor.raw_score} × ${anchor.soft_block_factor !== 1 ? `${anchor.soft_block_factor} soft-block × ` : ''}${anchor.source_damping !== 1 ? `${anchor.source_damping} source-damping × ` : ''}${anchor.context_boost && anchor.context_boost !== 1 ? `${anchor.context_boost} context-boost` : 'no damping'} = ${anchor.adjusted_score}).`);
+  }
   // WS-695: name the override that boosted the anchor. Without this the score
   // is unexplainable from the sprint file, and the founder cannot tell an
   // override-driven anchor from an organically top-ranked one.
@@ -2190,19 +2233,40 @@ function runConstitutionalAuditCheck(text) {
   }
 }
 
+// "opus (deep-code)" — the model the lane resolves to, and the lane, so a surprising
+// model is traceable to the lane that produced it. "—" when the item has no lane.
+function renderModelCell(it) {
+  if (!it.model_lane) return '—';
+  const src = it.model_lane_source && it.model_lane_source !== 'rule' ? `, ${it.model_lane_source}` : '';
+  return `${it.model || '?'} (${it.model_lane}${src})`;
+}
+
 function renderHumanCompose(sprint) {
   const out = [];
   out.push(`## Proposed Sprint`);
   out.push(``);
+  if (sprint.composition === 'founder-directed') {
+    out.push(`Founder-directed: built from the items you named (${(sprint.pinned_items || []).join(', ')}), in that order — not from the ranking.`);
+    out.push(``);
+  }
   out.push(`### Goal`);
   out.push(sprint.goal);
   out.push(``);
   out.push(`### Items`);
-  out.push(`| # | ID | Title | Mode | Effort |`);
-  out.push(`|---|----|-------|------|--------|`);
+  // WS-1170: Needs (runs_on) and Model (lane -> routing ledger) beside Effort, so the
+  // founder sees what each item needs and which model will do it before approving.
+  out.push(`| # | ID | Title | Mode | Effort | Needs | Model |`);
+  out.push(`|---|----|-------|------|--------|-------|-------|`);
   sprint.items.forEach((it, i) => {
-    out.push(`| ${i + 1} | ${it.id} | ${it.title || ''} | ${it.mode === 'execute' ? 'Just do it' : 'Design first'} | ${it.effort || '?'} |`);
+    out.push(`| ${i + 1} | ${it.id} | ${it.title || ''} | ${it.mode === 'execute' ? 'Just do it' : 'Design first'} | ${it.effort || '?'} | ${it.runs_on || '?'} | ${renderModelCell(it)} |`);
   });
+  const refusedLanes = sprint.items.filter((it) => it.model_refused);
+  if (refusedLanes.length) {
+    out.push(``);
+    out.push(`Model REFUSED for ${refusedLanes.map((it) => it.id).join(', ')}: ${refusedLanes[0].model_refused}`);
+  }
+  const unlaned = sprint.items.filter((it) => !it.model_lane).length;
+  if (unlaned) out.push(`${unlaned} item(s) carry no model_lane — run cwos-model-lane backfill.`);
   out.push(``);
   out.push(`### Cap usage`);
   out.push(`${sprint.cap_used.items} item(s), ~${sprint.cap_used.effort_sessions} session(s) (${sprint.cap_used.ceremony} ceremony).`);
@@ -2293,6 +2357,41 @@ function runApprove(args) {
   catch (e) {
     process.stderr.write(`approve: cannot read sprint file: ${e.message}\n`);
     process.exit(2);
+  }
+
+  // WS-1131: the founder's yes binds to the items he SAW. Approve consumes a
+  // sidecar any later compose may have rewritten — in the incident a recompose
+  // after a pool release swapped the anchor for an item he never approved —
+  // so the session states what it showed him and approve refuses a mismatch
+  // before anything is written. Checked first: a refused binding is the most
+  // important thing this run can say. `--expect-pool` does the same for the
+  // union of the parallel batches (`none` = expect no pool).
+  const bindingMismatches = [];
+  const expectItems = readFlag(args, 'expect-items');
+  if (expectItems != null) {
+    const d = idSetDiff(parseIdList(expectItems), (sprint.items || []).map((it) => it && it.id));
+    if (d) bindingMismatches.push(Object.assign({ scope: 'items' }, d));
+  }
+  const expectPool = readFlag(args, 'expect-pool');
+  if (expectPool != null) {
+    const poolIds = [];
+    for (const b of (Array.isArray(sprint.parallel_batches) ? sprint.parallel_batches : [])) {
+      for (const it of (b && Array.isArray(b.items) ? b.items : [])) poolIds.push(it && it.id);
+    }
+    const want = String(expectPool).trim().toLowerCase() === 'none' ? [] : parseIdList(expectPool);
+    const d = idSetDiff(want, poolIds);
+    if (d) bindingMismatches.push(Object.assign({ scope: 'pool' }, d));
+  }
+  if (bindingMismatches.length) {
+    writeJson({
+      ok: false,
+      reason: 'expected_items_mismatch',
+      sprint_file: sprintFile,
+      composed_at: sprint.composed_at || null,
+      mismatches: bindingMismatches,
+      hint: 'Nothing was written. Recompose with `compose --items <the ids the founder approved>`, then approve again with --expect-items.',
+    });
+    process.exit(1);
   }
 
   // FIND-314 fix: freshness check on composed_at. Stale tmp files are the
@@ -2477,6 +2576,12 @@ function runApprove(args) {
     anti_goal_exemption_reason: (sprint.anti_goal_check && sprint.anti_goal_check.exemption_reason) || null,
     authorized_by: aiAutonomous ? 'ai-autonomous' : 'founder',
     composed_by: 'cli-deterministic',
+    // WS-1131: which items, and who chose them. A separate field rather than a
+    // new composed_by value — ADR-037 fixes composed_by's domain. null = a
+    // sidecar from before the field existed (unknown, not assumed ranked).
+    composition: sprint.composition || null,
+    pinned_items: Array.isArray(sprint.pinned_items) ? sprint.pinned_items : null,
+    items_bound: expectItems != null,
     composed_at: sprint.composed_at || approvedAt,
     approved_at: approvedAt,
     // ADR-067: how this sprint is dispatched — claimed (owner-scoped),
@@ -2522,6 +2627,7 @@ function runApprove(args) {
       }
       const batchSprint = {
         composed_at: sprint.composed_at || approvedAt,
+        composition: 'ranked',
         goal: batch.goal,
         program_focus: batch.program || null,
         override_class: sprint.override_class || null,
@@ -2550,6 +2656,9 @@ function runApprove(args) {
               anti_goal_exemption_reason: null,
               authorized_by: aiAutonomous ? 'ai-autonomous' : 'founder',
               composed_by: 'cli-deterministic',
+              // Batches are always compose's ranked residue, even beside a
+              // founder-directed primary.
+              composition: 'ranked',
               composed_at: sprint.composed_at || approvedAt,
               approved_at: approvedAt,
               dispatch: 'pooled',
@@ -2602,7 +2711,21 @@ function runApprove(args) {
     );
   }
 
-  writeJson({ ok: true, sprint_id: sprintId, sprint_path: yamlPath, event_id: eventId, claimed: claimedIds, pooled: pooledMinted, payload });
+  // Every approved sprint becomes a GitHub milestone, pooled ones included.
+  // Never fatal: a failure is a WARN line plus github_milestone_error on the
+  // sprint, and the approval stands.
+  const milestone = syncSprintMilestone('open', sprintId, yamlPath);
+  const pooledMilestones = {};
+  for (const pid of pooledMinted) {
+    pooledMilestones[pid] = syncSprintMilestone('open', pid, path.join(sprintsDir, `${pid}.yaml`));
+  }
+
+  writeJson({
+    ok: true, sprint_id: sprintId, sprint_path: yamlPath, event_id: eventId, claimed: claimedIds, pooled: pooledMinted,
+    github_milestone: milestone, github_milestone_pooled: pooledMilestones, payload,
+    // WS-555: what the sprint record does not carry, said rather than silently dropped.
+    item_fields_not_recorded: itemFieldsNotRecorded(sprint),
+  });
 }
 
 function nextSprintId(sprintsDir) {
@@ -2612,6 +2735,38 @@ function nextSprintId(sprintsDir) {
     if (m) max = Math.max(max, parseInt(m[1], 10));
   }
   return `SPR-${String(max + 1).padStart(3, '0')}`;
+}
+
+// WS-555, the approve half. An approved sprint records each item as id, title,
+// mode, effort and `status: pending` (renderSprintYaml below), and nothing else.
+// That is deliberate: what compose puts on a candidate row (raw_score,
+// adjusted_score, source_class, damping factors, context_boost, routing and
+// model_lane, ...) is ranking scaffolding for THAT moment, and it stays in the
+// compose sidecar (.claude/.tmp-sprint.json) that approve consumed. Freezing it
+// into the record would bloat every sprint file and re-render as stale "facts".
+// What was wrong was that the drop was silent: a note or commit list a session
+// hand-added to the sidecar vanished with exit 0. So approve now names every
+// item field it did not record, on stdout (`item_fields_not_recorded`).
+// `done` carries everything forward (CLOSED_ITEM_OWNED_KEYS / emitPassthrough).
+const APPROVED_ITEM_RECORDED_KEYS = new Set(['id', 'title', 'mode', 'effort']);
+
+/**
+ * The item fields an approve-time render leaves out: [{ field, items: [ids] }],
+ * sorted by field. `status` is excluded because approve always writes it
+ * (as pending) - it is replaced, not lost.
+ */
+function itemFieldsNotRecorded(sprint) {
+  const byField = new Map();
+  for (const it of ((sprint && sprint.items) || [])) {
+    if (!it || typeof it !== 'object') continue;
+    for (const k of Object.keys(it)) {
+      if (APPROVED_ITEM_RECORDED_KEYS.has(k) || k === 'status') continue;
+      if (it[k] === undefined) continue;
+      if (!byField.has(k)) byField.set(k, []);
+      byField.get(k).push(it.id || null);
+    }
+  }
+  return [...byField.keys()].sort().map((field) => ({ field, items: byField.get(field) }));
 }
 
 function renderSprintYaml(sprintId, sprint, approvedAt, lease = null) {
@@ -2633,9 +2788,9 @@ function renderSprintYaml(sprintId, sprint, approvedAt, lease = null) {
   out.push(`approved_at: "${approvedAt}"`);
   if (sprint.program_focus) out.push(`program_focus: "${sprint.program_focus}"`);
   if (sprint.override_class) out.push(`override_class: "${sprint.override_class}"`);
+  pushCompositionFields(out, sprint);
   out.push(``);
-  out.push(`goal: |`);
-  for (const line of sprint.goal.split('\n')) out.push(`  ${line}`);
+  out.push(...blockScalarLines('goal', sprint.goal));
   out.push(``);
   if (sprint.anti_goal_check) {
     out.push(`anti_goal_check:`);
@@ -2655,8 +2810,7 @@ function renderSprintYaml(sprintId, sprint, approvedAt, lease = null) {
     out.push(``);
   }
   if (sprint.composition_notes) {
-    out.push(`composition_notes: |`);
-    for (const line of sprint.composition_notes.split('\n')) out.push(`  ${line}`);
+    out.push(...blockScalarLines('composition_notes', sprint.composition_notes));
     out.push(``);
   }
   out.push(`items:`);
@@ -2678,6 +2832,17 @@ function renderSprintYaml(sprintId, sprint, approvedAt, lease = null) {
   return out.join('\n');
 }
 
+// WS-1131: composition provenance in the sprint record. Shared by the approve
+// and close renderers so `done` — which re-renders the whole file — cannot
+// erase how the sprint was chosen. Absent on a pre-WS-1131 sidecar: emit
+// nothing rather than guess.
+function pushCompositionFields(out, sprint) {
+  if (!sprint || !sprint.composition) return;
+  out.push(`composition: ${sprint.composition}`);
+  const pins = Array.isArray(sprint.pinned_items) ? sprint.pinned_items.filter(Boolean) : [];
+  if (pins.length) out.push(`pinned_items: [${pins.map((id) => `"${id}"`).join(', ')}]`);
+}
+
 function yamlString(s) {
   if (s == null) return '""';
   const str = String(s);
@@ -2689,6 +2854,122 @@ function yamlString(s) {
 // but emits status=done plus completion metadata, and propagates per-item
 // status/completed_at fields from the in-memory sprint object (which runDone
 // has already mutated for the items it closed).
+/**
+ * Find the commit that actually closed ONE ticket, or refuse.
+ *
+ * WS-678 cleanup, 2026-08-27, and it fixes fr-020 ("cwos-next done never stamps" — logged
+ * 2026-08-1x and never actioned).
+ *
+ * This used to be `git rev-parse --short HEAD`, once, stamped onto EVERY item in the
+ * sprint. That is not an attribution, it is a timestamp wearing a sha. Measured over the
+ * 69 tickets carrying a completion_commit:
+ *
+ *   - 41 of 69 shared a sha with another ticket; one commit was stamped on SEVEN.
+ *   - only 34.8% of recorded values named their own ticket anywhere in the message.
+ *
+ * The damage is downstream and quiet: `completion_commit` is the field anyone reads to ask
+ * "what change closed this?", and two thirds of the time it answered with whatever happened
+ * to be checked out. It also made the shipped-ticket detector look far worse than it is —
+ * scored against these labels its attribution reads 22.5%, and against the labels that are
+ * not HEAD-stamps it reads 69.2%.
+ *
+ * The rule here matches scripts/detect-shipped-tickets.mjs deliberately: a CLOSING-TYPE
+ * conventional commit (fix|feat|perf|refactor) naming the ticket in its SUBJECT. When
+ * several qualify it returns null rather than guessing — naming the newest was measured
+ * wrong on 5 of 57 there, and a confident wrong attribution is worse than an absent one
+ * (`.claude/rules/provenance-or-refuse.md`).
+ *
+ * @returns {string|null} short sha, or null when the evidence is absent or plural.
+ */
+function attributeCompletionCommit(wsId) {
+  try {
+    const r = spawnSync('git', [
+      'log', '--no-merges', '--format=%h%x00%s', '--grep', wsId, '-i', '--max-count', '40',
+    ], { cwd: repoRoot(), encoding: 'utf8' });
+    if (r.status !== 0 || !r.stdout) return null;
+
+    const idLower = String(wsId).toLowerCase();
+    const matches = [];
+    const NEWLINE = String.fromCharCode(10);
+    // NUL is git's %x00 field separator. Built from a char code on purpose: a literal
+    // NUL byte in source made six files invisible to every search tool here (c1bb4408).
+    const NUL = String.fromCharCode(0);
+    for (const line of r.stdout.split(NEWLINE)) {
+      if (!line.trim()) continue;
+      const [sha, subject] = line.split(NUL);
+      if (!sha || !subject) continue;
+      const subjLower = subject.toLowerCase();
+      // The id must be in the SUBJECT, not merely somewhere in the body that --grep matched.
+      if (!subjLower.includes(idLower)) continue;
+      // ...and the commit must not be ABOUT a different ticket. Measured 2026-08-27:
+      // `fix(ws-614): the corpus ceiling ... had been sitting unused since WS-512` names
+      // WS-512 in its subject as HISTORY, and would otherwise have been recorded as the
+      // commit that closed WS-512. A conventional scope naming a ticket id is the commit
+      // declaring its own subject; anything else in the line is reference.
+      const scopeMatch = /^[a-z]+\(([^)]*)\)/.exec(subjLower);
+      const scopeText = scopeMatch ? scopeMatch[1] : '';
+      const scopeNamesATicket = scopeText.includes('ws-');
+      if (scopeNamesATicket && !scopeText.includes(idLower)) continue;
+      const conv = /^([a-z]+)\(/.exec(subjLower);
+      const type = conv ? conv[1] : null;
+      if (!type || !['fix', 'feat', 'perf', 'refactor'].includes(type)) continue;
+      matches.push(sha.trim());
+    }
+    // Singular evidence only. Plural means "several commits could be the closer", and this
+    // function does not get to pick one.
+    return matches.length === 1 ? matches[0] : null;
+  } catch {
+    return null;
+  }
+}
+
+// WS-555: emit one key/value pair the closer does not own, so a re-render never
+// drops it. Handles the shapes the repo's YAML parser reads back faithfully:
+// scalars, lists, nested maps. Strings that a double-quoted scalar cannot carry
+// (newline, quote, backslash - the parser does not decode escapes) go out as
+// block scalars instead.
+function emitPassthrough(out, indent, key, value) {
+  const pad = ' '.repeat(indent);
+  const NEEDS_BLOCK = /[\n"\\]/;
+  if (value === null || value === undefined) { out.push(`${pad}${key}: null`); return; }
+  if (typeof value === 'string') {
+    if (NEEDS_BLOCK.test(value)) {
+      out.push(...blockScalarLines(key, value, { indent }));
+    } else {
+      out.push(`${pad}${key}: ${yamlString(value)}`);
+    }
+    return;
+  }
+  if (typeof value !== 'object') { out.push(`${pad}${key}: ${value}`); return; }
+  if (Array.isArray(value)) {
+    if (value.length === 0) { out.push(`${pad}${key}: []`); return; }
+    if (value.every((v) => v === null || typeof v !== 'object')) {
+      out.push(`${pad}${key}:`);
+      for (const v of value) {
+        if (typeof v === 'string' && NEEDS_BLOCK.test(v)) {
+          out.push(`${pad}  - ${JSON.stringify(v.replace(/\s+/g, ' '))}`);
+        } else {
+          out.push(`${pad}  - ${v === null ? 'null' : typeof v === 'string' ? yamlString(v) : v}`);
+        }
+      }
+      return;
+    }
+    out.push(`${pad}${key}: ${JSON.stringify(value)}`);
+    return;
+  }
+  const keys = Object.keys(value);
+  if (keys.length === 0) { out.push(`${pad}${key}: {}`); return; }
+  out.push(`${pad}${key}:`);
+  for (const k of keys) emitPassthrough(out, indent + 2, k, value[k]);
+}
+
+const CLOSED_SPRINT_OWNED_KEYS = new Set([
+  'id', 'title', 'status', 'approved_at', 'completed_at', 'completed_by_commit',
+  'manual_close_note', 'program_focus', 'override_class', 'goal', 'anti_goal_check',
+  'composition_notes', 'items', 'decisions_needed', 'created_at',
+]);
+const CLOSED_ITEM_OWNED_KEYS = new Set(['id', 'title', 'mode', 'effort', 'status', 'completed_at']);
+
 function renderSprintYamlClosed(sprintId, sprint, completedAt, completionCommit) {
   const out = [];
   const title = sprint.title || (sprint.goal ? sprint.goal.split('\n')[0].slice(0, 100) : sprintId);
@@ -2701,10 +2982,10 @@ function renderSprintYamlClosed(sprintId, sprint, completedAt, completionCommit)
   if (sprint.manual_close_note) out.push(`manual_close_note: ${yamlString(sprint.manual_close_note)}`);
   if (sprint.program_focus) out.push(`program_focus: "${sprint.program_focus}"`);
   if (sprint.override_class) out.push(`override_class: "${sprint.override_class}"`);
+  pushCompositionFields(out, sprint);
   out.push(``);
   if (sprint.goal) {
-    out.push(`goal: |`);
-    for (const line of String(sprint.goal).split('\n')) out.push(`  ${line}`);
+    out.push(...blockScalarLines('goal', sprint.goal));
     out.push(``);
   }
   if (sprint.anti_goal_check) {
@@ -2723,8 +3004,7 @@ function renderSprintYamlClosed(sprintId, sprint, completedAt, completionCommit)
     out.push(``);
   }
   if (sprint.composition_notes) {
-    out.push(`composition_notes: |`);
-    for (const line of String(sprint.composition_notes).split('\n')) out.push(`  ${line}`);
+    out.push(...blockScalarLines('composition_notes', sprint.composition_notes));
     out.push(``);
   }
   out.push(`items:`);
@@ -2735,6 +3015,10 @@ function renderSprintYamlClosed(sprintId, sprint, completedAt, completionCommit)
     if (it.effort) out.push(`    effort: ${it.effort}`);
     out.push(`    status: ${it.status || 'pending'}`);
     if (it.completed_at) out.push(`    completed_at: "${it.completed_at}"`);
+    // WS-555: carry every field the closer does not own (commits, note, provenance...).
+    for (const k of Object.keys(it)) {
+      if (!CLOSED_ITEM_OWNED_KEYS.has(k)) emitPassthrough(out, 4, k, it[k]);
+    }
   }
   out.push(``);
   if (Array.isArray(sprint.decisions_needed) && sprint.decisions_needed.length > 0) {
@@ -2743,6 +3027,10 @@ function renderSprintYamlClosed(sprintId, sprint, completedAt, completionCommit)
     out.push(``);
   }
   if (sprint.created_at) out.push(`created_at: "${sprint.created_at}"`);
+  // WS-555: sprint-level fields the closer does not own survive too.
+  for (const k of Object.keys(sprint)) {
+    if (!CLOSED_SPRINT_OWNED_KEYS.has(k)) emitPassthrough(out, 0, k, sprint[k]);
+  }
   out.push(``);
   return out.join('\n');
 }
@@ -2761,6 +3049,24 @@ function runDone(args) {
   if (!fs.existsSync(sprintPath)) {
     process.stderr.write(`done: sprint file not found: ${sprintPath}\n`);
     process.exit(2);
+  }
+
+  // WS-1131: the cancel /next always documented and never had. Sessions
+  // hand-edited the sprint YAML and sprint-index.yaml to release stale pools,
+  // and one invented a nonstandard item status doing it. A flag on `done`, not
+  // a sixth subcommand (AS-037-4): abandon is the other way a sprint closes.
+  const abandonReason = readFlag(args, 'abandon');
+  if (abandonReason == null && hasFlag(args, 'force')) {
+    // ADR-063: a flag that would do nothing is refused, not ignored.
+    process.stderr.write('done: --force only applies with --abandon\n');
+    process.exit(2);
+  }
+  if (abandonReason != null) {
+    if (abandonReason.trim().length < 20) {
+      process.stderr.write(`done: --abandon reason must be ≥ 20 characters; got ${abandonReason.trim().length}\n`);
+      process.exit(2);
+    }
+    return abandonSprint(sprintId, sprintPath, abandonReason.trim(), completedAt, hasFlag(args, 'force'));
   }
 
   const result = {
@@ -2790,13 +3096,15 @@ function runDone(args) {
   const sprint = sprintRead.data;
   const sprintItems = Array.isArray(sprint.items) ? sprint.items : [];
 
-  // Resolve current git HEAD (committed_commit attribution). Best-effort —
-  // missing HEAD is non-fatal; we still close items + emit events.
-  let completionCommit = null;
+  // The sprint's closing HEAD. This is a fact about WHEN the sprint closed and it is
+  // recorded on the SPRINT. It is deliberately no longer written to individual items —
+  // see attributeCompletionCommit above.
+  let sprintHeadCommit = null;
   try {
     const r = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: repoRoot(), encoding: 'utf8' });
-    if (r.status === 0 && r.stdout) completionCommit = r.stdout.trim();
+    if (r.status === 0 && r.stdout) sprintHeadCommit = r.stdout.trim();
   } catch { /* non-fatal */ }
+  const completionCommit = sprintHeadCommit;
 
   // Per-item closure pass. For each item the sprint references that has not
   // already been closed (or explicitly skipped), emit item_closed event then
@@ -2804,6 +3112,86 @@ function runDone(args) {
   // YAML mutation is the materialized view. Idempotent — re-running done()
   // emits zero new events for already-closed items.
   const queueDir = path.join(stateDir(), 'queue');
+
+  // WS-941 gap 3: inspection gate, checked for EVERY pending item before any
+  // item closes — a sprint is closed whole or not at all, so a half-closed
+  // sprint can never be the price of one uninspected item. Items that are
+  // high/critical (or carry `inspection: required`) need an independent PASS
+  // on record; --skip-inspection "<rationale>" waives it and is logged per item.
+  {
+    const blocked = [];
+    const findingOpen = [];
+    for (const spItem of sprintItems) {
+      if (!spItem || !spItem.id || spItem.status === 'skipped') continue;
+      const qp = path.join(queueDir, `${spItem.id}.yaml`);
+      if (!fs.existsSync(qp)) continue;
+      const qr = readYAMLFile(qp);
+      if (!qr.ok || !qr.data) continue;
+      if (qr.data.status === 'done' || qr.data.status === 'skipped') continue;
+      const g = inspectionGate.gateItem(qr.data);
+      if (!g.ok) blocked.push({ id: spItem.id, reason: g.reason });
+      // WS-1311: an item raised for a maintenance finding closes only once
+      // that finding has (lib/maintenance-finding-gate.js).
+      const mg = maintenanceFindingGate.gateMaintenanceItem(qr.data, path.resolve(queueDir, '..', '..', '..'));
+      if (!mg.ok) findingOpen.push({ id: spItem.id, finding_id: mg.finding_id, reason: mg.reason });
+    }
+    if (findingOpen.length) {
+      const why = readFlag(args, 'finding-open');
+      if (why == null || String(why).trim().length < maintenanceFindingGate.MIN_OVERRIDE_RATIONALE) {
+        process.stderr.write(
+          `done: ${sprintId} cannot close: ${findingOpen.length} item(s) were raised for maintenance findings that are still open:\n` +
+          findingOpen.map((b) => `  - ${b.id}: ${b.reason}\n`).join('') +
+          maintenanceFindingGate.refusalHint(findingOpen[0].finding_id) + '\n');
+        process.exit(2);
+      }
+      result.finding_open_override = findingOpen.map((b) => ({ ...b, rationale: String(why).trim() }));
+      for (const b of findingOpen) {
+        if (appendEvent && ensureCommandId) {
+          try {
+            appendEvent({
+              source_track: 'T6:workstream', source_tier: 'founder-prompt', track_tag: 'finding_open_override',
+              command_id: ensureCommandId('finding-open-override'),
+              payload: { type: 'finding_open_override', ws_id: b.id, finding_id: b.finding_id, sprint_id: sprintId,
+                rationale: String(why).trim(), closure_path: 'cwos-next done' },
+            });
+          } catch { /* non-fatal */ }
+        }
+      }
+    }
+    if (blocked.length) {
+      const waiver = readFlag(args, 'skip-inspection');
+      if (waiver == null) {
+        process.stderr.write(
+          `done: ${sprintId} cannot close — ${blocked.length} item(s) need an independent inspection first:\n` +
+          blocked.map((b) => `  - ${b.id}: ${b.reason}\n`).join('') +
+          inspectionGate.refusalHint(blocked.map((b) => b.id)) + '\n');
+        process.exit(2);
+      }
+      if (String(waiver).trim().length < inspectionGate.MIN_WAIVER_RATIONALE) {
+        process.stderr.write(`done: --skip-inspection rationale must be at least ${inspectionGate.MIN_WAIVER_RATIONALE} chars\n`);
+        process.exit(2);
+      }
+      result.inspection_waived = [];
+      for (const b of blocked) {
+        if (appendEvent && ensureCommandId) {
+          try {
+            appendEvent({
+              source_track: 'T6:workstream',
+              source_tier: 'founder-prompt',
+              track_tag: 'inspection_waived',
+              command_id: ensureCommandId('inspection-waived'),
+              payload: {
+                type: 'inspection_waived', ws_id: b.id, sprint_id: sprintId,
+                rationale: String(waiver).trim(), reason: b.reason, closure_path: 'cwos-next done',
+              },
+            });
+          } catch { /* non-fatal */ }
+        }
+        result.inspection_waived.push(b.id);
+      }
+    }
+  }
+
   for (const spItem of sprintItems) {
     if (!spItem || !spItem.id) continue;
     if (!/^WS-\d+$/.test(spItem.id)) continue;
@@ -2826,6 +3214,10 @@ function runDone(args) {
     // cwos-reconcile run promotes it via promoteStaleQueueItemsFromSprints
     // (defense-in-depth). Track is T6:workstream so the workstream + sprints
     // reducers re-materialize state/*.json automatically.
+    // Per ITEM, not per sprint. Null when the evidence is absent or plural — an absent
+    // attribution is a readable gap; a wrong one is a false record.
+    const itemCommit = attributeCompletionCommit(spItem.id);
+
     let itemEventId = null;
     if (appendEvent && ensureCommandId) {
       try {
@@ -2840,7 +3232,8 @@ function runDone(args) {
             ws_id: spItem.id,
             sprint_id: sprintId,
             completed_at: completedAt,
-            completion_commit: completionCommit,
+            completion_commit: itemCommit,
+            sprint_head_commit: sprintHeadCommit,
           },
         });
         if (r && r.ok && r.event) itemEventId = r.event.id;
@@ -2862,8 +3255,14 @@ function runDone(args) {
         // so the write no-opped and `done` reported ok. upsertYAMLScalarField
         // fills absent-or-null and leaves a real value alone.
         patched = upsertYAMLScalarField(patched, 'completed_at', completedAt, { after: 'status' }).content;
-        if (completionCommit) {
-          patched = upsertYAMLScalarField(patched, 'completion_commit', completionCommit, { after: 'completed_at' }).content;
+        if (itemCommit) {
+          patched = upsertYAMLScalarField(patched, 'completion_commit', itemCommit, { after: 'completed_at' }).content;
+          // WHERE the value came from, carried with it. Without this, any instrument that
+          // scores attribution against these labels is scoring a rule against its own
+          // output and will trend to 100% while measuring nothing -- the WS-291 mechanism,
+          // pointed at the tool built to detect it. claude-poker-tracker's
+          // detectShippedTicketsRecall.test.js excludes `attributed` labels for exactly this.
+          patched = upsertYAMLScalarField(patched, 'completion_commit_source', 'attributed', { after: 'completion_commit' }).content;
         }
         if (itemEventId) {
           patched = upsertYAMLScalarField(patched, 'closed_by_event', itemEventId).content;
@@ -2916,6 +3315,12 @@ function runDone(args) {
     writeFileAtomic(sprintPath, closedYaml);
   } catch (e) {
     result.sprint_yaml_write_error = e.message;
+  }
+
+  // The sprint's GitHub milestone closes with it, once the closed record is
+  // on disk: a sprint whose YAML did not land is not closed.
+  if (!result.sprint_yaml_write_error) {
+    result.github_milestone = syncSprintMilestone('close', sprintId, sprintPath);
   }
 
   // Emit sprint_completed event (boundary signal preserved). Track stays at
@@ -2997,6 +3402,268 @@ function runDone(args) {
   writeJson(result);
 }
 
+// ─── 5b. done --abandon (WS-1131) ─────────────────────────────────────────
+//
+// Abandon closes a sprint WITHOUT closing its work: done items stay done, open
+// items lose their claim and return to the eligible set, and no `item_closed`
+// is emitted for anything. The sprint YAML is PATCHED, not re-rendered, so the
+// record keeps everything it already said (lease fields, item statuses,
+// composition provenance) and gains only the abandonment.
+//
+// Collision posture, which is the founder's priority: abandoning a sprint
+// another LIVE session holds — its lease, or a claim on any open item — would
+// pull work out from under a peer mid-edit, so it refuses unless --force.
+// Unknown liveness counts as live, same as findPooledSprints.
+
+// "A session was working this" — returned to backlog. blocked/deferred are
+// parked on purpose and keep their status; only the claim is released.
+const WORKING_ITEM_STATUSES = new Set(['in-progress', 'in_progress', 'claimed', 'active']);
+
+// Replace a top-level scalar line, or insert it after `afterKey`. The value is
+// pre-rendered so a reason string goes through yamlString's quoting.
+function setTopLevelScalar(text, key, rendered, afterKey) {
+  const re = new RegExp(`^${key}:.*$`, 'm');
+  if (re.test(text)) return text.replace(re, () => `${key}: ${rendered}`);
+  const anchor = new RegExp(`^${afterKey}:.*$`, 'm');
+  if (anchor.test(text)) return text.replace(anchor, (m) => `${m}\n${key}: ${rendered}`);
+  return text.replace(/\s*$/, '') + `\n${key}: ${rendered}\n`;
+}
+
+// ─── GitHub milestone sync (founder decision 2026-10-31) ───────────────────
+//
+// op 'open' (approve) creates or adopts the sprint's milestone; op 'close'
+// (done, done --abandon) closes it. The outcome lands on the sprint YAML:
+// `github_milestone: <number>` on success, `github_milestone_error: "<reason>"`
+// on failure, with one `WARN github-milestone:` line on stderr. It never
+// throws and never changes the sprint operation's exit code.
+function syncSprintMilestone(op, sprintId, sprintPath, { abandonReason = null } = {}) {
+  let outcome;
+  try {
+    const sr = readYAMLFile(sprintPath);
+    if (!sr.ok || !sr.data) {
+      outcome = { error: `sprint YAML unreadable: ${sprintPath}` };
+    } else if (op === 'open') {
+      outcome = githubMilestone.ensureMilestone({ sprintId, sprint: sr.data, cwd: repoRoot() });
+    } else {
+      outcome = githubMilestone.closeMilestone({ sprint: sr.data, cwd: repoRoot(), abandonReason });
+    }
+  } catch (e) {
+    outcome = { error: `internal error: ${e.message}` };
+  }
+  if (outcome.action === 'skipped') return outcome;
+  if (outcome.error) {
+    outcome.error = githubMilestone.oneLine(outcome.error);
+    process.stderr.write(`WARN github-milestone: ${sprintId}: ${outcome.error}\n`);
+  }
+  try {
+    withFileLock(sprintPath + '.lock', () => {
+      const raw = fs.readFileSync(sprintPath, 'utf8');
+      let text = raw;
+      if (outcome.number) text = setTopLevelScalar(text, 'github_milestone', String(outcome.number), 'approved_at');
+      if (outcome.error) {
+        text = setTopLevelScalar(text, 'github_milestone_error', yamlString(outcome.error), 'approved_at');
+      } else {
+        // A success clears an earlier attempt's error: the record says what is true now.
+        text = text.replace(/^github_milestone_error:.*(\r?\n|$)/m, '');
+      }
+      if (text !== raw) writeFileAtomic(sprintPath, text);
+    }, { ownerLabel: 'next:github-milestone', maxWaitMs: 5000 });
+  } catch (e) {
+    outcome.record_error = e.message;
+    process.stderr.write(`WARN github-milestone: ${sprintId}: could not record the outcome in ${sprintPath}: ${e.message}\n`);
+  }
+  return outcome;
+}
+
+function liveOtherHolder(wsDir, holder, me, claimedAt) {
+  if (!holder || holder === me) return false;
+  try { return isSessionLive(wsDir, holder, undefined, undefined, { claimedAt: claimedAt || undefined }); }
+  catch { return true; }
+}
+
+function abandonSprint(sprintId, sprintPath, reason, abandonedAt, force) {
+  const wsDir = stateDir();
+  const sr = readYAMLFile(sprintPath);
+  if (!sr.ok || !sr.data) {
+    process.stderr.write(`done: sprint YAML unreadable: ${sprintPath}\n`);
+    process.exit(2);
+  }
+  const sprint = sr.data;
+  const status = String(sprint.status || '');
+
+  // Idempotent: the second abandon of a sprint is a no-op success — no event,
+  // no writes — so a retried command can never double-release or re-stamp.
+  if (status === 'abandoned') {
+    writeJson({
+      ok: true, sprint_id: sprintId, status: 'abandoned', already_abandoned: true,
+      abandoned_at: sprint.abandoned_at || null, event_id: null, items_released: [],
+    });
+    return;
+  }
+  // A finished sprint has nothing to cancel, and stamping it abandoned would
+  // rewrite what happened.
+  if (status === 'done' || status === 'completed') {
+    writeJson({ ok: false, reason: 'sprint_already_closed', sprint_id: sprintId, status });
+    process.exit(1);
+  }
+
+  let me = null;
+  try { me = resolveSessionId(wsDir); } catch { /* abandoned_by stays null */ }
+
+  const statusOf = makeItemStatusLookup(null);
+  const sprintItems = (Array.isArray(sprint.items) ? sprint.items : []).filter((it) => it && it.id);
+  const openIds = [];
+  const closedIds = [];
+  for (const it of sprintItems) (itemIsClosed(statusOf(it.id)) ? closedIds : openIds).push(it.id);
+
+  const queuePathOf = (id) => path.join(wsDir, 'queue', `${id}.yaml`);
+  const holders = [];
+  if (liveOtherHolder(wsDir, sprint.claimed_by, me, sprint.claimed_at || sprint.approved_at)) {
+    holders.push({ scope: 'sprint', session: sprint.claimed_by });
+  }
+  for (const id of openIds) {
+    const c = readClaim(queuePathOf(id));
+    if (c && liveOtherHolder(wsDir, c.claimedBy, me, c.claimedAt)) holders.push({ scope: 'item', id, session: c.claimedBy });
+  }
+  if (holders.length && !force) {
+    writeJson({
+      ok: false, reason: 'held_by_live_session', sprint_id: sprintId, holders,
+      hint: 'Nothing was written. Another live session is working this sprint; leave it, or pass --force once the founder has decided to take it back.',
+    });
+    process.exit(1);
+  }
+
+  // The sprint record. Under the same lock claimSprintLease takes, with the
+  // lease re-checked inside it: a pickup can land between the read above and
+  // this write, and abandoning a sprint a peer has just adopted is the exact
+  // collision this refuses.
+  let lostRace = null;
+  try {
+    withFileLock(sprintPath + '.lock', () => {
+      let text = fs.readFileSync(sprintPath, 'utf8');
+      const nowHolder = ((text.match(/^claimed_by:\s*"?([^"\n]*)"?\s*$/m) || [])[1] || '').trim();
+      const nowAt = ((text.match(/^claimed_at:\s*"?([^"\n]*)"?\s*$/m) || [])[1] || '').trim();
+      if (!force && nowHolder && nowHolder !== 'null' && nowHolder !== String(sprint.claimed_by || '')
+          && liveOtherHolder(wsDir, nowHolder, me, nowAt)) {
+        lostRace = nowHolder;
+        return;
+      }
+      text = text.replace(/^status:\s*.*$/m, 'status: abandoned');
+      text = setTopLevelScalar(text, 'abandoned_at', `"${abandonedAt}"`, 'status');
+      text = setTopLevelScalar(text, 'abandoned_reason', yamlString(reason), 'abandoned_at');
+      text = setTopLevelScalar(text, 'abandoned_by', me ? `"${me}"` : 'null', 'abandoned_reason');
+      // completed_at is set too, and that is deliberate. Every "is this sprint
+      // still open?" reader in this file (findResumableSprint,
+      // findPooledSprints, buildEligibilityFilter, phantom detection) treats
+      // completed_at as closed, and cwos-gc archives `abandoned` sprints by
+      // aging completed_at — without it an abandoned sprint is never archived.
+      // Filled only when unset: a stamp already there is history.
+      text = upsertYAMLScalarField(text, 'completed_at', abandonedAt, { after: 'abandoned_by' }).content;
+      writeFileAtomic(sprintPath, text);
+    }, { ownerLabel: 'next:abandon', maxWaitMs: 5000 });
+  } catch (e) {
+    process.stderr.write(`done: could not write ${sprintPath}: ${e.message}\n`);
+    process.exit(2);
+  }
+  if (lostRace) {
+    writeJson({
+      ok: false, reason: 'held_by_live_session', sprint_id: sprintId,
+      holders: [{ scope: 'sprint', session: lostRace }],
+      hint: 'Nothing was written. A live session picked this sprint up while it was being abandoned.',
+    });
+    process.exit(1);
+  }
+
+  // The work goes back. Status first (working → backlog, a stale sprint_id
+  // pointer cleared), then the claim through the claims library so the
+  // release is attributed (released_by) exactly as a closing item's is.
+  const returnedToBacklog = [];
+  const released = [];
+  for (const id of openIds) {
+    const qp = queuePathOf(id);
+    if (!fs.existsSync(qp)) continue;
+    try {
+      withFileLock(qp + '.lock', () => {
+        const raw = fs.readFileSync(qp, 'utf8');
+        let text = raw;
+        const st = (text.match(/^status:\s*"?([^"\s]+)"?/m) || [])[1] || '';
+        if (WORKING_ITEM_STATUSES.has(st)) {
+          text = text.replace(/^status:\s*.*$/m, 'status: backlog');
+          returnedToBacklog.push(id);
+        }
+        const sid = ((text.match(/^sprint_id:\s*"?([^"\n]*)"?\s*$/m) || [])[1] || '').trim();
+        if (sid === sprintId) text = text.replace(/^sprint_id:.*$/m, 'sprint_id: null');
+        if (text !== raw) writeFileAtomic(qp, text);
+      }, { ownerLabel: 'next:abandon', maxWaitMs: 5000 });
+    } catch (e) {
+      process.stderr.write(`done: could not return ${id} to backlog (non-fatal): ${e.message}\n`);
+    }
+    released.push(id);
+  }
+  try { releaseItems(wsDir, released); }
+  catch (e) { process.stderr.write(`done: claim release failed (non-fatal): ${e.message}\n`); }
+
+  // Close the sprint's GitHub milestone and say why on it.
+  const abandonMilestone = syncSprintMilestone('close', sprintId, sprintPath, { abandonReason: reason });
+
+  const result = {
+    ok: true,
+    sprint_id: sprintId,
+    status: 'abandoned',
+    abandoned_at: abandonedAt,
+    abandoned_by: me,
+    reason,
+    event_id: null,
+    items_released: released,
+    items_returned_to_backlog: returnedToBacklog,
+    items_already_closed: closedIds,
+    forced_over: force ? holders : [],
+    github_milestone: abandonMilestone,
+    reconcile: null,
+  };
+
+  // One boundary event, the sibling of sprint_completed: same track, same tag.
+  if (appendEvent && ensureCommandId) {
+    try {
+      const r = appendEvent({
+        source_track: 'T6:workstream-rebalance',
+        source_tier: 'founder-prompt',
+        track_tag: '/next',
+        command_id: ensureCommandId('sprint-abandon'),
+        payload: {
+          type: 'sprint_abandoned',
+          sprint_id: sprintId,
+          abandoned_at: abandonedAt,
+          abandoned_by: me,
+          reason,
+          items_released: released,
+          items_already_closed: closedIds,
+          forced: !!(force && holders.length),
+          forced_over: force ? holders : [],
+          composed_by: 'cli-deterministic',
+        },
+      });
+      if (r && r.ok && r.event) result.event_id = r.event.id;
+    } catch (e) {
+      process.stderr.write(`done: sprint_abandoned event emission failed (non-fatal): ${e.message}\n`);
+    }
+  }
+
+  // sprint-index.yaml and state/*.json refresh exactly as the close path does.
+  try {
+    const r = spawnSync(process.execPath, [path.join(__dirname, 'cwos-reconcile.js'), '--quiet'], { encoding: 'utf8' });
+    result.reconcile = { exit: r.status, stderr: (r.stderr || '').trim() || null };
+    if (r.status !== 0) {
+      writeJson(result);
+      process.exit(1);
+    }
+  } catch (e) {
+    result.reconcile = { error: e.message };
+  }
+
+  writeJson(result);
+}
+
 // ─── Dispatch ──────────────────────────────────────────────────────────────
 
 // ─── ADR-063: an unrecognized flag is fatal, never silently ignored ─────────
@@ -3023,9 +3690,10 @@ const SUBCOMMAND_FLAGS = {
     'override-stale-protocol': true,
     'override-checkout-shared': true,
     'pickup': false,
+    'pickup-sprint': true,
   },
-  candidates: { 'limit': true, 'json': false },
-  compose: { 'human': false, 'json': false, 'candidates-file': true, 'goal': true, 'clock': true },
+  candidates: { 'limit': true, 'json': false, 'human': false, 'slate': false },
+  compose: { 'human': false, 'json': false, 'candidates-file': true, 'goal': true, 'clock': true, 'items': true },
   approve: {
     'sprint-file': true,
     'exemption-reason': true,
@@ -3034,8 +3702,10 @@ const SUBCOMMAND_FLAGS = {
     'ai-autonomous': false,
     'with-pool': false,
     'clock': true,
+    'expect-items': true,
+    'expect-pool': true,
   },
-  done: { 'sprint': true, 'clock': true },
+  done: { 'sprint': true, 'clock': true, 'skip-inspection': true, 'finding-open': true, 'abandon': true, 'force': false },
   'allocate-ws-id': { 'kind': true },
 };
 
@@ -3045,15 +3715,35 @@ const SUBCOMMAND_FLAGS = {
 // refusing it would break `gate --json` for no gain.
 const NO_OP_FLAGS = new Set(['json']);
 
+function flagList(spec) {
+  return Object.keys(spec).sort()
+    .map((f) => (spec[f] ? `--${f} <value>` : `--${f}`))
+    .map((n) => `  ${n}`).join('\n');
+}
+
 function flagFatal(sub, message, spec) {
-  const names = Object.keys(spec).sort().map((f) => (spec[f] ? `--${f} <value>` : `--${f}`));
   process.stderr.write(
     `cwos-next ${sub}: ${message}\n\n` +
     `valid flags for \`${sub}\`:\n` +
-    names.map((n) => `  ${n}`).join('\n') + '\n\n' +
+    flagList(spec) + '\n\n' +
     `run \`cwos-next --help\` for the full contract\n`
   );
   process.exit(2);
+}
+
+// WS-676: `<sub> --help` is a request, not a mistake. It used to fall through
+// to the unrecognized-flag refusal: the right flags were printed, but on stderr
+// with exit 2, so a caller following ADR-063 ("--help answers, exit 0") read it
+// as a failure. It now prints the same flag block on stdout and exits 0, before
+// the subcommand does anything.
+function subcommandHelp(sub, spec) {
+  process.stdout.write(
+    `usage: cwos-next ${sub} [options]\n\n` +
+    `flags for \`${sub}\`:\n` +
+    flagList(spec) + '\n\n' +
+    `run \`cwos-next --help\` for what each flag does\n`
+  );
+  process.exit(0);
 }
 
 function validateFlags(sub, argv) {
@@ -3061,6 +3751,8 @@ function validateFlags(sub, argv) {
   if (!spec) return; // unknown subcommand is already fatal in main()
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
+    // In flag position only: a value consumed below (i++) never reaches here.
+    if (a === '--help' || a === '-h') subcommandHelp(sub, spec);
     if (typeof a !== 'string' || !a.startsWith('--')) continue;
     const eq = a.indexOf('=');
     const name = eq === -1 ? a.slice(2) : a.slice(2, eq);
@@ -3117,6 +3809,18 @@ function main() {
       '        checkout_shared_acknowledged; per-invocation only.\n' +
       '  --pickup                       ADR-067: adopt the top POOLED sprint for this\n' +
       '        session (lease + item claims), instead of composing fresh work.\n' +
+      '  --pickup-sprint <SPR-NNN>      adopt that named pooled sprint only; reports\n' +
+      '        pickup.reason not-in-pool | contended rather than taking another.\n' +
+      '\n' +
+      'compose options:\n' +
+      '  --human                        render the founder preview instead of JSON\n' +
+      '  --items <WS-A,WS-B,...>        WS-1131: founder-directed — the primary sprint is\n' +
+      '        exactly these ids, in this order (ranking and continuity fill skipped).\n' +
+      '        Every id must pass the shared eligibility filter; any that does not\n' +
+      '        refuses the whole compose (exit 1, JSON naming each id and why).\n' +
+      '        Recorded as composition: founder-directed + pinned_items.\n' +
+      '  --goal "<text>"                founder-supplied goal\n' +
+      '  --candidates-file <path>       compose from this candidates JSON\n' +
       '\n' +
       'approve options:\n' +
       '  --sprint-file <path>           compose output JSON (required)\n' +
@@ -3129,6 +3833,27 @@ function main() {
       '  --ai-autonomous                attribute authorization to the agent\n' +
       '  --with-pool                    ADR-067: also mint the composed parallel\n' +
       '        batches as POOLED sprints awaiting any session\'s gate --pickup\n' +
+      '  --expect-items <WS-A,WS-B>     WS-1131: bind the approval to the items the\n' +
+      '        founder saw. If the sprint file\'s primary items differ (as a set),\n' +
+      '        refuse with exit 1 and write nothing.\n' +
+      '  --expect-pool <WS-C,...|none>  same binding for the parallel batches\' items\n' +
+      '\n' +
+      'GitHub milestones (approve / done / done --abandon):\n' +
+      '  Each approved sprint gets a milestone "SPR-NNN: <title>" on the origin repo\n' +
+      '  (description ends with "Sprint: SPR-NNN" and "Items: WS-1, WS-2"), recorded\n' +
+      '  as github_milestone; done closes it, --abandon closes it with the reason.\n' +
+      '  Failures never block: one WARN line + github_milestone_error on the sprint.\n' +
+      '  CWOS_NO_GITHUB_MILESTONE=1 turns it off.\n' +
+      '\n' +
+      'done options:\n' +
+      '  --sprint <SPR-NNN>             the sprint to close (required)\n' +
+      '  --skip-inspection "<rationale>"  waive the WS-941 inspection gate\n' +
+      '  --abandon "<reason>"           WS-1131: cancel instead of close (≥20 chars).\n' +
+      '        status: abandoned + abandoned_at/_reason/_by; done items stay done;\n' +
+      '        open items lose their claim and return to backlog; no item_closed;\n' +
+      '        emits sprint_abandoned. Re-abandoning is a no-op success. Refuses a\n' +
+      '        sprint a LIVE other session holds (lease or item claim).\n' +
+      '  --force                        with --abandon: abandon over a live holder\n' +
       '\n' +
       'allocate-ws-id options:\n' +
       '  --kind <ws|spr|find|inv|adr>   which id kind (default: ws)\n' +
@@ -3219,17 +3944,19 @@ if (require.main === module) main();
 module.exports = {
   // exported for tests + downstream composition
   runGate, runCandidates, runCompose, runApprove, runDone, runAllocateWsId,
-  candidatesInline, buildCompositionNotes, renderSprintYaml, renderSprintYamlClosed,
-  readContextOverrideClass, ceremonyDefaults, effortSessions,
+  interpretTokenBudget,
+  candidatesInline, buildCompositionNotes, routingFields, renderModelCell, renderHumanCompose, renderSprintYaml, renderSprintYamlClosed, emitPassthrough, itemFieldsNotRecorded,
+  readContextOverrideClass, ceremonyDefaults, effortSessions, selectCompanions,
+  EFFORT_SESSIONS, UNSIZED_EFFORT_SESSIONS,
   configNumber, capOvershoot, loadConfig,
   nextSprintId,
-  findResumableSprint, readSprintsFromDir, resolveResumableSprint,
+  findResumableSprint, readSprintsFromDir, resolveResumableSprint, checkoutBlock,
   // ADR-067: pool + eligibility, exported for __tests__/next-pool.test.js.
-  findPooledSprints, claimSprintLease, buildEligibilityFilter,
+  findPooledSprints, claimSprintLease, selectPickupCandidates, buildEligibilityFilter,
   resolveSprintUniverse, findPhantomSprints, makeItemStatusLookup,
   loadProgramCapsByProgram,
   // WS-732: exported so __tests__/next-cli-contract.test.js can hold the map
   // against the readFlag/hasFlag calls it claims to describe. A flag map that
   // silently drifts from the code is the same silent-ignore defect one level up.
-  SUBCOMMAND_FLAGS, NO_OP_FLAGS, validateFlags,
+  SUBCOMMAND_FLAGS, NO_OP_FLAGS, validateFlags, subcommandHelp,
 };

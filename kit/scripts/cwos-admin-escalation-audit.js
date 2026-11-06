@@ -13,7 +13,15 @@
  * and always exits 0.
  *
  * Log: ~/.claude/admin-escalation.log (JSON lines).
- * Installed via ~/.claude/settings.json PreToolUse, matcher "Bash".
+ * Installed via ~/.claude/settings.json PreToolUse, matcher "Bash|PowerShell".
+ *
+ * 2026-10-14 adversarial review: the hook saw only the Bash tool, so the same
+ * escalation sent through the PowerShell tool left no record, and the patterns
+ * required the host to follow `ssh ` directly, so `ssh -o BatchMode=yes
+ * chris@localhost`, `ssh chris@100.87.51.104` and `cwos-fleet-run.js cm-node1`
+ * all went unlogged. The patterns below take ssh options before the host and
+ * name the tailnet addresses. cwos-dispatch-contain.js reuses classify() to
+ * BLOCK these for dispatched sessions; for founder sessions this stays a record.
  */
 'use strict';
 
@@ -21,24 +29,36 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const LOG_PATH = path.join(os.homedir(), '.claude', 'admin-escalation.log');
+// CWOS_ESCALATION_LOG redirects the log; tests use it so they never write the real one.
+const LOG_PATH = process.env.CWOS_ESCALATION_LOG || path.join(os.homedir(), '.claude', 'admin-escalation.log');
+const AUDITED_TOOLS = new Set(['Bash', 'PowerShell']);
 
 // SSH invocations that land on a shell with elevated rights. Two shapes:
 //   - loopback to this machine: the no-UAC admin token path
 //   - a fleet node over the tailnet: sessions there carry a full admin token
 // Matched on the command string; deliberately broad, since this only records.
+// `ssh`, then any options, then the host. Options never contain a shell
+// separator, so stopping at one keeps a later unrelated word from matching.
+const SSH = String.raw`\bssh(?:\s+-\S+(?:\s+[^\s|;&@-]\S*)?)*\s+(?:[\w.-]+@)?`;
+// The host must end the token: `localhost` matches, `localhostile` does not.
+const host = (h) => new RegExp(SSH + h + String.raw`(?![\w.-])`, 'i');
+
 const ESCALATION_PATTERNS = [
-  { kind: 'localhost-admin', re: /\bssh\s+(?:[\w.-]+@)?(?:localhost|127\.0\.0\.1|::1)\b/i },
-  { kind: 'fleet-node',      re: /\bssh\s+(?:[\w.-]+@)?cm-node\d+\b/i },
-  { kind: 'fleet-node',      re: /\bssh\s+(?:[\w.-]+@)?morincomputer\b/i },
+  { kind: 'localhost-admin', re: host(String.raw`(?:localhost|127\.0\.0\.1|::1)\b`) },
+  { kind: 'localhost-admin', re: host(String.raw`100\.120\.209\.34\b`) },
+  { kind: 'fleet-node',      re: host(String.raw`cm-node\d+\b`) },
+  { kind: 'fleet-node',      re: host(String.raw`100\.87\.51\.104\b`) },
+  { kind: 'fleet-node',      re: host(String.raw`(?:morincomputer|g16)\b`) },
   // 2026-08-22: an adversarial audit of ServeYourNote found the one hook whose
   // job is to record prod escalation did not fire for that repo's production
   // server at all. Its SSH alias is `serveyournote` -- it carries neither
   // `prod` nor `production`, so no name heuristic matched it either, and every
   // prod action went unrecorded. Named hosts first, then the generic shape, so
   // a new deployment target is covered on day one rather than after an incident.
-  { kind: 'production-host', re: /\bssh\s+(?:[\w.-]+@)?serveyournote\b/i },
-  { kind: 'production-host', re: /\bssh\s+(?:[\w.-]+@)?[\w.-]*(prod|production)[\w.-]*/i },
+  { kind: 'production-host', re: host(String.raw`serveyournote\b`) },
+  { kind: 'production-host', re: host(String.raw`[\w.-]*(prod|production)[\w.-]*`) },
+  // A remote AI dispatch lands in an admin ssh session on the target node.
+  { kind: 'fleet-dispatch',  re: /\bcwos-(?:fleet-run|repo-ask)(?:\.js)?\b/i },
 ];
 
 function readStdin() {
@@ -72,7 +92,7 @@ function main() {
     process.exit(0);
   }
 
-  if ((input.tool_name || '') !== 'Bash') process.exit(0);
+  if (!AUDITED_TOOLS.has(input.tool_name || '')) process.exit(0);
 
   const cmd = String((input.tool_input || {}).command || '');
   const kind = classify(cmd);
@@ -93,3 +113,5 @@ function main() {
 // WS-544: guard the entry point so requiring this file for a dependency
 // smoke check does not run it.
 if (require.main === module) main();
+
+module.exports = { classify, ESCALATION_PATTERNS, LOG_PATH };

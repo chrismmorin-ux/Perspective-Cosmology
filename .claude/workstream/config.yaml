@@ -10,10 +10,11 @@ auto_promote_thresholds:
 session_abandon_timeout_hours: 4   # Mark session abandoned after this idle time
 
 # ID Generation Strategy: scan-derived
-# Counters below are ADVISORY CACHE only — never treat as authoritative.
-# To generate a new ID: scan the relevant directory (e.g., queue/WS-*.yaml),
-# extract the max numeric ID, use max+1. Update the cache after.
-# This prevents collisions in concurrent sessions.
+# Counters below are ADVISORY CACHE only — never treat as authoritative, and
+# never mint an id by hand from them. `cwos-item add` allocates through
+# lib/id-allocator.js (locked scan of queue + archive + the remote ref, WS-574),
+# and `cwos-reconcile` resets these fields from the true max. A hand-read
+# `next_item_id: 1` beside 284 real items is how WS-514 collided.
 counter_strategy: scan-max-plus-one
 # next_*_id fields are integers (type: integer). Do not quote.
 next_item_id: 1       # integer — scan queue/WS-*.yaml for true max

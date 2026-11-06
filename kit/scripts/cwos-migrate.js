@@ -23,7 +23,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const {
-  readYAMLFile, serializeYAML, writeFileAtomic, globFiles, todayISO
+  readYAMLFile, serializeYAML, writeFileAtomic, globFiles, globFindingFiles, todayISO
 } = require('./lib/cwos-utils');
 const { runGitInRepo, validateGitRef, validateRegistryPath } = require('./lib/shell-safe');
 const { readVersionStamp, resolveInstalledVersion, baselineTag } = require('./lib/kit-version');
@@ -39,6 +39,27 @@ const { trackedIgnoreOffenders } = require('./lib/gitignore-guard');
 // index-rebuild, snapshot, version-stamp). Emit one phase event at the end
 // of each phase function rather than per-mutation, per SPR-058 granularity.
 const { makeEventEmitter } = require('./lib/cwos-utils');
+const { cliGate } = require('./lib/cli');
+
+// ADR-063 / WS-1016: the uniform CLI contract. The gate only validates: --help
+// prints this and exits 0 without acting, and an unrecognised flag exits 2
+// instead of being ignored. main() still parses argv itself, below.
+const CLI = {
+  name: 'cwos-migrate',
+  summary: 'apply a kit upgrade, a state-schema migration, or the capability-dir backfill',
+  usage: 'cwos-migrate <repo-path> [--dry-run] [--homebase <path>] [--trust-version-homebase] [--from <v>] [--to <v>] [--force-replace-scripts]\n       cwos-migrate --state-schema [--workstream-dir <path>] [--dry-run]\n       cwos-migrate --backfill-dirs [<repo-path>] [--dry-run]',
+  flags: {
+    'dry-run': { type: 'boolean', describe: 'report what would change, change nothing' },
+    homebase: { type: 'string', describe: 'HomeBase checkout to upgrade from' },
+    'trust-version-homebase': { type: 'boolean', describe: 'trust .cwos-version homebase_path (WS-431)' },
+    from: { type: 'string', describe: 'installed kit version (override)' },
+    to: { type: 'string', describe: 'target kit version (override)' },
+    'force-replace-scripts': { type: 'boolean', describe: 'replace locally modified kit scripts (WS-796)' },
+    'state-schema': { type: 'boolean', describe: 'run the state-schema migration only' },
+    'workstream-dir': { type: 'string', describe: 'workstream directory for --state-schema' },
+    'backfill-dirs': { type: 'boolean', describe: 'create missing capability directories only (WS-696)' }
+  }
+};
 const emitEvent = makeEventEmitter();
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -52,6 +73,7 @@ const SCHEMA_MIGRATIONS = {
 
 function main() {
   const args = process.argv.slice(2);
+  cliGate(args, CLI);
   let repoPath = null;
   let dryRun = false;
   let fromVersion = null;
@@ -287,6 +309,14 @@ function main() {
     classification.needsInstall.length + classification.customized.length;
   console.log(`\nEstimated changes: ${totalChanges} files, ${programMigrations.length} programs migrated, ` +
     `${classification.customized.length} .kit-update files created`);
+  // WS-978: the preview makes the apply's own retire-or-keep call per sidecar,
+  // so it never promises to delete one the apply would keep.
+  const sidecarPlan = previewSupersededSidecars(repoPath, homebasePath, classification);
+  if (sidecarPlan.retire.length) console.log(`  ${sidecarPlan.retire.length} stale .kit-update sidecar(s) retired (their live file is fully replaced)`);
+  if (sidecarPlan.keep.length) {
+    console.log(`  ${sidecarPlan.keep.length} .kit-update sidecar(s) kept: not a released kit copy (possible hand edits):`);
+    for (const k of sidecarPlan.keep) console.log(`    ${k}`);
+  }
 
   printDriftedScripts(classification, repoPath);
 
@@ -325,9 +355,24 @@ function main() {
   const merged = classification.additiveMerged || [];
   const sidecars = classification.customized.length - merged.filter(m => !m.unmergedNested.length).length;
   console.log(`  Files: ${classification.stock.length} overwritten, ${classification.new.length + classification.needsInstall.length} installed, ${sidecars} .kit-update created`);
+  const superseded = classification.supersededSidecars || [];
+  if (superseded.length) {
+    // WS-631: named, because a file disappearing is its own kind of surprise.
+    // Each one's live file was just replaced wholesale with the kit version the
+    // sidecar was offering (or a newer one); the snapshot holds the old copy.
+    console.log(`  Retired: ${superseded.length} stale .kit-update sidecar(s) — their live file was just fully replaced with kit content`);
+  }
+  const kept = classification.keptSidecars || [];
+  if (kept.length) {
+    // WS-978: not a released kit copy (hand-edited, or from an unreleased build):
+    // the live file was replaced but this sidecar may hold the founder's work.
+    console.log(`  Kept: ${kept.length} .kit-update sidecar(s) that are not a released kit copy (possible hand edits) - review, then delete:`);
+    for (const k of kept) console.log(`    ${k}`);
+  }
   if ((classification.skipped || []).length) {
     console.log(`  Preserved: ${classification.skipped.length} (seeded once, left as yours)`);
   }
+  printCaseCollisions(classification); // WS-1149
   if (merged.length) {
     const fields = merged.reduce((n, m) => n + m.added.length, 0);
     console.log(`  Merged: ${merged.length} config(s) gained ${fields} new field(s) without losing your values`);
@@ -361,7 +406,7 @@ function main() {
   // Update version stamp
   const checksumMap = bootstrapHashes(repoPath, homebasePath, classification);
   assertStampMatchesBaseline(repoPath, homebasePath, toVersion, classification, checksumMap);
-  updateVersionStamp(repoPath, toVersion, checksumMap);
+  updateVersionStamp(repoPath, toVersion, checksumMap, homebasePath);
   console.log(`  Version: ${fromVersion} → ${toVersion} (hash tracking bootstrapped)`);
 
   console.log('\n\u2500'.repeat(50));
@@ -765,6 +810,9 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
     // drift. Guard E refuses on it. Separate list, not a flag on the drift
     // entries, so every existing driftedScripts consumer is unaffected.
     repoAuthoredScripts: [],
+    // WS-1149: rows never written because their destination collides by case
+    // with a path the repo already holds. Each carries `collides_with`.
+    caseCollisions: [],
   };
 
   const { ok, data: manifest } = readYAMLFile(path.join(homebasePath, 'kit', 'MANIFEST.yaml'));
@@ -824,6 +872,7 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
   // entry.destination here propagates the resolved path to every downstream
   // consumer (apply copies, .kit-update naming, snapshot manifest, hash baseline).
   const systemDir = resolveSystemDir(repoPath);
+  const trackedIndex = trackedCaseIndex(repoPath);
 
   for (const entry of manifest.files) {
     // Skip homebase-only files
@@ -832,6 +881,13 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
     entry.destination = resolveDestination(entry.destination, systemDir);
     const destPath = path.join(repoPath, entry.destination);
     const srcRelative = entry.source;
+
+    // WS-1149: ahead of every bucket, so no strategy can write it.
+    const collidesWith = findCaseCollision(repoPath, entry.destination, trackedIndex);
+    if (collidesWith) {
+      result.caseCollisions.push({ ...entry, collides_with: collidesWith });
+      continue;
+    }
 
     // ── WS-559: the merge_strategy dispatch ────────────────────────────────
     //
@@ -891,6 +947,40 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
     // Get baseline (what was installed at the old version)
     const baselineContent = getBaselineContent(homebasePath, srcRelative, tagName);
 
+    // Already at the incoming version: nothing to diverge FROM. Every check
+    // below measures the file against its HISTORY (the installed version's
+    // baseline), and none of them asked whether the file already IS what is
+    // about to be installed. Measured 2026-10-16 on Claude-Poker-Tracker:
+    // stamped 3.45.0, holding cwos-git.js, cwos-verify.js and
+    // cwos-genesis-ignite.js identical (EOL-normalised) to 3.46.0, the upgrade
+    // refused all three under Guard E because they had grown past the
+    // magnitude bounds relative to their 3.45.0 baselines -- i.e. it refused to
+    // install a file over an identical copy of itself unless forced.
+    //
+    // Such a file is stock (the overwrite writes the same content) and is not
+    // drift, not repo-authored, and not customized. A missing baseline still
+    // counts in nullBaseline, so Guard B's ratio is unchanged.
+    //
+    // Both comparisons (this one and the baseline one below) go through
+    // eolNorm, which folds ANY run of CRs before a newline, not only CRLF.
+    // Five shipped kit scripts (cwos-asn-transition, cwos-backfill-capability,
+    // cwos-bypass-log, cwos-inventory, cwos-sim-run) carry one `\r\r\n` line in
+    // an otherwise-CRLF blob. A repo with `eol=lf` attributes stores them with
+    // every CR stripped -- the only git-stable form -- and plain CRLF->LF left
+    // the stray CR in the kit side, so those files read as drift on every
+    // upgrade though nobody had touched them (measured on Claude-Poker-Tracker
+    // at 3.46.0). A CR before a line feed is never content.
+    const eolNorm = s => s.replace(/\r+\n/g, '\n');
+    {
+      let incomingContent = null;
+      try { incomingContent = fs.readFileSync(path.join(homebasePath, srcRelative), 'utf8'); } catch { /* not in HomeBase */ }
+      if (incomingContent !== null && sha256(eolNorm(currentContent)) === sha256(eolNorm(incomingContent))) {
+        result.stock.push(entry);
+        if (baselineContent === null) result.nullBaseline.push(entry);
+        continue;
+      }
+    }
+
     if (baselineContent === null) {
       // File didn't exist at the old version — it's new in target version
       // But repo has it somehow (maybe manually added). Treat as customized.
@@ -922,9 +1012,8 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
     // files are CRLF (core.autocrlf=true) while `git show` returns the LF blob,
     // so a raw byte hash marks EVERY file as customized — which would silently
     // turn every upgrade into an all-.kit-update no-op. An EOL-only difference
-    // is not a customization.
-    const norm = s => s.replace(/\r\n/g, '\n');
-    if (sha256(norm(currentContent)) === sha256(norm(baselineContent))) {
+    // is not a customization. (eolNorm is defined above the incoming check.)
+    if (sha256(eolNorm(currentContent)) === sha256(eolNorm(baselineContent))) {
       result.stock.push(entry);     // unchanged from baseline — safe to overwrite
     } else if (isMachinery(entry)) {
       // Diverged, but it is machinery — replace it and say so. See the note above.
@@ -942,6 +1031,64 @@ function classifyFiles(repoPath, homebasePath, fromVersion) {
   }
 
   return result;
+}
+
+// ─── WS-1149: a destination that collides by case with an existing path ─────
+//
+// ServeYourNote tracked design/templates/fdb-template.md (its own file). The kit
+// ships design/templates/FDB-template.md. The 3.45.0 sync ran where the
+// filesystem is case-sensitive, saw no FDB-template.md, installed it as new, and
+// committed it beside the lowercase one. On every Windows checkout those two
+// index entries are one file on disk, so the tree reads dirty forever and
+// node1's nightly protocol sweep refused the repo every night.
+//
+// On a case-insensitive filesystem the same row goes wrong the other way:
+// existsSync(FDB-template.md) is true, so the kit content is compared against,
+// and written over, a file the kit never shipped.
+//
+// Either way the write is wrong. A row whose destination differs only by case
+// from a path the repo already tracks, or already holds on disk, is not written
+// at all. It lands in caseCollisions, which every caller prints, and the
+// founder decides which spelling the repo keeps.
+
+/** Lowercased tracked path -> the spelling git holds. Empty outside a git repo. */
+function trackedCaseIndex(repoPath) {
+  const index = new Map();
+  let r;
+  try { r = runGitInRepo(repoPath, ['ls-files', '-z'], { timeout: 15000 }); } catch { return index; /* not a git repo: on-disk check still runs */ }
+  if (!r || !r.ok) return index;
+  for (const p of String(r.stdout).split('\0')) {
+    if (!p) continue;
+    const key = p.toLowerCase();
+    if (!index.has(key)) index.set(key, p);
+  }
+  return index;
+}
+
+/**
+ * The existing spelling `dest` collides with, or null. `dest` is repo-relative.
+ * Checks the index first (catches the case-sensitive filesystem, where both
+ * files can exist), then walks the directory segments on disk (catches the
+ * case-insensitive one, where existsSync answers true for the wrong spelling).
+ */
+function findCaseCollision(repoPath, dest, trackedIndex) {
+  const rel = String(dest).replace(/\\/g, '/');
+  if (trackedIndex && trackedIndex.size) {
+    const held = trackedIndex.get(rel.toLowerCase());
+    if (held && held !== rel) return held;
+  }
+  const segs = rel.split('/').filter(Boolean);
+  let dir = repoPath;
+  const walked = [];
+  for (const seg of segs) {
+    let names;
+    try { names = fs.readdirSync(dir); } catch { return null; /* parent absent: nothing on disk to collide with */ }
+    if (names.includes(seg)) { walked.push(seg); dir = path.join(dir, seg); continue; }
+    const other = names.find(n => n.toLowerCase() === seg.toLowerCase());
+    if (other) return [...walked, other].join('/');
+    return null;
+  }
+  return null;
 }
 
 function getBaselineContent(homebasePath, sourcePath, tagName) {
@@ -997,7 +1144,7 @@ function migrateSchemaV2ToV3(filePath, prog) {
 
   // 2. Rename description → contract (if description exists and contract doesn't)
   if (prog.description && !prog.contract) {
-    content = content.replace(/^description:\s*>?\s*$/m, 'contract: >');
+    content = content.replace(/^description:\s*>?\s*$/m, 'contract: >');  // block-scalar-ok: renames an existing header in place; the body is not rewritten
     content = content.replace(/^description:\s*"/, 'contract: "');
     content = content.replace(/^description:\s*([^\n>"])/, 'contract: $1');
   }
@@ -1426,6 +1573,81 @@ function serializeAccountability(acc) {
 
 // ─── Phase 4: File Updates ─────────────────────────────────────────────────
 
+// WS-631: a `.kit-update` sidecar is an offer — "here is the kit version of
+// this file, merge by hand". A FULL overwrite (stock, new, needsInstall) takes
+// the kit version wholesale, which answers that offer: whatever the sidecar
+// held is now either what the live file says or older than it. Left in place
+// it becomes a stale sidecar — the upgrade wrote 3.14 into the live file and
+// the 3.7 sidecar beside it still reads "merge me", a downgrade dressed as a
+// pending decision. That is how nutrition came to carry 36 of them: nothing
+// on any write path ever removed a sidecar, so every upgrade after the one
+// that wrote it made it more wrong.
+//
+// Only the full-overwrite loops call this. A file merged IN PLACE (preamble-
+// replace, additive) still holds founder content the kit did not write, so its
+// sidecar — refreshed below when the merge could not cover everything — stays
+// (founder decision 4). createSnapshot captures every candidate first, so a
+// rollback puts retired sidecars back.
+function sidecarPath(repoPath, destination) {
+  return path.join(repoPath, destination + '.kit-update');
+}
+
+/** Repo-relative sidecars that a full overwrite in this classification would retire. */
+function supersededSidecarCandidates(repoPath, classification) {
+  const out = [];
+  for (const entry of [...(classification.stock || []), ...(classification.new || []), ...(classification.needsInstall || [])]) {
+    if (fs.existsSync(sidecarPath(repoPath, entry.destination))) out.push(entry.destination + '.kit-update');
+  }
+  return out;
+}
+
+// WS-978: retire a sidecar only when its bytes are a copy of something the kit
+// has shipped. Under /kit-upgrade the pre-apply snapshot makes an unconditional
+// delete recoverable; run standalone there is no snapshot, and a sidecar the
+// founder hand-edited (merged their own changes into the kit copy, say) would be
+// destroyed with no way back. A sidecar counts as kit-shipped when, up to line
+// endings, it equals the kit file just installed over the live one, or the
+// hash baseline of any released kit version (HomeBase kit/hashes-*.yaml union
+// the repo's own, as cwos-sidecar-audit reads them). Anything else is kept and
+// recorded in classification.keptSidecars. The corpus loads once per update run.
+// The decision itself is cwos-adopt-install's sidecarIsReleasedKitCopy, shared
+// with adopt --repair's overwrite paths; it fails closed (unreadable sidecar or
+// baselines → keep).
+function sidecarIsKitCopy(repoPath, homebasePath, entry, classification) {
+  const { sidecarIsReleasedKitCopy } = require('./cwos-adopt-install');
+  let kitContent = null;
+  try { kitContent = fs.readFileSync(path.join(homebasePath, entry.source)); } catch { /* baselines only */ }
+  return sidecarIsReleasedKitCopy(sidecarPath(repoPath, entry.destination), {
+    kitContent, sources: [entry.source], homebase: homebasePath, repoPath, cache: classification,
+  });
+}
+
+/**
+ * WS-978 dry-run preview: the existing sidecars a full overwrite would retire
+ * and the ones it would keep, by the same decision the apply makes. Read-only.
+ */
+function previewSupersededSidecars(repoPath, homebasePath, classification) {
+  const retire = [], keep = [];
+  for (const entry of [...(classification.stock || []), ...(classification.new || []), ...(classification.needsInstall || [])]) {
+    if (!fs.existsSync(sidecarPath(repoPath, entry.destination))) continue;
+    (sidecarIsKitCopy(repoPath, homebasePath, entry, classification) ? retire : keep).push(entry.destination + '.kit-update');
+  }
+  return { retire, keep };
+}
+
+function retireSupersededSidecar(repoPath, homebasePath, entry, classification) {
+  const side = sidecarPath(repoPath, entry.destination);
+  if (!fs.existsSync(side)) return;
+  if (!sidecarIsKitCopy(repoPath, homebasePath, entry, classification)) {
+    classification.keptSidecars = classification.keptSidecars || [];
+    classification.keptSidecars.push(entry.destination + '.kit-update');
+    return;
+  }
+  fs.unlinkSync(side);
+  classification.supersededSidecars = classification.supersededSidecars || [];
+  classification.supersededSidecars.push(entry.destination + '.kit-update');
+}
+
 function updateFiles(repoPath, homebasePath, classification) {
   // Build existing program ID map for duplicate detection
   const existingPrograms = buildProgramIdMap(repoPath);
@@ -1447,6 +1669,7 @@ function updateFiles(repoPath, homebasePath, classification) {
     const dest = path.join(repoPath, entry.destination);
     ensureDir(path.dirname(dest));
     fs.copyFileSync(src, dest);
+    retireSupersededSidecar(repoPath, homebasePath, entry, classification);
   }
 
   // New and needs-install files: install fresh (with program duplicate check)
@@ -1465,6 +1688,7 @@ function updateFiles(repoPath, homebasePath, classification) {
     }
     ensureDir(path.dirname(dest));
     fs.copyFileSync(src, dest);
+    retireSupersededSidecar(repoPath, homebasePath, entry, classification);
   }
 
   // Customized files: create .kit-update sidecar — EXCEPT where the MANIFEST
@@ -1545,6 +1769,9 @@ function updateFiles(repoPath, homebasePath, classification) {
     path: path.relative(process.cwd(), repoPath).replace(/\\/g, '/'),
     updated_count: classification.updated?.length || 0,
     customized_count: classification.customized?.length || 0,
+    superseded_sidecars_count: classification.supersededSidecars?.length || 0,
+    // WS-978: a kept sidecar is named, not counted — it may hold founder work.
+    kept_sidecars: classification.keptSidecars || [],
   });
 }
 
@@ -1591,8 +1818,7 @@ function rebuildIndexes(repoPath) {
   // Rebuild findings index
   const findingsDir = path.join(wsDir, 'findings');
   if (fs.existsSync(findingsDir)) {
-    const findingFiles = globFiles(findingsDir, 'FIND-*.yaml')
-      .concat(globFiles(findingsDir, 'FND-*.yaml'));
+    const findingFiles = globFindingFiles(findingsDir);
     const findings = [];
 
     for (const f of findingFiles) {
@@ -1634,9 +1860,16 @@ function createSnapshot(repoPath, classification, programMigrations) {
   // which is the one guarantee /kit-upgrade makes. Snapshotting the whole bucket
   // rather than just the merge candidates keeps it correct if a future strategy
   // also writes in place; the bucket is small by construction.
+  //
+  // WS-631: the sidecars a full overwrite will retire, and the ones a customized
+  // file will refresh, are captured too. Both are deletions/rewrites of a file
+  // that existed before the run; without them in the snapshot a rollback
+  // restores the live file and loses the sidecar that stood beside it.
   const filesToSnapshot = [
     ...classification.stock.map(e => e.destination),
     ...classification.customized.map(e => e.destination),
+    ...supersededSidecarCandidates(repoPath, classification),
+    ...classification.customized.map(e => e.destination + '.kit-update'),
     ...programMigrations.map(p => path.relative(repoPath, p.path)),
     '.cwos-version',
   ];
@@ -1751,7 +1984,7 @@ function assertStampMatchesBaseline(repoPath, homebasePath, toVersion, classific
   }
 }
 
-function updateVersionStamp(repoPath, toVersion, checksumMap) {
+function updateVersionStamp(repoPath, toVersion, checksumMap, homebasePath) {
   const versionPath = path.join(repoPath, '.cwos-version');
   const { ok, data: existing } = readYAMLFile(versionPath);
 
@@ -1764,6 +1997,25 @@ function updateVersionStamp(repoPath, toVersion, checksumMap) {
     capabilitiesEnabled = Array.from(capabilitiesForLevel(level));
   }
 
+  // WS-881: corpus_version has to SURVIVE this rewrite. The stamp is rebuilt
+  // from scratch, so any field not named here is dropped — and this one was.
+  // Every repo upgraded through /kit-upgrade lost it, which leaves
+  // /fleet-update's constitutional-drift gate (Step 1c) with nothing to
+  // compare: it reads an absent field as "bootstrap" and waves the repo
+  // through. The careful, gated path was the one disarming the gate.
+  //
+  // Refresh from the hub when we can reach it, else keep what was recorded.
+  // Never write null — absent and "recorded as nothing" mean different things
+  // to Step 1c, and only the first one is honest about not knowing.
+  const hbForCorpus = homebasePath || (existing && existing.homebase_path) || '';
+  let corpusVersion = (existing && existing.corpus_version) || null;
+  if (hbForCorpus) {
+    try {
+      const fresh = require('./lib/cwos-corpus-hash').corpusHash(hbForCorpus);
+      if (fresh) corpusVersion = fresh;
+    } catch { /* unreachable hub — the recorded value is still the better answer */ }
+  }
+
   const stamp = {
     version: toVersion,
     adopted_at: (existing && existing.adopted_at) || todayISO(),
@@ -1772,6 +2024,7 @@ function updateVersionStamp(repoPath, toVersion, checksumMap) {
     level: (existing && existing.level) || 'L4', // shim, retires kit-v5
     homebase_path: (existing && existing.homebase_path) || '',
     kit_version_at_install: toVersion,
+    ...(corpusVersion ? { corpus_version: corpusVersion } : {}),
     installed_files: checksumMap,
   };
 
@@ -1823,8 +2076,7 @@ function analyzeIndexes(repoPath) {
 
   const findingsDir = path.join(wsDir, 'findings');
   if (fs.existsSync(findingsDir)) {
-    result.findings.files = globFiles(findingsDir, 'FIND-*.yaml').length +
-      globFiles(findingsDir, 'FND-*.yaml').length;
+    result.findings.files = globFindingFiles(findingsDir).length;
     let indexCount = null;
     if (ss && fs.existsSync(path.join(wsDir, 'state', 'findings.json'))) {
       try {
@@ -1867,6 +2119,16 @@ function printClassification(c) {
     for (const e of c.skipped.slice(0, 5)) console.log(`    ${e.destination}`);
     if (c.skipped.length > 5) console.log(`    ... and ${c.skipped.length - 5} more`);
   }
+  printCaseCollisions(c);
+}
+
+// WS-1149: every one is named; none is written.
+function printCaseCollisions(c) {
+  const list = (c && c.caseCollisions) || [];
+  if (!list.length) return;
+  console.log(`  NOT WRITTEN, collides by case: ${list.length} — the repo already holds a path spelled differently.`);
+  console.log('  On Windows and macOS the two spellings are one file. Keep one spelling (git mv), then re-run:');
+  for (const e of list) console.log(`    ${e.destination}  (repo has ${e.collides_with})`);
 }
 
 function printProgramAnalysis(migrations) {
@@ -1992,8 +2254,14 @@ function ensureDir(dirPath) {
 module.exports = {
   detectState,
   classifyFiles,
+  findCaseCollision, // WS-1149
+  trackedCaseIndex,  // WS-1149
   updateFiles,
+  updateVersionStamp, // WS-881 — the stamp rewrite that silently dropped corpus_version
+
   createSnapshot,
+  supersededSidecarCandidates, // WS-631 — kit-upgrade snapshots these too
+  previewSupersededSidecars,   // WS-978 — the dry-run retire/keep preview
   resolveBaselineSource,
   assertBaselineResolvable,
   assertStampMatchesBaseline,

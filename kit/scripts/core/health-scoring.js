@@ -27,6 +27,9 @@ const PROTOCOL_RIGOR = {
   sweep: 5,
   challenge: 6,
   blind_spot: 8,
+  // WS-941: re-running closed items' accept criteria with a fresh inspector —
+  // more than a delta read, less than a full baseline audit.
+  reinspect: 4,
 };
 
 // Rigor level → ceiling cap

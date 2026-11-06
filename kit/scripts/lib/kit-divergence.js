@@ -41,6 +41,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const { readYAMLFile, globFiles } = require('./cwos-utils');
+const { hashMatchesBaseline } = require('./kit-hash');
 
 // Only these trees are kit-owned, so only these can "diverge" in the sense this
 // lane means. A repo's own docs/ and src/ are its business.
@@ -61,6 +62,29 @@ function sha256(buf) {
 function normalizeHash(h) {
   const s = String(h || '').trim();
   return s.startsWith('sha256:') ? s : (s ? 'sha256:' + s : '');
+}
+
+/**
+ * The git blob ids this content could carry in HomeBase's object store, one per
+ * line-ending rendering (raw, all-LF, all-CRLF), deduplicated.
+ *
+ * Why the hub needs them (WS-965). The magnitude verdict compares a file only
+ * against the kit version the repo INSTALLED. A repo whose untracked kit/
+ * directory holds a NEWER HomeBase kit — copied by hand, or left by a node that
+ * populated it from the hub — then reads as thousands of lines of repo-authored
+ * work. Measured 2026-10-01: cm-node1's copy of ServeYourNote held HomeBase's
+ * kit as of 2026-09-12 against a 3.9.0 install record, and the lane reported
+ * cwos-verify.js +1830, cwos-next.js +1114, cwos-item.js +1019 ... none of it
+ * ServeYourNote's. A blob id lets the hub ask "did HomeBase ever hold exactly
+ * this file?" without the file itself ever leaving the repo.
+ */
+function blobVariants(buf) {
+  const text = buf.toString('utf8');
+  const lf = text.replace(/\r\n/g, '\n');
+  const crlf = lf.replace(/\n/g, '\r\n');
+  const id = (b) => crypto.createHash('sha1')
+    .update(`blob ${b.length}\0`).update(b).digest('hex');
+  return [...new Set([id(buf), id(Buffer.from(lf, 'utf8')), id(Buffer.from(crlf, 'utf8'))])];
 }
 
 function countLines(text) {
@@ -159,7 +183,12 @@ function scanDivergence(repoPath) {
     }
     const current = sha256(buf);
     const baseline = normalizeHash(installed[rel]);
-    if (!baseline || current === baseline) continue;
+    if (!baseline) continue;
+    // Line-ending tolerant, by the kit's one comparison rule (lib/kit-hash.js,
+    // WS-600). A CRLF checkout of an untouched file is not a divergence, and
+    // kit/hashes-3.9.0.yaml mixes CRLF and LF hash bases, so a byte compare
+    // flagged nearly every file in every Windows checkout.
+    if (hashMatchesBaseline(buf, baseline)) continue;
 
     const text = buf.toString('utf8');
     const currentLines = countLines(text);
@@ -169,6 +198,7 @@ function scanDivergence(repoPath) {
       current_bytes: buf.length,
       current_hash: current,
       baseline_hash: baseline,
+      blob_variants: blobVariants(buf),
       items: itemsNaming(repoPath, rel),
     });
   }
@@ -180,6 +210,7 @@ function scanDivergence(repoPath) {
 module.exports = {
   scanDivergence,
   itemsNaming,
+  blobVariants,
   isKitOwned,
   countLines,
   normalizeHash,

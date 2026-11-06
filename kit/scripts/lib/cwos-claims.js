@@ -22,9 +22,20 @@
  *
  * STALENESS IS THE RELEASE VALVE. A claim from a session that stopped heartbeating is not
  * a conflict — a crashed session must never be able to permanently fence off the queue.
- * Liveness is read from the session YAML's `last_heartbeat` (maintained by
- * `cwos-heartbeat.js`), and a session whose file is missing entirely is dead by
- * definition.
+ * Liveness is read through `lib/session-record.js`: the tracked `sessions/<id>.yaml`
+ * overlaid with the per-node `liveness/<id>.json` sidecar that `cwos-heartbeat.js`
+ * maintains (WS-884). The tracked record is written at register, claim and close —
+ * never per turn — so two machines no longer conflict on every pull. A session whose
+ * record is missing entirely cannot be judged: the holder is treated as UNKNOWN and its
+ * claim is held, not stolen.
+ *
+ * A RECORD FROM ANOTHER HOST IS NEVER JUDGED HERE (ADR-065, made structural by WS-884).
+ * It has no local sidecar, its pid means nothing on this process table, and the only
+ * fact it carries is the lifecycle its owner wrote: `status` and `ended_at`. So a
+ * foreign record is live while its owner says it is, for at most FOREIGN_HOLD_DAYS from
+ * `started_at` — a machine that leaves the fleet cannot fence claims forever, but a
+ * machine that is merely busy is never robbed. Recovery on the owning node is what
+ * closes it, every 15 minutes, and autocommit + RepoPull carry the closure.
  *
  * EVERY LIVENESS TEST IS SCOPED TO A MACHINE (WS-564). `.claude/workstream/sessions/` is
  * TRACKED, so a session record written on CM-NODE1 arrives on G16 by git pull. Until this
@@ -49,7 +60,12 @@ const {
 const emitEvent = makeEventEmitter();
 // ADR-043: no execSync with template literals anywhere under kit/scripts.
 const { runGit } = require('./shell-safe');
-const { SESSION_TIMEOUT_MINUTES } = require('./session-liveness');
+const {
+  SESSION_TIMEOUT_MINUTES, FOREIGN_HOLD_DAYS, IDLE_ALIVE_CAP_HOURS, activeWait,
+  classifySession, recoveryWouldAct, DEFAULT_TIMEOUT_HOURS, supersededBy,
+} = require('./session-liveness');
+const sessionRecord = require('./session-record');
+const nodeIdentity = require('./node-identity');
 
 /**
  * A claim older than this from a non-heartbeating session is reclaimable.
@@ -81,6 +97,11 @@ function localHost() {
   try { return os.hostname(); } catch { return null; }
 }
 
+/** Hostname + boot discriminator (WS-893), stamped beside `host` as `node_id`. */
+function localNodeId() {
+  return nodeIdentity.nodeIdentity();
+}
+
 /**
  * Was `recordHost` written by THIS machine?
  *
@@ -91,10 +112,20 @@ function localHost() {
  * the owning machine's next heartbeat (touchSession stamps the host), so the
  * unknown case is transient by construction.
  */
-function isLocalHost(recordHost, opts = {}) {
-  const here = opts.host !== undefined ? opts.host : localHost();
-  if (!recordHost || !here) return false;
-  return String(recordHost).trim().toLowerCase() === String(here).trim().toLowerCase();
+function isLocalHost(recordOrHost, opts = {}) {
+  const rec = (recordOrHost && typeof recordOrHost === 'object') ? recordOrHost : { host: recordOrHost };
+  if (opts.host !== undefined) {
+    // Injected host (tests and callers that already know the machine): the
+    // plain hostname rule, as before.
+    const here = opts.host;
+    if (!rec.host || !here) return false;
+    return String(rec.host).trim().toLowerCase() === String(here).trim().toLowerCase();
+  }
+  if (!rec.host) return false;
+  // WS-893: hostname alone is not an identity — every cloud container is `vm`.
+  // The node-identity rule adds the boot discriminator where the platform has
+  // one, and is exactly the hostname compare where it does not (Windows).
+  return nodeIdentity.isLocalRecord(rec);
 }
 
 /**
@@ -159,7 +190,7 @@ function sessionOwnerVerdict(doc, opts = {}) {
   if (!doc) return 'unknown';
   const pid = doc.pid == null ? NaN : Number(doc.pid);
   if (!Number.isInteger(pid) || pid <= 0) return 'unknown';
-  if (!isLocalHost(doc.host, opts)) return 'unknown';
+  if (!isLocalHost(doc, opts)) return 'unknown';
 
   const boot = opts.bootTimeMs !== undefined ? opts.bootTimeMs : bootTimeMs();
   if (boot != null) {
@@ -169,7 +200,7 @@ function sessionOwnerVerdict(doc, opts = {}) {
     if (at < boot) return 'dead';                 // predates the boot: gone, whoever holds it now
   }
 
-  const alive = isPidAlive(pid, doc.host, opts);
+  const alive = isPidAlive(pid, doc, opts);
   if (alive === false) return 'dead';
   if (alive === true) return 'live';
   return 'unknown';
@@ -194,6 +225,35 @@ function normalizeWorktree(p) {
   // whole path folds. POSIX paths are genuinely case-sensitive and are left alone.
   if (/^[a-zA-Z]:/.test(s)) s = s.toLowerCase();
   return s || null;
+}
+
+/**
+ * WS-992. The REAL directory behind a worktree path, normalised -- or null when
+ * it cannot be resolved.
+ *
+ * WHY. `normalizeWorktree` folds case and slashes, which is string hygiene and
+ * nothing more. One checkout is also reachable through a `subst` drive letter, a
+ * directory junction/symlink, or a UNC share, and none of those spellings are
+ * equal as strings. Two sessions in one folder reached by different spellings
+ * compared unequal and got a clear verdict -- the exact collision this check
+ * exists to stop. `realpathSync.native` asks the OS (on Windows,
+ * GetFinalPathNameByHandle) and resolves all three.
+ *
+ * NULL IS NOT A PATH. A failure (directory gone, share offline, permission) means
+ * we could not establish where this is, so the caller must say `unknown`, never
+ * fall back to the string and risk a confident all-clear.
+ *
+ * `opts.realpath` is a seam for tests; production uses the native resolver.
+ */
+function canonicalWorktree(p, opts = {}) {
+  if (!p) return null;
+  const resolve = (opts && opts.realpath) || fs.realpathSync.native;
+  try {
+    let r = String(resolve(p));
+    // Windows extended-length prefixes: //?/C:/x -> C:/x and //?/UNC/srv/share -> //srv/share.
+    r = r.replace(/\\/g, '/').replace(/^\/\/\?\/UNC\//i, '//').replace(/^\/\/\?\//, '');
+    return normalizeWorktree(r);
+  } catch { return null; }
 }
 
 /**
@@ -270,16 +330,10 @@ function readSessionPointer(wsDir) {
  * Minutes since a session last proved it was alive, or Infinity when unknowable.
  */
 function minutesSinceHeartbeat(sessionFile, now = Date.now()) {
-  let doc;
-  // `readYAMLFile` returns a {ok, data, warnings} WRAPPER, not the document. Reading
-  // `.status` off the wrapper yields undefined, which lands on the Infinity branch and
-  // makes every session look dead — i.e. the conflict check passes vacuously and the
-  // whole mechanism reports "all clear" while doing nothing. Caught in test; it is the
-  // same fail-open shape this module's own comments warn about, so unwrap explicitly.
-  try {
-    const r = readYAMLFile(sessionFile);
-    doc = (r && typeof r === 'object' && 'data' in r) ? r.data : r;
-  } catch { return Infinity; }
+  // Read through the overlay: the beat lives in the per-node sidecar (WS-884),
+  // and a reader that looked only at the tracked YAML would see a heartbeat
+  // frozen at registration and declare every live session dead.
+  const doc = readSessionDoc(sessionFile);
   if (!doc) return Infinity;
   const status = String(doc.status || '').toLowerCase();
   if (status && status !== 'active') return Infinity; // completed/abandoned = not holding
@@ -287,6 +341,29 @@ function minutesSinceHeartbeat(sessionFile, now = Date.now()) {
   const t = beat ? Date.parse(String(beat).replace(/^"|"$/g, '')) : NaN;
   if (!Number.isFinite(t)) return Infinity;
   return (now - t) / 60000;
+}
+
+/** Milliseconds a foreign record's owner is trusted before the fallback release. */
+const FOREIGN_HOLD_MS = FOREIGN_HOLD_DAYS * 86400000;
+
+/**
+ * Was the record's process seen beating AFTER the record was closed?
+ *
+ * ADR-078 decision 1 — observation outranks latch. `cwos-session-recovery`
+ * writes `status: abandoned` on suspicion (a stale heartbeat); the heartbeat
+ * hook of a session that is in fact still working then beats the sidecar. The
+ * sidecar beat post-dating `ended_at` is direct evidence the closure was
+ * wrong, and until the hook revives the record on its next Stop, this is what
+ * keeps the session's claims from being handed to a second terminal.
+ * Local records only: a foreign record has no sidecar to contradict anything.
+ */
+function beatAfterClose(doc) {
+  if (!doc || doc.liveness_source !== 'sidecar') return false;
+  const beat = Date.parse(String(doc.last_heartbeat || '').replace(/^"|"$/g, ''));
+  const ended = Date.parse(String(doc.ended_at || '').replace(/^"|"$/g, ''));
+  if (!Number.isFinite(beat)) return false;
+  if (!Number.isFinite(ended)) return true;   // closed with no ended_at: the beat is the only fact
+  return beat > ended;
 }
 
 /**
@@ -327,28 +404,72 @@ function isSessionLive(wsDir, id, staleMinutes = STALE_MINUTES, now = Date.now()
     const doc = readSessionDoc(file);
     if (!doc) return false;
     const status = String(doc.status || '').toLowerCase();
-    if (status && status !== 'active') return false;
+    const local = isLocalHost(doc, opts);
+    const explicitlyForeign = !!doc.host && !local;
 
-    if (sessionOwnerVerdict(doc, opts) === 'dead') return false;                 // (0)
+    if (status && status !== 'active') {
+      // ADR-078 (1): a closed record contradicted by a later local beat is live.
+      // `completed` is a decision /session-end made on purpose and stays closed.
+      if (status === 'abandoned' && local && beatAfterClose(doc)
+          && sessionOwnerVerdict(doc, opts) !== 'dead') return true;
+      // WS-890: a /clear ghost's record is closed, its claims are not freed.
+      // Every node, not only the owner: see supersededHoldActive.
+      if (supersededHoldActive(doc, { ...opts, now, staleMinutes })) return true;
+      return false;
+    }
 
-    if (isLocalHost(doc.host, opts)) {
+    // A RECORD FROM ANOTHER MACHINE (WS-884). No sidecar, no pid, no boot time
+    // of ours applies. The owner's lifecycle write is the only evidence, so:
+    // live while it says active, until the fallback hold runs out.
+    if (explicitlyForeign) {
+      if (doc.ended_at && String(doc.ended_at) !== 'null') return false;
+      const started = Date.parse(String(doc.started_at || '').replace(/^"|"$/g, ''));
+      if (!Number.isFinite(started)) return true;   // undateable: hold, never steal on a guess
+      return (now - started) <= FOREIGN_HOLD_MS;
+    }
+
+    const owner = sessionOwnerVerdict(doc, opts);
+    if (owner === 'dead') return false;                                          // (0)
+    // WS-1294: the process lives, but Claude Code says it now runs a different
+    // conversation (/clear, /resume). Proof, like (0), after a short grace.
+    if (local && owner === 'live' && supersededBy(doc, { ...opts, nowMs: now })) return false;
+
+    if (local) {
       const boot = opts.bootTimeMs !== undefined ? opts.bootTimeMs : bootTimeMs();
       const beat = doc.last_heartbeat || doc.started_at;
       const beatMs = beat ? Date.parse(String(beat).replace(/^"|"$/g, '')) : NaN;
       if (Number.isFinite(beatMs) && boot != null && beatMs < boot) return false; // (1)
+      // WS-1073: a session waiting on the founder cannot beat; it holds for
+      // WAITING_HOLD_HOURS from when the wait began, not for the 4h timeout.
+      if (activeWait(doc, now)) return true;
     }
 
     return minutesSinceHeartbeat(file, now) <= staleMinutes;                     // (2)
   }
-  return false; // no session file — dead by definition
+  // No record at all. This used to read "dead by definition", and it is the
+  // reading that let a claim be stolen from a session whose record simply had
+  // not been pulled yet (WS-884 review, M3). Absence is UNKNOWN: hold, on the
+  // same terms as a foreign record — the owner's word (here, the claim's own
+  // date) for FOREIGN_HOLD_DAYS, then the fallback release. Callers that know
+  // when the claim was written pass `claimedAt`; without it the hold is
+  // indefinite unless `missingIsDead` asserts independent proof.
+  if (opts.missingIsDead === true) return false;
+  const claimedAt = opts.claimedAt ? Date.parse(String(opts.claimedAt).replace(/^"|"$/g, '')) : NaN;
+  if (Number.isFinite(claimedAt)) return (now - claimedAt) <= FOREIGN_HOLD_MS;
+  return true;
 }
 
-/** Unwrap readYAMLFile's {ok,data} wrapper. See minutesSinceHeartbeat's warning. */
+/**
+ * One session document: the tracked YAML with its per-node sidecar overlaid.
+ *
+ * Every reader in this module goes through here, so the overlay is applied
+ * once. `readYAMLFile` returns a {ok, data, warnings} WRAPPER — reading
+ * `.status` off the wrapper yields undefined, lands every record on the
+ * not-live branch, and reports "all clear" while doing nothing; the unwrap
+ * lives in session-record.parseRecord.
+ */
 function readSessionDoc(file) {
-  try {
-    const r = readYAMLFile(file);
-    return (r && typeof r === 'object' && 'data' in r) ? r.data : r;
-  } catch { return null; }
+  return sessionRecord.loadSession(null, file);
 }
 
 /**
@@ -363,27 +484,67 @@ function listLiveSessions(wsDir, selfId = null, opts = {}) {
   let files = [];
   try { files = fs.readdirSync(sessDir).filter((f) => f.endsWith('.yaml')); } catch { return []; }
 
+  // WS-890: a /clear ghost is not a peer. /clear keeps the OS process and
+  // starts a new conversation, so every record from before the clear shares
+  // our pid and checkout and reads ALIVE — and the gate blocked pc2 on
+  // checkout-shared seven times over its own predecessors (2026-09-24..10-01).
+  // Judged only when the asker IS that process (CLAUDE_PID matches its own
+  // record) and the process can host only one conversation (terminal CLI,
+  // whatever CLAUDE_CODE_CHILD_SESSION says — WS-1226); a sweep or a
+  // desktop-app reader filters nothing. Read-only: it hides the ghost from
+  // this asker's peer list and writes nothing, so a wrong reading costs one
+  // gate answer, never a record or a claim.
+  let selfDoc = null;
+  if (selfId && processHostsOneConversation()) {
+    try {
+      const d = readSessionDoc(sessionRecord.sessionFileFor(wsDir, selfId) || '');
+      if (d && harnessPid() !== undefined && Number(d.pid) === harnessPid()) selfDoc = d;
+    } catch { /* no self record: filter nothing */ }
+  }
+
   const out = [];
   for (const f of files) {
     const doc = readSessionDoc(path.join(sessDir, f));
     if (!doc || String(doc.status || '').toLowerCase() !== 'active') continue;
     const id = doc.id || f.replace(/\.yaml$/, '');
     if (selfId && id === selfId) continue;
+    if (selfDoc && isSupersededBy(doc, selfDoc, { ...opts, now: opts.now || Date.now(), graceMs: SUPERSEDE_GRACE_MS })) continue;
     if (!isSessionLive(wsDir, id, opts.staleMinutes || STALE_MINUTES, opts.now || Date.now(), opts)) continue;
+    // WS-1226: a record that is a ghost in every way but the grace window (our pid and
+    // checkout, another conversation, silent since we began) says so, with the moment the
+    // window closes, so a block after /clear explains itself instead of reading as a peer.
+    const priorLiftsAt = selfDoc && !activeWait(doc, opts.now || Date.now())
+      && isSupersededBy(doc, selfDoc, { ...opts, now: Number.MAX_SAFE_INTEGER, graceMs: SUPERSEDE_GRACE_MS })
+      ? new Date(parseStamp(doc.last_heartbeat || doc.started_at) + SUPERSEDE_GRACE_MS).toISOString() : null;
     out.push({
       id,
+      ...(priorLiftsAt ? { same_process_prior: true, lifts_at: priorLiftsAt } : {}),
       pid: doc.pid != null ? Number(doc.pid) : null,
       host: doc.host || null,
-      foreign_host: !isLocalHost(doc.host, opts),
+      foreign_host: !isLocalHost(doc, opts),
       // Where this peer is standing. null means UNKNOWN, never 'not here'.
       worktree: normalizeWorktree(doc.worktree),
       last_heartbeat: doc.last_heartbeat || null,
       claimed_items: Array.isArray(doc.claimed_items) ? doc.claimed_items : [],
       files_locked: Array.isArray(doc.files_locked) ? doc.files_locked : [],
       mode: doc.mode || null,
+      waiting_on_founder: activeWait(doc, opts.now || Date.now()),
     });
   }
   return out;
+}
+
+/**
+ * One line saying a holder is waiting on the founder, or '' when it is not
+ * (WS-1073). An adopter must be told the previous holder has a plan pending
+ * approval — on 2026-10-10 nothing said so, and both sessions built it.
+ */
+function waitingNote(wsDir, id, now = Date.now()) {
+  try {
+    const wait = activeWait(readSessionDoc(sessionRecord.sessionFileFor(wsDir, id) || ''), now);
+    if (!wait) return '';
+    return ` It is waiting on the founder (${wait.kind === 'question' ? 'question pending' : 'plan pending'} since ${wait.since}).`;
+  } catch { return ''; }
 }
 
 /**
@@ -396,6 +557,16 @@ function listLiveSessions(wsDir, selfId = null, opts = {}) {
  * claims, while `cwos-session-recovery` had not run since. Neither reading is usable
  * — so the population itself has to be surfaced rather than silently interpreted.
  */
+// The same abandon timeout `cwos-session-recovery --auto` applies (config.yaml
+// session_abandon_timeout_hours, default DEFAULT_TIMEOUT_HOURS), so the advice
+// "recovery would close this" agrees with what recovery then does (WS-1017).
+function abandonTimeoutHours(wsDir) {
+  const { ok, data } = readYAMLFile(path.join(wsDir, 'config.yaml')) || {};
+  const val = ok && data ? data.session_abandon_timeout_hours : undefined;
+  const num = typeof val === 'number' ? val : parseFloat(val);
+  return Number.isFinite(num) && num > 0 ? num : DEFAULT_TIMEOUT_HOURS;
+}
+
 function staleActiveSessions(wsDir, opts = {}) {
   const staleMinutes = opts.staleMinutes || STALE_MINUTES;
   const now = opts.now || Date.now();
@@ -409,14 +580,34 @@ function staleActiveSessions(wsDir, opts = {}) {
     if (!doc || String(doc.status || '').toLowerCase() !== 'active') continue;
     const id = doc.id || f.replace(/\.yaml$/, '');
     if (opts.selfId && id === opts.selfId) continue;
+    // A record from another host cannot heartbeat here (WS-884): its beat is
+    // in that machine's sidecar. Not stale — UNKNOWN, and judged by its owner.
+    if (doc.host && !isLocalHost(doc, opts)) continue;
     const mins = minutesSinceHeartbeat(path.join(sessDir, f), now);
     if (mins <= staleMinutes) continue;
+    // WS-1017: "stale" here means "stopped beating"; whether `recovery --auto`
+    // would CLOSE it is a different question (a verified-alive idle pid is
+    // vetoed until IDLE_ALIVE_CAP_HOURS), and advice to run recovery is only
+    // honest for the records where the answer is yes.
+    const timeoutHours = opts.timeoutHours || abandonTimeoutHours(wsDir);
+    const verdict = classifySession(doc, { timeoutHours, nowMs: now, bootMs: opts.bootMs });
+    const wouldAct = recoveryWouldAct(verdict, { timeoutHours });
+    let clearsInHours = null;
+    if (!wouldAct && verdict.age_hours !== null && /verified running/.test(verdict.reason || '')) {
+      clearsInHours = Math.max(0, Math.round((IDLE_ALIVE_CAP_HOURS - verdict.age_hours) * 10) / 10);
+    }
     out.push({
       id,
       host: doc.host || null,
       last_heartbeat: doc.last_heartbeat || null,
       minutes_stale: Number.isFinite(mins) ? Math.round(mins) : null,
       claimed_items: Array.isArray(doc.claimed_items) ? doc.claimed_items : [],
+      recovery_would_act: wouldAct,
+      recovery_reason: verdict.reason,
+      // Hours until recovery --auto would close it, when that is knowable
+      // (the idle-alive veto lifts at the cap); null when recovery acts now or
+      // the hold has no fixed end (e.g. waiting on the founder).
+      recovery_clears_in_hours: clearsInHours,
     });
   }
   return out;
@@ -469,6 +660,7 @@ function registryHealth(wsDir, opts = {}) {
   let newest = 0;
   let newestBeat = 0;
   let activeCount = 0;
+  let localActiveCount = 0;
   for (const f of files) {
     const doc = readSessionDoc(path.join(sessDir, f));
     if (!doc) continue;
@@ -476,6 +668,12 @@ function registryHealth(wsDir, opts = {}) {
     if (Number.isFinite(t) && t > newest) newest = t;
     if (String(doc.status || '').toLowerCase() !== 'active') continue;
     activeCount++;
+    // Heartbeat currency is a question about THIS machine's Stop hook, so it is
+    // asked only of records this machine owns (WS-884). A foreign record's beat
+    // lives in the other node's sidecar; counting its absence here would read
+    // "the hook has never run" on every idle node whose peer is busy.
+    if (doc.host && !isLocalHost(doc, opts)) continue;
+    localActiveCount++;
     // Heartbeat currency is asked of `last_heartbeat` ALONE. Falling back to
     // started_at here would let a freshly-registered session that never beats
     // again certify the hook as working — the exact substitution that made the
@@ -488,6 +686,7 @@ function registryHealth(wsDir, opts = {}) {
   const out = {
     ...base,
     active_count: activeCount,
+    local_active_count: localActiveCount,
     stale_active: staleActiveSessions(wsDir, opts).map((s) => s.id),
     newest_record_age_days: (now - newest) / 86400000,
     heartbeat_age_minutes: newestBeat ? (now - newestBeat) / 60000 : null,
@@ -506,12 +705,12 @@ function registryHealth(wsDir, opts = {}) {
   // Currency is only a question when something claims to be active. A repo whose
   // sessions have all been closed properly has nothing to keep current.
   const maxBeatMinutes = opts.maxHeartbeatMinutes != null ? opts.maxHeartbeatMinutes : 120;
-  if (activeCount > 0) {
+  if (localActiveCount > 0) {
     if (out.heartbeat_age_minutes == null) {
       return {
         ...out,
         ok: false,
-        reason: `${activeCount} session(s) marked active and not one carries a last_heartbeat — `
+        reason: `${localActiveCount} session(s) marked active on this host and not one carries a last_heartbeat — `
               + 'the Stop hook has never run here; liveness is UNKNOWN, not all-clear',
       };
     }
@@ -519,7 +718,7 @@ function registryHealth(wsDir, opts = {}) {
       return {
         ...out,
         ok: false,
-        reason: `${activeCount} session(s) marked active, freshest heartbeat is `
+        reason: `${localActiveCount} session(s) marked active on this host, freshest heartbeat is `
               + `${Math.floor(out.heartbeat_age_minutes / 60)}h${Math.floor(out.heartbeat_age_minutes % 60)}m old `
               + `(max ${maxBeatMinutes}m) — the Stop hook is not advancing liveness, so every peer `
               + 'filters out as not-live and "no conflicts" means UNKNOWN, not none',
@@ -606,54 +805,54 @@ function resolveSessionId(wsDir, {
 
   const file = path.join(sessionsDir, `${id}.yaml`);
   if (!fs.existsSync(file)) {
+    const mintPid = harnessPid();
+    // THE TRACKED HALF (WS-884). Only what another machine needs: identity,
+    // lifecycle, owner host, the harness join key, and the claim lists. The
+    // per-turn fields — heartbeat, pid, worktree — go in the sidecar below, so
+    // this file is written now and at close, never in between.
     writeFileAtomic(file, [
       `id: "${id}"`,
       'status: active',
       `started_at: "${ts}"`,
       'ended_at: null',
       'mode: auto',
-      `last_heartbeat: "${ts}"`,
-      // CLAUDE_PID is the actual Claude process; process.pid here is this
-      // short-lived script. Diagnostic only either way — see isSessionLive.
-      `pid: ${process.env.CLAUDE_PID || process.pid}`,
       // The machine that owns this record. Without it, every pid and boot-time
       // test on a git-synced session file is asked of the wrong process table
-      // (WS-564). Recorded at mint AND re-stamped on every heartbeat, so a record
-      // that moves machines corrects itself rather than staying wrong.
+      // (WS-564). A record naming another host is never judged here (ADR-065).
       `host: "${localHost() || ''}"`,
+      // WS-893: hostname is not an identity (every cloud container is `vm`);
+      // the boot-qualified node id is what tells two containers apart.
+      `node_id: "${localNodeId() || ''}"`,
       // Written so the NEXT invocation finds this record by identity instead of
       // minting a second one for the same session.
       `agent_session_id: "${agentId || ''}"`,
-      // WHERE this session is standing. Without it a peer holding uncommitted
-      // work in a shared checkout is indistinguishable from no peer at all --
-      // the 2026-08-26 near-miss. Re-stamped on every heartbeat like `host`, so
-      // records minted before this field self-heal rather than needing migration.
-      `worktree: "${currentWorktree() || ''}"`,
       '',
       '# Minted by cwos-claims because no registered session matched this process.',
       '# A session that never ran /session-start still needs an identity to claim under.',
+      '# Liveness (heartbeat, pid, worktree) lives in liveness/<id>.json on the owning',
+      '# node — per-node and untracked (WS-884). This file changes at claim and close.',
       'claimed_items: []',
       'files_locked: []',
       '',
     ].join('\n'));
-    // WS-736 / ADR-067: /clear starts a new conversation in the same OS
-    // process — new agent_session_id, same pid — so every predecessor record
-    // reads as a live peer and the gate blocks the session on its own ghosts
-    // (measured 2026-08-26: pid 65956, three active records, gate blocked the
-    // newest naming the other two). A record with the same pid + worktree, a
-    // DIFFERENT agent_session_id, and a heartbeat at or before this record's
-    // started_at is by construction a superseded predecessor: close it here.
-    // The heartbeat-ordering half of the test is load-bearing — in-process
-    // subagents share the pid, so pid match alone must never close anything.
-    try {
-      closeSupersededPredecessors(wsDir, {
-        selfId: id,
-        agentId: agentId || '',
-        pid: Number(process.env.CLAUDE_PID || process.pid) || null,
-        worktree: currentWorktree() || '',
-        startedAt: ts,
-      });
-    } catch { /* non-fatal: predecessors then age out via the timeout instead */ }
+    // THE PER-NODE HALF. CLAUDE_PID is the actual Claude process; process.pid
+    // here is this short-lived script. WHERE this session is standing matters
+    // too: without it a peer holding uncommitted work in a shared checkout is
+    // indistinguishable from no peer at all (the 2026-08-26 near-miss).
+    sessionRecord.writeLiveness(wsDir, id, {
+      last_heartbeat: ts,
+      pid: mintPid,
+      pid_recorded_at: mintPid === undefined ? undefined : ts,
+      worktree: currentWorktree() || '',
+      host: localHost() || '',
+      node_id: localNodeId() || '',
+    }, { ownerLabel: 'claims:mint' });
+    // NO automatic /clear-ghost closure here (WS-890, scope cut 2026-10-13).
+    // Closing a predecessor record on a pid+worktree+ordering inference was
+    // shown three times to reach a live session or its claims (another node's
+    // recovery, an archived older conversation, a background subagent that
+    // outlives /clear). The gate instead ignores its OWN ghosts read-only
+    // (listLiveSessions); a record is closed only by hand (recovery --close).
   }
   // Best-effort legacy pointer. Not the identity of record: it holds one id and
   // cannot represent concurrent sessions.
@@ -671,51 +870,155 @@ function resolveSessionId(wsDir, {
 }
 
 /**
- * Mark session records superseded by a newer mint from the same process
- * (WS-736). Predicate — ALL must hold, per the ticket:
- *   same host (judged locally only), same pid, same worktree,
- *   different agent_session_id, status still active,
- *   last_heartbeat <= the new record's started_at.
- * Claims held by a superseded record are not released here; they become
- * reclaimable through the normal liveness path (a non-active status is proof
- * the session ended), which keeps this a pure registry correction.
+ * The Claude process id from the harness, or undefined when it is not known.
+ *
+ * NEVER `process.pid` (WS-890 / friction c898d036d4). Every writer used to fall
+ * back to it, and `process.pid` is the short-lived script doing the writing:
+ * `node kit/scripts/cwos-heartbeat.js` run by hand from a tool shell stamped
+ * its own pid, which died at once; the session then read DEAD_PID — proof of
+ * death, acted on with no timeout — and a peer's recovery released its claims
+ * mid-work. An absent pid is merely unverifiable (the timeout governs); a
+ * wrong pid is a false proof. So without CLAUDE_PID, nothing is stamped and
+ * whatever pid the record already carries stands.
  */
-function closeSupersededPredecessors(wsDir, { selfId, agentId, pid, worktree, startedAt }) {
-  if (!pid) return [];
-  const sessionsDir = path.join(wsDir, 'sessions');
-  let names = [];
-  try { names = fs.readdirSync(sessionsDir).filter((n) => n.endsWith('.yaml')); } catch { return []; }
-  const superseded = [];
-  const startedMs = Date.parse(startedAt);
-  for (const name of names) {
-    const file = path.join(sessionsDir, name);
-    let doc = null;
-    try { doc = readYAMLFile(file); } catch { continue; }
-    if (!doc || doc.id === selfId) continue;
-    if (String(doc.status || '') !== 'active') continue;
-    if (!isLocalHost(doc.host)) continue;                     // never judge a foreign record
-    if (Number(doc.pid) !== pid) continue;
-    if (String(doc.worktree || '') !== String(worktree || '')) continue;
-    const theirAgent = String(doc.agent_session_id || '');
-    if (theirAgent && agentId && theirAgent === agentId) continue; // same conversation, not a predecessor
-    const beatMs = Date.parse(doc.last_heartbeat || doc.started_at || '');
-    if (!Number.isFinite(beatMs) || !Number.isFinite(startedMs) || beatMs > startedMs) continue;
-    try {
-      withFileLock(file + '.lock', () => patchOrInsert(file, {
-        status: 'abandoned',
-        ended_at: startedAt,
-        recovery_reason: `superseded-by-${selfId} (WS-736: same pid+worktree, heartbeat predates successor mint)`,
-      }, 'status'), { ownerLabel: 'claims:supersede', maxWaitMs: 5000 });
-      superseded.push(doc.id);
-    } catch { /* non-fatal per-record */ }
-  }
-  for (const prev of superseded) {
-    emitEvent('T6:workstream-rebalance', '/next', {
-      type: 'session_superseded', predecessor: prev, successor: selfId, at: startedAt,
-    });
-  }
-  return superseded;
+function harnessPid() {
+  const n = Number(process.env.CLAUDE_PID);
+  return Number.isInteger(n) && n > 0 ? n : undefined;
 }
+
+/**
+ * May THIS process vouch that one OS process hosts one conversation at a time?
+ *
+ * The /clear-ghost rule below rests on that: an older conversation sharing our
+ * pid and checkout is a predecessor, not a peer. It holds for the terminal CLI
+ * (`CLAUDE_CODE_ENTRYPOINT=cli`). It does NOT hold for the desktop app, whose
+ * conversations share one harness pid concurrently (WS-973). An unset
+ * entrypoint is unknown, and unknown never closes anything.
+ *
+ * NOT CLAUDE_CODE_CHILD_SESSION (WS-1226). This used to return false when it
+ * was "1", read as "an SDK child inside its parent's process". Measured
+ * 2026-10-21 and 2026-11-04: the terminal CLI sets it on EVERY Bash-tool
+ * command of the top-level conversation, and a subagent's Bash tool carries
+ * the same value with the PARENT's CLAUDE_CODE_SESSION_ID and CLAUDE_PID. So
+ * in the CLI it separates nothing, and the clause disabled the ghost filter
+ * and `--close` everywhere they are ever run (every /clear then /next
+ * hard-blocked on checkout-shared). A subagent resolves to its parent's own
+ * record, so it can only ever judge from the parent's place. What separates a
+ * ghost from a peer is the record pair itself: same pid, same worktree, a
+ * different conversation id, and the grace rule (isSupersededBy).
+ */
+function processHostsOneConversation() {
+  return String(process.env.CLAUDE_CODE_ENTRYPOINT || '').trim().toLowerCase() === 'cli';
+}
+
+function parseStamp(v) {
+  const t = v ? Date.parse(String(v).replace(/^"|"$/g, '')) : NaN;
+  return Number.isFinite(t) ? t : NaN;
+}
+
+/**
+ * Is `prior` a /clear ghost of `successor` (WS-736, made live by WS-890)?
+ *
+ * ALL must hold:
+ *   both records on THIS host            a foreign record is never judged here
+ *   same pid, recorded (an integer > 0)  one process
+ *   same worktree, both recorded         one checkout (desktop worktrees differ)
+ *   successor has a harness id and the   different conversations — a resume
+ *     two ids differ                     of the same one is not a predecessor
+ *   prior still `active`
+ *   prior is not waiting on the founder  WS-1073's hold outranks inference
+ *   prior's last beat <= sinceMs         it stopped before the successor began;
+ *     (default: successor.started_at)    a peer still beating is not a ghost
+ *
+ *   ...by at least opts.graceMs          (default 0) — see SUPERSEDE_GRACE_MS
+ *
+ * Pure: reads two documents, writes nothing. Whether the CALLER may act on a
+ * true answer (processHostsOneConversation) is the caller's question.
+ */
+function isSupersededBy(prior, successor, opts = {}) {
+  if (!prior || !successor) return false;
+  if (prior.id && successor.id && String(prior.id) === String(successor.id)) return false;
+  if (String(prior.status || '').toLowerCase() !== 'active') return false;
+  if (!isLocalHost(prior, opts) || !isLocalHost(successor, opts)) return false;
+  const pid = Number(successor.pid);
+  if (!Number.isInteger(pid) || pid <= 0 || Number(prior.pid) !== pid) return false;
+  const mine = normalizeWorktree(successor.worktree);
+  if (!mine || normalizeWorktree(prior.worktree) !== mine) return false;
+  const theirs = String(successor.agent_session_id || '');
+  if (!theirs || String(prior.agent_session_id || '') === theirs) return false;
+  const now = opts.now !== undefined ? opts.now : Date.now();
+  if (activeWait(prior, now)) return false;
+  const beatMs = parseStamp(prior.last_heartbeat || prior.started_at);
+  const sinceMs = Number.isFinite(opts.sinceMs) ? opts.sinceMs : parseStamp(successor.started_at);
+  const graceMs = Number.isFinite(opts.graceMs) && opts.graceMs > 0 ? opts.graceMs : 0;
+  // Two separate facts (WS-1226 inspection, defect A): the prior has not beaten since the
+  // successor began, AND it has been silent for the grace window as of NOW. The grace used to be
+  // measured against the successor's start, a fixed stamp, so once register ran on `clear` (start
+  // = the moment of /clear) a founder who worked until a few minutes before /clear stayed blocked
+  // until the 4 h timeout. Measured from now, the block lifts 10 min after the ghost's last beat,
+  // and a peer that beat inside the last 10 min is still never a ghost.
+  return Number.isFinite(beatMs) && Number.isFinite(sinceMs) && Number.isFinite(now)
+    && beatMs <= sinceMs && beatMs <= now - graceMs;
+}
+
+/**
+ * THE GRACE RULE for judging a /clear ghost (WS-890 review).
+ *
+ * A record counts as a superseded ghost only if its last beat predates the
+ * successor's start AND is MORE than 10 minutes old now (WS-1226: measured
+ * from now, so the block lifts by itself) -- the PostToolUse heartbeat's
+ * min-interval (`--min-interval-minutes 10`), i.e. the longest a working
+ * session normally goes between beats. Inside that window the pid match is
+ * not trusted: a recycled pid, or one wrongly stamped by a hand-run beat,
+ * would otherwise make a peer that beat seconds ago read as a ghost.
+ *
+ * Used by the read-only gate filter (listLiveSessions) and by the manual
+ * `cwos-session-recovery --close`. Nothing closes a ghost automatically: that
+ * was removed after it reached live sessions and their claims three ways.
+ */
+const SUPERSEDE_GRACE_MS = 10 * 60000;
+
+/** Was this record closed as a /clear ghost (recovery_reason superseded-by-…)? */
+function isSupersededClosure(doc) {
+  if (!doc || String(doc.status || '').toLowerCase() !== 'abandoned') return false;
+  return /^["']?superseded-by-/.test(String(doc.recovery_reason || ''));
+}
+
+/**
+ * Does a superseded ghost still HOLD its claims (WS-890 review, round 3)?
+ *
+ * HOLD, NOT TRANSFER, and why. Claude Code lets a background subagent outlive
+ * /clear and still record its outcome, so work may still be running under the
+ * ghost's claims. Transferring them to the successor would hand a fresh
+ * conversation items it never saw, under an identity that did not do the
+ * work, and cwos-lease-check would then defend them on its behalf. Holding
+ * keeps the attribution true and ends the same way every other suspicion
+ * does: the claims stay fenced until the process is PROVEN gone (dead pid,
+ * pre-boot stamp) or the normal abandon timeout has run from the ghost's last
+ * beat (its `ended_at` when the beat is unknown) on the owner node, and
+ * ended_at + the timeout on every other node.
+ */
+function supersededHoldActive(doc, opts = {}) {
+  if (!isSupersededClosure(doc)) return false;
+  const now = opts.now !== undefined ? opts.now : Date.now();
+  const staleMinutes = Number.isFinite(opts.staleMinutes) ? opts.staleMinutes : STALE_MINUTES;
+  // EVERY NODE holds it (WS-890 review, round 4). sessions/ is tracked, so the
+  // closed record reaches the other node by pull, where it has no sidecar and
+  // no judgeable pid. There the only fact is the closure itself: held until
+  // ended_at + the abandon timeout. (Undateable: hold.)
+  if (!isLocalHost(doc, opts)) {
+    const ended = parseStamp(doc.ended_at);
+    return !Number.isFinite(ended) || (now - ended) <= staleMinutes * 60000;
+  }
+  // The owner node: proof of death releases; otherwise the timeout from the
+  // ghost's last beat.
+  if (sessionOwnerVerdict(doc, opts) === 'dead') return false;
+  let beat = parseStamp(doc.last_heartbeat);
+  if (!Number.isFinite(beat)) beat = parseStamp(doc.ended_at);
+  if (!Number.isFinite(beat)) return true;   // undateable: hold, never release on a guess
+  return (now - beat) <= staleMinutes * 60000;
+}
+
 
 /**
  * Touch `last_heartbeat` so this session reads as live to everyone else.
@@ -729,55 +1032,101 @@ function closeSupersededPredecessors(wsDir, { selfId, agentId, pid, worktree, st
  * @returns {boolean} whether a record was actually advanced. Callers that treat a
  * no-op as success are how a liveness stamp outlives the liveness it certifies.
  */
-function touchSession(wsDir, id, clock = null) {
+/**
+ * May a HAND-RUN (no harness hook payload) write `pid` onto record `id`?
+ * Returns null when it may, else the reason it may not (WS-890 review, r5).
+ *
+ * THE ONE RULE for the one place pids are written. A hand-run names its
+ * session by --session-id or an environment that may belong to someone else,
+ * so it may claim a record's process only when no other process can be
+ * claiming it:
+ *   (i)   the record has no recorded pid AND isSessionLive reads it not live
+ *   (ii)  the recorded pid IS our pid
+ *   (iii) the recorded pid is provably dead on THIS host
+ * Everything else is refused. Stamping our pid over a live peer's makes the
+ * peer read DEAD_PID the moment we exit, and recovery then releases its
+ * claims. Judged on the record AS READ, before any write — touchSession's
+ * host-heal must not turn a hostless record "local" and make (iii) pass.
+ * Hook-driven writes never come here: the payload is the harness saying
+ * whose conversation this is.
+ */
+function handRunPidRefusal(wsDir, id, pid, opts = {}) {
+  const ours = Number(pid);
+  if (!(ours > 0)) return null;                      // no pid to write: nothing to overwrite
+  const file = sessionRecord.sessionFileFor(wsDir, id);
+  const doc = file ? readSessionDoc(file) : null;
+  if (!doc) return `no readable record for ${id}`;
+  const recorded = Number(doc.pid);
+  if (!(Number.isInteger(recorded) && recorded > 0)) {
+    let live = true;
+    try { live = isSessionLive(wsDir, id, STALE_MINUTES, Date.now(), opts); } catch { live = true; }
+    return live ? `${id} has no recorded pid but reads live (fresh heartbeat), so it may be another process's` : null;   // (i)
+  }
+  if (recorded === ours) return null;                 // (ii)
+  const local = Boolean(doc.host) && isLocalHost(doc, opts);
+  if (local && isPidAlive(recorded) === false) return null; // (iii)
+  return `${id} is recorded to process ${recorded}${local ? ' (running)' : ' (not judgeable from here)'}, not this one (${ours})`;
+}
+
+function touchSession(wsDir, id, clock = null, opts = {}) {
   if (!id) return false;
   const beatAt = (clock ? new Date(clock) : new Date()).toISOString();
-  const beatPid = Number(process.env.CLAUDE_PID || process.pid) || undefined;
-  for (const name of [`${id}.yaml`, `session-${id}.yaml`]) {
-    const file = path.join(wsDir, 'sessions', name);
-    if (!fs.existsSync(file)) continue;
-    try {
-      // ADR-067: same per-file lock mergeIntoSessionList takes. Unlocked, this
-      // read-modify-write raced the claim mirror on the same session YAML and
-      // could drop a just-mirrored claimed_items entry under the beat.
-      withFileLock(file + '.lock', () => patchOrInsert(file, {
-        last_heartbeat: beatAt,
-        host: localHost() || '',
-        worktree: currentWorktree() || '',
-        // PID travels with the beat, for the same reason `host` does (WS-564):
-        // a record judged against a stale identity is judged wrong forever.
-        //
-        // pid was written ONCE at registration and never again, so when the
-        // Claude process restarts while the CONVERSATION continues — same
-        // CLAUDE_CODE_SESSION_ID, new OS process — the record keeps pointing at
-        // a pid that no longer exists. session-liveness then returns DEAD_PID,
-        // correctly by its own rule and wrongly in fact, and recovery abandons
-        // a session that is actively working. Measured 2026-08-05: record held
-        // pid 10808 (gone) while the live process was 5732; the session was
-        // abandoned mid-work and its claims released.
-        //
-        // Whoever is beating IS the session, so the beat is the authoritative
-        // moment to re-anchor which process that is.
-        // Number, not the raw env string: CLAUDE_PID arrives as a string and
-        // would serialize quoted, silently changing the field's type on every
-        // record that beats. Liveness copes, but registration writes a bare
-        // number and a field that is sometimes 10808 and sometimes "10808" is
-        // a trap for the next reader.
-        pid: beatPid,
-        // DATE the pid in the same write (WS-351). The beat is the THIRD pid
-        // writer — register and its resume path are the other two — and an
-        // undated pid cannot be told apart from one recycled across a reboot.
-        // Concretely: a revived record whose started_at predates the current
-        // boot would be re-condemned by the recycle rule on the very next
-        // classify, despite actively beating. Only written when a pid is —
-        // a date without its pid would vouch for nothing.
-        ...(beatPid === undefined ? {} : { pid_recorded_at: beatAt }),
-      }, 'pid'), { ownerLabel: 'claims:beat', maxWaitMs: 5000 });
-      return true;
-    } catch { /* best-effort: liveness is an optimisation, never a hard dependency */ }
-    return false;
-  }
-  return false;
+  let beatPid = harnessPid();
+  const file = sessionRecord.sessionFileFor(wsDir, id);
+  if (!file) return false;
+  // A hand-run never stamps a pid the rule above refuses; the beat itself
+  // still lands only if the caller chose to go on (callers refuse first).
+  if (opts.handRun && beatPid !== undefined && handRunPidRefusal(wsDir, id, beatPid, opts)) beatPid = undefined;
+
+  // THE BEAT GOES TO THE SIDECAR, NEVER THE TRACKED RECORD (WS-884). This
+  // function used to patch `sessions/<id>.yaml` on every Stop hook, and the
+  // SessionStart autocommit then shipped every one of those patches to the
+  // other machine as a commit — the whole wedge, in one function.
+  //
+  // PID travels with the beat, for the same reason `host` does (WS-564): a
+  // record judged against a stale identity is judged wrong forever. pid was
+  // written ONCE at registration, so when the Claude process restarts while the
+  // CONVERSATION continues — same CLAUDE_CODE_SESSION_ID, new OS process — the
+  // record kept pointing at a pid that no longer existed; liveness returned
+  // DEAD_PID, correctly by its rule and wrongly in fact, and recovery abandoned
+  // a session mid-work (2026-08-05: pid 10808 gone, live process 5732). Whoever
+  // is beating IS the session, so the beat re-anchors which process that is.
+  // Number, not the raw env string: CLAUDE_PID arrives as a string.
+  //
+  // DATE the pid in the same write (WS-351): an undated pid cannot be told apart
+  // from one recycled across a reboot. Only written when a pid is — and a pid
+  // is only ever CLAUDE_PID (harnessPid): a hand-run beat from a tool shell
+  // without it must leave the recorded pid alone, not stamp its own dying one.
+  const landed = sessionRecord.writeLiveness(wsDir, id, {
+    last_heartbeat: beatAt,
+    worktree: currentWorktree() || '',
+    host: localHost() || '',
+    node_id: localNodeId() || '',
+    pid: beatPid,
+    ...(beatPid === undefined ? {} : { pid_recorded_at: beatAt }),
+  }, { ownerLabel: 'claims:beat' });
+  if (!landed) return false;
+
+  // ONE tracked write, ever: a record minted before WS-564 has no `host`, and a
+  // hostless record is judged as foreign (never closed, never trusted). Stamp
+  // it once so the record can be judged at all; every later beat finds the key
+  // present and touches nothing.
+  try {
+    const raw = fs.readFileSync(file, 'utf8');
+    if (!/^host:/m.test(raw)) {
+      withFileLock(file + '.lock', () => patchOrInsert(file, { host: localHost() || '' }, 'mode'),
+        { ownerLabel: 'claims:host-heal', maxWaitMs: 5000 });
+    }
+    // WS-893, same one-time shape: a record minted before node_id existed is,
+    // on a boot_id platform, indistinguishable from a sibling container's and
+    // so judged by nobody. Its owner stamps it once. Windows has no boot_id,
+    // its node id IS the host, and the tracked file is left alone there.
+    if (nodeIdentity.bootId() && !/^node_id:/m.test(raw)) {
+      withFileLock(file + '.lock', () => patchOrInsert(file, { node_id: localNodeId() || '' }, 'host'),
+        { ownerLabel: 'claims:node-heal', maxWaitMs: 5000 });
+    }
+  } catch { /* best-effort: the beat already landed */ }
+  return true;
 }
 
 /**
@@ -814,7 +1163,8 @@ function readClaim(queuePath) {
     const v = m[1].trim().replace(/^["']|["']$/g, '');
     return (!v || v === 'null' || v === '~') ? null : v;
   };
-  return { claimedBy: clean(by), claimedAt: clean(at), status: st ? st[1] : null };
+  const rel = raw.match(/^released_by:\s*(.*)$/m);
+  return { claimedBy: clean(by), claimedAt: clean(at), status: st ? st[1] : null, releasedBy: clean(rel) };
 }
 
 /**
@@ -854,14 +1204,16 @@ function findClaimConflicts(wsDir, mySessionId, itemIds, opts = {}) {
     if (claim.status === 'done') continue; // a closed item cannot be contended
     // Pass opts through so bootTimeMs is injectable — without it a caller cannot
     // test the pre-boot path deterministically and would silently be asserting
-    // against the real machine's boot time.
-    if (!isSessionLive(wsDir, claim.claimedBy, staleMinutes, now, opts)) continue; // stale — reclaimable
+    // against the real machine's boot time. `claimedAt` bounds the hold on a
+    // holder whose record is absent (WS-884).
+    if (!isSessionLive(wsDir, claim.claimedBy, staleMinutes, now, { ...opts, claimedAt: claim.claimedAt })) continue; // stale — reclaimable
     out.push({
       id,
       claimed_by: claim.claimedBy,
       claimed_at: claim.claimedAt,
-      message: `${id} is claimed by session ${claim.claimedBy}, which is still active. `
-             + 'Two sessions editing the same item is how uncommitted work gets clobbered.',
+      message: `${id} is claimed by session ${claim.claimedBy}, which is still active.`
+             + waitingNote(wsDir, claim.claimedBy, now)
+             + ' Two sessions editing the same item is how uncommitted work gets clobbered.',
     });
   }
   return out;
@@ -900,8 +1252,9 @@ function claimItems(wsDir, sessionId, itemIds, clock = null, opts = {}) {
         // audited below via a claim_stolen event, because evicting a
         // slow-but-alive owner is a named trade (WS-312), not a silent one.
         const holder = claimantFromText(text);
+        const holderAt = ((text.match(/^claimed_at:\s*(.*)$/m) || [])[1] || '').trim().replace(/^["'](.*)["']$/, '$1');
         if (holder && holder !== sessionId
-            && !isSessionLive(wsDir, holder, staleMinutes, now, opts)) {
+            && !isSessionLive(wsDir, holder, staleMinutes, now, { ...opts, claimedAt: holderAt || undefined })) {
           text = text.replace(/^claimed_by:.*$/m, 'claimed_by: null')
                      .replace(/^claimed_at:.*$/m, 'claimed_at: null');
           stolen.push({ id, from: holder });
@@ -910,6 +1263,10 @@ function claimItems(wsDir, sessionId, itemIds, clock = null, opts = {}) {
         // qualify, matching where the done-path puts closure metadata.
         text = upsertYAMLScalarField(text, 'claimed_by', sessionId, { after: 'status' }).content;
         text = upsertYAMLScalarField(text, 'claimed_at', at, { after: 'claimed_by' }).content;
+        // A fresh claim supersedes the last release (WS-1073).
+        if (/^released_by:/m.test(text)) {
+          text = text.replace(/^released_by:.*$/m, 'released_by: null').replace(/^released_at:.*$/m, 'released_at: null');
+        }
         writeFileAtomic(queuePath, text);
       }, { ownerLabel: 'next:claim', maxWaitMs: 5000 });
 
@@ -925,6 +1282,7 @@ function claimItems(wsDir, sessionId, itemIds, clock = null, opts = {}) {
     });
   }
   mirrorIntoSession(wsDir, sessionId, claimed);
+  rememberLeaseItems(wsDir, sessionId, claimed);
   return claimed;
 }
 
@@ -950,10 +1308,55 @@ function releaseItems(wsDir, itemIds) {
     if (!fs.existsSync(queuePath)) continue;
     try {
       withFileLock(queuePath + '.lock', () => {
+        // WS-1073: say WHO let go. A released claim reads `claimed_by: null`
+        // whether this session closed the item or another one did after
+        // adopting it, and cwos-lease-check must tell those apart — one is
+        // finished work, the other is the 2026-10-10 duplicate build.
+        const before = fs.readFileSync(queuePath, 'utf8');
+        const holder = claimantFromText(before);
         patchYAMLFile(queuePath, { claimed_by: null, claimed_at: null });
+        if (holder) {
+          let text = fs.readFileSync(queuePath, 'utf8');
+          text = upsertYAMLScalarField(text, 'released_by', holder, { after: 'claimed_at' }).content;
+          text = upsertYAMLScalarField(text, 'released_at', nowISO(), { after: 'released_by' }).content;
+          writeFileAtomic(queuePath, text);
+          forgetLeaseItem(wsDir, holder, id);
+        }
       }, { ownerLabel: 'next:release', maxWaitMs: 5000 });
     } catch { /* non-fatal */ }
   }
+}
+
+/**
+ * Drop `id` from the items cwos-lease-check tracks for `sessionId` (WS-1073).
+ * A session that let go of an item must not later read its fate — another
+ * session claiming and closing it — as a stolen lease. Sidecar only: the
+ * release runs on the holder's own node. Never throws.
+ */
+function forgetLeaseItem(wsDir, sessionId, id) {
+  try {
+    const side = sessionRecord.readLiveness(wsDir, sessionId);
+    const patch = {};
+    if (Array.isArray(side.lease_items) && side.lease_items.includes(id)) {
+      patch.lease_items = side.lease_items.filter((x) => x !== id);
+    }
+    const w = side.waiting_on_founder;
+    if (w && Array.isArray(w.items) && w.items.includes(id)) {
+      patch.waiting_on_founder = { ...w, items: w.items.filter((x) => x !== id) };
+    }
+    if (Object.keys(patch).length) sessionRecord.writeLiveness(wsDir, sessionId, patch, { ownerLabel: 'release:lease' });
+  } catch { /* bookkeeping never blocks a release */ }
+}
+
+/** The other half: a fresh claim joins the tracked set (WS-1073). Never throws. */
+function rememberLeaseItems(wsDir, sessionId, ids) {
+  if (!ids || !ids.length) return;
+  try {
+    const side = sessionRecord.readLiveness(wsDir, sessionId);
+    const cur = Array.isArray(side.lease_items) ? side.lease_items : [];
+    const next = [...new Set([...cur, ...ids.map(String)])];
+    if (next.length !== cur.length) sessionRecord.writeLiveness(wsDir, sessionId, { lease_items: next }, { ownerLabel: 'claim:lease' });
+  } catch { /* bookkeeping never blocks a claim */ }
 }
 
 /** Keep the session's own `claimed_items` list in step, for session-recovery to read. */
@@ -1122,6 +1525,7 @@ function findCheckoutConflicts(wsDir, mySessionId, opts = {}) {
     : currentWorktree(opts.cwd);
 
   const peers = listLiveSessions(wsDir, mySessionId, opts);
+  const mineReal = isComparableWorktree(mine) ? canonicalWorktree(mine, opts) : null;
 
   const cohabitants = [];
   const unlocatable = [];
@@ -1139,7 +1543,11 @@ function findCheckoutConflicts(wsDir, mySessionId, opts = {}) {
     // its recorded path says. Path equality across hosts is meaningless.
     if (p.foreign_host) continue;
     if (!isComparableWorktree(p.worktree)) { unlocatable.push(p); continue; }
-    if (mine && p.worktree === mine) cohabitants.push(p);
+    // WS-992: compare REAL paths, so a subst drive, junction or UNC spelling of
+    // one checkout still matches. A peer we cannot resolve is unlocatable, not clear.
+    const peerReal = canonicalWorktree(p.worktree, opts);
+    if (!peerReal) { unlocatable.push(p); continue; }
+    if (mineReal && peerReal === mineReal) cohabitants.push(Object.assign({}, p, { worktree_real: peerReal }));
   }
 
   const dirty = opts.dirty !== undefined ? opts.dirty : dirtyPaths(mine, opts);
@@ -1148,10 +1556,11 @@ function findCheckoutConflicts(wsDir, mySessionId, opts = {}) {
 
   const unknownReasons = [];
   if (!isComparableWorktree(mine)) unknownReasons.push('this checkout could not be resolved (git rev-parse failed)');
+  else if (!mineReal) unknownReasons.push('this checkout could not be resolved to a real path (realpath failed)');
   if (dirty === null) unknownReasons.push('git status could not be read for this checkout');
   if (unlocatable.length) {
     unknownReasons.push(
-      `${unlocatable.length} live session(s) cannot be placed (no worktree recorded, a relative path, or no host), `
+      `${unlocatable.length} live session(s) cannot be placed (no worktree recorded, a relative path, a path that cannot be resolved, or no host), `
       + 'so cohabitation cannot be ruled out: '
       + unlocatable.map((p) => p.id).join(', '),
     );
@@ -1191,6 +1600,7 @@ module.exports = {
   bootTimeMs,
   localHost,
   isLocalHost,
+  localNodeId,
   isPidAlive,
   readSessionPointer,
   readSessionDoc,
@@ -1198,11 +1608,21 @@ module.exports = {
   findByAgentSessionId,
   resolveSessionId,
   isSessionLive,
+  beatAfterClose,
+  harnessPid,
+  processHostsOneConversation,
+  isSupersededBy,
+  SUPERSEDE_GRACE_MS,
+  isSupersededClosure,
+  supersededHoldActive,
   listLiveSessions,
+  waitingNote,
   staleActiveSessions,
+  abandonTimeoutHours,
   registryHealth,
   minutesSinceHeartbeat,
   touchSession,
+  handRunPidRefusal,
   readClaim,
   readListField,
   listQueueIds,
@@ -1213,6 +1633,7 @@ module.exports = {
   listFileLocks,
   findFileLockConflicts,
   normalizeWorktree,
+  canonicalWorktree,
   currentWorktree,
   isComparableWorktree,
   isBookkeeping,

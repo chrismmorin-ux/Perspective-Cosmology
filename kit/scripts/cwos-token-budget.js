@@ -38,7 +38,13 @@
  * emission when blocking or acknowledging. Accepts --clock <iso> for tests.
  *
  * Usage:
- *   cwos-token-budget --check                                # /next, exit 0|1
+ * Exit codes for --check (WS-1115):
+ *   0 = measured, within budget    1 = measured, regression (blocks /next)
+ *   3 = NOT MEASURED — fewer valid readings than the window. Never blocks, but
+ *       is never a pass either: before WS-1115 this returned exit 0 + ok:true,
+ *       identical to a real pass, so "no data" read as green (run-035).
+ *
+ *   cwos-token-budget --check                                # /next, exit 0|1|3
  *   cwos-token-budget --check --tag /next                    # explicit tag scope
  *   cwos-token-budget --check --tag /engine/eng-engine       # per-engine scope
  *   cwos-token-budget --check --clock <iso>                  # for tests
@@ -71,6 +77,7 @@ const DEFAULT_TAG = '/next';
 const ENGINE_TAG_PREFIX = '/engine/';
 const ENGINE_TAG_RE = /^\/engine\/([A-Za-z0-9._:-]+)$/;
 const MIN_OVERRIDE_RATIONALE_LEN = 20;
+const EXIT_UNMEASURED = 3;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
@@ -176,6 +183,25 @@ function loadFromEngineCompleted({ engineId, tag, eventsDir, workstreamDir }) {
   return samples;
 }
 
+// A stamp with zero tool rounds saw only the command tag, never the command.
+// From 2026-08-02 to 2026-10-12 the sensor cut every scan to that one line and
+// stamped a constant 19 tokens (run-035). Those readings are not measurements:
+// left in the window, the first two real ones (~20k) read as a 1000x
+// "regression" and block /next. The reducer stores 0 as null, so test > 0.
+function sawTheCommand(sample) {
+  return typeof sample.tool_rounds_actual === 'number' && sample.tool_rounds_actual > 0;
+}
+
+// Readings before WS-560 bounded the scan (2026-08-02) ran to the end of the
+// transcript and billed the whole session tail to the command. They measure a
+// different quantity, so they never share a window with bounded readings:
+// [4393 tail-inclusive, 21000 bounded, 22000 bounded] is a definition change,
+// not a regression. Same cutover INV-cli-envelope-consumed-completely uses.
+const SENSOR_CUTOVER = '2026-08-02';
+function boundedReading(completedAt) {
+  return String(completedAt || '') >= SENSOR_CUTOVER;
+}
+
 function loadFromStateStore(tag) {
   if (!stateStoreMod) return [];
   try {
@@ -185,7 +211,8 @@ function loadFromStateStore(tag) {
     const items = all.filter((d) =>
       d && d.tag === tag &&
       typeof d.tokens_derived === 'number' && d.tokens_derived > 0 &&
-      d.completed_at
+      sawTheCommand(d) &&
+      d.completed_at && boundedReading(d.completed_at)
     );
     items.sort((a, b) => (a.completed_at || '').localeCompare(b.completed_at || ''));
     return items.map((d) => ({
@@ -227,7 +254,7 @@ function loadFromEventLog({ tag, eventsDir, workstreamDir }) {
   const merged = [];
   for (const [cid, c] of completedByCmdId.entries()) {
     const t = telemByCmdId.get(cid);
-    if (!t) continue;
+    if (!t || !sawTheCommand(t) || !boundedReading(c.completed_at)) continue;
     merged.push({
       command_id: cid, tag,
       completed_at: c.completed_at,
@@ -247,6 +274,14 @@ function loadFromEventLog({ tag, eventsDir, workstreamDir }) {
  *   { blocked: boolean, reason, samples_used, threshold_pct, ... }
  *
  * Pure: no I/O, no date calls, no events. Same input → same output.
+ *
+ * Comparability (WS-553): the rule is only meaningful when every sample in a
+ * tag's window measures the same unit of work. For /next that unit is the
+ * COMPOSE phase — cwos-stop-telemetry.js stops a /next scan at the first
+ * execution marker (approve, gate --pickup, first Agent/Edit/Write), so a
+ * /next that went on to ship a sprint no longer reads as a regression. The
+ * threshold and window are unchanged; see the decision comment at
+ * COMPOSE_SCOPED_TAGS in cwos-stop-telemetry.js for why (a) over (b)-(d).
  */
 function detectRegression(samples, { threshold_pct, window_size }) {
   const w = window_size || DEFAULT_WINDOW_SIZE;
@@ -335,9 +370,15 @@ function runCheck(args) {
   const samples = loadEnvelopeSamples({ tag, eventsDir, workstreamDir });
   const detection = detectRegression(samples, config);
 
+  // WS-1115: a check that saw too few readings has measured nothing. Say so in
+  // its own field and exit code instead of sharing the pass shape.
+  const measured = detection.reason !== 'insufficient_data';
   const result = Object.assign({
     ok: true,
     tag,
+    status: !measured ? 'unmeasured' : (detection.blocked ? 'blocked' : 'pass'),
+    measured,
+    window_size: config.window_size || DEFAULT_WINDOW_SIZE,
     blocked: detection.blocked,
     sample_count: detection.sample_count,
     last_3_tokens: detection.window_tokens || [],
@@ -374,7 +415,7 @@ function runCheck(args) {
   }
 
   writeJson(result);
-  process.exit(detection.blocked ? 1 : 0);
+  process.exit(detection.blocked ? 1 : (measured ? 0 : EXIT_UNMEASURED));
 }
 
 function emitEngineAlarmEvent({ detection, tag, engineId, samples, clock }) {
@@ -487,7 +528,8 @@ function main() {
   const args = process.argv.slice(2);
   const sub = args[0];
   if (!sub || sub === '--help' || sub === '-h') {
-    process.stdout.write('usage: cwos-token-budget --check [--tag <tag>] [--clock <iso>] [--no-emit] [--events-dir <p>] [--override-engine-token-budget <rationale>]\n');
+    process.stdout.write('usage: cwos-token-budget --check [--tag <tag>] [--clock <iso>] [--no-emit] [--events-dir <p>] [--override-engine-token-budget <rationale>]\n'
+      + 'exit: 0 within budget, 1 regression (blocks), 3 NOT MEASURED (too few readings; never blocks), 2 usage error\n');
     process.exit(sub ? 0 : 1);
   }
   try {

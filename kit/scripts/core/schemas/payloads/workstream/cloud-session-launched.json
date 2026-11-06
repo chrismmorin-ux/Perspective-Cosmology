@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cwos.local/schemas/payloads/workstream/cloud-session-launched.json",
+  "title": "workstream.cloud-session-launched",
+  "description": "T6:workstream event written by cwos-overflow-router plan --launch, one per `claude --cloud` session it starts while local compute is held (WS-1171). Written to HomeBase's event log; cwos-resource-board counts these, and the router reads them so an item in an unlanded batch is not offered twice.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["type", "batch", "repo", "item", "ok"],
+  "properties": {
+    "type":         { "type": "string", "const": "cloud-session-launched" },
+    "batch":        { "type": "string" },
+    "repo":         { "type": "string" },
+    "item":         { "type": "string" },
+    "lane":         { "type": "string" },
+    "model":        { "type": ["string", "null"] },
+    "account_lane": { "type": ["string", "null"] },
+    "branch":       { "type": "string" },
+    "ok":           { "type": "boolean" },
+    "session_id":   { "type": ["string", "null"] },
+    "url":          { "type": ["string", "null"] },
+    "error":        { "type": ["string", "null"] }
+  }
+}

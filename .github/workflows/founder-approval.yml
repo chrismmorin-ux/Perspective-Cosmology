@@ -1,0 +1,192 @@
+# founder-approval — the founder's `founder-approved` label merges a pull request by itself.
+#
+# Shipped by the CWOS kit (kit/templates/github/founder-approval.yml). The logic is in
+# .github/scripts/cwos-founder-approval.js (same kit template); its header is the contract.
+#
+# HOW IT IS SAFE TO RUN ON pull_request_target: GitHub runs MAIN's copy of this file with a
+# write token, never the PR's copy, and no job here checks out or executes the PR's tree — the
+# only checkout below is the base branch, for the script. The PR is data read through the API.
+#
+# WHAT ONE TAP DOES. He adds `founder-approved` in GitHub's app or website:
+#   1. the `labeled` run verifies the add was his own (issue events: his login, not an app) and
+#      records the approval as a commit status on that exact head SHA, pointing at this run, whose
+#      job is literally named "record-approval #<pr> <sha>" — the binding `decide` later checks;
+#   2. a new push (`synchronize`) removes the label: a new commit needs a new tap;
+#   3. a sweep merges every labelled PR that is approved for its current head AND mergeable now
+#      (CLEAN). Anything else waits, with the reason written on the PR. A sweep runs when something
+#      could have made a PR mergeable: right after his tap, when a CI run on a pull request
+#      finishes (`workflow_run`), and hourly as the backstop. It no longer runs on every PR event
+#      and every 15 minutes: GitHub bills each job as a whole minute, and ServeYourNote paid 346
+#      billed minutes in the week to 2026-10-31 (130 PR-event runs and 41 cron runs, two jobs
+#      each), nearly all of them finding nothing to merge.
+#   4. then the sweep BUILDS what the token merged: it dispatches the repo's CI on any base tip that
+#      has no CI run and was merged by this workflow (just now, or on an earlier run whose dispatch
+#      failed). GitHub starts no workflow for a push this token makes -- workflow_dispatch is the one
+#      exception -- so without this a one-tap merge was never built or deployed (ServeYourNote #432,
+#      2026-10-19). The CI workflow must declare `workflow_dispatch:`; if it does not, the sweep
+#      fails loudly, every run, rather than leave main unbuilt in silence.
+#      Which workflows: repository variable DISPATCH_AFTER_MERGE (comma-separated), default ci.yml.
+#   5. then two repairs on PRs he has NOT labelled, idle 6 h, in a repo whose Actions are up
+#      (`repair`; HomeBase docs/designs/pr-flow-end-to-end.md §4): BEHIND -> update the branch once a
+#      day and start DISPATCH_AFTER_MERGE on it; a required check that never started or timed out ->
+#      re-run once per commit, at most 3 per run. List EVERY PR check workflow in DISPATCH_AFTER_MERGE
+#      (each with workflow_dispatch:), or an updated branch waits for checks nobody starts.
+# A label added by a session, a cloud app or a workflow token is removed and never merges.
+name: founder-approval
+
+on:
+  pull_request_target:
+    # labeled: his tap. synchronize: a new commit takes the label off. Nothing else on a PR changes
+    # what may merge, so opened/reopened/unlabeled no longer start a run (each started two jobs).
+    types: [labeled, synchronize]
+  # A PR usually turns CLEAN when its checks finish. workflow_run runs MAIN's copy of this file on
+  # the default branch with a write token, exactly like pull_request_target: nothing from the PR
+  # is checked out or executed. `workflows:` takes workflow NAMES (the `name:` line), not files.
+  # ADOPTERS: list EVERY workflow that posts a check or status on a pull request, not just CI. A
+  # PR whose last check comes from an unlisted workflow merges only at the hourly sweep, and one
+  # dropped tick (GitHub does drop scheduled runs) can push it past the 2-hour approved-to-merged
+  # standard (HomeBase .claude/rules/pr-backlog-standard.md). A name the repo does not have never
+  # fires; it costs nothing.
+  # (check_suite cannot do this job: GitHub does not fire it for suites created by Actions.)
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  schedule:
+    - cron: '41 * * * *'   # the backstop: hourly, off the :00 rush
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  statuses: write
+  actions: read      # the sweep job alone is raised to write, for step 4
+
+# No workflow-level concurrency. It used to serialise whole runs, and GitHub keeps only ONE
+# pending run per group: a queued `labeled` run (his tap, and the job that records it) could be
+# replaced by any later event's run and silently never record. Only the sweep, which merges, is
+# serialised now (job-level, below), and a replaced pending sweep loses nothing: the newer sweep
+# reads the same state and does the same work.
+
+env:
+  # His GitHub login. repository_owner is wrong for org-owned repos (ServeYourNote), so it is fixed
+  # here; a repo may override it with a repository variable FOUNDER_LOGIN.
+  FOUNDER: ${{ vars.FOUNDER_LOGIN || 'chrismmorin-ux' }}
+  WORKFLOW_PATH: .github/workflows/founder-approval.yml
+  DISPATCH_AFTER_MERGE: ${{ vars.DISPATCH_AFTER_MERGE || 'ci.yml' }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  # His tap. The job NAME is the record's binding: decide() requires a successful job named exactly
+  # "record-approval #<pr> <sha>" inside the run the commit status points at. A workflow on a PR
+  # branch can post a status, but it cannot put a job into main's run.
+  approve:
+    # Attempt 1 only (WS-1372). A re-run of this run must neither write a record nor post a FAILED
+    # check: the old step-level `exit 1` put a failed "record-approval" check on the PR head, GitHub
+    # called the PR UNSTABLE, and every sweep waited until he tapped again (PR 175, 2026-11-05: a
+    # session re-ran a successful run). A skipped job is neutral to mergeability, keeps its
+    # unexpanded name and is never `success`, so decide() still binds only to attempt 1's job.
+    if: >-
+      github.event_name == 'pull_request_target' && github.event.action == 'labeled' &&
+      github.event.label.name == 'founder-approved' && github.run_attempt == 1
+    # Quoted: an unquoted " #" starts a YAML comment and cut this name to "record-approval" on the
+    # first live falsifier (ai-personal PR #55, 2026-10-19 12:51 CT); decide then refused its own record.
+    name: "record-approval #${{ github.event.pull_request.number }} ${{ github.event.pull_request.head.sha }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4   # the BASE branch (main's copy of the script), never the PR head
+      - name: Verify the add was his own, else remove the label
+        env:
+          SENDER: ${{ github.event.sender.login }}
+        run: |
+          # Belt to the job-level attempt guard above: never record from a re-run.
+          if [ "${GITHUB_RUN_ATTEMPT:-1}" != "1" ]; then
+            echo "re-run of an old event: no record is written"; exit 1
+          fi
+          node .github/scripts/cwos-founder-approval.js verify-label \
+            --repo "${{ github.repository }}" --pr "${{ github.event.pull_request.number }}" \
+            --founder "$FOUNDER" --sender "$SENDER"
+      - name: Record the approved commit
+        run: |
+          node .github/scripts/cwos-founder-approval.js record \
+            --repo "${{ github.repository }}" --pr "${{ github.event.pull_request.number }}" \
+            --sha "${{ github.event.pull_request.head.sha }}" --founder "$FOUNDER" \
+            --run-id "${{ github.run_id }}" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  # A new commit is not what he approved.
+  # Only a labelled PR has anything to remove: every other push to a PR started a billed job that
+  # printed "no label to remove". The payload's labels are the PR's labels at the push.
+  synchronize:
+    if: >-
+      github.event_name == 'pull_request_target' && github.event.action == 'synchronize' &&
+      contains(github.event.pull_request.labels.*.name, 'founder-approved')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove the label after a new push
+        run: |
+          node .github/scripts/cwos-founder-approval.js unapprove \
+            --repo "${{ github.repository }}" --pr "${{ github.event.pull_request.number }}" \
+            --why "a new commit (${{ github.event.after }}) arrived after the founder's approval"
+
+  # The merge. Runs after his tap, after a pull request's CI run succeeds, hourly, and by hand. Not
+  # after a synchronize (the new head is unapproved; the push merges nothing) and not after a CI
+  # run on a push or a dispatch (no PR became mergeable; the post-merge build is one of those).
+  # Not after a Dependabot PR's CI either: GitHub gives a run chained from a Dependabot-triggered
+  # run a READ-ONLY token whatever `permissions:` says, so every write would 403 and the run go red
+  # (ServeYourNote deps-patch-automerge.yml found this first, 2026-10-27). Those wait for the
+  # hourly sweep, which runs with the declared permissions.
+  sweep:
+    needs: [approve, synchronize]
+    # A job-level block replaces the workflow's, so every grant the sweep uses is restated here.
+    # actions: write is the one addition: `gh workflow run` (step 4) cannot start a run with read.
+    # checks: read is for the repair step (it reads which required checks never started or timed out).
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      statuses: write
+      actions: write
+      checks: read
+    if: >-
+      always() && (
+        github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'pull_request_target' && github.event.action == 'labeled' &&
+         github.event.label.name == 'founder-approved') ||
+        (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+         (github.event.workflow_run.event == 'pull_request' || github.event.workflow_run.event == 'pull_request_target') &&
+         github.event.workflow_run.actor.login != 'dependabot[bot]' &&
+         github.event.workflow_run.triggering_actor.login != 'dependabot[bot]')
+      )
+    concurrency:
+      group: founder-approval-sweep-${{ github.repository }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4   # the default branch: on workflow_run as on pull_request_target
+      # The label must exist before he can tap it. Only the workflow token creates it: a session's
+      # attempt is refused by the founder-label-guard hook, by design. A step, not a job of its own:
+      # every job bills at least a minute, and this is one API call.
+      - name: Ensure the label exists
+        run: |
+          gh label create founder-approved -R "${{ github.repository }}" --color 0E8A16 \
+            --description "The founder approves this PR at its current commit; a new push removes it" >/dev/null 2>&1 || true
+      - name: Merge every PR the founder approved at its current commit and GitHub calls CLEAN, then build it
+        run: |
+          node .github/scripts/cwos-founder-approval.js sweep \
+            --repo "${{ github.repository }}" --founder "$FOUNDER" --workflow-path "$WORKFLOW_PATH" \
+            --dispatch-after-merge "$DISPATCH_AFTER_MERGE" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+      # The two mechanical repairs (HomeBase docs/designs/pr-flow-end-to-end.md §4), on PRs NOT in
+      # the founder's queue, idle 6 h, in a repo whose Actions are up: BEHIND -> update the branch
+      # once a day (then start DISPATCH_AFTER_MERGE on it, since this token's push starts nothing);
+      # a required check that never started or timed out -> re-run once per commit, 3 per run.
+      # Runs even when the merge step went red; a repair problem is a printed line, never a red run.
+      - name: Repair idle PRs that are BEHIND or whose checks never ran
+        if: ${{ !cancelled() }}
+        run: |
+          node .github/scripts/cwos-founder-approval.js repair \
+            --repo "${{ github.repository }}" --dispatch "$DISPATCH_AFTER_MERGE" \
+            --run-id "${{ github.run_id }}" --workflow-path "$WORKFLOW_PATH" \
+            | tee -a "$GITHUB_STEP_SUMMARY"

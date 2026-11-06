@@ -11,7 +11,7 @@ archetypes: [saas, frontend, data-platform, dev-tool, research, api-service]
 install_conditions: governance capability enabled AND prog-design registered
 programs: [design]
 personas_required:
-  - product-ux-engineer          # end-user surface
+  - product-ux          # end-user surface
   - operator-experience-designer # operator surface
   - developer-experience-designer # builder surface
   - ai-interaction-designer      # AI-conversation surface

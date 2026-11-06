@@ -66,7 +66,9 @@ catch { /* asn-report unavailable — pulse renders without AS-N sub-block */ }
 // ─── Shared helpers ────────────────────────────────────────────────────────
 
 const VALID_TIERS = new Set(['dormant', 'watch', 'active', 'critical']);
-const VALID_PROTOCOLS = new Set(['baseline', 'sweep', 'delta', 'challenge', 'blind_spot']);
+// `reinspect` (WS-941 gap 4): re-run a seeded sample of closed items' accept
+// criteria with a fresh inspector, so the overclaim rate is measured.
+const VALID_PROTOCOLS = new Set(['baseline', 'sweep', 'delta', 'challenge', 'blind_spot', 'reinspect']);
 const TIER_ORDER = { critical: 0, active: 1, watch: 2, dormant: 3 };
 // Severity ladder for de-escalation detection (WS-352). Distinct from
 // TIER_ORDER above, which is a display-sort order (critical-first). Here a

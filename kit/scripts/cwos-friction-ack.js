@@ -68,6 +68,14 @@ function main() {
     if (kind !== 'friction_resolved' && kind !== 'friction_declined') continue;
     acks.push({
       kind,
+      // WS-1062: an age archive travels under the declined tag (older kits know
+      // only two types) and names itself here.
+      archived: p.disposition === 'archived',
+      // A merge also rides the declined tag: still real, tracked under ws_id.
+      merged: p.disposition === 'merged',
+      // One event can answer many reports — an archive answers a repo's whole
+      // backlog in one. Count the reports, not the events.
+      reports: Array.isArray(p.source_hashes) && p.source_hashes.length > 0 ? p.source_hashes.length : 1,
       components: Array.isArray(p.components) ? p.components : [],
       ws_id: p.ws_id || null,
       detail: p.detail || null,
@@ -82,12 +90,19 @@ function main() {
   if (acks.length === 0) return 0;
 
   const parts = acks.slice(0, 4).map(a => {
+    if (a.archived) {
+      // Not a verdict on any one report, so no component is named; the reason
+      // is the whole message and is not cut short.
+      return `${a.reports} archived by age${a.detail ? ` (${String(a.detail).slice(0, 160)})` : ''}`;
+    }
     const comp = a.components[0] || a.ws_id || 'friction';
+    if (a.merged) return `${comp}: tracked${a.ws_id ? ` under ${a.ws_id}` : ''}`;
     return a.kind === 'friction_resolved'
       ? `${comp}: fixed${a.ws_id ? ` by ${a.ws_id}` : ''}`
       : `${comp}: declined${a.detail ? ` (${String(a.detail).slice(0, 60)})` : ''}`;
   });
-  process.stdout.write(`Fleet answered ${acks.length} of this repo's friction report(s): ${parts.join('; ')}${acks.length > 4 ? '; …' : ''}\n`);
+  const reports = acks.reduce((n, a) => n + a.reports, 0);
+  process.stdout.write(`Fleet answered ${reports} of this repo's friction report(s): ${parts.join('; ')}${acks.length > 4 ? '; …' : ''}\n`);
   return 1;
 }
 

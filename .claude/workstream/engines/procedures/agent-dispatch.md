@@ -75,7 +75,7 @@ If `persona_overrides` is missing or empty, dispatch all agents as normal.
 For each remaining agent:
 
 1. Record `started_at` before dispatch
-2. Launch the agent in parallel using the Agent tool. Each agent's persona is in `.claude/agents/`. Pass the agent's prompt template from the domain engine, including the focus area. **Pass `model:` resolved for the `expert` role** per the binding Resolution rule above (default sonnet, floor haiku).
+2. Launch the agent in parallel using the Agent tool. Each agent's persona is in `.claude/agents/`. Pass the agent's prompt template from the domain engine, including the focus area. **Pass `model:` resolved for the `expert` role** per the binding Resolution rule above (default sonnet, floor haiku). Append to every expert prompt: "Rate severity with the domain engine's `## Severity Map`. Fleet-wide floor: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10)."
 3. **Artifact path on re-fires (WS-311 AC e).** The default Phase-1 artifact path is `<run_workspace>/phase-1/<agent-name>.yaml`. If the agent is being **re-fired** (e.g., the original dispatch returned empty / wrong subagent_type and a replacement is being run), do NOT overwrite the original artifact. Compute the next free generation suffix and write to `<run_workspace>/phase-1/<agent-name>.r<n>.yaml` (where `n` is the lowest integer ≥ 1 such that the path does not yet exist). Run-017 demonstrated the failure live: a `general-purpose` re-fire silently overwrote the native `security-engineer.md` from four minutes earlier. The suffix preserves both. The same convention applies to any companion `.md` exported via `--artifact-path`.
 4. When the agent returns, write to the resolved path (per step 3) using the artifact schema:
    ```yaml
@@ -138,7 +138,7 @@ Launch the **cross-critic** agent (from `.claude/agents/cross-critic.md`), **pas
 2. For each file with `status: complete`: read the `output.raw_text` field
 3. For each file with `status: failed`: note the skipped agent
 
-Check the domain engine for a `## Cross-Critique` section. If present, use those instructions. If absent, use this default:
+Check the domain engine for a `## Cross-Critique` section. If present, use those instructions. If absent, use this default. Either way, append to the cross-critic prompt: "Recalibrate severity UP to the fleet-wide floor: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10)."
 
 > You are the Cross-Critic. You have received independent analyses from the expert agents listed below. Your job is to find:
 > 1. What each expert got WRONG
@@ -146,7 +146,7 @@ Check the domain engine for a `## Cross-Critique` section. If present, use those
 > 3. Where their assumptions break at scale or in production
 > 4. Where experts contradict each other
 > 5. Shared blind spots (things ALL experts missed)
-> 6. Severity recalibrations (issues rated differently by different experts)
+> 6. Severity recalibrations (issues rated differently by different experts). Fleet-wide floor, recalibrate UP to it: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10).
 >
 > Be ruthless. The value is in the spaces BETWEEN their analyses.
 
@@ -186,6 +186,8 @@ Pass all artifact contents labeled by phase and agent name, along with the synth
 > - Milestone alignment (+15): Is this appropriate for the current milestone? (Current milestone: [from Phase 0 context])
 > - Dependency (+15): Does fixing this unblock other work?
 >
+> Severity floor: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10). A floor, not a cap.
+>
 > Findings premature for the current milestone are NOT suppressed — score them normally but give reduced milestone alignment points. Add `milestone_context` noting when they become relevant.
 >
 > For each finding, include a `recommended_action`: the single best thing to do about it (fix now, defer to M[N], run another engine, establish a program).
@@ -223,7 +225,7 @@ Read the facilitator's output from `<run_workspace>/phase-3/facilitator.yaml`:
 
 ### 4a. Create Findings (No-Loss)
 For EVERY finding in the facilitator's structured output (not just top-tier), create a FND-NNN.yaml in `.claude/workstream/findings/`:
-- Assign severity using the domain engine's `## Severity Map`
+- Assign severity using the domain engine's `## Severity Map`. Fleet-wide floor, above any domain Severity Map: silently lost or wrong data, including small money amounts, is at least HIGH (founder ruling 2026-10-10; see eng-engine.md `## Severity Map`). When the floor is the reason a finding is HIGH, write `severity_escalated_from: <the level it would have had without the floor>` so the REC-001 validator does not bump it again.
 - Generate dedup_key from the finding's essence
 - Check dedup window (config.yaml dedup_window_days) — if duplicate, set `disposition: duplicate_of: FND-NNN` and link
 - Record the `disposition` field from the facilitator (work_item_now | deferred | duplicate_of | invalidated_by_cross_critique | already_known)

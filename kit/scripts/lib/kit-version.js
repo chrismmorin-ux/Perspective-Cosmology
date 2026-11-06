@@ -160,6 +160,116 @@ function baselineTag(version) {
   return `kit-v${version}`;
 }
 
+// ─── Mandatory releases (WS-943) ────────────────────────────────────────────
+//
+// Every kit release was optional: nothing could mark a security fix as
+// must-install-by-a-date. A release is now made mandatory by ONE line in its
+// own kit/CHANGELOG.md entry, directly under the header:
+//
+//   ## 3.44.0 - 2026-11-02
+//   > **Mandatory by:** 2026-11-16 — closes the push-credential leak (WS-NNN)
+//
+// The changelog is the single source. A sibling YAML would be a second place to
+// keep in step with the entry a human actually reads, and this file already
+// holds the one version comparator. The changelog does not ship to adopted
+// repos; readers reach it through the same HomeBase root kit-health already
+// resolves to read kit/VERSION.
+//
+// A mandate REPORTS. Nothing here blocks: when to upgrade is the repo's own
+// decision (DEC-054 / DEC-145), and what the hub owes the repo is that the
+// deadline is impossible to miss.
+
+// Both header styles are live in the file: "## 3.42.0 - 2026-09-28" and the
+// older "## 3.22.0 — 2026-08-26".
+const RELEASE_HEADER_RE = /^##\s+v?(\d+\.\d+(?:\.\d+)?)\b/;
+// "Is this line TRYING to declare a mandate?" — deliberately much looser than
+// the one accepted form below. Any line that, after list / blockquote / emphasis
+// markers, begins with the words "Mandatory by" is an attempt: `- **Mandatory
+// by:** …`, `> Mandatory by: …`, `> __Mandatory by:__ …`, `> **Mandatory by:
+// 2026-10-20** …`. The first version of this pattern required the exact bold
+// form, so every one of those was dropped without a word while the changelog's
+// own header promised that a line which does not parse is reported.
+// The separator is loose too — `mandatory_by:` (the edge worksheet's own field
+// name) and `Mandatory-by` are the same attempt. What this cannot catch is a
+// different phrase altogether ("Must install by"); the how-to at the top of the
+// changelog names the one accepted form, and that is the limit of a detector.
+const MANDATORY_ANY_RE = /^[>\-*_+\s]*mandatory[\s_-]*by\b/i;
+const MANDATORY_RE = /^>\s*\*\*Mandatory by:\*\*\s*(\d{4}-\d{2}-\d{2})\s*(?:[—–-]+\s*(.+?))?\s*$/;
+
+function isRealDate(ymd) {
+  const t = Date.parse(`${ymd}T00:00:00Z`);
+  return Number.isFinite(t) && new Date(t).toISOString().slice(0, 10) === ymd;
+}
+
+/**
+ * Parse changelog text into its mandatory releases.
+ *
+ * `malformed` is the half that matters most: a line that is plainly TRYING to
+ * declare a mandate (it starts "**Mandatory by") but does not parse — a bad
+ * date, a missing reason, no blockquote marker — is returned there, never
+ * dropped. A deadline that silently fails to register is worse than none,
+ * because its author believes it is in force.
+ */
+function parseMandatoryReleases(text) {
+  const releases = [], malformed = [];
+  let current = null;
+  for (const raw of String(text || '').split(/\r?\n/)) {
+    const line = raw.trim();
+    const h = line.match(RELEASE_HEADER_RE);
+    if (h) { current = h[1]; continue; }
+    if (/^##\s/.test(line)) { current = null; continue; }   // "## Unreleased" and the like
+    if (!MANDATORY_ANY_RE.test(line)) continue;
+    const m = line.match(MANDATORY_RE);
+    if (!current) { malformed.push({ version: null, line, why: 'not inside a numbered release entry' }); continue; }
+    if (!m) { malformed.push({ version: current, line, why: 'expected: > **Mandatory by:** YYYY-MM-DD — reason' }); continue; }
+    if (!isRealDate(m[1])) { malformed.push({ version: current, line, why: `${m[1]} is not a calendar date` }); continue; }
+    if (!m[2]) { malformed.push({ version: current, line, why: 'a mandate needs its reason on the same line' }); continue; }
+    if (releases.some(r => r.version === current)) { malformed.push({ version: current, line, why: 'second mandate line in one release entry' }); continue; }
+    releases.push({ version: current, mandatory_by: m[1], reason: m[2] });
+  }
+  return { releases, malformed };
+}
+
+/** Read and parse <homebase>/kit/CHANGELOG.md. `ok:false` = could not look. */
+function readMandatoryReleases(homebaseRoot) {
+  const p = path.join(homebaseRoot, 'kit', 'CHANGELOG.md');
+  let text;
+  try { text = fs.readFileSync(p, 'utf8'); }
+  catch (e) { return { ok: false, error: `kit/CHANGELOG.md unreadable: ${e.code || e.message}`, releases: [], malformed: [] }; }
+  return { ok: true, error: null, ...parseMandatoryReleases(text) };
+}
+
+/**
+ * The mandate an installed version is under, or null when it is under none.
+ *
+ * A release binds every installed version below it. When several bind, the one
+ * reported is the one whose deadline comes first — that is the date the repo
+ * has to act by — and `required_version` is the highest binding release, since
+ * installing that one clears them all. Overdue from the day AFTER mandatory_by:
+ * the date named is the last day in compliance.
+ *
+ * null for an unparseable installed version, matching lagSeverity: an unknown
+ * lag is not a lag, and INV-065 is what catches the unknown.
+ */
+function mandateFor(installed, releases, now) {
+  if (!parseSemver(installed)) return null;
+  const binding = (releases || []).filter(r => parseSemver(r.version) && compareSemver(installed, r.version) < 0);
+  if (binding.length === 0) return null;
+  binding.sort((a, b) => a.mandatory_by.localeCompare(b.mandatory_by) || compareSemver(a.version, b.version));
+  const first = binding[0];
+  const today = new Date(typeof now === 'number' ? now : Date.now()).toISOString().slice(0, 10);
+  const daysLeft = Math.round((Date.parse(`${first.mandatory_by}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86400000);
+  return {
+    version: first.version,
+    mandatory_by: first.mandatory_by,
+    reason: first.reason,
+    required_version: binding.map(r => r.version).sort(compareSemver).pop(),
+    overdue: daysLeft < 0,
+    days_left: daysLeft,
+    binding: binding.length,
+  };
+}
+
 module.exports = {
   readVersionStamp,
   resolveInstalledVersion,
@@ -168,5 +278,8 @@ module.exports = {
   compareSemver,
   lagSeverity,
   baselineTag,
+  parseMandatoryReleases,
+  readMandatoryReleases,
+  mandateFor,
   VERSION_FIELDS,
 };

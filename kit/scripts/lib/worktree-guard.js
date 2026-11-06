@@ -14,7 +14,9 @@
  * state, for two reasons:
  *
  *   1. `.claude/workstream/` is TRACKED — queue/, sprints/, sessions/,
- *      findings/, programs/, every *-index.yaml. A worktree gets its own
+ *      findings/, programs/, every *-index.yaml (liveness/, the hook stamps
+ *      and lock/tmp leftovers are the node-local exception — WS-884, see
+ *      lib/derived-state.js). A worktree gets its own
  *      forked copy. allocateNextWsId() scans the LOCAL queue dir, so two
  *      worktrees hand out the same WS-id — the SPR-018 re-issue failure that
  *      let reconcile force-complete a brand-new item.

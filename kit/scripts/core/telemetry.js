@@ -389,6 +389,13 @@ function deriveTokensForSession(opts = {}) {
 
   const lines = raw.split('\n');
   let total = 0;
+  // One reply is written as several lines (one per content block), each
+  // repeating the usage object. Count each message.id once: summing every
+  // line over-counted ~2.3x (WS-1099, measured 2026-10-11). Keep the field-wise
+  // MAX of its lines, not the first: output_tokens grows line by line while a
+  // reply streams, and the first line undercounted subagent output ~6x (WS-1169).
+  const { mergeUsageMax, usageTotal } = require('../lib/transcript-usage');
+  const byId = new Map();
   const upper = Math.min(endMark, lines.length);
   for (let i = startMark; i < upper; i++) {
     const line = lines[i];
@@ -396,12 +403,13 @@ function deriveTokensForSession(opts = {}) {
     try {
       const obj = JSON.parse(line);
       const u = obj && obj.message && obj.message.usage;
-      if (u) {
-        total += (u.input_tokens || 0) + (u.output_tokens || 0)
-             + (u.cache_creation_input_tokens || 0) + (u.cache_read_input_tokens || 0);
-      }
+      if (!u) continue;
+      const id = obj.message.id;
+      if (!id) { total += usageTotal(u); continue; }
+      byId.set(id, mergeUsageMax(byId.get(id), u));
     } catch { /* skip malformed lines */ }
   }
+  for (const u of byId.values()) total += usageTotal(u);
   return { tokens: total, source: 'transcript', range: [startMark, Math.min(endMark, lines.length)] };
 }
 

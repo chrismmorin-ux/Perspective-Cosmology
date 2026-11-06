@@ -33,6 +33,74 @@ const LOCK_RETRY_MS = 25;
 
 const SOURCE_TIERS = new Set(['founder-prompt', 'llm-emission', 'reducer-output', 'external-paste']);
 
+/**
+ * SOURCE_TRACKS — closed, like SOURCE_TIERS above (Claude-Poker-Tracker WS-1129).
+ *
+ * `buildEvent` defaults `source_track` to 'T0:unknown' when a caller declares
+ * none, and 'T0:unknown' resolved to NO schema lookup, so an event on it skipped
+ * payload validation entirely. A default that silently disables the check is
+ * not wrong, not loud, and it composes.
+ *
+ * Found 2026-09-18 when an audit appended `{payload:{type:'___invalid_probe___'}}`
+ * expecting a rejection and got an accepted event, which now sits permanently in a
+ * tracked hash-chained log with events chained onto it.
+ *
+ * MEMBERSHIP IS MEASURED, from three sources, because one was not
+ * enough. The first cut (2026-09-18) was every distinct source_track in one
+ * repo's event log. That missed every track whose emitter had simply not run
+ * there yet — T8:audit, T9:evolution, T1:capture, T6:workstream-stage,
+ * T6:reconcile-counters and others are written by kit scripts, and an emitter
+ * routed through makeEventEmitter / reconcile's emitEvent SWALLOWS the refusal
+ * (AS-23), so a closed set missing a real track does not fail loudly: it drops
+ * that track's events in silence. The list below is therefore the union of
+ *   (a) every literal track passed by a non-test kit script, command or skill
+ *       (grep of kit/scripts, kit commands, fleet commands; 2026-10-16), and
+ *   (b) every track present in the HomeBase and Claude-Poker-Tracker event logs,
+ *       minus the one 'T0:unknown' probe, and
+ *   (c) every track the canonical taxonomy in HomeBase ADR-020 declares (adds
+ *       T2:complete, T7:record-invariant, T9:record-failure — emitted by the
+ *       core/attribution-test and core/migration-test harnesses).
+ * 'T0:unknown' is deliberately absent: it is the default, never a declaration.
+ * 'workstream' (no T-prefix) is present because cwos-id-collision.js emits it;
+ * it is a naming defect in that emitter, not a model to copy.
+ *
+ * ADDING A TRACK IS INTENTIONAL: add it here. A vocabulary that grows by accident
+ * is not a vocabulary. A new emitter whose track is not listed will have every
+ * event refused — and, through the swallowing emitters, refused quietly.
+ */
+const SOURCE_TRACKS = new Set([
+  'T0:envelope',
+  'T1:capture',
+  'T1:workstream',
+  'T2:complete',
+  'T3:record-decision',
+  'T6:workstream',
+  'T6:workstream-rebalance',
+  'T6:workstream-stage',
+  'T6:workstream-archetype',
+  'T6:reconcile-index',
+  'T6:reconcile-findings',
+  'T6:reconcile-queue',
+  'T6:reconcile-counters',
+  'T6:program-integrity',
+  'T7:engines',
+  'T7:record-invariant',
+  'T8:audit',
+  'T9:evolution',
+  'T9:record-failure',
+  'T10:compose-sprint',
+  'T10:axiom-intake',
+  'T10:fleet',
+  'T11:vital-signs',
+  'T12:program-management',
+  'T14:session-start',
+  'T15:session-end',
+  'T15:plan-scan',
+  'T20:capture-buffer',
+  'T_meta:correction',
+  'workstream',
+]);
+
 // ─── Paths ─────────────────────────────────────────────────────────────────
 
 function eventsDir(workstreamDir) {
@@ -109,6 +177,15 @@ function validate(ev) {
   if ('id' in ev && (typeof ev.id !== 'string' || ev.id.length === 0 || ev.id.length > 128)) {
     errors.push('id must be a non-empty string ≤128 chars');
   }
+  if ('source_track' in ev && !SOURCE_TRACKS.has(ev.source_track)) {
+    errors.push(
+      ev.source_track === 'T0:unknown'
+        ? 'source_track is "T0:unknown", which is buildEvent\'s default for an event that '
+          + 'declared no track. Declare the track — the default skipped payload validation.'
+        : `source_track "${ev.source_track}" is not a known track. Add it to SOURCE_TRACKS in `
+          + 'core/events.js if it is real; a vocabulary that grows by accident is not a vocabulary.'
+    );
+  }
   if ('source_tier' in ev && !SOURCE_TIERS.has(ev.source_tier)) {
     errors.push(`source_tier must be one of ${Array.from(SOURCE_TIERS).join('|')}`);
   }
@@ -138,7 +215,13 @@ function validate(ev) {
   // strict-by-type since its three types are stable.
   if (ev && ev.payload && typeof ev.payload === 'object') {
     const schemaInfo = _resolveSchemaLookup(ev);
-    if (schemaInfo) {
+    // A stub is validated as a stub: its fields live in the blob and were
+    // validated against the schema BEFORE the spill (appendEvent). Only the
+    // type lookup applies to it, so a T0/T7 stub still needs its type.
+    const stub = isSpillStub(ev.payload);
+    if (schemaInfo && stub) {
+      if (schemaInfo.missingType) errors.push(schemaInfo.missingType);
+    } else if (schemaInfo) {
       if (schemaInfo.missingType) {
         errors.push(schemaInfo.missingType);
       } else if (!fs.existsSync(schemaInfo.path)) {
@@ -307,11 +390,20 @@ function maybeSpillLargePayload(payload, workstreamDir) {
   if (!fs.existsSync(blobFile)) {
     writeFileAtomic(blobFile, serialized);
   }
-  return {
-    payload: { payload_ref: `blobs/${sha}.json`, payload_hash: sha },
-    spilled: true,
-    blobFile,
-  };
+  // The stub keeps `type`. T0/T7 resolve their schema BY payload.type, and every
+  // type-filtered reader matches on it; a stub without it was rejected at write
+  // ("payload must carry string `type`") and invisible to every typeFilter.
+  // Measured 2026-10-01: an engine_intent_recorded over 2 KB (long
+  // success_shape + readiness override) was refused while cwos-frame confirm
+  // printed ok:true — every verbose engine contract had been silently dropped.
+  const stub = { payload_ref: `blobs/${sha}.json`, payload_hash: sha };
+  if (typeof payload.type === 'string' && payload.type) stub.type = payload.type;
+  return { payload: stub, spilled: true, blobFile };
+}
+
+/** A spilled-payload stub: payload_ref + payload_hash (+ the carried type). */
+function isSpillStub(payload) {
+  return !!(payload && typeof payload === 'object' && typeof payload.payload_ref === 'string' && payload.payload_hash);
 }
 
 // ─── Reader ────────────────────────────────────────────────────────────────
@@ -458,14 +550,28 @@ function readFilteredEvents(dir, opts = {}) {
       const evs = readChunk(files[i]).events.filter(matches);
       for (let j = evs.length - 1; j >= 0 && out.length < limit; j--) out.unshift(evs[j]);
     }
-    return out;
+    return out.map((ev) => _hydrateSpilled(dir, ev));
   }
 
   const out = [];
   for (const f of files) {
-    for (const ev of readChunk(f).events) if (matches(ev)) out.push(ev);
+    for (const ev of readChunk(f).events) if (matches(ev)) out.push(_hydrateSpilled(dir, ev));
   }
   return out;
+}
+
+// The one place a reader gets a spilled payload back. Without it every caller
+// had to remember resolveEventPayload (WS-578) and most read `undefined` — an
+// engine contract's engine/target vanished exactly when it was verbose. Returns
+// a copy; the stored event (and its content_hash) is untouched. A blob that
+// cannot be read leaves the stub, which still carries the type.
+function _hydrateSpilled(eventsDirPath, ev) {
+  if (!ev || !isSpillStub(ev.payload)) return ev;
+  try {
+    const inner = JSON.parse(fs.readFileSync(path.join(eventsDirPath, ev.payload.payload_ref), 'utf8'));
+    if (inner && typeof inner === 'object' && !Array.isArray(inner)) return { ...ev, payload: inner };
+  } catch { /* blob missing or unreadable: keep the stub */ }
+  return ev;
 }
 
 function readAllChunks(workstreamDir) {
@@ -527,6 +633,96 @@ function chainHead(workstreamDir) {
   return ZERO_HASH;
 }
 
+/**
+ * WS-1141: give the events only current.jsonl holds a dated chunk of their own
+ * before an append overwrites it.
+ *
+ * current.jsonl is a mirror, but in a repo that commits it while its dated chunk
+ * stays behind (a fresh clone, a cloud checkout) it is the ONLY copy of those
+ * events. appendEvent then replaced it with a copy of today's one-event chunk,
+ * and chainHead — which reads dated chunks only — linked the new event to an
+ * older tail. Measured 2026-10-13 in ServeYourNote: 19 committed events gone
+ * and the chain forked onto 2026-09-26, by the first event a kit upgrade wrote.
+ *
+ * Cheap in the normal case: the newest chunk holds the mirror's last event and
+ * the scan stops there. Never destroys anything, and only ever writes at the
+ * END of the log: it extends the newest chunk or adds a chunk dated after it.
+ * Anything else — a mirror that disagrees with a chunk, one that would land
+ * mid-log, one that extends a chunk a later chunk already continues — would
+ * leave fsck a chain break, so it is kept as current.jsonl.unsalvaged-<ts>.
+ * Returns { salvaged: <path|null>, kept_aside: <path|null> }. Caller holds the lock.
+ */
+function salvageCurrentMirror(workstreamDir) {
+  const result = { salvaged: null, kept_aside: null };
+  const cur = currentPointer(workstreamDir);
+  if (!fs.existsSync(cur)) return result;
+  const lines = fs.readFileSync(cur, 'utf8').split('\n').filter((l) => l.trim() !== '');
+  const mirror = [];
+  for (const line of lines) {
+    try { mirror.push({ line, ev: JSON.parse(line) }); } catch { /* torn line: not salvageable */ }
+  }
+  if (mirror.length === 0) return result;
+  const firstHash = mirror[0].ev.content_hash;
+  const tailHash = mirror[mirror.length - 1].ev.content_hash;
+
+  const chunks = listChunks(workstreamDir);
+  const newest = chunks.length ? chunks[chunks.length - 1] : null;
+  for (let i = chunks.length - 1; i >= 0; i--) {
+    const { events } = readChunk(chunks[i]);
+    if (events.some((e) => e.content_hash === tailHash)) return result;   // already in the log
+    if (events.length && events[0].content_hash === firstHash) {
+      // Same chunk, and the mirror ran further than the copy on disk. Only the
+      // newest chunk may grow: a later chunk already continues an older one.
+      const prefix = chunks[i] === newest && events.length <= mirror.length
+        && events.every((e, k) => e.content_hash === mirror[k].ev.content_hash);
+      if (prefix) {
+        const rest = mirror.slice(events.length).map((m) => m.line + '\n').join('');
+        const raw = fs.readFileSync(chunks[i], 'utf8');
+        fs.appendFileSync(chunks[i], (raw === '' || raw.endsWith('\n') ? '' : '\n') + rest, 'utf8');
+        result.salvaged = chunks[i];
+        return result;
+      }
+      break;   // divergent: keep it aside below
+    }
+  }
+
+  const ts = mirror[0].ev.timestamp ? new Date(mirror[0].ev.timestamp) : null;
+  const target = ts && !isNaN(ts) ? chunkFileForDate(workstreamDir, ts) : null;
+  const targetName = target && path.basename(target);
+  const taken = !target || fs.existsSync(target)
+    || fs.existsSync(path.join(eventsArchiveDir(workstreamDir), targetName))
+    || (newest && targetName <= path.basename(newest));   // would land mid-log
+  if (!taken) {
+    writeFileAtomic(target, mirror.map((m) => m.line + '\n').join(''));
+    result.salvaged = target;
+    return result;
+  }
+  const aside = `${cur}.unsalvaged-${Date.now()}`;
+  fs.copyFileSync(cur, aside);
+  result.kept_aside = aside;
+  process.stderr.write(`[events] current.jsonl holds ${mirror.length} event(s) no dated chunk agrees with; kept as ${path.basename(aside)} before the append overwrites it (WS-1141)\n`);
+  return result;
+}
+
+// WS-1336: true when the file is absent, empty, or ends in "\n". Reads one
+// byte, so the append path stays O(1) in log size.
+function endsWithNewline(file) {
+  let fd;
+  try {
+    fd = fs.openSync(file, 'r');
+    const { size } = fs.fstatSync(fd);
+    if (size === 0) return true;
+    const b = Buffer.alloc(1);
+    fs.readSync(fd, b, 0, 1, size - 1);
+    return b[0] === 0x0a;
+  } catch (e) {
+    if (e.code === 'ENOENT') return true;
+    throw e;
+  } finally {
+    if (fd !== undefined) fs.closeSync(fd);
+  }
+}
+
 function appendEvent(fields, opts = {}) {
   const workstreamDir = opts.workstreamDir || findWorkstreamDir();
   // WS-532: this is the single chokepoint for canonical mutation — the
@@ -538,11 +734,22 @@ function appendEvent(fields, opts = {}) {
   const _t = (fields && fields.payload && fields.payload.type) || (fields && fields.track_tag) || 'unknown';
   assertMainTree(`append_event (${_t})`, { fromDir: workstreamDir });
   return withWriteLock(workstreamDir, () => {
+    // WS-1141: before buildEvent reads the chain head and before the mirror
+    // copy below overwrites current.jsonl. Guarded — salvage is a rescue path
+    // and must never be the reason an append fails.
+    try { salvageCurrentMirror(workstreamDir); } catch { /* non-fatal */ }
     const ev = buildEvent(fields, { workstreamDir, priorHashOverride: opts.priorHashOverride });
-    const v = validate(ev);
+    // Validate the payload as written, not the spill stub that replaces it.
+    const v = validate(isSpillStub(ev.payload) ? { ...ev, payload: fields.payload || {} } : ev);
     if (!v.ok) return { ok: false, errors: v.errors };
     const chunk = chunkFileForDate(workstreamDir);
-    fs.appendFileSync(chunk, JSON.stringify(ev) + '\n', 'utf8');
+    // WS-1336: a write torn by a power loss leaves the chunk ending mid-line.
+    // Appending straight onto it glues this event to the fragment, the reader
+    // skips the merged line, and an event we report as written is lost. Start
+    // on a fresh line instead; the fragment stays an unparseable line of its
+    // own, exactly as the salvage path above already guarantees.
+    const lead = endsWithNewline(chunk) ? '' : '\n';
+    fs.appendFileSync(chunk, lead + JSON.stringify(ev) + '\n', 'utf8');
     // Maintain current.jsonl as a file mirror of today's chunk (cross-platform;
     // symlinks on Windows require elevated privs). Keep it byte-identical via
     // a full rewrite per append — acceptable because single-writer is
@@ -699,6 +906,8 @@ module.exports = {
   validate,
   computeContentHash,
   maybeSpillLargePayload,
+  isSpillStub,
+  SOURCE_TRACKS,
   readChunk,
   readAllChunks,
   listChunks,
@@ -709,6 +918,7 @@ module.exports = {
   parseChunkText,
   buildEvent,
   chainHead,
+  salvageCurrentMirror,
   appendEvent,
   fsck,
 };

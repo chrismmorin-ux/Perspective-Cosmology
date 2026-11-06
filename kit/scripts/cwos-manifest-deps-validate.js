@@ -27,6 +27,11 @@
  *   absent-source     a manifest `source:` does not exist on disk. Install pushes
  *                     "Source missing:" into state.errors and CONTINUES, so this
  *                     is otherwise recorded once per adoption and never read.
+ *   uninstallable-entry
+ *                     an entry whose install_phase is neither 'm1' nor
+ *                     'deferred'. /adopt selects files by that field alone, so
+ *                     the file is declared, present, required — and never
+ *                     copied (WS-942).
  *
  * AND, over kit/data (WS-607):
  *
@@ -529,6 +534,27 @@ function checkManifestDeps(root) {
         source: src,
         capability: entry.capability || null,
         detail: `manifest declares ${src} but it does not exist — /adopt records "Source missing:" in state.errors and continues`,
+      });
+    }
+  }
+
+  // uninstallable-entry (WS-942): /adopt selects files by install_phase, 'm1'
+  // or 'deferred', and by nothing else. An entry carrying neither is in no
+  // list: it is declared, it exists, every require of it resolves here, and a
+  // fresh install does not copy it. That is how lib/session-record.js lost
+  // its install on 2026-10-10 — a new entry was pasted into the middle of it,
+  // taking its last four fields — while this check and the completeness test
+  // both stayed green.
+  for (const [src, entry] of bySource) {
+    if (entry.install_phase !== 'm1' && entry.install_phase !== 'deferred') {
+      violations.push({
+        kind: 'uninstallable-entry',
+        source: src,
+        capability: entry.capability || null,
+        detail:
+          `${src} has install_phase ${entry.install_phase === undefined ? '(none)' : JSON.stringify(entry.install_phase)} — ` +
+          "/adopt installs only 'm1' and 'deferred' entries, so this file is never copied. " +
+          'Check that a neighbouring entry was not split when this one was added',
       });
     }
   }

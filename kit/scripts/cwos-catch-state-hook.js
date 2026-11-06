@@ -35,6 +35,7 @@ const path = require('path');
 
 const { classify, PRE_FILL_WINDOW_TURNS } = require('./core/cwos-catch-state');
 const { loadEventDeps, findRepoRoot } = require('./lib/cwos-utils');
+const { readFilteredEvents } = require('./core/events');
 
 const { appendEvent, ensureCommandId } = loadEventDeps();
 
@@ -85,18 +86,15 @@ function parseTranscript(transcriptPath) {
 }
 
 function readRecentEvents(repoRoot) {
+  // WS-677: the canonical reader. The old loose `*.jsonl` scan read
+  // current.jsonl (a mirror of today's chunk) AND the dated chunk, so every
+  // recent event appeared twice, and it never looked in events/archive/.
+  // `limit` makes this a reverse tail that stops once the budget is filled,
+  // so the per-prompt cost stays bounded.
   const eventsDir = path.join(repoRoot, '.claude', 'workstream', 'events');
   if (!fs.existsSync(eventsDir)) return [];
-  const files = fs.readdirSync(eventsDir).filter((f) => f.endsWith('.jsonl')).sort();
-  const events = [];
-  for (let i = files.length - 1; i >= 0 && events.length < MAX_EVENT_LOOKBACK; i--) {
-    const text = fs.readFileSync(path.join(eventsDir, files[i]), 'utf8');
-    const lines = text.split('\n').filter(Boolean);
-    for (let j = lines.length - 1; j >= 0 && events.length < MAX_EVENT_LOOKBACK; j--) {
-      try { events.unshift(JSON.parse(lines[j])); } catch (_) { /* skip */ }
-    }
-  }
-  return events;
+  try { return readFilteredEvents(eventsDir, { limit: MAX_EVENT_LOOKBACK }); }
+  catch (_) { return []; }
 }
 
 function getActiveEngineContext(events) {

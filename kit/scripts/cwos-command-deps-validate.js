@@ -294,7 +294,7 @@ function checkCommandDeps(root) {
       const cmdTier = tierIndex(cmdEntry.capability);
       const depTier = tierIndex(targetEntry.capability);
       if (cmdTier >= 0 && depTier >= 0 && depTier > cmdTier) {
-        const key = `${cmdRel} ${target}`;
+        const key = `${cmdRel}\u0000${target}`;
         if (!tierGapSeen.has(key)) {
           tierGapSeen.add(key);
           info.push({

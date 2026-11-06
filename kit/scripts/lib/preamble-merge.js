@@ -28,15 +28,14 @@
 
 // The marker is matched by PREFIX, not by exact string, and that is deliberate.
 //
-// cwos-adopt-install.js declares `PREAMBLE_END = '<!-- CWOS Preamble End -->'`
-// and matches it exactly. The marker actually shipped in kit/claude-preamble.md
-// and present in every adopted repo is
-// `<!-- CWOS Preamble End — Project-specific content below -->`, which does NOT
-// contain that literal — after "End " comes an em dash, not "-->". So the exact
-// match never fires, and adopt's `isReAdoption` branch is unreachable: a
-// re-adoption prepends a second copy of the preamble instead of replacing the
-// first. Matching the stable prefix and then scanning to the comment close
-// handles both spellings and any future suffix.
+// The marker shipped in kit/claude-preamble.md and present in every adopted repo
+// is `<!-- CWOS Preamble End — Project-specific content below -->`, while older
+// code wrote the bare `<!-- CWOS Preamble End -->`. cwos-adopt-install.js used to
+// match the bare form exactly, so it appended a stray bare marker on every
+// adoption (most fleet CLAUDE.md files still carry it) and, on a CLAUDE.md with
+// only the shipped marker, prepended a second copy of the preamble. Adopt now composes through
+// this module too. Matching the stable prefix and then scanning to the comment
+// close handles both spellings and any future suffix.
 const PREAMBLE_END_PREFIX = '<!-- CWOS Preamble End';
 const COMMENT_CLOSE = '-->';
 

@@ -106,9 +106,13 @@ function createSnapshot(repoPath, opts = {}) {
     if (isFile(src)) {
       ensureDir(path.join(root, path.dirname(rel)));
       fs.copyFileSync(src, path.join(root, rel));
-    } else {
+    } else if (!fs.existsSync(src)) {
       absentFiles.push(rel);
     }
+    // else: something that is not a file stands there (a directory named
+    // CLAUDE.md). It is not absent, so a restore must not delete it — the old
+    // code recorded it as absent and only got away with it because the rmSync
+    // that failed on it was swallowed (run-032 C7 made restores report errors).
   }
 
   const manifest = Object.assign({
@@ -126,35 +130,64 @@ function createSnapshot(repoPath, opts = {}) {
 /**
  * Put the repo back the way createSnapshot() found it.
  *
+ * Every path is attempted, and every failure is RECORDED rather than swallowed
+ * or thrown. run-032 (C7) found the old shape wrong in both directions: steps
+ * 1-2 caught and discarded each error, so a delete that failed left a file the
+ * failed upgrade created while the caller printed "Repo restored"; steps 3-4
+ * did not catch at all, so ONE unwritable path (a file whose destination had
+ * become a directory, a handle held open on Win32) aborted the restore midway
+ * — every path after it never restored — and cwos-kit-upgrade's main() then
+ * reported the throw as "could not acquire upgrade lock". A partial restore is
+ * survivable only when it is named, so the caller gets the list.
+ *
  * @param {string} repoPath
  * @param {string} snapDir
  * @param {object} [opts]
  * @param {'overlay'|'replace'} [opts.mode='overlay']
  * @param {string[]} [opts.defaultDirs]  used when the manifest is unreadable
  * @param {string[]} [opts.defaultFiles]
- * @returns {object} the manifest that drove the restore
+ * @returns {object} the manifest that drove the restore, plus
+ *   `restore_errors: [{ path, op, reason }]` — empty means every path restored.
  */
 function restoreSnapshot(repoPath, snapDir, opts = {}) {
   const mode = opts.mode || 'overlay';
+  const errors = [];
+  const attempt = (rel, op, fn) => {
+    try { fn(); }
+    catch (err) { errors.push({ path: String(rel).split(path.sep).join('/'), op, reason: (err && (err.code || err.message)) || String(err) }); }
+  };
+
   let manifest = {};
   try { manifest = JSON.parse(fs.readFileSync(path.join(snapDir, 'manifest.json'), 'utf8')); }
-  catch { /* best effort — fall back to the caller's defaults */ }
+  catch (err) {
+    // Fall back to the caller's defaults — but say so: without the manifest
+    // there is no created/absent list, so nothing the failed run ADDED can be
+    // deleted, and "restored" would overstate it.
+    errors.push({ path: 'manifest.json', op: 'read-manifest', reason: (err && (err.code || err.message)) || String(err) });
+  }
 
   // 1. delete files the failed operation created
   for (const rel of (manifest.created_files || [])) {
     const p = path.join(repoPath, rel);
-    try { if (isFile(p)) fs.unlinkSync(p); } catch { /* ignore */ }
+    attempt(rel, 'delete-created', () => { if (isFile(p)) fs.unlinkSync(p); });
   }
 
   // 2. remove paths that did not exist when we snapshotted
   for (const rel of (manifest.absent_dirs || [])) {
-    try { fs.rmSync(path.join(repoPath, rel), { recursive: true, force: true }); } catch { /* ignore */ }
+    attempt(rel, 'remove-absent-dir', () => fs.rmSync(path.join(repoPath, rel), { recursive: true, force: true }));
   }
   for (const rel of (manifest.absent_files || [])) {
-    try { fs.rmSync(path.join(repoPath, rel), { force: true }); } catch { /* ignore */ }
+    const p = path.join(repoPath, rel);
+    // A directory here is not the file the operation created. Manifests written
+    // before createSnapshot stopped listing pre-existing dirs as absent still
+    // carry such entries; the old rmSync failed on them silently and left the
+    // dir, which is the right outcome — keep it, without a false error.
+    if (isDir(p)) continue;
+    attempt(rel, 'remove-absent-file', () => fs.rmSync(p, { force: true }));
   }
 
-  // 3. restore captured dirs
+  // 3. restore captured dirs — per FILE, so one bad path inside a dir does not
+  //    strand the rest of that dir (copyTree would stop at the first throw).
   const dirs = manifest.snapshot_dirs || opts.defaultDirs || [];
   for (const rel of dirs) {
     const src = path.join(snapDir, rel);
@@ -162,9 +195,9 @@ function restoreSnapshot(repoPath, snapDir, opts = {}) {
     const dst = path.join(repoPath, rel);
     if (mode === 'replace') {
       // prune anything the failed run added inside this dir
-      try { fs.rmSync(dst, { recursive: true, force: true }); } catch { /* ignore */ }
+      attempt(rel, 'prune-dir', () => fs.rmSync(dst, { recursive: true, force: true }));
     }
-    copyTree(src, dst);
+    restoreTree(src, dst, rel, attempt);
   }
 
   // 4. restore captured files
@@ -172,20 +205,52 @@ function restoreSnapshot(repoPath, snapDir, opts = {}) {
   for (const rel of files) {
     const src = path.join(snapDir, rel);
     if (!isFile(src)) continue;
-    ensureDir(path.join(repoPath, path.dirname(rel)));
-    fs.copyFileSync(src, path.join(repoPath, rel));
+    attempt(rel, 'restore-file', () => {
+      ensureDir(path.join(repoPath, path.dirname(rel)));
+      fs.copyFileSync(src, path.join(repoPath, rel));
+    });
   }
 
-  return manifest;
+  return Object.assign(manifest, { restore_errors: errors });
 }
 
-/** Most recent snapshot for `prefix`, or null. */
+// copyTree's walk with a per-entry attempt(): the restore-side twin. Kept
+// separate because createSnapshot WANTS copyTree to throw — a snapshot that
+// silently missed a file is worse than no snapshot.
+function restoreTree(srcDir, dstDir, relBase, attempt) {
+  let entries = [];
+  attempt(relBase, 'restore-dir', () => {
+    ensureDir(dstDir);
+    entries = fs.readdirSync(srcDir, { withFileTypes: true });
+  });
+  for (const ent of entries) {
+    const s = path.join(srcDir, ent.name);
+    const d = path.join(dstDir, ent.name);
+    const rel = `${relBase}/${ent.name}`;
+    if (ent.isDirectory()) {
+      if (ent.name === SNAPSHOT_ROOT || ent.name === '.git' || ent.name === 'node_modules') continue;
+      restoreTree(s, d, rel, attempt);
+    } else if (ent.isFile()) {
+      attempt(rel, 'restore-file', () => fs.copyFileSync(s, d));
+    }
+  }
+}
+
+/**
+ * Most recent snapshot for `prefix`, or null.
+ *
+ * Only a dir holding manifest.json counts. createSnapshot writes the manifest
+ * LAST, so a dir without one is a capture that died midway (G16 loses power
+ * routinely) or a stray — and the old sort-and-take-last would hand it to
+ * --rollback as "the latest", restoring a partial copy with no created-file
+ * list over a working repo (run-032 C7).
+ */
 function latestSnapshot(repoPath, prefix) {
   const root = snapshotRoot(repoPath);
   if (!isDir(root)) return null;
   const pre = prefix || '';
   const dirs = fs.readdirSync(root)
-    .filter(d => d.startsWith(pre) && isDir(path.join(root, d)))
+    .filter(d => d.startsWith(pre) && isFile(path.join(root, d, 'manifest.json')))
     .sort();
   return dirs.length ? path.join(root, dirs[dirs.length - 1]) : null;
 }

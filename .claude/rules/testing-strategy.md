@@ -6,6 +6,8 @@
 - **Tests must be deterministic.** No test should depend on time, random values, or external services. Use fixtures, factories, and mocks for external dependencies.
 - **Failed tests block commits.** If a test fails, fix it before committing. Never skip or disable tests to make a commit pass.
 - **Test names describe the scenario.** `test_payment_with_expired_card_returns_error` not `test_payment_3`.
+- **A killed worker is an infrastructure failure, not a test result.** `node down`, `Not properly terminated`, or exit 137 in the runner output means a worker ran out of memory. Set container memory limits and test parallelism together, and treat either crash signal as a red build.
+- **Persistent test databases must key on the schema they were built from.** A reused test DB from another branch's migrations produces hundreds of phantom failures on a clean branch; rebuild it when the migration head changes.
 
 ## What to Test First (Priority Order)
 1. **Money and payments** — any code that charges users or allocates funds

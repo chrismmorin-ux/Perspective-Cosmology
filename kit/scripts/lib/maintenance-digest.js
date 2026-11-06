@@ -83,12 +83,22 @@ function computeDigest(opts = {}) {
   } catch { /* no findings file yet — open stays [] */ }
 
   const high = open.filter(f => sevRank(f.severity) >= sevRank('high'));
+  // WS-1311: the sweep writes due_by and unchecked_since on each open finding.
+  const overdue = open.filter(f => f.due_by && Date.parse(f.due_by) < now);
+  const unchecked = open.filter(f => f.unchecked_since);
 
   return {
     ...freshness,
     tiers,
     findings_open: open.length,
     findings_high: high.length,
+    findings_overdue: overdue.length,
+    findings_unchecked: unchecked.length,
+    overdue: overdue
+      .sort((a, b) => Date.parse(a.due_by) - Date.parse(b.due_by))
+      .slice(0, 5)
+      .map(f => ({ id: f.id, severity: f.severity, title: f.title, due_by: f.due_by,
+        days_over: Math.floor((now - Date.parse(f.due_by)) / 86400000), unchecked_since: f.unchecked_since || null })),
     gaps,
     top: high
       .sort((a, b) => sevRank(b.severity) - sevRank(a.severity))

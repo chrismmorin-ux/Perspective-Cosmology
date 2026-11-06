@@ -206,13 +206,24 @@ function inferMode(engineName, repoPath) {
  * the founder-facing readiness_human block (FIND-127 / WS-291). Each entry:
  *   { type: 'staleness'|'session'|'engine-rule', machine_text, detail }
  */
-function inferReadiness({ engineName, target, wsDir, registry, today, now }) {
+function inferReadiness({ engineName, target, wsDir, registry, today, now, staleness }) {
   const reasons = [];
-  // Staleness check
+  const notes = [];
+  // Staleness check. WS-972: a stale document defers the engine only when it
+  // concerns this engine (named by a `stale_document` registry rule, or is /
+  // contains the target). Any other stale document is recorded in `notes` and
+  // the engine runs.
   try {
-    const stale = computeStaleness(wsDir, { today });
-    if (stale.violations && stale.violations.length > 0) {
-      const v = stale.violations[0];
+    const stale = staleness || computeStaleness(wsDir, { today });
+    const scoped = ((registry && registry[engineName]) || [])
+      .filter((r) => r && r.check === 'stale_document')
+      .flatMap((r) => (Array.isArray(r.files) ? r.files : [r.file]).filter(Boolean));
+    for (const v of (stale.violations || [])) {
+      if (!stalenessConcernsEngine(v, scoped, target)) {
+        notes.push(`unrelated staleness ignored: ${v.message}`);
+        continue;
+      }
+      if (reasons.some((r) => r.type === 'staleness')) continue;
       reasons.push({
         type: 'staleness',
         machine_text: v.message,
@@ -258,11 +269,20 @@ function inferReadiness({ engineName, target, wsDir, registry, today, now }) {
     }
   }
   if (reasons.length === 0) {
-    return { value: 'ready', reason: null, reasons: [], confidence: 0.9 };
+    return { value: 'ready', reason: null, reasons: [], notes, confidence: 0.9 };
   }
   // Back-compat: build the joined-string reason for the event schema.
   const joined = reasons.map((r) => `${r.type}: ${r.machine_text}`).join(' | ');
-  return { value: 'defer', reason: joined, reasons, confidence: 0.7 };
+  return { value: 'defer', reason: joined, reasons, notes, confidence: 0.7 };
+}
+
+function stalenessConcernsEngine(violation, scopedFiles, target) {
+  const file = String((violation && violation.file) || '').replace(/\\/g, '/');
+  if (!file) return false;
+  if (scopedFiles.some((f) => String(f).replace(/\\/g, '/') === file)) return true;
+  const t = String(target || '').replace(/\\/g, '/').replace(/\/+$/, '');
+  if (!t) return false;
+  return t === file || file.startsWith(t + '/');
 }
 
 function evaluateReadinessRule(rule, { engineName, target, wsDir }) {
@@ -291,6 +311,7 @@ function evaluateReadinessRule(rule, { engineName, target, wsDir }) {
     if (!fs.existsSync(p)) return { ok: false, reason };
     return { ok: true };
   }
+  // stale_document is a staleness-scoping declaration (see inferReadiness), not a gate.
   // Unknown check type — treat as passing (forward compat)
   return { ok: true };
 }
@@ -618,6 +639,7 @@ function runCompose(args) {
     mode: modeInf.value,
     readiness: readinessInf.value,
     readiness_reason: readinessInf.reason,
+    ...(readinessInf.notes && readinessInf.notes.length ? { readiness_notes: readinessInf.notes } : {}),
     success_shape: successShapeInf.value,
     scope_ceiling: scopeCeilingInf.value,
     stretch: stretchInf.value,
@@ -901,6 +923,7 @@ function runConfirm(args) {
   }
 
   let eventId = null;
+  let recordFailure = null;
   if (!noEmit && appendEvent && ensureCommandId) {
     try {
       const commandId = ensureCommandId('frame-confirm');
@@ -912,10 +935,20 @@ function runConfirm(args) {
         payload: eventPayload,
       });
       if (r && r.ok && r.event) eventId = r.event.id;
-      else if (r && !r.ok) process.stderr.write(`confirm: event validation: ${(r.errors || []).join('; ')}\n`);
+      else if (r && !r.ok) recordFailure = `event validation: ${(r.errors || []).join('; ')}`;
     } catch (e) {
-      process.stderr.write(`confirm: event emission failed (non-fatal): ${e.message}\n`);
+      recordFailure = `event emission failed: ${e.message}`;
     }
+  }
+  // The contract event IS the confirmation — the engine binds to it, the
+  // one-contract guard reads it, INV-090 audits it. A confirm whose event did not
+  // land confirmed nothing, so it must not print ok:true. It did until
+  // 2026-10-01: a spilled (>2 KB) contract was refused by the validator and the
+  // run proceeded against a contract that existed nowhere but stdout.
+  if (recordFailure) {
+    process.stderr.write(`confirm: contract NOT recorded — ${recordFailure}\n`);
+    writeJson({ ok: false, error: `contract not recorded: ${recordFailure}`, contract_id: contractId });
+    process.exit(1);
   }
 
   // WS-299: emit engine_candidate_dismissed events for outstanding suggestions.
@@ -1133,7 +1166,7 @@ module.exports = {
   findOpenContract, DEFAULT_OPEN_CONTRACT_TTL_HOURS,
   inferMode, inferReadiness, inferSuccessShape, inferScopeCeiling,
   inferFailedStatesSeed, extractFailedStates, // WS-296
-  loadFrameConfig, loadReadinessRegistry, evaluateReadinessRule,
+  loadFrameConfig, loadReadinessRegistry, evaluateReadinessRule, stalenessConcernsEngine,
   findRecentSuggestion, findOutstandingSuggestions, readEventLogTail,
   estimateTokens, parseCeilingTokens, median,
   VALID_MODES, DEFAULT_CONFIDENCE_THRESHOLD, DEFAULT_STALENESS_WINDOW, DEFAULT_SCOPE_CEILING,

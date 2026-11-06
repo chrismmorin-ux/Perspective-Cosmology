@@ -78,7 +78,7 @@ Core personas (available):
 - failure-engineer
 - performance-engineer
 - security-engineer
-- product-ux-engineer
+- product-ux
 - roundtable-facilitator (always included for synthesis)
 
 Domain personas (if installed):

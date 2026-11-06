@@ -82,7 +82,6 @@ engines:
       - onboarding_state
     outputs:
       - understanding
-    chains:
     description: "Scores installed/planned components against repo_goal — surfaces prune candidates (enforces P3, prevents tool-shaped hammer)"
 
   constitutional-audit:
@@ -96,7 +95,6 @@ engines:
     outputs:
       - finding
       - report
-    chains:
     description: "Audit the repo against its own constitution (intention.md) — scores principles, founder invariants, and failed states; trend-tracked in compliance-trends.yaml"
 
   context-curator:
@@ -120,6 +118,18 @@ engines:
       - finding
       - report
     description: "Detects blind spots in CWOS coverage — flags missing engines, personas, programs, and unmonitored code areas as the project evolves"
+
+  creative-gen:
+    skill_path: .claude/commands/creative-gen.md
+    procedure: agent-dispatch
+    extends: context-gather
+    category: analysis
+    impact: changes-state
+    trigger: manual
+    outputs:
+      - finding
+      - report
+    description: "Generate launch creative (headlines, copy, CTAs, image briefs) for spine surfaces from their expression settings, personas and hypotheses; guard it against bounds, repel-words and claims rules; react it with personas; record every variant with its lineage and review gates."
 
   decision-enhance:
     skill_path: .claude/commands/decision-enhance.md
@@ -188,7 +198,6 @@ engines:
       - finding
       - work-item
       - report
-    chains:
     finding_severities:
       CRITICAL: critical
       HIGH: high
@@ -229,7 +238,6 @@ engines:
       - onboarding_state
     outputs:
       - understanding
-    chains:
     description: Scores findings against repo_goal — advances-goal vs maintenance ratio (enforces P1)
 
   health-check:
@@ -246,7 +254,6 @@ engines:
       - finding
       - report
       - fix
-    chains:
     finding_severities:
       FAIL: critical
       WARN: medium
@@ -313,7 +320,6 @@ engines:
       - engine_run_output
     outputs:
       - state-update
-    chains:
     description: "Universal self-improvement protocol — every engine run can produce optimization signals about itself, its personas, its program, or any CWOS component"
 
   persona-validator:
@@ -413,3 +419,15 @@ engines:
       - finding
       - report
     description: "Scan for breaking changes, compatibility issues, and affected code paths before upgrading a dependency — zero impact guaranteed"
+
+  user-sim:
+    skill_path: .claude/commands/user-sim.md
+    procedure: agent-dispatch
+    extends: context-gather
+    category: analysis
+    impact: changes-state
+    trigger: manual
+    outputs:
+      - finding
+      - report
+    description: "Walk 2+ design proposals through synthetic user personas before building. Blind walkthroughs that respect each persona's disclosure posture, a realism audit that discounts over-cooperative walkthroughs, a scorecard, and the interview script for what only real people can settle."

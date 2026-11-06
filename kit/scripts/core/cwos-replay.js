@@ -215,8 +215,9 @@ function diffDomains(expected, actual) {
     if (!e && !a) continue;
     if (!e) { issues.push(`${name}: in actual but not expected`); report.per_domain[name] = 'extra'; report.drift = true; continue; }
     if (!a) { issues.push(`${name}: in expected but not actual`); report.per_domain[name] = 'missing'; report.drift = true; continue; }
-    const expectedCanonical = JSON.stringify(normalizeForCompare(e));
-    const actualCanonical = JSON.stringify(normalizeForCompare(a));
+    // Key order is not state: a reducer that writes fields in another order is the same item.
+    const expectedCanonical = canonicalJson(normalizeForCompare(e));
+    const actualCanonical = canonicalJson(normalizeForCompare(a));
     if (expectedCanonical !== actualCanonical) {
       const diff = domainDiffSummary(e, a);
       issues.push(`${name}: ${diff}`);
@@ -260,6 +261,14 @@ function normalizeForCompare(domainFile) {
   return out;
 }
 
+/** JSON with object keys sorted at every depth: equal content, equal string. */
+function canonicalJson(v) {
+  const canon = (x) => (Array.isArray(x) ? x.map(canon)
+    : x && typeof x === 'object' ? Object.keys(x).sort().reduce((o, k) => { o[k] = canon(x[k]); return o; }, {})
+    : x);
+  return JSON.stringify(canon(v));
+}
+
 function domainDiffSummary(expected, actual) {
   const ek = Object.keys(expected.items || {});
   const ak = Object.keys(actual.items || {});
@@ -268,7 +277,14 @@ function domainDiffSummary(expected, actual) {
   const parts = [];
   if (only_in_expected.length) parts.push(`expected+${only_in_expected.join(',')}`);
   if (only_in_actual.length)   parts.push(`actual+${only_in_actual.join(',')}`);
-  if (!parts.length) parts.push(`${ek.length} items differ`);
+  // Count the items whose CONTENT differs and name a few. This used to print the domain's total
+  // item count ("843 items differ") whenever the key sets matched, so one stale item read as the
+  // whole domain drifting; on 2026-11-04 that was 1 queue item and 2 envelope entries, read by a
+  // session as "838 items differ". Content means key order ignored, as JSON.stringify is not.
+  const ea = expected.items || {}, aa = actual.items || {};
+  const changed = ek.filter((k) => k in aa && canonicalJson(ea[k]) !== canonicalJson(aa[k]));
+  if (changed.length) parts.push(`${changed.length} of ${ek.length} item(s) differ: ${changed.slice(0, 5).join(',')}${changed.length > 5 ? ',…' : ''}`);
+  if (!parts.length) parts.push(`${ek.length} item(s), same content (key order only)`);
   return parts.join(' ');
 }
 
